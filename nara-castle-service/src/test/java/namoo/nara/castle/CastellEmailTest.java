@@ -10,7 +10,7 @@ import java.util.UUID;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 19..
  */
-public class CastellEmailTest extends CastleFrameApplicationTests {
+public class CastellEmailTest extends AbstractServiceApplicationTests {
 
     @Test
     public void testEmail() {

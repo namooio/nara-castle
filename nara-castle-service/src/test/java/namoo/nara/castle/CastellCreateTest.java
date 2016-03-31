@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 11..
  */
-public class CastellCreateTest extends CastleFrameApplicationTests {
+public class CastellCreateTest extends AbstractServiceApplicationTests {
 
     @Test
     public void createTest() {

@@ -7,7 +7,7 @@ import org.junit.Test;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 17..
  */
-public class CastellanReadTest extends CastleFrameApplicationTests {
+public class CastellanReadTest extends AbstractServiceApplicationTests {
 
     @Test
     public void getByEmailTest() {

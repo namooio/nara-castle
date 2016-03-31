@@ -11,10 +11,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = CastleFrameApplication.class)
+@SpringApplicationConfiguration(classes = CastleServiceApplication.class)
 @WebIntegrationTest("server.port:0")
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public abstract class CastleFrameApplicationTests {
+public abstract class AbstractServiceApplicationTests {
 
 	private String address = "http://127.0.0.1";
 
