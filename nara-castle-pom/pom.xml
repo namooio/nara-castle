@@ -10,7 +10,17 @@
 
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>namoo.nara.shared</groupId>
+            <artifactId>nara-shared</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -35,59 +45,10 @@
         <module>../nara-castle-client</module>
     </modules>
 
-    <profiles>
-        <profile>
-            <id>local</id>
-            <properties>
-                <server-port>9030</server-port>
-                <datasource-url>jdbc:h2:file:~/dev/testdb/nara-castle</datasource-url>
-                <datasource-username></datasource-username>
-                <datasource-password></datasource-password>
-                <datasource-driver-class-name>org.h2.Driver</datasource-driver-class-name>
-                <datasource-test-on-borrow>true</datasource-test-on-borrow>
-                <datasource-validation-interval>34000</datasource-validation-interval>
-                <datasource-validation-query>select 1</datasource-validation-query>
-                <jpa-hibernate-ddl-auto>update</jpa-hibernate-ddl-auto>
-                <jpa-database>h2</jpa-database>
-                <jpa-show-sql>true</jpa-show-sql>
-                <logging-level-roo>INFO</logging-level-roo>
-            </properties>
-
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-
-        <profile>
-            <id>dev</id>
-            <properties>
-                <server-port>9030</server-port>
-                <datasource-url>jdbc:mysql://asia-seoul-mysql-instance1.cybbkbfwypew.ap-northeast-2.rds.amazonaws.com/nara_castle</datasource-url>
-                <datasource-username>nara_castle</datasource-username>
-                <datasource-password>nara_castle</datasource-password>
-
-                <datasource-driver-class-name>com.mysql.jdbc.Driver</datasource-driver-class-name>
-                <datasource-test-on-borrow>true</datasource-test-on-borrow>
-                <datasource-validation-interval>34000</datasource-validation-interval>
-                <datasource-validation-query>select 1</datasource-validation-query>
-                <jpa-hibernate-ddl-auto>update</jpa-hibernate-ddl-auto>
-                <jpa-database>mysql</jpa-database>
-                <jpa-show-sql>true</jpa-show-sql>
-                <logging-level-root>INFO</logging-level-root>
-            </properties>
-
-        </profile>
-    </profiles>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
-    </properties>
-
     <scm>
-        <connection>scm:git:https://github.com/namooio/nara.git</connection>
-        <url>scm:git:https://github.com/namooio/nara.git</url>
-        <developerConnection>scm:git:https://github.com/namooio/nara.git</developerConnection>
+        <connection>scm:git:https://github.com/namooio/nara-castle.git</connection>
+        <url>scm:git:https://github.com/namooio/nara-castle.git</url>
+        <developerConnection>scm:git:https://github.com/namooio/nara-castle.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
