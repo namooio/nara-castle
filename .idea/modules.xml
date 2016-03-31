@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/nara-castle.iml" filepath="$PROJECT_DIR$/.idea/nara-castle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nara-castle-client/nara-castle-client.iml" filepath="$PROJECT_DIR$/nara-castle-client/nara-castle-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nara-castle-domain/nara-castle-domain.iml" filepath="$PROJECT_DIR$/nara-castle-domain/nara-castle-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nara-castle-frame/nara-castle-frame.iml" filepath="$PROJECT_DIR$/nara-castle-frame/nara-castle-frame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nara-castle-pom/nara-castle-pom.iml" filepath="$PROJECT_DIR$/nara-castle-pom/nara-castle-pom.iml" />
+    </modules>
+  </component>
+</project>
