@@ -12,9 +12,8 @@ import javax.persistence.Id;
 @Entity(name = "NARA_CASTELLAN")
 public class CastellanJpo {
 
-    /** Same with gateway login user id, castellan oid */
     @Id
-    private String oid;
+    private String id;
 
     @Column
     private String displayName;
@@ -22,12 +21,12 @@ public class CastellanJpo {
     public CastellanJpo() {
     }
 
-    public String getOid() {
-        return oid;
+    public String getId() {
+        return id;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDisplayName() {
@@ -41,13 +40,13 @@ public class CastellanJpo {
     public static CastellanJpo create(Castellan castellan) {
         if (castellan == null) return null;
         CastellanJpo castellanJpo = new CastellanJpo();
-        castellanJpo.setOid(castellan.getOid());
+        castellanJpo.setId(castellan.getOid());
         castellanJpo.setDisplayName(castellan.getDisplayName());
         return castellanJpo;
     }
 
     public Castellan toDomain() {
-        Castellan castellan = new Castellan(this.oid);
+        Castellan castellan = new Castellan(this.id);
         castellan.setDisplayName(this.displayName);
         return castellan;
     }

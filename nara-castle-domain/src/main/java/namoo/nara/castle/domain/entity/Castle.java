@@ -5,7 +5,7 @@ package namoo.nara.castle.domain.entity;
  */
 public class Castle {
 
-    /** Same with owner oid */
+    /** Same with gateway login user id */
     private String oid;
 
     private String name;

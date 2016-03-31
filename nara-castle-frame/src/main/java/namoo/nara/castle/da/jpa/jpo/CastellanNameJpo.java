@@ -19,7 +19,7 @@ public class CastellanNameJpo {
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    private String oid;
+    private String id;
 
     @Column(nullable = false)
     private String castellanOid;
@@ -45,12 +45,12 @@ public class CastellanNameJpo {
     public CastellanNameJpo() {
     }
 
-    public String getOid() {
-        return oid;
+    public String getId() {
+        return id;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCastellanOid() {

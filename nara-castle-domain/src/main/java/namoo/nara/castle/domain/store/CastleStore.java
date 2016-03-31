@@ -9,9 +9,9 @@ public interface CastleStore {
 
     void create(Castle castle);
 
-    Castle retrieve(String oid);
+    Castle retrieve(String id);
 
     void update(Castle castle);
 
-    void delete(String oid);
+    void delete(String id);
 }

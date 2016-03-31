@@ -11,13 +11,13 @@ import java.util.List;
  */
 public interface CastellanEmailRepository extends PagingAndSortingRepository<CastellanEmailJpo, CastellanEmailId> {
 
-    CastellanEmailJpo findByCastellanEmailIdCastellanOidAndPrimaryEmail(String castellanOid, boolean primaryEmail);
+    CastellanEmailJpo findByCastellanEmailIdCastellanIdAndPrimaryEmail(String castellanId, boolean primaryEmail);
 
-    int countByCastellanEmailIdCastellanOid(String castellanOid);
+    int countByCastellanEmailIdCastellanId(String castellanId);
 
-    List<CastellanEmailJpo> findByCastellanEmailIdCastellanOid(String castellanOid);
+    List<CastellanEmailJpo> findByCastellanEmailIdCastellanId(String castellanId);
 
     CastellanEmailJpo findByCastellanEmailIdEmailAndVerified(String email, boolean verified);
 
-    void deleteByCastellanEmailIdCastellanOid(String castellanOid);
+    void deleteByCastellanEmailIdCastellanId(String castellanId);
 }

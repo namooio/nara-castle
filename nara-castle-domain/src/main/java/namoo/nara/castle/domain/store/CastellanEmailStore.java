@@ -9,29 +9,29 @@ import java.util.List;
  */
 public interface CastellanEmailStore {
 
-    void create(CastellanEmail castellanEmail, String castellanOid);
+    void create(CastellanEmail castellanEmail, String castellanId);
 
-    CastellanEmail retrieve(String email, String castellanOid);
+    CastellanEmail retrieve(String email, String castellanId);
 
-    List<CastellanEmail> retrieveCastellanEmails(String castellanOid);
+    List<CastellanEmail> retrieveCastellanEmails(String castellanId);
 
-    void update(CastellanEmail castellanEmail, String castellanOid);
+    void update(CastellanEmail castellanEmail, String castellanId);
 
-    void delete(String email, String castellanOid);
+    void delete(String email, String castellanId);
 
-    boolean hasPrimaryEmail(String castellanOid);
+    boolean hasPrimaryEmail(String castellanId);
 
-    CastellanEmail getPrimaryEmail(String castellanOid);
+    CastellanEmail getPrimaryEmail(String castellanId);
 
-    void updatePrimaryEmail(String email, String castellanOid, boolean primaryEmail);
+    void updatePrimaryEmail(String email, String castellanId, boolean primaryEmail);
 
-    String retrieveCastellanOidByVerifiedEmail(String email);
+    String retrieveCastellanIdByVerifiedEmail(String email);
 
-    int countCastellanEmail(String castellanOid);
+    int countCastellanEmail(String castellanId);
 
-    boolean exist(String email, String castellanOid);
+    boolean exist(String email, String castellanId);
 
     boolean existVerifiedEmail(String email);
 
-    void deleteByCastellanOid(String castellanOid);
+    void deleteByCastellanId(String castellanId);
 }

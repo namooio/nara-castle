@@ -5,6 +5,6 @@ package namoo.nara.castle.domain.store;
  */
 public interface CastellanNameStore {
 
-    void deleteByCastellanOid(String castellanOid);
+    void deleteByCastellanId(String castellanId);
 
 }

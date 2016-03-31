@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Castellan {
 
+    /** Same with gateway login user id */
     private String oid;
 
     private String displayName;

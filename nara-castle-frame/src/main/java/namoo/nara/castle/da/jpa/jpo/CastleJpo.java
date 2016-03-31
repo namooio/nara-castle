@@ -11,9 +11,9 @@ import javax.persistence.*;
 @Entity(name = "NARA_CASTLE")
 public class CastleJpo {
 
-    /** Same with gateway login user id, castellan oid */
+    /** Same with gateway login user id, castellan id */
     @Id
-    private String oid;
+    private String id;
 
     @Column
     private String name;
@@ -32,12 +32,12 @@ public class CastleJpo {
         this.buildTime = System.currentTimeMillis();
     }
 
-    public String getOid() {
-        return oid;
+    public String getId() {
+        return id;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -75,7 +75,7 @@ public class CastleJpo {
     public static CastleJpo create(Castle castle) {
         if (castle == null) return null;
         CastleJpo castleJpo = new CastleJpo();
-        castleJpo.setOid(castle.getOid());
+        castleJpo.setId(castle.getOid());
         castleJpo.setName(castle.getName());
         castleJpo.setBuildTime(castle.getBuildTime());
         castleJpo.setLocaleCode(castle.getLocaleCode());
@@ -84,7 +84,7 @@ public class CastleJpo {
     }
 
     public Castle toDomain() {
-        Castle castle = new Castle(this.oid);
+        Castle castle = new Castle(this.id);
         castle.setName(this.name);
         castle.setBuildTime(this.buildTime);
         castle.setLocaleCode(this.localeCode);

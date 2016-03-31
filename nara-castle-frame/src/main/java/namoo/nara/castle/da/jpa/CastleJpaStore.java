@@ -20,7 +20,7 @@ public class CastleJpaStore implements CastleStore {
     public void create(Castle castle) {
         CastleJpo castleJpo = CastleJpo.create(castle);
         castleRepository.save(castleJpo);
-        castle.setOid(castleJpo.getOid());
+        castle.setOid(castleJpo.getId());
     }
 
     @Override

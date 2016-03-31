@@ -14,14 +14,14 @@ public class CastellanEmailId implements Serializable {
     private String email;
 
     @Column(nullable = false)
-    private String castellanOid;
+    private String castellanId;
 
     public CastellanEmailId() {
     }
 
-    public CastellanEmailId(String email, String castellanOid) {
+    public CastellanEmailId(String email, String castellanId) {
         this.email = email;
-        this.castellanOid = castellanOid;
+        this.castellanId = castellanId;
     }
 
     public String getEmail() {
@@ -32,11 +32,11 @@ public class CastellanEmailId implements Serializable {
         this.email = email;
     }
 
-    public String getCastellanOid() {
-        return castellanOid;
+    public String getCastellanId() {
+        return castellanId;
     }
 
-    public void setCastellanOid(String castellanOid) {
-        this.castellanOid = castellanOid;
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
     }
 }

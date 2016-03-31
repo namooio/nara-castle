@@ -15,7 +15,7 @@ public class CastellanNameJpaStore implements CastellanNameStore {
     private CastellanNameRepository castellanNameRepository;
 
     @Override
-    public void deleteByCastellanOid(String castellanOid) {
+    public void deleteByCastellanId(String castellanOid) {
         castellanNameRepository.deleteByCastellanOid(castellanOid);
     }
 }

@@ -1,11 +1,6 @@
-package namoo.nara.castle.cp.lifecycler;
+package namoo.nara.castle.cp.spring;
 
-import namoo.nara.castle.domain.lifecycler.CastleComponentLifecycler;
-import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.store.CastellanEmailStore;
-import namoo.nara.castle.domain.store.CastellanNameStore;
-import namoo.nara.castle.domain.store.CastellanStore;
-import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.store.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Created by kchuh@nextree.co.kr on 2016. 2. 11..
  */
 @Component
-public class CastleComponentSpringLifecycler implements CastleComponentLifecycler {
+public class CastleStoreSpringLycler implements CastleStoreLycler {
 
     @Autowired
     private CastleStore castleStore;
@@ -26,9 +21,6 @@ public class CastleComponentSpringLifecycler implements CastleComponentLifecycle
 
     @Autowired
     private CastellanNameStore castellanNameStore;
-
-    @Autowired
-    private CastleService castleService;
 
     @Override
     public CastellanEmailStore requestCastellanEmailStore() {
@@ -50,8 +42,4 @@ public class CastleComponentSpringLifecycler implements CastleComponentLifecycle
         return castleStore;
     }
 
-    @Override
-    public CastleService requestCastleService() {
-        return castleService;
-    }
 }

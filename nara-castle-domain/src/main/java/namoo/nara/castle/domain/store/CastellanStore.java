@@ -9,9 +9,9 @@ public interface CastellanStore {
 
     void create(Castellan castellan);
 
-    Castellan retrieve(String oid);
+    Castellan retrieve(String id);
 
     void update(Castellan castellan);
 
-    void delete(String oid);
+    void delete(String id);
 }
