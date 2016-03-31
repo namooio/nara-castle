@@ -4,13 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>namoo.nara.shared</groupId>
-        <artifactId>nara-basic-pom</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../nara-shared/nara-basic-pom/pom.xml</relativePath>
-    </parent>
-
     <groupId>namoo.nara.castle</groupId>
     <artifactId>nara-castle-pom</artifactId>
     <version>1.0.0-SNAPSHOT</version>
@@ -19,9 +12,20 @@
 
     <dependencies>
         <dependency>
-            <groupId>namoo.nara.shared</groupId>
-            <artifactId>nara-shared</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -75,4 +79,89 @@
         </profile>
     </profiles>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <scm>
+        <connection>scm:git:https://github.com/namooio/nara.git</connection>
+        <url>scm:git:https://github.com/namooio/nara.git</url>
+        <developerConnection>scm:git:https://github.com/namooio/nara.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+        </resources>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <goal>deploy</goal>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>1.8.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <updateReleaseInfo>true</updateReleaseInfo>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 업로드 URL 계정정보는 settings.xml 의 servers / repositories 정보에 등록된 서버 ID와
+        서로 일치해야함 -->
+    <distributionManagement>
+        <repository>
+            <id>nara-releases</id>
+            <name>NARA Releases</name>
+            <url>
+                dav:http://52.79.138.121:8081/content/repositories/nara-releases
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>nara-snapshots</id>
+            <name>NARA Snapshots</name>
+            <url>
+                dav:http://52.79.138.121:8081/content/repositories/nara-snapshots
+            </url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
