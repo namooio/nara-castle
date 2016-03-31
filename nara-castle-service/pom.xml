@@ -10,7 +10,7 @@
 		<relativePath>../nara-castle-pom/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>nara-castle-frame</artifactId>
+	<artifactId>nara-castle-service</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>

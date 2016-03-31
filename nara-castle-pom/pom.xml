@@ -41,7 +41,7 @@
 
     <modules>
         <module>../nara-castle-domain</module>
-        <module>../nara-castle-frame</module>
+        <module>../nara-castle-service</module>
         <module>../nara-castle-client</module>
     </modules>
 
