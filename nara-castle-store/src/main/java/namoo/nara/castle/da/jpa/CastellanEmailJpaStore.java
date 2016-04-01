@@ -1,8 +1,8 @@
-package namoo.nara.castle.da.jpa.jpa;
+package namoo.nara.castle.da.jpa;
 
-import namoo.nara.castle.da.jpa.jpa.jpo.CastellanEmailJpo;
-import namoo.nara.castle.da.jpa.jpa.jpo.CastellanEmailPk;
-import namoo.nara.castle.da.jpa.jpa.springdata.CastellanEmailRepository;
+import namoo.nara.castle.da.jpa.jpo.CastellanEmailJpo;
+import namoo.nara.castle.da.jpa.jpo.CastellanEmailPk;
+import namoo.nara.castle.da.jpa.springdata.CastellanEmailRepository;
 import namoo.nara.castle.domain.entity.CastellanEmail;
 import namoo.nara.castle.domain.store.CastellanEmailStore;
 import org.springframework.beans.factory.annotation.Autowired;

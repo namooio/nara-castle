@@ -1,4 +1,4 @@
-package namoo.nara.castle.da.jpa.jpa.jpo;
+package namoo.nara.castle.da.jpa.jpo;
 
 import namoo.nara.castle.domain.entity.CastellanEmail;
 

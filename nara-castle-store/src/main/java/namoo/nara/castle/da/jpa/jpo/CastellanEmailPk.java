@@ -1,4 +1,4 @@
-package namoo.nara.castle.da.jpa.jpa.jpo;
+package namoo.nara.castle.da.jpa.jpo;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
