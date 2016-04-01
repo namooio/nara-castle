@@ -3,7 +3,7 @@ package namoo.nara.castle.domain.logic;
 import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.*;
-import namoo.nara.share.exception.NamooException;
+import namoo.nara.share.exception.NaraException;
 
 import java.util.List;
 
@@ -82,7 +82,7 @@ public class CastleServiceLogic implements CastleService {
 
     @Override
     public void verifyCastellanEmail(String email, String castellanId) {
-        if (castellanEmailStore.existVerifiedEmail(email)) throw new NamooException("Email is already in use");
+        if (castellanEmailStore.existVerifiedEmail(email)) throw new NaraException("Email is already in use");
         CastellanEmail castellanEmail = castellanEmailStore.retrieve(email, castellanId);
         castellanEmail.setVerified(true);
         castellanEmail.setVerifiedTime(System.currentTimeMillis());
@@ -111,7 +111,7 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public void removeCastellanEmail(String email, String castellanId) {
         // At least one email is required.
-        if (castellanEmailStore.countCastellanEmail(castellanId) <= 1) throw new NamooException("At least one email is required.");
+        if (castellanEmailStore.countCastellanEmail(castellanId) <= 1) throw new NaraException("At least one email is required.");
 
         // Delete castellan email
         castellanEmailStore.delete(email, castellanId);
