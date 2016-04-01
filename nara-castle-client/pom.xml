@@ -14,4 +14,11 @@
 
     <artifactId>nara-castle-client</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>namoo.nara.share</groupId>
+            <artifactId>nara-share-restclient</artifactId>
+            <version>${nara.share.version}</version>
+        </dependency>
+    </dependencies>
 </project>

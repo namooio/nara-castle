@@ -7,7 +7,6 @@ import namoo.nara.castle.remote.CastellanRemote;
 import namoo.nara.castle.remote.dto.CastellanCreateDto;
 import namoo.nara.castle.remote.dto.CastellanReadDto;
 import namoo.nara.castle.sp.util.CastleDtoUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +29,12 @@ public class CastellanResource implements CastellanRemote {
     public void create(@RequestBody CastellanCreateDto castellanCreateDto) {
         String id = castellanCreateDto.getId();
         String email = castellanCreateDto.getEmail();
-        if (StringUtils.isEmpty(email)) {
+        if (email == null || email.isEmpty()) {
             castleService.registerCastellan(id);
         }
-        castleService.registerCastellan(id, email);
+        else {
+            castleService.registerCastellan(id, email);
+        }
     }
 
     @Override

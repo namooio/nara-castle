@@ -13,4 +13,12 @@
 
     <artifactId>nara-castle-domain</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>namoo.nara.share</groupId>
+            <artifactId>nara-share-util</artifactId>
+            <version>${nara.share.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>

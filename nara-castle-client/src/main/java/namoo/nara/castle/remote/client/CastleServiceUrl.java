@@ -1,6 +1,6 @@
 package namoo.nara.castle.remote.client;
 
-import namoo.nara.shared.client.ServiceUrl;
+import namoo.nara.share.restclient.ServiceUrl;
 import org.springframework.http.HttpMethod;
 
 /**

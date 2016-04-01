@@ -1,7 +1,7 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.remote.client.CastellanClient;
-import namoo.nara.shared.client.NaraConnector;
+import namoo.nara.share.restclient.NaraConnector;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;

@@ -3,9 +3,9 @@ package namoo.nara.castle.remote.client;
 import namoo.nara.castle.remote.CastellanRemote;
 import namoo.nara.castle.remote.dto.CastellanCreateDto;
 import namoo.nara.castle.remote.dto.CastellanReadDto;
-import namoo.nara.shared.client.AbstractClient;
-import namoo.nara.shared.client.NaraConnector;
-import namoo.nara.shared.client.RequestBuilder;
+import namoo.nara.share.restclient.AbstractClient;
+import namoo.nara.share.restclient.NaraConnector;
+import namoo.nara.share.restclient.RequestBuilder;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 11..
