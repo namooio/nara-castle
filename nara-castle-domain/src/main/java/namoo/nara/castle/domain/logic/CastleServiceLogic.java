@@ -1,6 +1,7 @@
-package namoo.nara.castle.domain.service;
+package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.entity.*;
+import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.CastellanEmailStore;
 import namoo.nara.castle.domain.store.CastellanNameStore;

@@ -2,6 +2,7 @@ package namoo.nara.castle.sp.springmvc;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.service.CastleService;
+import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.remote.CastellanRemote;
 import namoo.nara.castle.remote.dto.CastellanCreateDto;
 import namoo.nara.castle.remote.dto.CastellanReadDto;
@@ -17,8 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("castellan")
 public class CastellanResource implements CastellanRemote {
 
-    @Autowired
     private CastleService castleService;
+
+    @Autowired
+    public CastellanResource(CastleServiceLycler castleServiceLycler) {
+        this.castleService = castleServiceLycler.requestCastleService();
+    }
 
     @Override
     @RequestMapping(method = RequestMethod.POST)
