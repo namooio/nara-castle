@@ -107,6 +107,19 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>nara-releases</id>
+            <name>Nara Releases</name>
+            <url>http://nexus.namoo.io/content/repositories/nara-releases</url>
+        </repository>
+        <repository>
+            <id>nara-snapshots</id>
+            <name>NARA Snapshots</name>
+            <url>http://nexus.namoo.io/content/repositories/nara-snapshots</url>
+        </repository>
+    </repositories>
+
     <!-- 업로드 URL 계정정보는 settings.xml 의 servers / repositories 정보에 등록된 서버 ID와
         서로 일치해야함 -->
     <distributionManagement>
@@ -114,14 +127,14 @@
             <id>nara-releases</id>
             <name>NARA Releases</name>
             <url>
-                dav:http://52.79.138.121:8081/content/repositories/nara-releases
+                dav:http://nexus.namoo.io/content/repositories/nara-releases
             </url>
         </repository>
         <snapshotRepository>
             <id>nara-snapshots</id>
             <name>NARA Snapshots</name>
             <url>
-                dav:http://52.79.138.121:8081/content/repositories/nara-snapshots
+                dav:http://nexus.namoo.io/content/repositories/nara-snapshots
             </url>
         </snapshotRepository>
     </distributionManagement>
