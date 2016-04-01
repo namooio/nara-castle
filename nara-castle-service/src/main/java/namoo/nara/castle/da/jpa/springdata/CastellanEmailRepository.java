@@ -1,6 +1,6 @@
 package namoo.nara.castle.da.jpa.springdata;
 
-import namoo.nara.castle.da.jpa.jpo.CastellanEmailId;
+import namoo.nara.castle.da.jpa.jpo.CastellanEmailPk;
 import namoo.nara.castle.da.jpa.jpo.CastellanEmailJpo;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -9,15 +9,15 @@ import java.util.List;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 16..
  */
-public interface CastellanEmailRepository extends PagingAndSortingRepository<CastellanEmailJpo, CastellanEmailId> {
+public interface CastellanEmailRepository extends PagingAndSortingRepository<CastellanEmailJpo, CastellanEmailPk> {
 
-    CastellanEmailJpo findByCastellanEmailIdCastellanIdAndPrimaryEmail(String castellanId, boolean primaryEmail);
+    CastellanEmailJpo findByCastellanEmailPkCastellanIdAndPrimaryEmail(String castellanId, boolean primaryEmail);
 
-    int countByCastellanEmailIdCastellanId(String castellanId);
+    int countByCastellanEmailPkCastellanId(String castellanId);
 
-    List<CastellanEmailJpo> findByCastellanEmailIdCastellanId(String castellanId);
+    List<CastellanEmailJpo> findByCastellanEmailPkCastellanId(String castellanId);
 
-    CastellanEmailJpo findByCastellanEmailIdEmailAndVerified(String email, boolean verified);
+    CastellanEmailJpo findByCastellanEmailPkEmailAndVerified(String email, boolean verified);
 
-    void deleteByCastellanEmailIdCastellanId(String castellanId);
+    void deleteByCastellanEmailPkCastellanId(String castellanId);
 }

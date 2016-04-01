@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 public class CastellanEmailJpo {
 
     @EmbeddedId
-    private CastellanEmailId castellanEmailId;
+    private CastellanEmailPk castellanEmailPk;
 
     @Column(nullable = false)
     private long createTime;
@@ -30,12 +30,12 @@ public class CastellanEmailJpo {
     public CastellanEmailJpo() {
     }
 
-    public CastellanEmailId getCastellanEmailId() {
-        return castellanEmailId;
+    public CastellanEmailPk getCastellanEmailPk() {
+        return castellanEmailPk;
     }
 
-    public void setCastellanEmailId(CastellanEmailId castellanEmailId) {
-        this.castellanEmailId = castellanEmailId;
+    public void setCastellanEmailPk(CastellanEmailPk castellanEmailPk) {
+        this.castellanEmailPk = castellanEmailPk;
     }
 
     public long getCreateTime() {
@@ -73,7 +73,7 @@ public class CastellanEmailJpo {
     public static CastellanEmailJpo create(CastellanEmail castellanEmail, String castellanOid) {
         if (castellanEmail == null) return null;
         CastellanEmailJpo castellanEmailJpo = new CastellanEmailJpo();
-        castellanEmailJpo.setCastellanEmailId(new CastellanEmailId(castellanEmail.getEmail(), castellanOid));
+        castellanEmailJpo.setCastellanEmailPk(new CastellanEmailPk(castellanEmail.getEmail(), castellanOid));
         castellanEmailJpo.setCreateTime(castellanEmail.getCreateTime());
         castellanEmailJpo.setPrimaryEmail(castellanEmail.isPrimary());
         castellanEmailJpo.setVerified(castellanEmail.isVerified());
@@ -84,7 +84,7 @@ public class CastellanEmailJpo {
     public CastellanEmail toDomain() {
         CastellanEmail castellanEmail = new CastellanEmail();
         castellanEmail.setCreateTime(this.createTime);
-        castellanEmail.setEmail(this.castellanEmailId.getEmail());
+        castellanEmail.setEmail(this.castellanEmailPk.getEmail());
         castellanEmail.setPrimary(this.primaryEmail);
         castellanEmail.setVerified(this.verified);
         castellanEmail.setVerifiedTime(this.verifiedTime);

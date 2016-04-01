@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by kchuh@nextree.co.kr on 2016. 2. 17..
  */
 @Embeddable
-public class CastellanEmailId implements Serializable {
+public class CastellanEmailPk implements Serializable {
 
     @Column(nullable = false)
     private String email;
@@ -16,10 +16,10 @@ public class CastellanEmailId implements Serializable {
     @Column(nullable = false)
     private String castellanId;
 
-    public CastellanEmailId() {
+    public CastellanEmailPk() {
     }
 
-    public CastellanEmailId(String email, String castellanId) {
+    public CastellanEmailPk(String email, String castellanId) {
         this.email = email;
         this.castellanId = castellanId;
     }
