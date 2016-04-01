@@ -1,6 +1,6 @@
-package namoo.nara.castle.da.jpa.springdata;
+package namoo.nara.castle.da.jpa.jpa.springdata;
 
-import namoo.nara.castle.da.jpa.jpo.CastellanNameJpo;
+import namoo.nara.castle.da.jpa.jpa.jpo.CastellanNameJpo;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**

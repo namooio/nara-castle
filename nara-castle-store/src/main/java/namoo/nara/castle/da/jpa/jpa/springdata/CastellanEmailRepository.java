@@ -1,7 +1,7 @@
-package namoo.nara.castle.da.jpa.springdata;
+package namoo.nara.castle.da.jpa.jpa.springdata;
 
-import namoo.nara.castle.da.jpa.jpo.CastellanEmailPk;
-import namoo.nara.castle.da.jpa.jpo.CastellanEmailJpo;
+import namoo.nara.castle.da.jpa.jpa.jpo.CastellanEmailJpo;
+import namoo.nara.castle.da.jpa.jpa.jpo.CastellanEmailPk;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;

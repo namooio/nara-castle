@@ -1,4 +1,4 @@
-package namoo.nara.castle.da.jpa.jpo;
+package namoo.nara.castle.da.jpa.jpa.jpo;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.CastleStatus;

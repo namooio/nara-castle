@@ -1,7 +1,7 @@
-package namoo.nara.castle.da.jpa;
+package namoo.nara.castle.da.jpa.jpa;
 
-import namoo.nara.castle.da.jpa.jpo.CastellanJpo;
-import namoo.nara.castle.da.jpa.springdata.CastellanRepository;
+import namoo.nara.castle.da.jpa.jpa.jpo.CastellanJpo;
+import namoo.nara.castle.da.jpa.jpa.springdata.CastellanRepository;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.store.CastellanStore;
 import org.springframework.beans.factory.annotation.Autowired;

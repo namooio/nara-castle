@@ -43,6 +43,7 @@
         <module>../nara-castle-domain</module>
         <module>../nara-castle-service</module>
         <module>../nara-castle-client</module>
+        <module>../nara-castle-store</module>
     </modules>
 
     <scm>
