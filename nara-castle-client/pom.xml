@@ -9,7 +9,7 @@
         <artifactId>nara-castle-pom</artifactId>
         <groupId>namoo.nara.castle</groupId>
         <version>0.0.2-SNAPSHOT</version>
-        <relativePath>../nara-castle-pom/pom.xml</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>nara-castle-client</artifactId>
