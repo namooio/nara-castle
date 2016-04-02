@@ -6,14 +6,14 @@
 
     <groupId>namoo.nara.castle</groupId>
     <artifactId>nara-castle-pom</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <nara.share.version>0.0.1-SNAPSHOT</nara.share.version>
+        <nara.share.version>0.0.1</nara.share.version>
     </properties>
 
     <dependencies>
