@@ -1,6 +1,6 @@
 package namoo.nara.castle.da.jpa.jpo;
 
-import namoo.nara.castle.domain.entity.CastellanEmail;
+import namoo.nara.castle.domain.entity.contact.UserEmail;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -70,7 +70,7 @@ public class CastellanEmailJpo {
         this.verifiedTime = verifiedTime;
     }
 
-    public static CastellanEmailJpo create(CastellanEmail castellanEmail, String castellanOid) {
+    public static CastellanEmailJpo create(UserEmail castellanEmail, String castellanOid) {
         if (castellanEmail == null) return null;
         CastellanEmailJpo castellanEmailJpo = new CastellanEmailJpo();
         castellanEmailJpo.setCastellanEmailPk(new CastellanEmailPk(castellanEmail.getEmail(), castellanOid));
@@ -81,8 +81,8 @@ public class CastellanEmailJpo {
         return castellanEmailJpo;
     }
 
-    public CastellanEmail toDomain() {
-        CastellanEmail castellanEmail = new CastellanEmail();
+    public UserEmail toDomain() {
+        UserEmail castellanEmail = new UserEmail();
         castellanEmail.setCreateTime(this.createTime);
         castellanEmail.setEmail(this.castellanEmailPk.getEmail());
         castellanEmail.setPrimary(this.primaryEmail);

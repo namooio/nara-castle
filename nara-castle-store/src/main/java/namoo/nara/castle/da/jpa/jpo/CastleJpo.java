@@ -1,7 +1,7 @@
 package namoo.nara.castle.da.jpa.jpo;
 
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.CastleStatus;
+import namoo.nara.castle.domain.entity.CastleState;
 
 import javax.persistence.*;
 
@@ -26,7 +26,7 @@ public class CastleJpo {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CastleStatus status;
+    private CastleState status;
 
     public CastleJpo() {
         this.buildTime = System.currentTimeMillis();
@@ -64,11 +64,11 @@ public class CastleJpo {
         this.localeCode = localeCode;
     }
 
-    public CastleStatus getStatus() {
+    public CastleState getStatus() {
         return status;
     }
 
-    public void setStatus(CastleStatus status) {
+    public void setStatus(CastleState status) {
         this.status = status;
     }
 

@@ -3,7 +3,7 @@ package namoo.nara.castle.da.jpa;
 import namoo.nara.castle.da.jpa.jpo.CastellanEmailJpo;
 import namoo.nara.castle.da.jpa.jpo.CastellanEmailPk;
 import namoo.nara.castle.da.jpa.springdata.CastellanEmailRepository;
-import namoo.nara.castle.domain.entity.CastellanEmail;
+import namoo.nara.castle.domain.entity.contact.UserEmail;
 import namoo.nara.castle.domain.store.CastellanEmailStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,7 +21,7 @@ public class CastellanEmailJpaStore implements CastellanEmailStore {
     private CastellanEmailRepository castellanEmailRepository;
 
     @Override
-    public void create(CastellanEmail castellanEmail, String castellanId) {
+    public void create(UserEmail castellanEmail, String castellanId) {
         castellanEmailRepository.save(CastellanEmailJpo.create(castellanEmail, castellanId));
     }
 
@@ -32,14 +32,14 @@ public class CastellanEmailJpaStore implements CastellanEmailStore {
     }
 
     @Override
-    public CastellanEmail getPrimaryEmail(String castellanId) {
+    public UserEmail getPrimaryEmail(String castellanId) {
         CastellanEmailJpo castellanEmailJpo = castellanEmailRepository.findByCastellanEmailPkCastellanIdAndPrimaryEmail(castellanId, true);
         if (castellanEmailJpo == null) return null;
         return castellanEmailJpo.toDomain();
     }
 
     @Override
-    public CastellanEmail retrieve(String email, String castellanId) {
+    public UserEmail retrieve(String email, String castellanId) {
         CastellanEmailJpo castellanEmailJpo = castellanEmailRepository.findOne(new CastellanEmailPk(email, castellanId));
         return castellanEmailJpo.toDomain();
     }
@@ -69,10 +69,10 @@ public class CastellanEmailJpaStore implements CastellanEmailStore {
     }
 
     @Override
-    public List<CastellanEmail> retrieveCastellanEmails(String castellanId) {
+    public List<UserEmail> retrieveCastellanEmails(String castellanId) {
         List<CastellanEmailJpo> castellanEmailJpos = castellanEmailRepository.findByCastellanEmailPkCastellanId(castellanId);
         if (castellanEmailJpos == null) return null;
-        List<CastellanEmail> castellanEmails = new ArrayList<>(castellanEmailJpos.size());
+        List<UserEmail> castellanEmails = new ArrayList<>(castellanEmailJpos.size());
         for(CastellanEmailJpo castellanEmailJpo : castellanEmailJpos) {
             castellanEmails.add(castellanEmailJpo.toDomain());
         }
@@ -80,7 +80,7 @@ public class CastellanEmailJpaStore implements CastellanEmailStore {
     }
 
     @Override
-    public void update(CastellanEmail castellanEmail, String castellanId) {
+    public void update(UserEmail castellanEmail, String castellanId) {
         castellanEmailRepository.save(CastellanEmailJpo.create(castellanEmail, castellanId));
     }
 

@@ -1,6 +1,6 @@
 package namoo.nara.castle.domain.store;
 
-import namoo.nara.castle.domain.entity.CastellanEmail;
+import namoo.nara.castle.domain.entity.contact.UserEmail;
 
 import java.util.List;
 
@@ -9,19 +9,19 @@ import java.util.List;
  */
 public interface CastellanEmailStore {
 
-    void create(CastellanEmail castellanEmail, String castellanId);
+    void create(UserEmail castellanEmail, String castellanId);
 
-    CastellanEmail retrieve(String email, String castellanId);
+    UserEmail retrieve(String email, String castellanId);
 
-    List<CastellanEmail> retrieveCastellanEmails(String castellanId);
+    List<UserEmail> retrieveCastellanEmails(String castellanId);
 
-    void update(CastellanEmail castellanEmail, String castellanId);
+    void update(UserEmail castellanEmail, String castellanId);
 
     void delete(String email, String castellanId);
 
     boolean hasPrimaryEmail(String castellanId);
 
-    CastellanEmail getPrimaryEmail(String castellanId);
+    UserEmail getPrimaryEmail(String castellanId);
 
     void updatePrimaryEmail(String email, String castellanId, boolean primaryEmail);
 

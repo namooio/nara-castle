@@ -1,35 +1,38 @@
 package namoo.nara.castle.domain.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by kchuh@nextree.co.kr on 2016. 1. 29..
- */
 public class Castellan {
-
-    /** Same with gateway login user id */
-    private String oid;
-
+    //
+    private String usid;
     private String displayName;
+    private String loginId;
+    private String photoId;         // profile photo
+    private String primaryEmail;    // nullable
+    private String primaryPhone;    // nullable
 
-    private List<CastellanEmail> emails;
-
-    private List<CastellanName> names;
+    private InfoBundleBox infoBundleBox;
 
     public Castellan() {
     }
 
-    public Castellan(String oid) {
-        this.oid = oid;
+    protected Castellan(String usid, String displayName, String loginId) {
+        //
+        this.usid = usid;
+        this.displayName = displayName;
+        this.loginId = loginId;
+        this.infoBundleBox = new InfoBundleBox();
     }
 
-    public String getOid() {
-        return oid;
+    public static Castellan newInstance(String usid, String displayName, String loginId) {
+        //
+        return new Castellan(usid, displayName, loginId);
     }
 
-    public void setOid(String oid) {
-        this.oid = oid;
+    public String getUsid() {
+        return usid;
+    }
+
+    public void setUsid(String usid) {
+        this.usid = usid;
     }
 
     public String getDisplayName() {
@@ -40,30 +43,43 @@ public class Castellan {
         this.displayName = displayName;
     }
 
-    public List<CastellanEmail> getEmails() {
-        return emails;
+    public String getLoginId() {
+        return loginId;
     }
 
-    public void setEmails(List<CastellanEmail> emails) {
-        this.emails = emails;
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
-    public List<CastellanName> getNames() {
-        return names;
+    public String getPhotoId() {
+        return photoId;
     }
 
-    public void setNames(List<CastellanName> names) {
-        this.names = names;
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
     }
 
-    public void addEmail(CastellanEmail email) {
-        if (this.emails == null) this.emails = new ArrayList<>();
-        this.emails.add(email);
+    public String getPrimaryEmail() {
+        return primaryEmail;
     }
 
-    public void addName(CastellanName name) {
-        if (this.names == null) this.names = new ArrayList<>();
-        this.names.add(name);
+    public void setPrimaryEmail(String primaryEmail) {
+        this.primaryEmail = primaryEmail;
     }
 
+    public String getPrimaryPhone() {
+        return primaryPhone;
+    }
+
+    public void setPrimaryPhone(String primaryPhone) {
+        this.primaryPhone = primaryPhone;
+    }
+
+    public InfoBundleBox getInfoBundleBox() {
+        return infoBundleBox;
+    }
+
+    public void setInfoBundleBox(InfoBundleBox infoBundleBox) {
+        this.infoBundleBox = infoBundleBox;
+    }
 }

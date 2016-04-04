@@ -1,6 +1,8 @@
 package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.entity.*;
+import namoo.nara.castle.domain.entity.contact.UserEmail;
+import namoo.nara.castle.domain.entity.contact.UserName;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.*;
 import namoo.nara.share.exception.NaraException;
@@ -29,7 +31,7 @@ public class CastleServiceLogic implements CastleService {
 
     @Override
     public void registerCastellan(String castellanId) {
-        Castle castle = new Castle(castellanId, CastleStatus.Opened);
+        Castle castle = new Castle(castellanId, CastleState.Open);
         castleStore.create(castle);
         Castellan castellan = new Castellan(castellanId);
         castellanStore.create(castellan);
@@ -38,7 +40,7 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public void registerCastellan(String castellanId, String email) {
         // Create castle. Castle is suspended before email verification...(can't login)
-        Castle castle = new Castle(castellanId, CastleStatus.Suspended);
+        Castle castle = new Castle(castellanId, CastleState.Suspended);
         castleStore.create(castle);
 
         Castellan castellan = new Castellan(castellanId);
@@ -70,7 +72,7 @@ public class CastleServiceLogic implements CastleService {
 
     @Override
     public void addCastellanEmail(String email, String castellanId) {
-        CastellanEmail castellanEmail = new CastellanEmail();
+        UserEmail castellanEmail = new UserEmail();
         castellanEmail.setEmail(email);
         castellanEmailStore.create(castellanEmail, castellanId);
 
@@ -83,7 +85,7 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public void verifyCastellanEmail(String email, String castellanId) {
         if (castellanEmailStore.existVerifiedEmail(email)) throw new NaraException("Email is already in use");
-        CastellanEmail castellanEmail = castellanEmailStore.retrieve(email, castellanId);
+        UserEmail castellanEmail = castellanEmailStore.retrieve(email, castellanId);
         castellanEmail.setVerified(true);
         castellanEmail.setVerifiedTime(System.currentTimeMillis());
         castellanEmailStore.update(castellanEmail, castellanId);
@@ -91,20 +93,20 @@ public class CastleServiceLogic implements CastleService {
 
     @Override
     public void setAsPrimaryEmail(String email, String castellanId) {
-        CastellanEmail castellanEmail = castellanEmailStore.retrieve(email, castellanId);
+        UserEmail castellanEmail = castellanEmailStore.retrieve(email, castellanId);
         // Already primary... ignore
         if (castellanEmail.isPrimary()) return;
 
         // Update exist primary email as not.
         if (castellanEmailStore.hasPrimaryEmail(castellanId)) {
-            CastellanEmail primaryEmail = castellanEmailStore.getPrimaryEmail(castellanId);
+            UserEmail primaryEmail = castellanEmailStore.getPrimaryEmail(castellanId);
             castellanEmailStore.updatePrimaryEmail(primaryEmail.getEmail(), castellanId, false);
         }
         castellanEmailStore.updatePrimaryEmail(castellanEmail.getEmail(), castellanId, true);
     }
 
     @Override
-    public void addName(CastellanName castellanName, String castellanId) {
+    public void addName(UserName castellanName, String castellanId) {
         // TODO
     }
 
@@ -118,13 +120,13 @@ public class CastleServiceLogic implements CastleService {
 
         // If there is no primary email, set the first email as primary
         if (castellanEmailStore.hasPrimaryEmail(castellanId)) return;
-        List<CastellanEmail> castellanEmails = castellanEmailStore.retrieveCastellanEmails(castellanId);
-        CastellanEmail firstEmail = castellanEmails.get(0);
+        List<UserEmail> castellanEmails = castellanEmailStore.retrieveCastellanEmails(castellanId);
+        UserEmail firstEmail = castellanEmails.get(0);
         setAsPrimaryEmail(firstEmail.getEmail(), castellanId);
     }
 
     @Override
-    public void changeCastleStatus(CastleStatus status, String castellanId) {
+    public void changeCastleStatus(CastleState status, String castellanId) {
         Castle castle = castleStore.retrieve(castellanId);
         castle.setStatus(status);
         castleStore.update(castle);

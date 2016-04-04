@@ -1,44 +1,50 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.entity.history.ParticipantMetro;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
 /**
- * Created by kchuh@nextree.co.kr on 2016. 2. 1..
+ * Information repository for a individual </br>
+ * Castle.usid is specified in Bureau service.
  */
 public class Castle {
-
-    /** Same with gateway login user id */
-    private String oid;
-
-    private String name;
-
+    //
+    private String usid;
+    private String name;                // Castellan's display name
+    private Locale locale;
+    private CastleState status;
     private long buildTime;
 
-    private String localeCode;
-
-    private CastleStatus status;
-
     private Castellan owner;
+    private List<ParticipantMetro> participantMetroList = new ArrayList<>();
 
     public Castle() {
+        //
+    }
+
+    protected Castle(String usid, String name, Locale locale) {
+        //
+        this.usid = usid;
+        this.name = name;
+        this.locale = locale;
+        this.status = CastleState.Ready;
         this.buildTime = System.currentTimeMillis();
     }
 
-    public Castle(String oid, CastleStatus status) {
-        this();
-        this.oid = oid;
-        this.status = status;
+    public static Castle newInstance(String usid, String name, Locale locale) {
+        //
+        return new Castle(usid, name, locale);
     }
 
-    public Castle(String oid) {
-        this();
-        this.oid = oid;
+    public String getUsid() {
+        return usid;
     }
 
-    public String getOid() {
-        return oid;
-    }
-
-    public void setOid(String oid) {
-        this.oid = oid;
+    public void setUsid(String usid) {
+         this.usid = usid;
     }
 
     public String getName() {
@@ -57,19 +63,19 @@ public class Castle {
         this.buildTime = buildTime;
     }
 
-    public String getLocaleCode() {
-        return localeCode;
+    public Locale getLocale() {
+        return locale;
     }
 
-    public void setLocaleCode(String localeCode) {
-        this.localeCode = localeCode;
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 
-    public CastleStatus getStatus() {
+    public CastleState getStatus() {
         return status;
     }
 
-    public void setStatus(CastleStatus status) {
+    public void setStatus(CastleState status) {
         this.status = status;
     }
 
