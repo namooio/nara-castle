@@ -1,13 +1,9 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.castle.domain.entity.history.ParticipantMetro;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
- * Information repository for a individual </br>
+ * Information repository for an individual </br>
  * Castle.usid is specified in Bureau service.
  */
 public class Castle {
@@ -19,7 +15,7 @@ public class Castle {
     private long buildTime;
 
     private Castellan owner;
-    private List<ParticipantMetro> participantMetroList = new ArrayList<>();
+    private InfoBundleBox infoBundleBox;
 
     public Castle() {
         //
@@ -32,11 +28,16 @@ public class Castle {
         this.locale = locale;
         this.status = CastleState.Ready;
         this.buildTime = System.currentTimeMillis();
+        this.infoBundleBox = new InfoBundleBox();
     }
 
     public static Castle newInstance(String usid, String name, Locale locale) {
         //
-        return new Castle(usid, name, locale);
+        Castle castle = new Castle(usid, name, locale);
+        Castellan castellan = new Castellan(usid, name);
+        castle.setOwner(castellan);
+
+        return castle;
     }
 
     public String getUsid() {
@@ -85,5 +86,14 @@ public class Castle {
 
     public void setOwner(Castellan owner) {
         this.owner = owner;
+    }
+
+
+    public InfoBundleBox getInfoBundleBox() {
+        return infoBundleBox;
+    }
+
+    public void setInfoBundleBox(InfoBundleBox infoBundleBox) {
+        this.infoBundleBox = infoBundleBox;
     }
 }

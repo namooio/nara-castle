@@ -4,27 +4,22 @@ public class Castellan {
     //
     private String usid;
     private String displayName;
-    private String loginId;
-    private String photoId;         // profile photo
+    private String photoId;         // profile photo id 
     private String primaryEmail;    // nullable
     private String primaryPhone;    // nullable
-
-    private InfoBundleBox infoBundleBox;
 
     public Castellan() {
     }
 
-    protected Castellan(String usid, String displayName, String loginId) {
+    protected Castellan(String usid, String displayName) {
         //
         this.usid = usid;
         this.displayName = displayName;
-        this.loginId = loginId;
-        this.infoBundleBox = new InfoBundleBox();
     }
 
-    public static Castellan newInstance(String usid, String displayName, String loginId) {
+    public static Castellan newInstance(String usid, String displayName) {
         //
-        return new Castellan(usid, displayName, loginId);
+        return new Castellan(usid, displayName);
     }
 
     public String getUsid() {
@@ -41,14 +36,6 @@ public class Castellan {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
-    }
-
-    public String getLoginId() {
-        return loginId;
-    }
-
-    public void setLoginId(String loginId) {
-        this.loginId = loginId;
     }
 
     public String getPhotoId() {
@@ -73,13 +60,5 @@ public class Castellan {
 
     public void setPrimaryPhone(String primaryPhone) {
         this.primaryPhone = primaryPhone;
-    }
-
-    public InfoBundleBox getInfoBundleBox() {
-        return infoBundleBox;
-    }
-
-    public void setInfoBundleBox(InfoBundleBox infoBundleBox) {
-        this.infoBundleBox = infoBundleBox;
     }
 }

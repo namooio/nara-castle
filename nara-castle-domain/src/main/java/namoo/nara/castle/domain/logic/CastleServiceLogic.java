@@ -3,11 +3,15 @@ package namoo.nara.castle.domain.logic;
 import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.entity.contact.UserEmail;
 import namoo.nara.castle.domain.entity.contact.UserName;
+import namoo.nara.castle.domain.entity.history.AccountBook;
+import namoo.nara.castle.domain.entity.history.MetroBook;
+import namoo.nara.castle.domain.entity.history.ParticipantMetro;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.*;
 import namoo.nara.share.exception.NaraException;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 1..
@@ -29,6 +33,17 @@ public class CastleServiceLogic implements CastleService {
         this.castellanNameStore = lifecycler.requestCastellanNameStore();
     }
 
+    @Override
+    public void buildCastle(String usid, String name, String metroId, Locale locale) {
+        //
+        Castle castle = Castle.newInstance(usid, name, locale);
+        MetroBook metroBook = castle.getInfoBundleBox().getHistoryBundle().getMetroBook();
+        metroBook.addMetro(new ParticipantMetro(metroId, castle.getBuildTime()));
+
+        castleStore.create(castle);     // Castellan을 별도로 생성 ???
+    }
+
+    /*
     @Override
     public void registerCastellan(String castellanId) {
         Castle castle = new Castle(castellanId, CastleState.Open);
@@ -137,4 +152,5 @@ public class CastleServiceLogic implements CastleService {
         Castellan castellan = castellanStore.retrieve(castellanId);
         return castellan.getDisplayName();
     }
+    */
 }

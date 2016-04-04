@@ -4,8 +4,16 @@ import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.contact.UserName;
 import namoo.nara.castle.domain.entity.CastleState;
 
+import java.util.Locale;
+
 public interface CastleService {
     //
+    void buildCastle(String id, String name, String metroId, Locale locale);
+
+
+
+    // AS-IS
+    /*
     void registerCastellan(String castellanId);
     void registerCastellan(String castellanId, String email);
     void removeCastellan(String castellanId);
@@ -18,4 +26,5 @@ public interface CastleService {
     void removeCastellanEmail(String email, String castellanId);
     void changeCastleStatus(CastleState status, String castellanId);
     String findCastellanDisplayName(String castellanId);
+    */
 }

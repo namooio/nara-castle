@@ -12,17 +12,11 @@ public class ParticipantMetro {
         //
     }
 
-    protected ParticipantMetro(String metroId, String metroName, long joinTime) {
+    public ParticipantMetro(String metroId, long joinTime) {
         //
         this.metroId = metroId;
-        this.metroName = metroName;
         this.joinTime = joinTime;
         this.withdrawalTime = 0L;
-    }
-
-    public static ParticipantMetro newInstance(String metroId, String metroName, long joinTime) {
-        //
-        return new ParticipantMetro(metroId, metroName, joinTime);
     }
 
     public String getMetroId() {
