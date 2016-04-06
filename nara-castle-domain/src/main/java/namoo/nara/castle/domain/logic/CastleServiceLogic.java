@@ -3,9 +3,7 @@ package namoo.nara.castle.domain.logic;
 import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.entity.contact.UserEmail;
 import namoo.nara.castle.domain.entity.contact.UserName;
-import namoo.nara.castle.domain.entity.history.AccountBook;
-import namoo.nara.castle.domain.entity.history.MetroBook;
-import namoo.nara.castle.domain.entity.history.ParticipantMetro;
+import namoo.nara.castle.domain.entity.history.*;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.*;
 import namoo.nara.share.exception.NaraException;
@@ -13,35 +11,100 @@ import namoo.nara.share.exception.NaraException;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by kchuh@nextree.co.kr on 2016. 2. 1..
- */
 public class CastleServiceLogic implements CastleService {
-
+    //
     private CastleStore castleStore;
-
     private CastellanStore castellanStore;
+    private HistoryBundleStore historyStore;
 
-    private CastellanEmailStore castellanEmailStore;
-
-    private CastellanNameStore castellanNameStore;
-
-    public CastleServiceLogic(CastleStoreLycler lifecycler) {
-        this.castleStore = lifecycler.requestCastleStore();
-        this.castellanStore = lifecycler.requestCastellanStore();
-        this.castellanEmailStore = lifecycler.requestCastellanEmailStore();
-        this.castellanNameStore = lifecycler.requestCastellanNameStore();
+    public CastleServiceLogic(CastleStoreLycler storeLycler) {
+        //
+        this.castleStore = storeLycler.requestCastleStore();
+        this.castellanStore = storeLycler.requestCastellanStore();
+        this.historyStore = storeLycler.requestHistoryBundleStore();
     }
 
     @Override
     public void buildCastle(String usid, String name, String metroId, Locale locale) {
         //
         Castle castle = Castle.newInstance(usid, name, locale);
-        MetroBook metroBook = castle.getInfoBundleBox().getHistoryBundle().getMetroBook();
-        metroBook.addMetro(new ParticipantMetro(metroId, castle.getBuildTime()));
+        HistoryBundle history = castle.getInfoBundleBox().getHistoryBundle();
+        history.getMetroBook().addMetro(new ParticipantMetro(metroId, castle.getBuildTime()));
 
         castleStore.create(castle);     // Castellan을 별도로 생성 ???
+        castellanStore.create(castle.getOwner());
+        historyStore.create(history);
     }
+
+    @Override
+    public void suspendCastle(String id, String remarks) {
+        //
+        Castle castle = castleStore.retrieve(id);
+
+        if (castle.getState().equals(OpenState.Suspended)) {
+            return;
+        }
+
+        HistoryBundle history = historyStore.retrieve(id);
+        OpenState currentState = castle.getState();
+
+        castle.setState(OpenState.Suspended);
+        castleStore.update(castle);
+
+        OpenState targetState = OpenState.Suspended;
+        CastleState castleState = new CastleState(currentState, targetState, remarks);
+        history.getCastleStateBook().addCastleState(castleState);
+        historyStore.update(history);
+    }
+
+    @Override
+    public void reopenCastle(String id, String remarks) {
+        //
+        Castle castle = castleStore.retrieve(id);
+
+        if (castle.getState().equals(OpenState.Open)) {
+            return;
+        }
+
+        HistoryBundle history = historyStore.retrieve(id);
+        OpenState currentState = castle.getState();
+
+        castle.setState(OpenState.Open);
+        castleStore.update(castle);
+
+        OpenState targetState = OpenState.Open;
+        CastleState castleState = new CastleState(currentState, targetState, remarks);
+        history.getCastleStateBook().addCastleState(castleState);
+        historyStore.update(history);
+    }
+
+    @Override
+    public void modifyName(String id, String name) {
+        //
+        Castle castle = castleStore.retrieve(id);
+
+        if(castle.getName().equals(name)) {
+            return;
+        }
+
+        castle.setName(name);
+        castleStore.update(castle);
+    }
+
+    @Override
+    public void modifyLocale(String id, Locale locale) {
+        //
+        Castle castle = castleStore.retrieve(id);
+
+        if(castle.getLocale().equals(locale)) {
+            return;
+        }
+
+        castle.setLocale(locale);
+        castleStore.update(castle);
+    }
+
+
 
     /*
     @Override

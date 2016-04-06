@@ -1,8 +1,10 @@
 package namoo.nara.castle.domain.entity;
 
-public class Castellan {
+import namoo.nara.share.domain.util.Identifiable;
+
+public class Castellan implements Identifiable {
     //
-    private String usid;
+    private String usid;            // == castle id
     private String displayName;
     private String photoId;         // profile photo id 
     private String primaryEmail;    // nullable
@@ -11,9 +13,9 @@ public class Castellan {
     public Castellan() {
     }
 
-    protected Castellan(String usid, String displayName) {
+    protected Castellan(String castleId, String displayName) {
         //
-        this.usid = usid;
+        this.usid = castleId;
         this.displayName = displayName;
     }
 
@@ -22,7 +24,8 @@ public class Castellan {
         return new Castellan(usid, displayName);
     }
 
-    public String getUsid() {
+    @Override
+    public String getId() {
         return usid;
     }
 

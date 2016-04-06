@@ -1,15 +1,14 @@
 package namoo.nara.castle.domain.service;
 
-import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.entity.contact.UserName;
-import namoo.nara.castle.domain.entity.CastleState;
-
 import java.util.Locale;
 
 public interface CastleService {
     //
     void buildCastle(String id, String name, String metroId, Locale locale);
-
+    void suspendCastle(String id, String remarks);
+    void reopenCastle(String id, String remarks);
+    void modifyName(String id, String name);
+    void modifyLocale(String id, Locale locale);
 
 
     // AS-IS

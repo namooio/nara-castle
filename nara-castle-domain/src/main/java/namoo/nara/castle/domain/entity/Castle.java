@@ -1,17 +1,19 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.share.domain.util.Identifiable;
+
 import java.util.Locale;
 
 /**
  * Information repository for an individual </br>
  * Castle.usid is specified in Bureau service.
  */
-public class Castle {
+public class Castle implements Identifiable {
     //
     private String usid;
     private String name;                // Castellan's display name
     private Locale locale;
-    private CastleState status;
+    private OpenState state;
     private long buildTime;
 
     private Castellan owner;
@@ -26,7 +28,7 @@ public class Castle {
         this.usid = usid;
         this.name = name;
         this.locale = locale;
-        this.status = CastleState.Ready;
+        this.state = OpenState.Ready;
         this.buildTime = System.currentTimeMillis();
         this.infoBundleBox = new InfoBundleBox();
     }
@@ -40,7 +42,8 @@ public class Castle {
         return castle;
     }
 
-    public String getUsid() {
+    @Override
+    public String getId() {
         return usid;
     }
 
@@ -72,12 +75,12 @@ public class Castle {
         this.locale = locale;
     }
 
-    public CastleState getStatus() {
-        return status;
+    public OpenState getState() {
+        return state;
     }
 
-    public void setStatus(CastleState status) {
-        this.status = status;
+    public void setState(OpenState state) {
+        this.state = state;
     }
 
     public Castellan getOwner() {

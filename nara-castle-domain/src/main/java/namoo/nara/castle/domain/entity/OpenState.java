@@ -1,6 +1,6 @@
 package namoo.nara.castle.domain.entity;
 
-public enum CastleState {
+public enum OpenState {
     //
     Ready,
     Open,

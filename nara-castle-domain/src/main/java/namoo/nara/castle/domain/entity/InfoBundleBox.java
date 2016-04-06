@@ -15,6 +15,11 @@ public class InfoBundleBox {
     }
 
     public ContactBundle getContactBundle() {
+        //
+        if(contactBundle == null) {
+            this.contactBundle = new ContactBundle();
+        }
+
         return contactBundle;
     }
 
@@ -23,6 +28,11 @@ public class InfoBundleBox {
     }
 
     public HistoryBundle getHistoryBundle() {
+        //
+        if(historyBundle == null) {
+            this.historyBundle = new HistoryBundle();
+        }
+
         return historyBundle;
     }
 
