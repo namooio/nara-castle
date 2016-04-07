@@ -1,5 +1,7 @@
 package namoo.nara.castle.da.mongo.mdo.contact;
 
+import namoo.nara.castle.domain.entity.contact.UserName;
+
 public class UserNameMdo {
     //
     private String familyName;
@@ -9,14 +11,29 @@ public class UserNameMdo {
     private String langCode;    // updatable
 
     public UserNameMdo() {
+        //
     }
 
-    public UserNameMdo(String familyName, String firstName, String displayName, String langCode) {
+    public static UserNameMdo newInstance(UserName userName) {
         //
-        this.familyName = familyName;
-        this.firstName = firstName;
-        this.displayName = displayName;
-        this.langCode = langCode;
+        UserNameMdo userNameMdo = new UserNameMdo();
+        userNameMdo.setFamilyName(userName.getFamilyName());
+        userNameMdo.setFirstName(userName.getFirstName());
+        userNameMdo.setDisplayName(userName.getDisplayName());
+        userNameMdo.setMiddleName(userName.getMiddleName());
+        userNameMdo.setLangCode(userName.getLangCode());
+        return userNameMdo;
+    }
+
+    public UserName getDomain() {
+        //
+        UserName userName = new UserName();
+        userName.setFamilyName(familyName);
+        userName.setFirstName(firstName);
+        userName.setDisplayName(displayName);
+        userName.setMiddleName(middleName);
+        userName.setLangCode(displayName);
+        return userName;
     }
 
     public String getFamilyName() {
@@ -58,4 +75,5 @@ public class UserNameMdo {
     public void setLangCode(String langCode) {
         this.langCode = langCode;
     }
+
 }

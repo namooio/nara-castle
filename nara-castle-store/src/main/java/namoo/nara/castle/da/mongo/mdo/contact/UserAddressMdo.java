@@ -1,28 +1,64 @@
 package namoo.nara.castle.da.mongo.mdo.contact;
 
+import namoo.nara.castle.domain.entity.contact.UserAddress;
+
 public class UserAddressMdo {
     //
-    private String style;
-    private String addressPartOne;      // street, P.O. Box, company
-    private String addressPartTwo;      // apartment, suite, building, etc
-    private String city;                //
-    private String state;               // state, province, region
+    private UserAddress.AddressStyle style; // Korean or US. Redefine enum type for mongo document?
+    private String addressPartOne;          // street, P.O. Box, company
+    private String addressPartTwo;          // apartment, suite, building, etc
+    private String city;                    //
+    private String state;                   // state, province, region
     private String zipCode;
     private String country;
 
-    private String title;               // example: Home address
-    private String phoneNumber;         // optional
-    private String langCode;            // mandatory
+    private String title;                   // example: Home address
+    private String phoneNumber;             // optional
+    private String langCode;                // mandatory
 
     public UserAddressMdo() {
         //
     }
 
-    public String getStyle() {
+    public static UserAddressMdo newInstance(UserAddress userAddress) {
+        //
+        UserAddressMdo userAddressMdo = new UserAddressMdo();
+        userAddressMdo.setStyle(userAddress.getStyle());
+        userAddressMdo.setAddressPartOne(userAddress.getAddressPartOne());
+        userAddressMdo.setAddressPartTwo(userAddress.getAddressPartTwo());
+        userAddressMdo.setCity(userAddress.getCity());
+        userAddressMdo.setState(userAddress.getState());
+        userAddressMdo.setZipCode(userAddress.getZipCode());
+        userAddressMdo.setCountry(userAddress.getCountry());
+
+        userAddressMdo.setTitle(userAddress.getTitle());
+        userAddressMdo.setPhoneNumber(userAddress.getPhoneNumber());
+        userAddressMdo.setLangCode(userAddress.getLangCode());
+        return userAddressMdo;
+    }
+
+    public UserAddress getDomain() {
+        //
+        UserAddress userAddress = new UserAddress();
+        userAddress.setStyle(style);
+        userAddress.setAddressPartOne(addressPartOne);
+        userAddress.setAddressPartTwo(addressPartTwo);
+        userAddress.setCity(city);
+        userAddress.setState(state);
+        userAddress.setZipCode(zipCode);
+        userAddress.setCountry(country);
+
+        userAddress.setTitle(title);
+        userAddress.setPhoneNumber(phoneNumber);
+        userAddress.setLangCode(langCode);
+        return userAddress;
+    }
+
+    public UserAddress.AddressStyle getStyle() {
         return style;
     }
 
-    public void setStyle(String style) {
+    public void setStyle(UserAddress.AddressStyle style) {
         this.style = style;
     }
 

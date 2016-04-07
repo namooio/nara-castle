@@ -1,5 +1,7 @@
 package namoo.nara.castle.da.mongo.mdo.contact;
 
+import namoo.nara.castle.domain.entity.contact.UserPhone;
+
 public class UserPhoneMdo {
     //
     private String phoneNumber;
@@ -9,9 +11,20 @@ public class UserPhoneMdo {
         //
     }
 
-    public UserPhoneMdo(String phoneNumber) {
+    public static UserPhoneMdo newInstance(UserPhone userPhone) {
         //
-        this.phoneNumber = phoneNumber;
+        UserPhoneMdo userPhoneMdo = new UserPhoneMdo();
+        userPhoneMdo.setPhoneNumber(userPhone.getPhoneNumber());
+        userPhoneMdo.setAreaCode(userPhone.getAreaCode());
+        return userPhoneMdo;
+    }
+
+    public UserPhone getDomain() {
+        //
+        UserPhone userPhone = new UserPhone();
+        userPhone.setPhoneNumber(phoneNumber);
+        userPhone.setAreaCode(areaCode);
+        return userPhone;
     }
 
     public String getPhoneNumber() {
@@ -29,4 +42,5 @@ public class UserPhoneMdo {
     public void setAreaCode(String areaCode) {
         this.areaCode = areaCode;
     }
+
 }

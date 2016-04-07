@@ -1,20 +1,36 @@
 package namoo.nara.castle.da.mongo.mdo.contact;
 
+import namoo.nara.castle.domain.entity.contact.UserEmail;
+
 public class UserEmailMdo {
     //
     private String email;
-    private EmailType emailType;
+    private UserEmail.EmailType emailType; // Redefine enum type for mongo document?
     private boolean verified;
     private long verifiedTime;
 
     public UserEmailMdo() {
+        //
     }
 
-    public UserEmailMdo(String email, EmailType emailType) {
+    public static UserEmailMdo newInstance(UserEmail userEmail) {
         //
-        this.email = email;
-        this.emailType = emailType;
-        this.verified = false;
+        UserEmailMdo userEmailMdo = new UserEmailMdo();
+        userEmailMdo.setEmail(userEmail.getEmail());
+        userEmailMdo.setEmailType(userEmail.getEmailType());
+        userEmailMdo.setVerified(userEmail.isVerified());
+        userEmailMdo.setVerifiedTime(userEmail.getVerifiedTime());
+        return userEmailMdo;
+    }
+
+    public UserEmail getDomain() {
+        //
+        UserEmail userEmail = new UserEmail();
+        userEmail.setEmail(email);
+        userEmail.setEmailType(emailType);
+        userEmail.setVerified(verified);
+        userEmail.setVerifiedTime(verifiedTime);
+        return userEmail;
     }
 
     public String getEmail() {
@@ -25,11 +41,11 @@ public class UserEmailMdo {
         this.email = email;
     }
 
-    public EmailType getEmailType() {
+    public UserEmail.EmailType getEmailType() {
         return emailType;
     }
 
-    public void setEmailType(EmailType emailType) {
+    public void setEmailType(UserEmail.EmailType emailType) {
         this.emailType = emailType;
     }
 
@@ -49,8 +65,4 @@ public class UserEmailMdo {
         this.verifiedTime = verifiedTime;
     }
 
-    enum EmailType {
-        Business,
-        Private
-    }
 }

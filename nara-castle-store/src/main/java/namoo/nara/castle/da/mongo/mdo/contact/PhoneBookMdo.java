@@ -1,5 +1,6 @@
 package namoo.nara.castle.da.mongo.mdo.contact;
 
+import namoo.nara.castle.domain.entity.contact.PhoneBook;
 import namoo.nara.castle.domain.entity.contact.UserPhone;
 
 import java.util.ArrayList;
@@ -7,53 +8,45 @@ import java.util.List;
 
 public class PhoneBookMdo {
     //
-    private List<UserPhone> phoneList = new ArrayList<>();
+    private List<UserPhoneMdo> phoneMdoList;
 
     public PhoneBookMdo() {
         //
     }
 
-    public void addPhone(UserPhone userPhone) {
+    public static PhoneBookMdo newInstance(PhoneBook phoneBook) {
         //
-        phoneList.add(userPhone);
-    }
-
-    public boolean existPhone(String phoneNumber) {
-        //
-        UserPhone phone = findPhone(phoneNumber);
-        if (phone != null) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public void removePhone(String phoneNumber) {
-        //
-        UserPhone targetPhone = null;
-
-        for(UserPhone userPhone : phoneList) {
-            //
-            if (userPhone.getPhoneNumber().equals(phoneNumber)) {
-                targetPhone =  userPhone;
-                break;
+        PhoneBookMdo phoneBookMdo = new PhoneBookMdo();
+        List<UserPhone> userPhones = phoneBook.findAll();
+        if (userPhones != null) {
+            for(UserPhone userPhone : userPhones) {
+                phoneBookMdo.addUserPhoneMdo(UserPhoneMdo.newInstance(userPhone));
             }
         }
-
-        if (targetPhone != null) {
-            phoneList.remove(targetPhone);
-        }
+        return phoneBookMdo;
     }
 
-    public UserPhone findPhone(String phoneNumber) {
+    public PhoneBook getDomain() {
         //
-        for(UserPhone phone : phoneList) {
-            //
-            if (phone.getPhoneNumber().equals(phoneNumber)) {
-                return phone;
+        PhoneBook phoneBook = new PhoneBook();
+        if (phoneMdoList != null) {
+            for(UserPhoneMdo userPhoneMdo : phoneMdoList) {
+                phoneBook.addPhone(userPhoneMdo.getDomain());
             }
         }
+        return phoneBook;
+    }
 
-        return null;
+    public void addUserPhoneMdo(UserPhoneMdo userPhoneMdo) {
+        if (phoneMdoList == null) phoneMdoList = new ArrayList<>();
+        phoneMdoList.add(userPhoneMdo);
+    }
+
+    public List<UserPhoneMdo> getPhoneMdoList() {
+        return phoneMdoList;
+    }
+
+    public void setPhoneMdoList(List<UserPhoneMdo> phoneMdoList) {
+        this.phoneMdoList = phoneMdoList;
     }
 }

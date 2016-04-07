@@ -2,6 +2,7 @@ package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.OpenState;
+import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +28,7 @@ import java.util.UUID;
 public class CastleMongoStoreTest {
 
     @Autowired
-    private CastleMongoStore castleMongoStore;
+    private CastleStore castleStore;
 
     @Test
     public void storeCrudTest() {
@@ -37,26 +38,26 @@ public class CastleMongoStoreTest {
         // create test
         Castle castle = Castle.newInstance(id, "허기철", Locale.US);
         castle.setBuildTime(System.currentTimeMillis());
-        castleMongoStore.create(castle);
+        castleStore.create(castle);
 
         // retrieve test
-        castle = castleMongoStore.retrieve(id);
+        castle = castleStore.retrieve(id);
         Assert.assertEquals("허기철", castle.getName());
         Assert.assertEquals(Locale.US, castle.getLocale());
         Assert.assertEquals(OpenState.Ready, castle.getState());
 
         // update test
         castle.setLocale(Locale.KOREA);
-        castleMongoStore.update(castle);
-        castle = castleMongoStore.retrieve(id);
+        castleStore.update(castle);
+        castle = castleStore.retrieve(id);
         Assert.assertEquals("허기철", castle.getName());
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
         Assert.assertEquals(OpenState.Ready, castle.getState());
 
         // delete test
-        castleMongoStore.delete(id);
+        castleStore.delete(id);
         try {
-            castleMongoStore.retrieve(id);
+            castleStore.retrieve(id);
         }
         catch (NonExistenceException e) {
             System.out.println(e.getMessage());

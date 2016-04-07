@@ -4,7 +4,7 @@ import namoo.nara.castle.da.mongo.mdo.CastellanMdo;
 import namoo.nara.castle.da.mongo.springdata.CastellanMdoRepository;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.store.CastellanStore;
-import namoo.nara.share.exception.store.AlreadyExistException;
+import namoo.nara.share.exception.store.AlreadyExistsException;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,7 +22,7 @@ public class CastellanMongoStore implements CastellanStore {
     public void create(Castellan castellan) {
         //
         String id = castellan.getId();
-        if (castellanMdoRepository.exists(id)) throw new AlreadyExistException(String.format("Castellan document[ID:%s] already exist.", id));
+        if (castellanMdoRepository.exists(id)) throw new AlreadyExistsException(String.format("Castellan document[ID:%s] already exist.", id));
         CastellanMdo castellanMdo = CastellanMdo.newInstance(castellan);
         castellanMdoRepository.save(castellanMdo);
     }
@@ -37,6 +37,7 @@ public class CastellanMongoStore implements CastellanStore {
 
     @Override
     public void update(Castellan castellan) {
+        //
         String id = castellan.getId();
         if (!castellanMdoRepository.exists(id)) throw new NonExistenceException(String.format("No castellan document[ID:%s] to update.", id));
         CastellanMdo castellanMdo = CastellanMdo.newInstance(castellan);
@@ -45,6 +46,7 @@ public class CastellanMongoStore implements CastellanStore {
 
     @Override
     public void delete(String id) {
+        //
         if (!castellanMdoRepository.exists(id)) throw new NonExistenceException(String.format("No castellan document[ID:%s] to delete.", id));
         castellanMdoRepository.delete(id);
     }

@@ -49,7 +49,7 @@ public class UserEmail {
         this.verifiedTime = verifiedTime;
     }
 
-    enum EmailType {
+    public enum EmailType {
         Business,
         Private
     }

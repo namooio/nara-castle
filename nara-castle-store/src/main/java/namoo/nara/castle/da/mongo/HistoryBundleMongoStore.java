@@ -1,8 +1,11 @@
 package namoo.nara.castle.da.mongo;
 
+import namoo.nara.castle.da.mongo.mdo.HistoryBundleMdo;
 import namoo.nara.castle.da.mongo.springdata.HistoryBundleMdoRepository;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
 import namoo.nara.castle.domain.store.HistoryBundleStore;
+import namoo.nara.share.exception.store.AlreadyExistsException;
+import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -17,21 +20,35 @@ public class HistoryBundleMongoStore implements HistoryBundleStore {
 
     @Override
     public String create(HistoryBundle history) {
-        return null;
+        //
+        String id = history.getId();
+        if (historyBundleMdoRepository.exists(id)) throw new AlreadyExistsException(String.format("History bundle document[ID:%s] already exist.", id));
+        HistoryBundleMdo historyBundleMdo = HistoryBundleMdo.newInstance(history);
+        historyBundleMdoRepository.save(historyBundleMdo);
+        return id;
     }
 
     @Override
     public HistoryBundle retrieve(String id) {
-        return null;
+        //
+        HistoryBundleMdo historyBundleMdo = historyBundleMdoRepository.findOne(id);
+        if (historyBundleMdo == null) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to retrieve.", id));
+        return historyBundleMdo.getDomain();
     }
 
     @Override
     public void update(HistoryBundle history) {
-
+        //
+        String id = history.getId();
+        if (!historyBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to update.", id));
+        HistoryBundleMdo historyBundleMdo = HistoryBundleMdo.newInstance(history);
+        historyBundleMdoRepository.save(historyBundleMdo);
     }
 
     @Override
     public void delete(String id) {
-
+        //
+        if (!historyBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to delete.", id));
+        historyBundleMdoRepository.delete(id);
     }
 }

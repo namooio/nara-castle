@@ -1,6 +1,7 @@
 package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import java.util.UUID;
 public class CastellanMongoStoreTest {
 
     @Autowired
-    private CastellanMongoStore castellanMongoStore;
+    private CastellanStore castellanStore;
 
     @Test
     public void storeCrudTest() {
@@ -34,22 +35,22 @@ public class CastellanMongoStoreTest {
 
         // create test
         Castellan castellan = Castellan.newInstance(id, "허기철");
-        castellanMongoStore.create(castellan);
+        castellanStore.create(castellan);
 
         // retrieve test
-        castellan = castellanMongoStore.retrieve(id);
+        castellan = castellanStore.retrieve(id);
         Assert.assertEquals("허기철", castellan.getDisplayName());
 
         // update test
         castellan.setDisplayName("Michael");
-        castellanMongoStore.update(castellan);
-        castellan = castellanMongoStore.retrieve(id);
+        castellanStore.update(castellan);
+        castellan = castellanStore.retrieve(id);
         Assert.assertEquals("Michael", castellan.getDisplayName());
 
         // delete test
-        castellanMongoStore.delete(id);
+        castellanStore.delete(id);
         try {
-            castellanMongoStore.retrieve(id);
+            castellanStore.retrieve(id);
         }
         catch (NonExistenceException e) {
             System.out.println(e.getMessage());

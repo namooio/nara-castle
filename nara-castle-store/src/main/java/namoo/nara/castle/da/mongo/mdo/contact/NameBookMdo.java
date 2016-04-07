@@ -1,5 +1,6 @@
 package namoo.nara.castle.da.mongo.mdo.contact;
 
+import namoo.nara.castle.domain.entity.contact.NameBook;
 import namoo.nara.castle.domain.entity.contact.UserName;
 
 import java.util.ArrayList;
@@ -7,59 +8,46 @@ import java.util.List;
 
 public class NameBookMdo {
     //
-    private List<UserName> nameList = new ArrayList<>();
+    private List<UserNameMdo> nameMdoList;
 
     public NameBookMdo() {
         //
     }
 
-    public void addName(UserName name) {
+    public static NameBookMdo newInstance(NameBook nameBook) {
         //
-        nameList.add(name);
-    }
-
-    public boolean existName(String familyName, String firstName) {
-        //
-        UserName name = findName(familyName, firstName);
-        if (name != null) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean existNameByDisplayName(String displayName) {
-        //
-        UserName name = findNameByDisplayName(displayName);
-        if (name != null) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public UserName findNameByDisplayName(String displayName) {
-        //
-        for(UserName name : nameList) {
-            //
-            if (name.getDisplayName().equals(displayName)) {
-                return name;
+        NameBookMdo nameBookMdo = new NameBookMdo();
+        List<UserName> userNames = nameBook.findAll();
+        if (userNames != null) {
+            for(UserName userName : userNames) {
+                nameBookMdo.addNameMdo(UserNameMdo.newInstance(userName));
             }
         }
-
-        return null;
+        return nameBookMdo;
     }
 
-    public UserName findName(String familyName, String firstName) {
+    public NameBook getDomain() {
         //
-        for(UserName name : nameList) {
-            //
-            if (name.getFamilyName().equals(familyName) &&
-                    name.getFirstName().equals(firstName)) {
-                return name;
+        NameBook nameBook = new NameBook();
+        if (nameMdoList != null) {
+            for(UserNameMdo userNameMdo : nameMdoList) {
+                nameBook.addName(userNameMdo.getDomain());
             }
         }
+        return nameBook;
+    }
 
-        return null;
+    public void addNameMdo(UserNameMdo userNameMdo) {
+        //
+        if(nameMdoList == null) nameMdoList = new ArrayList<>();
+        nameMdoList.add(userNameMdo);
+    }
+
+    public List<UserNameMdo> getNameMdoList() {
+        return nameMdoList;
+    }
+
+    public void setNameMdoList(List<UserNameMdo> nameMdoList) {
+        this.nameMdoList = nameMdoList;
     }
 }

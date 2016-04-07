@@ -1,17 +1,13 @@
 package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.da.mongo.mdo.ContactBundleMdo;
-import namoo.nara.castle.da.mongo.mdo.contact.AddressBookMdo;
-import namoo.nara.castle.da.mongo.mdo.contact.UserAddressMdo;
 import namoo.nara.castle.da.mongo.springdata.ContactBundleMdoRepository;
-import namoo.nara.castle.domain.entity.contact.AddressBook;
 import namoo.nara.castle.domain.entity.contact.ContactBundle;
-import namoo.nara.castle.domain.entity.contact.UserAddress;
 import namoo.nara.castle.domain.store.ContactBundleStore;
+import namoo.nara.share.exception.store.AlreadyExistsException;
+import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 6..
@@ -24,59 +20,36 @@ public class ContactBundleMongoStore implements ContactBundleStore {
 
     @Override
     public String create(ContactBundle contact) {
-        return null;
+        //
+        String id = contact.getId();
+        if (contactBundleMdoRepository.exists(id)) throw new AlreadyExistsException(String.format("Contact bundle document[ID:%s] already exist.", id));
+        ContactBundleMdo contactBundleMdo = ContactBundleMdo.newInstance(contact);
+        contactBundleMdoRepository.save(contactBundleMdo);
+        return id;
+    }
+
+    @Override
+    public ContactBundle retrieve(String id) {
+        //
+        ContactBundleMdo contactBundleMdo = contactBundleMdoRepository.findOne(id);
+        if (contactBundleMdo == null) throw new NonExistenceException(String.format("No contact bundle document[ID:%s] to retrieve.", id));
+        return contactBundleMdo.getDomain();
     }
 
     @Override
     public void update(ContactBundle contact) {
-
+        //
+        String id = contact.getId();
+        if (!contactBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No contact bundle document[ID:%s] to update.", id));
+        ContactBundleMdo contactBundleMdo = ContactBundleMdo.newInstance(contact);
+        contactBundleMdoRepository.save(contactBundleMdo);
     }
 
     @Override
     public void delete(String id) {
-
+        //
+        if (!contactBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No contact bundle document[ID:%s] to delete.", id));
+        contactBundleMdoRepository.delete(id);
     }
 
-    public void create(String id, ContactBundle contactBundle) {
-        ContactBundleMdo contactBundleMdo = new ContactBundleMdo();
-        contactBundleMdo.setId(id);
-
-        AddressBook addressBook = contactBundle.getAddressBook();
-        if (addressBook != null) {
-            AddressBookMdo addressBookMdo = new AddressBookMdo();
-            List<UserAddress> all = addressBook.findAll();
-            for(UserAddress userAddress : all) {
-                UserAddressMdo userAddressMdo = new UserAddressMdo();
-//                userAddressMdo.setStyle(userAddress.getStyle());
-                userAddressMdo.setZipCode(userAddress.getZipCode());
-                userAddressMdo.setState(userAddress.getState());
-                userAddressMdo.setCity(userAddress.getCity());
-                userAddressMdo.setAddressPartOne(userAddress.getAddressPartOne());
-                userAddressMdo.setAddressPartTwo(userAddress.getAddressPartTwo());
-                addressBookMdo.addAddress(userAddressMdo);
-            }
-            contactBundleMdo.setAddressBookMdo(addressBookMdo);
-        }
-        contactBundleMdoRepository.save(contactBundleMdo);
-    }
-
-    public ContactBundle retrieve(String id) {
-        ContactBundle contactBundle = new ContactBundle();
-
-        ContactBundleMdo contactBundleMdo = contactBundleMdoRepository.findOne(id);
-        AddressBookMdo addressBookMdo = contactBundleMdo.getAddressBookMdo();
-        List<UserAddressMdo> addressDocumentList = addressBookMdo.getAddressList();
-        AddressBook addressBook = new AddressBook();
-        contactBundle.setAddressBook(addressBook);
-        for(UserAddressMdo userAddressMdo : addressDocumentList) {
-            UserAddress userAddress = new UserAddress();
-            userAddress.setZipCode(userAddressMdo.getZipCode());
-            userAddress.setState(userAddressMdo.getState());
-            userAddress.setCity(userAddressMdo.getCity());
-            userAddress.setAddressPartOne(userAddressMdo.getAddressPartOne());
-            userAddress.setAddressPartTwo(userAddressMdo.getAddressPartTwo());
-            addressBook.addAddress(userAddress);
-        }
-        return contactBundle;
-    }
 }
