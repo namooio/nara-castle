@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <nara.share.version>0.0.1</nara.share.version>
+        <nara.share.version>0.0.3</nara.share.version>
     </properties>
 
     <dependencies>

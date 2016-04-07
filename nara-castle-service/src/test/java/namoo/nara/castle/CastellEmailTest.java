@@ -3,6 +3,7 @@ package namoo.nara.castle;
 import namoo.nara.castle.remote.dto.CastellanCreateDto;
 import namoo.nara.castle.remote.dto.CastellanReadDto;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 19..
  */
+@Ignore
 public class CastellEmailTest extends AbstractServiceApplicationTests {
 
     @Test

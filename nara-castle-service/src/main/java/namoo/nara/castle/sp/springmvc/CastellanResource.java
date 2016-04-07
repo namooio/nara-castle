@@ -27,63 +27,66 @@ public class CastellanResource implements CastellanRemote {
     @Override
     @RequestMapping(method = RequestMethod.POST)
     public void create(@RequestBody CastellanCreateDto castellanCreateDto) {
-        String id = castellanCreateDto.getId();
-        String email = castellanCreateDto.getEmail();
-        if (email == null || email.isEmpty()) {
-            castleService.registerCastellan(id);
-        }
-        else {
-            castleService.registerCastellan(id, email);
-        }
+//        String id = castellanCreateDto.getId();
+//        String email = castellanCreateDto.getEmail();
+//        if (email == null || email.isEmpty()) {
+//            castleService.registerCastellan(id);
+//        }
+//        else {
+//            castleService.registerCastellan(id, email);
+//        }
     }
 
     @Override
     @RequestMapping(value = "{castellanId}", method = RequestMethod.GET)
     public CastellanReadDto findCastellan(@PathVariable("castellanId") String castellanId) {
-        Castellan castellan = castleService.findCastellan(castellanId);
-        return CastleDtoUtil.toCastellanReadDto(castellan);
+//        Castellan castellan = castleService.findCastellan(castellanId);
+//        return CastleDtoUtil.toCastellanReadDto(castellan);
+        return null;
     }
 
     @Override
     @RequestMapping(value = "{castellanId}", method = RequestMethod.DELETE)
     public void remove(@PathVariable("castellanId") String castellanId) {
-        castleService.removeCastellan(castellanId);
+//        castleService.removeCastellan(castellanId);
     }
 
     @Override
     @RequestMapping(value = "email/{email:.+}", method = RequestMethod.GET)
     public CastellanReadDto findByVerifiedEmail(@PathVariable("email") String email) {
-        Castellan castellan = castleService.findCastellanByVerifiedEmail(email);
-        return CastleDtoUtil.toCastellanReadDto(castellan);
+//        Castellan castellan = castleService.findCastellanByVerifiedEmail(email);
+//        return CastleDtoUtil.toCastellanReadDto(castellan);
+        return null;
     }
 
     @Override
     @RequestMapping(value = "{castellanId}/email/{email:.+}", method = RequestMethod.POST)
     public void addEmail(@PathVariable("castellanId") String castellanId, @PathVariable("email") String email) {
-        castleService.addCastellanEmail(email, castellanId);
+//        castleService.addCastellanEmail(email, castellanId);
     }
 
     @Override
     @RequestMapping(value = "{castellanId}/email/{email:.+}/verify", method = RequestMethod.PUT)
     public void verifyEmail(@PathVariable("castellanId") String castellanId, @PathVariable("email") String email) {
-        castleService.verifyCastellanEmail(email, castellanId);
+//        castleService.verifyCastellanEmail(email, castellanId);
     }
 
     @Override
     @RequestMapping(value = "{castellanId}/email/{email:.+}/primary", method = RequestMethod.PUT)
     public void setEmailAsPrimary(@PathVariable("castellanId") String castellanId, @PathVariable("email") String email) {
-        castleService.setAsPrimaryEmail(email, castellanId);
+//        castleService.setAsPrimaryEmail(email, castellanId);
     }
 
     @Override
     @RequestMapping(value = "{castellanId}/email/{email:.+}", method = RequestMethod.DELETE)
     public void removeEmail(@PathVariable("castellanId") String castellanId, @PathVariable("email") String email) {
-        castleService.removeCastellanEmail(email, castellanId);
+//        castleService.removeCastellanEmail(email, castellanId);
     }
 
     @Override
     @RequestMapping(value = "{castellanId}/displayname", method = RequestMethod.GET)
     public String findCastellanDisplayName(@PathVariable("castellanId") String castellanId) {
-        return castleService.findCastellanDisplayName(castellanId);
+//        return castleService.findCastellanDisplayName(castellanId);
+        return null;
     }
 }

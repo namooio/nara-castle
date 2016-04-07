@@ -1,6 +1,7 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.remote.dto.CastellanCreateDto;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -8,6 +9,7 @@ import java.util.UUID;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 11..
  */
+@Ignore
 public class CastellCreateTest extends AbstractServiceApplicationTests {
 
     @Test
