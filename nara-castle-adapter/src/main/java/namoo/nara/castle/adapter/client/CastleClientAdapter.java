@@ -13,8 +13,9 @@ import java.util.Locale;
  * Created by kchuh@nextree.co.kr on 2016. 2. 19..
  */
 public class CastleClientAdapter extends AbstractClient implements CastleAdapter {
-
+    //
     public CastleClientAdapter(NaraConnector naraConnector) {
+        //
         super(naraConnector);
     }
 
