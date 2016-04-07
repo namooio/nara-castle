@@ -1,12 +1,14 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.client.CastleClientAdapter;
-import namoo.nara.share.restclient.NaraConnector;
+import namoo.nara.castle.adapter.client.CastleClientAdapterPojoLycler;
+import namoo.nara.castle.adapter.service.CastleAdapter;
+import namoo.nara.castle.adapter.service.CastleAdapterLycler;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -16,25 +18,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class AbstractCastleServiceApplicationTests {
 
-	private String address = "http://127.0.0.1";
+	private String host = "http://127.0.0.1";
 
 	@Value("${local.server.port}")
 	private int port;
 
-	private NaraConnector naraConnector;
 
-	private CastleClientAdapter castleClientAdapter;
-
-	private NaraConnector getNaraTestConnector() {
-		if (naraConnector == null) {
-			naraConnector = new NaraConnector(address + ":" + port + "/");
-		}
-		return naraConnector;
+	public CastleAdapter getCastellanAdapter() {
+		return createCastleAdapterLycler().requestCastleAdapter();
 	}
 
-	public CastleClientAdapter getCastellanClientAdapter() {
-		if (castleClientAdapter == null) castleClientAdapter = new CastleClientAdapter(getNaraTestConnector());
-		return castleClientAdapter;
+	@Bean
+	public CastleAdapterLycler createCastleAdapterLycler() {
+		//
+		return new CastleClientAdapterPojoLycler(host + ":" + port + "/");
 	}
 
 	@Before
