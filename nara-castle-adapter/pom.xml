@@ -12,13 +12,18 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>nara-castle-client</artifactId>
+    <artifactId>nara-castle-adapter</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>namoo.nara.share</groupId>
             <artifactId>nara-share-restclient</artifactId>
             <version>${nara.share.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>namoo.nara.castle</groupId>
+            <artifactId>nara-castle-domain</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

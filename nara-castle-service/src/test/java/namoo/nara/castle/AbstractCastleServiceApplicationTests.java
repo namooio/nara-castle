@@ -1,6 +1,6 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.remote.client.CastellanClient;
+import namoo.nara.castle.adapter.client.CastleClientAdapter;
 import namoo.nara.share.restclient.NaraConnector;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringApplicationConfiguration(classes = CastleServiceApplication.class)
 @WebIntegrationTest("server.port:0")
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public abstract class AbstractServiceApplicationTests {
+public abstract class AbstractCastleServiceApplicationTests {
 
 	private String address = "http://127.0.0.1";
 
@@ -23,7 +23,7 @@ public abstract class AbstractServiceApplicationTests {
 
 	private NaraConnector naraConnector;
 
-	private CastellanClient castellanClient;
+	private CastleClientAdapter castleClientAdapter;
 
 	private NaraConnector getNaraTestConnector() {
 		if (naraConnector == null) {
@@ -32,9 +32,9 @@ public abstract class AbstractServiceApplicationTests {
 		return naraConnector;
 	}
 
-	public CastellanClient getCastellanClient() {
-		if (castellanClient == null) castellanClient = new CastellanClient(getNaraTestConnector());
-		return castellanClient;
+	public CastleClientAdapter getCastellanClientAdapter() {
+		if (castleClientAdapter == null) castleClientAdapter = new CastleClientAdapter(getNaraTestConnector());
+		return castleClientAdapter;
 	}
 
 	@Before

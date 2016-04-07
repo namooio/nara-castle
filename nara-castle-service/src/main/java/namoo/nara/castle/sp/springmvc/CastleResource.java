@@ -1,32 +1,65 @@
 package namoo.nara.castle.sp.springmvc;
 
-import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.remote.CastleRemote;
+import namoo.nara.castle.adapter.dto.CastleBuildDto;
+import namoo.nara.castle.adapter.dto.CastleFindDto;
+import namoo.nara.castle.adapter.logic.CastleAdapterLogic;
+import namoo.nara.castle.domain.service.CastleServiceLycler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Locale;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 19..
  */
 @RestController
 @RequestMapping("castle")
-public class CastleResource implements CastleRemote {
+public class CastleResource extends CastleAdapterLogic {
 
     @Autowired
-    private CastleService castleService;
-
-    @Override
-    @RequestMapping(value = "{castleId}/open", method = RequestMethod.PUT)
-    public void open(String castleId) {
-//        castleService.changeCastleStatus(CastleState.Opened, castleId);
+    public CastleResource(CastleServiceLycler castleServiceLycler) {
+        super(castleServiceLycler);
     }
 
     @Override
-    @RequestMapping(value = "{castleId}/close", method = RequestMethod.PUT)
-    public void close(String castleId) {
-//        castleService.changeCastleStatus(CastleState.Closed, castleId);
+    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    public void buildCastle(@PathVariable("id") String id, @RequestBody CastleBuildDto castleBuildDto) {
+        //
+        super.buildCastle(id, castleBuildDto);
     }
 
+    @Override
+    @RequestMapping(value = "{id}/suspend", method = RequestMethod.PUT)
+    public void suspendCastle(@PathVariable("id") String id, @RequestBody String remarks) {
+        //
+        super.suspendCastle(id, remarks);
+    }
+
+    @Override
+    @RequestMapping(value = "{id}/reopen", method = RequestMethod.PUT)
+    public void reopenCastle(@PathVariable("id") String id, @RequestBody String remarks) {
+        //
+        super.reopenCastle(id, remarks);
+    }
+
+    @Override
+    @RequestMapping(value = "{id}/name", method = RequestMethod.PUT)
+    public void modifyName(@PathVariable("id") String id, @RequestBody String name) {
+        //
+        super.modifyName(id, name);
+    }
+
+    @Override
+    @RequestMapping(value = "{id}/locale", method = RequestMethod.PUT)
+    public void modifyLocale(@PathVariable("id") String id, @RequestBody Locale locale) {
+        //
+        super.modifyLocale(id, locale);
+    }
+
+    @Override
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public CastleFindDto findCastle(@PathVariable("id") String id) {
+        //
+        return super.findCastle(id);
+    }
 }

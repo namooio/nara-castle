@@ -30,7 +30,7 @@ public class Castle implements Identifiable {
         this.locale = locale;
         this.state = OpenState.Ready;
         this.buildTime = System.currentTimeMillis();
-        this.infoBundleBox = new InfoBundleBox();
+        this.infoBundleBox = new InfoBundleBox(usid);
     }
 
     public static Castle newInstance(String usid, String name, Locale locale) {

@@ -1,5 +1,7 @@
 package namoo.nara.castle.domain.service;
 
+import namoo.nara.castle.domain.entity.Castle;
+
 import java.util.Locale;
 
 public interface CastleService {
@@ -9,6 +11,7 @@ public interface CastleService {
     void reopenCastle(String id, String remarks);
     void modifyName(String id, String name);
     void modifyLocale(String id, Locale locale);
+    Castle findCastle(String id);
 
 
     // AS-IS
