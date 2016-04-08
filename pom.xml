@@ -41,6 +41,7 @@
         <module>nara-castle-adapter</module>
         <module>nara-castle-store</module>
         <module>nara-castle-client</module>
+        <module>nara-castle-front</module>
     </modules>
 
     <scm>
