@@ -2,7 +2,7 @@ package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.service.CastleAdapter;
 import namoo.nara.castle.adapter.service.CastleAdapterLycler;
-import namoo.nara.castle.client.CastleClientAdapterLycler;
+import namoo.nara.castle.client.CastleClientLycler;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @WebIntegrationTest("server.port:0")
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class AbstractCastleServiceApplicationTests {
-
+	//
 	private String host = "http://127.0.0.1";
 
 	@Value("${local.server.port}")
@@ -25,13 +25,14 @@ public abstract class AbstractCastleServiceApplicationTests {
 
 
 	public CastleAdapter getCastellanAdapter() {
-		return createCastleAdapterLycler().requestCastleAdapter();
+		//
+		return createCastleClientLycler().requestCastleAdapter();
 	}
 
 	@Bean
-	public CastleAdapterLycler createCastleAdapterLycler() {
+	public CastleAdapterLycler createCastleClientLycler() {
 		//
-		return new CastleClientAdapterLycler(host + ":" + port + "/");
+		return new CastleClientLycler(host + ":" + port + "/");
 	}
 
 	@Before

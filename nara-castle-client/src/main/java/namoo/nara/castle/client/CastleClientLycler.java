@@ -8,21 +8,21 @@ import namoo.nara.share.restclient.springweb.SpringWebRestClientLycler;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 7..
  */
-public class CastleClientAdapterLycler implements CastleAdapterLycler {
+public class CastleClientLycler implements CastleAdapterLycler {
     //
-    private CastleClientAdapter castleClientAdapter;
+    private CastleClient castleClient;
 
-    public CastleClientAdapterLycler(String host) {
+    public CastleClientLycler(String host) {
         //
 //        NaraRestClientLycler naraRestClientLycler = new JaxRSClientLycler(host);
         NaraRestClientLycler naraRestClientLycler = new SpringWebRestClientLycler(host);
 
-        this.castleClientAdapter = new CastleClientAdapter(naraRestClientLycler);
+        this.castleClient = new CastleClient(naraRestClientLycler);
     }
 
     @Override
     public CastleAdapter requestCastleAdapter() {
         //
-        return castleClientAdapter;
+        return castleClient;
     }
 }
