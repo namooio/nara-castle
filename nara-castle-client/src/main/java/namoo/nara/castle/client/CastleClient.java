@@ -4,7 +4,6 @@ import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 import namoo.nara.castle.adapter.service.CastleAdapter;
 import namoo.nara.share.restclient.NaraRestClient;
-import namoo.nara.share.restclient.NaraRestClientLycler;
 import namoo.nara.share.restclient.RequestBuilder;
 
 import java.util.Locale;
@@ -16,9 +15,9 @@ public class CastleClient implements CastleAdapter {
     //
     private NaraRestClient naraRestClient;
 
-    public CastleClient(NaraRestClientLycler naraRestClientLycler) {
+    public CastleClient(NaraRestClient naraRestClient) {
         //
-        naraRestClient = naraRestClientLycler.requestNaraRestClient();
+        this.naraRestClient = naraRestClient;
     }
 
     @Override

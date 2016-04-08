@@ -1,14 +1,13 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.service.CastleAdapter;
-import namoo.nara.castle.adapter.service.CastleAdapterLycler;
-import namoo.nara.castle.client.CastleClientLycler;
+import namoo.nara.castle.client.CastleClient;
+import namoo.nara.share.restclient.springweb.SpringWebRestClient;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,16 +22,14 @@ public abstract class AbstractCastleServiceApplicationTests {
 	@Value("${local.server.port}")
 	private int port;
 
+	private CastleClient castleClient;
 
-	public CastleAdapter getCastellanAdapter() {
+	public CastleAdapter getCastleClient() {
 		//
-		return createCastleClientLycler().requestCastleAdapter();
-	}
-
-	@Bean
-	public CastleAdapterLycler createCastleClientLycler() {
-		//
-		return new CastleClientLycler(host + ":" + port + "/");
+		if (castleClient == null) {
+			castleClient = new CastleClient(new SpringWebRestClient(host + ":" + port + "/"));
+		}
+		return castleClient;
 	}
 
 	@Before

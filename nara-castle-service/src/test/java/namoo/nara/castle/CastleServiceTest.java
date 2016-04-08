@@ -21,9 +21,9 @@ public class CastleServiceTest extends AbstractCastleServiceApplicationTests {
         castleBuildDto.setName("Michael's Castle");
         castleBuildDto.setMetroId("99");
         castleBuildDto.setLocale(Locale.US);
-        getCastellanAdapter().buildCastle(id, castleBuildDto);
+        getCastleClient().buildCastle(id, castleBuildDto);
 
-        CastleFindDto castleFindDto = getCastellanAdapter().findCastle(id);
+        CastleFindDto castleFindDto = getCastleClient().findCastle(id);
         Assert.assertEquals("Michael's Castle", castleFindDto.getName());
         Assert.assertEquals(Locale.US, castleFindDto.getLocale());
         Assert.assertEquals("Ready", castleFindDto.getState());
@@ -37,14 +37,14 @@ public class CastleServiceTest extends AbstractCastleServiceApplicationTests {
         castleBuildDto.setName("Michael's Castle");
         castleBuildDto.setMetroId("99");
         castleBuildDto.setLocale(Locale.US);
-        getCastellanAdapter().buildCastle(id, castleBuildDto);
+        getCastleClient().buildCastle(id, castleBuildDto);
 
-        getCastellanAdapter().suspendCastle(id, "Suspend castle...");
-        CastleFindDto castleFindDto = getCastellanAdapter().findCastle(id);
+        getCastleClient().suspendCastle(id, "Suspend castle...");
+        CastleFindDto castleFindDto = getCastleClient().findCastle(id);
         Assert.assertEquals("Suspended", castleFindDto.getState());
 
-        getCastellanAdapter().reopenCastle(id, "Reopen castle...");
-        castleFindDto = getCastellanAdapter().findCastle(id);
+        getCastleClient().reopenCastle(id, "Reopen castle...");
+        castleFindDto = getCastleClient().findCastle(id);
         Assert.assertEquals("Open", castleFindDto.getState());
     }
 
@@ -56,10 +56,10 @@ public class CastleServiceTest extends AbstractCastleServiceApplicationTests {
         castleBuildDto.setName("Michael's Castle");
         castleBuildDto.setMetroId("99");
         castleBuildDto.setLocale(Locale.US);
-        getCastellanAdapter().buildCastle(id, castleBuildDto);
+        getCastleClient().buildCastle(id, castleBuildDto);
 
-        getCastellanAdapter().modifyName(id, "Juny's Castle");
-        CastleFindDto castleFindDto = getCastellanAdapter().findCastle(id);
+        getCastleClient().modifyName(id, "Juny's Castle");
+        CastleFindDto castleFindDto = getCastleClient().findCastle(id);
         Assert.assertEquals("Juny's Castle", castleFindDto.getName());
     }
 
@@ -71,10 +71,10 @@ public class CastleServiceTest extends AbstractCastleServiceApplicationTests {
         castleBuildDto.setName("Michael's Castle");
         castleBuildDto.setMetroId("99");
         castleBuildDto.setLocale(Locale.US);
-        getCastellanAdapter().buildCastle(id, castleBuildDto);
+        getCastleClient().buildCastle(id, castleBuildDto);
 
-        getCastellanAdapter().modifyLocale(id, Locale.KOREA);
-        CastleFindDto castleFindDto = getCastellanAdapter().findCastle(id);
+        getCastleClient().modifyLocale(id, Locale.KOREA);
+        CastleFindDto castleFindDto = getCastleClient().findCastle(id);
         Assert.assertEquals(Locale.KOREA, castleFindDto.getLocale());
     }
 
