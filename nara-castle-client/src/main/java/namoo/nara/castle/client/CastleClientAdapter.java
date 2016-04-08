@@ -3,8 +3,8 @@ package namoo.nara.castle.client;
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 import namoo.nara.castle.adapter.service.CastleAdapter;
-import namoo.nara.share.restclient.AbstractClient;
-import namoo.nara.share.restclient.NaraConnector;
+import namoo.nara.share.restclient.NaraRestClient;
+import namoo.nara.share.restclient.NaraRestClientLycler;
 import namoo.nara.share.restclient.RequestBuilder;
 
 import java.util.Locale;
@@ -12,17 +12,19 @@ import java.util.Locale;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 19..
  */
-public class CastleClientAdapter extends AbstractClient implements CastleAdapter {
+public class CastleClientAdapter implements CastleAdapter {
     //
-    public CastleClientAdapter(NaraConnector naraConnector) {
+    private NaraRestClient naraRestClient;
+
+    public CastleClientAdapter(NaraRestClientLycler naraRestClientLycler) {
         //
-        super(naraConnector);
+        naraRestClient = naraRestClientLycler.requestNaraRestClient();
     }
 
     @Override
     public void buildCastle(String id, CastleBuildDto castleBuildDto) {
         //
-        sendAndRecieve(
+        naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleServiceUrl.URL_CASTLE_BUILD)
                         .addPathParam("id", id)
                         .setRequestDto(castleBuildDto)
@@ -32,7 +34,7 @@ public class CastleClientAdapter extends AbstractClient implements CastleAdapter
     @Override
     public void suspendCastle(String id, String remarks) {
         //
-        sendAndRecieve(
+        naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleServiceUrl.URL_CASTLE_SUSPEND)
                 .addPathParam("id", id)
                 .setRequestDto(remarks)
@@ -42,7 +44,7 @@ public class CastleClientAdapter extends AbstractClient implements CastleAdapter
     @Override
     public void reopenCastle(String id, String remarks) {
         //
-        sendAndRecieve(
+        naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleServiceUrl.URL_CASTLE_REOPEN)
                         .addPathParam("id", id)
                         .setRequestDto(remarks)
@@ -52,7 +54,7 @@ public class CastleClientAdapter extends AbstractClient implements CastleAdapter
     @Override
     public void modifyName(String id, String name) {
         //
-        sendAndRecieve(
+        naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleServiceUrl.URL_CASTLE_NAME_MODIFY)
                         .addPathParam("id", id)
                         .setRequestDto(name)
@@ -62,7 +64,7 @@ public class CastleClientAdapter extends AbstractClient implements CastleAdapter
     @Override
     public void modifyLocale(String id, Locale locale) {
         //
-        sendAndRecieve(
+        naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleServiceUrl.URL_CASTLE_LOCALE_MODIFY)
                         .addPathParam("id", id)
                         .setRequestDto(locale)
@@ -72,7 +74,7 @@ public class CastleClientAdapter extends AbstractClient implements CastleAdapter
     @Override
     public CastleFindDto findCastle(String id) {
         //
-        return sendAndRecieve(
+        return naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleServiceUrl.URL_CASTLE_FIND)
                         .addPathParam("id", id)
                         .setResponseType(CastleFindDto.class)
