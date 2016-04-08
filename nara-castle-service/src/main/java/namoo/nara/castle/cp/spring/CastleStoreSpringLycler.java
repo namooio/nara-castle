@@ -17,19 +17,14 @@ public class CastleStoreSpringLycler implements CastleStoreLycler {
     private CastellanStore castellanStore;
 
     @Autowired
-    private CastellanEmailStore castellanEmailStore;
+    private ContactBundleStore contactBundleStore;
 
     @Autowired
-    private CastellanNameStore castellanNameStore;
+    private HistoryBundleStore historyBundleStore;
 
     @Override
-    public CastellanEmailStore requestCastellanEmailStore() {
-        return castellanEmailStore;
-    }
-
-    @Override
-    public CastellanNameStore requestCastellanNameStore() {
-        return castellanNameStore;
+    public CastleStore requestCastleStore() {
+        return castleStore;
     }
 
     @Override
@@ -38,8 +33,12 @@ public class CastleStoreSpringLycler implements CastleStoreLycler {
     }
 
     @Override
-    public CastleStore requestCastleStore() {
-        return castleStore;
+    public ContactBundleStore requestContactBundleStore() {
+        return contactBundleStore;
     }
 
+    @Override
+    public HistoryBundleStore requestHistoryBundleStore() {
+        return historyBundleStore;
+    }
 }

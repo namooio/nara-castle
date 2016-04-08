@@ -26,8 +26,14 @@
 		</dependency>
 		<dependency>
 			<groupId>namoo.nara.castle</groupId>
+			<artifactId>nara-castle-adapter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>namoo.nara.castle</groupId>
 			<artifactId>nara-castle-client</artifactId>
 			<version>${project.version}</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -39,7 +45,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<version>1.50.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

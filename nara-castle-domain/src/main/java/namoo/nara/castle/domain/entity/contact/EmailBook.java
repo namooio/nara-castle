@@ -41,4 +41,9 @@ public class EmailBook {
 
         return null;
     }
+
+    public List<UserEmail> findAll() {
+        //
+        return emailList;
+    }
 }

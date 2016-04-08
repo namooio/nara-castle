@@ -2,15 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <artifactId>nara-castle-pom</artifactId>
         <groupId>namoo.nara.castle</groupId>
         <version>0.0.2-SNAPSHOT</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>nara-castle-client</artifactId>
 
@@ -20,5 +17,17 @@
             <artifactId>nara-share-restclient</artifactId>
             <version>${nara.share.version}</version>
         </dependency>
+        <dependency>
+            <groupId>namoo.nara.castle</groupId>
+            <artifactId>nara-castle-adapter</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>namoo.nara.castle</groupId>
+                    <artifactId>nara-castle-domain</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
+
 </project>

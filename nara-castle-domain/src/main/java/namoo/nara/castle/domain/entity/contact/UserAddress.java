@@ -126,7 +126,7 @@ public class UserAddress {
         this.langCode = langCode;
     }
 
-    enum AddressStyle {
+    public enum AddressStyle {
         //
         Korean,
         US

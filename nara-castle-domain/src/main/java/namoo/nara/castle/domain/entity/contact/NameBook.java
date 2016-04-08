@@ -60,4 +60,9 @@ public class NameBook {
 
         return null;
     }
+
+    public List<UserName> findAll() {
+        //
+        return nameList;
+    }
 }

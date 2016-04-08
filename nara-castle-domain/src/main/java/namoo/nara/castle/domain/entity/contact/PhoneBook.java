@@ -54,4 +54,9 @@ public class PhoneBook {
 
         return null;
     }
+
+    public List<UserPhone> findAll() {
+        //
+        return phoneList;
+    }
 }

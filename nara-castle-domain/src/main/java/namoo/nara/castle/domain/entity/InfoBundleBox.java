@@ -3,21 +3,22 @@ package namoo.nara.castle.domain.entity;
 import namoo.nara.castle.domain.entity.contact.ContactBundle;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
 
-import java.util.HashMap;
-
 public class InfoBundleBox {
     //
+    private String castleId;
+
     private ContactBundle contactBundle;
     private HistoryBundle historyBundle;
 
-    public InfoBundleBox() {
+    public InfoBundleBox(String castleId) {
         //
+        this.castleId = castleId;
     }
 
     public ContactBundle getContactBundle() {
         //
         if(contactBundle == null) {
-            this.contactBundle = new ContactBundle();
+            this.contactBundle = ContactBundle.newInstance(castleId);
         }
 
         return contactBundle;
@@ -30,7 +31,7 @@ public class InfoBundleBox {
     public HistoryBundle getHistoryBundle() {
         //
         if(historyBundle == null) {
-            this.historyBundle = new HistoryBundle();
+            this.historyBundle = HistoryBundle.newInstance(castleId);
         }
 
         return historyBundle;

@@ -50,7 +50,7 @@ public class LoginAccount {
         this.deleteTime = deleteTime;
     }
 
-    enum LoginChannel {
+    public enum LoginChannel {
         Nara,
         Facebook,
         Google

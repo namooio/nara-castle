@@ -1,14 +1,16 @@
 package namoo.nara.castle.domain.logic;
 
-import namoo.nara.castle.domain.entity.*;
-import namoo.nara.castle.domain.entity.contact.UserEmail;
-import namoo.nara.castle.domain.entity.contact.UserName;
-import namoo.nara.castle.domain.entity.history.*;
+import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.OpenState;
+import namoo.nara.castle.domain.entity.history.CastleState;
+import namoo.nara.castle.domain.entity.history.HistoryBundle;
+import namoo.nara.castle.domain.entity.history.ParticipantMetro;
 import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.store.*;
-import namoo.nara.share.exception.NaraException;
+import namoo.nara.castle.domain.store.CastellanStore;
+import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.domain.store.HistoryBundleStore;
 
-import java.util.List;
 import java.util.Locale;
 
 public class CastleServiceLogic implements CastleService {
@@ -104,7 +106,11 @@ public class CastleServiceLogic implements CastleService {
         castleStore.update(castle);
     }
 
-
+    @Override
+    public Castle findCastle(String id) {
+        //
+        return castleStore.retrieve(id);
+    }
 
     /*
     @Override
