@@ -1,8 +1,8 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.client.CastleClientAdapterPojoLycler;
 import namoo.nara.castle.adapter.service.CastleAdapter;
 import namoo.nara.castle.adapter.service.CastleAdapterLycler;
+import namoo.nara.castle.client.CastleClientAdapterLycler;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +31,7 @@ public abstract class AbstractCastleServiceApplicationTests {
 	@Bean
 	public CastleAdapterLycler createCastleAdapterLycler() {
 		//
-		return new CastleClientAdapterPojoLycler(host + ":" + port + "/");
+		return new CastleClientAdapterLycler(host + ":" + port + "/");
 	}
 
 	@Before

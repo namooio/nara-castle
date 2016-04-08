@@ -1,4 +1,4 @@
-package namoo.nara.castle.adapter.client;
+package namoo.nara.castle.client;
 
 import namoo.nara.share.restclient.ServiceUrl;
 import org.springframework.http.HttpMethod;

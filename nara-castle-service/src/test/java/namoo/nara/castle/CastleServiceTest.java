@@ -12,8 +12,7 @@ import java.util.UUID;
  * Created by kchuh@nextree.co.kr on 2016. 2. 11..
  */
 public class CastleServiceTest extends AbstractCastleServiceApplicationTests {
-
-
+    //
     @Test
     public void testBuildCastle() {
         //
