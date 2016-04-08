@@ -6,8 +6,8 @@ public class ContactBundle implements Identifiable {
     //
     private String castleId;
     private NameBook nameBook;
-    private PhoneBook phoneBook;
     private EmailBook emailBook;
+    private PhoneBook phoneBook;
     private AddressBook addressBook;
 
     public ContactBundle() {

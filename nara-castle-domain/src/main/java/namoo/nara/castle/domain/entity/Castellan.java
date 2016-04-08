@@ -8,7 +8,7 @@ public class Castellan implements Identifiable {
     private String displayName;
     private String photoId;         // profile photo id 
     private String primaryEmail;    // nullable
-    private String primaryPhone;    // nullable
+    private String primaryPhone;    // nullable, +82-10-9202-9989
 
     public Castellan() {
     }
