@@ -1,8 +1,6 @@
-package namoo.nara.castle.pr.springmvc;
+package namoo.nara.castle.pr.springweb;
 
 import namoo.nara.castle.remote.CastellanRemote;
-import namoo.nara.castle.remote.dto.CastellanCreateDto;
-import namoo.nara.castle.remote.dto.CastellanReadDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @Controller
-@RequestMapping("castellan/view")
+@RequestMapping("view/castellan")
 public class CastellanViewResource {
     //
     @Autowired

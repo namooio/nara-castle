@@ -8,16 +8,16 @@ CastellanComponent.Main = CastellanComponent.Main || {};
     /**
      * Castellan 검색 폼 컴포넌트
      */
-    TopMenu = React.createClass({
+    var TopMenu = React.createClass({
         inquiryBtnClick : function (event) {
             //
             $(event.target).tab();
-            CastellanCommon.getJSX(CONST.CTX + '/js/castellan/inquiry.jsx');
+            CastleCommon.getJSX(CONST.CTX + '/js/castellan/inquiry.jsx');
         },
         registerBtnClick : function (event) {
             //
             $(event.target).tab();
-            CastellanCommon.getJSX(CONST.CTX + '/js/castellan/register.jsx');
+            CastleCommon.getJSX(CONST.CTX + '/js/castellan/register.jsx');
         },
         bundleBtnClick : function () {
             //
