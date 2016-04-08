@@ -5,10 +5,10 @@ var CONST = CONST || {};
 
 CONST.CTX = '';
 
-var CastellanComponent = {};
 var CastleComponent = {};
+var CastellanComponent = {};
 
-var CastellanCommon = {};
+var CastleCommon = {};
 
 (function () {
     //
@@ -19,7 +19,7 @@ var CastellanCommon = {};
      * @param param2
      * @returns {*}
      */
-    CastellanCommon.postJSON = function (param1, param2) {
+    CastleCommon.postJSON = function (param1, param2) {
         //
         if (!param1 || !param2) {
             alert('Invalid arguments -> param1: ' + param1 + ', param2: ' + param2);
@@ -40,7 +40,7 @@ var CastellanCommon = {};
      * Ajax getJSX
      * @param url
      */
-    CastellanCommon.getJSX = function (url) {
+    CastleCommon.getJSX = function (url) {
         //
         $.ajax({
             url: url
@@ -50,7 +50,7 @@ var CastellanCommon = {};
                 JSXTransformer.exec(result);
             }
             , error: function (result) {
-                alert('Fail CastellanCommon.getJSX');
+                alert('Fail CastleCommon.getJSX');
                 console.dir(result);
             }
         });
