@@ -24,7 +24,7 @@ CastellanComponent.Registerer = CastellanComponent.Registerer || {};
                 , email: this.state.email
             };
 
-            CastellanCommon.postJSON(CONST.CTX + '/castellan', castellanCreateDto)
+            CastleCommon.postJSON(CONST.CTX + '/api/castellan', castellanCreateDto)
                 .done(function () {
                     alert('Castellan이 정상적으로 등록 되었습니다..');
                     this.setState({id: '', email: ''})

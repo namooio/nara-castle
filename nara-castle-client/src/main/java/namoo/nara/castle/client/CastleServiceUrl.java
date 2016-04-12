@@ -1,12 +1,13 @@
 package namoo.nara.castle.client;
 
-import namoo.nara.share.restclient.ServiceUrl;
-import org.springframework.http.HttpMethod;
+import namoo.nara.share.restclient.NaraServiceUrl;
+
+import javax.ws.rs.HttpMethod;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 11..
  */
-public enum CastleServiceUrl implements ServiceUrl {
+public enum CastleServiceUrl implements NaraServiceUrl {
     //
     URL_CASTLE_BUILD                 ("castle/{id}",                       HttpMethod.POST     ),
     URL_CASTLE_FIND                  ("castle/{id}",                       HttpMethod.GET      ),
@@ -18,9 +19,9 @@ public enum CastleServiceUrl implements ServiceUrl {
     ;
 
     private String serviceUrl;
-    private HttpMethod method;
+    private String method;
 
-    CastleServiceUrl(String serviceUrl, HttpMethod httpMethod) {
+    CastleServiceUrl(String serviceUrl, String httpMethod) {
         //
         this.serviceUrl = serviceUrl;
         this.method = httpMethod;
@@ -33,7 +34,7 @@ public enum CastleServiceUrl implements ServiceUrl {
     }
 
     @Override
-    public HttpMethod getMethod() {
+    public String getMethod() {
         return this.method;
     }
 }

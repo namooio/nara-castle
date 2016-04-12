@@ -19,7 +19,7 @@ CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
         },
         inquiryCastellan: function (castellanId) {
             //
-            $.getJSON(CONST.CTX + '/castellan/' + castellanId, castellanId)
+            $.getJSON(CONST.CTX + '/api/castellan/' + castellanId, castellanId)
                 .done(function (castellanResult) {
                     this.setState({castellanView: castellanResult, visibleView: true});
                 }.bind(this))

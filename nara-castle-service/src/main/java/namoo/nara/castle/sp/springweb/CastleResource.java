@@ -1,4 +1,4 @@
-package namoo.nara.castle.sp.springmvc;
+package namoo.nara.castle.sp.springweb;
 
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
