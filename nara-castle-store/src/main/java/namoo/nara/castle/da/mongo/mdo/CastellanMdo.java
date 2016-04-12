@@ -32,7 +32,7 @@ public class CastellanMdo {
         return castellanMdo;
     }
 
-    public Castellan getDomain() {
+    public Castellan toDomain() {
         //
         Castellan castle = Castellan.newInstance(id, displayName);
         castle.setPhotoId(photoId);

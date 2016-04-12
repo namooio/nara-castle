@@ -30,12 +30,12 @@ public class MetroBookMdo {
         return metroBookMdo;
     }
 
-    public MetroBook getDomain() {
+    public MetroBook toDomain() {
         //
         MetroBook metroBook = new MetroBook();
         if (metroMdoList != null) {
             for(ParticipantMetroMdo participantMetroMdo : metroMdoList) {
-                metroBook.addMetro(participantMetroMdo.getDomain());
+                metroBook.addMetro(participantMetroMdo.toDomain());
             }
         }
 

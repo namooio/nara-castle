@@ -35,7 +35,7 @@ public class CastleMdo {
         return castleMdo;
     }
 
-    public Castle getDomain() {
+    public Castle toDomain() {
         //
         Castle castle = Castle.newInstance(id, name, locale);
         castle.setBuildTime(buildTime);

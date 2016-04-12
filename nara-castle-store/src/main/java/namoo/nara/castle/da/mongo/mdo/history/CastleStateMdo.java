@@ -23,7 +23,7 @@ public class CastleStateMdo {
         return castleStateMdo;
     }
 
-    public CastleState getDomain() {
+    public CastleState toDomain() {
         //
         CastleState castleState = new CastleState();
         castleState.setCurrentState(OpenState.valueOf(currentState));

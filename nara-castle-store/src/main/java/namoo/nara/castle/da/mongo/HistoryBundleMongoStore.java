@@ -33,7 +33,7 @@ public class HistoryBundleMongoStore implements HistoryBundleStore {
         //
         HistoryBundleMdo historyBundleMdo = historyBundleMdoRepository.findOne(id);
         if (historyBundleMdo == null) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to retrieve.", id));
-        return historyBundleMdo.getDomain();
+        return historyBundleMdo.toDomain();
     }
 
     private void update(HistoryBundle history) {

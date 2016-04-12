@@ -37,7 +37,7 @@ public class UserAddressMdo {
         return userAddressMdo;
     }
 
-    public UserAddress getDomain() {
+    public UserAddress toDomain() {
         //
         UserAddress userAddress = new UserAddress();
         userAddress.setStyle(UserAddress.AddressStyle.valueOf(style));

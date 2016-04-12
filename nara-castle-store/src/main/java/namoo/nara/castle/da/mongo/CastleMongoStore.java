@@ -32,7 +32,7 @@ public class CastleMongoStore implements CastleStore {
         //
         CastleMdo castleMdo = castleMdoRepository.findOne(id);
         if (castleMdo == null) throw new NonExistenceException(String.format("No castle document[ID:%s] to retrieve.", id));
-        return castleMdo.getDomain();
+        return castleMdo.toDomain();
     }
 
     @Override

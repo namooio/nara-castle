@@ -31,13 +31,13 @@ public class AccountBookMdo {
         return accountBookMdo;
     }
 
-    public AccountBook getDomain() {
+    public AccountBook toDomain() {
         //
         AccountBook accountBook = new AccountBook();
 
         if (accountMdoList != null) {
             for(LoginAccountMdo loginAccountMdo : accountMdoList) {
-                accountBook.addAccount(loginAccountMdo.getDomain());
+                accountBook.addAccount(loginAccountMdo.toDomain());
             }
         }
         return accountBook;

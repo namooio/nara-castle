@@ -23,7 +23,7 @@ public class UserPhoneMdo {
         return userPhoneMdo;
     }
 
-    public UserPhone getDomain() {
+    public UserPhone toDomain() {
         //
         UserPhone userPhone = new UserPhone();
         userPhone.setPhoneNumber(phoneNumber);

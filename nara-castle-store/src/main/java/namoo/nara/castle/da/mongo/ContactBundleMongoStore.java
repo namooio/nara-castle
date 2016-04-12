@@ -33,7 +33,7 @@ public class ContactBundleMongoStore implements ContactBundleStore {
         //
         ContactBundleMdo contactBundleMdo = contactBundleMdoRepository.findOne(id);
         if (contactBundleMdo == null) throw new NonExistenceException(String.format("No contact bundle document[ID:%s] to retrieve.", id));
-        return contactBundleMdo.getDomain();
+        return contactBundleMdo.toDomain();
     }
 
     private void update(ContactBundle contact) {

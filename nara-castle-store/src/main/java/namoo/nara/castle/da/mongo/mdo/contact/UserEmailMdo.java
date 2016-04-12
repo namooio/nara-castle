@@ -23,7 +23,7 @@ public class UserEmailMdo {
         return userEmailMdo;
     }
 
-    public UserEmail getDomain() {
+    public UserEmail toDomain() {
         //
         UserEmail userEmail = new UserEmail();
         userEmail.setEmail(email);

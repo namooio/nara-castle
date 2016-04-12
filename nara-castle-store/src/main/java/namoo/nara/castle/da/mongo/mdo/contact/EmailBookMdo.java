@@ -26,12 +26,12 @@ public class EmailBookMdo {
         return emailBookMdo;
     }
 
-    public EmailBook getDomain() {
+    public EmailBook toDomain() {
         //
         EmailBook emailBook = new EmailBook();
         if (emailMdoList != null) {
             for(UserEmailMdo userEmailMdo : emailMdoList) {
-                emailBook.addEmail(userEmailMdo.getDomain());
+                emailBook.addEmail(userEmailMdo.toDomain());
             }
         }
         return emailBook;

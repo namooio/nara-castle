@@ -32,7 +32,7 @@ public class CastellanMongoStore implements CastellanStore {
         //
         CastellanMdo castellanMdo = castellanMdoRepository.findOne(id);
         if (castellanMdo == null) throw new NonExistenceException(String.format("No castellan document[ID:%s] to retrieve.", id));
-        return castellanMdo.getDomain();
+        return castellanMdo.toDomain();
     }
 
     @Override

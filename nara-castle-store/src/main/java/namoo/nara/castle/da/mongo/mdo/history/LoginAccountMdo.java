@@ -26,7 +26,7 @@ public class LoginAccountMdo {
         return loginAccountMdo;
     }
 
-    public LoginAccount getDomain() {
+    public LoginAccount toDomain() {
         //
         LoginAccount loginAccount = new LoginAccount();
         loginAccount.setLoginUserId(loginUserId);
