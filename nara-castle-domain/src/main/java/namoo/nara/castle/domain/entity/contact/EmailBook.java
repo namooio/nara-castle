@@ -11,6 +11,11 @@ public class EmailBook {
         //
     }
 
+    public void clear() {
+        //
+        emailList.clear();
+    }
+
     public void addEmail(UserEmail email) {
         //
         emailList.add(email);
@@ -18,11 +23,7 @@ public class EmailBook {
 
     public boolean existEmail(String email) {
         //
-         if (findEmail(email) != null) {
-            return true;
-        }
-
-        return false;
+        return findEmail(email) != null;
     }
 
     public void removeEmail(UserEmail email) {

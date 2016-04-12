@@ -28,7 +28,7 @@ public class CastleHistoryServiceLogic implements CastleHistoryService {
         HistoryBundle history = historyStore.retrieve(castleId);
         history.attachAccountBook(accountBook);
 
-        historyStore.update(history);
+        historyStore.updateAccountBook(history);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CastleHistoryServiceLogic implements CastleHistoryService {
         HistoryBundle history = historyStore.retrieve(castleId);
         history.detatchAccountBook();
 
-        historyStore.update(history);
+        historyStore.updateAccountBook(history);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class CastleHistoryServiceLogic implements CastleHistoryService {
         HistoryBundle history = historyStore.retrieve(castleId);
         history.attachCastleStateBook(castleStateBook);
 
-        historyStore.update(history);
+        historyStore.updateCastleStateBook(history);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class CastleHistoryServiceLogic implements CastleHistoryService {
         HistoryBundle history = historyStore.retrieve(castleId);
         history.detatchCastleStateBook();
 
-        historyStore.update(history);
+        historyStore.updateCastleStateBook(history);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class CastleHistoryServiceLogic implements CastleHistoryService {
         HistoryBundle history = historyStore.retrieve(castleId);
         history.attachMetroBook(metroBook);
 
-        historyStore.update(history);
+        historyStore.updateMetroBook(history);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class CastleHistoryServiceLogic implements CastleHistoryService {
         HistoryBundle history = historyStore.retrieve(castleId);
         history.detatchMetroBook();
 
-        historyStore.update(history);
+        historyStore.updateMetroBook(history);
     }
 
     @Override

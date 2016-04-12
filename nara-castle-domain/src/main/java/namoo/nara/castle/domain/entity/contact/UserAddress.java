@@ -46,6 +46,20 @@ public class UserAddress {
         return newAddress;
     }
 
+    public void updateWith(UserAddress address) {
+        //
+        this.style = address.getStyle();
+        this.addressPartOne = address.getAddressPartOne();
+        this.addressPartTwo = address.getAddressPartTwo();
+        this.city = address.getCity();
+        this.state = address.getState();
+        this.zipCode = address.getZipCode();
+        this.country = address.getCountry();
+        this.title = address.getTitle();
+        this.phoneNumber = address.getPhoneNumber();
+        this.langCode = address.getLangCode();
+    }
+
     public AddressStyle getStyle() {
         return style;
     }

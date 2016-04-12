@@ -11,22 +11,22 @@ public class PhoneBook {
         //
     }
 
-    public void addPhone(UserPhone userPhone) {
+    public void clear() {
+        phoneList.clear();
+    }
+
+    public void add(UserPhone userPhone) {
         //
         phoneList.add(userPhone);
     }
 
-    public boolean existPhone(String phoneNumber) {
+    public boolean exist(String phoneNumber) {
         //
-        UserPhone phone = findPhone(phoneNumber);
-        if (phone != null) {
-            return true;
-        }
-
-        return false;
+        UserPhone phone = find(phoneNumber);
+        return phone != null;
     }
 
-    public void removePhone(String phoneNumber) {
+    public void remove(String phoneNumber) {
         //
         UserPhone targetPhone = null;
 
@@ -43,7 +43,7 @@ public class PhoneBook {
         }
     }
 
-    public UserPhone findPhone(String phoneNumber) {
+    public UserPhone find(String phoneNumber) {
         //
         for(UserPhone phone : phoneList) {
             //

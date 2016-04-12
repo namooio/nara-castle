@@ -37,8 +37,12 @@ public class ContactBundle implements Identifiable {
         return nameBook;
     }
 
-    public void setNameBook(NameBook nameBook) {
+    public void attachNameBook(NameBook nameBook) {
         this.nameBook = nameBook;
+    }
+
+    public void detatchNameBook() {
+        this.nameBook.clear();
     }
 
     public PhoneBook getPhoneBook() {
@@ -50,8 +54,12 @@ public class ContactBundle implements Identifiable {
         return phoneBook;
     }
 
-    public void setPhoneBook(PhoneBook phoneBook) {
+    public void attachPhoneBook(PhoneBook phoneBook) {
         this.phoneBook = phoneBook;
+    }
+
+    public void detatchPhoneBook() {
+        phoneBook.clear();
     }
 
     public EmailBook getEmailBook() {
@@ -63,8 +71,14 @@ public class ContactBundle implements Identifiable {
         return emailBook;
     }
 
-    public void setEmailBook(EmailBook emailBook) {
+    public void attachEmailBook(EmailBook emailBook) {
+        //
         this.emailBook = emailBook;
+    }
+
+    public void detatchEmailBook() {
+        //
+        emailBook.clear();
     }
 
     public AddressBook getAddressBook() {
@@ -76,7 +90,13 @@ public class ContactBundle implements Identifiable {
         return addressBook;
     }
 
-    public void setAddressBook(AddressBook addressBook) {
+    public void attachAddressBook(AddressBook addressBook) {
+        //
         this.addressBook = addressBook;
+    }
+
+    public void detatchAddressBook() {
+        //
+        this.addressBook.clear();
     }
 }

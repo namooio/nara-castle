@@ -11,32 +11,29 @@ public class NameBook {
         //
     }
 
-    public void addName(UserName name) {
+    public void clear() {
+        nameList.clear();
+    }
+
+    public void add(UserName name) {
         //
         nameList.add(name);
     }
 
-    public boolean existName(String familyName, String firstName) {
+    public boolean exist(String familyName, String firstName) {
         //
-        UserName name = findName(familyName, firstName);
-        if (name != null) {
-            return true;
-        }
+        UserName name = find(familyName, firstName);
+        return name != null;
 
-        return false;
     }
 
-    public boolean existNameByDisplayName(String displayName) {
+    public boolean existByDisplayName(String displayName) {
         //
-        UserName name = findNameByDisplayName(displayName);
-        if (name != null) {
-            return true;
-        }
-
-        return false;
+        UserName name = findByDisplayName(displayName);
+        return name != null;
     }
 
-    public UserName findNameByDisplayName(String displayName) {
+    public UserName findByDisplayName(String displayName) {
         //
         for(UserName name : nameList) {
             //
@@ -48,7 +45,7 @@ public class NameBook {
         return null;
     }
 
-    public UserName findName(String familyName, String firstName) {
+    public UserName find(String familyName, String firstName) {
         //
         for(UserName name : nameList) {
             //

@@ -5,22 +5,22 @@ import namoo.nara.castle.domain.entity.contact.*;
 
 public interface CastellanContactService {
     //
-    void attachNameBook(String castellanId, NameBook namebook);
-    void detachNameBook(String castellanId);
-    NameBook findNameBook(String castellanId);
+    void attachNameBook(String castleId, NameBook nameBook);
+    void detachNameBook(String castleId);
+    NameBook findNameBook(String castleId);
 
-    void attachEmailBook(String castellanId, EmailBook emailBook);
-    void detachEmailBook(String castellanId);
-    EmailBook findEmailBook(String castellanId);
+    void attachEmailBook(String castleId, EmailBook emailBook);
+    void detachEmailBook(String castleId);
+    EmailBook findEmailBook(String castleId);
 
-    void attachPhoneBook(String castellanId, PhoneBook phoneBook);
-    void detachPhoneBook(String castellanId);
-    PhoneBook findPhoneBook(String castellanId);
+    void attachPhoneBook(String castleId, PhoneBook phoneBook);
+    void detachPhoneBook(String castleId);
+    PhoneBook findPhoneBook(String castleId);
 
-    void attachAddressBook(String castellanId, AddressBook addressBook);
-    void detachAddressBook(String castellanId);
-    void addUserAddress(String castellanId, UserAddress address);
-    void removeUserAddress(String castellanId, String addresssTitle);
-    void modifyUserAddress(String castellanId, UserAddress address);
-    AddressBook findAddressBook(String castellanId);
+    void attachAddressBook(String castleId, AddressBook addressBook);
+    void detachAddressBook(String castleId);
+    void addUserAddress(String castleId, UserAddress address);
+    void removeUserAddress(String castleId, String addressTitle);
+    void modifyUserAddress(String castleId, UserAddress address);
+    AddressBook findAddressBook(String castleId);
 }
