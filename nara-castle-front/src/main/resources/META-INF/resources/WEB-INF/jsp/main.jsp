@@ -22,10 +22,10 @@
     <script src="${ctx}/js/main.jsx" type="text/jsx"></script>
 </head>
 <body>
-    <header id="top-menu">
+    <header id="castle-top-menu">
     </header>
 
-    <section id="contents">
+    <section id="castle-contents">
     </section>
 
 </body>

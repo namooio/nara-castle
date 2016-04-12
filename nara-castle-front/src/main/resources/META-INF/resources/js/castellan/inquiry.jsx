@@ -19,7 +19,7 @@ CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
         },
         inquiryCastellan: function (castellanId) {
             //
-            $.getJSON(CONST.CTX + '/api/castellan/' + castellanId, castellanId)
+            $.getJSON(CastleConst.CTX + '/api/castellan/' + castellanId, castellanId)
                 .done(function (castellanResult) {
                     this.setState({castellanView: castellanResult, visibleView: true});
                 }.bind(this))
@@ -43,6 +43,12 @@ CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
      * Castellan 검색 폼 컴포넌트
      */
     var FindForm = React.createClass({
+        propTypes : {
+            containerStyle : React.PropTypes.object.isRequired,
+            inquiryId : React.PropTypes.string,
+            inquiry : React.PropTypes.func.isRequired,
+            change : React.PropTypes.func.isRequired
+        },
         getInitialState: function () {
             return {};
         },
@@ -84,6 +90,10 @@ CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
      * Castellan View 컴포넌트
      */
     var CastellanView = React.createClass({
+        propTypes : {
+            containerStyle : React.PropTypes.object.isRequired,
+            castellanView : React.PropTypes.object.isRequired
+        },
         render: function () {
             return (
                 <div className="container" style={this.props.containerStyle}>
@@ -113,7 +123,7 @@ CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
         }
     });
 
-    ReactDOM.render(<CastellanViewPage />, $('#contents')[0]);
+    ReactDOM.render(<CastellanViewPage />, CastleCommon.getContentsJDom());
 
 })();
 

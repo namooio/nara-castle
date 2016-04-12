@@ -1,9 +1,11 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-var CONST = CONST || {};
+var CastleConst = CastleConst || {};
 
-CONST.CTX = '';
+CastleConst.CTX = '';
+CastleConst.TOP_MENU_DOM_ID = 'castle-top-menu';
+CastleConst.CONTENTS_DOM_ID = 'castle-contents';
 
 var CastleComponent = {};
 var CastellanComponent = {};
@@ -11,6 +13,15 @@ var CastellanComponent = {};
 var CastleCommon = {};
 
 (function () {
+
+    CastleCommon.getTopMenuJDom = function () {
+        return $('#' + CastleConst.TOP_MENU_DOM_ID)[0];
+    };
+
+    CastleCommon.getContentsJDom = function () {
+        return $('#' + CastleConst.CONTENTS_DOM_ID)[0];
+    };
+
     //
     /**
      * POST Json AJAX

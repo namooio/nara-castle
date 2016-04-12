@@ -1,21 +1,16 @@
 package namoo.nara.castle.pr.springweb;
 
-import namoo.nara.castle.remote.CastellanRemote;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @Controller
 @RequestMapping("view/castellan")
-public class CastellanViewResource {
+public class CastellanViewController {
     //
-    @Autowired
-    private CastellanRemote castellanRemote;
-
-
     @RequestMapping(value="/register", method= RequestMethod.GET)
     public String registerView() {
         //

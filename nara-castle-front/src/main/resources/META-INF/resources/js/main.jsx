@@ -12,12 +12,12 @@ CastellanComponent.Main = CastellanComponent.Main || {};
         inquiryBtnClick : function (event) {
             //
             $(event.target).tab();
-            CastleCommon.getJSX(CONST.CTX + '/js/castellan/inquiry.jsx');
+            //CastleCommon.getJSX(CastleConst.CTX + '/js/castellan/inquiry.jsx');
         },
         registerBtnClick : function (event) {
             //
             $(event.target).tab();
-            CastleCommon.getJSX(CONST.CTX + '/js/castellan/register.jsx');
+            //CastleCommon.getJSX(CastleConst.CTX + '/js/castellan/register.jsx');
         },
         bundleBtnClick : function () {
             //
@@ -32,8 +32,8 @@ CastellanComponent.Main = CastellanComponent.Main || {};
                         </div>
                         <div className="collapse navbar-collapse">
                             <ui className="nav navbar-nav">
-                                <li><a href="#inquiry" onClick={this.inquiryBtnClick}>조회</a></li>
-                                <li><a href="#register" onClick={this.registerBtnClick}>등록</a></li>
+                                <li><a href="#/inquiry" onClick={this.inquiryBtnClick}>조회</a></li>
+                                <li><a href="#/register" onClick={this.registerBtnClick}>등록</a></li>
                                 <li><a href="#/bundle">CastellanBundle</a></li>
                             </ui>
                         </div>
@@ -44,7 +44,7 @@ CastellanComponent.Main = CastellanComponent.Main || {};
     });
 
     ReactDOM.render(
-        <TopMenu />, $('#top-menu')[0]
+        <TopMenu />, CastleCommon.getTopMenuJDom()
     );
 })();
 
