@@ -11,7 +11,12 @@ public class CastleStateBook {
         //
     }
 
-    public void addCastleState(CastleState castleState) {
+    public void clear() {
+        //
+        castleStateList.clear();
+    }
+
+    public void attachCastleState(CastleState castleState) {
         //
         castleStateList.add(castleState);
     }

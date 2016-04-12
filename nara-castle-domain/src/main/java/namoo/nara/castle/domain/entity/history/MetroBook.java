@@ -11,6 +11,11 @@ public class MetroBook {
         //
     }
 
+    public void clear() {
+        //
+        metroList.clear();
+    }
+
     public void addMetro(ParticipantMetro metro) {
         //
         metroList.add(metro);
