@@ -24,7 +24,7 @@ CastellanComponent.Registerer = CastellanComponent.Registerer || {};
                 , email: this.state.email
             };
 
-            CastleCommon.postJSON(CONST.CTX + '/api/castellan', castellanCreateDto)
+            CastleCommon.postJSON(CastleConst.CTX + '/api/castellan', castellanCreateDto)
                 .done(function () {
                     alert('Castellan이 정상적으로 등록 되었습니다..');
                     this.setState({id: '', email: ''})
@@ -71,7 +71,7 @@ CastellanComponent.Registerer = CastellanComponent.Registerer || {};
     });
 
     ReactDOM.render(
-        <CastellanRegisterer />, $('#contents')[0]
+        <CastellanRegisterer />, CastleCommon.getContentsJDom()
     );
 })();
 

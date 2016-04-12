@@ -1,9 +1,11 @@
 package namoo.nara.castle;
 
+import namoo.nara.castle.adapter.service.CastellanAdapter;
 import namoo.nara.castle.adapter.service.CastleAdapter;
+import namoo.nara.castle.client.CastellanClient;
 import namoo.nara.castle.client.CastleClient;
+import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.springweb.SpringWebRestClient;
-import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -23,18 +25,32 @@ public abstract class AbstractCastleServiceApplicationTests {
 	private int port;
 
 	private CastleClient castleClient;
+	private CastellanClient castellanClient;
+
+	private NaraRestClient naraRestClient;
+
+	private NaraRestClient getNaraRestClient() {
+		//
+		if (naraRestClient == null) {
+			naraRestClient = new SpringWebRestClient(host + ":" + port + "/");
+		}
+		return naraRestClient;
+	}
 
 	public CastleAdapter getCastleClient() {
 		//
 		if (castleClient == null) {
-			castleClient = new CastleClient(new SpringWebRestClient(host + ":" + port + "/"));
+			castleClient = new CastleClient(getNaraRestClient());
 		}
 		return castleClient;
 	}
 
-	@Before
-	public void setupInitialData() {
-//		createCastle();
+	public CastellanAdapter getCastellanClient() {
+		//
+		if (castellanClient == null) {
+			castellanClient = new CastellanClient(getNaraRestClient());
+		}
+		return castellanClient;
 	}
 
 }
