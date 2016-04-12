@@ -53,7 +53,7 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
     @Override
     public void detachCastleStateBook(String castleId) {
         //
-        castleHistoryService.detachAccountBook(castleId);
+        castleHistoryService.detachCastleStateBook(castleId);
     }
 
     @Override
