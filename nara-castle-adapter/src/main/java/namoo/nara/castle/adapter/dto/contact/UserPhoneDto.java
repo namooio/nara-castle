@@ -1,29 +1,22 @@
-package namoo.nara.castle.da.mongo.mdo.contact;
+package namoo.nara.castle.adapter.dto.contact;
 
 import namoo.nara.castle.domain.entity.contact.UserPhone;
 
-public class UserPhoneMdo {
+/**
+ * Created by kchuh@nextree.co.kr on 2016. 4. 12..
+ */
+public class UserPhoneDto {
     //
     private String phoneNumber;     //+82-10-9202-9989
     private String countryCode;     //+82
     private String areaCode;        // 10
     private String number;          // 9202-9989
 
-    public UserPhoneMdo() {
+    public UserPhoneDto() {
         //
     }
 
-    public static UserPhoneMdo newInstance(UserPhone userPhone) {
-        //
-        UserPhoneMdo userPhoneMdo = new UserPhoneMdo();
-        userPhoneMdo.setPhoneNumber(userPhone.getPhoneNumber());
-        userPhoneMdo.setCountryCode(userPhone.getCountryCode());
-        userPhoneMdo.setAreaCode(userPhone.getAreaCode());
-        userPhoneMdo.setNumber(userPhone.getNumber());
-        return userPhoneMdo;
-    }
-
-    public UserPhone getDomain() {
+    public UserPhone toDomain() {
         //
         UserPhone userPhone = new UserPhone();
         userPhone.setPhoneNumber(phoneNumber);
@@ -31,6 +24,16 @@ public class UserPhoneMdo {
         userPhone.setAreaCode(areaCode);
         userPhone.setNumber(number);
         return userPhone;
+    }
+
+    public static UserPhoneDto newInstance(UserPhone userPhone) {
+        //
+        UserPhoneDto userPhoneDto = new UserPhoneDto();
+        userPhoneDto.setPhoneNumber(userPhone.getPhoneNumber());
+        userPhoneDto.setCountryCode(userPhone.getCountryCode());
+        userPhoneDto.setAreaCode(userPhone.getAreaCode());
+        userPhoneDto.setNumber(userPhone.getNumber());
+        return userPhoneDto;
     }
 
     public String getPhoneNumber() {

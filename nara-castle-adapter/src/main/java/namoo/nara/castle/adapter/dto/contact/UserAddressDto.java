@@ -1,43 +1,29 @@
-package namoo.nara.castle.da.mongo.mdo.contact;
+package namoo.nara.castle.adapter.dto.contact;
 
 import namoo.nara.castle.domain.entity.contact.UserAddress;
 
-public class UserAddressMdo {
-    //
-    private String style;                   // Korean or US.
-    private String addressPartOne;          // street, P.O. Box, company
-    private String addressPartTwo;          // apartment, suite, building, etc
-    private String city;                    //
-    private String state;                   // state, province, region
+/**
+ * Created by kchuh@nextree.co.kr on 2016. 4. 12..
+ */
+public class UserAddressDto {
+
+    private String style;               // Korean or US
+    private String addressPartOne;      // street, P.O. Box, company
+    private String addressPartTwo;      // apartment, suite, building, etc
+    private String city;                //
+    private String state;               // state, province, region
     private String zipCode;
     private String country;
 
-    private String title;                   // example: Home address
-    private String phoneNumber;             // optional
-    private String langCode;                // mandatory
+    private String title;               // example: Home address
+    private String phoneNumber;         // optional
+    private String langCode;            // mandatory
 
-    public UserAddressMdo() {
+    public UserAddressDto() {
         //
     }
 
-    public static UserAddressMdo newInstance(UserAddress userAddress) {
-        //
-        UserAddressMdo userAddressMdo = new UserAddressMdo();
-        userAddressMdo.setStyle(userAddress.getStyle().name());
-        userAddressMdo.setAddressPartOne(userAddress.getAddressPartOne());
-        userAddressMdo.setAddressPartTwo(userAddress.getAddressPartTwo());
-        userAddressMdo.setCity(userAddress.getCity());
-        userAddressMdo.setState(userAddress.getState());
-        userAddressMdo.setZipCode(userAddress.getZipCode());
-        userAddressMdo.setCountry(userAddress.getCountry());
-
-        userAddressMdo.setTitle(userAddress.getTitle());
-        userAddressMdo.setPhoneNumber(userAddress.getPhoneNumber());
-        userAddressMdo.setLangCode(userAddress.getLangCode());
-        return userAddressMdo;
-    }
-
-    public UserAddress getDomain() {
+    public UserAddress toDomain() {
         //
         UserAddress userAddress = new UserAddress();
         userAddress.setStyle(UserAddress.AddressStyle.valueOf(style));
@@ -52,6 +38,23 @@ public class UserAddressMdo {
         userAddress.setPhoneNumber(phoneNumber);
         userAddress.setLangCode(langCode);
         return userAddress;
+    }
+
+    public static UserAddressDto newInstance(UserAddress userAddress) {
+        //
+        UserAddressDto userAddressDto = new UserAddressDto();
+        userAddressDto.setStyle(userAddress.getStyle().name());
+        userAddressDto.setAddressPartOne(userAddress.getAddressPartOne());
+        userAddressDto.setAddressPartTwo(userAddress.getAddressPartTwo());
+        userAddressDto.setCity(userAddress.getCity());
+        userAddressDto.setState(userAddress.getState());
+        userAddressDto.setZipCode(userAddress.getZipCode());
+        userAddressDto.setCountry(userAddress.getCountry());
+
+        userAddressDto.setTitle(userAddress.getTitle());
+        userAddressDto.setPhoneNumber(userAddress.getPhoneNumber());
+        userAddressDto.setLangCode(userAddress.getLangCode());
+        return userAddressDto;
     }
 
     public String getStyle() {
@@ -133,5 +136,4 @@ public class UserAddressMdo {
     public void setLangCode(String langCode) {
         this.langCode = langCode;
     }
-
 }

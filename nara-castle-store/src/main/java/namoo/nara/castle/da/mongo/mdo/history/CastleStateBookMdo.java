@@ -34,7 +34,7 @@ public class CastleStateBookMdo {
         CastleStateBook castleStateBook = new CastleStateBook();
         if (castleStateMdoList != null) {
             for(CastleStateMdo castleStateMdo : castleStateMdoList) {
-                castleStateBook.addCastleState(castleStateMdo.getDomain());
+                castleStateBook.attachCastleState(castleStateMdo.getDomain());
             }
         }
         return castleStateBook;

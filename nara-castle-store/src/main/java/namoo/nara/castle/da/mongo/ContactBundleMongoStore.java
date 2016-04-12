@@ -36,13 +36,36 @@ public class ContactBundleMongoStore implements ContactBundleStore {
         return contactBundleMdo.getDomain();
     }
 
-    @Override
-    public void update(ContactBundle contact) {
+    private void update(ContactBundle contact) {
         //
         String id = contact.getId();
         if (!contactBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No contact bundle document[ID:%s] to update.", id));
         ContactBundleMdo contactBundleMdo = ContactBundleMdo.newInstance(contact);
         contactBundleMdoRepository.save(contactBundleMdo);
+    }
+
+    @Override
+    public void updateAddressBook(ContactBundle contact) {
+        //
+        update(contact);
+    }
+
+    @Override
+    public void updateEmailBook(ContactBundle contact) {
+        //
+        update(contact);
+    }
+
+    @Override
+    public void updateNameBook(ContactBundle contact) {
+        //
+        update(contact);
+    }
+
+    @Override
+    public void updatePhoneBook(ContactBundle contact) {
+        //
+        update(contact);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class PhoneBookMdo {
         PhoneBook phoneBook = new PhoneBook();
         if (phoneMdoList != null) {
             for(UserPhoneMdo userPhoneMdo : phoneMdoList) {
-                phoneBook.addPhone(userPhoneMdo.getDomain());
+                phoneBook.add(userPhoneMdo.getDomain());
             }
         }
         return phoneBook;

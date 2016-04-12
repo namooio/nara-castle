@@ -1,32 +1,32 @@
-package namoo.nara.castle.da.mongo.mdo.history;
+package namoo.nara.castle.adapter.dto.history;
 
 import namoo.nara.castle.domain.entity.history.LoginAccount;
 
 /**
- * Created by kchuh@nextree.co.kr on 2016. 4. 7..
+ * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-public class LoginAccountMdo {
+public class LoginAccountDto {
     //
     private String loginUserId;
     private String channel;
     private long createTime;
     private long deleteTime;
 
-    public LoginAccountMdo() {
+    public LoginAccountDto() {
         //
     }
 
-    public static LoginAccountMdo newInstance(LoginAccount loginAccount) {
+    public static LoginAccountDto newInstance(LoginAccount loginAccount) {
         //
-        LoginAccountMdo loginAccountMdo = new LoginAccountMdo();
-        loginAccountMdo.setLoginUserId(loginAccount.getLoginUserId());
-        loginAccountMdo.setChannel(loginAccount.getChannel().name());
-        loginAccountMdo.setCreateTime(loginAccount.getCreateTime());
-        loginAccountMdo.setDeleteTime(loginAccount.getDeleteTime());
-        return loginAccountMdo;
+        LoginAccountDto loginAccountDto = new LoginAccountDto();
+        loginAccountDto.setLoginUserId(loginAccount.getLoginUserId());
+        loginAccountDto.setChannel(loginAccount.getChannel().name());
+        loginAccountDto.setCreateTime(loginAccount.getCreateTime());
+        loginAccountDto.setDeleteTime(loginAccount.getDeleteTime());
+        return loginAccountDto;
     }
 
-    public LoginAccount getDomain() {
+    public LoginAccount toDomain() {
         //
         LoginAccount loginAccount = new LoginAccount();
         loginAccount.setLoginUserId(loginUserId);
@@ -35,6 +35,7 @@ public class LoginAccountMdo {
         loginAccount.setDeleteTime(deleteTime);
         return loginAccount;
     }
+
 
     public String getLoginUserId() {
         return loginUserId;
@@ -67,4 +68,5 @@ public class LoginAccountMdo {
     public void setDeleteTime(long deleteTime) {
         this.deleteTime = deleteTime;
     }
+
 }

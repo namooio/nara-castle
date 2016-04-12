@@ -36,13 +36,30 @@ public class HistoryBundleMongoStore implements HistoryBundleStore {
         return historyBundleMdo.getDomain();
     }
 
-    @Override
-    public void update(HistoryBundle history) {
+    private void update(HistoryBundle history) {
         //
         String id = history.getId();
         if (!historyBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to update.", id));
         HistoryBundleMdo historyBundleMdo = HistoryBundleMdo.newInstance(history);
         historyBundleMdoRepository.save(historyBundleMdo);
+    }
+
+    @Override
+    public void updateAccountBook(HistoryBundle history) {
+        //
+        update(history);
+    }
+
+    @Override
+    public void updateMetroBook(HistoryBundle history) {
+        //
+        update(history);
+    }
+
+    @Override
+    public void updateCastleStateBook(HistoryBundle history) {
+        //
+        update(history);
     }
 
     @Override

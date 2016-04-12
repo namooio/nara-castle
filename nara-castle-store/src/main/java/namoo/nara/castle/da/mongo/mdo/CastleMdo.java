@@ -17,7 +17,7 @@ public class CastleMdo {
     private String id;
     private String name;                // Castellan's display name
     private Locale locale;
-    private OpenState state;
+    private String state;
     private long buildTime;
 
     public CastleMdo() {
@@ -30,7 +30,7 @@ public class CastleMdo {
         castleMdo.setId(castle.getId());
         castleMdo.setName(castle.getName());
         castleMdo.setLocale(castle.getLocale());
-        castleMdo.setState(castle.getState());
+        castleMdo.setState(castle.getState().name());
         castleMdo.setBuildTime(castle.getBuildTime());
         return castleMdo;
     }
@@ -39,7 +39,7 @@ public class CastleMdo {
         //
         Castle castle = Castle.newInstance(id, name, locale);
         castle.setBuildTime(buildTime);
-        castle.setState(state);
+        castle.setState(OpenState.valueOf(state));
         return castle;
     }
 
@@ -67,11 +67,11 @@ public class CastleMdo {
         this.locale = locale;
     }
 
-    public OpenState getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(OpenState state) {
+    public void setState(String state) {
         this.state = state;
     }
 

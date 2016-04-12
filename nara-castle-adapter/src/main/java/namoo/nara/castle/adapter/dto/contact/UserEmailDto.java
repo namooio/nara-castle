@@ -1,29 +1,22 @@
-package namoo.nara.castle.da.mongo.mdo.contact;
+package namoo.nara.castle.adapter.dto.contact;
 
 import namoo.nara.castle.domain.entity.contact.UserEmail;
 
-public class UserEmailMdo {
+/**
+ * Created by kchuh@nextree.co.kr on 2016. 4. 12..
+ */
+public class UserEmailDto {
     //
     private String email;
     private String emailType;
     private boolean verified;
     private long verifiedTime;
 
-    public UserEmailMdo() {
+    public UserEmailDto() {
         //
     }
 
-    public static UserEmailMdo newInstance(UserEmail userEmail) {
-        //
-        UserEmailMdo userEmailMdo = new UserEmailMdo();
-        userEmailMdo.setEmail(userEmail.getEmail());
-        userEmailMdo.setEmailType(userEmail.getEmailType().name());
-        userEmailMdo.setVerified(userEmail.isVerified());
-        userEmailMdo.setVerifiedTime(userEmail.getVerifiedTime());
-        return userEmailMdo;
-    }
-
-    public UserEmail getDomain() {
+    public UserEmail toDomain() {
         //
         UserEmail userEmail = new UserEmail();
         userEmail.setEmail(email);
@@ -31,6 +24,16 @@ public class UserEmailMdo {
         userEmail.setVerified(verified);
         userEmail.setVerifiedTime(verifiedTime);
         return userEmail;
+    }
+
+    public static UserEmailDto newInstance(UserEmail userEmail) {
+        //
+        UserEmailDto userEmailDto = new UserEmailDto();
+        userEmailDto.setEmail(userEmail.getEmail());
+        userEmailDto.setEmailType(userEmail.getEmailType().name());
+        userEmailDto.setVerified(userEmail.isVerified());
+        userEmailDto.setVerifiedTime(userEmail.getVerifiedTime());
+        return userEmailDto;
     }
 
     public String getEmail() {
@@ -64,5 +67,4 @@ public class UserEmailMdo {
     public void setVerifiedTime(long verifiedTime) {
         this.verifiedTime = verifiedTime;
     }
-
 }

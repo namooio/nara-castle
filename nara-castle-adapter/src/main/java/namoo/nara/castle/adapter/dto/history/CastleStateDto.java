@@ -1,29 +1,33 @@
-package namoo.nara.castle.da.mongo.mdo.history;
+package namoo.nara.castle.adapter.dto.history;
 
 import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.history.CastleState;
 
 /**
- * Created by kchuh@nextree.co.kr on 2016. 4. 7..
+ * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-public class CastleStateMdo {
+public class CastleStateDto {
     //
     private String currentState;
     private String targetState;
     private String remarks;
     private long modifiedTime;
 
-    public static CastleStateMdo newInstance(CastleState castleState) {
+    public CastleStateDto() {
         //
-        CastleStateMdo castleStateMdo = new CastleStateMdo();
-        castleStateMdo.setCurrentState(castleState.getCurrentState().name());
-        castleStateMdo.setTargetState(castleState.getTargetState().name());
-        castleStateMdo.setRemarks(castleState.getRemarks());
-        castleStateMdo.setModifiedTime(castleState.getModifiedTime());
-        return castleStateMdo;
     }
 
-    public CastleState getDomain() {
+    public static CastleStateDto newInstance(CastleState castleState) {
+        //
+        CastleStateDto castleStateDto = new CastleStateDto();
+        castleStateDto.setCurrentState(castleState.getCurrentState().name());
+        castleStateDto.setTargetState(castleState.getTargetState().name());
+        castleStateDto.setRemarks(castleState.getRemarks());
+        castleStateDto.setModifiedTime(castleState.getModifiedTime());
+        return castleStateDto;
+    }
+
+    public CastleState toDomain() {
         //
         CastleState castleState = new CastleState();
         castleState.setCurrentState(OpenState.valueOf(currentState));
@@ -64,4 +68,5 @@ public class CastleStateMdo {
     public void setModifiedTime(long modifiedTime) {
         this.modifiedTime = modifiedTime;
     }
+
 }

@@ -25,7 +25,7 @@ import java.util.UUID;
 @ComponentScan(basePackages = "namoo.nara.castle.da.mongo")
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class HistoryBundleMongoStoreTest {
-
+    //
     @Autowired
     private HistoryBundleStore historyBundleStore;
 
@@ -48,14 +48,14 @@ public class HistoryBundleMongoStoreTest {
         metroBook.addMetro(new ParticipantMetro("M-4", System.currentTimeMillis()));
 
         CastleStateBook castleStateBook = new CastleStateBook();
-        castleStateBook.addCastleState(new CastleState(OpenState.Ready, OpenState.Open, "Ready -> Open"));
-        castleStateBook.addCastleState(new CastleState(OpenState.Open, OpenState.Suspended, "Open -> Suspended"));
-        castleStateBook.addCastleState(new CastleState(OpenState.Suspended, OpenState.Open, "Suspended -> Open"));
-        castleStateBook.addCastleState(new CastleState(OpenState.Open, OpenState.Closed, "Open -> Closed"));
+        castleStateBook.attachCastleState(new CastleState(OpenState.Ready, OpenState.Open, "Ready -> Open"));
+        castleStateBook.attachCastleState(new CastleState(OpenState.Open, OpenState.Suspended, "Open -> Suspended"));
+        castleStateBook.attachCastleState(new CastleState(OpenState.Suspended, OpenState.Open, "Suspended -> Open"));
+        castleStateBook.attachCastleState(new CastleState(OpenState.Open, OpenState.Closed, "Open -> Closed"));
 
-        history.setAccountBook(accountBook);
-        history.setMetroBook(metroBook);
-        history.setCastleStateBook(castleStateBook);
+        history.attachAccountBook(accountBook);
+        history.attachMetroBook(metroBook);
+        history.attachCastleStateBook(castleStateBook);
 
         historyBundleStore.create(history);
 
@@ -72,8 +72,8 @@ public class HistoryBundleMongoStoreTest {
 
 
         // update test
-        castleStateBook.addCastleState(new CastleState(OpenState.Closed, OpenState.Open, "Closed -> Open"));
-        historyBundleStore.update(history);
+        castleStateBook.attachCastleState(new CastleState(OpenState.Closed, OpenState.Open, "Closed -> Open"));
+        historyBundleStore.updateCastleStateBook(history);
         history = historyBundleStore.retrieve(id);
         castleStateBook = history.getCastleStateBook();
         Assert.assertEquals(5, castleStateBook.findAll().size());

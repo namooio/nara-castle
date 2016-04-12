@@ -30,7 +30,7 @@ public class AddressBookMdo {
         AddressBook addressBook = new AddressBook();
         if (addressMdoList != null) {
             for(UserAddressMdo userAddressMdo : addressMdoList) {
-                addressBook.addAddress(userAddressMdo.getDomain());
+                addressBook.add(userAddressMdo.getDomain());
             }
         }
         return addressBook;

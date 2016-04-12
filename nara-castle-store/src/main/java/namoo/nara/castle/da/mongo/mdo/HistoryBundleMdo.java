@@ -47,9 +47,9 @@ public class HistoryBundleMdo {
         //
         HistoryBundle historyBundle = HistoryBundle.newInstance(id);
 
-        if (castleStateBookMdo != null) historyBundle.setCastleStateBook(castleStateBookMdo.getDomain());
-        if (metroBookMdo != null) historyBundle.setMetroBook(metroBookMdo.getDomain());
-        if (accountBookMdo != null) historyBundle.setAccountBook(accountBookMdo.getDomain());
+        if (castleStateBookMdo != null) historyBundle.attachCastleStateBook(castleStateBookMdo.getDomain());
+        if (metroBookMdo != null) historyBundle.attachMetroBook(metroBookMdo.getDomain());
+        if (accountBookMdo != null) historyBundle.attachAccountBook(accountBookMdo.getDomain());
 
         return historyBundle;
     }

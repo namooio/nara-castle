@@ -48,10 +48,10 @@ public class ContactBundleMdo {
         //
         ContactBundle contactBundle = ContactBundle.newInstance(id);
 
-        if (nameBookMdo != null) contactBundle.setNameBook(nameBookMdo.getDomain());
-        if (phoneBookMdo != null) contactBundle.setPhoneBook(phoneBookMdo.getDomain());
-        if (emailBookMdo != null) contactBundle.setEmailBook(emailBookMdo.getDomain());
-        if (addressBookMdo != null) contactBundle.setAddressBook(addressBookMdo.getDomain());
+        if (nameBookMdo != null) contactBundle.attachNameBook(nameBookMdo.getDomain());
+        if (phoneBookMdo != null) contactBundle.attachPhoneBook(phoneBookMdo.getDomain());
+        if (emailBookMdo != null) contactBundle.attachEmailBook(emailBookMdo.getDomain());
+        if (addressBookMdo != null) contactBundle.attachAddressBook(addressBookMdo.getDomain());
 
         return contactBundle;
     }

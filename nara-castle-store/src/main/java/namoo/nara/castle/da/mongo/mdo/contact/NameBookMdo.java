@@ -31,7 +31,7 @@ public class NameBookMdo {
         NameBook nameBook = new NameBook();
         if (nameMdoList != null) {
             for(UserNameMdo userNameMdo : nameMdoList) {
-                nameBook.addName(userNameMdo.getDomain());
+                nameBook.add(userNameMdo.getDomain());
             }
         }
         return nameBook;

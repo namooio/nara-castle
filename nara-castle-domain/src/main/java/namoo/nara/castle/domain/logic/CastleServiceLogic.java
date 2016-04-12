@@ -55,8 +55,8 @@ public class CastleServiceLogic implements CastleService {
 
         OpenState targetState = OpenState.Suspended;
         CastleState castleState = new CastleState(currentState, targetState, remarks);
-        history.getCastleStateBook().addCastleState(castleState);
-        historyStore.update(history);
+        history.getCastleStateBook().attachCastleState(castleState);
+        historyStore.updateCastleStateBook(history);
     }
 
     @Override
@@ -76,8 +76,8 @@ public class CastleServiceLogic implements CastleService {
 
         OpenState targetState = OpenState.Open;
         CastleState castleState = new CastleState(currentState, targetState, remarks);
-        history.getCastleStateBook().addCastleState(castleState);
-        historyStore.update(history);
+        history.getCastleStateBook().attachCastleState(castleState);
+        historyStore.updateCastleStateBook(history);
     }
 
     @Override
