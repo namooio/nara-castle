@@ -15,7 +15,7 @@ import java.util.Locale;
 @RestController
 @RequestMapping("castle")
 public class CastleResource extends CastleAdapterLogic {
-
+    //
     @Autowired
     public CastleResource(CastleServiceLycler castleServiceLycler) {
         super(castleServiceLycler);

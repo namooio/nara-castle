@@ -16,6 +16,10 @@ public enum CastleServiceUrl implements NaraServiceUrl {
     URL_CASTLE_NAME_MODIFY           ("castle/{id}/name",                  HttpMethod.PUT      ),
     URL_CASTLE_LOCALE_MODIFY         ("castle/{id}/locale",                HttpMethod.PUT      ),
 
+    URL_CASTELLAN_DISPLAYNAME_MODIFY ("castellan/{id}/displayname",        HttpMethod.PUT      ),
+    URL_CASTELLAN_PHOTO_MODIFY       ("castellan/{id}/photo",              HttpMethod.PUT      ),
+    URL_CASTELLAN_PRIMARYEMAIL_MODIFY("castellan/{id}/primaryemail",       HttpMethod.PUT      ),
+    URL_CASTELLAN_PRIMARYPHONE_MODIFY("castellan/{id}/primaryphone",       HttpMethod.PUT      ),
     ;
 
     private String serviceUrl;
