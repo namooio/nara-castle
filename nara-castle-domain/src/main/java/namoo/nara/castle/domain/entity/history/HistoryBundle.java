@@ -13,7 +13,7 @@ public class HistoryBundle implements Identifiable{
         //
     }
 
-    protected HistoryBundle(String castleId) {
+    private HistoryBundle(String castleId) {
         //
         this.castleId = castleId;
     }
@@ -37,8 +37,13 @@ public class HistoryBundle implements Identifiable{
         return castleStateBook;
     }
 
-    public void setCastleStateBook(CastleStateBook castleStateBook) {
+    public void attachCastleStateBook(CastleStateBook castleStateBook) {
         this.castleStateBook = castleStateBook;
+    }
+
+    public void detatchCastleStateBook() {
+        //
+        castleStateBook.clear();
     }
 
     public MetroBook getMetroBook() {
@@ -50,8 +55,12 @@ public class HistoryBundle implements Identifiable{
         return metroBook;
     }
 
-    public void setMetroBook(MetroBook metroBook) {
+    public void attachMetroBook(MetroBook metroBook) {
         this.metroBook = metroBook;
+    }
+
+    public void detatchMetroBook() {
+        this.metroBook.clear();
     }
 
     public AccountBook getAccountBook() {
@@ -63,7 +72,12 @@ public class HistoryBundle implements Identifiable{
         return accountBook;
     }
 
-    public void setAccountBook(AccountBook accountBook) {
+    public void attachAccountBook(AccountBook accountBook) {
         this.accountBook = accountBook;
+    }
+
+    public void detatchAccountBook() {
+        //
+        this.accountBook.clear();
     }
 }

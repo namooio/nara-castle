@@ -16,21 +16,25 @@ public class AccountBook {
         accountList.add(account);
     }
 
-    public void removeAccount(LoginAccount account) {
+    public void clear() {
+        accountList.clear();
+    }
+
+    public void remove(LoginAccount account) {
         //
         accountList.remove(account);
     }
 
-    public boolean existAccount(String loginUserId) {
+    public boolean exist(String loginUserId) {
         //
-        if (findAccount(loginUserId) != null) {
+        if (find(loginUserId) != null) {
             return true;
         }
 
         return false;
     }
 
-    public LoginAccount findAccount(String loginUserId) {
+    public LoginAccount find(String loginUserId) {
         //
         for(LoginAccount account : accountList) {
             if (account.getLoginUserId().equals(loginUserId)) {
