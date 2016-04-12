@@ -91,8 +91,8 @@ public class CastellanContactResource extends CastellanContactAdapterLogic {
     }
 
     @Override
-    @RequestMapping(value = "address", method = RequestMethod.DELETE)
-    public void removeUserAddress(@PathVariable("id") String castleId, @RequestBody String addressTitle) {
+    @RequestMapping(value = "address/{title}", method = RequestMethod.DELETE)
+    public void removeUserAddress(@PathVariable("id") String castleId, @PathVariable("title") String addressTitle) {
         super.removeUserAddress(castleId, addressTitle);
     }
 

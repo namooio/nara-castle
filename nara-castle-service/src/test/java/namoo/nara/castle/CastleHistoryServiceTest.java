@@ -3,7 +3,10 @@ package namoo.nara.castle;
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.history.AccountBookDto;
 import namoo.nara.castle.adapter.dto.history.CastleStateBookDto;
+import namoo.nara.castle.adapter.dto.history.LoginAccountDto;
 import namoo.nara.castle.adapter.dto.history.MetroBookDto;
+import namoo.nara.castle.domain.entity.history.LoginAccount;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +35,20 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
     public void testAccountBook() {
         //
         AccountBookDto accountBookDto = new AccountBookDto();
+        LoginAccountDto loginAccountDto = new LoginAccountDto();
+        loginAccountDto.setChannel(LoginAccount.LoginChannel.Nara.name());
+        loginAccountDto.setCreateTime(System.currentTimeMillis());
+        loginAccountDto.setLoginUserId("1234");
+        accountBookDto.addAccountDto(loginAccountDto);
+
         getCastleHistoryClient().attachAccountBook(id, accountBookDto);
+
+        accountBookDto = getCastleHistoryClient().findAccountBook(id);
+        Assert.assertEquals(1, accountBookDto.getAccountDtos().size());
+
+        getCastleHistoryClient().detachAccountBook(id);
+        accountBookDto = getCastleHistoryClient().findAccountBook(id);
+        Assert.assertNull(accountBookDto.getAccountDtos());
     }
 
     @Test
@@ -40,6 +56,13 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
         //
         CastleStateBookDto castleStateBookDto = new CastleStateBookDto();
         getCastleHistoryClient().attachCastleStateBook(id, castleStateBookDto);
+
+        castleStateBookDto = getCastleHistoryClient().findCastleStateBook(id);
+        Assert.assertNotNull(castleStateBookDto);
+
+        getCastleHistoryClient().detachAccountBook(id);
+        castleStateBookDto = getCastleHistoryClient().findCastleStateBook(id);
+        Assert.assertNull(castleStateBookDto.getCastleStateDtos());
     }
 
     @Test
@@ -47,5 +70,12 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
         //
         MetroBookDto metroBookDto = new MetroBookDto();
         getCastleHistoryClient().attachMetroBook(id, metroBookDto);
+
+        metroBookDto = getCastleHistoryClient().findMetroBook(id);
+        Assert.assertNotNull(metroBookDto);
+
+        getCastleHistoryClient().detachAccountBook(id);
+        metroBookDto = getCastleHistoryClient().findMetroBook(id);
+        Assert.assertNull(metroBookDto.getMetroDtos());
     }
 }

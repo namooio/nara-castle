@@ -41,7 +41,7 @@ public class CastleStateBookDto {
         return castleStateBookDto;
     }
 
-    private void addStateDto(CastleStateDto castleStateDto) {
+    public void addStateDto(CastleStateDto castleStateDto) {
         //
         if (castleStateDtos == null) {
             castleStateDtos = new ArrayList<>();

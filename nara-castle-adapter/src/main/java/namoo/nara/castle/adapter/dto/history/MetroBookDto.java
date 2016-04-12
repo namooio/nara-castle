@@ -40,7 +40,7 @@ public class MetroBookDto {
         return metroBookDto;
     }
 
-    private void addMetroDto(ParticipantMetroDto metroDto) {
+    public void addMetroDto(ParticipantMetroDto metroDto) {
         //
         if (metroDtos == null) {
             metroDtos = new ArrayList<>();

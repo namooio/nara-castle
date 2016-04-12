@@ -39,6 +39,7 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
     public AccountBookDto findAccountBook(String castleId) {
         //
         AccountBook accountBook = castleHistoryService.findAccountBook(castleId);
+        if (accountBook == null) return null;
         return AccountBookDto.newInstance(accountBook);
     }
 
@@ -59,6 +60,7 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
     public CastleStateBookDto findCastleStateBook(String castleId) {
         //
         CastleStateBook castleStateBook = castleHistoryService.findCastleStateBook(castleId);
+        if (castleStateBook == null) return null;
         return CastleStateBookDto.newInstance(castleStateBook);
     }
 
@@ -79,6 +81,7 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
     public MetroBookDto findMetroBook(String castleId) {
         //
         MetroBook metroBook = castleHistoryService.findMetroBook(castleId);
+        if (metroBook == null) return null;
         return MetroBookDto.newInstance(metroBook);
     }
 }

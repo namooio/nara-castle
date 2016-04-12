@@ -139,7 +139,7 @@ public class CastellanContactClient implements CastellanContactAdapter {
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADDRESS_REMOVE)
                         .addPathParam("id", castleId)
-                        .setRequestDto(addressTitle)
+                        .addPathParam("title", addressTitle)
         );
     }
 

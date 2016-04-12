@@ -35,6 +35,7 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
     public NameBookDto findNameBook(String castleId) {
         //
         NameBook nameBook = castellanContactService.findNameBook(castleId);
+        if (nameBook == null) return null;
         return NameBookDto.newInstance(nameBook);
     }
 
@@ -55,6 +56,7 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
     public EmailBookDto findEmailBook(String castleId) {
         //
         EmailBook emailBook = castellanContactService.findEmailBook(castleId);
+        if (emailBook == null) return null;
         return EmailBookDto.newInstance(emailBook);
     }
 
@@ -75,6 +77,7 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
     public PhoneBookDto findPhoneBook(String castleId) {
         //
         PhoneBook phoneBook = castellanContactService.findPhoneBook(castleId);
+        if (phoneBook == null) return null;
         return PhoneBookDto.newInstance(phoneBook);
     }
 
@@ -115,6 +118,7 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
     public AddressBookDto findAddressBook(String castleId) {
         //
         AddressBook addressBook = castellanContactService.findAddressBook(castleId);
+        if (addressBook == null) return null;
         return AddressBookDto.newInstance(addressBook);
     }
 }

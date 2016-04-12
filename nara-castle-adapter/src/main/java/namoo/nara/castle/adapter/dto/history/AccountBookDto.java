@@ -42,7 +42,7 @@ public class AccountBookDto {
         return accountBookDto;
     }
 
-    private void addAccountDto(LoginAccountDto loginAccountDto) {
+    public void addAccountDto(LoginAccountDto loginAccountDto) {
         //
         if (accountDtos == null) {
             accountDtos = new ArrayList<>();
