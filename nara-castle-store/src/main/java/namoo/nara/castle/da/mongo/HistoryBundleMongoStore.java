@@ -1,7 +1,7 @@
 package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.da.mongo.mdo.HistoryBundleMdo;
-import namoo.nara.castle.da.mongo.springdata.HistoryBundleMdoRepository;
+import namoo.nara.castle.da.mongo.springdata.HistoryBundleMongoRepository;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
 import namoo.nara.castle.domain.store.HistoryBundleStore;
 import namoo.nara.share.exception.store.AlreadyExistsException;
@@ -14,24 +14,24 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HistoryBundleMongoStore implements HistoryBundleStore {
-
+    //
     @Autowired
-    private HistoryBundleMdoRepository historyBundleMdoRepository;
+    private HistoryBundleMongoRepository historyBundleMongoRepository;
 
     @Override
     public String create(HistoryBundle history) {
         //
         String id = history.getId();
-        if (historyBundleMdoRepository.exists(id)) throw new AlreadyExistsException(String.format("History bundle document[ID:%s] already exist.", id));
+        if (historyBundleMongoRepository.exists(id)) throw new AlreadyExistsException(String.format("History bundle document[ID:%s] already exist.", id));
         HistoryBundleMdo historyBundleMdo = HistoryBundleMdo.newInstance(history);
-        historyBundleMdoRepository.save(historyBundleMdo);
+        historyBundleMongoRepository.save(historyBundleMdo);
         return id;
     }
 
     @Override
     public HistoryBundle retrieve(String id) {
         //
-        HistoryBundleMdo historyBundleMdo = historyBundleMdoRepository.findOne(id);
+        HistoryBundleMdo historyBundleMdo = historyBundleMongoRepository.findOne(id);
         if (historyBundleMdo == null) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to retrieve.", id));
         return historyBundleMdo.toDomain();
     }
@@ -39,9 +39,9 @@ public class HistoryBundleMongoStore implements HistoryBundleStore {
     private void update(HistoryBundle history) {
         //
         String id = history.getId();
-        if (!historyBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to update.", id));
+        if (!historyBundleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to update.", id));
         HistoryBundleMdo historyBundleMdo = HistoryBundleMdo.newInstance(history);
-        historyBundleMdoRepository.save(historyBundleMdo);
+        historyBundleMongoRepository.save(historyBundleMdo);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class HistoryBundleMongoStore implements HistoryBundleStore {
     @Override
     public void delete(String id) {
         //
-        if (!historyBundleMdoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to delete.", id));
-        historyBundleMdoRepository.delete(id);
+        if (!historyBundleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to delete.", id));
+        historyBundleMongoRepository.delete(id);
     }
 }
