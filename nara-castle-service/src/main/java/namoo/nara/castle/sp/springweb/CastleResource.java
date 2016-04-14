@@ -13,7 +13,7 @@ import java.util.Locale;
  * Created by kchuh@nextree.co.kr on 2016. 2. 19..
  */
 @RestController
-@RequestMapping("castle/{id}")
+@RequestMapping("castles/{id}")
 public class CastleResource extends CastleAdapterLogic {
     //
     @Autowired

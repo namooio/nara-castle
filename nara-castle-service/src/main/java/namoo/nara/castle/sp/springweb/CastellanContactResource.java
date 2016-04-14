@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
 @RestController
-@RequestMapping("castellan/{id}/contact")
+@RequestMapping("castellans/{id}/contacts")
 public class CastellanContactResource extends CastellanContactAdapterLogic {
     //
     @Autowired
@@ -85,19 +85,19 @@ public class CastellanContactResource extends CastellanContactAdapterLogic {
     }
 
     @Override
-    @RequestMapping(value = "address", method = RequestMethod.POST)
+    @RequestMapping(value = "addresses", method = RequestMethod.POST)
     public void addUserAddress(@PathVariable("id") String castleId, @RequestBody UserAddressDto addressDto) {
         super.addUserAddress(castleId, addressDto);
     }
 
     @Override
-    @RequestMapping(value = "address/{title}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "addresses/{title}", method = RequestMethod.DELETE)
     public void removeUserAddress(@PathVariable("id") String castleId, @PathVariable("title") String addressTitle) {
         super.removeUserAddress(castleId, addressTitle);
     }
 
     @Override
-    @RequestMapping(value = "address", method = RequestMethod.PUT)
+    @RequestMapping(value = "addresses", method = RequestMethod.PUT)
     public void modifyUserAddress(@PathVariable("id") String castleId, @RequestBody UserAddressDto addressDto) {
         super.modifyUserAddress(castleId, addressDto);
     }

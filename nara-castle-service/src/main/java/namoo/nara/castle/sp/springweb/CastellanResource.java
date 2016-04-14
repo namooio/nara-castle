@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
 @RestController
-@RequestMapping("castellan/{id}")
+@RequestMapping("castellans/{id}")
 public class CastellanResource extends CastellanAdapterLogic {
 
     @Autowired

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
 @RestController
-@RequestMapping("castle/{id}/history")
+@RequestMapping("castles/{id}/histories")
 public class CastleHistoryResource extends CastleHistoryAdapterLogic {
 
     @Autowired
