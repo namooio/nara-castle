@@ -19,12 +19,12 @@
             <groupId>namoo.nara.castle</groupId>
             <artifactId>nara-castle-adapter</artifactId>
             <version>${project.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>namoo.nara.castle</groupId>
-                    <artifactId>nara-castle-domain</artifactId>
-                </exclusion>
-            </exclusions>
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>namoo.nara.castle</groupId>-->
+                    <!--<artifactId>nara-castle-domain</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
         </dependency>
     </dependencies>
 
