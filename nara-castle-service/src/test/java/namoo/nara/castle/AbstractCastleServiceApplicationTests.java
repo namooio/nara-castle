@@ -9,7 +9,7 @@ import namoo.nara.castle.client.CastellanContactClient;
 import namoo.nara.castle.client.CastleClient;
 import namoo.nara.castle.client.CastleHistoryClient;
 import namoo.nara.share.restclient.NaraRestClient;
-import namoo.nara.share.restclient.springweb.SpringWebRestClient;
+import namoo.nara.share.restclient.jaxrs.JaxRSClient;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -38,7 +38,7 @@ public abstract class AbstractCastleServiceApplicationTests {
 	private NaraRestClient getNaraRestClient() {
 		//
 		if (naraRestClient == null) {
-			naraRestClient = new SpringWebRestClient(host + ":" + port + "/");
+			naraRestClient = new JaxRSClient(host + ":" + port + "/");
 		}
 		return naraRestClient;
 	}
