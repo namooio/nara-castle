@@ -6,7 +6,6 @@ public interface ContactBundleStore {
     //
     String create(ContactBundle contact);
     ContactBundle retrieve(String id);
-    // void update(ContactBundle contact);
     void updateAddressBook(ContactBundle contact);
     void updateEmailBook(ContactBundle contact);
     void updateNameBook(ContactBundle contact);

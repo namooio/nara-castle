@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public interface CastleService {
     //
-    void buildCastle(String id, String name, String metroId, Locale locale);
+    String buildCastle(String id, String name, String metroId, Locale locale);
     void suspendCastle(String id, String remarks);
     void reopenCastle(String id, String remarks);
     void modifyName(String id, String name);

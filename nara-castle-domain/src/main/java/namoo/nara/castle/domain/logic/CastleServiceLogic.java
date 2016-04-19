@@ -27,7 +27,7 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void buildCastle(String usid, String name, String metroId, Locale locale) {
+    public String buildCastle(String usid, String name, String metroId, Locale locale) {
         //
         Castle castle = Castle.newInstance(usid, name, locale);
         HistoryBundle history = castle.getInfoBundleBox().getHistoryBundle();
@@ -36,6 +36,8 @@ public class CastleServiceLogic implements CastleService {
         castleStore.create(castle);     // Castellan을 별도로 생성 ???
         castellanStore.create(castle.getOwner());
         historyStore.create(history);
+
+        return castle.getId();
     }
 
     @Override
