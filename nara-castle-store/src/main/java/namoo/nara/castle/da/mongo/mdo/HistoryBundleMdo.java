@@ -43,13 +43,13 @@ public class HistoryBundleMdo {
         return historyMdo;
     }
 
-    public HistoryBundle getDomain() {
+    public HistoryBundle toDomain() {
         //
         HistoryBundle historyBundle = HistoryBundle.newInstance(id);
 
-        if (castleStateBookMdo != null) historyBundle.setCastleStateBook(castleStateBookMdo.getDomain());
-        if (metroBookMdo != null) historyBundle.setMetroBook(metroBookMdo.getDomain());
-        if (accountBookMdo != null) historyBundle.setAccountBook(accountBookMdo.getDomain());
+        if (castleStateBookMdo != null) historyBundle.attachCastleStateBook(castleStateBookMdo.toDomain());
+        if (metroBookMdo != null) historyBundle.attachMetroBook(metroBookMdo.toDomain());
+        if (accountBookMdo != null) historyBundle.attachAccountBook(accountBookMdo.toDomain());
 
         return historyBundle;
     }

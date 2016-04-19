@@ -26,11 +26,11 @@ public class AddressBookMdo {
         return addressBookMdo;
     }
 
-    public AddressBook getDomain() {
+    public AddressBook toDomain() {
         AddressBook addressBook = new AddressBook();
         if (addressMdoList != null) {
             for(UserAddressMdo userAddressMdo : addressMdoList) {
-                addressBook.addAddress(userAddressMdo.getDomain());
+                addressBook.add(userAddressMdo.toDomain());
             }
         }
         return addressBook;

@@ -25,7 +25,7 @@ public class UserNameMdo {
         return userNameMdo;
     }
 
-    public UserName getDomain() {
+    public UserName toDomain() {
         //
         UserName userName = new UserName();
         userName.setFamilyName(familyName);

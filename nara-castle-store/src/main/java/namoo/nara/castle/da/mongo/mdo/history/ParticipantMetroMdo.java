@@ -28,7 +28,7 @@ public class ParticipantMetroMdo {
         return participantMetroMdo;
     }
 
-    public ParticipantMetro getDomain() {
+    public ParticipantMetro toDomain() {
         //
         ParticipantMetro participantMetro = new ParticipantMetro();
         participantMetro.setMetroId(metroId);

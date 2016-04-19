@@ -8,44 +8,44 @@ import namoo.nara.castle.domain.entity.history.CastleState;
  */
 public class CastleStateMdo {
     //
-    private OpenState currentState;
-    private OpenState targetState;
+    private String currentState;
+    private String targetState;
     private String remarks;
     private long modifiedTime;
 
     public static CastleStateMdo newInstance(CastleState castleState) {
         //
         CastleStateMdo castleStateMdo = new CastleStateMdo();
-        castleStateMdo.setCurrentState(castleState.getCurrentState());
-        castleStateMdo.setTargetState(castleState.getTargetState());
+        castleStateMdo.setCurrentState(castleState.getCurrentState().name());
+        castleStateMdo.setTargetState(castleState.getTargetState().name());
         castleStateMdo.setRemarks(castleState.getRemarks());
         castleStateMdo.setModifiedTime(castleState.getModifiedTime());
         return castleStateMdo;
     }
 
-    public CastleState getDomain() {
+    public CastleState toDomain() {
         //
         CastleState castleState = new CastleState();
-        castleState.setCurrentState(currentState);
-        castleState.setTargetState(targetState);
+        castleState.setCurrentState(OpenState.valueOf(currentState));
+        castleState.setTargetState(OpenState.valueOf(targetState));
         castleState.setRemarks(remarks);
         castleState.setModifiedTime(modifiedTime);
         return castleState;
     }
 
-    public OpenState getCurrentState() {
+    public String getCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(OpenState currentState) {
+    public void setCurrentState(String currentState) {
         this.currentState = currentState;
     }
 
-    public OpenState getTargetState() {
+    public String getTargetState() {
         return targetState;
     }
 
-    public void setTargetState(OpenState targetState) {
+    public void setTargetState(String targetState) {
         this.targetState = targetState;
     }
 

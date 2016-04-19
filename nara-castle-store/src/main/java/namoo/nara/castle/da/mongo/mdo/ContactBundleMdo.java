@@ -44,14 +44,14 @@ public class ContactBundleMdo {
         return contactMdo;
     }
 
-    public ContactBundle getDomain() {
+    public ContactBundle toDomain() {
         //
         ContactBundle contactBundle = ContactBundle.newInstance(id);
 
-        if (nameBookMdo != null) contactBundle.setNameBook(nameBookMdo.getDomain());
-        if (phoneBookMdo != null) contactBundle.setPhoneBook(phoneBookMdo.getDomain());
-        if (emailBookMdo != null) contactBundle.setEmailBook(emailBookMdo.getDomain());
-        if (addressBookMdo != null) contactBundle.setAddressBook(addressBookMdo.getDomain());
+        if (nameBookMdo != null) contactBundle.attachNameBook(nameBookMdo.toDomain());
+        if (phoneBookMdo != null) contactBundle.attachPhoneBook(phoneBookMdo.toDomain());
+        if (emailBookMdo != null) contactBundle.attachEmailBook(emailBookMdo.toDomain());
+        if (addressBookMdo != null) contactBundle.attachAddressBook(addressBookMdo.toDomain());
 
         return contactBundle;
     }

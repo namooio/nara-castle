@@ -29,12 +29,12 @@ public class CastleStateBookMdo {
         return castleStateBookMdo;
     }
 
-    public CastleStateBook getDomain() {
+    public CastleStateBook toDomain() {
         //
         CastleStateBook castleStateBook = new CastleStateBook();
         if (castleStateMdoList != null) {
             for(CastleStateMdo castleStateMdo : castleStateMdoList) {
-                castleStateBook.addCastleState(castleStateMdo.getDomain());
+                castleStateBook.attachCastleState(castleStateMdo.toDomain());
             }
         }
         return castleStateBook;

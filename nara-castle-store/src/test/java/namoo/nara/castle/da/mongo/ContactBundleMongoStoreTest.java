@@ -36,8 +36,8 @@ public class ContactBundleMongoStoreTest {
         ContactBundle contact = ContactBundle.newInstance(id);
 
         AddressBook addressBook = new AddressBook();
-        addressBook.addAddress(UserAddress.newKoreanAddress("111-222", "경기도 용인시 수지구 죽전1동 건영캐스빌 802동 1404호"));
-        addressBook.addAddress(UserAddress.newUsAddress("111-222", "CA", "Sandiego", "University ave 901"));
+        addressBook.add(UserAddress.newKoreanAddress("111-222", "경기도 용인시 수지구 죽전1동 건영캐스빌 802동 1404호"));
+        addressBook.add(UserAddress.newUsAddress("111-222", "CA", "Sandiego", "University ave 901"));
 
         EmailBook emailBook = new EmailBook();
         emailBook.addEmail(new UserEmail("kchuh@nextree.co.kr", UserEmail.EmailType.Business));
@@ -46,16 +46,16 @@ public class ContactBundleMongoStoreTest {
         emailBook.addEmail(new UserEmail("kchuh@icloud.com", UserEmail.EmailType.Private));
 
         PhoneBook phoneBook = new PhoneBook();
-        phoneBook.addPhone(new UserPhone("010-6325-7557"));
+        phoneBook.add(new UserPhone("010-6325-7557"));
 
         NameBook nameBook = new NameBook();
-        nameBook.addName(new UserName("Huh", "Ki Chul", "kchuh", "us"));
-        nameBook.addName(new UserName("허", "기철", "허기철", "kr"));
+        nameBook.add(new UserName("Huh", "Ki Chul", "kchuh", "us"));
+        nameBook.add(new UserName("허", "기철", "허기철", "kr"));
 
-        contact.setAddressBook(addressBook);
-        contact.setEmailBook(emailBook);
-        contact.setPhoneBook(phoneBook);
-        contact.setNameBook(nameBook);
+        contact.attachAddressBook(addressBook);
+        contact.attachEmailBook(emailBook);
+        contact.attachPhoneBook(phoneBook);
+        contact.attachNameBook(nameBook);
 
         contactBundleStore.create(contact);
 
@@ -74,8 +74,8 @@ public class ContactBundleMongoStoreTest {
         Assert.assertEquals(2, nameBook.findAll().size());
 
         // update test
-        phoneBook.addPhone(new UserPhone("031-897-2957"));
-        contactBundleStore.update(contact);
+        phoneBook.add(new UserPhone("031-897-2957"));
+        contactBundleStore.updatePhoneBook(contact);
         contact = contactBundleStore.retrieve(id);
         phoneBook = contact.getPhoneBook();
         Assert.assertEquals(2, phoneBook.findAll().size());

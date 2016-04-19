@@ -26,12 +26,12 @@ public class PhoneBookMdo {
         return phoneBookMdo;
     }
 
-    public PhoneBook getDomain() {
+    public PhoneBook toDomain() {
         //
         PhoneBook phoneBook = new PhoneBook();
         if (phoneMdoList != null) {
             for(UserPhoneMdo userPhoneMdo : phoneMdoList) {
-                phoneBook.addPhone(userPhoneMdo.getDomain());
+                phoneBook.add(userPhoneMdo.toDomain());
             }
         }
         return phoneBook;

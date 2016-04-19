@@ -16,6 +16,7 @@ public class CastellanServiceTest extends AbstractCastleServiceApplicationTests 
 
     @Before
     public void setupInitialData() {
+        //
         id = UUID.randomUUID().toString();
         CastleBuildDto castleBuildDto = new CastleBuildDto();
         castleBuildDto.setName("Michael's Castle");

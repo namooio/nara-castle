@@ -4,7 +4,7 @@ import namoo.nara.castle.domain.entity.contact.UserAddress;
 
 public class UserAddressMdo {
     //
-    private UserAddress.AddressStyle style; // Korean or US. Redefine enum type for mongo document?
+    private String style;                   // Korean or US.
     private String addressPartOne;          // street, P.O. Box, company
     private String addressPartTwo;          // apartment, suite, building, etc
     private String city;                    //
@@ -23,7 +23,7 @@ public class UserAddressMdo {
     public static UserAddressMdo newInstance(UserAddress userAddress) {
         //
         UserAddressMdo userAddressMdo = new UserAddressMdo();
-        userAddressMdo.setStyle(userAddress.getStyle());
+        userAddressMdo.setStyle(userAddress.getStyle().name());
         userAddressMdo.setAddressPartOne(userAddress.getAddressPartOne());
         userAddressMdo.setAddressPartTwo(userAddress.getAddressPartTwo());
         userAddressMdo.setCity(userAddress.getCity());
@@ -37,10 +37,10 @@ public class UserAddressMdo {
         return userAddressMdo;
     }
 
-    public UserAddress getDomain() {
+    public UserAddress toDomain() {
         //
         UserAddress userAddress = new UserAddress();
-        userAddress.setStyle(style);
+        userAddress.setStyle(UserAddress.AddressStyle.valueOf(style));
         userAddress.setAddressPartOne(addressPartOne);
         userAddress.setAddressPartTwo(addressPartTwo);
         userAddress.setCity(city);
@@ -54,11 +54,11 @@ public class UserAddressMdo {
         return userAddress;
     }
 
-    public UserAddress.AddressStyle getStyle() {
+    public String getStyle() {
         return style;
     }
 
-    public void setStyle(UserAddress.AddressStyle style) {
+    public void setStyle(String style) {
         this.style = style;
     }
 

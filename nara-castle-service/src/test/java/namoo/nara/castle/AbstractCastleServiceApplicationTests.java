@@ -1,11 +1,15 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.service.CastellanAdapter;
+import namoo.nara.castle.adapter.service.CastellanContactAdapter;
 import namoo.nara.castle.adapter.service.CastleAdapter;
+import namoo.nara.castle.adapter.service.CastleHistoryAdapter;
 import namoo.nara.castle.client.CastellanClient;
+import namoo.nara.castle.client.CastellanContactClient;
 import namoo.nara.castle.client.CastleClient;
+import namoo.nara.castle.client.CastleHistoryClient;
 import namoo.nara.share.restclient.NaraRestClient;
-import namoo.nara.share.restclient.springweb.SpringWebRestClient;
+import namoo.nara.share.restclient.jaxrs.JaxRSClient;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -25,14 +29,16 @@ public abstract class AbstractCastleServiceApplicationTests {
 	private int port;
 
 	private CastleClient castleClient;
+	private CastleHistoryClient castleHistoryClient;
 	private CastellanClient castellanClient;
+	private CastellanContactClient castellanContactClient;
 
 	private NaraRestClient naraRestClient;
 
 	private NaraRestClient getNaraRestClient() {
 		//
 		if (naraRestClient == null) {
-			naraRestClient = new SpringWebRestClient(host + ":" + port + "/");
+			naraRestClient = new JaxRSClient(host + ":" + port + "/");
 		}
 		return naraRestClient;
 	}
@@ -45,12 +51,28 @@ public abstract class AbstractCastleServiceApplicationTests {
 		return castleClient;
 	}
 
+	public CastleHistoryAdapter getCastleHistoryClient() {
+		//
+		if (castleHistoryClient == null) {
+			castleHistoryClient = new CastleHistoryClient(getNaraRestClient());
+		}
+		return castleHistoryClient;
+	}
+
 	public CastellanAdapter getCastellanClient() {
 		//
 		if (castellanClient == null) {
 			castellanClient = new CastellanClient(getNaraRestClient());
 		}
 		return castellanClient;
+	}
+
+	public CastellanContactAdapter getCastellanContactClient() {
+		//
+		if (castellanContactClient == null) {
+			castellanContactClient = new CastellanContactClient(getNaraRestClient());
+		}
+		return castellanContactClient;
 	}
 
 }

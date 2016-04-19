@@ -4,8 +4,10 @@ import namoo.nara.castle.domain.entity.contact.UserPhone;
 
 public class UserPhoneMdo {
     //
-    private String phoneNumber;
-    private String areaCode;
+    private String phoneNumber;     //+82-10-9202-9989
+    private String countryCode;     //+82
+    private String areaCode;        // 10
+    private String number;          // 9202-9989
 
     public UserPhoneMdo() {
         //
@@ -15,15 +17,19 @@ public class UserPhoneMdo {
         //
         UserPhoneMdo userPhoneMdo = new UserPhoneMdo();
         userPhoneMdo.setPhoneNumber(userPhone.getPhoneNumber());
+        userPhoneMdo.setCountryCode(userPhone.getCountryCode());
         userPhoneMdo.setAreaCode(userPhone.getAreaCode());
+        userPhoneMdo.setNumber(userPhone.getNumber());
         return userPhoneMdo;
     }
 
-    public UserPhone getDomain() {
+    public UserPhone toDomain() {
         //
         UserPhone userPhone = new UserPhone();
         userPhone.setPhoneNumber(phoneNumber);
+        userPhone.setCountryCode(countryCode);
         userPhone.setAreaCode(areaCode);
+        userPhone.setNumber(number);
         return userPhone;
     }
 
@@ -35,6 +41,14 @@ public class UserPhoneMdo {
         this.phoneNumber = phoneNumber;
     }
 
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
     public String getAreaCode() {
         return areaCode;
     }
@@ -43,4 +57,11 @@ public class UserPhoneMdo {
         this.areaCode = areaCode;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 }

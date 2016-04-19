@@ -14,7 +14,13 @@ public class CastleServiceSpringLycler implements CastleServiceLycler {
     private CastleService castleService;
 
     @Autowired
+    private CastleHistoryService castleHistoryService;
+
+    @Autowired
     private CastellanService castellanService;
+
+    @Autowired
+    private CastellanContactService castellanContactService;
 
     @Override
     public CastleService requestCastleService() {
@@ -31,12 +37,12 @@ public class CastleServiceSpringLycler implements CastleServiceLycler {
     @Override
     public CastleHistoryService requestCastleHisotryService() {
         //
-        return null;
+        return castleHistoryService;
     }
 
     @Override
     public CastellanContactService requestCastellanContactService() {
         //
-        return null;
+        return castellanContactService;
     }
 }

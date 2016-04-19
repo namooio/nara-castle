@@ -1,15 +1,14 @@
 package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.InfoBundleBox;
 import namoo.nara.castle.domain.entity.OpenState;
+import namoo.nara.castle.domain.entity.contact.ContactBundle;
 import namoo.nara.castle.domain.entity.history.CastleState;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
 import namoo.nara.castle.domain.entity.history.ParticipantMetro;
 import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.store.CastellanStore;
-import namoo.nara.castle.domain.store.CastleStore;
-import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.castle.domain.store.HistoryBundleStore;
+import namoo.nara.castle.domain.store.*;
 
 import java.util.Locale;
 
@@ -18,26 +17,31 @@ public class CastleServiceLogic implements CastleService {
     private CastleStore castleStore;
     private CastellanStore castellanStore;
     private HistoryBundleStore historyStore;
+    private ContactBundleStore contactBundleStore;
 
     public CastleServiceLogic(CastleStoreLycler storeLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.castellanStore = storeLycler.requestCastellanStore();
         this.historyStore = storeLycler.requestHistoryBundleStore();
+        this.contactBundleStore = storeLycler.requestContactBundleStore();
     }
 
     @Override
-    public String buildCastle(String usid, String name, String metroId, Locale locale) {
+    public void buildCastle(String usid, String name, String metroId, Locale locale) {
         //
         Castle castle = Castle.newInstance(usid, name, locale);
-        HistoryBundle history = castle.getInfoBundleBox().getHistoryBundle();
+
+        InfoBundleBox bundleBox = castle.getInfoBundleBox();
+        HistoryBundle history = bundleBox.getHistoryBundle();
         history.getMetroBook().addMetro(new ParticipantMetro(metroId, castle.getBuildTime()));
+
+        ContactBundle contact = bundleBox.getContactBundle();
 
         castleStore.create(castle);     // Castellan을 별도로 생성 ???
         castellanStore.create(castle.getOwner());
         historyStore.create(history);
-
-        return castle.getId();
+        contactBundleStore.create(contact);
     }
 
     @Override
@@ -57,8 +61,8 @@ public class CastleServiceLogic implements CastleService {
 
         OpenState targetState = OpenState.Suspended;
         CastleState castleState = new CastleState(currentState, targetState, remarks);
-        history.getCastleStateBook().addCastleState(castleState);
-        historyStore.update(history);
+        history.getCastleStateBook().attachCastleState(castleState);
+        historyStore.updateCastleStateBook(history);
     }
 
     @Override
@@ -78,8 +82,8 @@ public class CastleServiceLogic implements CastleService {
 
         OpenState targetState = OpenState.Open;
         CastleState castleState = new CastleState(currentState, targetState, remarks);
-        history.getCastleStateBook().addCastleState(castleState);
-        historyStore.update(history);
+        history.getCastleStateBook().attachCastleState(castleState);
+        historyStore.updateCastleStateBook(history);
     }
 
     @Override

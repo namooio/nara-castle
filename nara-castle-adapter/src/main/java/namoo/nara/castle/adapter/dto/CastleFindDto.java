@@ -17,6 +17,15 @@ public class CastleFindDto {
         //
     }
 
+    public static CastleFindDto newInstance(Castle castle) {
+        //
+        CastleFindDto castleFindDto = new CastleFindDto();
+        castleFindDto.setName(castle.getName());
+        castleFindDto.setLocale(castle.getLocale());
+        castleFindDto.setState(castle.getState().toString());
+        return castleFindDto;
+    }
+
     public String getName() {
         return name;
     }
@@ -41,12 +50,4 @@ public class CastleFindDto {
         this.locale = locale;
     }
 
-    public static CastleFindDto newInstance(Castle castle) {
-        //
-        CastleFindDto castleFindDto = new CastleFindDto();
-        castleFindDto.setName(castle.getName());
-        castleFindDto.setLocale(castle.getLocale());
-        castleFindDto.setState(castle.getState().toString());
-        return castleFindDto;
-    }
 }

@@ -13,7 +13,7 @@ import java.util.Locale;
  * Created by kchuh@nextree.co.kr on 2016. 2. 19..
  */
 @RestController
-@RequestMapping("castle")
+@RequestMapping("castles/{id}")
 public class CastleResource extends CastleAdapterLogic {
     //
     @Autowired
@@ -22,44 +22,38 @@ public class CastleResource extends CastleAdapterLogic {
     }
 
     @Override
-    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public void buildCastle(@PathVariable("id") String id, @RequestBody CastleBuildDto castleBuildDto) {
-        //
         super.buildCastle(id, castleBuildDto);
     }
 
     @Override
-    @RequestMapping(value = "{id}/suspend", method = RequestMethod.PUT)
+    @RequestMapping(value = "suspend", method = RequestMethod.PUT)
     public void suspendCastle(@PathVariable("id") String id, @RequestBody String remarks) {
-        //
         super.suspendCastle(id, remarks);
     }
 
     @Override
-    @RequestMapping(value = "{id}/reopen", method = RequestMethod.PUT)
+    @RequestMapping(value = "reopen", method = RequestMethod.PUT)
     public void reopenCastle(@PathVariable("id") String id, @RequestBody String remarks) {
-        //
         super.reopenCastle(id, remarks);
     }
 
     @Override
-    @RequestMapping(value = "{id}/name", method = RequestMethod.PUT)
+    @RequestMapping(value = "name", method = RequestMethod.PUT)
     public void modifyName(@PathVariable("id") String id, @RequestBody String name) {
-        //
         super.modifyName(id, name);
     }
 
     @Override
-    @RequestMapping(value = "{id}/locale", method = RequestMethod.PUT)
+    @RequestMapping(value = "locale", method = RequestMethod.PUT)
     public void modifyLocale(@PathVariable("id") String id, @RequestBody Locale locale) {
-        //
         super.modifyLocale(id, locale);
     }
 
     @Override
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public CastleFindDto findCastle(@PathVariable("id") String id) {
-        //
         return super.findCastle(id);
     }
 }
