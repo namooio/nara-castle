@@ -6,7 +6,7 @@
     <parent>
         <artifactId>nara-castle-pom</artifactId>
         <groupId>namoo.nara.castle</groupId>
-        <version>0.0.5-SNAPSHOT</version>
+        <version>0.0.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
