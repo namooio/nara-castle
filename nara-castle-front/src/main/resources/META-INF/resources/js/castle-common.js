@@ -5,15 +5,17 @@ var CastleConst = CastleConst || {};
 
 CastleConst.CTX = '';
 CastleConst.TOP_MENU_DOM_ID = 'castle-top-menu';
-CastleConst.CONTENTS_DOM_ID = 'castle-contents';
+CastleConst.CONTENTS_DOM_ID = 'castle-content';
 
-var CastleComponent = {};
-var CastellanComponent = {};
+var Components = {
+    Castle : { name: 'Castle'}
+    , Castellan : { name: 'Castellan'}
+};
 
 var CastleCommon = {};
 
 (function () {
-
+    //
     CastleCommon.getTopMenuJDom = function () {
         return $('#' + CastleConst.TOP_MENU_DOM_ID)[0];
     };
@@ -47,25 +49,54 @@ var CastleCommon = {};
         });
     };
 
+    CastleCommon.getJSON = function (url, param2) {
+        //
+        if (!url) {
+            alert('Invalid arguments -> url: ' + url + ', param2: ' + param2);
+        }
+
+        if (param2) {
+            return $.getJSON(url, JSON.stringify(param2));
+        }
+        else {
+            return $.getJSON(url);
+        }
+    }
+
+    var scriptCache = {};
+
     /**
-     * Ajax getJSX
+     * Get and execute jsx
      * @param url
      */
-    CastleCommon.getJSX = function (url) {
+    CastleCommon.getJSX = function (url, callback) {
         //
+        var cachedScript = scriptCache[url];
+
+        if (cachedScript) {
+            console.debug('Execute cached script');
+            JSXTransformer.exec(cachedScript);
+            return;
+        }
+
         $.ajax({
             url: url
             , method: 'GET'
             , cache: false
             , success : function (result) {
+                console.debug('Execute script from server');
+                scriptCache[url] = result;
                 JSXTransformer.exec(result);
+
+                if (callback && typeof callback === 'function') {
+                    callback(result);
+                }
             }
             , error: function (result) {
                 alert('Fail CastleCommon.getJSX');
-                console.dir(result);
+                console.debug(result);
             }
         });
     };
-
 
 })();

@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @Controller
-@RequestMapping("view")
 public class DefaultViewController {
     //
-    @RequestMapping("/main")
+    @RequestMapping("view")
     public String main() {
 
         return "main";

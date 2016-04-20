@@ -9,9 +9,12 @@ import java.util.Locale;
  */
 public class CastleFindDto {
     //
+    private String id;
     private String name;
-    private String state;
     private Locale locale;
+    private String state;
+    private long  buildTime;
+
 
     public CastleFindDto() {
         //
@@ -20,10 +23,22 @@ public class CastleFindDto {
     public static CastleFindDto newInstance(Castle castle) {
         //
         CastleFindDto castleFindDto = new CastleFindDto();
+        castleFindDto.setId(castle.getId());
         castleFindDto.setName(castle.getName());
         castleFindDto.setLocale(castle.getLocale());
         castleFindDto.setState(castle.getState().toString());
+        castleFindDto.setBuildTime(castle.getBuildTime());
+
         return castleFindDto;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -48,6 +63,14 @@ public class CastleFindDto {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public long getBuildTime() {
+        return buildTime;
+    }
+
+    public void setBuildTime(long buildTime) {
+        this.buildTime = buildTime;
     }
 
 }

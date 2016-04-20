@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("api/castellan")
-public class CastellanRestController {
+public class CastellanApiController {
     //
     @Autowired
     private CastellanAdapter castellanAdapter;

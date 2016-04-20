@@ -1,18 +1,22 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
+Components.Castellan.View = Components.Castellan.View || {};
 
 
 (function () {
     //
     var CastellanViewPage = React.createClass({
         getInitialState: function () {
+            console.log("Execute getInitialState");
             return {
                 castellanView: {}
                 , visibleView: false
                 , newCastellan: {}
             };
+        },
+        componentWillUnmount: function () {
+            console.debug('Execute unmount');
         },
         changeCastellanInput: function (inquiryId) {
             this.setState({inquiryId: inquiryId});
@@ -48,9 +52,6 @@ CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
             inquiryId : React.PropTypes.string,
             inquiry : React.PropTypes.func.isRequired,
             change : React.PropTypes.func.isRequired
-        },
-        getInitialState: function () {
-            return {};
         },
         inquiryBtnClick: function () {
             this.props.inquiry(this.props.inquiryId);
@@ -123,7 +124,11 @@ CastellanComponent.Inquiry = CastellanComponent.Inquiry || {};
         }
     });
 
-    ReactDOM.render(<CastellanViewPage />, CastleCommon.getContentsJDom());
+    Components.Castellan.View.renderLayout = function () {
+        ReactDOM.render(<CastellanViewPage />, CastleCommon.getContentsJDom());
+    };
+
+    Components.Castellan.View.renderLayout();
 
 })();
 
