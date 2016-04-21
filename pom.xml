@@ -4,7 +4,7 @@
 
     <groupId>namoo.nara.castle</groupId>
     <artifactId>nara-castle-pom</artifactId>
-    <version>0.0.8-SNAPSHOT</version>
+    <version>0.0.8</version>
 
     <packaging>pom</packaging>
 
@@ -46,7 +46,7 @@
         <connection>scm:git:https://github.com/namooio/nara-castle.git</connection>
         <url>scm:git:https://github.com/namooio/nara-castle.git</url>
         <developerConnection>scm:git:https://github.com/namooio/nara-castle.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>nara-castle-pom-0.0.8</tag>
     </scm>
 
     <build>
