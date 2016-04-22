@@ -1,7 +1,10 @@
 package namoo.nara.castle.adapter.dto;
 
+import namoo.nara.castle.adapter.dto.contact.NameBookDto;
+import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -13,7 +16,11 @@ public class CastleFindDto {
     private String name;
     private Locale locale;
     private String state;
-    private long  buildTime;
+    private Date  buildTime;
+
+    private CastellanFindDto castellan;
+    // TODO : 뷰모델(DTO) 구조 고민 필요 -> 도메인과 동일하게 갈 것인가..
+    private NameBookDto nameBookDto;
 
 
     public CastleFindDto() {
@@ -22,14 +29,18 @@ public class CastleFindDto {
 
     public static CastleFindDto newInstance(Castle castle) {
         //
-        CastleFindDto castleFindDto = new CastleFindDto();
-        castleFindDto.setId(castle.getId());
-        castleFindDto.setName(castle.getName());
-        castleFindDto.setLocale(castle.getLocale());
-        castleFindDto.setState(castle.getState().toString());
-        castleFindDto.setBuildTime(castle.getBuildTime());
+        CastleFindDto dto = new CastleFindDto();
+        dto.setId(castle.getId());
+        dto.setName(castle.getName());
+        dto.setLocale(castle.getLocale());
+        dto.setState(castle.getState().toString());
+        dto.setBuildTime(new Date(castle.getBuildTime()));
 
-        return castleFindDto;
+        if (castle.getOwner() != null) {
+            dto.setCastellan(CastellanFindDto.newInstance(castle.getOwner()));
+        }
+
+        return dto;
     }
 
 
@@ -65,12 +76,27 @@ public class CastleFindDto {
         this.locale = locale;
     }
 
-    public long getBuildTime() {
+    public Date getBuildTime() {
         return buildTime;
     }
 
-    public void setBuildTime(long buildTime) {
+    public void setBuildTime(Date buildTime) {
         this.buildTime = buildTime;
     }
 
+    public CastellanFindDto getCastellan() {
+        return castellan;
+    }
+
+    public void setCastellan(CastellanFindDto castellan) {
+        this.castellan = castellan;
+    }
+
+    public NameBookDto getNameBookDto() {
+        return nameBookDto;
+    }
+
+    public void setNameBookDto(NameBookDto nameBookDto) {
+        this.nameBookDto = nameBookDto;
+    }
 }

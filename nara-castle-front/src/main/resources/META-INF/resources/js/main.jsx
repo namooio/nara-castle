@@ -6,15 +6,17 @@ Components.Main = Components.Main || {};
 
 (function () {
     //
-    var namespace = {};
+    // Import component module
+    var castleCommon = CastleCommon
+        , castleRouter = CastleRouter;
 
-    namespace.renderLayout = function (contentComponent, params) {
-        console.debug('Main content component');
+    var renderLayout = function (contentComponent, params) {
+        console.info('Main content component');
         console.dir(contentComponent);
-        console.debug('Main content params');
+        console.info('Main content params');
         console.dir(params);
 
-        ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, CastleCommon.getContentsJDom());
+        ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, castleCommon.getContentsJDom());
     };
 
     var MainPage = React.createClass({
@@ -131,7 +133,7 @@ Components.Main = Components.Main || {};
 
     var Content = React.createClass({
         render: function () {
-            console.debug('Execute main.jsx content render');
+            console.info('Execute main.jsx content render');
             console.dir(this.props.contentComponent);
 
             var contentComponent = React.createElement(this.props.contentComponent);
@@ -143,12 +145,8 @@ Components.Main = Components.Main || {};
         }
     });
 
-    //ReactDOM.render(<TopMenu />, CastleCommon.getTopMenuJDom());
-    //ReactDOM.render(<Content contentComponent={{}}/>);
+    castleRouter.initialize(renderLayout);
 
-    CastleRouter.initialize(namespace.renderLayout);
-
-    namespace.MainPage = MainPage;
-    Components.Main = namespace;
+    Components.Main = MainPage;
 })();
 

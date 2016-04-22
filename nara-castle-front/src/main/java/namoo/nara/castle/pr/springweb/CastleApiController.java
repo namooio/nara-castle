@@ -1,6 +1,9 @@
 package namoo.nara.castle.pr.springweb;
 
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
+import namoo.nara.castle.adapter.dto.contact.NameBookDto;
+import namoo.nara.castle.adapter.dto.contact.UserNameDto;
 import namoo.nara.castle.adapter.service.CastleAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,44 +21,103 @@ import java.util.*;
 @RequestMapping("api/castle")
 public class CastleApiController {
     //
-    private static Map<String, CastleFindDto> temporaryCastleMap;
-
     @Autowired
     private CastleAdapter castleAdapter;
-
-    static {
-        int countOfCastle = 15;
-        temporaryCastleMap = new LinkedHashMap<>(countOfCastle);
-
-        for (int i = 0; i < countOfCastle; i++) {
-
-            CastleFindDto dto = new CastleFindDto();
-
-            String idSeq = String.valueOf(i + 1);
-            String id = StringUtils.leftPad(idSeq, 6, "0");
-
-            dto.setId(id);
-            dto.setName("Castle" + (i+1));
-            dto.setLocale(Locale.KOREAN);
-            dto.setState("Ready");
-            dto.setBuildTime(System.currentTimeMillis());
-
-            temporaryCastleMap.put(id, dto);
-        }
-    }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<CastleFindDto> findAllCastles() {
         //
         // TODO : Adapter에 FindAll 추가 되어야 함
-        return new ArrayList<CastleFindDto>(temporaryCastleMap.values());
+        System.out.println("Execute findAllCastles");
+        return TemporaryCastleStore.findAllCastles();
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public CastleFindDto find(@PathVariable("id") String castleId) {
         //
-        return temporaryCastleMap.get(castleId);
+        System.out.println("Execute find -> id: " + castleId);
+        return TemporaryCastleStore.findCastle(castleId);
     }
 
+    @RequestMapping(value="/{id}/namebook", method= RequestMethod.GET)
+    public NameBookDto findNameBook(@PathVariable("id") String castleId) {
+        //
+        System.out.println("Execute find namebook -> id: " + castleId);
+        return TemporaryCastleStore.findNameBook(castleId);
+    }
+
+
+
+    private static class TemporaryCastleStore {
+        private static Map<String, CastleFindDto> temporaryCastleMap;
+
+        static {
+            int countOfCastle = 15;
+            temporaryCastleMap = new LinkedHashMap<>(countOfCastle);
+
+            for (int i = 0; i < countOfCastle; i++) {
+
+                int sequence = i + 1;
+
+                CastleFindDto dto = new CastleFindDto();
+
+                // Basic Information
+                String idSeq = String.valueOf(sequence);
+                String id = "CT" + StringUtils.leftPad(idSeq, 6, "0");
+
+                dto.setId(id);
+                dto.setName("Castle" + sequence);
+                dto.setLocale(Locale.KOREAN);
+                dto.setState("Ready");
+                dto.setBuildTime(new Date(System.currentTimeMillis()));
+
+                // Castellan
+                CastellanFindDto castellanDto = new CastellanFindDto();
+                castellanDto.setPhotoId("PT" + idSeq);
+                castellanDto.setPrimaryEmail(dto.getName() + "@test");
+                castellanDto.setPrimaryPhone("010-0000-" + sequence);
+
+                dto.setCastellan(castellanDto);
+
+                // NameBook
+                NameBookDto nameBookDto = new NameBookDto();
+                nameBookDto.setCastleId(id);
+
+                for (int j = 0; j < 3; j ++) {
+                    int namebookSeq = j + 1;
+
+                    UserNameDto nameDto = new UserNameDto();
+                    nameDto.setFamilyName("Family name " + sequence + "-" + namebookSeq);
+                    nameDto.setFirstName("First name " + sequence + "-" + namebookSeq);
+                    nameDto.setDisplayName("Display name " + sequence + "-" + namebookSeq);
+                    nameDto.setMiddleName("Middle name " + sequence + "-" + namebookSeq);
+                    nameDto.setLangCode("ko");
+
+                    nameBookDto.add(nameDto);
+                }
+
+                dto.setNameBookDto(nameBookDto);
+
+                // EmailBook
+
+                // AddressBook
+
+
+                temporaryCastleMap.put(id, dto);
+            }
+        }
+
+        public static List<CastleFindDto> findAllCastles() {
+            return new ArrayList<CastleFindDto>(temporaryCastleMap.values());
+        }
+
+        public static CastleFindDto findCastle(String castleId) {
+            return temporaryCastleMap.get(castleId);
+        }
+
+        public static NameBookDto findNameBook(String castleId) {
+            return temporaryCastleMap.get(castleId).getNameBookDto();
+        }
+    }
 
 }

@@ -74,7 +74,7 @@ var CastleCommon = {};
         var cachedScript = scriptCache[url];
 
         if (cachedScript) {
-            console.debug('Execute cached script');
+            console.info('Execute cached script');
             JSXTransformer.exec(cachedScript);
             return;
         }
@@ -84,7 +84,7 @@ var CastleCommon = {};
             , method: 'GET'
             , cache: false
             , success : function (result) {
-                console.debug('Execute script from server');
+                console.info('Execute script from server');
                 scriptCache[url] = result;
                 JSXTransformer.exec(result);
 
@@ -94,9 +94,18 @@ var CastleCommon = {};
             }
             , error: function (result) {
                 alert('Fail CastleCommon.getJSX');
-                console.debug(result);
+                console.info(result);
             }
         });
+    };
+
+
+    CastleCommon.Date = {};
+    CastleCommon.Date.parseToString = function (date) {
+        if (!date) {
+            return null;
+        }
+        return new Date(date).toLocaleString();
     };
 
 })();

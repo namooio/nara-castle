@@ -99,17 +99,15 @@ var CastleRouter = CastleRouter || {};
             , paramObj = {}
             , mappingResources;
 
-        console.debug('Execute castle-router.js navigate()');
+        console.info('Execute castle-router.js navigate()');
 
         if (!mapping[hashUrl]) {
             console.error('Not found url mapping from router -> url: ' + hashUrl);
-
             var errorResourcePath = '/js/castle/error.jsx';
-
 
             castleCommon.getJSX(CastleConst.CTX + errorResourcePath, function () {
                 //
-                console.log('Execute castle-router.js navigate() error page');
+                console.info('Execute castle-router.js navigate() error page');
                 var componentNamespace = Components.Castle
                     , componentName = 'Common'
                     , component = componentNamespace[componentName];
@@ -149,7 +147,7 @@ var CastleRouter = CastleRouter || {};
             else {
                 castleCommon.getJSX(CastleConst.CTX + resourceItem.path, function () {
                     //
-                    console.log('Execute castle-router.js navigate() getJSX callback');
+                    //console.info('Execute castle-router.js navigate() getJSX callback');
                     componentCache[resourceComponent.namespace.name + resourceComponent.name] = resourceComponent;
                     component = resourceComponent.namespace[resourceComponent.name];
 
