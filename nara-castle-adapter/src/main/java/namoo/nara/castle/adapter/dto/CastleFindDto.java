@@ -1,9 +1,13 @@
 package namoo.nara.castle.adapter.dto;
 
 import namoo.nara.castle.adapter.dto.contact.AddressBookDto;
+import namoo.nara.castle.adapter.dto.contact.EmailBookDto;
 import namoo.nara.castle.adapter.dto.contact.NameBookDto;
 import namoo.nara.castle.adapter.dto.contact.PhoneBookDto;
 import namoo.nara.castle.adapter.dto.history.AccountBookDto;
+import namoo.nara.castle.adapter.dto.history.CastleStateBookDto;
+import namoo.nara.castle.adapter.dto.history.MetroBookDto;
+import namoo.nara.castle.adapter.dto.history.ParticipantMetroDto;
 
 import java.util.Date;
 import java.util.Locale;
@@ -22,10 +26,16 @@ public class CastleFindDto {
     private CastellanFindDto castellan;
 
     // TODO : 뷰모델(DTO) 구조 고민 필요 -> 도메인과 동일하게 갈 것인가..
-    private NameBookDto nameBookDto;
-    private PhoneBookDto phoneBookDto;
-    private AddressBookDto addressBookDto;
-    private AccountBookDto accountBookDto;
+    // Contact book
+    private NameBookDto nameBook;
+    private PhoneBookDto phoneBook;
+    private EmailBookDto emailBook;
+    private AddressBookDto addressBook;
+
+    // History book
+    private AccountBookDto accountBook;
+    private CastleStateBookDto stateBook;
+    private MetroBookDto metroBook;
 
 
     public CastleFindDto() {
@@ -80,35 +90,59 @@ public class CastleFindDto {
         this.castellan = castellan;
     }
 
-    public NameBookDto getNameBookDto() {
-        return nameBookDto;
+    public NameBookDto getNameBook() {
+        return nameBook;
     }
 
-    public void setNameBookDto(NameBookDto nameBookDto) {
-        this.nameBookDto = nameBookDto;
+    public void setNameBook(NameBookDto nameBook) {
+        this.nameBook = nameBook;
     }
 
-    public PhoneBookDto getPhoneBookDto() {
-        return phoneBookDto;
+    public PhoneBookDto getPhoneBook() {
+        return phoneBook;
     }
 
-    public void setPhoneBookDto(PhoneBookDto phoneBookDto) {
-        this.phoneBookDto = phoneBookDto;
+    public void setPhoneBook(PhoneBookDto phoneBook) {
+        this.phoneBook = phoneBook;
     }
 
-    public AddressBookDto getAddressBookDto() {
-        return addressBookDto;
+    public EmailBookDto getEmailBook() {
+        return emailBook;
     }
 
-    public void setAddressBookDto(AddressBookDto addressBookDto) {
-        this.addressBookDto = addressBookDto;
+    public void setEmailBook(EmailBookDto emailBook) {
+        this.emailBook = emailBook;
     }
 
-    public AccountBookDto getAccountBookDto() {
-        return accountBookDto;
+    public AddressBookDto getAddressBook() {
+        return addressBook;
     }
 
-    public void setAccountBookDto(AccountBookDto accountBookDto) {
-        this.accountBookDto = accountBookDto;
+    public void setAddressBook(AddressBookDto addressBook) {
+        this.addressBook = addressBook;
+    }
+
+    public AccountBookDto getAccountBook() {
+        return accountBook;
+    }
+
+    public void setAccountBook(AccountBookDto accountBook) {
+        this.accountBook = accountBook;
+    }
+
+    public CastleStateBookDto getStateBook() {
+        return stateBook;
+    }
+
+    public void setStateBook(CastleStateBookDto stateBook) {
+        this.stateBook = stateBook;
+    }
+
+    public MetroBookDto getMetroBook() {
+        return metroBook;
+    }
+
+    public void setMetroBook(MetroBookDto metroBook) {
+        this.metroBook = metroBook;
     }
 }

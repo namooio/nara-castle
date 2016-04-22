@@ -1,11 +1,9 @@
 package namoo.nara.castle.pr.springweb;
 
+import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
-import namoo.nara.castle.adapter.dto.contact.NameBookDto;
-import namoo.nara.castle.adapter.dto.contact.PhoneBookDto;
-import namoo.nara.castle.adapter.dto.contact.UserNameDto;
-import namoo.nara.castle.adapter.CastleAdapter;
+import namoo.nara.castle.adapter.dto.contact.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,21 +38,37 @@ public class CastleApiController {
         return TemporaryCastleStore.findCastle(castleId);
     }
 
-    @RequestMapping(value="/{id}/namebook", method= RequestMethod.GET)
+    @RequestMapping(value="/{id}/name-book", method= RequestMethod.GET)
     public NameBookDto findNameBook(@PathVariable("id") String castleId) {
         //
         System.out.println("Execute find nameBook -> id: " + castleId);
         return TemporaryCastleStore.findNameBook(castleId);
     }
 
+    @RequestMapping(value="/{id}/phone-book", method= RequestMethod.GET)
     public PhoneBookDto findPhoneBook(@PathVariable("id") String castleId) {
         System.out.println("Execute find phoneBook -> id: " + castleId);
         return TemporaryCastleStore.findPhoneBook(castleId);
     }
 
+    @RequestMapping(value="/{id}/email-book", method= RequestMethod.GET)
+    public EmailBookDto findEmailBook(@PathVariable("id") String castleId) {
+        System.out.println("Execute find emailBook -> id: " + castleId);
+        return TemporaryCastleStore.findEmailBook(castleId);
+    }
+
+    @RequestMapping(value="/{id}/address-book", method= RequestMethod.GET)
+    public AddressBookDto findAddressBook(@PathVariable("id") String castleId) {
+        System.out.println("Execute find addressBook -> id: " + castleId);
+        return TemporaryCastleStore.findAddressBook(castleId);
+    }
+
+
+
 
 
     private static class TemporaryCastleStore {
+        //
         private static Map<String, CastleFindDto> temporaryCastleMap;
 
         static {
@@ -85,28 +99,59 @@ public class CastleApiController {
 
                 dto.setCastellan(castellanDto);
 
-                // NameBook
+                // Books
                 NameBookDto nameBookDto = new NameBookDto();
-//                nameBookDto.setCastleId(id);
+                PhoneBookDto phoneBookDto = new PhoneBookDto();
+                EmailBookDto emailBookDto = new EmailBookDto();
+                AddressBookDto addressBookDto = new AddressBookDto();
 
                 for (int j = 0; j < 3; j ++) {
-                    int namebookSeq = j + 1;
+                    //
+                    int bookSeq = j + 1;
 
+                    // Name book
                     UserNameDto nameDto = new UserNameDto();
-                    nameDto.setFamilyName("Family name " + sequence + "-" + namebookSeq);
-                    nameDto.setFirstName("First name " + sequence + "-" + namebookSeq);
-                    nameDto.setDisplayName("Display name " + sequence + "-" + namebookSeq);
-                    nameDto.setMiddleName("Middle name " + sequence + "-" + namebookSeq);
+                    nameDto.setFamilyName("Family name " + sequence + "-" + bookSeq);
+                    nameDto.setFirstName("First name " + sequence + "-" + bookSeq);
+                    nameDto.setDisplayName("Display name " + sequence + "-" + bookSeq);
+                    nameDto.setMiddleName("Middle name " + sequence + "-" + bookSeq);
                     nameDto.setLangCode("ko");
+                    nameBookDto.addNameDto(nameDto);
 
-                    nameBookDto.add(nameDto);
+                    // Phone book
+                    UserPhoneDto phoneDto = new UserPhoneDto();
+                    phoneDto.setCountryCode("+82");
+                    phoneDto.setAreaCode("10");
+                    phoneDto.setNumber(String.valueOf(sequence + "-" + bookSeq));
+                    phoneDto.setPhoneNumber(phoneDto.getCountryCode() + "-" + phoneDto.getAreaCode() + "-" + phoneDto.getNumber());
+                    phoneBookDto.addPhoneDto(phoneDto);
+
+                    // Email book
+                    UserEmailDto emailDto = new UserEmailDto();
+                    emailDto.setEmail(dto.getName() + "@test" + bookSeq);
+                    emailDto.setEmailType("Private");
+                    emailDto.setVerified(true);
+                    emailDto.setVerifiedTime(System.currentTimeMillis());
+                    emailBookDto.addEmailDto(emailDto);
+
+                    // Address book
+                    UserAddressDto addressDto = new UserAddressDto();
+                    addressDto.setTitle("주소 " + sequence + "-" + bookSeq);
+                    addressDto.setStyle("Korean");
+                    addressDto.setLangCode("ko");
+                    addressDto.setCountry("korea");
+                    addressDto.setZipCode(sequence + "-" + bookSeq);
+//                    addressDto.setState();
+                    addressDto.setCity("Seoul");
+                    addressDto.setAddressPartOne("금천구 가산디지털1로 " + bookSeq);
+                    addressDto.setAddressPartTwo("제이플라츠 101호");
+                    addressDto.setPhoneNumber(sequence + "-" + bookSeq);
+                    addressBookDto.addAddressDto(addressDto);
                 }
-
-                dto.setNameBookDto(nameBookDto);
-
-                // EmailBook
-
-                // AddressBook
+                dto.setNameBook(nameBookDto);
+                dto.setPhoneBook(phoneBookDto);
+                dto.setEmailBook(emailBookDto);
+                dto.setAddressBook(addressBookDto);
 
 
                 temporaryCastleMap.put(id, dto);
@@ -120,23 +165,28 @@ public class CastleApiController {
 
         public static CastleFindDto findCastle(String castleId) {
             System.out.println("Execute findCastle");
-            System.out.println(temporaryCastleMap.get(castleId).toString());
             return temporaryCastleMap.get(castleId);
         }
 
         public static NameBookDto findNameBook(String castleId) {
             System.out.println("Execute findNameBook");
-            System.out.println(temporaryCastleMap.get(castleId).getNameBookDto().toString());
-            return temporaryCastleMap.get(castleId).getNameBookDto();
+            return temporaryCastleMap.get(castleId).getNameBook();
         }
 
         public static PhoneBookDto findPhoneBook(String castleId) {
             System.out.println("Execute findPhoneBook");
-            System.out.println(temporaryCastleMap.get(castleId).getPhoneBookDto().toString());
-            return temporaryCastleMap.get(castleId).getPhoneBookDto();
+            return temporaryCastleMap.get(castleId).getPhoneBook();
         }
 
+        public static EmailBookDto findEmailBook(String castleId) {
+            System.out.println("Execute findEmailBook");
+            return temporaryCastleMap.get(castleId).getEmailBook();
+        }
 
+        public static AddressBookDto findAddressBook(String castleId) {
+            System.out.println("Execute findAddressBook");
+            return temporaryCastleMap.get(castleId).getAddressBook();
+        }
     }
 
 }

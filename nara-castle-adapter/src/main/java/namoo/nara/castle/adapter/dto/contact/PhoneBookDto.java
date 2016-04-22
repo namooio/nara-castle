@@ -1,17 +1,14 @@
 package namoo.nara.castle.adapter.dto.contact;
 
-import namoo.nara.castle.domain.entity.contact.PhoneBook;
-import namoo.nara.castle.domain.entity.contact.UserPhone;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-public class PhoneBookDto extends ArrayList<UserPhoneDto> {
+public class PhoneBookDto {
     //
-//    private List<UserPhoneDto> phoneDtoList;
+    private List<UserPhoneDto> phones;
 
     public PhoneBookDto() {
         //
@@ -19,18 +16,17 @@ public class PhoneBookDto extends ArrayList<UserPhoneDto> {
 
     public void addPhoneDto(UserPhoneDto userPhoneDto) {
         //
-//        if (phoneDtoList == null) {
-//            phoneDtoList = new ArrayList<>();
-//        }
-//        phoneDtoList.add(userPhoneDto);
-        this.add(userPhoneDto);
+        if (phones == null) {
+            phones = new ArrayList<>();
+        }
+        phones.add(userPhoneDto);
     }
-//
-//    public List<UserPhoneDto> getPhoneDtoList() {
-//        return phoneDtoList;
-//    }
-//
-//    public void setPhoneDtoList(List<UserPhoneDto> phoneDtoList) {
-//        this.phoneDtoList = phoneDtoList;
-//    }
+
+    public List<UserPhoneDto> getPhones() {
+        return phones;
+    }
+
+    public void setPhones(List<UserPhoneDto> phones) {
+        this.phones = phones;
+    }
 }

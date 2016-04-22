@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Sign in</title>
+    <title>Castle</title>
 
     <link rel="stylesheet" href="${ctx}/webjars/bootstrap/3.2.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="${ctx}/css/castle.css" />

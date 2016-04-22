@@ -46,11 +46,11 @@ public class CastellanContactServiceTest extends AbstractCastleServiceApplicatio
         getCastellanContactClient().addUserAddress(id, userAddressDto);
 
         AddressBookDto addressBookDto = getCastellanContactClient().findAddressBook(id);
-        Assert.assertEquals(2, addressBookDto.size());
+        Assert.assertEquals(2, addressBookDto.getAddresses().size());
 
         getCastellanContactClient().removeUserAddress(id, "회사주소");
         addressBookDto = getCastellanContactClient().findAddressBook(id);
-        Assert.assertEquals(1, addressBookDto.size());
+        Assert.assertEquals(1, addressBookDto.getAddresses().size());
 
         userAddressDto = new UserAddressDto();
         userAddressDto.setStyle("Korean");
@@ -58,7 +58,7 @@ public class CastellanContactServiceTest extends AbstractCastleServiceApplicatio
         userAddressDto.setZipCode("448-538");
         getCastellanContactClient().modifyUserAddress(id, userAddressDto);
         addressBookDto = getCastellanContactClient().findAddressBook(id);
-        Assert.assertEquals("448-538", addressBookDto.get(0).getZipCode());
+        Assert.assertEquals("448-538", addressBookDto.getAddresses().get(0).getZipCode());
     }
 
 }
