@@ -1,8 +1,5 @@
 package namoo.nara.castle.adapter.dto.history;
 
-import namoo.nara.castle.domain.entity.history.CastleState;
-import namoo.nara.castle.domain.entity.history.CastleStateBook;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,30 +12,6 @@ public class CastleStateBookDto {
 
     public CastleStateBookDto() {
         //
-    }
-
-    public CastleStateBook toDomain() {
-        //
-        CastleStateBook castleStateBook = new CastleStateBook();
-        if (castleStateDtos != null) {
-            for(CastleStateDto castleStateDto : castleStateDtos) {
-                castleStateBook.attachCastleState(castleStateDto.toDomain());
-            }
-        }
-
-        return castleStateBook;
-    }
-
-    public static CastleStateBookDto newInstance(CastleStateBook castleStateBook) {
-        //
-        CastleStateBookDto castleStateBookDto = new CastleStateBookDto();
-        List<CastleState> stateList = castleStateBook.findAll();
-        if (stateList != null) {
-            for(CastleState castleState : stateList) {
-                castleStateBookDto.addStateDto(CastleStateDto.newInstance(castleState));
-            }
-        }
-        return castleStateBookDto;
     }
 
     public void addStateDto(CastleStateDto castleStateDto) {

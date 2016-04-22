@@ -1,7 +1,5 @@
 package namoo.nara.castle.adapter.dto.contact;
 
-import namoo.nara.castle.domain.entity.contact.UserPhone;
-
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
@@ -14,26 +12,6 @@ public class UserPhoneDto {
 
     public UserPhoneDto() {
         //
-    }
-
-    public UserPhone toDomain() {
-        //
-        UserPhone userPhone = new UserPhone();
-        userPhone.setPhoneNumber(phoneNumber);
-        userPhone.setCountryCode(countryCode);
-        userPhone.setAreaCode(areaCode);
-        userPhone.setNumber(number);
-        return userPhone;
-    }
-
-    public static UserPhoneDto newInstance(UserPhone userPhone) {
-        //
-        UserPhoneDto userPhoneDto = new UserPhoneDto();
-        userPhoneDto.setPhoneNumber(userPhone.getPhoneNumber());
-        userPhoneDto.setCountryCode(userPhone.getCountryCode());
-        userPhoneDto.setAreaCode(userPhone.getAreaCode());
-        userPhoneDto.setNumber(userPhone.getNumber());
-        return userPhoneDto;
     }
 
     public String getPhoneNumber() {

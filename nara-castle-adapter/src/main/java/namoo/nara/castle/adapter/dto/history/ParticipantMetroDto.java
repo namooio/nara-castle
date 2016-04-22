@@ -17,28 +17,6 @@ public class ParticipantMetroDto {
         //
     }
 
-    public static ParticipantMetroDto newInstance(ParticipantMetro participantMetro) {
-        //
-        ParticipantMetroDto participantMetroDto = new ParticipantMetroDto();
-        participantMetroDto.setMetroId(participantMetro.getMetroId());
-        participantMetroDto.setMetroName(participantMetro.getMetroName());
-        participantMetroDto.setJoinTime(participantMetro.getJoinTime());
-        participantMetroDto.setWithdrawalTime(participantMetro.getWithdrawalTime());
-        participantMetroDto.setRemarks(participantMetro.getRemarks());
-        return participantMetroDto;
-    }
-
-    public ParticipantMetro toDomain() {
-        //
-        ParticipantMetro participantMetro = new ParticipantMetro();
-        participantMetro.setMetroId(metroId);
-        participantMetro.setMetroName(metroName);
-        participantMetro.setJoinTime(joinTime);
-        participantMetro.setWithdrawalTime(withdrawalTime);
-        participantMetro.setRemarks(remarks);
-        return participantMetro;
-    }
-
     public String getMetroId() {
         return metroId;
     }

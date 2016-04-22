@@ -27,23 +27,6 @@ public class CastleFindDto {
         //
     }
 
-    public static CastleFindDto newInstance(Castle castle) {
-        //
-        CastleFindDto dto = new CastleFindDto();
-        dto.setId(castle.getId());
-        dto.setName(castle.getName());
-        dto.setLocale(castle.getLocale());
-        dto.setState(castle.getState().toString());
-        dto.setBuildTime(new Date(castle.getBuildTime()));
-
-        if (castle.getOwner() != null) {
-            dto.setCastellan(CastellanFindDto.newInstance(castle.getOwner()));
-        }
-
-        return dto;
-    }
-
-
     public String getId() {
         return id;
     }

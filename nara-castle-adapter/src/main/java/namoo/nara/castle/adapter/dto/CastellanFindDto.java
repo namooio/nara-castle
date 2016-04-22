@@ -1,7 +1,5 @@
 package namoo.nara.castle.adapter.dto;
 
-import namoo.nara.castle.domain.entity.Castellan;
-
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 22..
  */
@@ -14,16 +12,6 @@ public class CastellanFindDto {
 
     public CastellanFindDto() {
         //
-    }
-
-    public static CastellanFindDto newInstance(Castellan castellan) {
-        //
-        CastellanFindDto castellanFindDto = new CastellanFindDto();
-        castellanFindDto.setDisplayName(castellan.getDisplayName());
-        castellanFindDto.setPhotoId(castellan.getPhotoId());
-        castellanFindDto.setPrimaryEmail(castellan.getPrimaryEmail());
-        castellanFindDto.setPrimaryPhone(castellan.getPrimaryPhone());
-        return castellanFindDto;
     }
 
     public String getDisplayName() {

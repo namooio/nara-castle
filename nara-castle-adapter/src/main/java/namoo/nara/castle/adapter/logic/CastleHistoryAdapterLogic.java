@@ -3,6 +3,7 @@ package namoo.nara.castle.adapter.logic;
 import namoo.nara.castle.adapter.dto.history.AccountBookDto;
 import namoo.nara.castle.adapter.dto.history.CastleStateBookDto;
 import namoo.nara.castle.adapter.dto.history.MetroBookDto;
+import namoo.nara.castle.adapter.dto.util.DomainConversionUtil;
 import namoo.nara.castle.adapter.service.CastleHistoryAdapter;
 import namoo.nara.castle.domain.entity.history.AccountBook;
 import namoo.nara.castle.domain.entity.history.CastleStateBook;
@@ -25,7 +26,7 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
     @Override
     public void attachAccountBook(String castleId, AccountBookDto accountBookDto) {
         //
-        AccountBook accountBook = accountBookDto.toDomain();
+        AccountBook accountBook = DomainConversionUtil.toAccountBook(accountBookDto);
         castleHistoryService.attachAccountBook(castleId, accountBook);
     }
 
@@ -40,13 +41,13 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
         //
         AccountBook accountBook = castleHistoryService.findAccountBook(castleId);
         if (accountBook == null) return null;
-        return AccountBookDto.newInstance(accountBook);
+        return DomainConversionUtil.toAccountBookDto(accountBook);
     }
 
     @Override
     public void attachCastleStateBook(String castleId, CastleStateBookDto castleStateBookDto) {
         //
-        CastleStateBook castleStateBook = castleStateBookDto.toDomain();
+        CastleStateBook castleStateBook = DomainConversionUtil.toCastleStateBook(castleStateBookDto);
         castleHistoryService.attachCastleStateBook(castleId, castleStateBook);
     }
 
@@ -61,13 +62,13 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
         //
         CastleStateBook castleStateBook = castleHistoryService.findCastleStateBook(castleId);
         if (castleStateBook == null) return null;
-        return CastleStateBookDto.newInstance(castleStateBook);
+        return DomainConversionUtil.toCastleStateBookDto(castleStateBook);
     }
 
     @Override
     public void attachMetroBook(String castleId, MetroBookDto metroBookDto) {
         //
-        MetroBook metroBook = metroBookDto.toDomain();
+        MetroBook metroBook = DomainConversionUtil.toMetroBook(metroBookDto);
         castleHistoryService.attachMetroBook(castleId, metroBook);
     }
 
@@ -82,6 +83,6 @@ public class CastleHistoryAdapterLogic implements CastleHistoryAdapter {
         //
         MetroBook metroBook = castleHistoryService.findMetroBook(castleId);
         if (metroBook == null) return null;
-        return MetroBookDto.newInstance(metroBook);
+        return DomainConversionUtil.toMetroBookDto(metroBook);
     }
 }

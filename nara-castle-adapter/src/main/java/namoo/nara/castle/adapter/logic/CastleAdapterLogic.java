@@ -1,8 +1,9 @@
 package namoo.nara.castle.adapter.logic;
 
-import namoo.nara.castle.adapter.service.CastleAdapter;
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
+import namoo.nara.castle.adapter.dto.util.DomainConversionUtil;
+import namoo.nara.castle.adapter.service.CastleAdapter;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
@@ -58,6 +59,6 @@ public class CastleAdapterLogic implements CastleAdapter {
     public CastleFindDto findCastle(String id) {
         //
         Castle castle = castleService.findCastle(id);
-        return CastleFindDto.newInstance(castle);
+        return DomainConversionUtil.toCastleFindDto(castle);
     }
 }

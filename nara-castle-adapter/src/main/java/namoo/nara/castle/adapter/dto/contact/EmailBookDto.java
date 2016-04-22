@@ -1,8 +1,5 @@
 package namoo.nara.castle.adapter.dto.contact;
 
-import namoo.nara.castle.domain.entity.contact.EmailBook;
-import namoo.nara.castle.domain.entity.contact.UserEmail;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,30 +14,7 @@ public class EmailBookDto {
         //
     }
 
-    public EmailBook toDomain() {
-        //
-        EmailBook emailBook = new EmailBook();
-        if (emailDtoList != null) {
-            for(UserEmailDto userEmailDto : emailDtoList) {
-                emailBook.addEmail(userEmailDto.toDomain());
-            }
-        }
-        return emailBook;
-    }
-
-    public static EmailBookDto newInstance(EmailBook emailBook) {
-        //
-        EmailBookDto emailBookDto = new EmailBookDto();
-        List<UserEmail> emailList = emailBook.findAll();
-        if (emailList != null) {
-            for(UserEmail userEmail : emailList) {
-                emailBookDto.addEmailDto(UserEmailDto.newInstance(userEmail));
-            }
-        }
-        return emailBookDto;
-    }
-
-    private void addEmailDto(UserEmailDto userEmailDto) {
+    public void addEmailDto(UserEmailDto userEmailDto) {
         //
         if(emailDtoList == null) {
             emailDtoList = new ArrayList<>();

@@ -1,8 +1,5 @@
 package namoo.nara.castle.adapter.dto.history;
 
-import namoo.nara.castle.domain.entity.OpenState;
-import namoo.nara.castle.domain.entity.history.CastleState;
-
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
@@ -15,26 +12,6 @@ public class CastleStateDto {
 
     public CastleStateDto() {
         //
-    }
-
-    public static CastleStateDto newInstance(CastleState castleState) {
-        //
-        CastleStateDto castleStateDto = new CastleStateDto();
-        castleStateDto.setCurrentState(castleState.getCurrentState().name());
-        castleStateDto.setTargetState(castleState.getTargetState().name());
-        castleStateDto.setRemarks(castleState.getRemarks());
-        castleStateDto.setModifiedTime(castleState.getModifiedTime());
-        return castleStateDto;
-    }
-
-    public CastleState toDomain() {
-        //
-        CastleState castleState = new CastleState();
-        castleState.setCurrentState(OpenState.valueOf(currentState));
-        castleState.setTargetState(OpenState.valueOf(targetState));
-        castleState.setRemarks(remarks);
-        castleState.setModifiedTime(modifiedTime);
-        return castleState;
     }
 
     public String getCurrentState() {

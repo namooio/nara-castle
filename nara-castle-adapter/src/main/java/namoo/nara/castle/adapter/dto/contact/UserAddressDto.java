@@ -1,7 +1,5 @@
 package namoo.nara.castle.adapter.dto.contact;
 
-import namoo.nara.castle.domain.entity.contact.UserAddress;
-
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
@@ -21,40 +19,6 @@ public class UserAddressDto {
 
     public UserAddressDto() {
         //
-    }
-
-    public UserAddress toDomain() {
-        //
-        UserAddress userAddress = new UserAddress();
-        userAddress.setStyle(UserAddress.AddressStyle.valueOf(style));
-        userAddress.setAddressPartOne(addressPartOne);
-        userAddress.setAddressPartTwo(addressPartTwo);
-        userAddress.setCity(city);
-        userAddress.setState(state);
-        userAddress.setZipCode(zipCode);
-        userAddress.setCountry(country);
-
-        userAddress.setTitle(title);
-        userAddress.setPhoneNumber(phoneNumber);
-        userAddress.setLangCode(langCode);
-        return userAddress;
-    }
-
-    public static UserAddressDto newInstance(UserAddress userAddress) {
-        //
-        UserAddressDto userAddressDto = new UserAddressDto();
-        userAddressDto.setStyle(userAddress.getStyle().name());
-        userAddressDto.setAddressPartOne(userAddress.getAddressPartOne());
-        userAddressDto.setAddressPartTwo(userAddress.getAddressPartTwo());
-        userAddressDto.setCity(userAddress.getCity());
-        userAddressDto.setState(userAddress.getState());
-        userAddressDto.setZipCode(userAddress.getZipCode());
-        userAddressDto.setCountry(userAddress.getCountry());
-
-        userAddressDto.setTitle(userAddress.getTitle());
-        userAddressDto.setPhoneNumber(userAddress.getPhoneNumber());
-        userAddressDto.setLangCode(userAddress.getLangCode());
-        return userAddressDto;
     }
 
     public String getStyle() {

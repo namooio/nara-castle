@@ -1,6 +1,7 @@
 package namoo.nara.castle.adapter.logic;
 
 import namoo.nara.castle.adapter.dto.contact.*;
+import namoo.nara.castle.adapter.dto.util.DomainConversionUtil;
 import namoo.nara.castle.adapter.service.CastellanContactAdapter;
 import namoo.nara.castle.domain.entity.contact.*;
 import namoo.nara.castle.domain.service.CastellanContactService;
@@ -21,7 +22,7 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
     @Override
     public void attachNameBook(String castleId, NameBookDto nameBookDto) {
         //
-        NameBook nameBook = nameBookDto.toDomain();
+        NameBook nameBook = DomainConversionUtil.toNameBook(nameBookDto);
         castellanContactService.attachNameBook(castleId, nameBook);
     }
 
@@ -36,13 +37,13 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
         //
         NameBook nameBook = castellanContactService.findNameBook(castleId);
         if (nameBook == null) return null;
-        return NameBookDto.newInstance(nameBook);
+        return DomainConversionUtil.toNameBookDto(nameBook);
     }
 
     @Override
     public void attachEmailBook(String castleId, EmailBookDto emailBookDto) {
         //
-        EmailBook emailBook = emailBookDto.toDomain();
+        EmailBook emailBook = DomainConversionUtil.toEmailBook(emailBookDto);
         castellanContactService.attachEmailBook(castleId, emailBook);
     }
 
@@ -57,13 +58,13 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
         //
         EmailBook emailBook = castellanContactService.findEmailBook(castleId);
         if (emailBook == null) return null;
-        return EmailBookDto.newInstance(emailBook);
+        return DomainConversionUtil.toEmailBookDto(emailBook);
     }
 
     @Override
     public void attachPhoneBook(String castleId, PhoneBookDto phoneBookDto) {
         //
-        PhoneBook phoneBook = phoneBookDto.toDomain();
+        PhoneBook phoneBook = DomainConversionUtil.toPhoneBook(phoneBookDto);
         castellanContactService.attachPhoneBook(castleId, phoneBook);
     }
 
@@ -78,13 +79,13 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
         //
         PhoneBook phoneBook = castellanContactService.findPhoneBook(castleId);
         if (phoneBook == null) return null;
-        return PhoneBookDto.newInstance(phoneBook);
+        return DomainConversionUtil.toPhoneBookDto(phoneBook);
     }
 
     @Override
     public void attachAddressBook(String castleId, AddressBookDto addressBookDto) {
         //
-        AddressBook addressBook = addressBookDto.toDomain();
+        AddressBook addressBook = DomainConversionUtil.toAddressBook(addressBookDto);
         castellanContactService.attachAddressBook(castleId, addressBook);
     }
 
@@ -97,7 +98,7 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
     @Override
     public void addUserAddress(String castleId, UserAddressDto addressDto) {
         //
-        UserAddress userAddress = addressDto.toDomain();
+        UserAddress userAddress = DomainConversionUtil.toUserAddress(addressDto);
         castellanContactService.addUserAddress(castleId, userAddress);
     }
 
@@ -110,7 +111,7 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
     @Override
     public void modifyUserAddress(String castleId, UserAddressDto addressDto) {
         //
-        UserAddress userAddress = addressDto.toDomain();
+        UserAddress userAddress = DomainConversionUtil.toUserAddress(addressDto);
         castellanContactService.modifyUserAddress(castleId, userAddress);
     }
 
@@ -119,6 +120,6 @@ public class CastellanContactAdapterLogic implements CastellanContactAdapter {
         //
         AddressBook addressBook = castellanContactService.findAddressBook(castleId);
         if (addressBook == null) return null;
-        return AddressBookDto.newInstance(addressBook);
+        return DomainConversionUtil.toAddressBookDto(addressBook);
     }
 }

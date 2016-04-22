@@ -1,6 +1,7 @@
 package namoo.nara.castle.adapter.logic;
 
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
+import namoo.nara.castle.adapter.dto.util.DomainConversionUtil;
 import namoo.nara.castle.adapter.service.CastellanAdapter;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.service.CastellanService;
@@ -22,7 +23,7 @@ public class CastellanAdapterLogic implements CastellanAdapter {
     public CastellanFindDto findCastellan(String id) {
         //
         Castellan castellan = castellanService.findCastellan(id);
-        return CastellanFindDto.newInstance(castellan);
+        return DomainConversionUtil.toCastellanFindDto(castellan);
     }
 
     @Override
