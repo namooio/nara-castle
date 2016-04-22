@@ -1,32 +1,33 @@
 package namoo.nara.castle.adapter.dto.contact;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-public class NameBookDto extends ArrayList<UserNameDto> {
+public class NameBookDto {
     //
-//    private List<UserNameDto> nameDtoList;
+    private List<UserNameDto> names;
 
     public NameBookDto() {
         //
     }
 
     public void addNameDto(UserNameDto userNameDto) {
-//        if (nameDtoList == null) {
-//            nameDtoList = new ArrayList<>();
-//        }
-//        nameDtoList.add(userNameDto);
-        this.add(userNameDto);
-    }
-    /*
-    public List<UserNameDto> getNameDtoList() {
-        return nameDtoList;
+        if (names == null) {
+            names = new ArrayList<>();
+        }
+        names.add(userNameDto);
     }
 
-    public void setNameDtoList(List<UserNameDto> nameDtoList) {
-        this.nameDtoList = nameDtoList;
+
+    public List<UserNameDto> getNames() {
+        return names;
     }
-    */
+
+    public void setNames(List<UserNameDto> names) {
+        this.names = names;
+    }
+
 }

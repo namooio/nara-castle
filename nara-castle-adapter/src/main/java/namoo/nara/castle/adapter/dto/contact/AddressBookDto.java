@@ -6,9 +6,9 @@ import java.util.List;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-public class AddressBookDto extends ArrayList<UserAddressDto> {
+public class AddressBookDto {
     //
-//    private List<UserAddressDto> addressDtoList;
+    private List<UserAddressDto> addresses;
 
     public AddressBookDto() {
         //
@@ -16,18 +16,18 @@ public class AddressBookDto extends ArrayList<UserAddressDto> {
 
     public void addAddressDto(UserAddressDto addressDto) {
         //
-//        if (addressDtoList == null) {
-//            addressDtoList = new ArrayList<>();
-//        }
-//        addressDtoList.add(addressDto);
-        this.add(addressDto);
+        if (addresses == null) {
+            addresses = new ArrayList<>();
+        }
+        addresses.add(addressDto);
+        addresses.add(addressDto);
     }
 
-//    public List<UserAddressDto> getAddressDtoList() {
-//        return addressDtoList;
-//    }
-//
-//    public void setAddressDtoList(List<UserAddressDto> addressDtoList) {
-//        this.addressDtoList = addressDtoList;
-//    }
+    public List<UserAddressDto> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<UserAddressDto> addresses) {
+        this.addresses = addresses;
+    }
 }

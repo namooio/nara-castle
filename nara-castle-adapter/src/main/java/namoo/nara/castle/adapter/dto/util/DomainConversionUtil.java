@@ -10,6 +10,7 @@ import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.contact.*;
 import namoo.nara.castle.domain.entity.history.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,11 +41,20 @@ public class DomainConversionUtil {
         return castleFindDto;
     }
 
+    public static void main(String[] args) {
+        List<String> strs = null;
+
+        for (String str : strs) {
+            System.out.println(str);
+        }
+    }
+
     public static AddressBook toAddressBook(AddressBookDto addressBookDto) {
         //
+        List<UserAddressDto> userAddresseDtos = addressBookDto.getAddresses();
         AddressBook addressBook = new AddressBook();
-        if (addressBookDto != null) {
-            for(UserAddressDto userAddressDto : addressBookDto) {
+        if (userAddresseDtos != null) {
+            for(UserAddressDto userAddressDto : userAddresseDtos) {
                 addressBook.add(toUserAddress(userAddressDto));
             }
         }
@@ -65,9 +75,10 @@ public class DomainConversionUtil {
 
     public static EmailBook toEmailBook(EmailBookDto emailBookDto) {
         //
+        List<UserEmailDto> emailDtos = emailBookDto.getEmails();
         EmailBook emailBook = new EmailBook();
-        if (emailBookDto != null) {
-            for(UserEmailDto userEmailDto : emailBookDto) {
+        if (emailDtos != null) {
+            for(UserEmailDto userEmailDto : emailDtos) {
                 emailBook.addEmail(toUserEmail(userEmailDto));
             }
         }
@@ -88,9 +99,10 @@ public class DomainConversionUtil {
 
     public static NameBook toNameBook(NameBookDto nameBookDto) {
         //
+        List<UserNameDto> nameDtos = nameBookDto.getNames();
         NameBook nameBook = new NameBook();
-        if (nameBookDto != null) {
-            for(UserNameDto userNameDto : nameBookDto) {
+        if (nameDtos != null) {
+            for(UserNameDto userNameDto : nameDtos) {
                 nameBook.add(toUserName(userNameDto));
             }
         }
@@ -111,9 +123,10 @@ public class DomainConversionUtil {
 
     public static PhoneBook toPhoneBook(PhoneBookDto phoneBookDto) {
         //
+        List<UserPhoneDto> phoneDtos = phoneBookDto.getPhones();
         PhoneBook phoneBook = new PhoneBook();
-        if (phoneBookDto != null) {
-            for(UserPhoneDto userPhoneDto : phoneBookDto) {
+        if (phoneDtos != null) {
+            for(UserPhoneDto userPhoneDto : phoneDtos) {
                 phoneBook.add(toUserPhone(userPhoneDto));
             }
         }

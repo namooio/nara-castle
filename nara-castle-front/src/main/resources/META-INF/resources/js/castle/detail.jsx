@@ -13,48 +13,63 @@ Components.Castle.Detail = Components.Castle.Detail || {};
     // Define Content attributes name
     var contentProps = {
         buttons : {
-            save: { KOR: '저장', USA: 'Save'}
-            , modify: { KOR: '수정', USA: 'Modify' }
-            , remove: { KOR: '삭제', USA: 'Remove'}
-            , cancel: { KOR: '취소', USA: 'Cancel'}
+            save:       { KOR: '저장', USA: 'Save'}
+            , modify:   { KOR: '수정', USA: 'Modify' }
+            , remove:   { KOR: '삭제', USA: 'Remove'}
+            , cancel:   { KOR: '취소', USA: 'Cancel'}
         },
         tabs: {
-            basic: { name: 'basic', KOR: '기본정보', USA: 'Basic information' }
-            , name: { name: 'name', KOR: '이름', USA: 'Name' }
-            , phone: { name: 'phone', KOR: '전화번호', USA: 'Phone number' }
-            , email: { name: 'email', KOR: '이메일', USA: 'Email' }
-            , address: { name: 'address', KOR: '주소', USA: 'Address' }
-            , account: { name: 'account', KOR: '계정내역', USA: 'Account history' }
-            , state: { name: 'state', KOR: '상태내역', USA: 'State history' }
-            , metro: { name: 'metro', KOR: '메트로내역', USA: 'Metro history' }
+            basic:      { name: 'basic',    KOR: '기본정보',   USA: 'Basic information' }
+            , name:     { name: 'name',     KOR: '이름',       USA: 'Name' }
+            , phone:    { name: 'phone',    KOR: '전화번호',   USA: 'Phone number' }
+            , email:    { name: 'email',    KOR: '이메일',     USA: 'Email' }
+            , address:  { name: 'address',  KOR: '주소',       USA: 'Address' }
+            , account:  { name: 'account',  KOR: '계정내역',   USA: 'Account history' }
+            , state:    { name: 'state',    KOR: '상태내역',   USA: 'State history' }
+            , metro:    { name: 'metro',    KOR: '메트로내역', USA: 'Metro history' }
         },
         basicInfo: {
-            id: { name: 'id', KOR: '아이디', USA: 'Id' }
-            , name: { name: 'name', KOR: '이름', USA: 'Name' }
-            , locale: { name: 'locale', KOR: '지역', USA: 'Locale' }
-            , state: { name: 'state', KOR: '상태', USA: 'State' }
-            , buildTime: { name: 'buildTime', KOR: '생성일시', USA: 'Build time' }
+            id:          { name: 'id',         KOR: '아이디',   USA: 'Id' }
+            , name:      { name: 'name',       KOR: '이름',     USA: 'Name' }
+            , locale:    { name: 'locale',     KOR: '지역',     USA: 'Locale' }
+            , state:     { name: 'state',      KOR: '상태',     USA: 'State' }
+            , buildTime: { name: 'buildTime',  KOR: '생성일시', USA: 'Build time' }
             , castellan: {
-                primaryEmail: { name: 'primaryEmail', KOR: '기본 이메일', USA: 'Primary email' }
+                primaryEmail:   { name: 'primaryEmail', KOR: '기본 이메일',   USA: 'Primary email' }
                 , primaryPhone: { name: 'primaryPhone', KOR: '기본 전화번호', USA: 'Primary phone number' }
-                , photo: { name: 'photoId', KOR: '사진', USA: 'Photo' }
+                , photo:        { name: 'photoId',      KOR: '사진',          USA: 'Photo' }
             }
         },
         name: {
-            familyName: { name: 'familyName', KOR: '성', USA: 'Family name' }
-            , firstName: { name: 'firstName', KOR: '이름', USA: 'First name' }
+            familyName:    { name: 'familyName',  KOR: '성',       USA: 'Family name' }
+            , firstName:   { name: 'firstName',   KOR: '이름',     USA: 'First name' }
             , displayName: { name: 'displayName', KOR: '전체이름', USA: 'Display name' }
-            , middleName: { name: 'middleName', KOR: '중간이름', USA: 'Middle name' }
-            , langCode: { name: 'langCode', KOR: '언어', USA: 'Language' }
+            , middleName:  { name: 'middleName',  KOR: '중간이름', USA: 'Middle name' }
+            , langCode:    { name: 'langCode',    KOR: '언어',     USA: 'Language' }
         },
         phone: {
-
+            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' }
+            , countryCode:  { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' }
+            , areaCode:     { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' }
+            , number:       { name: 'number',       KOR: '번호',      USA: 'Number' }
         },
         email: {
-
+            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' }
+            , emailType:    { name: 'emailType',    KOR: '유형',          USA: 'type' }
+            , verified:     { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' }
+            , verifiedTime: { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
         },
         address: {
-
+            title:              { name: 'title',          KOR: '주소명',    USA: 'Title' }
+            , langCode:         { name: 'langCode',       KOR: '언어코드',  USA: 'Language code' }
+            , style:            { name: 'style',          KOR: '유형',      USA: 'Style' }
+            , country:          { name: 'country',        KOR: '국가',      USA: 'Coutnry' }
+            , zipCode:          { name: 'zipCode',        KOR: '우편번호',  USA: 'Zip code' }
+            , state:            { name: 'state',          KOR: '지역',      USA: 'State' }
+            , city:             { name: 'city',           KOR: '시',        USA: 'City' }
+            , addressPartOne:   { name: 'addressPartOne', KOR: '주소1',     USA: 'Address part1' }
+            , addressPartTwo:   { name: 'addressPartTwo', KOR: '주소2',     USA: 'Address part2' }
+            , phoneNumber:      { name: 'phoneNumber',    KOR: '전화번호',  USA: 'Phone number' }
         },
         account: {
 
@@ -84,7 +99,13 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         },
         getInitialState: function () {
             return {
-                castle: { basicInfo: { castellan: {} }, nameBook: [] }
+                castle: {
+                    basicInfo: { castellan: {} }
+                    , nameBook: []
+                    , phoneBook: []
+                    , emailBook: []
+                    , addressBook: []
+                }
                 , contentModifiable: false
             };
         },
@@ -120,23 +141,47 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     break;
                 case CONTENT_TYPES.name.name:
                     console.debug('name');
-                    url = '/api/castle/' + props.id + '/namebook';
+                    url = '/api/castle/' + props.id + '/name-book';
                     callback = function (nameBookResult) {
                         var castleState = this.state.castle;
                         castleState.nameBook = nameBookResult;
-                        this.setState( {castle: castleState}) ;
+                        this.setState( {castle: castleState} );
                         console.debug('Execute detail.jsx NameContent componentDidMount()');
                         console.dir(this.props);
                         console.dir(this.state);
                     };
                     break;
                 case CONTENT_TYPES.phone.name:
+                    url = '/api/castle/' + props.id + '/phone-book';
+                    callback = function (phoneBookdResult) {
+                        var castleState = this.state.castle;
+                        castleState.phoneBook = phoneBookdResult;
+                        this.setState( {castle: castleState} );
+                    };
                     break;
                 case CONTENT_TYPES.email.name:
+                    url = '/api/castle/' + props.id + '/email-book';
+                    callback = function (emailBookResult) {
+                        var castleState = this.state.castle;
+                        castleState.emailBook = emailBookResult;
+                        this.setState( { castle: castleState } );
+                    };
                     break;
                 case CONTENT_TYPES.address.name:
+                    url = '/api/castle/' + props.id + '/address-book';
+                    callback = function (addressBookResult) {
+                        var castleState = this.state.castle;
+                        castleState.addressBook = addressBookResult;
+                        this.setState( { castle: castleState });
+                    };
                     break;
                 case CONTENT_TYPES.account.name:
+                    url = '/api/castle/' + props.id + '/account-book';
+                    callback = function (accountBookResult) {
+                        var castleState = this.state.castle;
+                        castleState.accountBook = accountBookResult;
+                        this.setState( { castle: castleState });
+                    };
                     break;
                 case CONTENT_TYPES.state.name:
                     break;
@@ -204,12 +249,12 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     break;
                 case TAB_NAMES.email.name:
                     content = <EmailContent
-
+                        emailBook={this.props.castle.emailBook}
                     />
                     break;
                 case TAB_NAMES.address.name:
                     content = <AddressContent
-
+                        addressBook={this.props.castle.addressBook}
                     />
                     break;
                 case TAB_NAMES.account.name:
@@ -385,7 +430,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         render: function () {
             var ATTRS = contentProps.name
                 , lang = mainComponent.lang
-                , existsName;
+                , existsNameBook = (this.props.nameBook && this.props.nameBook.length > 0) ? true : false;
 
             return (
                 <div className="tab-content">
@@ -401,7 +446,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                                 </tr>
                             </thead>
                             <tbody>
-                                { this.props.nameBook ?
+                                { existsNameBook ?
                                     this.props.nameBook.map(function (name) {
                                         return (
                                             <tr key={name[ATTRS.familyName.name]}>
@@ -430,10 +475,40 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
         },
         render: function () {
+            var ATTRS = contentProps.phone
+                , lang = mainComponent.lang
+                , existsPhoneBook = (this.props.phoneBook && this.props.phoneBook.length > 0) ? true : false;
+
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
-                        <h2>This is a Phone content</h2>
+                        <table className="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>{ATTRS.phoneNumber[lang]}</th>
+                                <th>{ATTRS.countryCode[lang]}</th>
+                                <th>{ATTRS.areaCode[lang]}</th>
+                                <th>{ATTRS.number[lang]}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            { existsPhoneBook ?
+                                this.props.phoneBook.map(function (name) {
+                                    return (
+                                        <tr key={name[ATTRS.phoneNumber.name]}>
+                                            <td>{name[ATTRS.phoneNumber.name]}</td>
+                                            <td>{name[ATTRS.countryCode.name]}</td>
+                                            <td>{name[ATTRS.areaCode.name]}</td>
+                                            <td>{name[ATTRS.number.name]}</td>
+                                        </tr>
+                                    )
+                                })
+                                :
+                                <tr><td colspan="4">등록 된 전화번호가 없습니다.</td></tr>
+                            }
+                            </tbody>
+                        </table>
+                        <ButtonGroup modifiable={this.props.modifiable}/>
                     </div>
                 </div>
             );
@@ -445,10 +520,40 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
         },
         render: function () {
+            var ATTRS = contentProps.email
+                , lang = mainComponent.lang
+                , existsEmailBook = (this.props.emailBook && this.props.emailbook.length > 0) ? true : false;
+
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
-                        <h2>This is an Email content</h2>
+                        <table className="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>{ATTRS.email[lang]}</th>
+                                <th>{ATTRS.emailType[lang]}</th>
+                                <th>{ATTRS.verified[lang]}</th>
+                                <th>{ATTRS.verifiedTime[lang]}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            { existsEmailBook ?
+                                this.props.emailBook.map(function (name) {
+                                    return (
+                                        <tr key={name[ATTRS.email.name]}>
+                                            <td>{name[ATTRS.email.name]}</td>
+                                            <td>{name[ATTRS.emailType.name]}</td>
+                                            <td>{name[ATTRS.verified.name]}</td>
+                                            <td>{name[ATTRS.verifiedTime.name]}</td>
+                                        </tr>
+                                    )
+                                })
+                                :
+                                <tr><td colspan="4">등록 된 이메일이 없습니다.</td></tr>
+                            }
+                            </tbody>
+                        </table>
+                        <ButtonGroup modifiable={this.props.modifiable}/>
                     </div>
                 </div>
             );
@@ -460,10 +565,40 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
         },
         render: function () {
+            var ATTRS = contentProps.address
+                , lang = mainComponent.lang
+                , existsEmailBook = (this.props.emailBook && this.props.emailbook.length > 0) ? true : false;
+
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
-                        <h2>This is an Address content</h2>
+                        <table className="table table-striped table-hover">
+                            <thead>
+                            <tr>
+                                <th>{ATTRS.email[lang]}</th>
+                                <th>{ATTRS.emailType[lang]}</th>
+                                <th>{ATTRS.verified[lang]}</th>
+                                <th>{ATTRS.verifiedTime[lang]}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            { existsEmailBook ?
+                                this.props.emailBook.map(function (name) {
+                                    return (
+                                        <tr key={name[ATTRS.email.name]}>
+                                            <td>{name[ATTRS.email.name]}</td>
+                                            <td>{name[ATTRS.emailType.name]}</td>
+                                            <td>{name[ATTRS.verified.name]}</td>
+                                            <td>{name[ATTRS.verifiedTime.name]}</td>
+                                        </tr>
+                                    )
+                                })
+                                :
+                                <tr><td colspan="4">등록 된 이메일이 없습니다.</td></tr>
+                            }
+                            </tbody>
+                        </table>
+                        <ButtonGroup modifiable={this.props.modifiable}/>
                     </div>
                 </div>
             );

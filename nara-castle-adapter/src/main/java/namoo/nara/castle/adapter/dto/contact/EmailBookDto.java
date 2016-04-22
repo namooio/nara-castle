@@ -6,9 +6,9 @@ import java.util.List;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-public class EmailBookDto extends ArrayList<UserEmailDto> {
+public class EmailBookDto {
     //
-//    private List<UserEmailDto> emailDtoList;
+    private List<UserEmailDto> emails;
 
     public EmailBookDto() {
         //
@@ -16,18 +16,17 @@ public class EmailBookDto extends ArrayList<UserEmailDto> {
 
     public void addEmailDto(UserEmailDto userEmailDto) {
         //
-//        if(emailDtoList == null) {
-//            emailDtoList = new ArrayList<>();
-//        }
-//        emailDtoList.add(userEmailDto);
-        this.add(userEmailDto);
+        if(emails == null) {
+            emails = new ArrayList<>();
+        }
+        emails.add(userEmailDto);
     }
 
-//    public List<UserEmailDto> getEmailDtoList() {
-//        return emailDtoList;
-//    }
-//
-//    public void setEmailDtoList(List<UserEmailDto> emailDtoList) {
-//        this.emailDtoList = emailDtoList;
-//    }
+    public List<UserEmailDto> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<UserEmailDto> emails) {
+        this.emails = emails;
+    }
 }
