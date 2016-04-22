@@ -1,6 +1,6 @@
 package namoo.nara.castle.da.mongo;
 
-import namoo.nara.castle.da.mongo.mdo.HistoryBundleMdo;
+import namoo.nara.castle.da.mongo.document.HistoryBundleDoc;
 import namoo.nara.castle.da.mongo.springdata.HistoryBundleMongoRepository;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
 import namoo.nara.castle.domain.store.HistoryBundleStore;
@@ -23,25 +23,25 @@ public class HistoryBundleMongoStore implements HistoryBundleStore {
         //
         String id = history.getId();
         if (historyBundleMongoRepository.exists(id)) throw new AlreadyExistsException(String.format("History bundle document[ID:%s] already exist.", id));
-        HistoryBundleMdo historyBundleMdo = HistoryBundleMdo.newInstance(history);
-        historyBundleMongoRepository.save(historyBundleMdo);
+        HistoryBundleDoc historyBundleDoc = HistoryBundleDoc.newInstance(history);
+        historyBundleMongoRepository.save(historyBundleDoc);
         return id;
     }
 
     @Override
     public HistoryBundle retrieve(String id) {
         //
-        HistoryBundleMdo historyBundleMdo = historyBundleMongoRepository.findOne(id);
-        if (historyBundleMdo == null) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to retrieve.", id));
-        return historyBundleMdo.toDomain();
+        HistoryBundleDoc historyBundleDoc = historyBundleMongoRepository.findOne(id);
+        if (historyBundleDoc == null) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to retrieve.", id));
+        return historyBundleDoc.toDomain();
     }
 
     private void update(HistoryBundle history) {
         //
         String id = history.getId();
         if (!historyBundleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to update.", id));
-        HistoryBundleMdo historyBundleMdo = HistoryBundleMdo.newInstance(history);
-        historyBundleMongoRepository.save(historyBundleMdo);
+        HistoryBundleDoc historyBundleDoc = HistoryBundleDoc.newInstance(history);
+        historyBundleMongoRepository.save(historyBundleDoc);
     }
 
     @Override

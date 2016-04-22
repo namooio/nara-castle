@@ -1,4 +1,4 @@
-package namoo.nara.castle.da.mongo.mdo.history;
+package namoo.nara.castle.da.mongo.document.history;
 
 import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.history.CastleState;
@@ -6,21 +6,21 @@ import namoo.nara.castle.domain.entity.history.CastleState;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 7..
  */
-public class CastleStateMdo {
+public class CastleStateDoc {
     //
     private String currentState;
     private String targetState;
     private String remarks;
     private long modifiedTime;
 
-    public static CastleStateMdo newInstance(CastleState castleState) {
+    public static CastleStateDoc newInstance(CastleState castleState) {
         //
-        CastleStateMdo castleStateMdo = new CastleStateMdo();
-        castleStateMdo.setCurrentState(castleState.getCurrentState().name());
-        castleStateMdo.setTargetState(castleState.getTargetState().name());
-        castleStateMdo.setRemarks(castleState.getRemarks());
-        castleStateMdo.setModifiedTime(castleState.getModifiedTime());
-        return castleStateMdo;
+        CastleStateDoc castleStateDoc = new CastleStateDoc();
+        castleStateDoc.setCurrentState(castleState.getCurrentState().name());
+        castleStateDoc.setTargetState(castleState.getTargetState().name());
+        castleStateDoc.setRemarks(castleState.getRemarks());
+        castleStateDoc.setModifiedTime(castleState.getModifiedTime());
+        return castleStateDoc;
     }
 
     public CastleState toDomain() {

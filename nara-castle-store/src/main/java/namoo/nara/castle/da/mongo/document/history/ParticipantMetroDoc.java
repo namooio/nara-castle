@@ -1,11 +1,11 @@
-package namoo.nara.castle.da.mongo.mdo.history;
+package namoo.nara.castle.da.mongo.document.history;
 
 import namoo.nara.castle.domain.entity.history.ParticipantMetro;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 7..
  */
-public class ParticipantMetroMdo {
+public class ParticipantMetroDoc {
     //
     private String metroId;
     private String metroName;
@@ -13,19 +13,19 @@ public class ParticipantMetroMdo {
     private long withdrawalTime;
     private String remarks;
 
-    public ParticipantMetroMdo() {
+    public ParticipantMetroDoc() {
         //
     }
 
-    public static ParticipantMetroMdo newInstance(ParticipantMetro participantMetro) {
+    public static ParticipantMetroDoc newInstance(ParticipantMetro participantMetro) {
         //
-        ParticipantMetroMdo participantMetroMdo = new ParticipantMetroMdo();
-        participantMetroMdo.setMetroId(participantMetro.getMetroId());
-        participantMetroMdo.setMetroName(participantMetro.getMetroName());
-        participantMetroMdo.setJoinTime(participantMetro.getJoinTime());
-        participantMetroMdo.setWithdrawalTime(participantMetro.getWithdrawalTime());
-        participantMetroMdo.setRemarks(participantMetro.getRemarks());
-        return participantMetroMdo;
+        ParticipantMetroDoc participantMetroDoc = new ParticipantMetroDoc();
+        participantMetroDoc.setMetroId(participantMetro.getMetroId());
+        participantMetroDoc.setMetroName(participantMetro.getMetroName());
+        participantMetroDoc.setJoinTime(participantMetro.getJoinTime());
+        participantMetroDoc.setWithdrawalTime(participantMetro.getWithdrawalTime());
+        participantMetroDoc.setRemarks(participantMetro.getRemarks());
+        return participantMetroDoc;
     }
 
     public ParticipantMetro toDomain() {

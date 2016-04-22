@@ -1,29 +1,29 @@
-package namoo.nara.castle.da.mongo.mdo.history;
+package namoo.nara.castle.da.mongo.document.history;
 
 import namoo.nara.castle.domain.entity.history.LoginAccount;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 7..
  */
-public class LoginAccountMdo {
+public class LoginAccountDoc {
     //
     private String loginUserId;
     private String channel;
     private long createTime;
     private long deleteTime;
 
-    public LoginAccountMdo() {
+    public LoginAccountDoc() {
         //
     }
 
-    public static LoginAccountMdo newInstance(LoginAccount loginAccount) {
+    public static LoginAccountDoc newInstance(LoginAccount loginAccount) {
         //
-        LoginAccountMdo loginAccountMdo = new LoginAccountMdo();
-        loginAccountMdo.setLoginUserId(loginAccount.getLoginUserId());
-        loginAccountMdo.setChannel(loginAccount.getChannel().name());
-        loginAccountMdo.setCreateTime(loginAccount.getCreateTime());
-        loginAccountMdo.setDeleteTime(loginAccount.getDeleteTime());
-        return loginAccountMdo;
+        LoginAccountDoc loginAccountDoc = new LoginAccountDoc();
+        loginAccountDoc.setLoginUserId(loginAccount.getLoginUserId());
+        loginAccountDoc.setChannel(loginAccount.getChannel().name());
+        loginAccountDoc.setCreateTime(loginAccount.getCreateTime());
+        loginAccountDoc.setDeleteTime(loginAccount.getDeleteTime());
+        return loginAccountDoc;
     }
 
     public LoginAccount toDomain() {

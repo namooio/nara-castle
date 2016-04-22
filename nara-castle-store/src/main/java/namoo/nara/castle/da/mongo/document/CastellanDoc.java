@@ -1,4 +1,4 @@
-package namoo.nara.castle.da.mongo.mdo;
+package namoo.nara.castle.da.mongo.document;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import org.springframework.data.annotation.Id;
@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Created by kchuh@nextree.co.kr on 2016. 4. 6..
  */
 @Document(collection = "Castellan")
-public class CastellanMdo {
+public class CastellanDoc {
     //
     @Id
     private String id;              // == castle id
@@ -17,19 +17,19 @@ public class CastellanMdo {
     private String primaryEmail;    // nullable
     private String primaryPhone;    // nullable
 
-    public CastellanMdo() {
+    public CastellanDoc() {
         //
     }
 
-    public static CastellanMdo newInstance(Castellan castellan) {
+    public static CastellanDoc newInstance(Castellan castellan) {
         //
-        CastellanMdo castellanMdo = new CastellanMdo();
-        castellanMdo.setId(castellan.getId());
-        castellanMdo.setDisplayName(castellan.getDisplayName());
-        castellanMdo.setPhotoId(castellan.getPhotoId());
-        castellanMdo.setPrimaryEmail(castellan.getPrimaryEmail());
-        castellanMdo.setPrimaryPhone(castellan.getPrimaryPhone());
-        return castellanMdo;
+        CastellanDoc castellanDoc = new CastellanDoc();
+        castellanDoc.setId(castellan.getId());
+        castellanDoc.setDisplayName(castellan.getDisplayName());
+        castellanDoc.setPhotoId(castellan.getPhotoId());
+        castellanDoc.setPrimaryEmail(castellan.getPrimaryEmail());
+        castellanDoc.setPrimaryPhone(castellan.getPrimaryPhone());
+        return castellanDoc;
     }
 
     public Castellan toDomain() {

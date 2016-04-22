@@ -1,6 +1,6 @@
 package namoo.nara.castle.da.mongo;
 
-import namoo.nara.castle.da.mongo.mdo.CastellanMdo;
+import namoo.nara.castle.da.mongo.document.CastellanDoc;
 import namoo.nara.castle.da.mongo.springdata.CastellanMongoRepository;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.store.CastellanStore;
@@ -23,16 +23,16 @@ public class CastellanMongoStore implements CastellanStore {
         //
         String id = castellan.getId();
         if (castellanMongoRepository.exists(id)) throw new AlreadyExistsException(String.format("Castellan document[ID:%s] already exist.", id));
-        CastellanMdo castellanMdo = CastellanMdo.newInstance(castellan);
-        castellanMongoRepository.save(castellanMdo);
+        CastellanDoc castellanDoc = CastellanDoc.newInstance(castellan);
+        castellanMongoRepository.save(castellanDoc);
     }
 
     @Override
     public Castellan retrieve(String id) {
         //
-        CastellanMdo castellanMdo = castellanMongoRepository.findOne(id);
-        if (castellanMdo == null) throw new NonExistenceException(String.format("No castellan document[ID:%s] to retrieve.", id));
-        return castellanMdo.toDomain();
+        CastellanDoc castellanDoc = castellanMongoRepository.findOne(id);
+        if (castellanDoc == null) throw new NonExistenceException(String.format("No castellan document[ID:%s] to retrieve.", id));
+        return castellanDoc.toDomain();
     }
 
     @Override
@@ -40,8 +40,8 @@ public class CastellanMongoStore implements CastellanStore {
         //
         String id = castellan.getId();
         if (!castellanMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castellan document[ID:%s] to update.", id));
-        CastellanMdo castellanMdo = CastellanMdo.newInstance(castellan);
-        castellanMongoRepository.save(castellanMdo);
+        CastellanDoc castellanDoc = CastellanDoc.newInstance(castellan);
+        castellanMongoRepository.save(castellanDoc);
     }
 
     @Override

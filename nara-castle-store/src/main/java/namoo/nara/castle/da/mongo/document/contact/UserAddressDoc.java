@@ -1,8 +1,8 @@
-package namoo.nara.castle.da.mongo.mdo.contact;
+package namoo.nara.castle.da.mongo.document.contact;
 
 import namoo.nara.castle.domain.entity.contact.UserAddress;
 
-public class UserAddressMdo {
+public class UserAddressDoc {
     //
     private String style;                   // Korean or US.
     private String addressPartOne;          // street, P.O. Box, company
@@ -16,25 +16,25 @@ public class UserAddressMdo {
     private String phoneNumber;             // optional
     private String langCode;                // mandatory
 
-    public UserAddressMdo() {
+    public UserAddressDoc() {
         //
     }
 
-    public static UserAddressMdo newInstance(UserAddress userAddress) {
+    public static UserAddressDoc newInstance(UserAddress userAddress) {
         //
-        UserAddressMdo userAddressMdo = new UserAddressMdo();
-        userAddressMdo.setStyle(userAddress.getStyle().name());
-        userAddressMdo.setAddressPartOne(userAddress.getAddressPartOne());
-        userAddressMdo.setAddressPartTwo(userAddress.getAddressPartTwo());
-        userAddressMdo.setCity(userAddress.getCity());
-        userAddressMdo.setState(userAddress.getState());
-        userAddressMdo.setZipCode(userAddress.getZipCode());
-        userAddressMdo.setCountry(userAddress.getCountry());
+        UserAddressDoc userAddressDoc = new UserAddressDoc();
+        userAddressDoc.setStyle(userAddress.getStyle().name());
+        userAddressDoc.setAddressPartOne(userAddress.getAddressPartOne());
+        userAddressDoc.setAddressPartTwo(userAddress.getAddressPartTwo());
+        userAddressDoc.setCity(userAddress.getCity());
+        userAddressDoc.setState(userAddress.getState());
+        userAddressDoc.setZipCode(userAddress.getZipCode());
+        userAddressDoc.setCountry(userAddress.getCountry());
 
-        userAddressMdo.setTitle(userAddress.getTitle());
-        userAddressMdo.setPhoneNumber(userAddress.getPhoneNumber());
-        userAddressMdo.setLangCode(userAddress.getLangCode());
-        return userAddressMdo;
+        userAddressDoc.setTitle(userAddress.getTitle());
+        userAddressDoc.setPhoneNumber(userAddress.getPhoneNumber());
+        userAddressDoc.setLangCode(userAddress.getLangCode());
+        return userAddressDoc;
     }
 
     public UserAddress toDomain() {

@@ -1,26 +1,26 @@
-package namoo.nara.castle.da.mongo.mdo.contact;
+package namoo.nara.castle.da.mongo.document.contact;
 
 import namoo.nara.castle.domain.entity.contact.UserEmail;
 
-public class UserEmailMdo {
+public class UserEmailDoc {
     //
     private String email;
     private String emailType;
     private boolean verified;
     private long verifiedTime;
 
-    public UserEmailMdo() {
+    public UserEmailDoc() {
         //
     }
 
-    public static UserEmailMdo newInstance(UserEmail userEmail) {
+    public static UserEmailDoc newInstance(UserEmail userEmail) {
         //
-        UserEmailMdo userEmailMdo = new UserEmailMdo();
-        userEmailMdo.setEmail(userEmail.getEmail());
-        userEmailMdo.setEmailType(userEmail.getEmailType().name());
-        userEmailMdo.setVerified(userEmail.isVerified());
-        userEmailMdo.setVerifiedTime(userEmail.getVerifiedTime());
-        return userEmailMdo;
+        UserEmailDoc userEmailDoc = new UserEmailDoc();
+        userEmailDoc.setEmail(userEmail.getEmail());
+        userEmailDoc.setEmailType(userEmail.getEmailType().name());
+        userEmailDoc.setVerified(userEmail.isVerified());
+        userEmailDoc.setVerifiedTime(userEmail.getVerifiedTime());
+        return userEmailDoc;
     }
 
     public UserEmail toDomain() {

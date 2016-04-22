@@ -1,26 +1,26 @@
-package namoo.nara.castle.da.mongo.mdo.contact;
+package namoo.nara.castle.da.mongo.document.contact;
 
 import namoo.nara.castle.domain.entity.contact.UserPhone;
 
-public class UserPhoneMdo {
+public class UserPhoneDoc {
     //
     private String phoneNumber;     //+82-10-9202-9989
     private String countryCode;     //+82
     private String areaCode;        // 10
     private String number;          // 9202-9989
 
-    public UserPhoneMdo() {
+    public UserPhoneDoc() {
         //
     }
 
-    public static UserPhoneMdo newInstance(UserPhone userPhone) {
+    public static UserPhoneDoc newInstance(UserPhone userPhone) {
         //
-        UserPhoneMdo userPhoneMdo = new UserPhoneMdo();
-        userPhoneMdo.setPhoneNumber(userPhone.getPhoneNumber());
-        userPhoneMdo.setCountryCode(userPhone.getCountryCode());
-        userPhoneMdo.setAreaCode(userPhone.getAreaCode());
-        userPhoneMdo.setNumber(userPhone.getNumber());
-        return userPhoneMdo;
+        UserPhoneDoc userPhoneDoc = new UserPhoneDoc();
+        userPhoneDoc.setPhoneNumber(userPhone.getPhoneNumber());
+        userPhoneDoc.setCountryCode(userPhone.getCountryCode());
+        userPhoneDoc.setAreaCode(userPhone.getAreaCode());
+        userPhoneDoc.setNumber(userPhone.getNumber());
+        return userPhoneDoc;
     }
 
     public UserPhone toDomain() {

@@ -1,8 +1,8 @@
-package namoo.nara.castle.da.mongo.mdo.contact;
+package namoo.nara.castle.da.mongo.document.contact;
 
 import namoo.nara.castle.domain.entity.contact.UserName;
 
-public class UserNameMdo {
+public class UserNameDoc {
     //
     private String familyName;
     private String firstName;
@@ -10,19 +10,19 @@ public class UserNameMdo {
     private String middleName;  // updatable
     private String langCode;    // updatable
 
-    public UserNameMdo() {
+    public UserNameDoc() {
         //
     }
 
-    public static UserNameMdo newInstance(UserName userName) {
+    public static UserNameDoc newInstance(UserName userName) {
         //
-        UserNameMdo userNameMdo = new UserNameMdo();
-        userNameMdo.setFamilyName(userName.getFamilyName());
-        userNameMdo.setFirstName(userName.getFirstName());
-        userNameMdo.setDisplayName(userName.getDisplayName());
-        userNameMdo.setMiddleName(userName.getMiddleName());
-        userNameMdo.setLangCode(userName.getLangCode());
-        return userNameMdo;
+        UserNameDoc userNameDoc = new UserNameDoc();
+        userNameDoc.setFamilyName(userName.getFamilyName());
+        userNameDoc.setFirstName(userName.getFirstName());
+        userNameDoc.setDisplayName(userName.getDisplayName());
+        userNameDoc.setMiddleName(userName.getMiddleName());
+        userNameDoc.setLangCode(userName.getLangCode());
+        return userNameDoc;
     }
 
     public UserName toDomain() {

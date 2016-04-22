@@ -1,6 +1,6 @@
 package namoo.nara.castle.da.mongo;
 
-import namoo.nara.castle.da.mongo.mdo.CastleMdo;
+import namoo.nara.castle.da.mongo.document.CastleDoc;
 import namoo.nara.castle.da.mongo.springdata.CastleMongoRepository;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.store.CastleStore;
@@ -23,16 +23,16 @@ public class CastleMongoStore implements CastleStore {
         //
         String id = castle.getId();
         if (castleMongoRepository.exists(id)) throw new AlreadyExistsException(String.format("Castle document[ID:%s] already exist.", id));
-        CastleMdo castleMdo = CastleMdo.newInstance(castle);
-        castleMongoRepository.save(castleMdo);
+        CastleDoc castleDoc = CastleDoc.newInstance(castle);
+        castleMongoRepository.save(castleDoc);
     }
 
     @Override
     public Castle retrieve(String id) {
         //
-        CastleMdo castleMdo = castleMongoRepository.findOne(id);
-        if (castleMdo == null) throw new NonExistenceException(String.format("No castle document[ID:%s] to retrieve.", id));
-        return castleMdo.toDomain();
+        CastleDoc castleDoc = castleMongoRepository.findOne(id);
+        if (castleDoc == null) throw new NonExistenceException(String.format("No castle document[ID:%s] to retrieve.", id));
+        return castleDoc.toDomain();
     }
 
     @Override
@@ -40,8 +40,8 @@ public class CastleMongoStore implements CastleStore {
         //
         String id = castle.getId();
         if (!castleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castle document[ID:%s] to update.", id));
-        CastleMdo castleMdo = CastleMdo.newInstance(castle);
-        castleMongoRepository.save(castleMdo);
+        CastleDoc castleDoc = CastleDoc.newInstance(castle);
+        castleMongoRepository.save(castleDoc);
     }
 
     @Override

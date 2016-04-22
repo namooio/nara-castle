@@ -1,4 +1,4 @@
-package namoo.nara.castle.da.mongo.mdo;
+package namoo.nara.castle.da.mongo.document;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.OpenState;
@@ -11,7 +11,7 @@ import java.util.Locale;
  * Created by kchuh@nextree.co.kr on 2016. 4. 6..
  */
 @Document(collection = "Castle")
-public class CastleMdo {
+public class CastleDoc {
     //
     @Id
     private String id;
@@ -20,19 +20,19 @@ public class CastleMdo {
     private String state;
     private long buildTime;
 
-    public CastleMdo() {
+    public CastleDoc() {
         //
     }
 
-    public static CastleMdo newInstance(Castle castle) {
+    public static CastleDoc newInstance(Castle castle) {
         //
-        CastleMdo castleMdo = new CastleMdo();
-        castleMdo.setId(castle.getId());
-        castleMdo.setName(castle.getName());
-        castleMdo.setLocale(castle.getLocale());
-        castleMdo.setState(castle.getState().name());
-        castleMdo.setBuildTime(castle.getBuildTime());
-        return castleMdo;
+        CastleDoc castleDoc = new CastleDoc();
+        castleDoc.setId(castle.getId());
+        castleDoc.setName(castle.getName());
+        castleDoc.setLocale(castle.getLocale());
+        castleDoc.setState(castle.getState().name());
+        castleDoc.setBuildTime(castle.getBuildTime());
+        return castleDoc;
     }
 
     public Castle toDomain() {
