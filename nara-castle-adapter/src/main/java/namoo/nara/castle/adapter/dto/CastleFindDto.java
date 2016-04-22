@@ -1,8 +1,9 @@
 package namoo.nara.castle.adapter.dto;
 
+import namoo.nara.castle.adapter.dto.contact.AddressBookDto;
 import namoo.nara.castle.adapter.dto.contact.NameBookDto;
-import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.adapter.dto.contact.PhoneBookDto;
+import namoo.nara.castle.adapter.dto.history.AccountBookDto;
 
 import java.util.Date;
 import java.util.Locale;
@@ -19,8 +20,12 @@ public class CastleFindDto {
     private Date  buildTime;
 
     private CastellanFindDto castellan;
+
     // TODO : 뷰모델(DTO) 구조 고민 필요 -> 도메인과 동일하게 갈 것인가..
     private NameBookDto nameBookDto;
+    private PhoneBookDto phoneBookDto;
+    private AddressBookDto addressBookDto;
+    private AccountBookDto accountBookDto;
 
 
     public CastleFindDto() {
@@ -81,5 +86,29 @@ public class CastleFindDto {
 
     public void setNameBookDto(NameBookDto nameBookDto) {
         this.nameBookDto = nameBookDto;
+    }
+
+    public PhoneBookDto getPhoneBookDto() {
+        return phoneBookDto;
+    }
+
+    public void setPhoneBookDto(PhoneBookDto phoneBookDto) {
+        this.phoneBookDto = phoneBookDto;
+    }
+
+    public AddressBookDto getAddressBookDto() {
+        return addressBookDto;
+    }
+
+    public void setAddressBookDto(AddressBookDto addressBookDto) {
+        this.addressBookDto = addressBookDto;
+    }
+
+    public AccountBookDto getAccountBookDto() {
+        return accountBookDto;
+    }
+
+    public void setAccountBookDto(AccountBookDto accountBookDto) {
+        this.accountBookDto = accountBookDto;
     }
 }

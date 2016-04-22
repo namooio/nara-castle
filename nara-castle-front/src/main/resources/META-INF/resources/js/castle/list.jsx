@@ -10,6 +10,7 @@ Components.Castle.List = Components.Castle.List || {};
         , castleCommon = CastleCommon
         , mainComponent = Components.Main;
 
+    // Define content attributes
     var contentProps = {
         finder: {
             title: { KOR: 'Castle 검색', USA: 'Search Castle'}
@@ -35,7 +36,7 @@ Components.Castle.List = Components.Castle.List || {};
         }
     };
 
-
+    // Define components
     var CastleListPage = React.createClass({
         statics : {
             containerStyle: {width: '1100px'}
@@ -47,7 +48,6 @@ Components.Castle.List = Components.Castle.List || {};
             };
         },
         componentDidMount: function () {
-            //
             this.findCastles();
         },
         changeCriteriaInput : function () {

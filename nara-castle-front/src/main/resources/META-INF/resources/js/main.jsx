@@ -10,6 +10,8 @@ Components.Main = Components.Main || {};
     var castleCommon = CastleCommon
         , castleRouter = CastleRouter;
 
+
+    // Define component
     var renderLayout = function (contentComponent, params) {
         console.info('Main content component');
         console.dir(contentComponent);
@@ -20,8 +22,13 @@ Components.Main = Components.Main || {};
     };
 
     var MainPage = React.createClass({
+        //
         statics: {
             lang: 'KOR'
+        },
+        propTypes: {
+            contentComponent: React.PropTypes.func.isRequired
+            , params: React.PropTypes.object
         },
         getInitialState : function () {
             return {};
@@ -29,18 +36,11 @@ Components.Main = Components.Main || {};
         componentDidMount : function () {
             var lang;
 
-            if ( navigator.language ) {
-                lang = navigator.language;
-            }
-            else if ( navigator.browserLanguage ) {
-                lang = navigator.browserLanguage;
-            }
-            else if ( navigator.systemLanguage ) {
-                lang = navigator.systemLanguage;
-            }
-            else if ( navigator.userLanguage ) {
-                lang = navigator.userLanguage;
-            }
+            if (navigator.language) lang = navigator.language;
+            else if (navigator.browserLanguage) lang = navigator.browserLanguage;
+            else if (navigator.systemLanguage) lang = navigator.systemLanguage;
+            else if (navigator.userLanguage) lang = navigator.userLanguage;
+
             if (lang === 'ko') {
                 lang = 'KOR';
             } else if (lang === 'en') {
@@ -72,16 +72,17 @@ Components.Main = Components.Main || {};
      * Castellan 검색 폼 컴포넌트
      */
     var TopMenu = React.createClass({
+        //
+        propTypes: {
+            changeLanguage: React.PropTypes.func.isRequired
+        },
         inquiryBtnClick : function (event) {
-            //
             $(event.target).tabs();
         },
         registerBtnClick : function (event) {
-            //
             $(event.target).tabs();
         },
         changeLanguageClick : function (event) {
-            //
             var lang = $(event.target).data('lang');
             this.props.changeLanguage(lang);
         },
@@ -94,7 +95,6 @@ Components.Main = Components.Main || {};
             } else if (lang === 'USA') {
                 displayLang = 'English';
             }
-
 
             return (
                 <nav className="navbar navbar-inverse navbar-static-top">
@@ -132,6 +132,11 @@ Components.Main = Components.Main || {};
     });
 
     var Content = React.createClass({
+        //
+        propTypes: {
+            contentComponent: React.PropTypes.func.isRequired
+            , params: React.PropTypes.object
+        },
         render: function () {
             console.info('Execute main.jsx content render');
             console.dir(this.props.contentComponent);

@@ -42,10 +42,9 @@ public class DomainConversionUtil {
 
     public static AddressBook toAddressBook(AddressBookDto addressBookDto) {
         //
-        List<UserAddressDto> addressDtoList = addressBookDto.getAddressDtoList();
         AddressBook addressBook = new AddressBook();
-        if (addressDtoList != null) {
-            for(UserAddressDto userAddressDto : addressDtoList) {
+        if (addressBookDto != null) {
+            for(UserAddressDto userAddressDto : addressBookDto) {
                 addressBook.add(toUserAddress(userAddressDto));
             }
         }
@@ -66,10 +65,9 @@ public class DomainConversionUtil {
 
     public static EmailBook toEmailBook(EmailBookDto emailBookDto) {
         //
-        List<UserEmailDto> emailDtoList = emailBookDto.getEmailDtoList();
         EmailBook emailBook = new EmailBook();
-        if (emailDtoList != null) {
-            for(UserEmailDto userEmailDto : emailDtoList) {
+        if (emailBookDto != null) {
+            for(UserEmailDto userEmailDto : emailBookDto) {
                 emailBook.addEmail(toUserEmail(userEmailDto));
             }
         }
@@ -113,10 +111,9 @@ public class DomainConversionUtil {
 
     public static PhoneBook toPhoneBook(PhoneBookDto phoneBookDto) {
         //
-        List<UserPhoneDto> phoneDtoList = phoneBookDto.getPhoneDtoList();
         PhoneBook phoneBook = new PhoneBook();
-        if (phoneDtoList != null) {
-            for(UserPhoneDto userPhoneDto : phoneDtoList) {
+        if (phoneBookDto != null) {
+            for(UserPhoneDto userPhoneDto : phoneBookDto) {
                 phoneBook.add(toUserPhone(userPhoneDto));
             }
         }

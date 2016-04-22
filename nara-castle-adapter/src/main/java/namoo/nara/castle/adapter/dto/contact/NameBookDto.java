@@ -7,8 +7,6 @@ import java.util.ArrayList;
  */
 public class NameBookDto extends ArrayList<UserNameDto> {
     //
-    private String castleId;
-
 //    private List<UserNameDto> nameDtoList;
 
     public NameBookDto() {
@@ -31,12 +29,4 @@ public class NameBookDto extends ArrayList<UserNameDto> {
         this.nameDtoList = nameDtoList;
     }
     */
-
-    public String getCastleId() {
-        return castleId;
-    }
-
-    public void setCastleId(String castleId) {
-        this.castleId = castleId;
-    }
 }

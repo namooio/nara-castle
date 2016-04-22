@@ -3,6 +3,7 @@ package namoo.nara.castle.pr.springweb;
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 import namoo.nara.castle.adapter.dto.contact.NameBookDto;
+import namoo.nara.castle.adapter.dto.contact.PhoneBookDto;
 import namoo.nara.castle.adapter.dto.contact.UserNameDto;
 import namoo.nara.castle.adapter.CastleAdapter;
 import org.apache.commons.lang3.StringUtils;
@@ -42,8 +43,13 @@ public class CastleApiController {
     @RequestMapping(value="/{id}/namebook", method= RequestMethod.GET)
     public NameBookDto findNameBook(@PathVariable("id") String castleId) {
         //
-        System.out.println("Execute find namebook -> id: " + castleId);
+        System.out.println("Execute find nameBook -> id: " + castleId);
         return TemporaryCastleStore.findNameBook(castleId);
+    }
+
+    public PhoneBookDto findPhoneBook(@PathVariable("id") String castleId) {
+        System.out.println("Execute find phoneBook -> id: " + castleId);
+        return TemporaryCastleStore.findPhoneBook(castleId);
     }
 
 
@@ -81,7 +87,7 @@ public class CastleApiController {
 
                 // NameBook
                 NameBookDto nameBookDto = new NameBookDto();
-                nameBookDto.setCastleId(id);
+//                nameBookDto.setCastleId(id);
 
                 for (int j = 0; j < 3; j ++) {
                     int namebookSeq = j + 1;
@@ -108,16 +114,29 @@ public class CastleApiController {
         }
 
         public static List<CastleFindDto> findAllCastles() {
+            System.out.println("Execute findAllCastles");
             return new ArrayList<CastleFindDto>(temporaryCastleMap.values());
         }
 
         public static CastleFindDto findCastle(String castleId) {
+            System.out.println("Execute findCastle");
+            System.out.println(temporaryCastleMap.get(castleId).toString());
             return temporaryCastleMap.get(castleId);
         }
 
         public static NameBookDto findNameBook(String castleId) {
+            System.out.println("Execute findNameBook");
+            System.out.println(temporaryCastleMap.get(castleId).getNameBookDto().toString());
             return temporaryCastleMap.get(castleId).getNameBookDto();
         }
+
+        public static PhoneBookDto findPhoneBook(String castleId) {
+            System.out.println("Execute findPhoneBook");
+            System.out.println(temporaryCastleMap.get(castleId).getPhoneBookDto().toString());
+            return temporaryCastleMap.get(castleId).getPhoneBookDto();
+        }
+
+
     }
 
 }

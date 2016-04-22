@@ -29,14 +29,12 @@ Components.Castle.Detail = Components.Castle.Detail || {};
             , metro: { name: 'metro', KOR: '메트로내역', USA: 'Metro history' }
         },
         basicInfo: {
-            castle : {
-                id: { name: 'id', KOR: '아이디', USA: 'Id' }
-                , name: { name: 'name', KOR: '이름', USA: 'Name' }
-                , locale: { name: 'locale', KOR: '지역', USA: 'Locale' }
-                , state: { name: 'state', KOR: '상태', USA: 'State' }
-                , buildTime: { name: 'buildTime', KOR: '생성일시', USA: 'Build time' }
-            },
-            castellan: {
+            id: { name: 'id', KOR: '아이디', USA: 'Id' }
+            , name: { name: 'name', KOR: '이름', USA: 'Name' }
+            , locale: { name: 'locale', KOR: '지역', USA: 'Locale' }
+            , state: { name: 'state', KOR: '상태', USA: 'State' }
+            , buildTime: { name: 'buildTime', KOR: '생성일시', USA: 'Build time' }
+            , castellan: {
                 primaryEmail: { name: 'primaryEmail', KOR: '기본 이메일', USA: 'Primary email' }
                 , primaryPhone: { name: 'primaryPhone', KOR: '기본 전화번호', USA: 'Primary phone number' }
                 , photo: { name: 'photoId', KOR: '사진', USA: 'Photo' }
@@ -69,11 +67,12 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         },
     };
 
-
+    // Define components
     var CastleDetailPage = React.createClass({
+        //
         propTypes : {
             contentType: React.PropTypes.string.isRequired
-            , id: React.PropTypes.string
+            , id: React.PropTypes.string.isRequired
         },
         statics : {
             containerStyle: {width: '1100px'}
@@ -85,7 +84,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         },
         getInitialState: function () {
             return {
-                castle: { basicInfo: {}, castellan: {}, nameBook: [] }
+                castle: { basicInfo: { castellan: {} }, nameBook: [] }
                 , contentModifiable: false
             };
         },
@@ -93,27 +92,26 @@ Components.Castle.Detail = Components.Castle.Detail || {};
             console.debug('Exectue detal.jsx CastleDetailPage componentDidMount');
             castleCommon.getJSON(castleConst.CTX + '/api/castle/' + this.props.id).done(function (castleResult) {
                 console.debug('Exectue detal.jsx CastleDetailPage componentDidMount callback');
-                //var castle = this.state.
+
                 var castleState = this.state.castle;
+
                 castleState.basicInfo = castleResult;
                 this.setState({castle: castleState});
                 console.dir(this.props);
                 console.dir(this.state);
             }.bind(this));
         },
-        componentWillReceiveProps: function () {
+        componentWillReceiveProps: function (props) {
             var CONTENT_TYPES = contentProps.tabs
                 , url
                 , callback;
 
-            console.debug('Exectue detal.jsx CastleDetailPage componentWillReceiveProps');
-            console.dir(this.props);
-            console.dir(this.state);
+            console.debug('Exectue detal.jsx CastleDetailPage componentWillReceiveProps -> ');
 
-            switch (this.props.contentType) {
+            switch (props.contentType) {
                 case CONTENT_TYPES.basic.name:
                     console.debug('basic');
-                    url = '/api/castle/' + this.props.id;
+                    url = '/api/castle/' + props.id;
                     callback = function (castleResult) {
                         var castleState = this.state.castle;
                         castleState.basicInfo = castleResult;
@@ -122,7 +120,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     break;
                 case CONTENT_TYPES.name.name:
                     console.debug('name');
-                    url = '/api/castle/' + this.props.id + '/namebook';
+                    url = '/api/castle/' + props.id + '/namebook';
                     callback = function (nameBookResult) {
                         var castleState = this.state.castle;
                         castleState.nameBook = nameBookResult;
@@ -146,8 +144,6 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     break;
             }
             castleCommon.getJSON(castleConst.CTX + url).done(callback.bind(this));
-
-
         },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
@@ -171,6 +167,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
     });
 
     var Tab = React.createClass({
+        //
         propTypes: {
             containerStyle: React.PropTypes.object.isRequired
             , contentType: React.PropTypes.string.isRequired
@@ -202,7 +199,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     break;
                 case TAB_NAMES.phone.name:
                     content = <PhoneContent
-
+                        phoneBook={this.props.castle.phoneBook}
                     />
                     break;
                 case TAB_NAMES.email.name:
@@ -305,7 +302,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         },
         render: function () {
             var lang = mainComponent.lang
-                , CASTLE_ATTRS = contentProps.basicInfo.castle
+                , CASTLE_ATTRS = contentProps.basicInfo
                 , CASTELLAN_ATTRS = contentProps.basicInfo.castellan
                 , BUTTON_NAMES = contentProps.buttons;
 
@@ -341,19 +338,19 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.primaryEmail[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.castellan[CASTELLAN_ATTRS.primaryEmail.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.primaryEmail.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.primaryPhone[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.castellan[CASTELLAN_ATTRS.primaryPhone.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.primaryPhone.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.castellan[CASTELLAN_ATTRS.photo.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -383,15 +380,12 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var NameContent = React.createClass({
         propTypes: {
-
+            nameBook: React.PropTypes.array.isRequired
         },
         render: function () {
             var ATTRS = contentProps.name
                 , lang = mainComponent.lang
                 , existsName;
-
-            //if (this.props.nameBook.)
-
 
             return (
                 <div className="tab-content">
@@ -407,17 +401,21 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                                 </tr>
                             </thead>
                             <tbody>
-                                { this.props.nameBook.map(function (name) {
-                                    return (
-                                        <tr key={name[ATTRS.familyName.name]}>
-                                            <td>{name[ATTRS.familyName.name]}</td>
-                                            <td>{name[ATTRS.firstName.name]}</td>
-                                            <td>{name[ATTRS.displayName.name]}</td>
-                                            <td>{name[ATTRS.middleName.name]}</td>
-                                            <td>{name[ATTRS.langCode.name]}</td>
-                                        </tr>
-                                    );
-                                })}
+                                { this.props.nameBook ?
+                                    this.props.nameBook.map(function (name) {
+                                        return (
+                                            <tr key={name[ATTRS.familyName.name]}>
+                                                <td>{name[ATTRS.familyName.name]}</td>
+                                                <td>{name[ATTRS.firstName.name]}</td>
+                                                <td>{name[ATTRS.displayName.name]}</td>
+                                                <td>{name[ATTRS.middleName.name]}</td>
+                                                <td>{name[ATTRS.langCode.name]}</td>
+                                            </tr>
+                                        )
+                                    })
+                                    :
+                                    <tr><td colspan="5">등록 된 Name이 없습니다.</td></tr>
+                                }
                             </tbody>
                         </table>
                         <ButtonGroup modifiable={this.props.modifiable}/>
