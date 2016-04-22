@@ -1,9 +1,9 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.service.CastellanAdapter;
-import namoo.nara.castle.adapter.service.CastellanContactAdapter;
-import namoo.nara.castle.adapter.service.CastleAdapter;
-import namoo.nara.castle.adapter.service.CastleHistoryAdapter;
+import namoo.nara.castle.adapter.CastellanAdapter;
+import namoo.nara.castle.adapter.CastellanContactAdapter;
+import namoo.nara.castle.adapter.CastleAdapter;
+import namoo.nara.castle.adapter.CastleHistoryAdapter;
 import namoo.nara.castle.client.CastellanClient;
 import namoo.nara.castle.client.CastellanContactClient;
 import namoo.nara.castle.client.CastleClient;

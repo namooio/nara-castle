@@ -1,6 +1,6 @@
 package namoo.nara.castle.pr.springweb;
 
-import namoo.nara.castle.adapter.service.CastellanAdapter;
+import namoo.nara.castle.adapter.CastellanAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

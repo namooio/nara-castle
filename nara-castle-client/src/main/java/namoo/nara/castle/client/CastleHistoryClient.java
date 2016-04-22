@@ -3,7 +3,7 @@ package namoo.nara.castle.client;
 import namoo.nara.castle.adapter.dto.history.AccountBookDto;
 import namoo.nara.castle.adapter.dto.history.CastleStateBookDto;
 import namoo.nara.castle.adapter.dto.history.MetroBookDto;
-import namoo.nara.castle.adapter.service.CastleHistoryAdapter;
+import namoo.nara.castle.adapter.CastleHistoryAdapter;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 

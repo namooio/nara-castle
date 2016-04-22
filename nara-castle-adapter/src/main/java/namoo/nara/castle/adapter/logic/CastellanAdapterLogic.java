@@ -2,7 +2,7 @@ package namoo.nara.castle.adapter.logic;
 
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.util.DomainConversionUtil;
-import namoo.nara.castle.adapter.service.CastellanAdapter;
+import namoo.nara.castle.adapter.CastellanAdapter;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.service.CastellanService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;

@@ -1,7 +1,7 @@
 package namoo.nara.castle.client;
 
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
-import namoo.nara.castle.adapter.service.CastellanAdapter;
+import namoo.nara.castle.adapter.CastellanAdapter;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 

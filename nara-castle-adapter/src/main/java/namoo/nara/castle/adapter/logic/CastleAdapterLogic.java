@@ -3,7 +3,7 @@ package namoo.nara.castle.adapter.logic;
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 import namoo.nara.castle.adapter.dto.util.DomainConversionUtil;
-import namoo.nara.castle.adapter.service.CastleAdapter;
+import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;

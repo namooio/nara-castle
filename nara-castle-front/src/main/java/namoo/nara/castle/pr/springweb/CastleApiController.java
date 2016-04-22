@@ -4,7 +4,7 @@ import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 import namoo.nara.castle.adapter.dto.contact.NameBookDto;
 import namoo.nara.castle.adapter.dto.contact.UserNameDto;
-import namoo.nara.castle.adapter.service.CastleAdapter;
+import namoo.nara.castle.adapter.CastleAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,10 +1,9 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.service.CastellanAdapter;
-import namoo.nara.castle.adapter.service.CastleAdapter;
+import namoo.nara.castle.adapter.CastellanAdapter;
+import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.castle.client.CastellanClient;
 import namoo.nara.castle.client.CastleClient;
-import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.springweb.SpringWebRestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;

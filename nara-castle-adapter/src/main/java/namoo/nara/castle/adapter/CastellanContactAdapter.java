@@ -1,4 +1,4 @@
-package namoo.nara.castle.adapter.service;
+package namoo.nara.castle.adapter;
 
 import namoo.nara.castle.adapter.dto.contact.*;
 
