@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-Components.Castellan.Registerer = Components.Castellan.Registerer || {};
+Components.Castle.Build = Components.Castle.Build || {};
 
 (function () {
     //

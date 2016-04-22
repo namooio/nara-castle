@@ -9,6 +9,7 @@
     <title>Sign in</title>
 
     <link rel="stylesheet" href="${ctx}/webjars/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${ctx}/css/castle.css" />
 
     <script src="${ctx}/webjars/jquery/2.1.1/jquery.min.js" ></script>
     <script src="${ctx}/webjars/bootstrap/3.2.0/js/bootstrap.min.js" ></script>
@@ -25,7 +26,7 @@
     <header id="castle-top-menu">
     </header>
 
-    <section id="castle-contents">
+    <section id="castle-content">
     </section>
 
 </body>
