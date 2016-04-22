@@ -19,9 +19,9 @@ public class HistoryBundleDoc {
     @Id
     private String id;
 
-    private CastleStateBookDoc castleStateBookDoc;
-    private MetroBookDoc metroBookDoc;
-    private AccountBookDoc accountBookDoc;
+    private CastleStateBookDoc castleStateBook;
+    private MetroBookDoc metroBook;
+    private AccountBookDoc accountBook;
 
     public HistoryBundleDoc() {
         //
@@ -36,9 +36,9 @@ public class HistoryBundleDoc {
         MetroBook metroBook = history.getMetroBook();
         AccountBook accountBook = history.getAccountBook();
 
-        if (castleStateBook != null) historyDoc.setCastleStateBookDoc(CastleStateBookDoc.newInstance(castleStateBook));
-        if (metroBook != null) historyDoc.setMetroBookDoc(MetroBookDoc.newInstance(metroBook));
-        if (accountBook != null) historyDoc.setAccountBookDoc(AccountBookDoc.newInstance(accountBook));
+        if (castleStateBook != null) historyDoc.setCastleStateBook(CastleStateBookDoc.newInstance(castleStateBook));
+        if (metroBook != null) historyDoc.setMetroBook(MetroBookDoc.newInstance(metroBook));
+        if (accountBook != null) historyDoc.setAccountBook(AccountBookDoc.newInstance(accountBook));
 
         return historyDoc;
     }
@@ -47,9 +47,9 @@ public class HistoryBundleDoc {
         //
         HistoryBundle historyBundle = HistoryBundle.newInstance(id);
 
-        if (castleStateBookDoc != null) historyBundle.attachCastleStateBook(castleStateBookDoc.toDomain());
-        if (metroBookDoc != null) historyBundle.attachMetroBook(metroBookDoc.toDomain());
-        if (accountBookDoc != null) historyBundle.attachAccountBook(accountBookDoc.toDomain());
+        if (castleStateBook != null) historyBundle.attachCastleStateBook(castleStateBook.toDomain());
+        if (metroBook != null) historyBundle.attachMetroBook(metroBook.toDomain());
+        if (accountBook != null) historyBundle.attachAccountBook(accountBook.toDomain());
 
         return historyBundle;
     }
@@ -62,27 +62,27 @@ public class HistoryBundleDoc {
         this.id = id;
     }
 
-    public CastleStateBookDoc getCastleStateBookDoc() {
-        return castleStateBookDoc;
+    public CastleStateBookDoc getCastleStateBook() {
+        return castleStateBook;
     }
 
-    public void setCastleStateBookDoc(CastleStateBookDoc castleStateBookDoc) {
-        this.castleStateBookDoc = castleStateBookDoc;
+    public void setCastleStateBook(CastleStateBookDoc castleStateBook) {
+        this.castleStateBook = castleStateBook;
     }
 
-    public MetroBookDoc getMetroBookDoc() {
-        return metroBookDoc;
+    public MetroBookDoc getMetroBook() {
+        return metroBook;
     }
 
-    public void setMetroBookDoc(MetroBookDoc metroBookDoc) {
-        this.metroBookDoc = metroBookDoc;
+    public void setMetroBook(MetroBookDoc metroBook) {
+        this.metroBook = metroBook;
     }
 
-    public AccountBookDoc getAccountBookDoc() {
-        return accountBookDoc;
+    public AccountBookDoc getAccountBook() {
+        return accountBook;
     }
 
-    public void setAccountBookDoc(AccountBookDoc accountBookDoc) {
-        this.accountBookDoc = accountBookDoc;
+    public void setAccountBook(AccountBookDoc accountBook) {
+        this.accountBook = accountBook;
     }
 }
