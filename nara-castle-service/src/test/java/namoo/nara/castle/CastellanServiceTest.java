@@ -1,6 +1,8 @@
 package namoo.nara.castle;
 
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,24 +31,32 @@ public class CastellanServiceTest extends AbstractCastleServiceApplicationTests 
     public void testModifyDisplayName() {
         //
         getCastellanClient().modifyDisplayName(id, "Juny's Castle");
+        CastellanFindDto castellan = getCastellanClient().findCastellan(id);
+        Assert.assertEquals("Juny's Castle", castellan.getDisplayName());
     }
 
     @Test
     public void testModifyPhoto() {
         //
         getCastellanClient().modifyPhoto(id, "XXX");
+        CastellanFindDto castellan = getCastellanClient().findCastellan(id);
+        Assert.assertEquals("XXX", castellan.getPhotoId());
     }
 
     @Test
     public void testModifyPrimaryEmail() {
         //
         getCastellanClient().modifyPrimaryEmail(id, "kchuh@nextree.co.kr");
+        CastellanFindDto castellan = getCastellanClient().findCastellan(id);
+        Assert.assertEquals("kchuh@nextree.co.kr", castellan.getPrimaryEmail());
     }
 
     @Test
     public void testModifyPrimaryPhone() {
         //
         getCastellanClient().modifyPrimaryPhone(id, "010-6325-7557");
+        CastellanFindDto castellan = getCastellanClient().findCastellan(id);
+        Assert.assertEquals("010-6325-7557", castellan.getPrimaryPhone());
     }
 
 

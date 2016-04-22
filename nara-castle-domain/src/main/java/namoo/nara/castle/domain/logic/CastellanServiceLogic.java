@@ -15,6 +15,12 @@ public class CastellanServiceLogic implements CastellanService {
     }
 
     @Override
+    public Castellan findCastellan(String id) {
+        //
+        return castellanStore.retrieve(id);
+    }
+
+    @Override
     public void modifyDisplayName(String id, String displayName) {
         //
         Castellan castellan = castellanStore.retrieve(id);

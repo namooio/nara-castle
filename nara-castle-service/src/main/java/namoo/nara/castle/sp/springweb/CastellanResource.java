@@ -1,5 +1,6 @@
 package namoo.nara.castle.sp.springweb;
 
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.logic.CastellanAdapterLogic;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,26 +19,37 @@ public class CastellanResource extends CastellanAdapterLogic {
     }
 
     @Override
+    @RequestMapping(method = RequestMethod.GET)
+    public CastellanFindDto findCastellan(@PathVariable("id") String id) {
+        //
+        return super.findCastellan(id);
+    }
+
+    @Override
     @RequestMapping(value = "displayname", method = RequestMethod.PUT)
     public void modifyDisplayName(@PathVariable("id") String id, @RequestBody String displayName) {
+        //
         super.modifyDisplayName(id, displayName);
     }
 
     @Override
     @RequestMapping(value = "photo", method = RequestMethod.PUT)
     public void modifyPhoto(@PathVariable("id") String id, @RequestBody String photoId) {
+        //
         super.modifyPhoto(id, photoId);
     }
 
     @Override
     @RequestMapping(value = "primaryemail", method = RequestMethod.PUT)
     public void modifyPrimaryEmail(@PathVariable("id") String id, @RequestBody String email) {
+        //
         super.modifyPrimaryEmail(id, email);
     }
 
     @Override
     @RequestMapping(value = "primaryphone", method = RequestMethod.PUT)
     public void modifyPrimaryPhone(@PathVariable("id") String id, @RequestBody String phoneNumber) {
+        //
         super.modifyPrimaryPhone(id, phoneNumber);
     }
 }

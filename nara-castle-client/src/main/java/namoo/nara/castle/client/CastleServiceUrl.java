@@ -26,6 +26,7 @@ public enum CastleServiceUrl implements NaraServiceUrl {
     URL_CASTLE_HISTORY_METROBOOK_DETACH       ("castles/{id}/histories/metrobook",             HttpMethod.DELETE   ),
     URL_CASTLE_HISTORY_METROBOOK_FIND         ("castles/{id}/histories/metrobook",             HttpMethod.GET      ),
 
+    URL_CASTELLAN_FIND                        ("castellans/{id}",                              HttpMethod.GET      ),
     URL_CASTELLAN_DISPLAYNAME_MODIFY          ("castellans/{id}/displayname",                  HttpMethod.PUT      ),
     URL_CASTELLAN_PHOTO_MODIFY                ("castellans/{id}/photo",                        HttpMethod.PUT      ),
     URL_CASTELLAN_PRIMARYEMAIL_MODIFY         ("castellans/{id}/primaryemail",                 HttpMethod.PUT      ),

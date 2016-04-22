@@ -1,5 +1,6 @@
 package namoo.nara.castle.client;
 
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.service.CastellanAdapter;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
@@ -14,6 +15,16 @@ public class CastellanClient implements CastellanAdapter {
     public CastellanClient(NaraRestClient naraRestClient) {
         //
         this.naraRestClient = naraRestClient;
+    }
+
+    @Override
+    public CastellanFindDto findCastellan(String id) {
+        //
+        return naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_FIND)
+                .addPathParam("id", id)
+                .setResponseType(CastellanFindDto.class)
+        );
     }
 
     @Override
