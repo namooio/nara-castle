@@ -18,6 +18,7 @@ public class CastleClientTest {
 
         CastleBuildDto castleBuildDto = new CastleBuildDto();
         castleBuildDto.setName("허기철");
+        castleBuildDto.setEmail("michael7557@gmail.com");
         castleBuildDto.setLocale(Locale.KOREAN);
         castleClient.buildCastle("0000", castleBuildDto);
     }
