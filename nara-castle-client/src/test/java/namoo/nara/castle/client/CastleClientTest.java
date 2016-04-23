@@ -21,4 +21,10 @@ public class CastleClientTest {
         castleBuildDto.setLocale(Locale.KOREAN);
         castleClient.buildCastle("0000", castleBuildDto);
     }
+
+    public static void main(String[] args) {
+        //
+        CastleClientTest castleClientTest = new CastleClientTest();
+        castleClientTest.buildCastle();
+    }
 }

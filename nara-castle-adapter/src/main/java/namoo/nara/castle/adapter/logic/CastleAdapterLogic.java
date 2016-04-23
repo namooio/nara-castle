@@ -29,7 +29,7 @@ public class CastleAdapterLogic implements CastleAdapter {
         Locale locale = castleBuildDto.getLocale();
         String metroId = castleBuildDto.getMetroId();
 
-        if (metroId != null || !metroId.isEmpty()) {
+        if (metroId != null && !metroId.isEmpty()) {
             castleService.buildCastle(id, name, metroId, locale);
         }
         else {
