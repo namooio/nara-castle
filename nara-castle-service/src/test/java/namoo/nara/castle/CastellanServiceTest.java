@@ -22,6 +22,7 @@ public class CastellanServiceTest extends AbstractCastleServiceApplicationTests 
         id = UUID.randomUUID().toString();
         CastleBuildDto castleBuildDto = new CastleBuildDto();
         castleBuildDto.setName("Michael's Castle");
+        castleBuildDto.setEmail("michael7557@gmail.com");
         castleBuildDto.setMetroId("99");
         castleBuildDto.setLocale(Locale.US);
         getCastleClient().buildCastle(id, castleBuildDto);

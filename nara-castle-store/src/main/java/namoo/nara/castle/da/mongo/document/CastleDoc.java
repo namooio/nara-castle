@@ -37,7 +37,10 @@ public class CastleDoc {
 
     public Castle toDomain() {
         //
-        Castle castle = Castle.newInstance(id, name, locale);
+        Castle castle = new Castle();
+        castle.setUsid(id);
+        castle.setName(name);
+        castle.setLocale(locale);
         castle.setBuildTime(buildTime);
         castle.setState(OpenState.valueOf(state));
         return castle;

@@ -36,7 +36,7 @@ public class CastleMongoStoreTest {
         String id = UUID.randomUUID().toString();
 
         // create test
-        Castle castle = Castle.newInstance(id, "허기철", Locale.US);
+        Castle castle = Castle.newInstance(id, "허기철", "kchuh@nextree.co.kr", Locale.US);
         castle.setBuildTime(System.currentTimeMillis());
         castleStore.create(castle);
 

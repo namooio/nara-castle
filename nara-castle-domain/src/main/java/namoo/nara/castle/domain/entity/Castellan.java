@@ -13,15 +13,16 @@ public class Castellan implements Identifiable {
     public Castellan() {
     }
 
-    protected Castellan(String castleId, String displayName) {
+    protected Castellan(String castleId, String displayName, String primaryEmail) {
         //
         this.usid = castleId;
         this.displayName = displayName;
+        this.primaryEmail = primaryEmail;
     }
 
-    public static Castellan newInstance(String usid, String displayName) {
+    public static Castellan newInstance(String usid, String displayName, String primaryEmail) {
         //
-        return new Castellan(usid, displayName);
+        return new Castellan(usid, displayName, primaryEmail);
     }
 
     @Override

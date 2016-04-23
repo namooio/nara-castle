@@ -8,6 +8,7 @@ import java.util.Locale;
 public class CastleBuildDto {
     //
     private String name;
+    private String email;
     private String metroId;
     private Locale locale;
 
@@ -21,6 +22,14 @@ public class CastleBuildDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getMetroId() {

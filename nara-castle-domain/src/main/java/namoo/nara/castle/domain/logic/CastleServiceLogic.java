@@ -4,6 +4,7 @@ import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.InfoBundleBox;
 import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.contact.ContactBundle;
+import namoo.nara.castle.domain.entity.contact.UserEmail;
 import namoo.nara.castle.domain.entity.history.CastleState;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
 import namoo.nara.castle.domain.entity.history.ParticipantMetro;
@@ -28,13 +29,14 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void buildCastle(String id, String name, Locale locale) {
+    public void buildCastle(String id, String name, String email, Locale locale) {
         //
-        Castle castle = Castle.newInstance(id, name, locale);
+        Castle castle = Castle.newInstance(id, name, email, locale);
 
         InfoBundleBox bundleBox = castle.getInfoBundleBox();
         HistoryBundle history = bundleBox.getHistoryBundle();
         ContactBundle contact = bundleBox.getContactBundle();
+        contact.getEmailBook().addEmail(new UserEmail(email));
 
         castleStore.create(castle);     // Castellan을 별도로 생성 ???
         castellanStore.create(castle.getOwner());
@@ -43,9 +45,9 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void buildCastle(String id, String name, String metroId, Locale locale) {
+    public void buildCastle(String id, String name, String email, Locale locale, String metroId) {
         //
-        buildCastle(id, name, locale);
+        buildCastle(id, name, email, locale);
 
         HistoryBundle history = historyStore.retrieve(id);
         history.getMetroBook().addMetro(new ParticipantMetro(metroId, System.currentTimeMillis()));

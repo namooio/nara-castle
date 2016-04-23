@@ -26,14 +26,15 @@ public class CastleAdapterLogic implements CastleAdapter {
     public void buildCastle(String id, CastleBuildDto castleBuildDto) {
         //
         String name = castleBuildDto.getName();
+        String email = castleBuildDto.getEmail();
         Locale locale = castleBuildDto.getLocale();
         String metroId = castleBuildDto.getMetroId();
 
         if (metroId != null && !metroId.isEmpty()) {
-            castleService.buildCastle(id, name, metroId, locale);
+            castleService.buildCastle(id, name, email, locale, metroId);
         }
         else {
-            castleService.buildCastle(id, name, locale);
+            castleService.buildCastle(id, name, email, locale);
         }
 
     }

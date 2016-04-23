@@ -34,9 +34,8 @@ public class CastellanDoc {
 
     public Castellan toDomain() {
         //
-        Castellan castle = Castellan.newInstance(id, displayName);
+        Castellan castle = Castellan.newInstance(id, displayName, primaryEmail);
         castle.setPhotoId(photoId);
-        castle.setPrimaryEmail(primaryEmail);
         castle.setPrimaryPhone(primaryPhone);
         return castle;
     }

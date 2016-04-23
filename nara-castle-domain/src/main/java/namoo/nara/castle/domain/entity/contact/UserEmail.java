@@ -10,6 +10,12 @@ public class UserEmail {
     public UserEmail() {
     }
 
+    public UserEmail(String email) {
+        //
+        this.email = email;
+        this.verified = false;
+    }
+
     public UserEmail(String email, EmailType emailType) {
         //
         this.email = email;

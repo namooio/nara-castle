@@ -34,7 +34,7 @@ public class CastellanMongoStoreTest {
         String id = UUID.randomUUID().toString();
 
         // create test
-        Castellan castellan = Castellan.newInstance(id, "허기철");
+        Castellan castellan = Castellan.newInstance(id, "허기철", "kchuh@nextree.co.kr");
         castellanStore.create(castellan);
 
         // retrieve test

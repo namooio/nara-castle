@@ -17,7 +17,10 @@ public class UserEmailDoc {
         //
         UserEmailDoc userEmailDoc = new UserEmailDoc();
         userEmailDoc.setEmail(userEmail.getEmail());
-        userEmailDoc.setEmailType(userEmail.getEmailType().name());
+        UserEmail.EmailType emailType = userEmail.getEmailType();
+        if (emailType != null) {
+            userEmailDoc.setEmailType(userEmail.getEmailType().name());
+        }
         userEmailDoc.setVerified(userEmail.isVerified());
         userEmailDoc.setVerifiedTime(userEmail.getVerifiedTime());
         return userEmailDoc;
@@ -27,7 +30,9 @@ public class UserEmailDoc {
         //
         UserEmail userEmail = new UserEmail();
         userEmail.setEmail(email);
-        userEmail.setEmailType(UserEmail.EmailType.valueOf(emailType));
+        if (emailType != null) {
+            userEmail.setEmailType(UserEmail.EmailType.valueOf(emailType));
+        }
         userEmail.setVerified(verified);
         userEmail.setVerifiedTime(verifiedTime);
         return userEmail;

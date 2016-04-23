@@ -33,10 +33,10 @@ public class Castle implements Identifiable {
         this.infoBundleBox = new InfoBundleBox(usid);
     }
 
-    public static Castle newInstance(String usid, String name, Locale locale) {
+    public static Castle newInstance(String usid, String name, String email, Locale locale) {
         //
         Castle castle = new Castle(usid, name, locale);
-        Castellan castellan = new Castellan(usid, name);
+        Castellan castellan = new Castellan(usid, name, email);
         castle.setOwner(castellan);
 
         return castle;
