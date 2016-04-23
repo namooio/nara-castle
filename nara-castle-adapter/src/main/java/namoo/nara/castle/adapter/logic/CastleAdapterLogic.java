@@ -1,9 +1,9 @@
 package namoo.nara.castle.adapter.logic;
 
+import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 import namoo.nara.castle.adapter.dto.util.DomainConversionUtil;
-import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
@@ -26,9 +26,16 @@ public class CastleAdapterLogic implements CastleAdapter {
     public void buildCastle(String id, CastleBuildDto castleBuildDto) {
         //
         String name = castleBuildDto.getName();
-        String metroId = castleBuildDto.getMetroId();
         Locale locale = castleBuildDto.getLocale();
-        castleService.buildCastle(id, name, metroId, locale);
+        String metroId = castleBuildDto.getMetroId();
+
+        if (metroId != null || !metroId.isEmpty()) {
+            castleService.buildCastle(id, name, metroId, locale);
+        }
+        else {
+            castleService.buildCastle(id, name, locale);
+        }
+
     }
 
     @Override

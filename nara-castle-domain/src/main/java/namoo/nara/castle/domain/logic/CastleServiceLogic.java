@@ -28,20 +28,28 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void buildCastle(String usid, String name, String metroId, Locale locale) {
+    public void buildCastle(String id, String name, Locale locale) {
         //
-        Castle castle = Castle.newInstance(usid, name, locale);
+        Castle castle = Castle.newInstance(id, name, locale);
 
         InfoBundleBox bundleBox = castle.getInfoBundleBox();
         HistoryBundle history = bundleBox.getHistoryBundle();
-        history.getMetroBook().addMetro(new ParticipantMetro(metroId, castle.getBuildTime()));
-
         ContactBundle contact = bundleBox.getContactBundle();
 
         castleStore.create(castle);     // Castellan을 별도로 생성 ???
         castellanStore.create(castle.getOwner());
         historyStore.create(history);
         contactBundleStore.create(contact);
+    }
+
+    @Override
+    public void buildCastle(String id, String name, String metroId, Locale locale) {
+        //
+        buildCastle(id, name, locale);
+
+        HistoryBundle history = historyStore.retrieve(id);
+        history.getMetroBook().addMetro(new ParticipantMetro(metroId, System.currentTimeMillis()));
+        historyStore.updateMetroBook(history);
     }
 
     @Override

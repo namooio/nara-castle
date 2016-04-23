@@ -36,7 +36,8 @@ public class HistoryBundleMongoStore implements HistoryBundleStore {
         return historyBundleDoc.toDomain();
     }
 
-    private void update(HistoryBundle history) {
+    @Override
+    public void update(HistoryBundle history) {
         //
         String id = history.getId();
         if (!historyBundleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No history bundle document[ID:%s] to update.", id));
