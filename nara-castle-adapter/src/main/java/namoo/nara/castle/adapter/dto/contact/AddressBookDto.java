@@ -20,7 +20,6 @@ public class AddressBookDto {
             addresses = new ArrayList<>();
         }
         addresses.add(addressDto);
-        addresses.add(addressDto);
     }
 
     public List<UserAddressDto> getAddresses() {
