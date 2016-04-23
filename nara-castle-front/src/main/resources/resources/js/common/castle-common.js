@@ -8,14 +8,18 @@ CastleConst.TOP_MENU_DOM_ID = 'castle-top-menu';
 CastleConst.CONTENTS_DOM_ID = 'castle-content';
 
 var Components = {
-    Castle : { name: 'Castle'}
-    , Castellan : { name: 'Castellan'}
+    Castle : { name: 'Castle'},
+    Castellan : { name: 'Castellan'}
 };
 
 var CastleCommon = {};
 
 (function () {
     //
+    'use strict';
+    // Import extenral module
+    //var jsxTransformer = JSXTransformer;
+
     CastleCommon.getTopMenuJDom = function () {
         return $('#' + CastleConst.TOP_MENU_DOM_ID)[0];
     };
@@ -24,7 +28,7 @@ var CastleCommon = {};
         return $('#' + CastleConst.CONTENTS_DOM_ID)[0];
     };
 
-    //
+
     /**
      * POST Json AJAX
      * <p>postJSON(String url, Object paramData)</p>
@@ -41,11 +45,11 @@ var CastleCommon = {};
         var jsonParamData = JSON.stringify(param2);
 
         return $.ajax({
-            url: param1
-            , method: 'POST'
-            , contentType: 'application/json'
-            , cache: false
-            , data: jsonParamData
+            url: param1,
+            method: 'POST',
+            contentType: 'application/json',
+            cache: false,
+            data: jsonParamData
         });
     };
 
@@ -61,13 +65,14 @@ var CastleCommon = {};
         else {
             return $.getJSON(url);
         }
-    }
+    };
 
     var scriptCache = {};
 
     /**
      * Get and execute jsx
      * @param url
+     * @param callback
      */
     CastleCommon.getJSX = function (url, callback) {
         //
@@ -75,24 +80,31 @@ var CastleCommon = {};
 
         if (cachedScript) {
             console.info('Execute cached script');
-            JSXTransformer.exec(cachedScript);
+            //jsxTransformer.exec(cachedScript);
+            babel.transform.run(cachedScript);
+
+            if (callback && typeof callback === 'function') {
+                callback(cachedScript);
+            }
+
             return;
         }
 
         $.ajax({
-            url: url
-            , method: 'GET'
-            , cache: false
-            , success : function (result) {
+            url: url,
+            method: 'GET',
+            cache: false,
+            success : function (result) {
                 console.info('Execute script from server');
                 scriptCache[url] = result;
-                JSXTransformer.exec(result);
+                //jsxTransformer.exec(result);
+                babel.transform.run(result);
 
                 if (callback && typeof callback === 'function') {
                     callback(result);
                 }
-            }
-            , error: function (result) {
+            },
+            error: function (result) {
                 alert('Fail CastleCommon.getJSX');
                 console.info(result);
             }

@@ -2,34 +2,25 @@
  * Created by hkkang on 2016-04-07.
  */
 
-var CastleRouter = CastleRouter || {};
+var NaraReactRouter = NaraReactRouter || {};
 
 
 (function () {
     //
     // Import component module
-    var castleCommon = CastleCommon;
+    'use strict';
 
-    var namespace = {}
-        , mapping = {}
-        , componentCache = {};
+    var namespace = {},
+        mapping = {},
+        componentCache = {};
 
-    // Castellan mapping
-    addRouterMapping('#/castellan/view',        [{path: '/js/castellan/view.jsx',       component: {namespace: Components.Castellan,    name: 'View',           render: 'renderLayout'}}]);
-    addRouterMapping('#/castellan/register',    [{path: '/js/castellan/register.jsx',   component: {namespace: Components.Castellan,    name: 'Registerer',     render: 'renderLayout'}}]);
-
-    // Castle mapping
-    addRouterMapping('#/castles',               [{path: '/js/castle/list.jsx',          component: {namespace: Components.Castle,       name: 'List',           render: 'renderLayout'}}]);
-    addRouterMapping('#/castle/detail',         [{path: '/js/castle/detail.jsx',        component: {namespace: Components.Castle,       name: 'Detail',         render: 'renderLayout'}}]);
-
-
-    namespace.initialize = function (scriptLoadCallback) {
+    function initialize(scriptLoadCallback) {
         //
         window.addEventListener('hashchange', function () {
             navigate(scriptLoadCallback);
         });
         navigate(scriptLoadCallback);
-    };
+    }
 
     /**
      * Add url mappaing information at router
@@ -72,7 +63,6 @@ var CastleRouter = CastleRouter || {};
      *
      * @param url
      * @param resources
-     * @param components
      */
     function addRouterMapping(url, resources) {
         //
@@ -81,10 +71,10 @@ var CastleRouter = CastleRouter || {};
         }
 
         if (typeof url === 'string' && Array.isArray(resources)) {
-            mapping[url] = {resources: resources};
+            mapping[url] = { resources: resources };
         }
         else if (typeof url === 'string' && typeof resources === 'string') {
-            mapping[url]
+            mapping[url] = { resource: resources };
         }
         else {
             console.error('Invaild url or resources for router mapping -> url: ' + url + ', resources' + resources);
@@ -93,11 +83,13 @@ var CastleRouter = CastleRouter || {};
 
     function navigate(scriptLoadCallback) {
         //
-        var hashLocation = window.location.hash.split('?')
-            , hashUrl = hashLocation[0]
-            , paramsText = hashLocation[1]
-            , paramObj = {}
-            , mappingResources;
+        console.debug('Navigate!!');
+
+        var hashLocation = window.location.hash.split('?'),
+            hashUrl = hashLocation[0],
+            paramsText = hashLocation[1],
+            paramObj = {},
+            mappingResources;
 
         console.info('Execute castle-router.js navigate()');
 
@@ -105,12 +97,12 @@ var CastleRouter = CastleRouter || {};
             console.error('Not found url mapping from router -> url: ' + hashUrl);
             var errorResourcePath = '/js/castle/error.jsx';
 
-            castleCommon.getJSX(CastleConst.CTX + errorResourcePath, function () {
+            getJSX(errorResourcePath, function () {
                 //
                 console.info('Execute castle-router.js navigate() error page');
-                var componentNamespace = Components.Castle
-                    , componentName = 'Common'
-                    , component = componentNamespace[componentName];
+                var componentNamespace = Components.Castle,
+                    componentName = 'Common',
+                    component = componentNamespace[componentName];
 
                 scriptLoadCallback(component);
             });
@@ -126,9 +118,9 @@ var CastleRouter = CastleRouter || {};
             var paramItems = paramsText.split('&');
 
             if (paramItems) {
-                paramItems.forEach(function (item, index) {
-                    var paramName = item.split('=')[0]
-                        , paramValue = item.split('=')[1];
+                paramItems.forEach( function (item) {
+                    var paramName = item.split('=')[0],
+                        paramValue = item.split('=')[1];
 
                     paramObj[paramName] = paramValue;
                 });
@@ -145,9 +137,8 @@ var CastleRouter = CastleRouter || {};
                 scriptLoadCallback(component, paramObj);
             }
             else {
-                castleCommon.getJSX(CastleConst.CTX + resourceItem.path, function () {
+                getJSX(resourceItem.path, function () {
                     //
-                    //console.info('Execute castle-router.js navigate() getJSX callback');
                     componentCache[resourceComponent.namespace.name + resourceComponent.name] = resourceComponent;
                     component = resourceComponent.namespace[resourceComponent.name];
 
@@ -157,7 +148,30 @@ var CastleRouter = CastleRouter || {};
         });
     }
 
-    CastleRouter = namespace;
-    CastleRouter.mapping = mapping;
+    function getJSX(url, callback) {
+        //
+        $.ajax({
+            url: url,
+            method: 'GET',
+            cache: false,
+            success : function (result) {
+                babel.transform.run(result);
+
+                if (callback && typeof callback === 'function') {
+                    callback(result);
+                }
+            },
+            error: function (result) {
+                alert('Fail CastleCommon.getJSX');
+                console.info(result);
+            }
+        });
+    }
+
+    namespace.initialize = initialize;
+    namespace.addRouterMapping = addRouterMapping;
+
+    NaraReactRouter = namespace;
+    NaraReactRouter.mapping = mapping;
 })();
 

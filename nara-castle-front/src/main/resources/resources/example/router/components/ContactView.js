@@ -5,7 +5,7 @@
 
         contacts: React.PropTypes.array.isRequired,
         contactForms: React.PropTypes.object.isRequired,
-        id: React.PropTypes.string.isRequired,
+        id: React.PropTypes.string.isRequired
       },
 
 
@@ -23,9 +23,9 @@
                 React.createElement(ContactForm, {
                   value: contactForm,
                   onChange: this.props.onChangeContact,
-                  onSubmit: this.props.onSubmitContact,
+                  onSubmit: this.props.onSubmitContact
                 })
               )
         )
-      },
+      }
     });

@@ -1,6 +1,6 @@
 var Application = React.createClass({
   propTypes: {
-    location: React.PropTypes.array.isRequired,
+    location: React.PropTypes.array.isRequired
   },
 
   render: function() {
@@ -10,13 +10,13 @@ var Application = React.createClass({
           return React.createElement(ContactView, Object.assign({}, this.props, {
             id: this.props.location[1],
             onChangeContact: updateContactForm,
-            onSubmitContact: submitContactForm,
+            onSubmitContact: submitContactForm
           }))
         }
         else {
           return React.createElement(ContactsView, Object.assign({}, this.props, {
             onChangeContact: updateNewContact,
-            onSubmitContact: submitNewContact,
+            onSubmitContact: submitNewContact
           }));
         }
         break;

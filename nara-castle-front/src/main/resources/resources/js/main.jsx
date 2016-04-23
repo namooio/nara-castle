@@ -6,9 +6,11 @@ Components.Main = Components.Main || {};
 
 (function () {
     //
+    'use strict';
+
     // Import component module
-    var castleCommon = CastleCommon
-        , castleRouter = CastleRouter;
+    var naraReactRouter = NaraReactRouter,
+        castleCommon = CastleCommon;
 
 
     // Define component
@@ -27,8 +29,8 @@ Components.Main = Components.Main || {};
             lang: 'KOR'
         },
         propTypes: {
-            contentComponent: React.PropTypes.func.isRequired
-            , params: React.PropTypes.object
+            contentComponent: React.PropTypes.func.isRequired,
+            params: React.PropTypes.object
         },
         getInitialState : function () {
             return {};
@@ -150,7 +152,7 @@ Components.Main = Components.Main || {};
         }
     });
 
-    castleRouter.initialize(renderLayout);
+    naraReactRouter.initialize(renderLayout);
 
     Components.Main = MainPage;
 })();

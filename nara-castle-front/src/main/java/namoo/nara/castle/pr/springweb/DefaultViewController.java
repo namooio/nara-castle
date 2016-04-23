@@ -12,6 +12,11 @@ public class DefaultViewController {
     @RequestMapping("view")
     public String main() {
 
-        return "main";
+        return "index.html";
+    }
+
+    @RequestMapping("test")
+    public String test() {
+        return "test";
     }
 }

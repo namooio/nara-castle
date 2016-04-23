@@ -2,7 +2,7 @@ var ContactForm = React.createClass({
   propTypes: {
     value: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
-    onSubmit: React.PropTypes.func.isRequired,
+    onSubmit: React.PropTypes.func.isRequired
   },
 
   onNameInput: function(e) {

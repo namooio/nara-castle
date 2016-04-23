@@ -6,70 +6,72 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 (function () {
     //
     // Import component module
-    var mainComponent = Components.Main
-        , castleConst = CastleConst
-        , castleCommon = CastleCommon;
+    'use strict';
+
+    var mainComponent = Components.Main,
+        castleConst = CastleConst,
+        castleCommon = CastleCommon;
 
     // Define Content attributes name
     var contentProps = {
         buttons : {
-            save:       { KOR: '저장', USA: 'Save'}
-            , modify:   { KOR: '수정', USA: 'Modify' }
-            , remove:   { KOR: '삭제', USA: 'Remove'}
-            , cancel:   { KOR: '취소', USA: 'Cancel'}
+            save:     { KOR: '저장', USA: 'Save'},
+            modify:   { KOR: '수정', USA: 'Modify' },
+            remove:   { KOR: '삭제', USA: 'Remove'},
+            cancel:   { KOR: '취소', USA: 'Cancel'}
         },
         tabs: {
-            basic:      { name: 'basic',    KOR: '기본정보',   USA: 'Basic information' }
-            , name:     { name: 'name',     KOR: '이름',       USA: 'Name' }
-            , phone:    { name: 'phone',    KOR: '전화번호',   USA: 'Phone number' }
-            , email:    { name: 'email',    KOR: '이메일',     USA: 'Email' }
-            , address:  { name: 'address',  KOR: '주소',       USA: 'Address' }
-            , account:  { name: 'account',  KOR: '계정내역',   USA: 'Account history' }
-            , state:    { name: 'state',    KOR: '상태내역',   USA: 'State history' }
-            , metro:    { name: 'metro',    KOR: '메트로내역', USA: 'Metro history' }
+            basic:      { name: 'basic',    KOR: '기본정보',   USA: 'Basic information' },
+            name:       { name: 'name',     KOR: '이름',       USA: 'Name' },
+            phone:      { name: 'phone',    KOR: '전화번호',   USA: 'Phone number' },
+            email:      { name: 'email',    KOR: '이메일',     USA: 'Email' },
+            address:    { name: 'address',  KOR: '주소',       USA: 'Address' },
+            account:    { name: 'account',  KOR: '계정내역',   USA: 'Account history' },
+            state:      { name: 'state',    KOR: '상태내역',   USA: 'State history' },
+            metro:      { name: 'metro',    KOR: '메트로내역', USA: 'Metro history' }
         },
         basicInfo: {
-            id:          { name: 'id',         KOR: '아이디',   USA: 'Id' }
-            , name:      { name: 'name',       KOR: '이름',     USA: 'Name' }
-            , locale:    { name: 'locale',     KOR: '지역',     USA: 'Locale' }
-            , state:     { name: 'state',      KOR: '상태',     USA: 'State' }
-            , buildTime: { name: 'buildTime',  KOR: '생성일시', USA: 'Build time' }
-            , castellan: {
-                primaryEmail:   { name: 'primaryEmail', KOR: '기본 이메일',   USA: 'Primary email' }
-                , primaryPhone: { name: 'primaryPhone', KOR: '기본 전화번호', USA: 'Primary phone number' }
-                , photo:        { name: 'photoId',      KOR: '사진',          USA: 'Photo' }
+            id:         { name: 'id',         KOR: '아이디',   USA: 'Id' },
+            name:       { name: 'name',       KOR: '이름',     USA: 'Name' },
+            locale:     { name: 'locale',     KOR: '지역',     USA: 'Locale' },
+            state:      { name: 'state',      KOR: '상태',     USA: 'State' },
+            buildTime:  { name: 'buildTime',  KOR: '생성일시', USA: 'Build time' },
+            castellan:  {
+                primaryEmail:   { name: 'primaryEmail', KOR: '기본 이메일',   USA: 'Primary email' },
+                primaryPhone:   { name: 'primaryPhone', KOR: '기본 전화번호', USA: 'Primary phone number' },
+                photo:          { name: 'photoId',      KOR: '사진',          USA: 'Photo' }
             }
         },
         name: {
-            familyName:    { name: 'familyName',  KOR: '성',       USA: 'Family name' }
-            , firstName:   { name: 'firstName',   KOR: '이름',     USA: 'First name' }
-            , displayName: { name: 'displayName', KOR: '전체이름', USA: 'Display name' }
-            , middleName:  { name: 'middleName',  KOR: '중간이름', USA: 'Middle name' }
-            , langCode:    { name: 'langCode',    KOR: '언어',     USA: 'Language' }
+            familyName:     { name: 'familyName',   KOR: '성',       USA: 'Family name' },
+            firstName:      { name: 'firstName',    KOR: '이름',     USA: 'First name' },
+            displayName:    { name: 'displayName',  KOR: '전체이름', USA: 'Display name' },
+            middleName:     { name: 'middleName',   KOR: '중간이름', USA: 'Middle name' },
+            langCode:       { name: 'langCode',     KOR: '언어',     USA: 'Language' }
         },
         phone: {
-            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' }
-            , countryCode:  { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' }
-            , areaCode:     { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' }
-            , number:       { name: 'number',       KOR: '번호',      USA: 'Number' }
+            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' },
+            countryCode:    { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' },
+            areaCode:       { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' },
+            number:         { name: 'number',       KOR: '번호',      USA: 'Number' }
         },
         email: {
-            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' }
-            , emailType:    { name: 'emailType',    KOR: '유형',          USA: 'type' }
-            , verified:     { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' }
-            , verifiedTime: { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
+            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' },
+            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'type' },
+            verified:       { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' },
+            verifiedTime:   { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
         },
         address: {
-            title:              { name: 'title',          KOR: '주소명',    USA: 'Title' }
-            , langCode:         { name: 'langCode',       KOR: '언어코드',  USA: 'Language code' }
-            , style:            { name: 'style',          KOR: '유형',      USA: 'Style' }
-            , country:          { name: 'country',        KOR: '국가',      USA: 'Coutnry' }
-            , zipCode:          { name: 'zipCode',        KOR: '우편번호',  USA: 'Zip code' }
-            , state:            { name: 'state',          KOR: '지역',      USA: 'State' }
-            , city:             { name: 'city',           KOR: '시',        USA: 'City' }
-            , addressPartOne:   { name: 'addressPartOne', KOR: '주소1',     USA: 'Address part1' }
-            , addressPartTwo:   { name: 'addressPartTwo', KOR: '주소2',     USA: 'Address part2' }
-            , phoneNumber:      { name: 'phoneNumber',    KOR: '전화번호',  USA: 'Phone number' }
+            title:          { name: 'title',            KOR: '주소명',    USA: 'Title' },
+            langCode:       { name: 'langCode',         KOR: '언어코드',  USA: 'Language code' },
+            style:          { name: 'style',            KOR: '유형',      USA: 'Style' },
+            country:        { name: 'country',          KOR: '국가',      USA: 'Coutnry' },
+            zipCode:        { name: 'zipCode',          KOR: '우편번호',  USA: 'Zip code' },
+            state:          { name: 'state',            KOR: '지역',      USA: 'State' },
+            city:           { name: 'city',             KOR: '시',        USA: 'City' },
+            addressPartOne: { name: 'addressPartOne',   KOR: '주소1',     USA: 'Address part1' },
+            addressPartTwo: { name: 'addressPartTwo',   KOR: '주소2',     USA: 'Address part2' },
+            phoneNumber:    { name: 'phoneNumber',      KOR: '전화번호',  USA: 'Phone number' }
         },
         account: {
 
@@ -79,15 +81,15 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         },
         metro: {
 
-        },
+        }
     };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
         propTypes : {
-            contentType: React.PropTypes.string.isRequired
-            , id: React.PropTypes.string.isRequired
+            contentType: React.PropTypes.string.isRequired,
+            id: React.PropTypes.string
         },
         statics : {
             containerStyle: {width: '1100px'}
@@ -95,18 +97,18 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         getDefaultProps: function () {
             return {
                 contentType: 'basic'
-            }
+            };
         },
         getInitialState: function () {
             return {
                 castle: {
-                    basicInfo: { castellan: {} }
-                    , nameBook: []
-                    , phoneBook: []
-                    , emailBook: []
-                    , addressBook: []
-                }
-                , contentModifiable: false
+                    basicInfo: { castellan: {} },
+                    nameBook: { names: [] },
+                    phoneBook: { phones: [] },
+                    emailBook: { emails: [] },
+                    addressBook: { addresses: [] }
+                },
+                contentModifiable: false
             };
         },
         componentDidMount: function () {
@@ -123,9 +125,9 @@ Components.Castle.Detail = Components.Castle.Detail || {};
             }.bind(this));
         },
         componentWillReceiveProps: function (props) {
-            var CONTENT_TYPES = contentProps.tabs
-                , url
-                , callback;
+            var CONTENT_TYPES = contentProps.tabs,
+                url,
+                callback;
 
             console.debug('Exectue detal.jsx CastleDetailPage componentWillReceiveProps -> ');
 
@@ -204,7 +206,8 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                         contentType={this.props.contentType}
                         castle={this.state.castle}
                         modifiable={this.state.contentModifiable}
-                        changeModifiableMode={this.changeModifiableMode} changeViewMode={this.changeViewMode}
+                        changeModifiableMode={this.changeModifiableMode}
+                        changeViewMode={this.changeViewMode}
                     />
                 </article>
             );
@@ -214,18 +217,18 @@ Components.Castle.Detail = Components.Castle.Detail || {};
     var Tab = React.createClass({
         //
         propTypes: {
-            containerStyle: React.PropTypes.object.isRequired
-            , contentType: React.PropTypes.string.isRequired
-            , castle: React.PropTypes.object
-            , modifiable: React.PropTypes.bool.isRequired
+            containerStyle: React.PropTypes.object.isRequired,
+            contentType: React.PropTypes.string.isRequired,
+            castle: React.PropTypes.object,
+            modifiable: React.PropTypes.bool.isRequired,
 
-            , changeModifiableMode: React.PropTypes.func.isRequired
+            changeModifiableMode: React.PropTypes.func.isRequired
         },
         render: function () {
-            var lang = mainComponent.lang
-                , TAB_NAMES = contentProps.tabs
-                , currentContentType = this.props.contentType
-                , content;
+            var lang = mainComponent.lang,
+                TAB_NAMES = contentProps.tabs,
+                currentContentType = this.props.contentType,
+                content;
 
             switch (currentContentType) {
                 case TAB_NAMES.basic.name:
@@ -306,9 +309,9 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var ButtonGroup = React.createClass({
         render : function () {
-            var BUTTON_NAMES = contentProps.buttons
-                , lang = mainComponent.lang
-                , buttonRender;
+            var BUTTON_NAMES = contentProps.buttons,
+                lang = mainComponent.lang,
+                buttonRender;
 
             if (this.props.modifiable) {
                 buttonRender = (
@@ -346,10 +349,10 @@ Components.Castle.Detail = Components.Castle.Detail || {};
             this.props.changeViewMode();
         },
         render: function () {
-            var lang = mainComponent.lang
-                , CASTLE_ATTRS = contentProps.basicInfo
-                , CASTELLAN_ATTRS = contentProps.basicInfo.castellan
-                , BUTTON_NAMES = contentProps.buttons;
+            var lang = mainComponent.lang,
+                CASTLE_ATTRS = contentProps.basicInfo,
+                CASTELLAN_ATTRS = contentProps.basicInfo.castellan,
+                BUTTON_NAMES = contentProps.buttons;
 
             return (
                 <div className="tab-content">
@@ -425,12 +428,12 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var NameContent = React.createClass({
         propTypes: {
-            nameBook: React.PropTypes.array.isRequired
+            nameBook: React.PropTypes.object.isRequired
         },
         render: function () {
-            var ATTRS = contentProps.name
-                , lang = mainComponent.lang
-                , existsNameBook = (this.props.nameBook && this.props.nameBook.length > 0) ? true : false;
+            var ATTRS = contentProps.name,
+                lang = mainComponent.lang,
+                existsNameBook = (this.props.nameBook && this.props.nameBook.names.length > 0) ? true : false;
 
             return (
                 <div className="tab-content">
@@ -447,7 +450,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                             </thead>
                             <tbody>
                                 { existsNameBook ?
-                                    this.props.nameBook.map(function (name) {
+                                    this.props.nameBook.names.map(function (name) {
                                         return (
                                             <tr key={name[ATTRS.familyName.name]}>
                                                 <td>{name[ATTRS.familyName.name]}</td>
@@ -459,7 +462,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                                         )
                                     })
                                     :
-                                    <tr><td colspan="5">등록 된 Name이 없습니다.</td></tr>
+                                    <tr><td colSpan="5">등록 된 Name이 없습니다.</td></tr>
                                 }
                             </tbody>
                         </table>
@@ -472,39 +475,40 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var PhoneContent = React.createClass({
         propTypes: {
-
+            phoneBook: React.PropTypes.object.isRequired
         },
         render: function () {
-            var ATTRS = contentProps.phone
-                , lang = mainComponent.lang
-                , existsPhoneBook = (this.props.phoneBook && this.props.phoneBook.length > 0) ? true : false;
+            var ATTRS = contentProps.phone,
+                lang = mainComponent.lang,
+                propPhoneBook = this.props.phoneBook,
+                existsPhoneBook = (propPhoneBook && propPhoneBook.phones && propPhoneBook.phones.length > 0) ? true : false;
 
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
                         <table className="table table-striped table-hover">
                             <thead>
-                            <tr>
-                                <th>{ATTRS.phoneNumber[lang]}</th>
-                                <th>{ATTRS.countryCode[lang]}</th>
-                                <th>{ATTRS.areaCode[lang]}</th>
-                                <th>{ATTRS.number[lang]}</th>
-                            </tr>
+                                <tr>
+                                    <th>{ATTRS.phoneNumber[lang]}</th>
+                                    <th>{ATTRS.countryCode[lang]}</th>
+                                    <th>{ATTRS.areaCode[lang]}</th>
+                                    <th>{ATTRS.number[lang]}</th>
+                                </tr>
                             </thead>
                             <tbody>
                             { existsPhoneBook ?
-                                this.props.phoneBook.map(function (name) {
+                                propPhoneBook.phones.map( function (phone) {
                                     return (
-                                        <tr key={name[ATTRS.phoneNumber.name]}>
-                                            <td>{name[ATTRS.phoneNumber.name]}</td>
-                                            <td>{name[ATTRS.countryCode.name]}</td>
-                                            <td>{name[ATTRS.areaCode.name]}</td>
-                                            <td>{name[ATTRS.number.name]}</td>
+                                        <tr key={phone[ATTRS.phoneNumber.name]}>
+                                            <td>{phone[ATTRS.phoneNumber.name]}</td>
+                                            <td>{phone[ATTRS.countryCode.name]}</td>
+                                            <td>{phone[ATTRS.areaCode.name]}</td>
+                                            <td>{phone[ATTRS.number.name]}</td>
                                         </tr>
                                     )
                                 })
                                 :
-                                <tr><td colspan="4">등록 된 전화번호가 없습니다.</td></tr>
+                                <tr><td colSpan="4">등록 된 전화번호가 없습니다.</td></tr>
                             }
                             </tbody>
                         </table>
@@ -520,36 +524,37 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
         },
         render: function () {
-            var ATTRS = contentProps.email
-                , lang = mainComponent.lang
-                , existsEmailBook = (this.props.emailBook && this.props.emailbook.length > 0) ? true : false;
+            var ATTRS = contentProps.email,
+                lang = mainComponent.lang,
+                propEmailBook = this.props.emailBook,
+                existsEmailBook = (propEmailBook && propEmailBook.emails && propEmailBook.emails.length > 0) ? true : false;
 
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
                         <table className="table table-striped table-hover">
                             <thead>
-                            <tr>
-                                <th>{ATTRS.email[lang]}</th>
-                                <th>{ATTRS.emailType[lang]}</th>
-                                <th>{ATTRS.verified[lang]}</th>
-                                <th>{ATTRS.verifiedTime[lang]}</th>
-                            </tr>
+                                <tr>
+                                    <th>{ATTRS.email[lang]}</th>
+                                    <th>{ATTRS.emailType[lang]}</th>
+                                    <th>{ATTRS.verified[lang]}</th>
+                                    <th>{ATTRS.verifiedTime[lang]}</th>
+                                </tr>
                             </thead>
                             <tbody>
                             { existsEmailBook ?
-                                this.props.emailBook.map(function (name) {
+                                propEmailBook.emails.map(function (email) {
                                     return (
-                                        <tr key={name[ATTRS.email.name]}>
-                                            <td>{name[ATTRS.email.name]}</td>
-                                            <td>{name[ATTRS.emailType.name]}</td>
-                                            <td>{name[ATTRS.verified.name]}</td>
-                                            <td>{name[ATTRS.verifiedTime.name]}</td>
+                                        <tr key={email[ATTRS.email.name]}>
+                                            <td>{email[ATTRS.email.name]}</td>
+                                            <td>{email[ATTRS.emailType.name]}</td>
+                                            <td>{email[ATTRS.verified.name]}</td>
+                                            <td>{castleCommon.Date.parseToString(email[ATTRS.verifiedTime.name])}</td>
                                         </tr>
                                     )
                                 })
                                 :
-                                <tr><td colspan="4">등록 된 이메일이 없습니다.</td></tr>
+                                <tr><td colSpan="4">등록 된 이메일이 없습니다.</td></tr>
                             }
                             </tbody>
                         </table>
@@ -562,39 +567,103 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var AddressContent = React.createClass({
         propTypes: {
-
+            addressBook: React.PropTypes.object.isRequired
         },
         render: function () {
-            var ATTRS = contentProps.address
-                , lang = mainComponent.lang
-                , existsEmailBook = (this.props.emailBook && this.props.emailbook.length > 0) ? true : false;
+            var ATTRS = contentProps.address,
+                lang = mainComponent.lang,
+                propAddressBook = this.props.addressBook,
+                existsAddressBook = (propAddressBook && propAddressBook.addresses && propAddressBook.addresses.length > 0) ? true : false,
+                multipleRowAddresses = [],
+                odd = true;
+
+            propAddressBook.addresses.map(function (address, index) {
+                console.debug('Execute address map');
+                console.dir(ATTRS);
+
+                var arrayNode;
+
+                if ((index % 2) === 0) {
+                    arrayNode = {
+                        type: 'basicAddress',
+                        odd: odd,
+                        [ATTRS.title.name] : address.title,
+                        [ATTRS.langCode.name] : address[ATTRS.langCode.name],
+                        [ATTRS.style.name] : address[ATTRS.style.name],
+                        [ATTRS.country.name] : address[ATTRS.country.name],
+                        [ATTRS.zipCode.name] : address[ATTRS.zipCode.name],
+                        [ATTRS.phoneNumber.name] : address[ATTRS.phoneNumber.name],
+                        [ATTRS.state.name] : address[ATTRS.state.name],
+                        [ATTRS.city.name] : address[ATTRS.city.name]
+                    }
+                }
+                else {
+                    arrayNode = {
+                        type: 'detailAddress',
+                        odd: odd,
+                        [ATTRS.addressPartOne.name] : address[ATTRS.addressPartOne.name],
+                        [ATTRS.addressPartTwo.name] : address[ATTRS.addressPartTwo.name]
+                    }
+                    odd = !odd;
+                }
+
+                multipleRowAddresses.push(arrayNode);
+            });
+            console.dir(multipleRowAddresses);
+
 
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
-                        <table className="table table-striped table-hover">
+                        <table className="table">
                             <thead>
-                            <tr>
-                                <th>{ATTRS.email[lang]}</th>
-                                <th>{ATTRS.emailType[lang]}</th>
-                                <th>{ATTRS.verified[lang]}</th>
-                                <th>{ATTRS.verifiedTime[lang]}</th>
-                            </tr>
+                                <tr>
+                                    <th>{ATTRS.title[lang]}</th>
+                                    <th>{ATTRS.langCode[lang]}</th>
+                                    <th>{ATTRS.style[lang]}</th>
+                                    <th>{ATTRS.country[lang]}</th>
+                                    <th>{ATTRS.zipCode[lang]}</th>
+                                    <th>{ATTRS.phoneNumber[lang]}</th>
+                                    <th>{ATTRS.state[lang]}</th>
+                                    <th>{ATTRS.city[lang]}</th>
+                                </tr>
+                                <tr>
+                                    <th colSpan="4">{ATTRS.addressPartOne[lang]}</th>
+                                    <th colSpan="4">{ATTRS.addressPartTwo[lang]}</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            { existsEmailBook ?
-                                this.props.emailBook.map(function (name) {
-                                    return (
-                                        <tr key={name[ATTRS.email.name]}>
-                                            <td>{name[ATTRS.email.name]}</td>
-                                            <td>{name[ATTRS.emailType.name]}</td>
-                                            <td>{name[ATTRS.verified.name]}</td>
-                                            <td>{name[ATTRS.verifiedTime.name]}</td>
-                                        </tr>
-                                    )
+                            { existsAddressBook ?
+                                multipleRowAddresses.map( function (address, index) {
+
+                                    var className = address.odd ? 'active' : '';
+                                    console.log('odd: ' + address.odd);
+
+                                    if (address.type === 'basicAddress') {
+                                        return (
+                                            <tr key={index} className={className}>
+                                                <td>{address[ATTRS.title.name]}</td>
+                                                <td>{address[ATTRS.langCode.name]}</td>
+                                                <td>{address[ATTRS.style.name]}</td>
+                                                <td>{address[ATTRS.country.name]}</td>
+                                                <td>{address[ATTRS.zipCode.name]}</td>
+                                                <td>{address[ATTRS.phoneNumber.name]}</td>
+                                                <td>{address[ATTRS.state.name]}</td>
+                                                <td>{address[ATTRS.city.name]}</td>
+                                            </tr>
+                                        )
+                                    }
+                                    else if (address.type === 'detailAddress') {
+                                        return (
+                                            <tr key={index} className={className}>
+                                                <td colSpan="4">{address[ATTRS.addressPartOne.name]}</td>
+                                                <td colSpan="4">{address[ATTRS.addressPartTwo.name]}</td>
+                                            </tr>
+                                        )
+                                    }
                                 })
                                 :
-                                <tr><td colspan="4">등록 된 이메일이 없습니다.</td></tr>
+                                <tr><td colSpan="9">등록 된 이메일이 없습니다.</td></tr>
                             }
                             </tbody>
                         </table>

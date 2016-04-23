@@ -5,30 +5,32 @@ Components.Castle.List = Components.Castle.List || {};
 
 (function () {
     //
+    'use strict';
+
     // Import component module
-    var castleConst = CastleConst
-        , castleCommon = CastleCommon
-        , mainComponent = Components.Main;
+    var castleConst = CastleConst,
+        castleCommon = CastleCommon,
+        mainComponent = Components.Main;
 
     // Define content attributes
     var contentProps = {
         finder: {
-            title: { KOR: 'Castle 검색', USA: 'Search Castle'}
-            , criteria: {
+            title: { KOR: 'Castle 검색', USA: 'Search Castle'},
+            criteria: {
                 name: { KOR: '이름', USA: 'Name' }
             },
             notExistsMessage: { KOR: 'Castle이 존재하지 않습니다.', USA: 'No such castle' }
         },
         list: {
             header: {
-                id:             { KOR: '아이디',    USA: 'Id' }
-                , name:         { KOR: '이름',      USA: 'Name' }
-                , locale:       { KOR: '지역',      USA: 'Locale' }
-                , primaryEmail: { KOR: '이메일',    USA: 'Email' }
-                , primaryPhone: { KOR: '전화번호',  USA: 'Phone number' }
-                , state:        { KOR: '상태',      USA: 'State' }
-                , buildTime:    { KOR: '생성일시',  USA: 'Build time' }
-                , detail:       { KOR: '상세정보',  USA: 'Detail info' }
+                id:             { KOR: '아이디',    USA: 'Id' },
+                name:         { KOR: '이름',      USA: 'Name' },
+                locale:       { KOR: '지역',      USA: 'Locale' },
+                primaryEmail: { KOR: '이메일',    USA: 'Email' },
+                primaryPhone: { KOR: '전화번호',  USA: 'Phone number' },
+                state:        { KOR: '상태',      USA: 'State' },
+                buildTime:    { KOR: '생성일시',  USA: 'Build tim,e' },
+                detail:       { KOR: '상세정보',  USA: 'Detail info' }
             }
         },
         buttons : {
@@ -43,8 +45,8 @@ Components.Castle.List = Components.Castle.List || {};
         },
         getInitialState: function () {
             return {
-                castleCriteria: {}
-                , castles: []
+                castleCriteria: {},
+                castles: []
             };
         },
         componentDidMount: function () {
@@ -56,8 +58,8 @@ Components.Castle.List = Components.Castle.List || {};
         findCastles: function (castleCriteria) {
             //
             castleCommon.getJSON(castleConst.CTX + '/api/castle').done(function (castlesResult) {
-                var notExistsMessage = contentProps.finder.notExistsMessage
-                    , lang = mainComponent.lang;
+                var notExistsMessage = contentProps.finder.notExistsMessage,
+                    lang = mainComponent.lang;
 
                 if (!castlesResult || castlesResult.length === 0) {
                     alert(notExistsMessage[lang]);
@@ -140,14 +142,7 @@ Components.Castle.List = Components.Castle.List || {};
             //
             var ATTRS = contentProps.list
                 , lang = mainComponent.lang
-                , existsCastle;
-
-            if (!this.props.castles || this.props.castles.length === 0) {
-                existsCastle = false;
-            }
-            else {
-                existsCastle = true;
-            }
+                , existsCastle = (!this.props.castles || this.props.castles.length === 0) ? false : true;
 
             return (
                 <div className="container" style={this.props.containerStyle}>
@@ -182,7 +177,7 @@ Components.Castle.List = Components.Castle.List || {};
                                                 </tr>
                                             )
                                         })
-                                        : <tr><td colspan="6">검색된 Castle이 없습니다.</td></tr>
+                                        : <tr><td colSpan="6">검색된 Castle이 없습니다.</td></tr>
                                     }
                                 </tbody>
                             </table>

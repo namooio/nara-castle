@@ -5,6 +5,9 @@ Components.Castle.Common = Components.Castle.Common || {};
 
 (function () {
     //
+    'use strict';
+    console.debug('hello error');
+
     // Import component module
     var MainComponent = Components.Main;
 
@@ -24,9 +27,9 @@ Components.Castle.Common = Components.Castle.Common || {};
             window.history.back();
         },
         render: function () {
-            var lang = MainComponent.MainPage.lang
-                , messages = contentProps.messages
-                , buttons = contentProps.buttons;
+            var lang = MainComponent.lang,
+                messages = contentProps.messages,
+                buttons = contentProps.buttons;
 
             return (
                 <article>

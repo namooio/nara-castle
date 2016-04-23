@@ -5,6 +5,8 @@ Components.Castellan.Registerer = Components.Castellan.Registerer || {};
 
 (function () {
     //
+    'use strict';
+
     var CastellanRegisterer = React.createClass({
         getInitialState: function () {
             return {};
@@ -20,14 +22,14 @@ Components.Castellan.Registerer = Components.Castellan.Registerer || {};
         registerBtnClick: function () {
             //
             var castellanCreateDto = {
-                id: this.state.id
-                , email: this.state.email
+                id: this.state.id,
+                email: this.state.email
             };
 
             CastleCommon.postJSON(CastleConst.CTX + '/api/castellan', castellanCreateDto)
                 .done(function () {
                     alert('Castellan이 정상적으로 등록 되었습니다..');
-                    this.setState({id: '', email: ''})
+                    this.setState({id: '', email: ''});
                 }.bind(this))
                 .fail(function (data, textStatus, error) {
                     alert('Failed register castellan2');

@@ -22,7 +22,7 @@ function submitNewContact() {
     Object.keys(contact.errors).length === 0
     ? {
         newContactForm: Object.assign({}, CONTACT_TEMPLATE),
-        contacts: state.contacts.slice(0).concat(contact),
+        contacts: state.contacts.slice(0).concat(contact)
       }
     : { newContactForm: contact }
   )
