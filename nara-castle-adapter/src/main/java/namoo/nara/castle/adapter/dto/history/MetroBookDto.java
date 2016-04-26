@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class MetroBookDto {
     //
-    private List<ParticipantMetroDto> metroDtos;
+    private List<ParticipantMetroDto> metros;
 
     public MetroBookDto() {
         //
@@ -16,18 +16,18 @@ public class MetroBookDto {
 
     public void addMetroDto(ParticipantMetroDto metroDto) {
         //
-        if (metroDtos == null) {
-            metroDtos = new ArrayList<>();
+        if (metros == null) {
+            metros = new ArrayList<>();
         }
-        metroDtos.add(metroDto);
+        metros.add(metroDto);
     }
 
-    public List<ParticipantMetroDto> getMetroDtos() {
-        return metroDtos;
+    public List<ParticipantMetroDto> getMetros() {
+        return metros;
     }
 
-    public void setMetroDtos(List<ParticipantMetroDto> metroDtos) {
-        this.metroDtos = metroDtos;
+    public void setMetros(List<ParticipantMetroDto> metros) {
+        this.metros = metros;
     }
 
 }

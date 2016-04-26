@@ -10,7 +10,6 @@ import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.contact.*;
 import namoo.nara.castle.domain.entity.history.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -243,7 +242,7 @@ public class DomainConversionUtil {
 
     public static AccountBook toAccountBook(AccountBookDto accountBookDto) {
         //
-        List<LoginAccountDto> accountDtos = accountBookDto.getAccountDtos();
+        List<LoginAccountDto> accountDtos = accountBookDto.getAccounts();
         AccountBook accountBook = new AccountBook();
         if (accountDtos != null) {
             for(LoginAccountDto loginAccountDto : accountDtos) {
@@ -269,7 +268,7 @@ public class DomainConversionUtil {
 
     public static CastleStateBook toCastleStateBook(CastleStateBookDto castleStateBookDto) {
         //
-        List<CastleStateDto> castleStateDtos = castleStateBookDto.getCastleStateDtos();
+        List<CastleStateDto> castleStateDtos = castleStateBookDto.getStates();
         CastleStateBook castleStateBook = new CastleStateBook();
         if (castleStateDtos != null) {
             for(CastleStateDto castleStateDto : castleStateDtos) {
@@ -334,7 +333,7 @@ public class DomainConversionUtil {
 
     public static MetroBook toMetroBook(MetroBookDto metroBookDto) {
         //
-        List<ParticipantMetroDto> metroDtos = metroBookDto.getMetroDtos();
+        List<ParticipantMetroDto> metroDtos = metroBookDto.getMetros();
         MetroBook metroBook = new MetroBook();
         if (metroDtos != null) {
             for(ParticipantMetroDto metroDto : metroDtos) {

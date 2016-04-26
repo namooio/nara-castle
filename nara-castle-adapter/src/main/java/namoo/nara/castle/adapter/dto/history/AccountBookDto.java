@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class AccountBookDto {
     //
-    private List<LoginAccountDto> accountDtos;
+    private List<LoginAccountDto> accounts;
 
     public AccountBookDto() {
         //
@@ -16,18 +16,18 @@ public class AccountBookDto {
 
     public void addAccountDto(LoginAccountDto loginAccountDto) {
         //
-        if (accountDtos == null) {
-            accountDtos = new ArrayList<>();
+        if (accounts == null) {
+            accounts = new ArrayList<>();
         }
-        accountDtos.add(loginAccountDto);
+        accounts.add(loginAccountDto);
     }
 
-    public List<LoginAccountDto> getAccountDtos() {
-        return accountDtos;
+    public List<LoginAccountDto> getAccounts() {
+        return accounts;
     }
 
-    public void setAccountDtos(List<LoginAccountDto> accountDtos) {
-        this.accountDtos = accountDtos;
+    public void setAccounts(List<LoginAccountDto> accounts) {
+        this.accounts = accounts;
     }
 
 }

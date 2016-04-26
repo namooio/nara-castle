@@ -4,6 +4,7 @@ import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 import namoo.nara.castle.adapter.dto.contact.*;
+import namoo.nara.castle.adapter.dto.history.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -63,7 +64,23 @@ public class CastleApiController {
         return TemporaryCastleStore.findAddressBook(castleId);
     }
 
+    @RequestMapping(value="/{id}/account-book", method= RequestMethod.GET)
+    public AccountBookDto findAccountBook(@PathVariable("id") String castleId) {
+        System.out.println("Execute find accountBook -> id: " + castleId);
+        return TemporaryCastleStore.findAccountBook(castleId);
+    }
 
+    @RequestMapping(value="/{id}/state-book", method= RequestMethod.GET)
+    public CastleStateBookDto findStateBook(@PathVariable("id") String castleId) {
+        System.out.println("Execute find stateBook -> id: " + castleId);
+        return TemporaryCastleStore.findStateBook(castleId);
+    }
+
+    @RequestMapping(value="/{id}/metro-book", method= RequestMethod.GET)
+    public MetroBookDto findMetroBook(@PathVariable("id") String castleId) {
+        System.out.println("Execute find metroBook -> id: " + castleId);
+        return TemporaryCastleStore.findMetroBook(castleId);
+    }
 
 
 
@@ -141,7 +158,6 @@ public class CastleApiController {
                     addressDto.setLangCode("ko");
                     addressDto.setCountry("korea");
                     addressDto.setZipCode("111-" + sequence + bookSeq);
-//                    addressDto.setState();
                     addressDto.setCity("Seoul");
                     addressDto.setAddressPartOne("금천구 가산디지털1로 " + bookSeq);
                     addressDto.setAddressPartTwo("제이플라츠 101호 " + bookSeq);
@@ -152,6 +168,47 @@ public class CastleApiController {
                 dto.setPhoneBook(phoneBookDto);
                 dto.setEmailBook(emailBookDto);
                 dto.setAddressBook(addressBookDto);
+
+
+                // Histories
+                AccountBookDto accountBook = new AccountBookDto();
+                CastleStateBookDto stateBook = new CastleStateBookDto();
+                MetroBookDto metroBook = new MetroBookDto();
+
+                for (int j = 0; j < 3; j ++) {
+                    //
+                    int bookSeq = j + 1;
+
+                    LoginAccountDto account = new LoginAccountDto();
+                    account.setLoginUserId(dto.getName() + " account " + bookSeq);
+                    account.setChannel("Facebook");
+                    account.setCreateTime(System.currentTimeMillis());
+                    account.setDeleteTime(System.currentTimeMillis() + 1000000);
+
+                    accountBook.addAccountDto(account);
+
+
+                    CastleStateDto state = new CastleStateDto();
+                    state.setCurrentState("Ready");
+                    state.setTargetState("Open");
+                    state.setRemarks("This is state remarks " + sequence + "-" + bookSeq);
+                    state.setModifiedTime(System.currentTimeMillis());
+
+                    stateBook.addStateDto(state);
+
+
+                    ParticipantMetroDto participantMetro = new ParticipantMetroDto();
+                    participantMetro.setMetroId("MT" + sequence + bookSeq);
+                    participantMetro.setMetroName("Metro " + sequence + "-" + bookSeq);
+                    participantMetro.setJoinTime(System.currentTimeMillis() - 100000);
+                    participantMetro.setWithdrawalTime(System.currentTimeMillis());
+                    participantMetro.setRemarks("This is participant Metro remarks " + sequence + "-" + bookSeq);
+
+                    metroBook.addMetroDto(participantMetro);
+                }
+                dto.setAccountBook(accountBook);
+                dto.setStateBook(stateBook);
+                dto.setMetroBook(metroBook);
 
 
                 temporaryCastleMap.put(id, dto);
@@ -187,6 +244,22 @@ public class CastleApiController {
             System.out.println("Execute findAddressBook -> length: " + temporaryCastleMap.get(castleId).getAddressBook().getAddresses().size());
             return temporaryCastleMap.get(castleId).getAddressBook();
         }
+
+        public static AccountBookDto findAccountBook(String castleId) {
+            System.out.println("Execute findAccountBook -> length: " + temporaryCastleMap.get(castleId).getAccountBook().getAccounts().size());
+            return temporaryCastleMap.get(castleId).getAccountBook();
+        }
+
+        public static CastleStateBookDto findStateBook(String castleId) {
+            System.out.println("Execute findStateBook -> length: " + temporaryCastleMap.get(castleId).getStateBook().getStates().size());
+            return temporaryCastleMap.get(castleId).getStateBook();
+        }
+
+        public static MetroBookDto findMetroBook(String castleId) {
+            System.out.println("Execute findMetroBook -> length: " + temporaryCastleMap.get(castleId).getMetroBook().getMetros().size());
+            return temporaryCastleMap.get(castleId).getMetroBook();
+        }
+
     }
 
 }

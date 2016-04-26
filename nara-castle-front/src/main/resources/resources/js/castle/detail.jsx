@@ -74,13 +74,23 @@ Components.Castle.Detail = Components.Castle.Detail || {};
             phoneNumber:    { name: 'phoneNumber',      KOR: '전화번호',  USA: 'Phone number' }
         },
         account: {
-
+            loginUserId:    { name: 'loginUserId',      KOR: '로그인Id',    USA: 'Login user id' },
+            channel:        { name: 'channel',          KOR: '접속방법',    USA: 'Channel' },
+            createTime:     { name: 'createTime',       KOR: '생성일시',    USA: 'Create time' },
+            deleteTime:     { name: 'deleteTime',       KOR: '삭제일시',    USA: 'Delete time' }
         },
         state: {
-
+            currentState:   { name: 'currentState', KOR: '현재상태',    USA: 'Current state' },
+            targetState:    { name: 'targetState',  KOR: '다음상태',    USA: 'Target state' },
+            remarks:        { name: 'remarks',      KOR: '설명',        USA: 'Remarks' },
+            modifiedTime:   { name: 'modifiedTime', KOR: '수정일시',    USA: 'Modified time' }
         },
         metro: {
-
+            metroId:        { name: 'metroId',          KOR: '메트로Id',    USA: 'Metro id' },
+            metroName:      { name: 'metroName',        KOR: '메트로명',    USA: 'Metro name' },
+            joinTime:       { name: 'joinTime',         KOR: '가입일시',    USA: 'Join time' },
+            withdrawalTime: { name: 'withdrawalTime',   KOR: '탈퇴일시',    USA: 'Withdrawal time' },
+            remarks:        { name: 'remarks',          KOR: '설명',        USA: 'Remarks' }
         }
     };
 
@@ -106,14 +116,17 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     nameBook: { names: [] },
                     phoneBook: { phones: [] },
                     emailBook: { emails: [] },
-                    addressBook: { addresses: [] }
+                    addressBook: { addresses: [] },
+                    accountBook: { accounts: [] },
+                    stateBook: { states: [] },
+                    metroBook: { metros: [] }
                 },
                 contentModifiable: false
             };
         },
         componentDidMount: function () {
             console.debug('Exectue detal.jsx CastleDetailPage componentDidMount');
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + this.props.id).done(function (castleResult) {
+            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + this.props.id).done( function (castleResult) {
                 console.debug('Exectue detal.jsx CastleDetailPage componentDidMount callback');
 
                 var castleState = this.state.castle;
@@ -186,8 +199,20 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     };
                     break;
                 case CONTENT_TYPES.state.name:
+                    url = '/api/castle/' + props.id + '/state-book';
+                    callback = function (stateBookResult) {
+                        var castleState = this.state.castle;
+                        castleState.stateBook = stateBookResult;
+                        this.setState( { castle: castleState });
+                    };
                     break;
                 case CONTENT_TYPES.metro.name:
+                    url = '/api/castle/' + props.id + '/metro-book';
+                    callback = function (metroBookResult) {
+                        var castleState = this.state.castle;
+                        castleState.metroBook = metroBookResult;
+                        this.setState( { castle: castleState });
+                    };
                     break;
             }
             castleCommon.getJSON(castleConst.CTX + url).done(callback.bind(this));
@@ -262,17 +287,17 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                     break;
                 case TAB_NAMES.account.name:
                     content = <AccountContent
-
+                        accountBook={this.props.castle.accountBook}
                     />
                     break;
                 case TAB_NAMES.state.name:
                     content = <StateContent
-
+                        stateBook={this.props.castle.stateBook}
                     />
                     break;
                 case TAB_NAMES.metro.name:
                     content = <MetroContent
-
+                        metroBook={this.props.castle.metroBook}
                     />
                     break;
             }
@@ -450,7 +475,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                             </thead>
                             <tbody>
                                 { existsNameBook ?
-                                    this.props.nameBook.names.map(function (name) {
+                                    this.props.nameBook.names.map( function (name) {
                                         return (
                                             <tr key={name[ATTRS.familyName.name]}>
                                                 <td>{name[ATTRS.familyName.name]}</td>
@@ -521,7 +546,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var EmailContent = React.createClass({
         propTypes: {
-
+            emailBook: React.PropTypes.object.isRequired
         },
         render: function () {
             var ATTRS = contentProps.email,
@@ -543,12 +568,12 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                             </thead>
                             <tbody>
                             { existsEmailBook ?
-                                propEmailBook.emails.map(function (email) {
+                                propEmailBook.emails.map( function (email) {
                                     return (
                                         <tr key={email[ATTRS.email.name]}>
                                             <td>{email[ATTRS.email.name]}</td>
                                             <td>{email[ATTRS.emailType.name]}</td>
-                                            <td>{email[ATTRS.verified.name]}</td>
+                                            <td>{(email[ATTRS.verified.name]).toString()}</td>
                                             <td>{castleCommon.Date.parseToString(email[ATTRS.verifiedTime.name])}</td>
                                         </tr>
                                     )
@@ -577,39 +602,31 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                 multipleRowAddresses = [],
                 odd = true;
 
-            propAddressBook.addresses.map(function (address, index) {
-                console.debug('Execute address map');
-                console.dir(ATTRS);
-
-                var arrayNode;
-
-                if ((index % 2) === 0) {
-                    arrayNode = {
-                        type: 'basicAddress',
-                        odd: odd,
-                        [ATTRS.title.name] : address.title,
-                        [ATTRS.langCode.name] : address[ATTRS.langCode.name],
-                        [ATTRS.style.name] : address[ATTRS.style.name],
-                        [ATTRS.country.name] : address[ATTRS.country.name],
-                        [ATTRS.zipCode.name] : address[ATTRS.zipCode.name],
-                        [ATTRS.phoneNumber.name] : address[ATTRS.phoneNumber.name],
-                        [ATTRS.state.name] : address[ATTRS.state.name],
-                        [ATTRS.city.name] : address[ATTRS.city.name]
-                    }
+            propAddressBook.addresses.map( function (address) {
+                var arrayFirstNode = {
+                    type: 'basicAddress',
+                    odd: odd,
+                    [ATTRS.title.name] : address.title,
+                    [ATTRS.langCode.name] : address[ATTRS.langCode.name],
+                    [ATTRS.style.name] : address[ATTRS.style.name],
+                    [ATTRS.country.name] : address[ATTRS.country.name],
+                    [ATTRS.zipCode.name] : address[ATTRS.zipCode.name],
+                    [ATTRS.phoneNumber.name] : address[ATTRS.phoneNumber.name],
+                    [ATTRS.state.name] : address[ATTRS.state.name],
+                    [ATTRS.city.name] : address[ATTRS.city.name]
                 }
-                else {
-                    arrayNode = {
-                        type: 'detailAddress',
-                        odd: odd,
-                        [ATTRS.addressPartOne.name] : address[ATTRS.addressPartOne.name],
-                        [ATTRS.addressPartTwo.name] : address[ATTRS.addressPartTwo.name]
-                    }
-                    odd = !odd;
-                }
+                multipleRowAddresses.push(arrayFirstNode);
 
-                multipleRowAddresses.push(arrayNode);
+                var arraySecondNode = {
+                    type: 'detailAddress',
+                    odd: odd,
+                    [ATTRS.addressPartOne.name] : address[ATTRS.addressPartOne.name],
+                    [ATTRS.addressPartTwo.name] : address[ATTRS.addressPartTwo.name]
+                }
+                multipleRowAddresses.push(arraySecondNode);
+
+                odd = !odd;
             });
-            console.dir(multipleRowAddresses);
 
 
             return (
@@ -663,7 +680,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                                     }
                                 })
                                 :
-                                <tr><td colSpan="9">등록 된 이메일이 없습니다.</td></tr>
+                                <tr><td colSpan="9">등록 된 주소가 없습니다.</td></tr>
                             }
                             </tbody>
                         </table>
@@ -676,13 +693,43 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var AccountContent = React.createClass({
         propTypes: {
-
+            accountBook: React.PropTypes.object.isRequired
         },
         render: function () {
+            var ATTRS = contentProps.account,
+                lang = mainComponent.lang,
+                propAccountBook = this.props.accountBook,
+                existsAccountBook = (propAccountBook && propAccountBook.accounts && propAccountBook.accounts.length > 0) ? true : false;
+
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
-                        <h2>This is an Account content</h2>
+                        <table className="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{ATTRS.loginUserId[lang]}</th>
+                                    <th>{ATTRS.channel[lang]}</th>
+                                    <th>{ATTRS.createTime[lang]}</th>
+                                    <th>{ATTRS.deleteTime[lang]}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            { existsAccountBook ?
+                                propAccountBook.accounts.map( function (account, index) {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{account[ATTRS.loginUserId.name]}</td>
+                                            <td>{account[ATTRS.channel.name]}</td>
+                                            <td>{castleCommon.Date.parseToString(account[ATTRS.createTime.name])}</td>
+                                            <td>{castleCommon.Date.parseToString(account[ATTRS.deleteTime.name])}</td>
+                                        </tr>
+                                    )
+                                })
+                                :
+                                <tr><td colSpan="4">계정 이력이 없습니다.</td></tr>
+                            }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             );
@@ -691,13 +738,43 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var StateContent = React.createClass({
         propTypes: {
-
+            stateBook: React.PropTypes.object.isRequired
         },
         render: function () {
+            var ATTRS = contentProps.state,
+                lang = mainComponent.lang,
+                propStateBook = this.props.stateBook,
+                existsStateBook = (propStateBook && propStateBook.states && propStateBook.states.length > 0) ? true : false;
+
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
-                        <h2>This is a State content</h2>
+                        <table className="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{ATTRS.currentState[lang]}</th>
+                                    <th>{ATTRS.targetState[lang]}</th>
+                                    <th>{ATTRS.remarks[lang]}</th>
+                                    <th>{ATTRS.modifiedTime[lang]}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            { existsStateBook ?
+                                propStateBook.states.map( function (state, index) {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{state[ATTRS.currentState.name]}</td>
+                                            <td>{state[ATTRS.targetState.name]}</td>
+                                            <td>{state[ATTRS.remarks.name]}</td>
+                                            <td>{castleCommon.Date.parseToString(state[ATTRS.modifiedTime.name])}</td>
+                                        </tr>
+                                    )
+                                })
+                                :
+                                <tr><td colSpan="4">상태 이력이 없습니다.</td></tr>
+                            }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             );
@@ -706,13 +783,45 @@ Components.Castle.Detail = Components.Castle.Detail || {};
 
     var MetroContent = React.createClass({
         propTypes: {
-
+            metroBook: React.PropTypes.object.isRequired
         },
         render: function () {
+            var ATTRS = contentProps.metro,
+                lang = mainComponent.lang,
+                propMetroBook = this.props.metroBook,
+                existsMetroBook = (propMetroBook && propMetroBook.metros && propMetroBook.metros.length > 0) ? true : false;
+
             return (
                 <div className="tab-content">
                     <div className="tab-pane active">
-                        <h2>This is a Metro content</h2>
+                        <table className="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>{ATTRS.metroId[lang]}</th>
+                                    <th>{ATTRS.metroName[lang]}</th>
+                                    <th>{ATTRS.joinTime[lang]}</th>
+                                    <th>{ATTRS.withdrawalTime[lang]}</th>
+                                    <th>{ATTRS.remarks[lang]}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            { existsMetroBook ?
+                                propMetroBook.metros.map( function (metro) {
+                                    return (
+                                        <tr key={metro[ATTRS.metroId.name]}>
+                                            <td>{metro[ATTRS.metroId.name]}</td>
+                                            <td>{metro[ATTRS.metroName.name]}</td>
+                                            <td>{castleCommon.Date.parseToString(metro[ATTRS.joinTime.name])}</td>
+                                            <td>{castleCommon.Date.parseToString(metro[ATTRS.withdrawalTime.name])}</td>
+                                            <td>{metro[ATTRS.remarks.name]}</td>
+                                        </tr>
+                                    )
+                                })
+                                :
+                                <tr><td colSpan="5">메트로 가입 이력이 없습니다.</td></tr>
+                            }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             );

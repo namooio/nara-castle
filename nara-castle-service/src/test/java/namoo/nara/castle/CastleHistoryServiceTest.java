@@ -44,11 +44,11 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
         getCastleHistoryClient().attachAccountBook(id, accountBookDto);
 
         accountBookDto = getCastleHistoryClient().findAccountBook(id);
-        Assert.assertEquals(1, accountBookDto.getAccountDtos().size());
+        Assert.assertEquals(1, accountBookDto.getAccounts().size());
 
         getCastleHistoryClient().detachAccountBook(id);
         accountBookDto = getCastleHistoryClient().findAccountBook(id);
-        Assert.assertNull(accountBookDto.getAccountDtos());
+        Assert.assertNull(accountBookDto.getAccounts());
     }
 
     @Test
@@ -62,7 +62,7 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
 
         getCastleHistoryClient().detachAccountBook(id);
         castleStateBookDto = getCastleHistoryClient().findCastleStateBook(id);
-        Assert.assertNull(castleStateBookDto.getCastleStateDtos());
+        Assert.assertNull(castleStateBookDto.getStates());
     }
 
     @Test
@@ -76,6 +76,6 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
 
         getCastleHistoryClient().detachAccountBook(id);
         metroBookDto = getCastleHistoryClient().findMetroBook(id);
-        Assert.assertNull(metroBookDto.getMetroDtos());
+        Assert.assertNull(metroBookDto.getMetros());
     }
 }

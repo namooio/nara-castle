@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class CastleStateBookDto {
     //
-    private List<CastleStateDto> castleStateDtos;
+    private List<CastleStateDto> states;
 
     public CastleStateBookDto() {
         //
@@ -16,18 +16,18 @@ public class CastleStateBookDto {
 
     public void addStateDto(CastleStateDto castleStateDto) {
         //
-        if (castleStateDtos == null) {
-            castleStateDtos = new ArrayList<>();
+        if (states == null) {
+            states = new ArrayList<>();
         }
-        castleStateDtos.add(castleStateDto);
+        states.add(castleStateDto);
     }
 
-    public List<CastleStateDto> getCastleStateDtos() {
-        return castleStateDtos;
+    public List<CastleStateDto> getStates() {
+        return states;
     }
 
-    public void setCastleStateDtos(List<CastleStateDto> castleStateDtos) {
-        this.castleStateDtos = castleStateDtos;
+    public void setStates(List<CastleStateDto> states) {
+        this.states = states;
     }
 
 }
