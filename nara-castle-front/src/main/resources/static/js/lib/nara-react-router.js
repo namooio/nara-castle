@@ -33,7 +33,7 @@ var NaraReactRouter = NaraReactRouter || {};
      * <pre>
      * {
      *  'hashUrl' [object] : {
-     *      resources [object array] : [
+     *      resourcess [object array] : [
      *          {
      *              path [string] : 'resource path',
      *              render [function] : Layout rendering function of JavaScript React
@@ -48,7 +48,7 @@ var NaraReactRouter = NaraReactRouter || {};
      * <pre>
      * CastleRouter.mapping = {
      *  '#/inquiry' : {
-     *      resources : [
+     *      resourcess : [
      *          {
      *              path : '/js/castellan/view.jsx',
      *              render : CastleComponent.View.renderLayout
@@ -56,7 +56,7 @@ var NaraReactRouter = NaraReactRouter || {};
      *      ]
      *  },
      *  '#/register' : {
-     *      resources : [
+     *      resourcess : [
      *          {
      *              path : '/js/castellan/register.jsx',
      *              render : CastleComponent.TopMenu.renderLayout
@@ -81,7 +81,7 @@ var NaraReactRouter = NaraReactRouter || {};
             mapping[url] = { resource: resources };
         }
         else {
-            console.error('Invaild url or resources for router mapping -> url: ' + url + ', resources' + resources);
+            console.error('Invaild url or resourcess for router mapping -> url: ' + url + ', resourcess' + resources);
         }
     }
 

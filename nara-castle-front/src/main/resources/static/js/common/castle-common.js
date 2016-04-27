@@ -3,7 +3,7 @@
  */
 var CastleConst = CastleConst || {};
 
-CastleConst.CTX = '';
+CastleConst.CTX = '.';
 CastleConst.TOP_MENU_DOM_ID = 'castle-top-menu';
 CastleConst.CONTENTS_DOM_ID = 'castle-content';
 
@@ -19,7 +19,7 @@ var CastleCommon = {};
 
     // Import extenral module
     //var jsxTransformer = JSXTransformer;
-    var babel = babel;
+    var jsxTransform = babel.transform;
 
     CastleCommon.getTopMenuJDom = function () {
         return $('#' + CastleConst.TOP_MENU_DOM_ID)[0];
@@ -81,8 +81,7 @@ var CastleCommon = {};
 
         if (cachedScript) {
             console.info('Execute cached script');
-            //jsxTransformer.exec(cachedScript);
-            babel.transform.run(cachedScript);
+            jsxTransform.run(cachedScript);
 
             if (callback && typeof callback === 'function') {
                 callback(cachedScript);
@@ -98,8 +97,7 @@ var CastleCommon = {};
             success : function (result) {
                 console.info('Execute script from server');
                 scriptCache[url] = result;
-                //jsxTransformer.exec(result);
-                babel.transform.run(result);
+                jsxTransform.run(result);
 
                 if (callback && typeof callback === 'function') {
                     callback(result);
@@ -107,7 +105,7 @@ var CastleCommon = {};
             },
             error: function (result) {
                 alert('Fail CastleCommon.getJSX');
-                console.info(result);
+                console.error(result);
             }
         });
     };

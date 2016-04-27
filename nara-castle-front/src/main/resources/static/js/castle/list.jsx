@@ -41,7 +41,7 @@ Components.Castle.List = Components.Castle.List || {};
     // Define components
     var CastleListPage = React.createClass({
         statics : {
-            containerStyle: {width: '1100px'}
+            FIND_CASTLES_URL: castleConst.CTX + '/api/castle'
         },
         getInitialState: function () {
             return {
@@ -57,7 +57,7 @@ Components.Castle.List = Components.Castle.List || {};
         },
         findCastles: function (castleCriteria) {
             //
-            castleCommon.getJSON(castleConst.CTX + '/api/castle').done(function (castlesResult) {
+            castleCommon.getJSON(CastleListPage.FIND_CASTLES_URL).done(function (castlesResult) {
                 var notExistsMessage = contentProps.finder.notExistsMessage,
                     lang = mainComponent.lang;
 

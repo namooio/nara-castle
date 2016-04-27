@@ -19,6 +19,9 @@ Components.Castle.Basic = Components.Castle.Basic || {};
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics : {
+            FIND_CASTLE_URL: castleConst.CTX + '/api/castle/'
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -43,7 +46,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
             this.setState({contentModifiable: false});
         },
         requestCastle: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id).done( function (castleResult) {
+            castleCommon.getJSON(CastleDetailPage.FIND_CASTLE_URL + props.id).done( function (castleResult) {
                 this.setState({ basicInfo: castleResult });
             }.bind(this));
         },
