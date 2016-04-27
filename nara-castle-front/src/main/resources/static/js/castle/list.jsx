@@ -13,13 +13,12 @@ Components.Castle.List = Components.Castle.List || {};
         mainComponent = Components.Main;
 
     // Define content attributes
-    var contentProps = {
+    var castleListModel = {
         finder: {
             title: { KOR: 'Castle 검색', USA: 'Search Castle'},
             criteria: {
                 name: { KOR: '이름', USA: 'Name' }
-            },
-            notExistsMessage: { KOR: 'Castle이 존재하지 않습니다.', USA: 'No such castle' }
+            }
         },
         list: {
             header: {
@@ -35,6 +34,9 @@ Components.Castle.List = Components.Castle.List || {};
         },
         buttons : {
             search: { KOR: '검색', USA: 'Find' }
+        },
+        messages: {
+            notExistsMessage: { KOR: 'Castle이 존재하지 않습니다.', USA: 'Not exists castle' }
         }
     };
 
@@ -57,22 +59,28 @@ Components.Castle.List = Components.Castle.List || {};
         },
         findCastles: function (castleCriteria) {
             //
-            castleCommon.getJSON(CastleListPage.FIND_CASTLES_URL).done(function (castlesResult) {
-                var notExistsMessage = contentProps.finder.notExistsMessage,
-                    lang = mainComponent.lang;
+            castleCommon
+                .getJSON(CastleListPage.FIND_CASTLES_URL)
+                .done(function (castlesResult) {
+                    var notExistsMessage = castleListModel.messages.notExistsMessage,
+                        lang = mainComponent.lang;
 
-                if (!castlesResult || castlesResult.length === 0) {
-                    alert(notExistsMessage[lang]);
-                    return;
-                }
-                this.setState({castles: castlesResult});
-            }.bind(this));
+                    if (!castlesResult || castlesResult.length === 0) {
+                        alert(notExistsMessage[lang]);
+                        return;
+                    }
+                    this.setState({castles: castlesResult});
+                }.bind(this));
         },
         render: function () {
             return (
                 <article>
-                    <Finder containerStyle={CastleListPage.containerStyle} criteria={this.state.castleCriteria} change={this.changeCriteriaInput} find={this.findCastles}/>
-                    <CastleList containerStyle={CastleListPage.containerStyle} castles={this.state.castles}/>
+                    <Finder
+                        criteria={this.state.castleCriteria}
+                        change={this.changeCriteriaInput}
+                        find={this.findCastles}
+                    />
+                    <CastleList castles={this.state.castles} />
                 </article>
             );
         }
@@ -83,11 +91,10 @@ Components.Castle.List = Components.Castle.List || {};
      */
     var Finder = React.createClass({
         propTypes : {
-            containerStyle : React.PropTypes.object.isRequired
-            , criteria: React.PropTypes.object
+            criteria: React.PropTypes.object,
 
-            , change : React.PropTypes.func.isRequired
-            , find : React.PropTypes.func.isRequired
+            change : React.PropTypes.func.isRequired,
+            find : React.PropTypes.func.isRequired
         },
         findBtnClick: function () {
             this.props.find(this.props.criteria);
@@ -98,13 +105,13 @@ Components.Castle.List = Components.Castle.List || {};
             });
         },
         render: function () {
-            var lang = mainComponent.lang
-                , ATTRS = contentProps.finder
-                , BUTTON_NAMES = contentProps.buttons;
+            var ATTRS = castleListModel.finder,
+                BUTTON_NAMES = castleListModel.buttons,
+                lang = mainComponent.lang;
 
 
             return (
-                <div className="container" style={this.props.containerStyle}>
+                <div className="container" >
                     <div className="panel panel-success">
                         <div className="panel-heading">
                             <h4 className="panel-title">{ATTRS.title[lang]}</h4>
@@ -135,17 +142,17 @@ Components.Castle.List = Components.Castle.List || {};
      */
     var CastleList = React.createClass({
         propTypes : {
-            containerStyle : React.PropTypes.object.isRequired,
             castles : React.PropTypes.array.isRequired
         },
         render: function () {
             //
-            var ATTRS = contentProps.list
-                , lang = mainComponent.lang
-                , existsCastle = (!this.props.castles || this.props.castles.length === 0) ? false : true;
+            var ATTRS = castleListModel.list,
+                MESSAGES = castleListModel.messages,
+                lang = mainComponent.lang,
+                existsCastle = (this.props.castles || this.props.castles.length > 0) ? true : false;
 
             return (
-                <div className="container" style={this.props.containerStyle}>
+                <div className="container" >
                     <div className="panel panel-success">
                         <div className="panel-body">
                             <table className="table table-striped table-hover">
@@ -162,23 +169,23 @@ Components.Castle.List = Components.Castle.List || {};
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    { existsCastle === true ?
-                                        this.props.castles.map(function (castle) {
-                                            return  (
-                                                <tr key={castle.id}>
-                                                    <td>{castle.id}</td>
-                                                    <td>{castle.name}</td>
-                                                    <td>{castle.locale}</td>
-                                                    <td>{castle.castellan.primaryEmail}</td>
-                                                    <td>{castle.castellan.primaryPhone}</td>
-                                                    <td>{castle.state}</td>
-                                                    <td>{castleCommon.Date.parseToString(castle.buildTime)}</td>
-                                                    <td><a href={"#/castle/basic?&id=" + castle.id}><span className="glyphicon glyphicon-book"/></a></td>
-                                                </tr>
-                                            )
-                                        })
-                                        : <tr><td colSpan="6">검색된 Castle이 없습니다.</td></tr>
-                                    }
+                                { existsCastle === true ?
+                                    this.props.castles.map(function (castle) {
+                                        return  (
+                                            <tr key={castle.id}>
+                                                <td>{castle.id}</td>
+                                                <td>{castle.name}</td>
+                                                <td>{castle.locale}</td>
+                                                <td>{castle.castellan.primaryEmail}</td>
+                                                <td>{castle.castellan.primaryPhone}</td>
+                                                <td>{castle.state}</td>
+                                                <td>{castleCommon.Date.parseToString(castle.buildTime)}</td>
+                                                <td><a href={"#/castle/basic?&id=" + castle.id}><span className="glyphicon glyphicon-book"/></a></td>
+                                            </tr>
+                                        )
+                                    })
+                                    : <tr><td colSpan="6">{MESSAGES.notExistsMessage[lang]}</td></tr>
+                                }
                                 </tbody>
                             </table>
                         </div>

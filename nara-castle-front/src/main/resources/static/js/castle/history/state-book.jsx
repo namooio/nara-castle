@@ -14,10 +14,27 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
         castleModel = Components.Castle.Model;
 
     // Define Content attributes name
+    var castleStateModel = {
+        statics: {
+            FIND_STATE_BOOK_URL: castleConst.CTX + '/api/castle/{id}/state-book'
+        },
+        attrs: {
+            currentState:   { name: 'currentState', KOR: '현재상태',    USA: 'Current state' },
+            targetState:    { name: 'targetState',  KOR: '다음상태',    USA: 'Target state' },
+            remarks:        { name: 'remarks',      KOR: '설명',        USA: 'Remarks' },
+            modifiedTime:   { name: 'modifiedTime', KOR: '수정일시',    USA: 'Modified time' }
+        },
+        messages: {
+            notExistsState: { KOR: 'State 이력이 없습니다.', USA: 'Not exists state history' }
+        }
+    };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics: {
+            FIND_STATE_BOOK_URL: castleConst.CTX + '/api/castle/{id}/state-book'
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -30,9 +47,6 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
         componentDidMount: function () {
             this.requestStateBook(this.props);
         },
-        componentWillReceiveProps: function (props) {
-            this.requestStateBook(props);
-        },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
         },
@@ -40,9 +54,11 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
             this.setState({contentModifiable: false});
         },
         requestStateBook: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id + '/state-book').done( function (stateBookResult) {
-                this.setState({ stateBook: stateBookResult });
-            }.bind(this));
+            castleCommon
+                .getJSON(CastleDetailPage.FIND_STATE_BOOK_URL.replace('{id}', props.id))
+                .done( function (stateBookResult) {
+                    this.setState({ stateBook: stateBookResult });
+                }.bind(this));
         },
         render: function () {
             return (
@@ -152,10 +168,13 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
 
     var StateContent = React.createClass({
         propTypes: {
-            stateBook: React.PropTypes.object.isRequired
+            stateBook: React.PropTypes.shape({
+                states: React.PropTypes.array.isRequired
+            }).isRequired
         },
         render: function () {
-            var ATTRS = castleModel.state,
+            var ATTRS = castleStateModel.attrs,
+                MESSAGES = castleStateModel.messages,
                 lang = mainComponent.lang,
                 propStateBook = this.props.stateBook,
                 existsStateBook = (propStateBook && propStateBook.states && propStateBook.states.length > 0) ? true : false;
@@ -183,7 +202,7 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
                             )
                         })
                         :
-                        <tr><td colSpan="4">상태 이력이 없습니다.</td></tr>
+                        <tr><td colSpan="4">{MESSAGES.notExistsState[lang]}</td></tr>
                     }
                     </tbody>
                 </table>

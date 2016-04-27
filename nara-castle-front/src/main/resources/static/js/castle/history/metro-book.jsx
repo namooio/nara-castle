@@ -14,10 +14,25 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
         castleModel = Components.Castle.Model;
 
     // Define Content attributes name
+    var castleMetroModel = {
+        attrs: {
+            metroId:        { name: 'metroId',          KOR: '메트로Id',    USA: 'Metro id' },
+            metroName:      { name: 'metroName',        KOR: '메트로명',    USA: 'Metro name' },
+            joinTime:       { name: 'joinTime',         KOR: '가입일시',    USA: 'Join time' },
+            withdrawalTime: { name: 'withdrawalTime',   KOR: '탈퇴일시',    USA: 'Withdrawal time' },
+            remarks:        { name: 'remarks',          KOR: '설명',        USA: 'Remarks' }
+        },
+        messages: {
+            notExistsMetro: { KOR: 'Metro 이력이 없습니다', USA: 'Not exists metro history'}
+        }
+    };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics: {
+            FIND_METRO_BOOK: castleConst.CTX + '/api/castle/{id}/metro-book'
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -30,9 +45,6 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
         componentDidMount: function () {
             this.requestMetroBook(this.props);
         },
-        componentWillReceiveProps: function (props) {
-            this.requestMetroBook(props);
-        },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
         },
@@ -40,9 +52,11 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
             this.setState({contentModifiable: false});
         },
         requestMetroBook: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id + '/metro-book').done( function (metroBookResult) {
-                this.setState({ metroBook: metroBookResult });
-            }.bind(this));
+            castleCommon
+                .getJSON(CastleDetailPage.FIND_METRO_BOOK.replace('{id}', props.id))
+                .done( function (metroBookResult) {
+                    this.setState({ metroBook: metroBookResult });
+                }.bind(this));
         },
         render: function () {
             return (
@@ -149,10 +163,13 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
 
     var MetroContent = React.createClass({
         propTypes: {
-            metroBook: React.PropTypes.object.isRequired
+            metroBook: React.PropTypes.shape({
+                metros: React.PropTypes.array.isRequired
+            }).isRequired
         },
         render: function () {
-            var ATTRS = castleModel.metro,
+            var ATTRS = castleMetroModel.attrs,
+                MESSAGES = castleMetroModel.messages,
                 lang = mainComponent.lang,
                 propMetroBook = this.props.metroBook,
                 existsMetroBook = (propMetroBook && propMetroBook.metros && propMetroBook.metros.length > 0) ? true : false;
@@ -182,7 +199,7 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
                             )
                         })
                         :
-                        <tr><td colSpan="5">메트로 가입 이력이 없습니다.</td></tr>
+                        <tr><td colSpan="5">{MESSAGES.notExistsMetro[lang]}</td></tr>
                     }
                     </tbody>
                 </table>

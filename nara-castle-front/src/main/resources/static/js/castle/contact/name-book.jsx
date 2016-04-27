@@ -14,10 +14,25 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
         castleModel = Components.Castle.Model;
 
     // Define Content attributes name
+    var castleNameModel = {
+        attrs: {
+            familyName:     { name: 'familyName',   KOR: '성',       USA: 'Family name' },
+            firstName:      { name: 'firstName',    KOR: '이름',     USA: 'First name' },
+            displayName:    { name: 'displayName',  KOR: '전체이름', USA: 'Display name' },
+            middleName:     { name: 'middleName',   KOR: '중간이름', USA: 'Middle name' },
+            langCode:       { name: 'langCode',     KOR: '언어',     USA: 'Language' }
+        },
+        messages: {
+            notRegisteredName: { KOR: '등록된 Name이 없습니다', USA: 'Not registered the name' }
+        }
+    };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics : {
+            FIND_NAME_BOOK_URL: castleConst.CTX + '/api/castle/{id}/name-book'
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -31,10 +46,6 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
             //
             this.requestNameBook(this.props);
         },
-        componentWillReceiveProps: function (props) {
-            //
-            this.requestNameBook(props);
-        },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
         },
@@ -42,9 +53,11 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
             this.setState({contentModifiable: false});
         },
         requestNameBook: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id + '/name-book').done( function (nameBookResult) {
-                this.setState({ nameBook: nameBookResult });
-            }.bind(this));
+            castleCommon
+                .getJSON(CastleDetailPage.FIND_NAME_BOOK_URL.replace('{id}', props.id))
+                .done( function (nameBookResult) {
+                    this.setState({ nameBook: nameBookResult });
+                }.bind(this));
         },
         render: function () {
             return (
@@ -62,7 +75,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
     var Tab = React.createClass({
         //
         propTypes: {
-            castleId: React.PropTypes.string,
+            castleId: React.PropTypes.string.isRequired,
             nameBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
@@ -152,10 +165,13 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
 
     var NameContent = React.createClass({
         propTypes: {
-            nameBook: React.PropTypes.object.isRequired
+            nameBook: React.PropTypes.shape({
+                nemas: React.PropTypes.array.isRequired
+            }).isRequired
         },
         render: function () {
-            var ATTRS = castleModel.name,
+            var ATTRS = castleNameModel.attrs,
+                MESSAGES = castleNameModel.messages,
                 lang = mainComponent.lang,
                 existsNameBook = (this.props.nameBook && this.props.nameBook.names.length > 0) ? true : false;
 
@@ -185,7 +201,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
                                     )
                                 })
                                 :
-                                <tr><td colSpan="5">등록 된 Name이 없습니다.</td></tr>
+                                <tr><td colSpan="5">{MESSAGES.notRegisteredName[lang]}</td></tr>
                             }
                         </tbody>
                     </table>

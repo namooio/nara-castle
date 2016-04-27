@@ -14,10 +14,25 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
         castleModel = Components.Castle.Model;
 
     // Define Content attributes name
+    var castlePhoneModel = {
+        attrs: {
+            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' },
+            countryCode:    { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' },
+            areaCode:       { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' },
+            number:         { name: 'number',       KOR: '번호',      USA: 'Number' }
+        },
+        messages : {
+            notRegisteredPhone : { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
+        }
+    };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics: {
+            FIND_PHONE_BOOK_URL: castleConst.CTX + '/api/castle/{id}/phone-book'
+
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -30,9 +45,6 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
         componentDidMount: function () {
             this.requestPhoneBook(this.props);
         },
-        componentWillReceiveProps: function (props) {
-            this.requestPhoneBook(props);
-        },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
         },
@@ -40,9 +52,11 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
             this.setState({contentModifiable: false});
         },
         requestPhoneBook: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id + '/phone-book').done( function (phoneBookResult) {
-                this.setState({ phoneBook: phoneBookResult });
-            }.bind(this));
+            castleCommon
+                .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
+                .done( function (phoneBookResult) {
+                    this.setState({ phoneBook: phoneBookResult });
+                }.bind(this));
         },
         render: function () {
             return (
@@ -60,7 +74,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
     var Tab = React.createClass({
         //
         propTypes: {
-            castleId: React.PropTypes.string,
+            castleId: React.PropTypes.string.isRequired,
             phoneBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
@@ -150,10 +164,13 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
 
     var PhoneContent = React.createClass({
         propTypes: {
-            phoneBook: React.PropTypes.object.isRequired
+            phoneBook: React.PropTypes.shape({
+                phones: React.PropTypes.array.isRequired
+            }).isRequired
         },
         render: function () {
-            var ATTRS = castleModel.phone,
+            var ATTRS = castlePhoneModel.attrs,
+                MESSAGES = castlePhoneModel.messages,
                 lang = mainComponent.lang,
                 propPhoneBook = this.props.phoneBook,
                 existsPhoneBook = (propPhoneBook && propPhoneBook.phones && propPhoneBook.phones.length > 0) ? true : false;
@@ -182,7 +199,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
                                 )
                             })
                             :
-                            <tr><td colSpan="4">등록 된 전화번호가 없습니다.</td></tr>
+                            <tr><td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td></tr>
                         }
                         </tbody>
                     </table>

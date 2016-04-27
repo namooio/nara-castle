@@ -14,10 +14,24 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
         castleModel = Components.Castle.Model;
 
     // Define Content attributes name
+    var castleAccountModel = {
+        attrs: {
+            loginUserId:    { name: 'loginUserId',      KOR: '로그인Id',    USA: 'Login user id' },
+            channel:        { name: 'channel',          KOR: '접속방법',    USA: 'Channel' },
+            createTime:     { name: 'createTime',       KOR: '생성일시',    USA: 'Create time' },
+            deleteTime:     { name: 'deleteTime',       KOR: '삭제일시',    USA: 'Delete time' }
+        },
+        messages: {
+            notExistsAccount: { KOR: 'Account 이력이 없습니다.', USA: 'Not exists acount history' }
+        }
+    };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics: {
+            FIND_ACCOUNT_BOOK_URL: castleConst.CTX + '/api/castle/{id}/account-book'
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -30,9 +44,6 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
         componentDidMount: function () {
             this.requestAccountBook(this.props);
         },
-        componentWillReceiveProps: function (props) {
-            this.requestAccountBook(props);
-        },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
         },
@@ -40,9 +51,11 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
             this.setState({contentModifiable: false});
         },
         requestAccountBook: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id + '/account-book').done( function (accountBookResult) {
-                this.setState({ accountBook: accountBookResult });
-            }.bind(this));
+            castleCommon
+                .getJSON(CastleDetailPage.FIND_ACCOUNT_BOOK_URL.replace('{id}', props.id))
+                .done( function (accountBookResult) {
+                    this.setState({ accountBook: accountBookResult });
+                }.bind(this));
         },
         render: function () {
             return (
@@ -151,10 +164,13 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
 
     var AccountContent = React.createClass({
         propTypes: {
-            accountBook: React.PropTypes.object.isRequired
+            accountBook: React.PropTypes.shape({
+                accounts: React.PropTypes.array.isRequired
+            }).isRequired
         },
         render: function () {
-            var ATTRS = castleModel.account,
+            var ATTRS = castleAccountModel.attrs,
+                MESSAGES = castleAccountModel.messages,
                 lang = mainComponent.lang,
                 propAccountBook = this.props.accountBook,
                 existsAccountBook = (propAccountBook && propAccountBook.accounts && propAccountBook.accounts.length > 0) ? true : false;
@@ -182,7 +198,7 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
                             )
                         })
                         :
-                        <tr><td colSpan="4">계정 이력이 없습니다.</td></tr>
+                        <tr><td colSpan="4">{MESSAGES.notExistsAccount[lang]}</td></tr>
                     }
                     </tbody>
                 </table>

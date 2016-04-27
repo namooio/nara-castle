@@ -14,10 +14,24 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
         castleModel = Components.Castle.Model;
 
     // Define Content attributes name
+    var castleEmailModel = {
+        attrs: {
+            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' },
+            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'Type' },
+            verified:       { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' },
+            verifiedTime:   { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
+        },
+        messages: {
+            notRegisteredEmail: { KOR: '등록 된 email이 없습니다', USA: 'Not registered the email' }
+        },
+    };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics: {
+            FIND_EMAIL_BOOK_URL: castleConst.CTX + '/api/castle/{id}/email-book'
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -30,9 +44,6 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
         componentDidMount: function () {
             this.requestEmailBook(this.props);
         },
-        componentWillReceiveProps: function (props) {
-            this.requestEmailBook(props);
-        },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
         },
@@ -40,9 +51,11 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
             this.setState({contentModifiable: false});
         },
         requestEmailBook: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id + '/email-book').done( function (emailBookResult) {
-                this.setState({ emailBook: emailBookResult });
-            }.bind(this));
+            castleCommon
+                .getJSON(CastleDetailPage.FIND_EMAIL_BOOK_URL.replace('{id}', props.id))
+                .done( function (emailBookResult) {
+                    this.setState({ emailBook: emailBookResult });
+                }.bind(this));
         },
         render: function () {
             return (
@@ -60,7 +73,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
     var Tab = React.createClass({
         //
         propTypes: {
-            castleId: React.PropTypes.string,
+            castleId: React.PropTypes.string.isRequired,
             emailBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
@@ -151,10 +164,13 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
 
     var EmailContent = React.createClass({
         propTypes: {
-            emailBook: React.PropTypes.object.isRequired
+            emailBook: React.PropTypes.shape({
+                emails: React.PropTypes.array.isRequired
+            }).isRequired,
         },
         render: function () {
-            var ATTRS = castleModel.email,
+            var ATTRS = castleEmailModel.attrs,
+                MESSAGES = castleEmailModel.messages,
                 lang = mainComponent.lang,
                 propEmailBook = this.props.emailBook,
                 existsEmailBook = (propEmailBook && propEmailBook.emails && propEmailBook.emails.length > 0) ? true : false;
@@ -183,7 +199,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
                                 )
                             })
                             :
-                            <tr><td colSpan="4">등록 된 이메일이 없습니다.</td></tr>
+                            <tr><td colSpan="4">{MESSAGES.notRegisteredEmail[lang]}</td></tr>
                         }
                         </tbody>
                     </table>

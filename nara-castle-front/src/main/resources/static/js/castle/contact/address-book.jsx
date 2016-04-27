@@ -14,10 +14,30 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
         castleModel = Components.Castle.Model;
 
     // Define Content attributes name
+    var castleAddressModel = {
+        attrs: {
+            title:          { name: 'title',            KOR: '주소명',    USA: 'Title' },
+            langCode:       { name: 'langCode',         KOR: '언어코드',  USA: 'Language code' },
+            style:          { name: 'style',            KOR: '유형',      USA: 'Style' },
+            country:        { name: 'country',          KOR: '국가',      USA: 'Coutnry' },
+            zipCode:        { name: 'zipCode',          KOR: '우편번호',  USA: 'Zip code' },
+            state:          { name: 'state',            KOR: '지역',      USA: 'State' },
+            city:           { name: 'city',             KOR: '시',        USA: 'City' },
+            addressPartOne: { name: 'addressPartOne',   KOR: '주소1',     USA: 'Address part1' },
+            addressPartTwo: { name: 'addressPartTwo',   KOR: '주소2',     USA: 'Address part2' },
+            phoneNumber:    { name: 'phoneNumber',      KOR: '전화번호',  USA: 'Phone number' }
+        },
+        messages: {
+            notRegisteredAddress: { KOR: '등록 된 주소가 없습니다', USA: 'Not registered the address' }
+        }
+    };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
+        statics: {
+            FIND_ADDRESS_BOOK_URL: castleConst.CTX + '/api/castle/{id}/address-book'
+        },
         propTypes : {
             id: React.PropTypes.string
         },
@@ -30,9 +50,6 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
         componentDidMount: function () {
             this.requestAddressBook(this.props);
         },
-        componentWillReceiveProps: function (props) {
-            this.requestAddressBook(props);
-        },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
         },
@@ -40,9 +57,11 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
             this.setState({contentModifiable: false});
         },
         requestAddressBook: function (props) {
-            castleCommon.getJSON(castleConst.CTX + '/api/castle/' + props.id + '/address-book').done( function (addressBookResult) {
-                this.setState({ addressBook: addressBookResult });
-            }.bind(this));
+            castleCommon
+                .getJSON(CastleDetailPage.FIND_ADDRESS_BOOK_URL.replace('{id}', props.id))
+                .done( function (addressBookResult) {
+                    this.setState({ addressBook: addressBookResult });
+                }.bind(this));
         },
         render: function () {
             return (
@@ -150,10 +169,13 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
 
     var AddressContent = React.createClass({
         propTypes: {
-            addressBook: React.PropTypes.object.isRequired
+            addressBook: React.PropTypes.shape({
+                addresses: React.PropTypes.array.isRequired
+            }).isRequired
         },
         render: function () {
-            var ATTRS = castleModel.address,
+            var ATTRS = castleAddressModel.attrs,
+                MESSAGES = castleAddressModel.messages,
                 lang = mainComponent.lang,
                 propAddressBook = this.props.addressBook,
                 existsAddressBook = (propAddressBook && propAddressBook.addresses && propAddressBook.addresses.length > 0) ? true : false,
@@ -236,7 +258,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                                 }
                             })
                             :
-                            <tr><td colSpan="9">등록 된 주소가 없습니다.</td></tr>
+                            <tr><td colSpan="9">{MESSAGES.notRegisteredAddress[lang]}</td></tr>
                         }
                         </tbody>
                     </table>
