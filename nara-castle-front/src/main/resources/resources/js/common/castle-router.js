@@ -7,20 +7,53 @@ var CastleRouter = CastleRouter || {};
 
 (function () {
     //
-    // Import component module
     'use strict';
 
+    // Import component module
     var castleConst = CastleConst,
         naraReactRouter = NaraReactRouter;
 
-    // Castellan mapping
-    naraReactRouter.addRouterMapping('#/castellan/view',        [{path: castleConst.CTX + '/js/castellan/view.jsx',       component: {namespace: Components.Castellan,    name: 'View',           render: 'renderLayout'}}]);
-    naraReactRouter.addRouterMapping('#/castellan/register',    [{path: castleConst.CTX + '/js/castellan/register.jsx',   component: {namespace: Components.Castellan,    name: 'Registerer',     render: 'renderLayout'}}]);
+    // Castle
+    naraReactRouter.addMapping('#/castles', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js', component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/list.jsx',        component: { namespace: Components.Castle,  name: 'List' } }
+    ]);
 
-    // Castle mapping
-    naraReactRouter.addRouterMapping('#/castles',               [{path: castleConst.CTX + '/js/castle/list.jsx',          component: {namespace: Components.Castle,       name: 'List',           render: 'renderLayout'}}]);
-    naraReactRouter.addRouterMapping('#/castle/detail',         [{path: castleConst.CTX + '/js/castle/detail.jsx',        component: {namespace: Components.Castle,       name: 'Detail',         render: 'renderLayout'}}]);
+    naraReactRouter.addMapping('#/castle/basic', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js', component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/basic.jsx',       component: { namespace: Components.Castle,  name: 'Basic' } }
+    ]);
 
+    // Castle contact
+    naraReactRouter.addMapping('#/castle/contact/name-book', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/contact/name-book.jsx',   component: { namespace: Components.Castle,  name: 'NameBook' } }
+    ]);
+    naraReactRouter.addMapping('#/castle/contact/phone-book', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/contact/phone-book.jsx',  component: { namespace: Components.Castle,  name: 'PhoneBook' } }
+    ]);
+    naraReactRouter.addMapping('#/castle/contact/email-book', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/contact/email-book.jsx',  component: { namespace: Components.Castle,  name: 'EmailBook' } }
+    ]);
+    naraReactRouter.addMapping('#/castle/contact/address-book', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js',             component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/contact/address-book.jsx',    component: { namespace: Components.Castle,  name: 'AddressBook' } }
+    ]);
+
+    // Castle history
+    naraReactRouter.addMapping('#/castle/history/account-book', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js',             component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/history/account-book.jsx',    component: { namespace: Components.Castle,  name: 'AccountBook' } }
+    ]);
+    naraReactRouter.addMapping('#/castle/history/state-book', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/history/state-book.jsx',  component: { namespace: Components.Castle,  name: 'StateBook' } }
+    ]);
+    naraReactRouter.addMapping('#/castle/history/metro-book', [
+        { path: castleConst.CTX + '/js/castle/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
+        { path: castleConst.CTX + '/js/castle/history/metro-book.jsx',  component: { namespace: Components.Castle,  name: 'MetroBook' } }
+    ]);
 
 })();
-

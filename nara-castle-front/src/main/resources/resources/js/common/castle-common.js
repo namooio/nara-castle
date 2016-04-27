@@ -8,8 +8,7 @@ CastleConst.TOP_MENU_DOM_ID = 'castle-top-menu';
 CastleConst.CONTENTS_DOM_ID = 'castle-content';
 
 var Components = {
-    Castle : { name: 'Castle'},
-    Castellan : { name: 'Castellan'}
+    Castle : { name: 'Castle' },
 };
 
 var CastleCommon = {};
@@ -17,8 +16,10 @@ var CastleCommon = {};
 (function () {
     //
     'use strict';
+
     // Import extenral module
     //var jsxTransformer = JSXTransformer;
+    var babel = babel;
 
     CastleCommon.getTopMenuJDom = function () {
         return $('#' + CastleConst.TOP_MENU_DOM_ID)[0];
@@ -118,6 +119,17 @@ var CastleCommon = {};
             return null;
         }
         return new Date(date).toLocaleString();
+    };
+
+    CastleCommon.Object = {};
+    CastleCommon.Object.isEmpty = function (object) {
+        if (!object) {
+            return true;
+        }
+        else if (Object.keys(object).length === 0) {
+            return true;
+        }
+        return false;
     };
 
 })();

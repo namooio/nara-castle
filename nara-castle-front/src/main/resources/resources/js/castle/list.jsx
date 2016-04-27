@@ -173,7 +173,7 @@ Components.Castle.List = Components.Castle.List || {};
                                                     <td>{castle.castellan.primaryPhone}</td>
                                                     <td>{castle.state}</td>
                                                     <td>{castleCommon.Date.parseToString(castle.buildTime)}</td>
-                                                    <td><a href={"#/castle/detail?&id=" + castle.id}><span className="glyphicon glyphicon-book"/></a></td>
+                                                    <td><a href={"#/castle/basic?&id=" + castle.id}><span className="glyphicon glyphicon-book"/></a></td>
                                                 </tr>
                                             )
                                         })

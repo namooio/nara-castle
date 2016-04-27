@@ -12,7 +12,11 @@ var NaraReactRouter = NaraReactRouter || {};
 
     var namespace = {},
         mapping = {},
-        componentCache = {};
+        componentCache = {},
+        mappingType = {
+            REQUEST: "REQ",
+            REDIRECT: "RDR"
+        };
 
     function initialize(scriptLoadCallback) {
         //
@@ -64,7 +68,7 @@ var NaraReactRouter = NaraReactRouter || {};
      * @param url
      * @param resources
      */
-    function addRouterMapping(url, resources) {
+    function addMapping(url, resources) {
         //
         if (!mapping) {
             mapping = {};
@@ -127,22 +131,29 @@ var NaraReactRouter = NaraReactRouter || {};
             }
         }
 
-
-        mappingResources.forEach(function (resourceItem) {
+        // TODO: 콜백 함수 비동기 아닌 동기로 작동하도록 (이전 스크립트 로드 된 후 다음 스크립트 로드의 콜백 동작하도록 보장해야함)
+        mappingResources.forEach(function (resourceItem, index) {
             //
             var resourceComponent = resourceItem.component,
-                component = resourceComponent.namespace[resourceComponent.name];
+                component = resourceComponent.namespace[resourceComponent.name],
+                executable = false;
 
-            if (component) {
+            if (index === (mappingResources.length - 1)) {
+               executable = true;
+            }
+
+            if (executable && component) {
                 scriptLoadCallback(component, paramObj);
             }
             else {
                 getJSX(resourceItem.path, function () {
                     //
-                    componentCache[resourceComponent.namespace.name + resourceComponent.name] = resourceComponent;
-                    component = resourceComponent.namespace[resourceComponent.name];
+                    if (executable) {
+                        componentCache[resourceComponent.namespace.name + resourceComponent.name] = resourceComponent;
+                        component = resourceComponent.namespace[resourceComponent.name];
 
-                    scriptLoadCallback(component, paramObj);
+                        scriptLoadCallback(component, paramObj);
+                    }
                 });
             }
         });
@@ -168,10 +179,12 @@ var NaraReactRouter = NaraReactRouter || {};
         });
     }
 
+
     namespace.initialize = initialize;
-    namespace.addRouterMapping = addRouterMapping;
+    namespace.addMapping = addMapping;
+    namespace.MappingType = mappingType;
+    namespace.mapping = mapping;
 
     NaraReactRouter = namespace;
-    NaraReactRouter.mapping = mapping;
 })();
 

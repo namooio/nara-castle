@@ -15,11 +15,6 @@ Components.Main = Components.Main || {};
 
     // Define component
     var renderLayout = function (contentComponent, params) {
-        console.info('Main content component');
-        console.dir(contentComponent);
-        console.info('Main content params');
-        console.dir(params);
-
         ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, castleCommon.getContentsJDom());
     };
 
@@ -78,12 +73,6 @@ Components.Main = Components.Main || {};
         propTypes: {
             changeLanguage: React.PropTypes.func.isRequired
         },
-        inquiryBtnClick : function (event) {
-            $(event.target).tabs();
-        },
-        registerBtnClick : function (event) {
-            $(event.target).tabs();
-        },
         changeLanguageClick : function (event) {
             var lang = $(event.target).data('lang');
             this.props.changeLanguage(lang);
@@ -106,15 +95,7 @@ Components.Main = Components.Main || {};
                         </div>
                         <div className="collapse navbar-collapse">
                             <ui className="nav navbar-nav">
-                                <li><a href="#/castellan/view" onClick={this.inquiryBtnClick}>조회</a></li>
-                                <li><a href="#/castellan/register" onClick={this.registerBtnClick}>등록</a></li>
-                                <li className="dropdown">
-                                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Castle<span className="caret"/></a>
-                                    <ul className="dropdown-menu" role="menu">
-                                        <li><a href="#/castles">목록</a></li>
-                                        <li><a href="#/castle/detail">상세</a></li>
-                                    </ul>
-                                </li>
+                                <li><a href="#/castles" >목록</a></li>
                             </ui>
 
                             <ul className="nav navbar-nav navbar-right">

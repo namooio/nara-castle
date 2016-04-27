@@ -20,6 +20,38 @@ Components.Castle.Detail = Components.Castle.Detail || {};
             remove:   { KOR: '삭제', USA: 'Remove'},
             cancel:   { KOR: '취소', USA: 'Cancel'}
         },
+        enum: {
+            state: {
+                Ready:      { KOR: '준비', USA: 'Ready' },
+                Open:       { KOR: '사용', USA: 'Open' },
+                Suspended:  { KOR: '중단', USA: 'Suspended' },
+                Closed:     { KOR: '닫힘', USA: 'Closed' }
+            },
+            locale: {
+                ko: { KOR: '대한민국',  USA: 'Republic of Korea' },
+                us: { KOR: '미국',      USA: 'Unitied States of America' },
+            },
+            language: {
+                KOR: { KOR: '한국어', USA: 'KOREAN' },
+                ENG: { KOR: '영어', USA: 'English' }
+            },
+            countrycode: {
+                82: { KOR: '대한민국',  USA: 'Republic of Korea' },
+                1: { KOR: '미국',      USA: 'Unitied States of America' },
+            },
+            emailType: {
+                Business:   { KOR: '업무용', USA: 'Businedss' },
+                Private:    { KOR: '개인용', USA: 'Private' }
+            },
+            verified: {
+                true:   { KOR: '확인완료', USA: 'Verified' },
+                false:  { KOR: '미확인', USA: 'Unverified' }
+            },
+            addressStyle: {
+                Korean: { KOR: '대한민국', USA: 'Korean' },
+                US:     { KOR: '미국', USA: 'USA' }
+            }
+        },
         tabs: {
             basic:      { name: 'basic',    KOR: '기본정보',   USA: 'Basic information' },
             name:       { name: 'name',     KOR: '이름',       USA: 'Name' },
@@ -57,7 +89,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
         },
         email: {
             email:          { name: 'email',        KOR: '이메일',        USA: 'Email' },
-            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'type' },
+            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'Type' },
             verified:       { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' },
             verifiedTime:   { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
         },
@@ -365,19 +397,21 @@ Components.Castle.Detail = Components.Castle.Detail || {};
             , modifiable: React.PropTypes.bool.isRequired
 
             , changeModifiableMode: React.PropTypes.func.isRequired
-            , changeViewMode: React.PropTypes.func.isRequired
         },
         modifiableModeBtnClick: function () {
             this.props.changeModifiableMode();
-        },
-        cancelBtnClick: function () {
-            this.props.changeViewMode();
         },
         render: function () {
             var lang = mainComponent.lang,
                 CASTLE_ATTRS = contentProps.basicInfo,
                 CASTELLAN_ATTRS = contentProps.basicInfo.castellan,
-                BUTTON_NAMES = contentProps.buttons;
+                ENUMS = contentProps.enum,
+                BUTTON_NAMES = contentProps.buttons,
+                propBasicInfo = this.props.basicInfo;
+
+            if (castleCommon.Object.isEmpty(propBasicInfo) || castleCommon.Object.isEmpty(propBasicInfo.castellan)) {
+                return (<p>Castle 정보가 없습니다.</p>);
+            }
 
             return (
                 <div className="tab-content">
@@ -399,7 +433,7 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.locale[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.basicInfo[CASTLE_ATTRS.locale.name]}</p>
+                                    <p className="form-control-static">{ENUMS.locale[this.props.basicInfo[CASTLE_ATTRS.locale.name]][lang]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -420,12 +454,124 @@ Components.Castle.Detail = Components.Castle.Detail || {};
                                     <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.primaryPhone.name]}</p>
                                 </div>
                             </div>
+                            { this.props.modifiable ?
+                                <div className="form-group">
+                                    <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
+                                    <div className="col-lg-7">
+                                        <input type="text" className="form-control" value={this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}/>
+                                    </div>
+                                </div>
+                                :
+                                <div className="form-group">
+                                    <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
+                                    <div className="col-lg-7">
+                                        <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}</p>
+                                    </div>
+                                </div>
+                            }
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.buildTime[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}</p>
+                                    <p className="form-control-static">{castleCommon.Date.parseToString(this.props.basicInfo[CASTLE_ATTRS.buildTime.name])}</p>
                                 </div>
                             </div>
+
+                            { this.props.modifiable ?
+                                <div className="btn-toolbar pull-right">
+                                    <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
+                                    <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                                </div>
+                                :
+                                <div className="btn-toolbar pull-right">
+                                    <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
+                                    <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
+                                </div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+    });
+
+    var BasicInfoModifiableContent = React.createClass({
+        propTypes: {
+            basicInfo: React.PropTypes.object
+            , castellan: React.PropTypes.object
+
+            , changeViewMode: React.PropTypes.func.isRequired
+        },
+        cancelBtnClick: function () {
+            this.props.changeViewMode();
+        },
+        render: function () {
+            var lang = mainComponent.lang,
+                CASTLE_ATTRS = contentProps.basicInfo,
+                CASTELLAN_ATTRS = contentProps.basicInfo.castellan,
+                ENUMS = contentProps.enum,
+                BUTTON_NAMES = contentProps.buttons,
+                propBasicInfo = this.props.basicInfo;
+
+            if (castleCommon.Object.isEmpty(propBasicInfo) || castleCommon.Object.isEmpty(propBasicInfo.castellan)) {
+                return (<p>Castle 정보가 없습니다.</p>);
+            }
+
+            return (
+                <div className="tab-content">
+                    <div className="tab-pane active">
+                        <form className="form-horizontal">
+                            <div className="form-group"><p>&nbsp;</p></div>
+                            <div className="form-group">
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.id[lang]}</label>
+                                <div className="col-lg-7">
+                                    <p className="form-control-static">{this.props.basicInfo[CASTLE_ATTRS.id.name]}</p>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.name[lang]}</label>
+                                <div className="col-lg-7">
+                                    <p className="form-control-static">{this.props.basicInfo[CASTLE_ATTRS.name.name]}</p>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.locale[lang]}</label>
+                                <div className="col-lg-7">
+                                    <p className="form-control-static">{ENUMS.locale[this.props.basicInfo[CASTLE_ATTRS.locale.name]][lang]}</p>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.state[lang]}</label>
+                                <div className="col-lg-7">
+                                    <p className="form-control-static">{this.props.basicInfo[CASTLE_ATTRS.state.name]}</p>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.primaryEmail[lang]}</label>
+                                <div className="col-lg-7">
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.primaryEmail.name]}</p>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.primaryPhone[lang]}</label>
+                                <div className="col-lg-7">
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.primaryPhone.name]}</p>
+                                </div>
+                            </div>
+                            { this.props.modifiable ?
+                                <div className="form-group">
+                                    <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
+                                    <div className="col-lg-7">
+                                        <input type="text" className="form-control" value={this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}/>
+                                    </div>
+                                </div>
+                                :
+                                <div className="form-group">
+                                    <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
+                                    <div className="col-lg-7">
+                                        <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}</p>
+                                    </div>
+                                </div>
+                            }
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.buildTime[lang]}</label>
                                 <div className="col-lg-7">
