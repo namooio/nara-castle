@@ -9,14 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class DefaultViewController {
     //
-    @RequestMapping("view")
+    @RequestMapping("/")
     public String main() {
-
-        return "index.html";
+        System.out.println("Hello Default view");
+        return "resources/index.html";
     }
 
-    @RequestMapping("test")
-    public String test() {
-        return "test";
-    }
 }

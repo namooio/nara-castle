@@ -99,7 +99,7 @@ var NaraReactRouter = NaraReactRouter || {};
 
         if (!mapping[hashUrl]) {
             console.error('Not found url mapping from router -> url: ' + hashUrl);
-            var errorResourcePath = '/js/common/error.jsx';
+            var errorResourcePath = '/resources/js/common/error.jsx';
 
             getJSX(errorResourcePath, function () {
                 //
