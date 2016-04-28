@@ -24,8 +24,9 @@ Components.Castle.Model = Components.Castle.Model || { };
                 Closed:     { KOR: '닫힘', USA: 'Closed' }
             },
             locale: {
-                ko: { KOR: '대한민국',  USA: 'Republic of Korea' },
-                us: { KOR: '미국',      USA: 'Unitied States of America' }
+                ko:     { KOR: '대한민국',  USA: 'Republic of Korea' },
+                us:     { KOR: '미국',      USA: 'Unitied States of America' },
+                en_US:  { KOR: '미국',      USA: 'Unitied States of America' }
             },
             language: {
                 KOR: { KOR: '한국어', USA: 'Korean' },

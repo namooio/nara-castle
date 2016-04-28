@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class EmailBookDto {
     //
-    private List<UserEmailDto> emails;
+    private List<UserEmailDto> emails = new ArrayList<>();
 
     public EmailBookDto() {
         //

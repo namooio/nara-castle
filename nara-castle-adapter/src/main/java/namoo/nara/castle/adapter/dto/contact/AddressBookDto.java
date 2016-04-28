@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class AddressBookDto {
     //
-    private List<UserAddressDto> addresses;
+    private List<UserAddressDto> addresses = new ArrayList<>();
 
     public AddressBookDto() {
         //

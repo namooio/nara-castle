@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class CastleStateBookDto {
     //
-    private List<CastleStateDto> states;
+    private List<CastleStateDto> states = new ArrayList<>();
 
     public CastleStateBookDto() {
         //

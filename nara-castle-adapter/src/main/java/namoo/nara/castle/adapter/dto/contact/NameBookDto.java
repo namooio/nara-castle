@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class NameBookDto {
     //
-    private List<UserNameDto> names;
+    private List<UserNameDto> names = new ArrayList<>();
 
     public NameBookDto() {
         //

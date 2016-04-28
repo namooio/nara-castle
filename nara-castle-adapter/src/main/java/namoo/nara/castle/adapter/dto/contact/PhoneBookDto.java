@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class PhoneBookDto {
     //
-    private List<UserPhoneDto> phones;
+    private List<UserPhoneDto> phones = new ArrayList<>();
 
     public PhoneBookDto() {
         //

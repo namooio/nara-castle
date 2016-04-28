@@ -63,11 +63,9 @@ public class DomainConversionUtil {
     public static AddressBookDto toAddressBookDto(AddressBook addressBook) {
         //
         AddressBookDto addressBookDto = new AddressBookDto();
-        List<UserAddress> addressList = addressBook.findAll();
-        if (addressList != null) {
-            for(UserAddress userAddress : addressList) {
-                addressBookDto.addAddressDto(toUserAddressDto(userAddress));
-            }
+
+        for(UserAddress userAddress : addressBook.findAll()) {
+            addressBookDto.addAddressDto(toUserAddressDto(userAddress));
         }
         return addressBookDto;
     }
@@ -87,11 +85,9 @@ public class DomainConversionUtil {
     public static EmailBookDto toEmailBookDto(EmailBook emailBook) {
         //
         EmailBookDto emailBookDto = new EmailBookDto();
-        List<UserEmail> emailList = emailBook.findAll();
-        if (emailList != null) {
-            for(UserEmail userEmail : emailList) {
-                emailBookDto.addEmailDto(toUserEmailDto(userEmail));
-            }
+
+        for(UserEmail userEmail : emailBook.findAll()) {
+            emailBookDto.addEmailDto(toUserEmailDto(userEmail));
         }
         return emailBookDto;
     }
@@ -111,11 +107,9 @@ public class DomainConversionUtil {
     public static NameBookDto toNameBookDto(NameBook nameBook) {
         //
         NameBookDto nameBookDto = new NameBookDto();
-        List<UserName> nameList = nameBook.findAll();
-        if (nameList != null) {
-            for(UserName userName : nameList) {
-                nameBookDto.addNameDto(toUserNameDto(userName));
-            }
+
+        for(UserName userName : nameBook.findAll()) {
+            nameBookDto.addNameDto(toUserNameDto(userName));
         }
         return nameBookDto;
     }
@@ -135,11 +129,9 @@ public class DomainConversionUtil {
     public static PhoneBookDto toPhoneBookDto(PhoneBook phoneBook) {
         //
         PhoneBookDto phoneBookDto = new PhoneBookDto();
-        List<UserPhone> phoneList = phoneBook.findAll();
-        if (phoneList != null) {
-            for(UserPhone userPhone : phoneList) {
-                phoneBookDto.addPhoneDto(toUserPhoneDto(userPhone));
-            }
+
+        for(UserPhone userPhone : phoneBook.findAll()) {
+            phoneBookDto.addPhoneDto(toUserPhoneDto(userPhone));
         }
         return phoneBookDto;
     }
@@ -256,13 +248,10 @@ public class DomainConversionUtil {
     public static AccountBookDto toAccountBookDto(AccountBook accountBook) {
         //
         AccountBookDto accountBookDto = new AccountBookDto();
-        List<LoginAccount> accountList = accountBook.findAll();
-        if (accountList != null) {
-            for(LoginAccount loginAccount : accountList) {
-                accountBookDto.addAccountDto(toLoginAccountDto(loginAccount));
-            }
-        }
 
+        for(LoginAccount loginAccount : accountBook.findAll()) {
+            accountBookDto.addAccountDto(toLoginAccountDto(loginAccount));
+        }
         return accountBookDto;
     }
 
@@ -282,11 +271,9 @@ public class DomainConversionUtil {
     public static CastleStateBookDto toCastleStateBookDto(CastleStateBook castleStateBook) {
         //
         CastleStateBookDto castleStateBookDto = new CastleStateBookDto();
-        List<CastleState> stateList = castleStateBook.findAll();
-        if (stateList != null) {
-            for(CastleState castleState : stateList) {
-                castleStateBookDto.addStateDto(toCastleStateDto(castleState));
-            }
+
+        for(CastleState castleState : castleStateBook.findAll()) {
+            castleStateBookDto.addStateDto(toCastleStateDto(castleState));
         }
         return castleStateBookDto;
     }
@@ -346,11 +333,9 @@ public class DomainConversionUtil {
     public static MetroBookDto toMetroBookDto(MetroBook metroBook) {
         //
         MetroBookDto metroBookDto = new MetroBookDto();
-        List<ParticipantMetro> metroList = metroBook.findAll();
-        if (metroList != null) {
-            for(ParticipantMetro metro : metroList) {
-                metroBookDto.addMetroDto(toParticipantMetroDto(metro));
-            }
+
+        for(ParticipantMetro metro : metroBook.findAll()) {
+            metroBookDto.addMetroDto(toParticipantMetroDto(metro));
         }
         return metroBookDto;
     }

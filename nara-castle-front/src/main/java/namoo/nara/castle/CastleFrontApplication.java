@@ -1,9 +1,13 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.CastellanAdapter;
+import namoo.nara.castle.adapter.CastellanContactAdapter;
 import namoo.nara.castle.adapter.CastleAdapter;
+import namoo.nara.castle.adapter.CastleHistoryAdapter;
 import namoo.nara.castle.client.CastellanClient;
+import namoo.nara.castle.client.CastellanContactClient;
 import namoo.nara.castle.client.CastleClient;
+import namoo.nara.castle.client.CastleHistoryClient;
 import namoo.nara.share.restclient.springweb.SpringWebRestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -31,8 +35,18 @@ public class CastleFrontApplication {
     }
 
     @Bean
-    public CastellanAdapter createCasellanClient() {
+    public CastellanAdapter createCastellanClient() {
         return new CastellanClient(new SpringWebRestClient(castleApiHost));
+    }
+
+    @Bean
+    public CastellanContactAdapter createCastellanContactClient() {
+        return new CastellanContactClient(new SpringWebRestClient(castleApiHost));
+    }
+
+    @Bean
+    public CastleHistoryAdapter createCastleHistoryClient() {
+        return new CastleHistoryClient(new SpringWebRestClient(castleApiHost));
     }
 
 }

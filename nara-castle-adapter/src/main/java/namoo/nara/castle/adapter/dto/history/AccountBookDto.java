@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class AccountBookDto {
     //
-    private List<LoginAccountDto> accounts;
+    private List<LoginAccountDto> accounts = new ArrayList<>();
 
     public AccountBookDto() {
         //

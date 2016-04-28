@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class MetroBookDto {
     //
-    private List<ParticipantMetroDto> metros;
+    private List<ParticipantMetroDto> metros = new ArrayList<>();
 
     public MetroBookDto() {
         //

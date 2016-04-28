@@ -1,5 +1,6 @@
 package namoo.nara.castle.pr.springweb;
 
+import namoo.nara.castle.adapter.CastellanAdapter;
 import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
@@ -24,6 +25,10 @@ public class CastleApiController {
     @Autowired
     private CastleAdapter castleAdapter;
 
+    @Autowired
+    private CastellanAdapter castellanAdapter;
+
+
     @RequestMapping(method = RequestMethod.GET)
     public List<CastleFindDto> findAllCastles() {
         //
@@ -35,51 +40,12 @@ public class CastleApiController {
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public CastleFindDto find(@PathVariable("id") String castleId) {
         //
-        System.out.println("Execute find -> id: " + castleId);
-        return TemporaryCastleStore.findCastle(castleId);
-    }
+        CastleFindDto castle = castleAdapter.findCastle(castleId);
+        CastellanFindDto castellan = castellanAdapter.findCastellan(castleId);
 
-    @RequestMapping(value="/{id}/name-book", method= RequestMethod.GET)
-    public NameBookDto findNameBook(@PathVariable("id") String castleId) {
-        //
-        System.out.println("Execute find nameBook -> id: " + castleId);
-        return TemporaryCastleStore.findNameBook(castleId);
-    }
+        castle.setCastellan(castellan);
 
-    @RequestMapping(value="/{id}/phone-book", method= RequestMethod.GET)
-    public PhoneBookDto findPhoneBook(@PathVariable("id") String castleId) {
-        System.out.println("Execute find phoneBook -> id: " + castleId);
-        return TemporaryCastleStore.findPhoneBook(castleId);
-    }
-
-    @RequestMapping(value="/{id}/email-book", method= RequestMethod.GET)
-    public EmailBookDto findEmailBook(@PathVariable("id") String castleId) {
-        System.out.println("Execute find emailBook -> id: " + castleId);
-        return TemporaryCastleStore.findEmailBook(castleId);
-    }
-
-    @RequestMapping(value="/{id}/address-book", method= RequestMethod.GET)
-    public AddressBookDto findAddressBook(@PathVariable("id") String castleId) {
-        System.out.println("Execute find addressBook -> id: " + castleId);
-        return TemporaryCastleStore.findAddressBook(castleId);
-    }
-
-    @RequestMapping(value="/{id}/account-book", method= RequestMethod.GET)
-    public AccountBookDto findAccountBook(@PathVariable("id") String castleId) {
-        System.out.println("Execute find accountBook -> id: " + castleId);
-        return TemporaryCastleStore.findAccountBook(castleId);
-    }
-
-    @RequestMapping(value="/{id}/state-book", method= RequestMethod.GET)
-    public CastleStateBookDto findStateBook(@PathVariable("id") String castleId) {
-        System.out.println("Execute find stateBook -> id: " + castleId);
-        return TemporaryCastleStore.findStateBook(castleId);
-    }
-
-    @RequestMapping(value="/{id}/metro-book", method= RequestMethod.GET)
-    public MetroBookDto findMetroBook(@PathVariable("id") String castleId) {
-        System.out.println("Execute find metroBook -> id: " + castleId);
-        return TemporaryCastleStore.findMetroBook(castleId);
+        return castle;
     }
 
 

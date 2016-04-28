@@ -12,8 +12,7 @@ public class UserEmail {
 
     public UserEmail(String email) {
         //
-        this.email = email;
-        this.verified = false;
+        this(email, EmailType.Private);
     }
 
     public UserEmail(String email, EmailType emailType) {
@@ -59,4 +58,5 @@ public class UserEmail {
         Business,
         Private
     }
+
 }
