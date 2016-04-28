@@ -6,6 +6,7 @@ import namoo.nara.castle.adapter.dto.history.CastleStateBookDto;
 import namoo.nara.castle.adapter.dto.history.LoginAccountDto;
 import namoo.nara.castle.adapter.dto.history.MetroBookDto;
 import namoo.nara.castle.domain.entity.history.LoginAccount;
+import namoo.nara.castle.domain.entity.history.MetroBook;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +49,7 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
 
         getCastleHistoryClient().detachAccountBook(id);
         accountBookDto = getCastleHistoryClient().findAccountBook(id);
-        Assert.assertNull(accountBookDto.getAccounts());
+        Assert.assertEquals(0, accountBookDto.getAccounts().size());
     }
 
     @Test
@@ -62,7 +63,7 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
 
         getCastleHistoryClient().detachAccountBook(id);
         castleStateBookDto = getCastleHistoryClient().findCastleStateBook(id);
-        Assert.assertNull(castleStateBookDto.getStates());
+        Assert.assertEquals(0, castleStateBookDto.getStates().size());
     }
 
     @Test
@@ -76,6 +77,6 @@ public class CastleHistoryServiceTest extends AbstractCastleServiceApplicationTe
 
         getCastleHistoryClient().detachAccountBook(id);
         metroBookDto = getCastleHistoryClient().findMetroBook(id);
-        Assert.assertNull(metroBookDto.getMetros());
+        Assert.assertEquals(0, metroBookDto.getMetros().size());
     }
 }
