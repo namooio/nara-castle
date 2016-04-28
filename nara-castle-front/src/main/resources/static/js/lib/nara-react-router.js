@@ -2,121 +2,214 @@
  * Created by hkkang on 2016-04-07.
  */
 
-var NaraReactRouter = NaraReactRouter || {};
+var NaraReactRouter = NaraReactRouter || { };
 
+/**
+ * <p>Router url mapping object structure</p>
+ *
+ * <pre>
+ *  {
+ *      'hashUrl' [object] : {
+ *          type [string] : Mapping type [REQUEST | REDIRECT],
+ *          resourcess [object array] : [
+ *              {
+ *                  path [string] : 'resource path',
+ *                  component [object] : {
+ *                      namespace [object] : Namespace of Component,
+ *                      name [string] : Component name in namespace
+ *                  }
+ *              },
+ *              ...
+ *          ]
+ *      },
+ *      ...
+ *  }
+ * </pre>
+ */
 
-(function () {
+/**
+ * <p>Router url mapping sample</p>
+ *
+ * <pre>
+ *  {
+ *      '#' : {
+ *          type : 'REDIRECT',
+ *          redirectUrl : '#/inquiery'
+ *      },
+ *      '#/inquiry' : {
+ *          type : 'REQUEST',
+ *          resourcess : [
+ *              {
+ *                  path : '/js/castellan/view.jsx',
+ *                  component : {
+ *                      namespace : Components.Castellan,
+ *                      name : 'View'
+ *                  }
+ *              }
+ *          ]
+ *      },
+ *      '#/castle/list' : {
+ *          type : 'REQUEST',
+ *          resourcess : [
+ *              {
+ *                  path : '/js/castle/list.jsx',
+ *                  component : {
+ *                      namespace : Components.Castle,
+ *                      name : 'List'
+ *                  }
+ *              }
+ *          ]
+ *  }
+ * </pre>
+ */
+
+( function () {
     //
-    // Import component module
     'use strict';
 
-    var namespace = {},
-        mapping = {},
-        componentCache = {},
-        mappingType = {
-            REQUEST: "REQ",
-            REDIRECT: "RDR"
-        };
+    // Import  module
+    var commonAjax = NaraCommon.Ajax;
 
-    function initialize(scriptLoadCallback) {
+
+    var namespace = { };
+
+
+    // Mapping type object
+    var mappingType = {
+        REQUEST: "REQ",
+        REDIRECT: "RDR"
+    };
+
+    // URL mapping object
+    var urlMapper = {
+        mappings: { },
+        getMapping: function (url) {
+            return this.mappings[url];
+        },
+        addRequest: function (url, resources) {
+            //
+            if (typeof url !== 'string' || !Array.isArray(resources) || resources.length === 0) {
+                console.error('Invaild url or resourcess for router mapping -> url: ' + url + ', resourcess: ' + resources);
+                return;
+            }
+            this.mappings[url] = { type: mappingType.REQUEST, resources: resources };
+        },
+        addRedirect: function (url, redirectUrl) {
+            //
+            if (typeof url !== 'string' || typeof redirectUrl !== 'string' ) {
+                console.error('Invaild url or redirectUrl for router redirect mapping -> url: ' + url + ', redirectUrl: ' + redirectUrl);
+                return;
+            }
+            this.mappings[url] = { type: mappingType.REDIRECT, redirectUrl: redirectUrl };
+        }
+    };
+
+    // Component cache object
+    var componentCache = {
+        caches : { },
+        add: function (hashUrl, index, componentName, component) {
+            this.caches[hashUrl + '_' + index + '_' + componentName] = component;
+        },
+        get: function (hashUrl, index, componentName) {
+            return this.caches[hashUrl + '_' + index + '_' + componentName];
+        }
+    };
+
+
+    /**
+     *
+     * <pre>
+     *  initParam = {
+     *      loadedScriptCallback [function] : Callback after script loading,
+     *      pageNotFoundMapping [object] : {
+     *          path [string] : Error page resource path,
+     *          componentNameSapce [object] : Component namespace object,
+     *          componentName [string] : 'Error'
+     *      }
+     *  }
+     * </pre>
+     *
+     * @param initParam
+     */
+    namespace.initialize = function initialize(initParam) {
         //
+        if (!initParam) {
+            alert('Invaild initialization param of nara-react-router -> ' + initParam);
+        }
+        var callback = initParam.loadedScriptCallback,
+            pageNotFoundMapping = initParam.pageNotFoundMapping;
+
+
         window.addEventListener('hashchange', function () {
-            navigate(scriptLoadCallback);
+            navigate(callback, pageNotFoundMapping);
         });
-        navigate(scriptLoadCallback);
+        navigate(callback, pageNotFoundMapping);
     }
 
     /**
      * Add url mappaing information at router
      *
-     * <p>Router url mapping object structure</p>
-     * <pre>
-     * {
-     *  'hashUrl' [object] : {
-     *      resourcess [object array] : [
-     *          {
-     *              path [string] : 'resource path',
-     *              render [function] : Layout rendering function of JavaScript React
-     *          },
-     *          ...
-     *      ]
-     *  },
-     *  ...
-     * }
-     * </pre>
-     * <p>Router url mapping sample</p>
-     * <pre>
-     * CastleRouter.mapping = {
-     *  '#/inquiry' : {
-     *      resourcess : [
-     *          {
-     *              path : '/js/castellan/view.jsx',
-     *              render : CastleComponent.View.renderLayout
-     *          }
-     *      ]
-     *  },
-     *  '#/register' : {
-     *      resourcess : [
-     *          {
-     *              path : '/js/castellan/register.jsx',
-     *              render : CastleComponent.TopMenu.renderLayout
-     *          }
-     *      ]
-     * }
-     *</pre>
-     *
      * @param url
      * @param resources
      */
-    function addMapping(url, resources) {
+    namespace.addMapping = function addMapping(url, resources) {
         //
-        if (!mapping) {
-            mapping = {};
+        urlMapper.addRequest(url, resources);
+    };
+
+    /**
+     * Add url mapping for redirect
+     *
+     * @param url
+     * @param redirectUrl
+     */
+    namespace.addRedirect = function addRedirect(url, redirectUrl) {
+        //
+        urlMapper.addRedirect(url, redirectUrl);
+    };
+
+    function navigate(loadedScriptCallback, pageNotFoundMapping) {
+        //
+        var hashUrlAndParams = getHashUrlAndParams(),
+            hashUrl = hashUrlAndParams.hashUrl,
+            paramsObj = hashUrlAndParams.params,
+            mappingInfo = urlMapper.getMapping(hashUrl);
+
+        // Not exists mapping information
+        if (!mappingInfo) {
+            console.error('Not found url mapping from router -> url: ' + hashUrl);
+            var errorResourcePath = pageNotFoundMapping.path;
+
+            commonAjax.getScript(errorResourcePath, function () {
+                //
+                var componentNamespace = pageNotFoundMapping.componentNameSpace,
+                    componentName = pageNotFoundMapping.componentName,
+                    component = componentNamespace[componentName];
+
+                loadedScriptCallback(component);
+            });
+
+            return;
         }
 
-        if (typeof url === 'string' && Array.isArray(resources)) {
-            mapping[url] = { resources: resources };
+
+        if (mappingInfo.type === mappingType.REQUEST) {
+            doRequest(hashUrl, mappingInfo.resources, paramsObj, loadedScriptCallback);
         }
-        else if (typeof url === 'string' && typeof resources === 'string') {
-            mapping[url] = { resource: resources };
+        else if (mappingInfo.type === mappingType.REDIRECT) {
+            doRedirect(mappingInfo.redirectUrl);
         }
         else {
-            console.error('Invaild url or resourcess for router mapping -> url: ' + url + ', resourcess' + resources);
+            console.error('invalid mapping type in router mappings, something wrong...');
         }
     }
 
-    function navigate(scriptLoadCallback) {
+    function getHashUrlAndParams() {
         //
-        console.debug('Navigate!!');
-
         var hashLocation = window.location.hash.split('?'),
             hashUrl = hashLocation[0],
             paramsText = hashLocation[1],
-            paramObj = {},
-            mappingResources;
-
-        console.info('Execute castle-router.js navigate()');
-
-        if (!mapping[hashUrl]) {
-            console.error('Not found url mapping from router -> url: ' + hashUrl);
-            var errorResourcePath = './resources/js/common/error.jsx';
-
-            getJSX(errorResourcePath, function () {
-                //
-                console.info('Execute castle-router.js navigate() error page');
-                var componentNamespace = Components.Castle,
-                    componentName = 'Common',
-                    component = componentNamespace[componentName];
-
-                scriptLoadCallback(component);
-            });
-            return;
-        }
-        mappingResources = mapping[hashUrl].resources;
-        if (!mappingResources || mappingResources.length === 0) {
-            console.error('Resource is empty -> url: ' + hashUrl + ', resource: ' + mappingResources);
-            return;
-        }
+            paramsObj = {};
 
         if (paramsText) {
             var paramItems = paramsText.split('&');
@@ -126,64 +219,58 @@ var NaraReactRouter = NaraReactRouter || {};
                     var paramName = item.split('=')[0],
                         paramValue = item.split('=')[1];
 
-                    paramObj[paramName] = paramValue;
+                    paramsObj[paramName] = paramValue;
                 });
             }
         }
 
+        return {
+            hashUrl: hashUrl,
+            params : paramsObj
+        };
+    }
+
+    function doRequest(hashUrl, mappingResources, paramsObj, callback) {
+        //
         // TODO: 콜백 함수 비동기 아닌 동기로 작동하도록 (이전 스크립트 로드 된 후 다음 스크립트 로드의 콜백 동작하도록 보장해야함)
-        mappingResources.forEach(function (resourceItem, index) {
+        mappingResources.forEach( function (resourceItem, index) {
             //
-            var resourceComponent = resourceItem.component,
-                component = resourceComponent.namespace[resourceComponent.name],
+            var componentInfo = resourceItem.component,
+                component = componentCache.get(hashUrl, index, componentInfo.name),
                 executable = false;
 
             if (index === (mappingResources.length - 1)) {
-               executable = true;
+                executable = true;
             }
 
-            if (executable && component) {
-                scriptLoadCallback(component, paramObj);
+            // Component exists in the cache
+            if (component) {
+                if (executable) {
+                    callback(component, paramsObj)
+                }
             }
+            // Component not exists, get server
             else {
-                getJSX(resourceItem.path, function () {
+                commonAjax.getScript(resourceItem.path, function () {
                     //
-                    if (executable) {
-                        componentCache[resourceComponent.namespace.name + resourceComponent.name] = resourceComponent;
-                        component = resourceComponent.namespace[resourceComponent.name];
+                    component = componentInfo.namespace[componentInfo.name];
+                    componentCache.add(hashUrl, index, componentInfo.name, component);
 
-                        scriptLoadCallback(component, paramObj);
+                    if (executable) {
+                        callback(component, paramsObj);
                     }
                 });
             }
         });
     }
 
-    function getJSX(url, callback) {
+    function doRedirect(redirectUrl) {
         //
-        $.ajax({
-            url: url,
-            method: 'GET',
-            cache: false,
-            success : function (result) {
-                babel.transform.run(result);
-
-                if (callback && typeof callback === 'function') {
-                    callback(result);
-                }
-            },
-            error: function (result) {
-                alert('Fail CastleCommon.getJSX');
-                console.info(result);
-            }
-        });
+        window.location.hash = redirectUrl;
     }
 
 
-    namespace.initialize = initialize;
-    namespace.addMapping = addMapping;
     namespace.MappingType = mappingType;
-    namespace.mapping = mapping;
 
     NaraReactRouter = namespace;
 })();

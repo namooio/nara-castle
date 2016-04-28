@@ -1,17 +1,19 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.EmailBook = Components.Castle.EmailBook || {};
+Components.Castle.EmailBook = Components.Castle.EmailBook || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
+
 
     // Define Content attributes name
     var castleEmailModel = {
@@ -23,14 +25,14 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
         },
         messages: {
             notRegisteredEmail: { KOR: '등록 된 email이 없습니다', USA: 'Not registered the email' }
-        },
+        }
     };
 
     // Define components
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_EMAIL_BOOK_URL: castleConst.CTX + '/api/castle/{id}/email-book'
+            FIND_EMAIL_BOOK_URL: constant.CTX + '/api/castle/{id}/email-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -51,7 +53,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
             this.setState({contentModifiable: false});
         },
         requestEmailBook: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_EMAIL_BOOK_URL.replace('{id}', props.id))
                 .done( function (emailBookResult) {
                     this.setState({ emailBook: emailBookResult });
@@ -166,7 +168,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
         propTypes: {
             emailBook: React.PropTypes.shape({
                 emails: React.PropTypes.array.isRequired
-            }).isRequired,
+            }).isRequired
         },
         render: function () {
             var ATTRS = castleEmailModel.attrs,
@@ -194,7 +196,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
                                         <td>{email[ATTRS.email.name]}</td>
                                         <td>{email[ATTRS.emailType.name]}</td>
                                         <td>{(email[ATTRS.verified.name]).toString()}</td>
-                                        <td>{castleCommon.Date.parseToString(email[ATTRS.verifiedTime.name])}</td>
+                                        <td>{commonDate.parseToString(email[ATTRS.verifiedTime.name])}</td>
                                     </tr>
                                 )
                             })

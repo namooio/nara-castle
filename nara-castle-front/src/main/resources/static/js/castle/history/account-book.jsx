@@ -1,17 +1,19 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.AccountBook = Components.Castle.AccountBook || {};
+Components.Castle.AccountBook = Components.Castle.AccountBook || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
+
 
     // Define Content attributes name
     var castleAccountModel = {
@@ -30,7 +32,7 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_ACCOUNT_BOOK_URL: castleConst.CTX + '/api/castle/{id}/account-book'
+            FIND_ACCOUNT_BOOK_URL: constant.CTX + '/api/castle/{id}/account-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -51,7 +53,7 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
             this.setState({contentModifiable: false});
         },
         requestAccountBook: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_ACCOUNT_BOOK_URL.replace('{id}', props.id))
                 .done( function (accountBookResult) {
                     this.setState({ accountBook: accountBookResult });
@@ -192,8 +194,8 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
                                 <tr key={index}>
                                     <td>{account[ATTRS.loginUserId.name]}</td>
                                     <td>{account[ATTRS.channel.name]}</td>
-                                    <td>{castleCommon.Date.parseToString(account[ATTRS.createTime.name])}</td>
-                                    <td>{castleCommon.Date.parseToString(account[ATTRS.deleteTime.name])}</td>
+                                    <td>{commonDate.parseToString(account[ATTRS.createTime.name])}</td>
+                                    <td>{commonDate.parseToString(account[ATTRS.deleteTime.name])}</td>
                                 </tr>
                             )
                         })

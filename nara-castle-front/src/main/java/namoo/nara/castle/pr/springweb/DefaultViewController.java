@@ -11,7 +11,6 @@ public class DefaultViewController {
     //
     @RequestMapping("/")
     public String main() {
-        System.out.println("Hello Default view");
         return "/resources/index.html";
     }
 

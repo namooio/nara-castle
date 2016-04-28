@@ -1,17 +1,19 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.MetroBook = Components.Castle.MetroBook || {};
+Components.Castle.MetroBook = Components.Castle.MetroBook || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
+
 
     // Define Content attributes name
     var castleMetroModel = {
@@ -31,7 +33,7 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_METRO_BOOK: castleConst.CTX + '/api/castle/{id}/metro-book'
+            FIND_METRO_BOOK: constant.CTX + '/api/castle/{id}/metro-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -52,7 +54,7 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
             this.setState({contentModifiable: false});
         },
         requestMetroBook: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_METRO_BOOK.replace('{id}', props.id))
                 .done( function (metroBookResult) {
                     this.setState({ metroBook: metroBookResult });
@@ -192,8 +194,8 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
                                 <tr key={metro[ATTRS.metroId.name]}>
                                     <td>{metro[ATTRS.metroId.name]}</td>
                                     <td>{metro[ATTRS.metroName.name]}</td>
-                                    <td>{castleCommon.Date.parseToString(metro[ATTRS.joinTime.name])}</td>
-                                    <td>{castleCommon.Date.parseToString(metro[ATTRS.withdrawalTime.name])}</td>
+                                    <td>{commonDate.parseToString(metro[ATTRS.joinTime.name])}</td>
+                                    <td>{commonDate.parseToString(metro[ATTRS.withdrawalTime.name])}</td>
                                     <td>{metro[ATTRS.remarks.name]}</td>
                                 </tr>
                             )

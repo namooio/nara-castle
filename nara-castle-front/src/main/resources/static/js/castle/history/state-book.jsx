@@ -1,22 +1,24 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.StateBook = Components.Castle.StateBook || {};
+Components.Castle.StateBook = Components.Castle.StateBook || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
+
 
     // Define Content attributes name
     var castleStateModel = {
         statics: {
-            FIND_STATE_BOOK_URL: castleConst.CTX + '/api/castle/{id}/state-book'
+            FIND_STATE_BOOK_URL: constant.CTX + '/api/castle/{id}/state-book'
         },
         attrs: {
             currentState:   { name: 'currentState', KOR: '현재상태',    USA: 'Current state' },
@@ -33,7 +35,7 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_STATE_BOOK_URL: castleConst.CTX + '/api/castle/{id}/state-book'
+            FIND_STATE_BOOK_URL: constant.CTX + '/api/castle/{id}/state-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -54,7 +56,7 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
             this.setState({contentModifiable: false});
         },
         requestStateBook: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_STATE_BOOK_URL.replace('{id}', props.id))
                 .done( function (stateBookResult) {
                     this.setState({ stateBook: stateBookResult });
@@ -197,7 +199,7 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
                                     <td>{state[ATTRS.currentState.name]}</td>
                                     <td>{state[ATTRS.targetState.name]}</td>
                                     <td>{state[ATTRS.remarks.name]}</td>
-                                    <td>{castleCommon.Date.parseToString(state[ATTRS.modifiedTime.name])}</td>
+                                    <td>{commonDate.parseToString(state[ATTRS.modifiedTime.name])}</td>
                                 </tr>
                             )
                         })

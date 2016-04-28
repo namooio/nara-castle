@@ -1,22 +1,26 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.Common = Components.Castle.Common || {};
+Components.Common.Error = Components.Common.Error || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
     var mainComponent = Components.Main;
 
+
     // Define Content properties name
     var errorModel = {
         messages : {
-            notFoundPage: { title: { KOR: '404', USA: '404'}, message: { KOR: '요청 된 URL 주소가 잘못 되었습니다.', USA: 'Invalid the requested URL'} }
+            notFoundPage: {
+                title:      { KOR: '404',                                    USA: '404' },
+                message:    { KOR: '요청 된 URL 주소가 잘못 되었습니다.',    USA: 'Invalid the requested URL' }
+            }
         },
         buttons : {
-            back: { KOR: '뒤로가기', USA: 'Previous page'}
+            back: { KOR: '뒤로가기', USA: 'Previous page' }
         }
     };
 
@@ -47,5 +51,5 @@ Components.Castle.Common = Components.Castle.Common || {};
     });
 
 
-    Components.Castle.Common = ErrorPage;
+    Components.Common.Error = ErrorPage;
 })();

@@ -1,17 +1,18 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.NameBook = Components.Castle.NameBook || {};
+Components.Castle.NameBook = Components.Castle.NameBook || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
+
 
     // Define Content attributes name
     var castleNameModel = {
@@ -31,7 +32,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
     var CastleDetailPage = React.createClass({
         //
         statics : {
-            FIND_NAME_BOOK_URL: castleConst.CTX + '/api/castle/{id}/name-book'
+            FIND_NAME_BOOK_URL: constant.CTX + '/api/castle/{id}/name-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -53,7 +54,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
             this.setState({contentModifiable: false});
         },
         requestNameBook: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_NAME_BOOK_URL.replace('{id}', props.id))
                 .done( function (nameBookResult) {
                     this.setState({ nameBook: nameBookResult });
@@ -112,7 +113,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
                                     <a href={"#/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[lang]}</a>
                                 </li>
                                 <li>
-                                    <a href={"#/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.id}>{TAB_NAMES.metro[lang]}</a>
+                                    <a href={"#/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[lang]}</a>
                                 </li>
                             </ul>
                             <div className="tab-content">
@@ -166,7 +167,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
     var NameContent = React.createClass({
         propTypes: {
             nameBook: React.PropTypes.shape({
-                nemas: React.PropTypes.array.isRequired
+                names: React.PropTypes.array.isRequired
             }).isRequired
         },
         render: function () {

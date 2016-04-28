@@ -1,15 +1,16 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.List = Components.Castle.List || {};
+Components.Castle.List = Components.Castle.List || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var castleConst = CastleConst,
-        castleCommon = CastleCommon,
+    var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main;
 
     // Define content attributes
@@ -17,19 +18,19 @@ Components.Castle.List = Components.Castle.List || {};
         finder: {
             title: { KOR: 'Castle 검색', USA: 'Search Castle'},
             criteria: {
-                name: { KOR: '이름', USA: 'Name' }
+                name:   { KOR: '이름', USA: 'Name' }
             }
         },
         list: {
             header: {
                 id:             { KOR: '아이디',    USA: 'Id' },
-                name:         { KOR: '이름',      USA: 'Name' },
-                locale:       { KOR: '지역',      USA: 'Locale' },
-                primaryEmail: { KOR: '이메일',    USA: 'Email' },
-                primaryPhone: { KOR: '전화번호',  USA: 'Phone number' },
-                state:        { KOR: '상태',      USA: 'State' },
-                buildTime:    { KOR: '생성일시',  USA: 'Build tim,e' },
-                detail:       { KOR: '상세정보',  USA: 'Detail info' }
+                name:           { KOR: '이름',      USA: 'Name' },
+                locale:         { KOR: '지역',      USA: 'Locale' },
+                primaryEmail:   { KOR: '이메일',    USA: 'Email' },
+                primaryPhone:   { KOR: '전화번호',  USA: 'Phone number' },
+                state:          { KOR: '상태',      USA: 'State' },
+                buildTime:      { KOR: '생성일시',  USA: 'Build time' },
+                detail:         { KOR: '상세정보',  USA: 'Detail info' }
             }
         },
         buttons : {
@@ -43,7 +44,7 @@ Components.Castle.List = Components.Castle.List || {};
     // Define components
     var CastleListPage = React.createClass({
         statics : {
-            FIND_CASTLES_URL: castleConst.CTX + '/api/castle'
+            FIND_CASTLES_URL: constant.CTX + '/api/castle'
         },
         getInitialState: function () {
             return {
@@ -59,7 +60,7 @@ Components.Castle.List = Components.Castle.List || {};
         },
         findCastles: function (castleCriteria) {
             //
-            castleCommon
+            commonAjax
                 .getJSON(CastleListPage.FIND_CASTLES_URL)
                 .done(function (castlesResult) {
                     var notExistsMessage = castleListModel.messages.notExistsMessage,
@@ -179,7 +180,7 @@ Components.Castle.List = Components.Castle.List || {};
                                                 <td>{castle.castellan.primaryEmail}</td>
                                                 <td>{castle.castellan.primaryPhone}</td>
                                                 <td>{castle.state}</td>
-                                                <td>{castleCommon.Date.parseToString(castle.buildTime)}</td>
+                                                <td>{commonDate.parseToString(castle.buildTime)}</td>
                                                 <td><a href={"#/castle/basic?&id=" + castle.id}><span className="glyphicon glyphicon-book"/></a></td>
                                             </tr>
                                         )

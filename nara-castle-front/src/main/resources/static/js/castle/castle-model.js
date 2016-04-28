@@ -1,11 +1,12 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.Model = Components.Castle.Model || {};
+Components.Castle.Model = Components.Castle.Model || { };
 
-(function () {
+( function () {
     //
     'use strict';
+
 
     // Define Content attributes name
     var castleModel = {
@@ -24,7 +25,7 @@ Components.Castle.Model = Components.Castle.Model || {};
             },
             locale: {
                 ko: { KOR: '대한민국',  USA: 'Republic of Korea' },
-                us: { KOR: '미국',      USA: 'Unitied States of America' },
+                us: { KOR: '미국',      USA: 'Unitied States of America' }
             },
             language: {
                 KOR: { KOR: '한국어', USA: 'Korean' },
@@ -32,7 +33,7 @@ Components.Castle.Model = Components.Castle.Model || {};
             },
             countrycode: {
                 82: { KOR: '대한민국',  USA: 'Republic of Korea' },
-                1: { KOR: '미국',      USA: 'Unitied States of America' },
+                1: { KOR: '미국',      USA: 'Unitied States of America' }
             },
             emailType: {
                 Business:   { KOR: '업무용', USA: 'Businedss' },
@@ -56,7 +57,7 @@ Components.Castle.Model = Components.Castle.Model || {};
             account:    { name: 'account',  KOR: '계정이력',   USA: 'Account history' },
             state:      { name: 'state',    KOR: '상태이력',   USA: 'State history' },
             metro:      { name: 'metro',    KOR: '메트로이력', USA: 'Metro history' }
-        },
+        }
     };
 
 

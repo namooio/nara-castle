@@ -1,17 +1,18 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
+Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
+
 
     // Define Content attributes name
     var castlePhoneModel = {
@@ -30,7 +31,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_PHONE_BOOK_URL: castleConst.CTX + '/api/castle/{id}/phone-book'
+            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castle/{id}/phone-book'
 
         },
         propTypes : {
@@ -52,7 +53,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
             this.setState({contentModifiable: false});
         },
         requestPhoneBook: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
                 .done( function (phoneBookResult) {
                     this.setState({ phoneBook: phoneBookResult });

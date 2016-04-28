@@ -1,23 +1,20 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-Components.Main = Components.Main || {};
+Components.Main = Components.Main || { };
 
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
     var naraReactRouter = NaraReactRouter,
-        castleCommon = CastleCommon;
+        castleCommon = CastleCommon,
+        castleConst = CastleCommon.Const;
 
 
     // Define component
-    var renderLayout = function (contentComponent, params) {
-        ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, castleCommon.getContentsJDom());
-    };
-
     var MainPage = React.createClass({
         //
         statics: {
@@ -102,8 +99,8 @@ Components.Main = Components.Main || {};
                                 <li className="dropdown">
                                     <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language ({displayLang}) <span className="caret"/></a>
                                     <ul className="dropdown-menu" role="menu">
-                                        <li><a href="javascript:;" onClick={this.changeLanguageClick} data-lang="KOR">한국어</a></li>
-                                        <li><a href="javascript:;" onClick={this.changeLanguageClick} data-lang="USA">English</a></li>
+                                        <li><a href="javascript:" onClick={this.changeLanguageClick} data-lang="KOR">한국어</a></li>
+                                        <li><a href="javascript:" onClick={this.changeLanguageClick} data-lang="USA">English</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -117,23 +114,31 @@ Components.Main = Components.Main || {};
     var Content = React.createClass({
         //
         propTypes: {
-            contentComponent: React.PropTypes.func.isRequired
-            , params: React.PropTypes.object
+            contentComponent: React.PropTypes.func.isRequired,
+            params: React.PropTypes.object
         },
         render: function () {
-            console.info('Execute main.jsx content render');
-            console.dir(this.props.contentComponent);
-
-            var contentComponent = React.createElement(this.props.contentComponent);
-            console.dir(contentComponent);
-
             return (
                 React.createElement(this.props.contentComponent, this.props.params)
             );
         }
     });
 
-    naraReactRouter.initialize(renderLayout);
+    // Initialize nara router
+    var renderLayout = function (contentComponent, params) {
+        ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, castleCommon.getContentsJDom());
+    };
+
+    var initParam = {
+        loadedScriptCallback: renderLayout,
+        pageNotFoundMapping: {
+            path: castleConst.CTX + '/resources/js/common/error.jsx',
+            componentNameSpace: Components.Common,
+            componentName: 'Error'
+        }
+    };
+
+    naraReactRouter.initialize(initParam);
 
     Components.Main = MainPage;
 })();

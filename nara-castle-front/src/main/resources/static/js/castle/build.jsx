@@ -1,11 +1,12 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-Components.Castle.Build = Components.Castle.Build || {};
+Components.Castle.Build = Components.Castle.Build || { };
 
-(function () {
+( function () {
     //
     var CastellanRegisterer = React.createClass({
+        //
         getInitialState: function () {
             return {};
         },

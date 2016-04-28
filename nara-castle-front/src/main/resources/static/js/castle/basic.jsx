@@ -1,15 +1,18 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.Basic = Components.Castle.Basic || {};
+Components.Castle.Basic = Components.Castle.Basic || { };
 
-(function () {
+( function () {
     //
     'use strict';
 
+
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        commonObject = NaraCommon.Object,
+        commonDate = NaraCommon.Date,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
 
@@ -38,7 +41,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
     var CastleDetailPage = React.createClass({
         //
         statics : {
-            FIND_CASTLE_URL: castleConst.CTX + '/api/castle/{id}'
+            FIND_CASTLE_URL: constant.CTX + '/api/castle/{id}'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -60,10 +63,10 @@ Components.Castle.Basic = Components.Castle.Basic || {};
             this.setState({contentModifiable: false});
         },
         requestCastle: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_CASTLE_URL.replace('{id}', props.id))
                 .done( function (castleResult) {
-                    if (castleCommon.Object.isEmpty(castleResult)) {
+                    if (commonObject.isEmpty(castleResult)) {
                         var MESSAGES = castleBasicModel.messages,
                             lang = mainComponent.lang;
 
@@ -201,7 +204,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
                 propBasicInfo = this.props.basicInfo,
                 existsCastle = true;
 
-            if (castleCommon.Object.isEmpty(propBasicInfo) || castleCommon.Object.isEmpty(propBasicInfo.castellan)) {
+            if (commonObject.isEmpty(propBasicInfo) || commonObject.isEmpty(propBasicInfo.castellan)) {
                 existsCastle = false;
             }
 
@@ -262,7 +265,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
                     <div className="form-group">
                         <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.buildTime[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{castleCommon.Date.parseToString(propBasicInfo[CASTLE_ATTRS.buildTime.name])}</p>
+                            <p className="form-control-static">{commonDate.parseToString(propBasicInfo[CASTLE_ATTRS.buildTime.name])}</p>
                         </div>
                     </div>
 
@@ -300,7 +303,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
                 BUTTON_NAMES = contentProps.buttons,
                 propBasicInfo = this.props.basicInfo;
 
-            if (castleCommon.Object.isEmpty(propBasicInfo) || castleCommon.Object.isEmpty(propBasicInfo.castellan)) {
+            if (commonObject.isEmpty(propBasicInfo) || commonObject.isEmpty(propBasicInfo.castellan)) {
                 return (<p>Castle 정보가 없습니다.</p>);
             }
 
@@ -363,7 +366,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.buildTime[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{castleCommon.Date.parseToString(this.props.basicInfo[CASTLE_ATTRS.buildTime.name])}</p>
+                                    <p className="form-control-static">{commonDate.parseToString(this.props.basicInfo[CASTLE_ATTRS.buildTime.name])}</p>
                                 </div>
                             </div>
 

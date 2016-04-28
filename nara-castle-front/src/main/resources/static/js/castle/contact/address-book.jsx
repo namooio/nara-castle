@@ -8,10 +8,11 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
     'use strict';
 
     // Import component module
-    var castleCommon = CastleCommon,
-        castleConst = CastleConst,
+    var commonAjax = NaraCommon.Ajax,
+        constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
+
 
     // Define Content attributes name
     var castleAddressModel = {
@@ -36,7 +37,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_ADDRESS_BOOK_URL: castleConst.CTX + '/api/castle/{id}/address-book'
+            FIND_ADDRESS_BOOK_URL: constant.CTX + '/api/castle/{id}/address-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -57,7 +58,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
             this.setState({contentModifiable: false});
         },
         requestAddressBook: function (props) {
-            castleCommon
+            commonAjax
                 .getJSON(CastleDetailPage.FIND_ADDRESS_BOOK_URL.replace('{id}', props.id))
                 .done( function (addressBookResult) {
                     this.setState({ addressBook: addressBookResult });
@@ -194,7 +195,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                     [ATTRS.phoneNumber.name] : address[ATTRS.phoneNumber.name],
                     [ATTRS.state.name] : address[ATTRS.state.name],
                     [ATTRS.city.name] : address[ATTRS.city.name]
-                }
+                };
                 multipleRowAddresses.push(arrayFirstNode);
 
                 var arraySecondNode = {
@@ -202,7 +203,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                     odd: odd,
                     [ATTRS.addressPartOne.name] : address[ATTRS.addressPartOne.name],
                     [ATTRS.addressPartTwo.name] : address[ATTRS.addressPartTwo.name]
-                }
+                };
                 multipleRowAddresses.push(arraySecondNode);
 
                 odd = !odd;
