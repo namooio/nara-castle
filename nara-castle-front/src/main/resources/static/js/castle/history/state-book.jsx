@@ -17,9 +17,6 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
 
     // Define Content attributes name
     var castleStateModel = {
-        statics: {
-            FIND_STATE_BOOK_URL: constant.CTX + '/api/castle/{id}/state-book'
-        },
         attrs: {
             currentState:   { name: 'currentState', KOR: '현재상태',    USA: 'Current state' },
             targetState:    { name: 'targetState',  KOR: '다음상태',    USA: 'Target state' },
@@ -35,7 +32,7 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_STATE_BOOK_URL: constant.CTX + '/api/castle/{id}/state-book'
+            FIND_STATE_BOOK_URL: constant.CTX + '/api/castles/{id}/histories/state-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -175,7 +172,8 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
             }).isRequired
         },
         render: function () {
-            var ATTRS = castleStateModel.attrs,
+            var ENUMS = castleModel.enums,
+                ATTRS = castleStateModel.attrs,
                 MESSAGES = castleStateModel.messages,
                 lang = mainComponent.lang,
                 propStateBook = this.props.stateBook,
@@ -196,8 +194,8 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
                         propStateBook.states.map( function (state, index) {
                             return (
                                 <tr key={index}>
-                                    <td>{state[ATTRS.currentState.name]}</td>
-                                    <td>{state[ATTRS.targetState.name]}</td>
+                                    <td>{ENUMS.state[state[ATTRS.currentState.name]][lang]}</td>
+                                    <td>{ENUMS.state[state[ATTRS.targetState.name]][lang]}</td>
                                     <td>{state[ATTRS.remarks.name]}</td>
                                     <td>{commonDate.parseToString(state[ATTRS.modifiedTime.name])}</td>
                                 </tr>

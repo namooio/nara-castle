@@ -32,7 +32,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics : {
-            FIND_NAME_BOOK_URL: constant.CTX + '/api/castle/{id}/name-book'
+            FIND_NAME_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/name-book'
         },
         propTypes : {
             id: React.PropTypes.string

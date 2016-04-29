@@ -14,26 +14,26 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @RestController
-@RequestMapping("api/castle")
+@RequestMapping("api/castles/{id}/histories")
 public class CastleHistoryApiController {
     //
     @Autowired
     private CastleHistoryAdapter castleHistoryAdapter;
 
 
-    @RequestMapping(value="/{id}/account-book", method= RequestMethod.GET)
+    @RequestMapping(value="/account-book", method= RequestMethod.GET)
     public AccountBookDto findAccountBook(@PathVariable("id") String castleId) {
         //
         return castleHistoryAdapter.findAccountBook(castleId);
     }
 
-    @RequestMapping(value="/{id}/state-book", method= RequestMethod.GET)
+    @RequestMapping(value="/state-book", method= RequestMethod.GET)
     public CastleStateBookDto findStateBook(@PathVariable("id") String castleId) {
         //
         return castleHistoryAdapter.findCastleStateBook(castleId);
     }
 
-    @RequestMapping(value="/{id}/metro-book", method= RequestMethod.GET)
+    @RequestMapping(value="/metro-book", method= RequestMethod.GET)
     public MetroBookDto findMetroBook(@PathVariable("id") String castleId) {
         //
         return castleHistoryAdapter.findMetroBook(castleId);

@@ -5,7 +5,9 @@ import namoo.nara.castle.domain.entity.OpenState;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 6..
@@ -33,6 +35,13 @@ public class CastleDoc {
         castleDoc.setState(castle.getState().name());
         castleDoc.setBuildTime(castle.getBuildTime());
         return castleDoc;
+    }
+
+    public static List<Castle> toDomains(List<CastleDoc> castleDocuments) {
+        //
+        return castleDocuments.stream()
+                .map(CastleDoc::toDomain)
+                .collect(Collectors.toList());
     }
 
     public Castle toDomain() {

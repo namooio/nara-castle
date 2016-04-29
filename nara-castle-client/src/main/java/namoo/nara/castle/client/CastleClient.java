@@ -6,6 +6,7 @@ import namoo.nara.castle.adapter.CastleAdapter;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -78,5 +79,14 @@ public class CastleClient implements CastleAdapter {
                         .addPathParam("id", id)
                         .setResponseType(CastleFindDto.class)
         );
+    }
+
+    @Override
+    public List<CastleFindDto> findAllCastles() {
+        //
+         return naraRestClient.sendAndRecieve(
+                 RequestBuilder.create(CastleServiceUrl.URL_ALL_CASTLES_FIND)
+                         .setResponseType(List.class)
+         );
     }
 }

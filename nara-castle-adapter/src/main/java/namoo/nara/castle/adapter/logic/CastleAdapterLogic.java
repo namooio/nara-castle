@@ -8,6 +8,7 @@ import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -68,5 +69,11 @@ public class CastleAdapterLogic implements CastleAdapter {
         //
         Castle castle = castleService.findCastle(id);
         return DomainConversionUtil.toCastleFindDto(castle);
+    }
+
+    @Override
+    public List<CastleFindDto> findAllCastles() {
+        List<Castle> allCastles = castleService.findAllCastles();
+        return DomainConversionUtil.toCastleFindDtoList(allCastles);
     }
 }

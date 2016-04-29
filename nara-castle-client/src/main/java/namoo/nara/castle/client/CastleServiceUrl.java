@@ -9,6 +9,7 @@ import javax.ws.rs.HttpMethod;
  */
 public enum CastleServiceUrl implements NaraServiceUrl {
     //
+    URL_ALL_CASTLES_FIND                      ("castles",                                      HttpMethod.GET     ),
     URL_CASTLE_BUILD                          ("castles/{id}",                                 HttpMethod.POST     ),
     URL_CASTLE_FIND                           ("castles/{id}",                                 HttpMethod.GET      ),
     URL_CASTLE_SUSPEND                        ("castles/{id}/suspend",                         HttpMethod.PUT      ),

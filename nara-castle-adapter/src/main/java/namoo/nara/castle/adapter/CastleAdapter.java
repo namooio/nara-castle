@@ -3,6 +3,7 @@ package namoo.nara.castle.adapter;
 import namoo.nara.castle.adapter.dto.CastleBuildDto;
 import namoo.nara.castle.adapter.dto.CastleFindDto;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -16,4 +17,5 @@ public interface CastleAdapter {
     void modifyName(String id, String name);
     void modifyLocale(String id, Locale locale);
     CastleFindDto findCastle(String id);
+    List<CastleFindDto> findAllCastles();
 }

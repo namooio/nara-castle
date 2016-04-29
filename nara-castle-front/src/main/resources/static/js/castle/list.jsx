@@ -11,7 +11,8 @@ Components.Castle.List = Components.Castle.List || { };
     var commonAjax = NaraCommon.Ajax,
         commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
-        mainComponent = Components.Main;
+        mainComponent = Components.Main,
+        castleModel = Components.Castle.Model;
 
     // Define content attributes
     var castleListModel = {
@@ -33,9 +34,6 @@ Components.Castle.List = Components.Castle.List || { };
                 detail:         { KOR: '상세정보',  USA: 'Detail info' }
             }
         },
-        buttons : {
-            search: { KOR: '검색', USA: 'Find' }
-        },
         messages: {
             notExistsMessage: { KOR: 'Castle이 존재하지 않습니다.', USA: 'Not exists castle' }
         }
@@ -44,7 +42,7 @@ Components.Castle.List = Components.Castle.List || { };
     // Define components
     var CastleListPage = React.createClass({
         statics : {
-            FIND_CASTLES_URL: constant.CTX + '/api/castle'
+            FIND_CASTLES_URL: constant.CTX + '/api/castles'
         },
         getInitialState: function () {
             return {
@@ -107,7 +105,7 @@ Components.Castle.List = Components.Castle.List || { };
         },
         render: function () {
             var ATTRS = castleListModel.finder,
-                BUTTON_NAMES = castleListModel.buttons,
+                BUTTON_NAMES = castleModel.buttons,
                 lang = mainComponent.lang;
 
 
@@ -147,10 +145,11 @@ Components.Castle.List = Components.Castle.List || { };
         },
         render: function () {
             //
-            var ATTRS = castleListModel.list,
+            var ENUMS = castleModel.enums,
+                ATTRS = castleListModel.list,
                 MESSAGES = castleListModel.messages,
                 lang = mainComponent.lang,
-                existsCastle = (this.props.castles || this.props.castles.length > 0) ? true : false;
+                existsCastle = this.props.castles && this.props.castles.length > 0;
 
             return (
                 <div className="container" >
@@ -176,10 +175,10 @@ Components.Castle.List = Components.Castle.List || { };
                                             <tr key={castle.id}>
                                                 <td>{castle.id}</td>
                                                 <td>{castle.name}</td>
-                                                <td>{castle.locale}</td>
-                                                <td>{castle.castellan.primaryEmail}</td>
-                                                <td>{castle.castellan.primaryPhone}</td>
-                                                <td>{castle.state}</td>
+                                                <td>{ENUMS.locale[castle.locale][lang]}</td>
+                                                <td>{castle.castellan ? castle.castellan.primaryEmail : null}</td>
+                                                <td>{castle.castellan ? castle.castellan.primaryPhone : null}</td>
+                                                <td>{ENUMS.state[castle.state][lang]}</td>
                                                 <td>{commonDate.parseToString(castle.buildTime)}</td>
                                                 <td><a href={"#/castle/basic?&id=" + castle.id}><span className="glyphicon glyphicon-book"/></a></td>
                                             </tr>

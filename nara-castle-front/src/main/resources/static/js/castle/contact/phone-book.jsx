@@ -31,7 +31,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castle/{id}/phone-book'
+            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
 
         },
         propTypes : {

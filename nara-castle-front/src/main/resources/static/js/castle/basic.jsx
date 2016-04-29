@@ -41,7 +41,8 @@ Components.Castle.Basic = Components.Castle.Basic || { };
     var CastleDetailPage = React.createClass({
         //
         statics : {
-            FIND_CASTLE_URL: constant.CTX + '/api/castle/{id}'
+            FIND_CASTLE_URL: constant.CTX + '/api/castles/{id}',
+            FIND_CASTELLAN_URL: constant.CTX + '/api/castellans/{id}'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -63,9 +64,11 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             this.setState({contentModifiable: false});
         },
         requestCastle: function (props) {
+            //
             commonAjax
                 .getJSON(CastleDetailPage.FIND_CASTLE_URL.replace('{id}', props.id))
                 .done( function (castleResult) {
+                    //
                     if (commonObject.isEmpty(castleResult)) {
                         var MESSAGES = castleBasicModel.messages,
                             lang = mainComponent.lang;
@@ -73,7 +76,17 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                         alert(MESSAGES.notFoundCastle[lang].replace('{id}', props.id));
                         return;
                     }
+                    castleResult.castellan = {};
                     this.setState({ basicInfo: castleResult });
+
+                    commonAjax
+                        .getJSON(CastleDetailPage.FIND_CASTELLAN_URL.replace('{id}', props.id))
+                        .done( function (castellanResult) {
+                            var castle = this.state.basicInfo;
+
+                            castle.castellan = castellanResult;
+                            this.setState({ basicInfo: castle });
+                        }.bind(this));
                 }.bind(this));
         },
         render: function () {
@@ -197,75 +210,72 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             this.props.changeModifiableMode();
         },
         render: function () {
-            var ENUMS = castleModel.enum,
+            var ENUMS = castleModel.enums,
                 BUTTON_NAMES = castleModel.buttons,
-                CASTLE_ATTRS = castleBasicModel.attrs,
+                ATTRS = castleBasicModel.attrs,
                 lang = mainComponent.lang,
                 propBasicInfo = this.props.basicInfo,
-                existsCastle = true;
+                existsCastle = !commonObject.isEmpty(propBasicInfo) && propBasicInfo[ATTRS.id.name];
 
-            if (commonObject.isEmpty(propBasicInfo) || commonObject.isEmpty(propBasicInfo.castellan)) {
-                existsCastle = false;
-            }
 
             return (
                 <form className="form-horizontal">
                     <div className="form-group"><p>&nbsp;</p></div>
                     <div className="form-group">
-                        <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.id[lang]}</label>
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.id[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{propBasicInfo[CASTLE_ATTRS.id.name]}</p>
+                            <p className="form-control-static">{propBasicInfo[ATTRS.id.name]}</p>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.name[lang]}</label>
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.name[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{propBasicInfo[CASTLE_ATTRS.name.name]}</p>
+                            <p className="form-control-static">{propBasicInfo[ATTRS.name.name]}</p>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.locale[lang]}</label>
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.locale[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{existsCastle ? ENUMS.locale[propBasicInfo[CASTLE_ATTRS.locale.name]][lang] : null}</p>
+                            <p className="form-control-static">{existsCastle ? ENUMS.locale[propBasicInfo[ATTRS.locale.name]][lang] : null}</p>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.state[lang]}</label>
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.state[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{propBasicInfo[CASTLE_ATTRS.state.name]}</p>
+                            <p className="form-control-static">{existsCastle ? ENUMS.state[propBasicInfo[ATTRS.state.name]][lang] : null}</p>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.castellan.primaryEmail[lang]}</label>
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.primaryEmail[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{propBasicInfo.castellan[CASTLE_ATTRS.castellan.primaryEmail.name]}</p>
+                            <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.primaryEmail.name]}</p>
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.castellan.primaryPhone[lang]}</label>
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.primaryPhone[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{propBasicInfo.castellan[CASTLE_ATTRS.castellan.primaryPhone.name]}</p>
+                            <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.primaryPhone.name]}</p>
                         </div>
                     </div>
                     { this.props.modifiable ?
                         <div className="form-group">
-                            <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.castellan.photo[lang]}</label>
+                            <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photo[lang]}</label>
                             <div className="col-lg-7">
-                                <input type="text" className="form-control" value={propBasicInfo.castellan[CASTLE_ATTRS.castellan.photo.name]}/>
+                                <input type="text" className="form-control" value={propBasicInfo.castellan[ATTRS.castellan.photo.name]}/>
                             </div>
                         </div>
                         :
                         <div className="form-group">
-                            <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.castellan.photo[lang]}</label>
+                            <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photo[lang]}</label>
                             <div className="col-lg-7">
-                                <p className="form-control-static">{propBasicInfo.castellan[CASTLE_ATTRS.castellan.photo.name]}</p>
+                                <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
                             </div>
                         </div>
                     }
                     <div className="form-group">
-                        <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.buildTime[lang]}</label>
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.buildTime[lang]}</label>
                         <div className="col-lg-7">
-                            <p className="form-control-static">{commonDate.parseToString(propBasicInfo[CASTLE_ATTRS.buildTime.name])}</p>
+                            <p className="form-control-static">{commonDate.parseToString(propBasicInfo[ATTRS.buildTime.name])}</p>
                         </div>
                     </div>
 
@@ -299,7 +309,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             var lang = mainComponent.lang,
                 CASTLE_ATTRS = contentProps.basicInfo,
                 CASTELLAN_ATTRS = contentProps.basicInfo.castellan,
-                ENUMS = contentProps.enum,
+                ENUMS = contentProps.enums,
                 BUTTON_NAMES = contentProps.buttons,
                 propBasicInfo = this.props.basicInfo;
 

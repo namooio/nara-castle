@@ -32,7 +32,7 @@ public class UserNameDoc {
         userName.setFirstName(firstName);
         userName.setDisplayName(displayName);
         userName.setMiddleName(middleName);
-        userName.setLangCode(displayName);
+        userName.setLangCode(langCode);
         return userName;
     }
 

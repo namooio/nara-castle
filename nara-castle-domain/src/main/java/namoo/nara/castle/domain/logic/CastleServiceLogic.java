@@ -11,6 +11,7 @@ import namoo.nara.castle.domain.entity.history.ParticipantMetro;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.*;
 
+import java.util.List;
 import java.util.Locale;
 
 public class CastleServiceLogic implements CastleService {
@@ -126,6 +127,12 @@ public class CastleServiceLogic implements CastleService {
     public Castle findCastle(String id) {
         //
         return castleStore.retrieve(id);
+    }
+
+    @Override
+    public List<Castle> findAllCastles() {
+        //
+        return castleStore.retrieveAll();
     }
 
     /*

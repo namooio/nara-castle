@@ -9,6 +9,8 @@ import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 6..
  */
@@ -50,4 +52,11 @@ public class CastleMongoStore implements CastleStore {
         if (!castleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castle document[ID:%s] to delete.", id));
         castleMongoRepository.delete(id);
     }
+
+    @Override
+    public List<Castle> retrieveAll() {
+        //
+        return CastleDoc.toDomains(castleMongoRepository.findAll());
+    }
+
 }

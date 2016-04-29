@@ -32,7 +32,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_EMAIL_BOOK_URL: constant.CTX + '/api/castle/{id}/email-book'
+            FIND_EMAIL_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/email-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -171,7 +171,8 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
             }).isRequired
         },
         render: function () {
-            var ATTRS = castleEmailModel.attrs,
+            var ENUMS = castleModel.enums,
+                ATTRS = castleEmailModel.attrs,
                 MESSAGES = castleEmailModel.messages,
                 lang = mainComponent.lang,
                 propEmailBook = this.props.emailBook,
@@ -194,8 +195,8 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
                                 return (
                                     <tr key={email[ATTRS.email.name]}>
                                         <td>{email[ATTRS.email.name]}</td>
-                                        <td>{email[ATTRS.emailType.name]}</td>
-                                        <td>{(email[ATTRS.verified.name]).toString()}</td>
+                                        <td>{ENUMS.emailType[email[ATTRS.emailType.name]][lang]}</td>
+                                        <td>{ENUMS.verified[email[ATTRS.verified.name]][lang]}</td>
                                         <td>{commonDate.parseToString(email[ATTRS.verifiedTime.name])}</td>
                                     </tr>
                                 )

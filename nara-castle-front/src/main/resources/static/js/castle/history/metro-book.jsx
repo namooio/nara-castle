@@ -33,7 +33,7 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_METRO_BOOK: constant.CTX + '/api/castle/{id}/metro-book'
+            FIND_METRO_BOOK: constant.CTX + '/api/castles/{id}/histories/metro-book'
         },
         propTypes : {
             id: React.PropTypes.string

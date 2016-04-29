@@ -37,7 +37,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_ADDRESS_BOOK_URL: constant.CTX + '/api/castle/{id}/address-book'
+            FIND_ADDRESS_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/address-book'
         },
         propTypes : {
             id: React.PropTypes.string
@@ -175,7 +175,8 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
             }).isRequired
         },
         render: function () {
-            var ATTRS = castleAddressModel.attrs,
+            var ENUMS = castleModel.enums,
+                ATTRS = castleAddressModel.attrs,
                 MESSAGES = castleAddressModel.messages,
                 lang = mainComponent.lang,
                 propAddressBook = this.props.addressBook,
@@ -239,8 +240,8 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                                     return (
                                         <tr key={index} className={className}>
                                             <td>{address[ATTRS.title.name]}</td>
-                                            <td>{address[ATTRS.langCode.name]}</td>
-                                            <td>{address[ATTRS.style.name]}</td>
+                                            <td>{ENUMS.language[address[ATTRS.langCode.name]][lang]}</td>
+                                            <td>{ENUMS.addressStyle[address[ATTRS.style.name]][lang]}</td>
                                             <td>{address[ATTRS.country.name]}</td>
                                             <td>{address[ATTRS.zipCode.name]}</td>
                                             <td>{address[ATTRS.phoneNumber.name]}</td>

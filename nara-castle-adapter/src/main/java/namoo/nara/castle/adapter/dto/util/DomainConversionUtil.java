@@ -12,6 +12,7 @@ import namoo.nara.castle.domain.entity.history.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 22..
@@ -28,6 +29,12 @@ public class DomainConversionUtil {
         return castellanFindDto;
     }
 
+    public static List<CastleFindDto> toCastleFindDtoList(List<Castle> castles) {
+        return castles.stream()
+                .map(DomainConversionUtil::toCastleFindDto)
+                .collect(Collectors.toList());
+    }
+
     public static CastleFindDto toCastleFindDto(Castle castle) {
         //
         CastleFindDto castleFindDto = new CastleFindDto();
@@ -38,14 +45,6 @@ public class DomainConversionUtil {
         castleFindDto.setBuildTime(new Date(castle.getBuildTime()));
 
         return castleFindDto;
-    }
-
-    public static void main(String[] args) {
-        List<String> strs = null;
-
-        for (String str : strs) {
-            System.out.println(str);
-        }
     }
 
     public static AddressBook toAddressBook(AddressBookDto addressBookDto) {

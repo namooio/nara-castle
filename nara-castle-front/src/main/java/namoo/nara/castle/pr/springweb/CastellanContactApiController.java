@@ -15,32 +15,32 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @RestController
-@RequestMapping("api/castle")
+@RequestMapping("api/castellans/{id}/contacts")
 public class CastellanContactApiController {
     //
     @Autowired
     private CastellanContactAdapter castellanContactAdapter;
 
 
-    @RequestMapping(value="/{id}/name-book", method= RequestMethod.GET)
+    @RequestMapping(value="/name-book", method= RequestMethod.GET)
     public NameBookDto findNameBook(@PathVariable("id") String castleId) {
         //
         return castellanContactAdapter.findNameBook(castleId);
     }
 
-    @RequestMapping(value="/{id}/phone-book", method= RequestMethod.GET)
+    @RequestMapping(value="/phone-book", method= RequestMethod.GET)
     public PhoneBookDto findPhoneBook(@PathVariable("id") String castleId) {
         //
         return castellanContactAdapter.findPhoneBook(castleId);
     }
 
-    @RequestMapping(value="/{id}/email-book", method= RequestMethod.GET)
+    @RequestMapping(value="/email-book", method= RequestMethod.GET)
     public EmailBookDto findEmailBook(@PathVariable("id") String castleId) {
         //
         return castellanContactAdapter.findEmailBook(castleId);
     }
 
-    @RequestMapping(value="/{id}/address-book", method= RequestMethod.GET)
+    @RequestMapping(value="/address-book", method= RequestMethod.GET)
     public AddressBookDto findAddressBook(@PathVariable("id") String castleId) {
         //
         return castellanContactAdapter.findAddressBook(castleId);
