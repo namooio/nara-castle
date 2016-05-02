@@ -68,7 +68,8 @@ var NaraReactRouter = NaraReactRouter || { };
     'use strict';
 
     // Import  module
-    var commonAjax = NaraCommon.Ajax;
+    var _jQuery = jQuery,
+        commonAjax = NaraCommon.Ajax;
 
 
     var namespace = { };
@@ -107,11 +108,11 @@ var NaraReactRouter = NaraReactRouter || { };
     // Component cache object
     var componentCache = {
         caches : { },
-        add: function (hashUrl, index, componentName, component) {
-            this.caches[hashUrl + '_' + index + '_' + componentName] = component;
+        add: function (hashUrl, componentName, component) {
+            this.caches[hashUrl + '_' + componentName] = component;
         },
-        get: function (hashUrl, index, componentName) {
-            return this.caches[hashUrl + '_' + index + '_' + componentName];
+        get: function (hashUrl, componentName) {
+            return this.caches[hashUrl + '_' + componentName];
         }
     };
 
@@ -232,36 +233,53 @@ var NaraReactRouter = NaraReactRouter || { };
 
     function doRequest(hashUrl, mappingResources, paramsObj, callback) {
         //
-        // TODO: 콜백 함수 비동기 아닌 동기로 작동하도록 (이전 스크립트 로드 된 후 다음 스크립트 로드의 콜백 동작하도록 보장해야함)
+        var callbackComponent,
+            getScripts = [];
+
         mappingResources.forEach( function (resourceItem, index) {
             //
             var componentInfo = resourceItem.component,
-                component = componentCache.get(hashUrl, index, componentInfo.name),
-                executable = false;
+                component = componentCache.get(hashUrl, componentInfo.name),
+                executable = (index === (mappingResources.length - 1));
 
-            if (index === (mappingResources.length - 1)) {
-                executable = true;
-            }
 
             // Component exists in the cache
             if (component) {
                 if (executable) {
-                    callback(component, paramsObj)
+                    callbackComponent = component;
                 }
             }
             // Component not exists, get server
             else {
-                commonAjax.getScript(resourceItem.path, function () {
-                    //
-                    component = componentInfo.namespace[componentInfo.name];
-                    componentCache.add(hashUrl, index, componentInfo.name, component);
-
-                    if (executable) {
-                        callback(component, paramsObj);
-                    }
-                });
+                getScripts.push(resourceItem.path);
             }
         });
+
+        if (getScripts.length > 0) {
+            commonAjax.getScripts(getScripts, function () {
+                //
+                mappingResources.forEach( function (resourceItem, index) {
+                    //
+                    var componentInfo = resourceItem.component,
+                        component = componentInfo.namespace[componentInfo.name],
+                        executable = (index === (mappingResources.length - 1));
+
+                    componentCache.add(hashUrl, componentInfo.name, component);
+
+                    if (executable) {
+                        callbackComponent = component;
+                    }
+                });
+
+                callback(callbackComponent, paramsObj);
+            });
+        }
+        else {
+            callback(callbackComponent, paramsObj);
+        }
+
+
+
     }
 
     function doRedirect(redirectUrl) {
