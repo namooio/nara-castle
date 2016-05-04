@@ -197,7 +197,7 @@ var NaraCommon = NaraCommon || { };
         }
 
         if (promisses.length > 0) {
-            $.when.apply($, promisses).done(function () {
+            _jQuery.when.apply(_jQuery, promisses).done(function () {
                 //
                 var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
                     ajaxRequest = Array.isArray(this) ? this : [this];
