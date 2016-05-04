@@ -8,7 +8,7 @@ CastleCommon.Router = CastleCommon.Router || { };
     //
     'use strict';
 
-    // Import component module
+    // Import module
     var router = NaraReactRouter,
         constant = CastleCommon.Const;
 

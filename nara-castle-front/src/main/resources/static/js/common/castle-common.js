@@ -14,24 +14,26 @@ var Components = {
     //
     'use strict';
 
+    var namespace = {};
+
+    // Import external library
+    var _jQuery = $;
+
     // Castle app constant
-    CastleCommon.Const = {
+    namespace.Const = {
         CTX: '.',
         TOP_MENU_DOM_ID: 'castle-top-menu',
         CONTENTS_DOM_ID: 'castle-content'
     };
 
-    var _jQuery = $;
-
-
-
-    CastleCommon.getTopMenuJDom = function () {
+    namespace.getTopMenuJDom = function () {
         return _jQuery('#' + CastleCommon.Const.TOP_MENU_DOM_ID)[0];
     };
 
-    CastleCommon.getContentsJDom = function () {
+    namespace.getContentsJDom = function () {
         return _jQuery('#' + CastleCommon.Const.CONTENTS_DOM_ID)[0];
     };
 
+    CastleCommon = namespace;
 
 })();

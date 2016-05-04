@@ -69,7 +69,7 @@ var NaraReactRouter = NaraReactRouter || { };
 
     var namespace = { };
 
-    // Import  module
+    // Import module
     var commonAjax = NaraCommon.Ajax;
 
 
@@ -167,7 +167,7 @@ var NaraReactRouter = NaraReactRouter || { };
         urlMapper.addRedirect(url, redirectUrl);
     };
 
-    function navigate(loadedScriptCallback, pageNotFoundMapping) {
+    var navigate = function (loadedScriptCallback, pageNotFoundMapping) {
         //
         var hashUrlAndParams = getHashUrlAndParams(),
             hashUrl = hashUrlAndParams.hashUrl,
@@ -201,9 +201,9 @@ var NaraReactRouter = NaraReactRouter || { };
         else {
             console.error('invalid mapping type in router mappings, something wrong...');
         }
-    }
+    };
 
-    function getHashUrlAndParams() {
+    var getHashUrlAndParams = function () {
         //
         var hashLocation = window.location.hash.split('?'),
             hashUrl = hashLocation[0],
@@ -227,9 +227,9 @@ var NaraReactRouter = NaraReactRouter || { };
             hashUrl: hashUrl,
             params : paramsObj
         };
-    }
+    };
 
-    function doRequest(hashUrl, mappingResources, paramsObj, callback) {
+    var doRequest = function (hashUrl, mappingResources, paramsObj, callback) {
         //
         var callbackComponent,
             getScripts = [];
@@ -275,12 +275,12 @@ var NaraReactRouter = NaraReactRouter || { };
         else {
             callback(callbackComponent, paramsObj);
         }
-    }
+    };
 
-    function doRedirect(redirectUrl) {
+    var doRedirect = function(redirectUrl) {
         //
         window.location.hash = redirectUrl;
-    }
+    };
 
 
     namespace.MappingType = mappingType;

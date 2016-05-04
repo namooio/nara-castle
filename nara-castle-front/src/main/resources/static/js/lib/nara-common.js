@@ -26,32 +26,6 @@ var NaraCommon = NaraCommon || { };
     namespace.Ajax = { };
 
     /**
-     * Post Json AJAX
-     *
-     * <p>postJSON(String url, Object paramData)</p>
-     *
-     * @param url url
-     * @param param
-     * @returns {*}
-     */
-    namespace.Ajax.postJSON = function (url, param) {
-        //
-        if (!url || typeof url !== 'string' || !param) {
-            alert('Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
-        }
-
-        var jsonParamData = JSON.stringify(param);
-
-        return _jQuery.ajax({
-            url: url,
-            method: 'POST',
-            contentType: 'application/json',
-            cache: false,
-            data: jsonParamData
-        });
-    };
-
-    /**
      * Get Json AJAX
      *
      * <p>postJSON(String url, Object paramData)</p>
@@ -66,17 +40,64 @@ var NaraCommon = NaraCommon || { };
             alert('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
         }
 
-        if (param) {
-            return _jQuery.getJSON(url, JSON.stringify(param)).pipe( function (jsonResult, status, jqXHR) {
-                return jsonResult;
-            });
-        }
-        else {
-            return _jQuery.getJSON(url).pipe( function (jsonResult, status, jqXHR) {
-                return jsonResult;
-            });
-        }
+        return commonAjaxJson(url, 'GET', param).pipe( function (jsonResult, status, jqXHR) {
+            return jsonResult;
+        });
     };
+
+    /**
+     * Post Json AJAX
+     *
+     * <p>postJSON(String url, Object paramData)</p>
+     *
+     * @param url url
+     * @param param
+     * @returns {*}
+     */
+    namespace.Ajax.postJSON = function (url, param) {
+        //
+        if (!url || typeof url !== 'string' || !param) {
+            console.error('Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
+        }
+        return commonAjaxJson(url, 'POST', param);
+    };
+
+    namespace.Ajax.putJSON = function (url, param) {
+        //
+        if (!url || typeof url !== 'string' || !param) {
+            console.error('Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
+        }
+        return commonAjaxJson(url, 'POST', param);
+    };
+
+    namespace.Ajax.deleteJSON = function (url, param) {
+        //
+        if (!url || typeof url !== 'string') {
+            console.error('Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
+        }
+        return commonAjaxJson(url, 'POST', param);
+    }
+
+
+    var commonAjaxJson = function (url, method, param) {
+        //
+        if (!url || typeof url !== 'string') {
+            console.error('Invalid arguments for Ajax JSON -> url: ' + url + ', param: ' + param);
+        }
+
+        var jqAjaxReq = {
+            url: url,
+            method: method,
+            contentType: 'application/json',
+            cache: false
+        };
+
+        if (param) {
+            jqAjaxReq.data = JSON.stringify(param);
+        }
+        return _jQuery.ajax(jqAjaxReq);
+    };
+
 
     // Script cache object
     var scriptCache = {
@@ -225,10 +246,10 @@ var NaraCommon = NaraCommon || { };
             console.warn("Source is not array or object. > NaraCommon.Object.deepCopy");
             return;
         }
-        return _deepCopy(source);
+        return deepCopy(source);
     };
 
-    var _deepCopy = function (source) {
+    var deepCopy = function (source) {
         //
         var result;
 
@@ -245,11 +266,12 @@ var NaraCommon = NaraCommon || { };
         for (var property in source) {
             if (source.hasOwnProperty(property)) {
                 var sourcePropValue = source[property];
-                result[property] = _deepCopy(sourcePropValue);
+                result[property] = deepCopy(sourcePropValue);
             }
         }
         return result;
     };
+
 
     NaraCommon = namespace;
 
