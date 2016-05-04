@@ -46,7 +46,6 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
             };
         },
         componentDidMount: function () {
-            //
             this.requestFindNameBook(this.props);
         },
         changeModifiableMode: function () {

@@ -21,10 +21,10 @@ Components.Castle.Model = Components.Castle.Model || { };
         },
         enums: {
             state: {
-                Ready:      { KOR: '준비', USA: 'Ready' },
-                Open:       { KOR: '사용', USA: 'Open' },
-                Suspended:  { KOR: '중단', USA: 'Suspended' },
-                Closed:     { KOR: '닫힘', USA: 'Closed' }
+                Ready:      { name: 'Ready',        KOR: '준비', USA: 'Ready' },
+                Open:       { name: 'Open',         KOR: '사용', USA: 'Open' },
+                Suspended:  { name: 'Suspended',    KOR: '중단', USA: 'Suspended' },
+                Closed:     { name: 'Closed',       KOR: '닫힘', USA: 'Closed' }
             },
             locale: {
                 ko:     { KOR: '대한민국',  USA: 'Republic of Korea' },

@@ -281,7 +281,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
 
             changeViewMode: React.PropTypes.func.isRequired
         },
-        saveNameBookBtnClick: function () {
+        saveBtnClick: function () {
 
         },
         cancelModificationBtnClick: function () {
@@ -322,6 +322,14 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.state[lang]}</label>
                                 <div className="col-lg-7">
+                                    <select value={this.props.basicInfo[ATTRS.state.name][lang]}>
+                                        <option>{ ATTRS.state[lang] }</option>
+                                        { Object.keys(ENUMS.state).map( function (state, index) {
+                                            return (
+                                                <option key={index} value={state.name}>{state[lang]}</option>
+                                            );
+                                        })}
+                                    </select>
                                     <p className="form-control-static">{this.props.basicInfo[ATTRS.state.name]}</p>
                                 </div>
                             </div>
@@ -352,7 +360,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
 
                             <div className="btn-toolbar pull-right">
                                 <button type="button" className="btn-group btn btn-primary" onClick={this.saveBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                                <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                                <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                             </div>
                         </form>
                     </div>
