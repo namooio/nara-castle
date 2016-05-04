@@ -9,7 +9,8 @@ Components.Castle.Basic = Components.Castle.Basic || { };
 
 
     // Import component module
-    var commonAjax = NaraCommon.Ajax,
+    var jQuery = $,
+        commonAjax = NaraCommon.Ajax,
         commonObject = NaraCommon.Object,
         commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
@@ -65,9 +66,12 @@ Components.Castle.Basic = Components.Castle.Basic || { };
         },
         requestCastle: function (props) {
             //
-            commonAjax
-                .getJSON(CastleDetailPage.FIND_CASTLE_URL.replace('{id}', props.id))
-                .done( function (castleResult) {
+            jQuery
+                .when(
+                    commonAjax.getJSON(CastleDetailPage.FIND_CASTLE_URL.replace('{id}', props.id)),
+                    commonAjax.getJSON(CastleDetailPage.FIND_CASTELLAN_URL.replace('{id}', props.id))
+                )
+                .done( function (castleResult, castellanResult) {
                     //
                     if (commonObject.isEmpty(castleResult)) {
                         var MESSAGES = castleBasicModel.messages,
@@ -76,18 +80,10 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                         alert(MESSAGES.notFoundCastle[lang].replace('{id}', props.id));
                         return;
                     }
-                    castleResult.castellan = {};
+                    castleResult.castellan = castellanResult;
                     this.setState({ basicInfo: castleResult });
-
-                    commonAjax
-                        .getJSON(CastleDetailPage.FIND_CASTELLAN_URL.replace('{id}', props.id))
-                        .done( function (castellanResult) {
-                            var castle = this.state.basicInfo;
-
-                            castle.castellan = castellanResult;
-                            this.setState({ basicInfo: castle });
-                        }.bind(this));
                 }.bind(this));
+
         },
         render: function () {
             return (
@@ -109,7 +105,8 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             basicInfo: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
-            changeModifiableMode: React.PropTypes.func.isRequired
+            changeModifiableMode: React.PropTypes.func.isRequired,
+            changeViewMode: React.PropTypes.func.isRequired
         },
         render: function () {
             var TAB_NAMES = castleModel.tabs,
@@ -147,7 +144,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <BasicInfoContent
+                                    <Content
                                         basicInfo={this.props.basicInfo}
                                         modifiable={this.props.modifiable}
                                         changeModifiableMode={this.props.changeModifiableMode}
@@ -164,50 +161,47 @@ Components.Castle.Basic = Components.Castle.Basic || { };
 
     var Content = React.createClass({
         propTypes: {
+            basicInfo: React.PropTypes.shape({
+                castellan: React.PropTypes.object.isRequired
+            }).isRequired,
+            modifiable: React.PropTypes.bool.isRequired,
 
+            changeModifiableMode: React.PropTypes.func.isRequired,
+            changeViewMode: React.PropTypes.func.isRequired
         },
         render : function () {
 
+            return (
+                this.props.modifiable ?
+                    <BasicInfoModifiableContent
+                        basicInfo={this.props.basicInfo}
+                        modifiable={this.props.modifiable}
+                        changeViewMode={this.props.changeViewMode}
+                    />
+                    :
+                    <BasicInfoContent
+                        basicInfo={this.props.basicInfo}
+                        modifiable={this.props.modifiable}
+                        changeModifiableMode={this.props.changeModifiableMode}
+                    />
+            );
         }
     });
 
-    var ButtonGroup = React.createClass({
-        render : function () {
-            var BUTTON_NAMES = castleModel.buttons,
-                lang = mainComponent.lang,
-                buttonRender;
-
-            if (this.props.modifiable) {
-                buttonRender = (
-                    <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
-                    </div>
-                );
-            }
-            else {
-                buttonRender = (
-                    <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                        <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
-                    </div>
-                );
-            }
-            return buttonRender;
-        }
-    });
 
     var BasicInfoContent = React.createClass({
         propTypes: {
             basicInfo: React.PropTypes.shape({
                 castellan: React.PropTypes.object.isRequired
             }).isRequired,
-            modifiable: React.PropTypes.bool.isRequired,
 
             changeModifiableMode: React.PropTypes.func.isRequired
         },
         modifiableModeBtnClick: function () {
             this.props.changeModifiableMode();
+        },
+        removeBtnClick: function () {
+
         },
         render: function () {
             var ENUMS = castleModel.enums,
@@ -257,21 +251,12 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                             <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.primaryPhone.name]}</p>
                         </div>
                     </div>
-                    { this.props.modifiable ?
-                        <div className="form-group">
-                            <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photo[lang]}</label>
-                            <div className="col-lg-7">
-                                <input type="text" className="form-control" value={propBasicInfo.castellan[ATTRS.castellan.photo.name]}/>
-                            </div>
+                    <div className="form-group">
+                        <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photo[lang]}</label>
+                        <div className="col-lg-7">
+                            <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
                         </div>
-                        :
-                        <div className="form-group">
-                            <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photo[lang]}</label>
-                            <div className="col-lg-7">
-                                <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
-                            </div>
-                        </div>
-                    }
+                    </div>
                     <div className="form-group">
                         <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.buildTime[lang]}</label>
                         <div className="col-lg-7">
@@ -279,17 +264,10 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                         </div>
                     </div>
 
-                    { this.props.modifiable ?
-                        <div className="btn-toolbar pull-right">
-                            <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                            <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
-                        </div>
-                        :
-                        <div className="btn-toolbar pull-right">
-                            <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                            <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
-                        </div>
-                    }
+                    <div className="btn-toolbar pull-right">
+                        <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
+                        <button type="button" className="btn-group btn btn-danger" onClick={this.removeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
+                    </div>
                 </form>
             );
         }
@@ -297,25 +275,26 @@ Components.Castle.Basic = Components.Castle.Basic || { };
 
     var BasicInfoModifiableContent = React.createClass({
         propTypes: {
-            basicInfo: React.PropTypes.object
-            , castellan: React.PropTypes.object
+            basicInfo: React.PropTypes.shape({
+                castellan: React.PropTypes.object.isRequired
+            }).isRequired,
 
-            , changeViewMode: React.PropTypes.func.isRequired
+            changeViewMode: React.PropTypes.func.isRequired
         },
-        cancelBtnClick: function () {
+        saveNameBookBtnClick: function () {
+
+        },
+        cancelModificationBtnClick: function () {
             this.props.changeViewMode();
         },
         render: function () {
-            var lang = mainComponent.lang,
-                CASTLE_ATTRS = contentProps.basicInfo,
-                CASTELLAN_ATTRS = contentProps.basicInfo.castellan,
-                ENUMS = contentProps.enums,
-                BUTTON_NAMES = contentProps.buttons,
-                propBasicInfo = this.props.basicInfo;
+            var ENUMS = castleModel.enums,
+                BUTTON_NAMES = castleModel.buttons,
+                ATTRS = castleBasicModel.attrs,
+                lang = mainComponent.lang,
+                propBasicInfo = this.props.basicInfo,
+                existsCastle = !commonObject.isEmpty(propBasicInfo) && propBasicInfo[ATTRS.id.name];
 
-            if (commonObject.isEmpty(propBasicInfo) || commonObject.isEmpty(propBasicInfo.castellan)) {
-                return (<p>Castle 정보가 없습니다.</p>);
-            }
 
             return (
                 <div className="tab-content">
@@ -323,74 +302,58 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                         <form className="form-horizontal">
                             <div className="form-group"><p>&nbsp;</p></div>
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.id[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.id[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.basicInfo[CASTLE_ATTRS.id.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo[ATTRS.id.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.name[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.name[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.basicInfo[CASTLE_ATTRS.name.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo[ATTRS.name.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.locale[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.locale[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{ENUMS.locale[this.props.basicInfo[CASTLE_ATTRS.locale.name]][lang]}</p>
+                                    <p className="form-control-static">{ENUMS.locale[this.props.basicInfo[ATTRS.locale.name]][lang]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.state[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.state[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.basicInfo[CASTLE_ATTRS.state.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo[ATTRS.state.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.primaryEmail[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.primaryEmail[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.primaryEmail.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[ATTRS.castellan.primaryEmail.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.primaryPhone[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.primaryPhone[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.primaryPhone.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[ATTRS.castellan.primaryPhone.name]}</p>
                                 </div>
                             </div>
-                            { this.props.modifiable ?
-                                <div className="form-group">
-                                    <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
-                                    <div className="col-lg-7">
-                                        <input type="text" className="form-control" value={this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}/>
-                                    </div>
-                                </div>
-                                :
-                                <div className="form-group">
-                                    <label className="col-lg-3 col-lg-offset-1 control-label">{CASTELLAN_ATTRS.photo[lang]}</label>
-                                    <div className="col-lg-7">
-                                        <p className="form-control-static">{this.props.basicInfo.castellan[CASTELLAN_ATTRS.photo.name]}</p>
-                                    </div>
-                                </div>
-                            }
                             <div className="form-group">
-                                <label className="col-lg-3 col-lg-offset-1 control-label">{CASTLE_ATTRS.buildTime[lang]}</label>
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photo[lang]}</label>
                                 <div className="col-lg-7">
-                                    <p className="form-control-static">{commonDate.parseToString(this.props.basicInfo[CASTLE_ATTRS.buildTime.name])}</p>
+                                    <input type="text" className="form-control" value={propBasicInfo.castellan[ATTRS.castellan.photo.name]}/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.buildTime[lang]}</label>
+                                <div className="col-lg-7">
+                                    <p className="form-control-static">{commonDate.parseToString(this.props.basicInfo[ATTRS.buildTime.name])}</p>
                                 </div>
                             </div>
 
-                            { this.props.modifiable ?
-                                <div className="btn-toolbar pull-right">
-                                    <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                                    <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
-                                </div>
-                                :
-                                <div className="btn-toolbar pull-right">
-                                    <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                                    <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
-                                </div>
-                            }
+                            <div className="btn-toolbar pull-right">
+                                <button type="button" className="btn-group btn btn-primary" onClick={this.saveBtnClick}>{BUTTON_NAMES.save[lang]}</button>
+                                <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                            </div>
                         </form>
                     </div>
                 </div>

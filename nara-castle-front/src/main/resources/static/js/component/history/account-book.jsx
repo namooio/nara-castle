@@ -147,7 +147,7 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
                         <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                     </div>
                 );
             }

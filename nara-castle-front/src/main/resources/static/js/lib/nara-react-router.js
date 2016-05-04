@@ -5,7 +5,7 @@
 var NaraReactRouter = NaraReactRouter || { };
 
 /**
- * <p>Router url mapping object structure</p>
+ * <p>Object structure of Router url mapping</p>
  *
  * <pre>
  *  {
@@ -67,18 +67,16 @@ var NaraReactRouter = NaraReactRouter || { };
     //
     'use strict';
 
-    // Import  module
-    var _jQuery = jQuery,
-        commonAjax = NaraCommon.Ajax;
-
-
     var namespace = { };
 
+    // Import  module
+    var commonAjax = NaraCommon.Ajax;
 
-    // Mapping type object
+
+    // URL mapping type object
     var mappingType = {
         REQUEST: "REQ",
-        REDIRECT: "RDR"
+        REDIRECT: "RDT"
     };
 
     // URL mapping object
@@ -132,7 +130,7 @@ var NaraReactRouter = NaraReactRouter || { };
      *
      * @param initParam
      */
-    namespace.initialize = function initialize(initParam) {
+    namespace.initialize = function (initParam) {
         //
         if (!initParam) {
             alert('Invaild initialization param of nara-react-router -> ' + initParam);
@@ -145,7 +143,7 @@ var NaraReactRouter = NaraReactRouter || { };
             navigate(callback, pageNotFoundMapping);
         });
         navigate(callback, pageNotFoundMapping);
-    }
+    };
 
     /**
      * Add url mappaing information at router
@@ -153,7 +151,7 @@ var NaraReactRouter = NaraReactRouter || { };
      * @param url
      * @param resources
      */
-    namespace.addMapping = function addMapping(url, resources) {
+    namespace.addMapping = function (url, resources) {
         //
         urlMapper.addRequest(url, resources);
     };
@@ -164,7 +162,7 @@ var NaraReactRouter = NaraReactRouter || { };
      * @param url
      * @param redirectUrl
      */
-    namespace.addRedirect = function addRedirect(url, redirectUrl) {
+    namespace.addRedirect = function (url, redirectUrl) {
         //
         urlMapper.addRedirect(url, redirectUrl);
     };
@@ -277,9 +275,6 @@ var NaraReactRouter = NaraReactRouter || { };
         else {
             callback(callbackComponent, paramsObj);
         }
-
-
-
     }
 
     function doRedirect(redirectUrl) {

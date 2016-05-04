@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.StateBook = Components.Castle.StateBook || { };
+Components.Castle.MetroBook = Components.Castle.MetroBook || { };
 
 ( function () {
     //
@@ -16,15 +16,16 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
 
 
     // Define Content attributes name
-    var castleStateModel = {
+    var castleMetroModel = {
         attrs: {
-            currentState:   { name: 'currentState', KOR: '현재상태',    USA: 'Current state' },
-            targetState:    { name: 'targetState',  KOR: '다음상태',    USA: 'Target state' },
-            remarks:        { name: 'remarks',      KOR: '설명',        USA: 'Remarks' },
-            modifiedTime:   { name: 'modifiedTime', KOR: '수정일시',    USA: 'Modified time' }
+            metroId:        { name: 'metroId',          KOR: '메트로Id',    USA: 'Metro id' },
+            metroName:      { name: 'metroName',        KOR: '메트로명',    USA: 'Metro name' },
+            joinTime:       { name: 'joinTime',         KOR: '가입일시',    USA: 'Join time' },
+            withdrawalTime: { name: 'withdrawalTime',   KOR: '탈퇴일시',    USA: 'Withdrawal time' },
+            remarks:        { name: 'remarks',          KOR: '설명',        USA: 'Remarks' }
         },
         messages: {
-            notExistsState: { KOR: 'State 이력이 없습니다.', USA: 'Not exists state history' }
+            notExistsMetro: { KOR: 'Metro 이력이 없습니다', USA: 'Not exists metro history'}
         }
     };
 
@@ -32,19 +33,19 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_STATE_BOOK_URL: constant.CTX + '/api/castles/{id}/histories/state-book'
+            FIND_METRO_BOOK: constant.CTX + '/api/castles/{id}/histories/metro-book'
         },
         propTypes : {
             id: React.PropTypes.string
         },
         getInitialState: function () {
             return {
-                stateBook: { states: [] },
+                metroBook: { metros: [] },
                 contentModifiable: false
             };
         },
         componentDidMount: function () {
-            this.requestStateBook(this.props);
+            this.requestMetroBook(this.props);
         },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
@@ -52,18 +53,18 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
         changeViewMode: function () {
             this.setState({contentModifiable: false});
         },
-        requestStateBook: function (props) {
+        requestMetroBook: function (props) {
             commonAjax
-                .getJSON(CastleDetailPage.FIND_STATE_BOOK_URL.replace('{id}', props.id))
-                .done( function (stateBookResult) {
-                    this.setState({ stateBook: stateBookResult });
+                .getJSON(CastleDetailPage.FIND_METRO_BOOK.replace('{id}', props.id))
+                .done( function (metroBookResult) {
+                    this.setState({ metroBook: metroBookResult });
                 }.bind(this));
         },
         render: function () {
             return (
                 <Tab
                     castleId={this.props.id}
-                    stateBook={this.state.stateBook}
+                    metroBook={this.state.metroBook}
                     modifiable={this.state.contentModifiable}
                     changeModifiableMode={this.changeModifiableMode}
                     changeViewMode={this.changeViewMode}
@@ -75,8 +76,8 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
     var Tab = React.createClass({
         //
         propTypes: {
-            castleId: React.PropTypes.string.isRequired,
-            stateBook: React.PropTypes.object,
+            castleId: React.PropTypes.string,
+            metroBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
             changeModifiableMode: React.PropTypes.func.isRequired
@@ -108,18 +109,16 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
                                 <li>
                                     <a href={"#/castle/history/account-book?contentType=" + TAB_NAMES.account.name + '&id=' + this.props.castleId}>{TAB_NAMES.account[lang]}</a>
                                 </li>
-                                <li className="active">
+                                <li>
                                     <a href={"#/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[lang]}</a>
                                 </li>
-                                <li>
+                                <li className="active">
                                     <a href={"#/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[lang]}</a>
                                 </li>
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <StateContent
-                                        stateBook={this.props.stateBook}
-                                    />
+                                    <MetroContent metroBook={this.props.metroBook} />
                                 </div>
                             </div>
                         </div>
@@ -148,7 +147,7 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
                         <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                     </div>
                 );
             }
@@ -164,45 +163,45 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
         }
     });
 
-
-    var StateContent = React.createClass({
+    var MetroContent = React.createClass({
         propTypes: {
-            stateBook: React.PropTypes.shape({
-                states: React.PropTypes.array.isRequired
+            metroBook: React.PropTypes.shape({
+                metros: React.PropTypes.array.isRequired
             }).isRequired
         },
         render: function () {
-            var ENUMS = castleModel.enums,
-                ATTRS = castleStateModel.attrs,
-                MESSAGES = castleStateModel.messages,
+            var ATTRS = castleMetroModel.attrs,
+                MESSAGES = castleMetroModel.messages,
                 lang = mainComponent.lang,
-                propStateBook = this.props.stateBook,
-                existsStateBook = (propStateBook && propStateBook.states && propStateBook.states.length > 0) ? true : false;
+                propMetroBook = this.props.metroBook,
+                existsMetroBook = (propMetroBook && propMetroBook.metros && propMetroBook.metros.length > 0) ? true : false;
 
             return (
                 <table className="table table-striped table-hover">
                     <thead>
-                    <tr>
-                        <th>{ATTRS.currentState[lang]}</th>
-                        <th>{ATTRS.targetState[lang]}</th>
-                        <th>{ATTRS.remarks[lang]}</th>
-                        <th>{ATTRS.modifiedTime[lang]}</th>
-                    </tr>
+                        <tr>
+                            <th>{ATTRS.metroId[lang]}</th>
+                            <th>{ATTRS.metroName[lang]}</th>
+                            <th>{ATTRS.joinTime[lang]}</th>
+                            <th>{ATTRS.withdrawalTime[lang]}</th>
+                            <th>{ATTRS.remarks[lang]}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    { existsStateBook ?
-                        propStateBook.states.map( function (state, index) {
+                    { existsMetroBook ?
+                        propMetroBook.metros.map( function (metro) {
                             return (
-                                <tr key={index}>
-                                    <td>{ENUMS.state[state[ATTRS.currentState.name]][lang]}</td>
-                                    <td>{ENUMS.state[state[ATTRS.targetState.name]][lang]}</td>
-                                    <td>{state[ATTRS.remarks.name]}</td>
-                                    <td>{commonDate.parseToString(state[ATTRS.modifiedTime.name])}</td>
+                                <tr key={metro[ATTRS.metroId.name]}>
+                                    <td>{metro[ATTRS.metroId.name]}</td>
+                                    <td>{metro[ATTRS.metroName.name]}</td>
+                                    <td>{commonDate.parseToString(metro[ATTRS.joinTime.name])}</td>
+                                    <td>{commonDate.parseToString(metro[ATTRS.withdrawalTime.name])}</td>
+                                    <td>{metro[ATTRS.remarks.name]}</td>
                                 </tr>
                             )
                         })
                         :
-                        <tr><td colSpan="4">{MESSAGES.notExistsState[lang]}</td></tr>
+                        <tr><td colSpan="5">{MESSAGES.notExistsMetro[lang]}</td></tr>
                     }
                     </tbody>
                 </table>
@@ -210,6 +209,5 @@ Components.Castle.StateBook = Components.Castle.StateBook || { };
         }
     });
 
-
-    Components.Castle.StateBook = CastleDetailPage;
+    Components.Castle.MetroBook = CastleDetailPage;
 })();

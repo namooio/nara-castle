@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.EmailBook = Components.Castle.EmailBook || { };
+Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
 
 ( function () {
     //
@@ -9,22 +9,21 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
 
     // Import component module
     var commonAjax = NaraCommon.Ajax,
-        commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castleEmailModel = {
+    var castlePhoneModel = {
         attrs: {
-            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' },
-            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'Type' },
-            verified:       { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' },
-            verifiedTime:   { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
+            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' },
+            countryCode:    { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' },
+            areaCode:       { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' },
+            number:         { name: 'number',       KOR: '번호',      USA: 'Number' }
         },
-        messages: {
-            notRegisteredEmail: { KOR: '등록 된 email이 없습니다', USA: 'Not registered the email' }
+        messages : {
+            notRegisteredPhone : { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
         }
     };
 
@@ -32,19 +31,20 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_EMAIL_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/email-book'
+            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
+
         },
         propTypes : {
             id: React.PropTypes.string
         },
         getInitialState: function () {
             return {
-                emailBook: { emails: [] },
+                phoneBook: { phones: [] },
                 contentModifiable: false
             };
         },
         componentDidMount: function () {
-            this.requestEmailBook(this.props);
+            this.requestPhoneBook(this.props);
         },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
@@ -52,18 +52,18 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
         changeViewMode: function () {
             this.setState({contentModifiable: false});
         },
-        requestEmailBook: function (props) {
+        requestPhoneBook: function (props) {
             commonAjax
-                .getJSON(CastleDetailPage.FIND_EMAIL_BOOK_URL.replace('{id}', props.id))
-                .done( function (emailBookResult) {
-                    this.setState({ emailBook: emailBookResult });
+                .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
+                .done( function (phoneBookResult) {
+                    this.setState({ phoneBook: phoneBookResult });
                 }.bind(this));
         },
         render: function () {
             return (
                 <Tab
                     castleId={this.props.id}
-                    emailBook={this.state.emailBook}
+                    phoneBook={this.state.phoneBook}
                     modifiable={this.state.contentModifiable}
                     changeModifiableMode={this.changeModifiableMode}
                     changeViewMode={this.changeViewMode}
@@ -76,7 +76,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
         //
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
-            emailBook: React.PropTypes.object,
+            phoneBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
             changeModifiableMode: React.PropTypes.func.isRequired
@@ -96,10 +96,10 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
                                 <li>
                                     <a href={"#/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
                                 </li>
-                                <li>
+                                <li className="active">
                                     <a href={"#/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
                                 </li>
-                                <li className="active">
+                                <li>
                                     <a href={"#/castle/contact/email-book?contentType=" + TAB_NAMES.email.name + '&id=' + this.props.castleId}>{TAB_NAMES.email[lang]}</a>
                                 </li>
                                 <li>
@@ -117,7 +117,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <EmailContent emailBook={this.props.emailBook} />
+                                    <PhoneContent phoneBook={this.props.phoneBook} />
                                 </div>
                             </div>
                         </div>
@@ -146,7 +146,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
                         <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                     </div>
                 );
             }
@@ -163,46 +163,44 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
     });
 
 
-
-    var EmailContent = React.createClass({
+    var PhoneContent = React.createClass({
         propTypes: {
-            emailBook: React.PropTypes.shape({
-                emails: React.PropTypes.array.isRequired
+            phoneBook: React.PropTypes.shape({
+                phones: React.PropTypes.array.isRequired
             }).isRequired
         },
         render: function () {
-            var ENUMS = castleModel.enums,
-                ATTRS = castleEmailModel.attrs,
-                MESSAGES = castleEmailModel.messages,
+            var ATTRS = castlePhoneModel.attrs,
+                MESSAGES = castlePhoneModel.messages,
                 lang = mainComponent.lang,
-                propEmailBook = this.props.emailBook,
-                existsEmailBook = (propEmailBook && propEmailBook.emails && propEmailBook.emails.length > 0) ? true : false;
+                propPhoneBook = this.props.phoneBook,
+                existsPhoneBook = (propPhoneBook && propPhoneBook.phones && propPhoneBook.phones.length > 0) ? true : false;
 
             return (
                 <article>
                     <table className="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>{ATTRS.email[lang]}</th>
-                                <th>{ATTRS.emailType[lang]}</th>
-                                <th>{ATTRS.verified[lang]}</th>
-                                <th>{ATTRS.verifiedTime[lang]}</th>
+                                <th>{ATTRS.phoneNumber[lang]}</th>
+                                <th>{ATTRS.countryCode[lang]}</th>
+                                <th>{ATTRS.areaCode[lang]}</th>
+                                <th>{ATTRS.number[lang]}</th>
                             </tr>
                         </thead>
                         <tbody>
-                        { existsEmailBook ?
-                            propEmailBook.emails.map( function (email) {
+                        { existsPhoneBook ?
+                            propPhoneBook.phones.map( function (phone) {
                                 return (
-                                    <tr key={email[ATTRS.email.name]}>
-                                        <td>{email[ATTRS.email.name]}</td>
-                                        <td>{ENUMS.emailType[email[ATTRS.emailType.name]][lang]}</td>
-                                        <td>{ENUMS.verified[email[ATTRS.verified.name]][lang]}</td>
-                                        <td>{commonDate.parseToString(email[ATTRS.verifiedTime.name])}</td>
+                                    <tr key={phone[ATTRS.phoneNumber.name]}>
+                                        <td>{phone[ATTRS.phoneNumber.name]}</td>
+                                        <td>{phone[ATTRS.countryCode.name]}</td>
+                                        <td>{phone[ATTRS.areaCode.name]}</td>
+                                        <td>{phone[ATTRS.number.name]}</td>
                                     </tr>
                                 )
                             })
                             :
-                            <tr><td colSpan="4">{MESSAGES.notRegisteredEmail[lang]}</td></tr>
+                            <tr><td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td></tr>
                         }
                         </tbody>
                     </table>
@@ -213,5 +211,5 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
     });
 
 
-    Components.Castle.EmailBook = CastleDetailPage;
+    Components.Castle.PhoneBook = CastleDetailPage;
 })();

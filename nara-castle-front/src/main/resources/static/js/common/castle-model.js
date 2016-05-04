@@ -11,11 +11,13 @@ Components.Castle.Model = Components.Castle.Model || { };
     // Define Content attributes name
     var castleModel = {
         buttons : {
-            search: { KOR: '검색', USA: 'Search' },
-            save:     { KOR: '저장', USA: 'Save'},
-            modify:   { KOR: '수정', USA: 'Modify' },
-            remove:   { KOR: '삭제', USA: 'Remove'},
-            cancel:   { KOR: '취소', USA: 'Cancel'}
+            search:     { KOR: '검색',      USA: 'Search' },
+            save:       { KOR: '저장',      USA: 'Save' },
+            modify:     { KOR: '수정',      USA: 'Modify' },
+            remove:     { KOR: '삭제',      USA: 'Remove' },
+            cancel:     { KOR: '취소',      USA: 'Cancel' },
+            complete:   { KOR: '입력완료',  USA: 'Complete' },
+            add:        { KOR: '추가',      USA: 'Add' }
         },
         enums: {
             state: {
@@ -31,10 +33,10 @@ Components.Castle.Model = Components.Castle.Model || { };
                 en_US:  { KOR: '미국',      USA: 'Unitied States of America' }
             },
             language: {
-                ko:     { KOR: '한국어', USA: 'Korean' },
-                kor:    { KOR: '한국어', USA: 'Korean' },
-                en:     { KOR: '영어', USA: 'English' },
-                eng:    { KOR: '영어', USA: 'English' }
+                ko:     { name: 'ko',   KOR: '한국어', USA: 'Korean' },
+                kor:    { name: 'kor',  KOR: '한국어', USA: 'Korean' },
+                en:     { name: 'en',   KOR: '영어', USA: 'English' },
+                eng:    { name: 'eng',  KOR: '영어', USA: 'English' }
             },
             emailType: {
                 Business:   { KOR: '업무용', USA: 'Businedss' },

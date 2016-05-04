@@ -8,6 +8,8 @@ var NaraCommon = NaraCommon || { };
     //
     'use strict';
 
+    var namespace = { };
+
     // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
     // Import external library
     var _jQuery = jQuery,
@@ -15,12 +17,13 @@ var NaraCommon = NaraCommon || { };
 
 
     // Castle app Constant
-    NaraCommon.Const = { };
-    NaraCommon.Const.CTX = '.';
+    namespace.Const = {
+        CTX: '.'
+    };
 
 
     // Ajax util
-    NaraCommon.Ajax = { };
+    namespace.Ajax = { };
 
     /**
      * Post Json AJAX
@@ -31,7 +34,7 @@ var NaraCommon = NaraCommon || { };
      * @param param
      * @returns {*}
      */
-    NaraCommon.Ajax.postJSON = function (url, param) {
+    namespace.Ajax.postJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
             alert('Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
@@ -57,17 +60,21 @@ var NaraCommon = NaraCommon || { };
      * @param param
      * @returns {*}
      */
-    NaraCommon.Ajax.getJSON = function (url, param) {
+    namespace.Ajax.getJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
             alert('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
         }
 
         if (param) {
-            return _jQuery.getJSON(url, JSON.stringify(param));
+            return _jQuery.getJSON(url, JSON.stringify(param)).pipe( function (jsonResult, status, jqXHR) {
+                return jsonResult;
+            });
         }
         else {
-            return _jQuery.getJSON(url);
+            return _jQuery.getJSON(url).pipe( function (jsonResult, status, jqXHR) {
+                return jsonResult;
+            });
         }
     };
 
@@ -91,15 +98,15 @@ var NaraCommon = NaraCommon || { };
      *
      * @param url
      * @param param1 Optional, this param is callback or settings
-     * @param param2 Optional calllback when param1 exists
+     * @param param2 Optional, this param is calllback when exists param1
      */
-    NaraCommon.Ajax.getScript = function (url, param1, param2) {
+    namespace.Ajax.getScript = function (url, param1, param2) {
         //
         if (!url || typeof url !== 'string') {
             alert('Invalid url for Ajax getScript -> url: ' + url);
         }
 
-        NaraCommon.Ajax.getScripts([url], param1, param2);
+        namespace.Ajax.getScripts([url], param1, param2);
     };
 
     /**
@@ -109,11 +116,11 @@ var NaraCommon = NaraCommon || { };
      *     function (array<string> url, object settings [optional], function callback [optional]
      * </p>
      *
-     * @param url
+     * @param urlArray
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional calllback when param1 exists
      */
-    NaraCommon.Ajax.getScripts = function (urlArray, param1, param2) {
+    namespace.Ajax.getScripts = function (urlArray, param1, param2) {
         //
         var settings,
             callback,
@@ -198,8 +205,8 @@ var NaraCommon = NaraCommon || { };
 
 
     // Date util
-    NaraCommon.Date = { };
-    NaraCommon.Date.parseToString = function (date) {
+    namespace.Date = { };
+    namespace.Date.parseToString = function (date) {
         if (!date) {
             return null;
         }
@@ -208,9 +215,42 @@ var NaraCommon = NaraCommon || { };
 
 
     // Object util
-    NaraCommon.Object = { };
-    NaraCommon.Object.isEmpty = function (object) {
+    namespace.Object = { };
+    namespace.Object.isEmpty = function (object) {
         return (!object || Object.keys(object).length === 0);
     };
+
+    namespace.Object.deepCopy = function (source) {
+        if (!source || typeof source !== 'object') {
+            console.warn("Source is not array or object. > NaraCommon.Object.deepCopy");
+            return;
+        }
+        return _deepCopy(source);
+    };
+
+    var _deepCopy = function (source) {
+        //
+        var result;
+
+        if (!source || !(typeof source === 'object' || Array.isArray(source))) {
+            return source;
+        }
+
+        if (Array.isArray(source)) {
+            result = [];
+        }
+        else {
+            result = {};
+        }
+        for (var property in source) {
+            if (source.hasOwnProperty(property)) {
+                var sourcePropValue = source[property];
+                result[property] = _deepCopy(sourcePropValue);
+            }
+        }
+        return result;
+    };
+
+    NaraCommon = namespace;
 
 })();
