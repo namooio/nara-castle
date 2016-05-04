@@ -37,7 +37,7 @@ var NaraCommon = NaraCommon || { };
     namespace.Ajax.getJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
-            alert('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
+            console.error('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
         }
 
         return commonAjaxJson(url, 'GET', param).pipe( function (jsonResult, status, jqXHR) {
@@ -67,7 +67,7 @@ var NaraCommon = NaraCommon || { };
         if (!url || typeof url !== 'string' || !param) {
             console.error('Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
         }
-        return commonAjaxJson(url, 'POST', param);
+        return commonAjaxJson(url, 'PUT', param);
     };
 
     namespace.Ajax.deleteJSON = function (url, param) {
@@ -75,7 +75,7 @@ var NaraCommon = NaraCommon || { };
         if (!url || typeof url !== 'string') {
             console.error('Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
         }
-        return commonAjaxJson(url, 'POST', param);
+        return commonAjaxJson(url, 'DELETE', param);
     }
 
 
