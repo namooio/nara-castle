@@ -17,4 +17,5 @@ public interface CastleHistoryService {
     void attachMetroBook(String castleId, MetroBook metroBook);
     void detatchMetroBook(String castleId);
     MetroBook findMetroBook(String castleId);
+    void addMetro(String castleId, String metroId);
 }

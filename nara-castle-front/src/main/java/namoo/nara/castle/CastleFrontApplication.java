@@ -1,13 +1,13 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.CastellanAdapter;
-import namoo.nara.castle.adapter.CastellanContactAdapter;
-import namoo.nara.castle.adapter.CastleAdapter;
-import namoo.nara.castle.adapter.CastleHistoryAdapter;
-import namoo.nara.castle.client.CastellanClient;
-import namoo.nara.castle.client.CastellanContactClient;
-import namoo.nara.castle.client.CastleClient;
-import namoo.nara.castle.client.CastleHistoryClient;
+import namoo.nara.castle.front.CastellanFrontService;
+import namoo.nara.castle.front.CastellanContactFrontService;
+import namoo.nara.castle.front.CastleFrontService;
+import namoo.nara.castle.front.CastleHistoryFrontService;
+import namoo.nara.castle.client.CastellanFrontClient;
+import namoo.nara.castle.client.CastellanContactFrontClient;
+import namoo.nara.castle.client.CastleFrontClient;
+import namoo.nara.castle.client.CastleHistoryFrontClient;
 import namoo.nara.share.restclient.springweb.SpringWebRestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -30,23 +30,23 @@ public class CastleFrontApplication {
 
 
     @Bean
-    public CastleAdapter createCastleClient() {
-        return new CastleClient(new SpringWebRestClient(castleApiHost));
+    public CastleFrontService createCastleClient() {
+        return new CastleFrontClient(new SpringWebRestClient(castleApiHost));
     }
 
     @Bean
-    public CastellanAdapter createCastellanClient() {
-        return new CastellanClient(new SpringWebRestClient(castleApiHost));
+    public CastellanFrontService createCastellanClient() {
+        return new CastellanFrontClient(new SpringWebRestClient(castleApiHost));
     }
 
     @Bean
-    public CastellanContactAdapter createCastellanContactClient() {
-        return new CastellanContactClient(new SpringWebRestClient(castleApiHost));
+    public CastellanContactFrontService createCastellanContactClient() {
+        return new CastellanContactFrontClient(new SpringWebRestClient(castleApiHost));
     }
 
     @Bean
-    public CastleHistoryAdapter createCastleHistoryClient() {
-        return new CastleHistoryClient(new SpringWebRestClient(castleApiHost));
+    public CastleHistoryFrontService createCastleHistoryClient() {
+        return new CastleHistoryFrontClient(new SpringWebRestClient(castleApiHost));
     }
 
 }

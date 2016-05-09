@@ -1,17 +1,9 @@
 package namoo.nara.castle.domain.logic;
 
-import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.history.*;
 import namoo.nara.castle.domain.service.CastleHistoryService;
-import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.store.CastellanStore;
-import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.HistoryBundleStore;
-
-import java.util.Locale;
 
 public class CastleHistoryServiceLogic implements CastleHistoryService {
     //
@@ -95,5 +87,14 @@ public class CastleHistoryServiceLogic implements CastleHistoryService {
         //
         HistoryBundle history = historyStore.retrieve(castleId);
         return history.getMetroBook();
+    }
+
+    @Override
+    public void addMetro(String castleId, String metroId) {
+        //
+        HistoryBundle history = historyStore.retrieve(castleId);
+        ParticipantMetro participantMetro = new ParticipantMetro(metroId, System.currentTimeMillis());
+        history.getMetroBook().addMetro(participantMetro);
+        historyStore.updateMetroBook(history);
     }
 }

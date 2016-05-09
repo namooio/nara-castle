@@ -1,13 +1,11 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.CastellanAdapter;
-import namoo.nara.castle.adapter.CastellanContactAdapter;
-import namoo.nara.castle.adapter.CastleAdapter;
-import namoo.nara.castle.adapter.CastleHistoryAdapter;
-import namoo.nara.castle.client.CastellanClient;
-import namoo.nara.castle.client.CastellanContactClient;
-import namoo.nara.castle.client.CastleClient;
-import namoo.nara.castle.client.CastleHistoryClient;
+import namoo.nara.castle.client.*;
+import namoo.nara.castle.front.CastellanContactFrontService;
+import namoo.nara.castle.front.CastellanFrontService;
+import namoo.nara.castle.front.CastleFrontService;
+import namoo.nara.castle.front.CastleHistoryFrontService;
+import namoo.nara.castle.rep.CastleRepService;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.jaxrs.JaxRSClient;
 import org.junit.runner.RunWith;
@@ -28,10 +26,11 @@ public abstract class AbstractCastleServiceApplicationTests {
 	@Value("${local.server.port}")
 	private int port;
 
-	private CastleClient castleClient;
-	private CastleHistoryClient castleHistoryClient;
-	private CastellanClient castellanClient;
-	private CastellanContactClient castellanContactClient;
+	private CastleRepClient castleRepClient;
+	private CastleFrontClient castleFrontClient;
+	private CastleHistoryFrontClient castleHistoryFrontClient;
+	private CastellanFrontClient castellanFrontClient;
+	private CastellanContactFrontClient castellanContactFrontClient;
 
 	private NaraRestClient naraRestClient;
 
@@ -43,36 +42,44 @@ public abstract class AbstractCastleServiceApplicationTests {
 		return naraRestClient;
 	}
 
-	public CastleAdapter getCastleClient() {
+	public CastleRepService getCastleRepClient() {
 		//
-		if (castleClient == null) {
-			castleClient = new CastleClient(getNaraRestClient());
+		if (castleRepClient == null) {
+			castleRepClient = new CastleRepClient(getNaraRestClient());
 		}
-		return castleClient;
+		return castleRepClient;
 	}
 
-	public CastleHistoryAdapter getCastleHistoryClient() {
+	public CastleFrontService getCastleFrontClient() {
 		//
-		if (castleHistoryClient == null) {
-			castleHistoryClient = new CastleHistoryClient(getNaraRestClient());
+		if (castleFrontClient == null) {
+			castleFrontClient = new CastleFrontClient(getNaraRestClient());
 		}
-		return castleHistoryClient;
+		return castleFrontClient;
 	}
 
-	public CastellanAdapter getCastellanClient() {
+	public CastleHistoryFrontService getCastleHistoryFrontClient() {
 		//
-		if (castellanClient == null) {
-			castellanClient = new CastellanClient(getNaraRestClient());
+		if (castleHistoryFrontClient == null) {
+			castleHistoryFrontClient = new CastleHistoryFrontClient(getNaraRestClient());
 		}
-		return castellanClient;
+		return castleHistoryFrontClient;
 	}
 
-	public CastellanContactAdapter getCastellanContactClient() {
+	public CastellanFrontService getCastellanFrontClient() {
 		//
-		if (castellanContactClient == null) {
-			castellanContactClient = new CastellanContactClient(getNaraRestClient());
+		if (castellanFrontClient == null) {
+			castellanFrontClient = new CastellanFrontClient(getNaraRestClient());
 		}
-		return castellanContactClient;
+		return castellanFrontClient;
+	}
+
+	public CastellanContactFrontService getCastellanContactFrontClient() {
+		//
+		if (castellanContactFrontClient == null) {
+			castellanContactFrontClient = new CastellanContactFrontClient(getNaraRestClient());
+		}
+		return castellanContactFrontClient;
 	}
 
 }

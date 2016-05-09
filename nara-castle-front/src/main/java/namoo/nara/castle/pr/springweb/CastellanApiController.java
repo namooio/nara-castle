@@ -1,7 +1,7 @@
 package namoo.nara.castle.pr.springweb;
 
-import namoo.nara.castle.adapter.CastellanAdapter;
-import namoo.nara.castle.adapter.dto.CastellanFindDto;
+import namoo.nara.castle.front.CastellanFrontService;
+import namoo.nara.castle.front.dto.CastellanFindDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class CastellanApiController {
     //
     @Autowired
-    private CastellanAdapter castellanAdapter;
+    private CastellanFrontService castellanFrontService;
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public CastellanFindDto find(@PathVariable("id") String id) {
         //
-        return castellanAdapter.findCastellan(id);
+        return castellanFrontService.findCastellan(id);
     }
 
 }

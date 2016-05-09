@@ -1,8 +1,7 @@
 package namoo.nara.castle.pr.springweb;
 
-import namoo.nara.castle.adapter.CastellanAdapter;
-import namoo.nara.castle.adapter.CastleAdapter;
-import namoo.nara.castle.adapter.dto.CastleFindDto;
+import namoo.nara.castle.front.CastleFrontService;
+import namoo.nara.castle.front.dto.CastleFindDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,19 +18,19 @@ import java.util.List;
 public class CastleApiController {
     //
     @Autowired
-    private CastleAdapter castleAdapter;
+    private CastleFrontService castleFrontService;
 
 
     @RequestMapping(method = RequestMethod.GET)
     public List<CastleFindDto> findAllCastles() {
         //
-        return castleAdapter.findAllCastles();
+        return castleFrontService.findAllCastles();
     }
 
     @RequestMapping(value="/{id}", method= RequestMethod.GET)
     public CastleFindDto find(@PathVariable("id") String castleId) {
         //
-        return castleAdapter.findCastle(castleId);
+        return castleFrontService.findCastle(castleId);
     }
 
 }

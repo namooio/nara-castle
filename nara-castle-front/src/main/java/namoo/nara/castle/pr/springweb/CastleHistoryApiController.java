@@ -1,9 +1,9 @@
 package namoo.nara.castle.pr.springweb;
 
-import namoo.nara.castle.adapter.CastleHistoryAdapter;
-import namoo.nara.castle.adapter.dto.history.AccountBookDto;
-import namoo.nara.castle.adapter.dto.history.CastleStateBookDto;
-import namoo.nara.castle.adapter.dto.history.MetroBookDto;
+import namoo.nara.castle.front.CastleHistoryFrontService;
+import namoo.nara.castle.front.dto.history.AccountBookDto;
+import namoo.nara.castle.front.dto.history.CastleStateBookDto;
+import namoo.nara.castle.front.dto.history.MetroBookDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,25 +18,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class CastleHistoryApiController {
     //
     @Autowired
-    private CastleHistoryAdapter castleHistoryAdapter;
+    private CastleHistoryFrontService castleHistoryFrontService;
 
 
     @RequestMapping(value="/account-book", method= RequestMethod.GET)
     public AccountBookDto findAccountBook(@PathVariable("id") String castleId) {
         //
-        return castleHistoryAdapter.findAccountBook(castleId);
+        return castleHistoryFrontService.findAccountBook(castleId);
     }
 
     @RequestMapping(value="/state-book", method= RequestMethod.GET)
     public CastleStateBookDto findStateBook(@PathVariable("id") String castleId) {
         //
-        return castleHistoryAdapter.findCastleStateBook(castleId);
+        return castleHistoryFrontService.findCastleStateBook(castleId);
     }
 
     @RequestMapping(value="/metro-book", method= RequestMethod.GET)
     public MetroBookDto findMetroBook(@PathVariable("id") String castleId) {
         //
-        return castleHistoryAdapter.findMetroBook(castleId);
+        return castleHistoryFrontService.findMetroBook(castleId);
     }
 
 }
