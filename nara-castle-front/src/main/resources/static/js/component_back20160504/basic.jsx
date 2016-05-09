@@ -7,6 +7,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
     //
     'use strict';
 
+
     // Import component module
     var jQuery = $,
         commonAjax = NaraCommon.Ajax,
@@ -32,51 +33,43 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             }
         },
         messages: {
-            notFoundCastle: { KOR: '해당 Id의 Castle 정보가 없습니다. -> Id: {id}', USA: 'Not found the Castle -> Id: {id}'},
-            completeModify:   { KOR: 'Basic이 수정 되었습니다.',    USA: 'Modify has been completed.' }
+            notFoundCastle: { KOR: '해당 Id의 Castle 정보가 없습니다. -> Id: {id}', USA: 'Not found the Castle -> Id: {id}'}
         }
 
     };
 
-    var BasicContent = React.createClass({
+    // Define components
+    var CastleDetailPage = React.createClass({
         //
-        statics: {
+        statics : {
             FIND_CASTLE_URL: constant.CTX + '/api/castles/{id}',
-            FIND_CASTELLAN_URL: constant.CTX + '/api/castellans/{id}',
-            MODIFY_NAME_URL: constant.CTX + '/api/castles/{id}/name',
-            MODIFY_LOCALE_URL: constant.CTX + '/api/castles/{id}/locale',
-            SUSPEND_CASTLE_URL: constant.CTX + '/api/castles/{id}/suspend',
-            REOPEN_CASTLE_URL: constant.CTX + '/api/castles/{id}/reopen'
+            FIND_CASTELLAN_URL: constant.CTX + '/api/castellans/{id}'
         },
-        propTypes: {
-            castleId: React.PropTypes.string.isRequired,
-            castle: React.PropTypes.shape({
-                basic: React.PropTypes.shape({
-                    castellan: React.PropTypes.object.isRequired
-                }).isRequired
-            }).isRequired,
-            modifiable: React.PropTypes.bool.isRequired,
-
-            changeModifiableMode: React.PropTypes.func.isRequired,
-            changeViewMode: React.PropTypes.func.isRequired,
-            setCastle: React.PropTypes.func.isRequired
+        propTypes : {
+            id: React.PropTypes.string
+        },
+        getInitialState: function () {
+            return {
+                basicInfo: { castellan: {} },
+                contentModifiable: false
+            };
         },
         componentDidMount: function () {
-            this.requestFindCastle(this.props);
+            //
+            this.requestCastle(this.props);
         },
-        setBasic: function (castleBasic) {
-            console.dir(castleBasic);
-            var castle = this.props.castle;
-
-            castle.basic = castleBasic;
-            this.props.setCastle(castle);
+        changeModifiableMode: function () {
+            this.setState({contentModifiable: true});
+        },
+        changeViewMode: function () {
+            this.setState({contentModifiable: false});
         },
         requestFindCastle: function (props) {
             //
             jQuery
                 .when(
-                    commonAjax.getJSON(BasicContent.FIND_CASTLE_URL.replace('{id}', props.castleId)),
-                    commonAjax.getJSON(BasicContent.FIND_CASTELLAN_URL.replace('{id}', props.castleId))
+                    commonAjax.getJSON(CastleDetailPage.FIND_CASTLE_URL.replace('{id}', props.id)),
+                    commonAjax.getJSON(CastleDetailPage.FIND_CASTELLAN_URL.replace('{id}', props.id))
                 )
                 .done( function (castleResult, castellanResult) {
                     //
@@ -84,55 +77,110 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                         var MESSAGES = castleBasicModel.messages,
                             lang = mainComponent.lang;
 
-                        alert(MESSAGES.notFoundCastle[lang].replace('{id}', props.castleId));
+                        alert(MESSAGES.notFoundCastle[lang].replace('{id}', props.id));
                         return;
                     }
-                    var castle = props.castle;
-
                     castleResult.castellan = castellanResult;
-                    castle.basic = castleResult;
-                    props.setCastle(castle);
+                    this.setState({ basicInfo: castleResult });
                 }.bind(this));
+
         },
-        requestModifyBasic: function (castleBasic) {
-            console.debug('저장');
-            console.dir(castleBasic);
-            var updateStateUrl;
+        render: function () {
+            return (
+                <Tab
+                    castleId={this.props.id}
+                    basicInfo={this.state.basicInfo}
+                    modifiable={this.state.contentModifiable}
+                    changeModifiableMode={this.changeModifiableMode}
+                    changeViewMode={this.changeViewMode}
+                />
+            );
+        }
+    });
 
-            if (castleBasic.state === castleModel.enums.state.Open.name) {
-                updateStateUrl = BasicContent.REOPEN_CASTLE_URL;
-            }
-            else if (castleBasic.state === castleModel.enums.state.Suspended.name) {
-                updateStateUrl = BasicContent.SUSPEND_CASTLE_URL;
-            }
+    var Tab = React.createClass({
+        //
+        propTypes: {
+            castleId: React.PropTypes.string.isRequired,
+            basicInfo: React.PropTypes.object,
+            modifiable: React.PropTypes.bool.isRequired,
 
-            jQuery
-                .when(
-                    commonAjax.putJSON(updateStateUrl.replace('{id}', this.props.castleId), 'remarks'),
-                    commonAjax.putJSON(BasicContent.MODIFY_NAME_URL.replace('{id}', this.props.castleId), castleBasic.name),
-                    commonAjax.putJSON(BasicContent.MODIFY_LOCALE_URL.replace('{id}', this.props.castleId), castleBasic.locale)
-                )
-                .done( function () {
-                    this.setBasic(castleBasic);
+            changeModifiableMode: React.PropTypes.func.isRequired,
+            changeViewMode: React.PropTypes.func.isRequired
+        },
+        render: function () {
+            var TAB_NAMES = castleModel.tabs,
+                lang = mainComponent.lang;
 
-                    var lang = mainComponent.lang;
-                    alert(castleBasicModel.messages.completeModify[lang]);
-                }.bind(this));
+            return (
+                <div className="container">
+                    <div className="panel panel-success">
+                        <div className="panel-body">
+                            <ul className="nav nav-tabs">
+                                <li className="active">
+                                    <a href={"#/castle/basic?contentType=" + TAB_NAMES.basic.name + '&id=' + this.props.castleId}>{TAB_NAMES.basic[lang]}</a>
+                                </li>
+                                <li>
+                                    <a href={"#/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
+                                </li>
+                                <li>
+                                    <a href={"#/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
+                                </li>
+                                <li>
+                                    <a href={"#/castle/contact/email-book?contentType=" + TAB_NAMES.email.name + '&id=' + this.props.castleId}>{TAB_NAMES.email[lang]}</a>
+                                </li>
+                                <li>
+                                    <a href={"#/castle/contact/address-book?contentType=" + TAB_NAMES.address.name + '&id=' + this.props.castleId}>{TAB_NAMES.address[lang]}</a>
+                                </li>
+                                <li>
+                                    <a href={"#/castle/history/account-book?contentType=" + TAB_NAMES.account.name + '&id=' + this.props.castleId}>{TAB_NAMES.account[lang]}</a>
+                                </li>
+                                <li>
+                                    <a href={"#/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[lang]}</a>
+                                </li>
+                                <li>
+                                    <a href={"#/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[lang]}</a>
+                                </li>
+                            </ul>
+                            <div className="tab-content">
+                                <div className="tab-pane active">
+                                    <Content
+                                        basicInfo={this.props.basicInfo}
+                                        modifiable={this.props.modifiable}
+                                        changeModifiableMode={this.props.changeModifiableMode}
+                                        changeViewMode={this.props.changeViewMode}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    });
+
+    var Content = React.createClass({
+        propTypes: {
+            basicInfo: React.PropTypes.shape({
+                castellan: React.PropTypes.object.isRequired
+            }).isRequired,
+            modifiable: React.PropTypes.bool.isRequired,
+
+            changeModifiableMode: React.PropTypes.func.isRequired,
+            changeViewMode: React.PropTypes.func.isRequired
         },
         render : function () {
 
             return (
                 this.props.modifiable ?
-                    <BasicModifiableContent
-                        basicInfo={this.props.castle.basic}
+                    <BasicInfoModifiableContent
+                        basicInfo={this.props.basicInfo}
                         modifiable={this.props.modifiable}
                         changeViewMode={this.props.changeViewMode}
-                        setBasic={this.setBasic}
-                        modifyBasic={this.requestModifyBasic}
                     />
                     :
-                    <BasicViewContent
-                        basicInfo={this.props.castle.basic}
+                    <BasicInfoContent
+                        basicInfo={this.props.basicInfo}
                         modifiable={this.props.modifiable}
                         changeModifiableMode={this.props.changeModifiableMode}
                     />
@@ -141,8 +189,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
     });
 
 
-    var BasicViewContent = React.createClass({
-        //
+    var BasicInfoContent = React.createClass({
         propTypes: {
             basicInfo: React.PropTypes.shape({
                 castellan: React.PropTypes.object.isRequired
@@ -226,45 +273,16 @@ Components.Castle.Basic = Components.Castle.Basic || { };
         }
     });
 
-    var BasicModifiableContent = React.createClass({
+    var BasicInfoModifiableContent = React.createClass({
         propTypes: {
             basicInfo: React.PropTypes.shape({
                 castellan: React.PropTypes.object.isRequired
             }).isRequired,
 
-            changeViewMode: React.PropTypes.func.isRequired,
-            setBasic: React.PropTypes.func.isRequired,
-            modifyBasic: React.PropTypes.func.isRequired
-        },
-        getInitialState: function () {
-            return {
-                willModifyBasic: { castellan: {} }
-            };
-        },
-        componentDidMount: function () {
-            var basicInfo = commonObject.deepCopy(this.props.basicInfo);
-            this.setState({ willModifyBasic: basicInfo });
-        },
-        nameChange: function (event) {
-            var basic = this.state.willModifyBasic;
-
-            basic.name = event.target.value;
-            this.setState({ willModifyBasic: basic });
-        },
-        localeChange: function (event) {
-            var basic = this.state.willModifyBasic;
-
-            basic.locale = event.target.value;
-            this.setState({ willModifyBasic: basic });
-        },
-        stateChange: function (event) {
-            var basic = this.state.willModifyBasic;
-
-            basic.state = event.target.value;
-            this.setState({ willModifyBasic: basic });
+            changeViewMode: React.PropTypes.func.isRequired
         },
         saveBtnClick: function () {
-            this.props.modifyBasic(this.state.willModifyBasic);
+
         },
         cancelModificationBtnClick: function () {
             this.props.changeViewMode();
@@ -274,7 +292,8 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                 BUTTON_NAMES = castleModel.buttons,
                 ATTRS = castleBasicModel.attrs,
                 lang = mainComponent.lang,
-                propBasicInfo = this.state.willModifyBasic;
+                propBasicInfo = this.props.basicInfo,
+                existsCastle = !commonObject.isEmpty(propBasicInfo) && propBasicInfo[ATTRS.id.name];
 
 
             return (
@@ -285,19 +304,19 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.id[lang]}</label>
                                 <div className="col-lg-5">
-                                    <p className="form-control-static">{propBasicInfo[ATTRS.id.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo[ATTRS.id.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.name[lang]}</label>
                                 <div className="col-lg-5">
-                                    <input type="text" className="form-control" onChange={this.nameChange} value={propBasicInfo[ATTRS.name.name]}/>
+                                    <p className="form-control-static">{this.props.basicInfo[ATTRS.name.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.locale[lang]}</label>
                                 <div className="col-lg-5">
-                                    <select className="form-control" onChange={this.localeChange} value={ propBasicInfo[ATTRS.locale.name] }>
+                                    <select className="form-control" value={ this.props.basicInfo[ATTRS.locale.name] }>
                                         <option>{ ATTRS.locale[lang] }</option>
                                         { Object.keys(ENUMS.locale).map( function (localeKey, index) {
                                             var LOCALE_ENUM = ENUMS.locale[localeKey];
@@ -312,7 +331,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.state[lang]}</label>
                                 <div className="col-lg-5">
-                                    <select className="form-control" onChange={this.stateChange} value={propBasicInfo[ATTRS.state.name]}>
+                                    <select className="form-control" value={this.props.basicInfo[ATTRS.state.name]}>
                                         <option>{ ATTRS.state[lang] }</option>
                                         { Object.keys(ENUMS.state).map( function (stateKey, index) {
                                             var STATE_ENUM = ENUMS.state[stateKey];
@@ -327,13 +346,13 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.primaryEmail[lang]}</label>
                                 <div className="col-lg-5">
-                                    <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.primaryEmail.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[ATTRS.castellan.primaryEmail.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.primaryPhone[lang]}</label>
                                 <div className="col-lg-5">
-                                    <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.primaryPhone.name]}</p>
+                                    <p className="form-control-static">{this.props.basicInfo.castellan[ATTRS.castellan.primaryPhone.name]}</p>
                                 </div>
                             </div>
                             <div className="form-group">
@@ -345,7 +364,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
                             <div className="form-group">
                                 <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.buildTime[lang]}</label>
                                 <div className="col-lg-5">
-                                    <p className="form-control-static">{commonDate.parseToString(propBasicInfo[ATTRS.buildTime.name])}</p>
+                                    <p className="form-control-static">{commonDate.parseToString(this.props.basicInfo[ATTRS.buildTime.name])}</p>
                                 </div>
                             </div>
 
@@ -361,5 +380,5 @@ Components.Castle.Basic = Components.Castle.Basic || { };
     });
 
 
-    Components.Castle.Basic = BasicContent;
+    Components.Castle.Basic = CastleDetailPage;
 })();

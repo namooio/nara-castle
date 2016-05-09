@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
+Components.Castle.MetroBook = Components.Castle.MetroBook || { };
 
 ( function () {
     //
@@ -9,21 +9,23 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
 
     // Import component module
     var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castlePhoneModel = {
+    var castleMetroModel = {
         attrs: {
-            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' },
-            countryCode:    { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' },
-            areaCode:       { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' },
-            number:         { name: 'number',       KOR: '번호',      USA: 'Number' }
+            metroId:        { name: 'metroId',          KOR: '메트로Id',    USA: 'Metro id' },
+            metroName:      { name: 'metroName',        KOR: '메트로명',    USA: 'Metro name' },
+            joinTime:       { name: 'joinTime',         KOR: '가입일시',    USA: 'Join time' },
+            withdrawalTime: { name: 'withdrawalTime',   KOR: '탈퇴일시',    USA: 'Withdrawal time' },
+            remarks:        { name: 'remarks',          KOR: '설명',        USA: 'Remarks' }
         },
-        messages : {
-            notRegisteredPhone : { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
+        messages: {
+            notExistsMetro: { KOR: 'Metro 이력이 없습니다', USA: 'Not exists metro history'}
         }
     };
 
@@ -31,19 +33,19 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
+            FIND_METRO_BOOK: constant.CTX + '/api/castles/{id}/histories/metro-book'
         },
         propTypes : {
             id: React.PropTypes.string
         },
         getInitialState: function () {
             return {
-                phoneBook: { phones: [] },
+                metroBook: { metros: [] },
                 contentModifiable: false
             };
         },
         componentDidMount: function () {
-            this.requestPhoneBook(this.props);
+            this.requestMetroBook(this.props);
         },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
@@ -51,18 +53,18 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         changeViewMode: function () {
             this.setState({contentModifiable: false});
         },
-        requestPhoneBook: function (props) {
+        requestMetroBook: function (props) {
             commonAjax
-                .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
-                .done( function (phoneBookResult) {
-                    this.setState({ phoneBook: phoneBookResult });
+                .getJSON(CastleDetailPage.FIND_METRO_BOOK.replace('{id}', props.id))
+                .done( function (metroBookResult) {
+                    this.setState({ metroBook: metroBookResult });
                 }.bind(this));
         },
         render: function () {
             return (
                 <Tab
                     castleId={this.props.id}
-                    phoneBook={this.state.phoneBook}
+                    metroBook={this.state.metroBook}
                     modifiable={this.state.contentModifiable}
                     changeModifiableMode={this.changeModifiableMode}
                     changeViewMode={this.changeViewMode}
@@ -74,8 +76,8 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     var Tab = React.createClass({
         //
         propTypes: {
-            castleId: React.PropTypes.string.isRequired,
-            phoneBook: React.PropTypes.object,
+            castleId: React.PropTypes.string,
+            metroBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
             changeModifiableMode: React.PropTypes.func.isRequired
@@ -95,7 +97,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                                 <li>
                                     <a href={"#/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
                                 </li>
-                                <li className="active">
+                                <li>
                                     <a href={"#/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
                                 </li>
                                 <li>
@@ -110,13 +112,13 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                                 <li>
                                     <a href={"#/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[lang]}</a>
                                 </li>
-                                <li>
+                                <li className="active">
                                     <a href={"#/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[lang]}</a>
                                 </li>
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <PhoneContent phoneBook={this.props.phoneBook} />
+                                    <MetroContent metroBook={this.props.metroBook} />
                                 </div>
                             </div>
                         </div>
@@ -161,54 +163,51 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         }
     });
 
-
-    var PhoneContent = React.createClass({
+    var MetroContent = React.createClass({
         propTypes: {
-            phoneBook: React.PropTypes.shape({
-                phones: React.PropTypes.array.isRequired
+            metroBook: React.PropTypes.shape({
+                metros: React.PropTypes.array.isRequired
             }).isRequired
         },
         render: function () {
-            var ATTRS = castlePhoneModel.attrs,
-                MESSAGES = castlePhoneModel.messages,
+            var ATTRS = castleMetroModel.attrs,
+                MESSAGES = castleMetroModel.messages,
                 lang = mainComponent.lang,
-                propPhoneBook = this.props.phoneBook,
-                existsPhoneBook = (propPhoneBook && propPhoneBook.phones && propPhoneBook.phones.length > 0) ? true : false;
+                propMetroBook = this.props.metroBook,
+                existsMetroBook = (propMetroBook && propMetroBook.metros && propMetroBook.metros.length > 0) ? true : false;
 
             return (
-                <article>
-                    <table className="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>{ATTRS.phoneNumber[lang]}</th>
-                                <th>{ATTRS.countryCode[lang]}</th>
-                                <th>{ATTRS.areaCode[lang]}</th>
-                                <th>{ATTRS.number[lang]}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        { existsPhoneBook ?
-                            propPhoneBook.phones.map( function (phone) {
-                                return (
-                                    <tr key={phone[ATTRS.phoneNumber.name]}>
-                                        <td>{phone[ATTRS.phoneNumber.name]}</td>
-                                        <td>{phone[ATTRS.countryCode.name]}</td>
-                                        <td>{phone[ATTRS.areaCode.name]}</td>
-                                        <td>{phone[ATTRS.number.name]}</td>
-                                    </tr>
-                                )
-                            })
-                            :
-                            <tr><td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td></tr>
-                        }
-                        </tbody>
-                    </table>
-                    <ButtonGroup modifiable={this.props.modifiable}/>
-                </article>
+                <table className="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>{ATTRS.metroId[lang]}</th>
+                            <th>{ATTRS.metroName[lang]}</th>
+                            <th>{ATTRS.joinTime[lang]}</th>
+                            <th>{ATTRS.withdrawalTime[lang]}</th>
+                            <th>{ATTRS.remarks[lang]}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    { existsMetroBook ?
+                        propMetroBook.metros.map( function (metro) {
+                            return (
+                                <tr key={metro[ATTRS.metroId.name]}>
+                                    <td>{metro[ATTRS.metroId.name]}</td>
+                                    <td>{metro[ATTRS.metroName.name]}</td>
+                                    <td>{commonDate.parseToString(metro[ATTRS.joinTime.name])}</td>
+                                    <td>{commonDate.parseToString(metro[ATTRS.withdrawalTime.name])}</td>
+                                    <td>{metro[ATTRS.remarks.name]}</td>
+                                </tr>
+                            )
+                        })
+                        :
+                        <tr><td colSpan="5">{MESSAGES.notExistsMetro[lang]}</td></tr>
+                    }
+                    </tbody>
+                </table>
             );
         }
     });
 
-
-    Components.Castle.PhoneBook = CastleDetailPage;
+    Components.Castle.MetroBook = CastleDetailPage;
 })();

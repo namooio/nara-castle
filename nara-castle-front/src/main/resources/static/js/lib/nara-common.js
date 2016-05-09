@@ -76,7 +76,7 @@ var NaraCommon = NaraCommon || { };
             console.error('Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
         }
         return commonAjaxJson(url, 'DELETE', param);
-    }
+    };
 
 
     var commonAjaxJson = function (url, method, param) {
@@ -93,7 +93,7 @@ var NaraCommon = NaraCommon || { };
         };
 
         if (param) {
-            jqAjaxReq.data = JSON.stringify(param);
+            jqAjaxReq.data = typeof param === 'object' ? JSON.stringify(param) : param;
         }
         return _jQuery.ajax(jqAjaxReq);
     };

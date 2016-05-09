@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
+Components.Castle.EmailBook = Components.Castle.EmailBook || { };
 
 ( function () {
     //
@@ -9,21 +9,22 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
 
     // Import component module
     var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castlePhoneModel = {
+    var castleEmailModel = {
         attrs: {
-            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' },
-            countryCode:    { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' },
-            areaCode:       { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' },
-            number:         { name: 'number',       KOR: '번호',      USA: 'Number' }
+            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' },
+            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'Type' },
+            verified:       { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' },
+            verifiedTime:   { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
         },
-        messages : {
-            notRegisteredPhone : { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
+        messages: {
+            notRegisteredEmail: { KOR: '등록 된 email이 없습니다', USA: 'Not registered the email' }
         }
     };
 
@@ -31,19 +32,19 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
+            FIND_EMAIL_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/email-book'
         },
         propTypes : {
             id: React.PropTypes.string
         },
         getInitialState: function () {
             return {
-                phoneBook: { phones: [] },
+                emailBook: { emails: [] },
                 contentModifiable: false
             };
         },
         componentDidMount: function () {
-            this.requestPhoneBook(this.props);
+            this.requestEmailBook(this.props);
         },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
@@ -51,18 +52,18 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         changeViewMode: function () {
             this.setState({contentModifiable: false});
         },
-        requestPhoneBook: function (props) {
+        requestEmailBook: function (props) {
             commonAjax
-                .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
-                .done( function (phoneBookResult) {
-                    this.setState({ phoneBook: phoneBookResult });
+                .getJSON(CastleDetailPage.FIND_EMAIL_BOOK_URL.replace('{id}', props.id))
+                .done( function (emailBookResult) {
+                    this.setState({ emailBook: emailBookResult });
                 }.bind(this));
         },
         render: function () {
             return (
                 <Tab
                     castleId={this.props.id}
-                    phoneBook={this.state.phoneBook}
+                    emailBook={this.state.emailBook}
                     modifiable={this.state.contentModifiable}
                     changeModifiableMode={this.changeModifiableMode}
                     changeViewMode={this.changeViewMode}
@@ -75,7 +76,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         //
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
-            phoneBook: React.PropTypes.object,
+            emailBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
             changeModifiableMode: React.PropTypes.func.isRequired
@@ -95,10 +96,10 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                                 <li>
                                     <a href={"#/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
                                 </li>
-                                <li className="active">
+                                <li>
                                     <a href={"#/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
                                 </li>
-                                <li>
+                                <li className="active">
                                     <a href={"#/castle/contact/email-book?contentType=" + TAB_NAMES.email.name + '&id=' + this.props.castleId}>{TAB_NAMES.email[lang]}</a>
                                 </li>
                                 <li>
@@ -116,7 +117,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <PhoneContent phoneBook={this.props.phoneBook} />
+                                    <EmailContent emailBook={this.props.emailBook} />
                                 </div>
                             </div>
                         </div>
@@ -162,44 +163,46 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     });
 
 
-    var PhoneContent = React.createClass({
+
+    var EmailContent = React.createClass({
         propTypes: {
-            phoneBook: React.PropTypes.shape({
-                phones: React.PropTypes.array.isRequired
+            emailBook: React.PropTypes.shape({
+                emails: React.PropTypes.array.isRequired
             }).isRequired
         },
         render: function () {
-            var ATTRS = castlePhoneModel.attrs,
-                MESSAGES = castlePhoneModel.messages,
+            var ENUMS = castleModel.enums,
+                ATTRS = castleEmailModel.attrs,
+                MESSAGES = castleEmailModel.messages,
                 lang = mainComponent.lang,
-                propPhoneBook = this.props.phoneBook,
-                existsPhoneBook = (propPhoneBook && propPhoneBook.phones && propPhoneBook.phones.length > 0) ? true : false;
+                propEmailBook = this.props.emailBook,
+                existsEmailBook = (propEmailBook && propEmailBook.emails && propEmailBook.emails.length > 0) ? true : false;
 
             return (
                 <article>
                     <table className="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>{ATTRS.phoneNumber[lang]}</th>
-                                <th>{ATTRS.countryCode[lang]}</th>
-                                <th>{ATTRS.areaCode[lang]}</th>
-                                <th>{ATTRS.number[lang]}</th>
+                                <th>{ATTRS.email[lang]}</th>
+                                <th>{ATTRS.emailType[lang]}</th>
+                                <th>{ATTRS.verified[lang]}</th>
+                                <th>{ATTRS.verifiedTime[lang]}</th>
                             </tr>
                         </thead>
                         <tbody>
-                        { existsPhoneBook ?
-                            propPhoneBook.phones.map( function (phone) {
+                        { existsEmailBook ?
+                            propEmailBook.emails.map( function (email) {
                                 return (
-                                    <tr key={phone[ATTRS.phoneNumber.name]}>
-                                        <td>{phone[ATTRS.phoneNumber.name]}</td>
-                                        <td>{phone[ATTRS.countryCode.name]}</td>
-                                        <td>{phone[ATTRS.areaCode.name]}</td>
-                                        <td>{phone[ATTRS.number.name]}</td>
+                                    <tr key={email[ATTRS.email.name]}>
+                                        <td>{email[ATTRS.email.name]}</td>
+                                        <td>{ENUMS.emailType[email[ATTRS.emailType.name]][lang]}</td>
+                                        <td>{ENUMS.verified[email[ATTRS.verified.name]][lang]}</td>
+                                        <td>{commonDate.parseToString(email[ATTRS.verifiedTime.name])}</td>
                                     </tr>
                                 )
                             })
                             :
-                            <tr><td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td></tr>
+                            <tr><td colSpan="4">{MESSAGES.notRegisteredEmail[lang]}</td></tr>
                         }
                         </tbody>
                     </table>
@@ -210,5 +213,5 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     });
 
 
-    Components.Castle.PhoneBook = CastleDetailPage;
+    Components.Castle.EmailBook = CastleDetailPage;
 })();

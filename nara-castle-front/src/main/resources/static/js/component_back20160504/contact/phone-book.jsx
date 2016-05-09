@@ -32,6 +32,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         //
         statics: {
             FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
+
         },
         propTypes : {
             id: React.PropTypes.string

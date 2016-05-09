@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
+Components.Castle.AccountBook = Components.Castle.AccountBook || { };
 
 ( function () {
     //
@@ -9,21 +9,22 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
 
     // Import component module
     var commonAjax = NaraCommon.Ajax,
+        commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
         mainComponent = Components.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castlePhoneModel = {
+    var castleAccountModel = {
         attrs: {
-            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' },
-            countryCode:    { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' },
-            areaCode:       { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' },
-            number:         { name: 'number',       KOR: '번호',      USA: 'Number' }
+            loginUserId:    { name: 'loginUserId',      KOR: '로그인Id',    USA: 'Login user id' },
+            channel:        { name: 'channel',          KOR: '접속방법',    USA: 'Channel' },
+            createTime:     { name: 'createTime',       KOR: '생성일시',    USA: 'Create time' },
+            deleteTime:     { name: 'deleteTime',       KOR: '삭제일시',    USA: 'Delete time' }
         },
-        messages : {
-            notRegisteredPhone : { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
+        messages: {
+            notExistsAccount: { KOR: 'Account 이력이 없습니다.', USA: 'Not exists acount history' }
         }
     };
 
@@ -31,19 +32,19 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     var CastleDetailPage = React.createClass({
         //
         statics: {
-            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
+            FIND_ACCOUNT_BOOK_URL: constant.CTX + '/api/castles/{id}/histories/account-book'
         },
         propTypes : {
             id: React.PropTypes.string
         },
         getInitialState: function () {
             return {
-                phoneBook: { phones: [] },
+                accountBook: { accounts: [] },
                 contentModifiable: false
             };
         },
         componentDidMount: function () {
-            this.requestPhoneBook(this.props);
+            this.requestAccountBook(this.props);
         },
         changeModifiableMode: function () {
             this.setState({contentModifiable: true});
@@ -51,18 +52,18 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         changeViewMode: function () {
             this.setState({contentModifiable: false});
         },
-        requestPhoneBook: function (props) {
+        requestAccountBook: function (props) {
             commonAjax
-                .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
-                .done( function (phoneBookResult) {
-                    this.setState({ phoneBook: phoneBookResult });
+                .getJSON(CastleDetailPage.FIND_ACCOUNT_BOOK_URL.replace('{id}', props.id))
+                .done( function (accountBookResult) {
+                    this.setState({ accountBook: accountBookResult });
                 }.bind(this));
         },
         render: function () {
             return (
                 <Tab
                     castleId={this.props.id}
-                    phoneBook={this.state.phoneBook}
+                    accountBook={this.state.accountBook}
                     modifiable={this.state.contentModifiable}
                     changeModifiableMode={this.changeModifiableMode}
                     changeViewMode={this.changeViewMode}
@@ -75,7 +76,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         //
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
-            phoneBook: React.PropTypes.object,
+            accountBook: React.PropTypes.object,
             modifiable: React.PropTypes.bool.isRequired,
 
             changeModifiableMode: React.PropTypes.func.isRequired
@@ -83,6 +84,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         render: function () {
             var TAB_NAMES = castleModel.tabs,
                 lang = mainComponent.lang;
+
 
             return (
                 <div className="container" >
@@ -95,7 +97,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                                 <li>
                                     <a href={"#/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
                                 </li>
-                                <li className="active">
+                                <li>
                                     <a href={"#/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
                                 </li>
                                 <li>
@@ -104,7 +106,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                                 <li>
                                     <a href={"#/castle/contact/address-book?contentType=" + TAB_NAMES.address.name + '&id=' + this.props.castleId}>{TAB_NAMES.address[lang]}</a>
                                 </li>
-                                <li>
+                                <li className="active">
                                     <a href={"#/castle/history/account-book?contentType=" + TAB_NAMES.account.name + '&id=' + this.props.castleId}>{TAB_NAMES.account[lang]}</a>
                                 </li>
                                 <li>
@@ -116,7 +118,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <PhoneContent phoneBook={this.props.phoneBook} />
+                                    <AccountContent accountBook={this.props.accountBook} />
                                 </div>
                             </div>
                         </div>
@@ -162,53 +164,50 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     });
 
 
-    var PhoneContent = React.createClass({
+    var AccountContent = React.createClass({
         propTypes: {
-            phoneBook: React.PropTypes.shape({
-                phones: React.PropTypes.array.isRequired
+            accountBook: React.PropTypes.shape({
+                accounts: React.PropTypes.array.isRequired
             }).isRequired
         },
         render: function () {
-            var ATTRS = castlePhoneModel.attrs,
-                MESSAGES = castlePhoneModel.messages,
+            var ATTRS = castleAccountModel.attrs,
+                MESSAGES = castleAccountModel.messages,
                 lang = mainComponent.lang,
-                propPhoneBook = this.props.phoneBook,
-                existsPhoneBook = (propPhoneBook && propPhoneBook.phones && propPhoneBook.phones.length > 0) ? true : false;
+                propAccountBook = this.props.accountBook,
+                existsAccountBook = (propAccountBook && propAccountBook.accounts && propAccountBook.accounts.length > 0) ? true : false;
 
             return (
-                <article>
-                    <table className="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>{ATTRS.phoneNumber[lang]}</th>
-                                <th>{ATTRS.countryCode[lang]}</th>
-                                <th>{ATTRS.areaCode[lang]}</th>
-                                <th>{ATTRS.number[lang]}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        { existsPhoneBook ?
-                            propPhoneBook.phones.map( function (phone) {
-                                return (
-                                    <tr key={phone[ATTRS.phoneNumber.name]}>
-                                        <td>{phone[ATTRS.phoneNumber.name]}</td>
-                                        <td>{phone[ATTRS.countryCode.name]}</td>
-                                        <td>{phone[ATTRS.areaCode.name]}</td>
-                                        <td>{phone[ATTRS.number.name]}</td>
-                                    </tr>
-                                )
-                            })
-                            :
-                            <tr><td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td></tr>
-                        }
-                        </tbody>
-                    </table>
-                    <ButtonGroup modifiable={this.props.modifiable}/>
-                </article>
+                <table className="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>{ATTRS.loginUserId[lang]}</th>
+                        <th>{ATTRS.channel[lang]}</th>
+                        <th>{ATTRS.createTime[lang]}</th>
+                        <th>{ATTRS.deleteTime[lang]}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    { existsAccountBook ?
+                        propAccountBook.accounts.map( function (account, index) {
+                            return (
+                                <tr key={index}>
+                                    <td>{account[ATTRS.loginUserId.name]}</td>
+                                    <td>{account[ATTRS.channel.name]}</td>
+                                    <td>{commonDate.parseToString(account[ATTRS.createTime.name])}</td>
+                                    <td>{commonDate.parseToString(account[ATTRS.deleteTime.name])}</td>
+                                </tr>
+                            )
+                        })
+                        :
+                        <tr><td colSpan="4">{MESSAGES.notExistsAccount[lang]}</td></tr>
+                    }
+                    </tbody>
+                </table>
             );
         }
     });
 
 
-    Components.Castle.PhoneBook = CastleDetailPage;
+    Components.Castle.AccountBook = CastleDetailPage;
 })();
