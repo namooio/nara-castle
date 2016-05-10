@@ -277,7 +277,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
             this.setState({ inputProgressNames: names, rowsModifiable: rowsModifiable });
         },
         modifyNameBtnClick: function (index) {
-            this.updateRowModifiableState(index, true);
+            this.setRowModifiableState(index, true);
         },
         removeNameBtnClick: function (index) {
             var progressNames = this.state.inputProgressNames,
@@ -295,7 +295,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
             names[index] = NaraCommon.Object.deepCopy(this.state.inputProgressNames[index]);
 
             this.setState({ willSaveNames: names });
-            this.updateRowModifiableState(index, false);
+            this.setRowModifiableState(index, false);
         },
         cancelNameBtnClick: function (index) {
             var names = NaraCommon.Object.deepCopy(this.state.inputProgressNames);
@@ -310,25 +310,25 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
                 this.setState({ rowsModifiable: rowsModifiable });
             }
             else {
-                this.updateRowModifiableState(index, false);
+                this.setRowModifiableState(index, false);
             }
             this.setState({ inputProgressNames: names });
         },
         familyNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.familyName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.familyName.name, event.target.value);
         },
         firstNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.firstName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.firstName.name, event.target.value);
         },
         displayNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.displayName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.displayName.name, event.target.value);
         },
         middleNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.middleName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.middleName.name, event.target.value);
         },
         langCodeChange: function (index, event) {
             console.log(event.target.value);
-            this.updateProgressNameState(index, castleNameModel.attrs.langCode.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.langCode.name, event.target.value);
         },
         saveNameBookBtnClick: function () {
             this.props.saveNameBook(this.state.willSaveNames);
@@ -336,13 +336,13 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
         cancelModificationBtnClick: function () {
             this.props.changeViewMode();
         },
-        updateRowModifiableState: function (index, modifiable) {
+        setRowModifiableState: function (index, modifiable) {
             var rowsModifiable = this.state.rowsModifiable;
             rowsModifiable[index] = modifiable;
 
             this.setState({ rowsModifiable: rowsModifiable });
         },
-        updateProgressNameState: function (index, propertyName, value) {
+        setProgressNameState: function (index, propertyName, value) {
             var names = this.state.inputProgressNames;
             names[index][propertyName] = value;
 

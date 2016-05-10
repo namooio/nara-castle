@@ -40,12 +40,12 @@ Components.Castle.Basic = Components.Castle.Basic || {};
     var BasicContent = React.createClass({
         //
         statics: {
-            FIND_CASTLE_URL: constant.CTX + '/api/castles/{id}',
+            FIND_CASTLE_URL:    constant.CTX + '/api/castles/{id}',
             FIND_CASTELLAN_URL: constant.CTX + '/api/castellans/{id}',
-            MODIFY_NAME_URL: constant.CTX + '/api/castles/{id}/name',
-            MODIFY_LOCALE_URL: constant.CTX + '/api/castles/{id}/locale',
+            MODIFY_NAME_URL:    constant.CTX + '/api/castles/{id}/name',
+            MODIFY_LOCALE_URL:  constant.CTX + '/api/castles/{id}/locale',
             SUSPEND_CASTLE_URL: constant.CTX + '/api/castles/{id}/suspend',
-            REOPEN_CASTLE_URL: constant.CTX + '/api/castles/{id}/reopen'
+            REOPEN_CASTLE_URL:  constant.CTX + '/api/castles/{id}/reopen'
         },
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -92,6 +92,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
             }.bind(this));
         },
         requestModifyBasic: function (castleBasic) {
+            //
             var urlBuilder = commonAjax.createUrlBuilder();
 
             urlBuilder.addUrlAndParam(BasicContent.MODIFY_NAME_URL.replace('{id}', this.props.castleId), castleBasic.name);
@@ -103,9 +104,6 @@ Components.Castle.Basic = Components.Castle.Basic || {};
             else if (castleBasic.state === castleModel.enums.state.Suspended.name) {
                 urlBuilder.addUrlAndParam(BasicContent.SUSPEND_CASTLE_URL.replace('{id}', this.props.castleId), 'remaraks');
             }
-
-            console.debug('저장');
-            console.dir(castleBasic);
 
             commonAjax.putJSONs(urlBuilder.build(), function () {
                 this.setBasic(castleBasic);
@@ -263,6 +261,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
             this.props.changeViewMode();
         },
         setWillModifyBasicState: function (propertyName, value) {
+            //
             var basic = this.state.willModifyBasic;
 
             basic[propertyName] = value;

@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.NameBook = Components.Castle.NameBook || { };
+Components.Castle.NameBook = Components.Castle.NameBook || {};
 
 ( function () {
     //
@@ -33,8 +33,8 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
     var NameContent = React.createClass({
         //
         statics: {
-            FIND_NAME_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/name-book',
-            ATTACH_NAME_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/name-book'
+            FIND_NAME_BOOK_URL:     constant.CTX + '/api/castellans/{id}/contacts/name-book',
+            ATTACH_NAME_BOOK_URL:   constant.CTX + '/api/castellans/{id}/contacts/name-book'
         },
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -56,11 +56,12 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
         },
         setNameBook: function (nameBook) {
             var castle = this.props.castle;
-            castle.contact.nameBook = nameBook;
 
+            castle.contact.nameBook = nameBook;
             this.props.setCastle(castle);
         },
         requestFindNameBook: function (props) {
+            //
             commonAjax
                 .getJSON(NameContent.FIND_NAME_BOOK_URL.replace('{id}', props.castleId))
                 .done( function (nameBookResult) {
@@ -68,7 +69,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
                 }.bind(this));
         },
         requestAttachNameBook: function (nameBook) {
-
+            //
             commonAjax
                 .postJSON(NameContent.ATTACH_NAME_BOOK_URL.replace('{id}', this.props.castleId), nameBook)
                 .done( function () {
@@ -79,7 +80,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
                 }.bind(this));
         },
         render : function () {
-
+            //
             return (
                 this.props.modifiable ?
                     <NameModifiableContent
@@ -108,9 +109,10 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
             this.props.changeModifiableMode();
         },
         removeBtnClick: function () {
-
+            // TODO: NameBook 삭제 기능
         },
         render: function () {
+            //
             var ENUMS = castleModel.enums,
                 BUTTON_NAMES = castleModel.buttons,
                 ATTRS = castleNameModel.attrs,
@@ -173,14 +175,17 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
             };
         },
         componentDidMount: function () {
-            var names,
+            var names = NaraCommon.Object.deepCopy(this.props.nameBook.names),
                 rowsModifiable = [];
 
-            names = NaraCommon.Object.deepCopy(this.props.nameBook.names);
             rowsModifiable.length = names.length;
             rowsModifiable.fill(false);
 
-            this.setState({ willSaveNames: names, inputProgressNames: NaraCommon.Object.deepCopy(names), rowsModifiable: rowsModifiable });
+            this.setState({
+                willSaveNames: names,
+                inputProgressNames: NaraCommon.Object.deepCopy(names),
+                rowsModifiable: rowsModifiable
+            });
         },
         addNameBtnClick: function () {
             var names = this.state.inputProgressNames,
@@ -192,7 +197,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
             this.setState({ inputProgressNames: names, rowsModifiable: rowsModifiable });
         },
         modifyNameBtnClick: function (index) {
-            this.updateRowModifiableState(index, true);
+            this.setRowModifiableState(index, true);
         },
         removeNameBtnClick: function (index) {
             var progressNames = this.state.inputProgressNames,
@@ -203,14 +208,18 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
             saveNames.splice(index, 1);
             rowsModifiable.splice(index, 1);
 
-            this.setState({ inputProgressNames: progressNames , willSaveNames: saveNames, rowsModifiable: rowsModifiable});
+            this.setState({
+                inputProgressNames: progressNames ,
+                willSaveNames: saveNames,
+                rowsModifiable: rowsModifiable
+            });
         },
         completeNameBtnClick: function (index) {
             var names = NaraCommon.Object.deepCopy(this.state.willSaveNames);
             names[index] = NaraCommon.Object.deepCopy(this.state.inputProgressNames[index]);
 
             this.setState({ willSaveNames: names });
-            this.updateRowModifiableState(index, false);
+            this.setRowModifiableState(index, false);
         },
         cancelNameBtnClick: function (index) {
             var names = NaraCommon.Object.deepCopy(this.state.inputProgressNames);
@@ -225,24 +234,24 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
                 this.setState({ rowsModifiable: rowsModifiable });
             }
             else {
-                this.updateRowModifiableState(index, false);
+                this.setRowModifiableState(index, false);
             }
             this.setState({ inputProgressNames: names });
         },
         familyNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.familyName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.familyName.name, event.target.value);
         },
         firstNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.firstName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.firstName.name, event.target.value);
         },
         displayNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.displayName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.displayName.name, event.target.value);
         },
         middleNameChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.middleName.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.middleName.name, event.target.value);
         },
         langCodeChange: function (index, event) {
-            this.updateProgressNameState(index, castleNameModel.attrs.langCode.name, event.target.value);
+            this.setProgressNameState(index, castleNameModel.attrs.langCode.name, event.target.value);
         },
         saveNameBookBtnClick: function () {
             this.props.saveNameBook({ names: this.state.willSaveNames });
@@ -250,19 +259,22 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
         cancelModificationBtnClick: function () {
             this.props.changeViewMode();
         },
-        updateRowModifiableState: function (index, modifiable) {
+        setRowModifiableState: function (index, modifiable) {
+            //
             var rowsModifiable = this.state.rowsModifiable;
             rowsModifiable[index] = modifiable;
 
             this.setState({ rowsModifiable: rowsModifiable });
         },
-        updateProgressNameState: function (index, propertyName, value) {
+        setProgressNameState: function (index, propertyName, value) {
+            //
             var names = this.state.inputProgressNames;
             names[index][propertyName] = value;
 
             this.setState({ inputProgressNames: names });
         },
         render: function () {
+            //
             var BUTTON_NAMES = castleModel.buttons,
                 ENUMS = castleModel.enums,
                 ATTRS = castleNameModel.attrs,
