@@ -1,14 +1,14 @@
 /**
  * Created by hkkang on 2016-04-28.
  */
-var NaraCommon = NaraCommon || { };
+var NaraCommon = NaraCommon || {};
 
 
 ( function () {
     //
     'use strict';
 
-    var namespace = { };
+    var namespace = {};
 
     // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
     // Import external library
@@ -23,7 +23,28 @@ var NaraCommon = NaraCommon || { };
 
 
     // Ajax util
-    namespace.Ajax = { };
+    namespace.Ajax = {};
+
+
+    var UrlBuilder = function () {
+        this.urlAndParams = [];
+    };
+
+    UrlBuilder.prototype.addUrl = function (url) {
+        this.urlAndParams.push({ url: url });
+    };
+    UrlBuilder.prototype.addUrlAndParam = function (url, param) {
+        this.urlAndParams.push({ url: url, param: param });
+    };
+    UrlBuilder.prototype.build = function () {
+        return this.urlAndParams;
+    };
+
+    namespace.Ajax.createUrlBuilder = function () {
+        //
+        return new UrlBuilder();
+    };
+
 
     /**
      * Get Json AJAX
@@ -39,10 +60,17 @@ var NaraCommon = NaraCommon || { };
         if (!url || typeof url !== 'string') {
             console.error('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
         }
-
         return commonAjaxJson(url, 'GET', param).pipe( function (jsonResult, status, jqXHR) {
             return jsonResult;
         });
+    };
+
+    namespace.Ajax.getJSONs = function (urlParams, callback) {
+        //
+        if (!urlParams || !Array.isArray(urlParams)) {
+            console.error('Invalid url for Ajax getJSONs -> urlParams: ' + urlParams);
+        }
+        return commonAjaxJsons(urlParams, callback, 'GET');
     };
 
     /**
@@ -62,12 +90,28 @@ var NaraCommon = NaraCommon || { };
         return commonAjaxJson(url, 'POST', param);
     };
 
+    namespace.Ajax.postJSONs = function (urlParams, callback) {
+        //
+        if (!urlParams || !Array.isArray(urlParams)) {
+            console.error('Invalid url for Ajax postJSONs -> urlParams: ' + urlParams);
+        }
+        return commonAjaxJsons(urlParams, callback, 'POST');
+    };
+
     namespace.Ajax.putJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
             console.error('Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
         }
         return commonAjaxJson(url, 'PUT', param);
+    };
+
+    namespace.Ajax.putJSONs = function (urlParams, callback) {
+        //
+        if (!urlParams || !Array.isArray(urlParams)) {
+            console.error('Invalid url for Ajax putJSONs -> urlParams: ' + urlParams);
+        }
+        return commonAjaxJsons(urlParams, callback, 'PUT');
     };
 
     namespace.Ajax.deleteJSON = function (url, param) {
@@ -78,6 +122,13 @@ var NaraCommon = NaraCommon || { };
         return commonAjaxJson(url, 'DELETE', param);
     };
 
+    namespace.Ajax.deleteJSONs = function (urlParams, callback) {
+        //
+        if (!urlParams || !Array.isArray(urlParams)) {
+            console.error('Invalid url for Ajax deleteJSONs -> urlParams: ' + urlParams);
+        }
+        return commonAjaxJsons(urlParams, callback, 'DELETE');
+    };
 
     var commonAjaxJson = function (url, method, param) {
         //
@@ -96,6 +147,39 @@ var NaraCommon = NaraCommon || { };
             jqAjaxReq.data = typeof param === 'object' ? JSON.stringify(param) : param;
         }
         return _jQuery.ajax(jqAjaxReq);
+    };
+
+    var commonAjaxJsons = function (urlParams, callback, method) {
+        //
+        var callbackCallable = callback && typeof callback === 'function',
+            promisses = [];
+
+        for (var i = 0; i < urlParams.length; i ++) {
+            //
+            var url = urlParams[i].url,
+                param = urlParams[i].param,
+                promiss;
+
+            promiss = commonAjaxJson(url, method, param);
+            promisses.push(promiss);
+        }
+
+        _jQuery.when.apply(_jQuery, promisses).done( function () {
+            //
+            var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
+                resultDatas = [];
+
+            for (var i = 0; i < ajaxResults.length; i++) {
+                var ajaxResult = ajaxResults[i],
+                    resultData = ajaxResult[0];
+                resultDatas.push(resultData);
+            }
+
+            if (callbackCallable) {
+                callback.apply(this, resultDatas);
+            }
+            return promisses;
+        });
     };
 
 
@@ -226,7 +310,7 @@ var NaraCommon = NaraCommon || { };
 
 
     // Date util
-    namespace.Date = { };
+    namespace.Date = {};
     namespace.Date.parseToString = function (date) {
         if (!date) {
             return null;
@@ -236,7 +320,7 @@ var NaraCommon = NaraCommon || { };
 
 
     // Object util
-    namespace.Object = { };
+    namespace.Object = {};
     namespace.Object.isEmpty = function (object) {
         return (!object || Object.keys(object).length === 0);
     };
@@ -256,13 +340,13 @@ var NaraCommon = NaraCommon || { };
         if (!source || !(typeof source === 'object' || Array.isArray(source))) {
             return source;
         }
-
         if (Array.isArray(source)) {
             result = [];
         }
         else {
             result = {};
         }
+
         for (var property in source) {
             if (source.hasOwnProperty(property)) {
                 var sourcePropValue = source[property];

@@ -76,7 +76,7 @@ Components.Castle.NameBook = Components.Castle.NameBook || { };
 
                     var lang = mainComponent.lang;
                     alert(castleNameModel.messages.completeSave[lang]);
-                });
+                }.bind(this));
         },
         render : function () {
 

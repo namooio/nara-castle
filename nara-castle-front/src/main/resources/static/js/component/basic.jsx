@@ -1,15 +1,14 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.Basic = Components.Castle.Basic || { };
+Components.Castle.Basic = Components.Castle.Basic || {};
 
 ( function () {
     //
     'use strict';
 
     // Import component module
-    var jQuery = $,
-        commonAjax = NaraCommon.Ajax,
+    var commonAjax = NaraCommon.Ajax,
         commonObject = NaraCommon.Object,
         commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
@@ -32,10 +31,10 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             }
         },
         messages: {
-            notFoundCastle: { KOR: '해당 Id의 Castle 정보가 없습니다. -> Id: {id}', USA: 'Not found the Castle -> Id: {id}'},
-            completeModify:   { KOR: 'Basic이 수정 되었습니다.',    USA: 'Modify has been completed.' }
+            notFoundCastle: { KOR: '해당 Id의 Castle 정보가 없습니다. -> Id: {id}', USA: 'Not found the Castle -> Id: {id}' },
+            completeModify: { KOR: 'Basic이 수정 되었습니다.',    USA: 'Modify has been completed.' },
+            confirmRemove:  { KOR: '삭제 시 Contact와 History 관련 모든 정보가 삭제되며 복구할 수 없습니다. 정말 삭제하시겠습니까?', USA: 'Are you really remove castle?' }
         }
-
     };
 
     var BasicContent = React.createClass({
@@ -62,65 +61,61 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             setCastle: React.PropTypes.func.isRequired
         },
         componentDidMount: function () {
-            this.requestFindCastle(this.props);
+            this.requestFindCastle(this.props.castleId);
         },
-        setBasic: function (castleBasic) {
-            console.dir(castleBasic);
+        setBasic: function (castleBasic, castellan) {
+            //
             var castle = this.props.castle;
 
             castle.basic = castleBasic;
+            castle.basic.castellan = castellan || castle.basic.castellan;
+
             this.props.setCastle(castle);
         },
-        requestFindCastle: function (props) {
+        requestFindCastle: function (castleId) {
             //
-            jQuery
-                .when(
-                    commonAjax.getJSON(BasicContent.FIND_CASTLE_URL.replace('{id}', props.castleId)),
-                    commonAjax.getJSON(BasicContent.FIND_CASTELLAN_URL.replace('{id}', props.castleId))
-                )
-                .done( function (castleResult, castellanResult) {
-                    //
-                    if (commonObject.isEmpty(castleResult)) {
-                        var MESSAGES = castleBasicModel.messages,
-                            lang = mainComponent.lang;
+            var urlBuilder = commonAjax.createUrlBuilder();
 
-                        alert(MESSAGES.notFoundCastle[lang].replace('{id}', props.castleId));
-                        return;
-                    }
-                    var castle = props.castle;
+            urlBuilder.addUrl(BasicContent.FIND_CASTLE_URL.replace('{id}', castleId));
+            urlBuilder.addUrl(BasicContent.FIND_CASTELLAN_URL.replace('{id}', castleId));
 
-                    castleResult.castellan = castellanResult;
-                    castle.basic = castleResult;
-                    props.setCastle(castle);
-                }.bind(this));
+            commonAjax.getJSONs(urlBuilder.build(), function (castleResult, castellanResult) {
+                //
+                if (commonObject.isEmpty(castleResult)) {
+                    var MESSAGES = castleBasicModel.messages,
+                        lang = mainComponent.lang;
+
+                    alert(MESSAGES.notFoundCastle[lang].replace('{id}', castleId));
+                    return;
+                }
+                this.setBasic(castleResult, castellanResult);
+            }.bind(this));
         },
         requestModifyBasic: function (castleBasic) {
-            console.debug('저장');
-            console.dir(castleBasic);
-            var updateStateUrl;
+            var urlBuilder = commonAjax.createUrlBuilder();
+
+            urlBuilder.addUrlAndParam(BasicContent.MODIFY_NAME_URL.replace('{id}', this.props.castleId), castleBasic.name);
+            urlBuilder.addUrlAndParam(BasicContent.MODIFY_LOCALE_URL.replace('{id}', this.props.castleId), castleBasic.locale);
 
             if (castleBasic.state === castleModel.enums.state.Open.name) {
-                updateStateUrl = BasicContent.REOPEN_CASTLE_URL;
+                urlBuilder.addUrlAndParam(BasicContent.REOPEN_CASTLE_URL.replace('{id}', this.props.castleId), 'remaraks');
             }
             else if (castleBasic.state === castleModel.enums.state.Suspended.name) {
-                updateStateUrl = BasicContent.SUSPEND_CASTLE_URL;
+                urlBuilder.addUrlAndParam(BasicContent.SUSPEND_CASTLE_URL.replace('{id}', this.props.castleId), 'remaraks');
             }
 
-            jQuery
-                .when(
-                    commonAjax.putJSON(updateStateUrl.replace('{id}', this.props.castleId), 'remarks'),
-                    commonAjax.putJSON(BasicContent.MODIFY_NAME_URL.replace('{id}', this.props.castleId), castleBasic.name),
-                    commonAjax.putJSON(BasicContent.MODIFY_LOCALE_URL.replace('{id}', this.props.castleId), castleBasic.locale)
-                )
-                .done( function () {
-                    this.setBasic(castleBasic);
+            console.debug('저장');
+            console.dir(castleBasic);
 
-                    var lang = mainComponent.lang;
-                    alert(castleBasicModel.messages.completeModify[lang]);
-                }.bind(this));
+            commonAjax.putJSONs(urlBuilder.build(), function () {
+                this.setBasic(castleBasic);
+
+                var lang = mainComponent.lang;
+                alert(castleBasicModel.messages.completeModify[lang]);
+            }.bind(this));
         },
         render : function () {
-
+            //
             return (
                 this.props.modifiable ?
                     <BasicModifiableContent
@@ -154,9 +149,13 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             this.props.changeModifiableMode();
         },
         removeBtnClick: function () {
-
+            var lang = mainComponent.lang;
+            if (confirm(castleBasicModel.messages.confirmRemove[lang])) {
+                // TODO : Castle 삭제
+            }
         },
         render: function () {
+            //
             var ENUMS = castleModel.enums,
                 BUTTON_NAMES = castleModel.buttons,
                 ATTRS = castleBasicModel.attrs,
@@ -227,6 +226,7 @@ Components.Castle.Basic = Components.Castle.Basic || { };
     });
 
     var BasicModifiableContent = React.createClass({
+        //
         propTypes: {
             basicInfo: React.PropTypes.shape({
                 castellan: React.PropTypes.object.isRequired
@@ -238,7 +238,9 @@ Components.Castle.Basic = Components.Castle.Basic || { };
         },
         getInitialState: function () {
             return {
-                willModifyBasic: { castellan: {} }
+                willModifyBasic: {
+                    castellan: {}
+                }
             };
         },
         componentDidMount: function () {
@@ -246,22 +248,13 @@ Components.Castle.Basic = Components.Castle.Basic || { };
             this.setState({ willModifyBasic: basicInfo });
         },
         nameChange: function (event) {
-            var basic = this.state.willModifyBasic;
-
-            basic.name = event.target.value;
-            this.setState({ willModifyBasic: basic });
+            this.setWillModifyBasicState(castleBasicModel.attrs.name.name, event.target.value);
         },
         localeChange: function (event) {
-            var basic = this.state.willModifyBasic;
-
-            basic.locale = event.target.value;
-            this.setState({ willModifyBasic: basic });
+            this.setWillModifyBasicState(castleBasicModel.attrs.locale.name, event.target.value);
         },
         stateChange: function (event) {
-            var basic = this.state.willModifyBasic;
-
-            basic.state = event.target.value;
-            this.setState({ willModifyBasic: basic });
+            this.setWillModifyBasicState(castleBasicModel.attrs.state.name, event.target.value);
         },
         saveBtnClick: function () {
             this.props.modifyBasic(this.state.willModifyBasic);
@@ -269,7 +262,14 @@ Components.Castle.Basic = Components.Castle.Basic || { };
         cancelModificationBtnClick: function () {
             this.props.changeViewMode();
         },
+        setWillModifyBasicState: function (propertyName, value) {
+            var basic = this.state.willModifyBasic;
+
+            basic[propertyName] = value;
+            this.setState({ willModifyBasic: basic });
+        },
         render: function () {
+            //
             var ENUMS = castleModel.enums,
                 BUTTON_NAMES = castleModel.buttons,
                 ATTRS = castleBasicModel.attrs,

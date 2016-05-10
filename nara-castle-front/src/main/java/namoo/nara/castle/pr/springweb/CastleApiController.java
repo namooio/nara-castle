@@ -43,7 +43,6 @@ public class CastleApiController {
 
     @RequestMapping(value="/{id}/name", method=RequestMethod.PUT)
     public void modifyName(@PathVariable("id") String castleId, @RequestBody String name) {
-        System.out.println(name);
         castleFrontService.modifyName(castleId, name);
     }
 
