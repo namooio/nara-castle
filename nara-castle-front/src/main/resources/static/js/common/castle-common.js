@@ -1,39 +1,39 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-var CastleCommon = CastleCommon || { };
+var CastleCommon = CastleCommon || {};
 
 
 // Castle app components namespace
 var Components = {
-    Castle : { },
-    Common : { }
+    Castle : {},
+    Common : {}
 };
 
 ( function () {
     //
     'use strict';
 
-    var namespace = {};
+    var publicNamespace = {};
 
-    // Import external library
-    var _jQuery = $;
+    // Import external library and module
+    var _jQuery = $,
+        commonObject = NaraCommon.Object;
+
 
     // Castle app constant
-    namespace.Const = {
+    publicNamespace.Const = {};
+    commonObject.defineConstProperties(publicNamespace.Const, {
         CTX: '.',
-        TOP_MENU_DOM_ID: 'castle-top-menu',
-        CONTENTS_DOM_ID: 'castle-content'
+    });
+
+
+    publicNamespace.getCastleMainJDom = function () {
+        return _jQuery('#castle-drama')[0];
     };
 
-    namespace.getTopMenuJDom = function () {
-        return _jQuery('#' + CastleCommon.Const.TOP_MENU_DOM_ID)[0];
-    };
 
-    namespace.getContentsJDom = function () {
-        return _jQuery('#' + CastleCommon.Const.CONTENTS_DOM_ID)[0];
-    };
 
-    CastleCommon = namespace;
+    CastleCommon = publicNamespace;
 
 })();

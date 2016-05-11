@@ -67,21 +67,27 @@ var NaraReactRouter = NaraReactRouter || { };
     //
     'use strict';
 
-    var namespace = { };
+    var publicNamespace = {};
 
     // Import module
-    var commonAjax = NaraCommon.Ajax;
+    var commonObject = NaraCommon.Object,
+        commonAjax = NaraCommon.Ajax;
 
 
     // URL mapping type object
-    var mappingType = {
-        REQUEST: "REQ",
-        REDIRECT: "RDT"
-    };
+    var mappingType = {};
+    commonObject.defineConstProperties(mappingType, {
+        REQUEST: 'REQ',
+        REDIRECT: 'RDR'
+    });
 
-    // URL mapping object
+    publicNamespace.MappingType = mappingType;
+
+
+    // URL mapper object
     var urlMapper = {
-        mappings: { },
+        //
+        mappings: {},
         getMapping: function (url) {
             return this.mappings[url];
         },
@@ -105,7 +111,8 @@ var NaraReactRouter = NaraReactRouter || { };
 
     // Component cache object
     var componentCache = {
-        caches : { },
+        //
+        caches : {},
         add: function (hashUrl, componentName, component) {
             this.caches[hashUrl + '_' + componentName] = component;
         },
@@ -130,7 +137,7 @@ var NaraReactRouter = NaraReactRouter || { };
      *
      * @param initParam
      */
-    namespace.initialize = function (initParam) {
+    publicNamespace.initialize = function (initParam) {
         //
         if (!initParam) {
             alert('Invaild initialization param of nara-react-router -> ' + initParam);
@@ -145,13 +152,27 @@ var NaraReactRouter = NaraReactRouter || { };
         navigate(callback, pageNotFoundMapping);
     };
 
+    var Initializer = function () {
+        //
+        this.routerCallback = function () {};
+    };
+    Initializer.prototype.setRouterCallback = function () {
+        //
+
+    };
+
+
+    publicNamespace.createInitializer = function () {
+
+    };
+
     /**
      * Add url mappaing information at router
      *
      * @param url
      * @param resources
      */
-    namespace.addMapping = function (url, resources) {
+    publicNamespace.addMapping = function (url, resources) {
         //
         urlMapper.addRequest(url, resources);
     };
@@ -162,7 +183,7 @@ var NaraReactRouter = NaraReactRouter || { };
      * @param url
      * @param redirectUrl
      */
-    namespace.addRedirect = function (url, redirectUrl) {
+    publicNamespace.addRedirect = function (url, redirectUrl) {
         //
         urlMapper.addRedirect(url, redirectUrl);
     };
@@ -283,8 +304,6 @@ var NaraReactRouter = NaraReactRouter || { };
     };
 
 
-    namespace.MappingType = mappingType;
-
-    NaraReactRouter = namespace;
+    NaraReactRouter = publicNamespace;
 })();
 

@@ -9,7 +9,7 @@ Components.Castle.Model = Components.Castle.Model || { };
 
 
     // Define Content attributes name
-    var castleModel = {
+    const castleModel = {
         buttons : {
             search:     { KOR: '검색',      USA: 'Search' },
             save:       { KOR: '저장',      USA: 'Save' },

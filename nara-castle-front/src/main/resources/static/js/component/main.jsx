@@ -1,4 +1,4 @@
-/**
+ /**
  * Created by hkkang on 2016-04-05.
  */
 Components.Main = Components.Main || { };
@@ -126,7 +126,7 @@ Components.Main = Components.Main || { };
 
     // Initialize nara router
     var renderLayout = function (contentComponent, params) {
-        ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, castleCommon.getContentsJDom());
+        ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, castleCommon.getCastleMainJDom());
     };
 
     var initParam = {
@@ -139,6 +139,7 @@ Components.Main = Components.Main || { };
     };
 
     naraReactRouter.initialize(initParam);
+
 
     Components.Main = MainPage;
 })();

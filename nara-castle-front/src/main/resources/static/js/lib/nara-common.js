@@ -8,7 +8,7 @@ var NaraCommon = NaraCommon || {};
     //
     'use strict';
 
-    var namespace = {};
+    var publicNamespace = {};
 
     // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
     // Import external library
@@ -16,20 +16,83 @@ var NaraCommon = NaraCommon || {};
         _jsxTransform = babel.transform;
 
 
-    // Castle app Constant
-    namespace.Const = {
-        CTX: '.'
+    // Object util
+    publicNamespace.Object = {};
+
+    publicNamespace.Object.defineConstProperty = function (obj, name, value) {
+        //
+        Object.defineProperty(obj, name, {
+            value: value,
+            writable: false,
+            configurable: false,
+            enumerable: true
+        });
+    };
+
+    publicNamespace.Object.defineConstProperties = function (obj, nameValues) {
+        //
+        Object.keys(nameValues).forEach( function (name) {
+            publicNamespace.Object.defineConstProperty(obj, name, nameValues[name]);
+        });
+    };
+
+    publicNamespace.Object.isEmpty = function (object) {
+        //
+        return (!object || Object.keys(object).length === 0);
+    };
+
+    publicNamespace.Object.deepCopy = function (source) {
+        //
+        if (!source || typeof source !== 'object') {
+            console.warn("Source is not array or object. > NaraCommon.Object.deepCopy");
+            return;
+        }
+        return deepCopy(source);
+    };
+
+    var deepCopy = function (source) {
+        //
+        var result;
+
+        if (!source || !(typeof source === 'object' || Array.isArray(source))) {
+            return source;
+        }
+        if (Array.isArray(source)) {
+            result = [];
+        }
+        else {
+            result = {};
+        }
+
+        for (var property in source) {
+            if (source.hasOwnProperty(property)) {
+                var sourcePropValue = source[property];
+                result[property] = deepCopy(sourcePropValue);
+            }
+        }
+        return result;
+    };
+
+
+    // Date util
+    publicNamespace.Date = {};
+    publicNamespace.Date.parseToString = function (date) {
+        //
+        if (!date) {
+            return null;
+        }
+        return new Date(date).toLocaleString();
     };
 
 
     // Ajax util
-    namespace.Ajax = {};
+    publicNamespace.Ajax = {};
 
 
     var UrlBuilder = function () {
+        //
         this.urlAndParams = [];
     };
-
     UrlBuilder.prototype.addUrl = function (url) {
         this.urlAndParams.push({ url: url });
     };
@@ -40,7 +103,7 @@ var NaraCommon = NaraCommon || {};
         return this.urlAndParams;
     };
 
-    namespace.Ajax.createUrlBuilder = function () {
+    publicNamespace.Ajax.createUrlBuilder = function () {
         //
         return new UrlBuilder();
     };
@@ -55,22 +118,22 @@ var NaraCommon = NaraCommon || {};
      * @param param
      * @returns {*}
      */
-    namespace.Ajax.getJSON = function (url, param) {
+    publicNamespace.Ajax.getJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
             console.error('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
         }
-        return commonAjaxJson(url, 'GET', param).pipe( function (jsonResult, status, jqXHR) {
+        return commonRequestJson(url, 'GET', param).pipe( function (jsonResult, status, jqXHR) {
             return jsonResult;
         });
     };
 
-    namespace.Ajax.getJSONs = function (urlParams, callback) {
+    publicNamespace.Ajax.getJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax getJSONs -> urlParams: ' + urlParams);
         }
-        return commonAjaxJsons(urlParams, callback, 'GET');
+        return commonRequestJsons(urlParams, callback, 'GET');
     };
 
     /**
@@ -82,55 +145,55 @@ var NaraCommon = NaraCommon || {};
      * @param param
      * @returns {*}
      */
-    namespace.Ajax.postJSON = function (url, param) {
+    publicNamespace.Ajax.postJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
             console.error('Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
         }
-        return commonAjaxJson(url, 'POST', param);
+        return commonRequestJson(url, 'POST', param);
     };
 
-    namespace.Ajax.postJSONs = function (urlParams, callback) {
+    publicNamespace.Ajax.postJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax postJSONs -> urlParams: ' + urlParams);
         }
-        return commonAjaxJsons(urlParams, callback, 'POST');
+        return commonRequestJsons(urlParams, callback, 'POST');
     };
 
-    namespace.Ajax.putJSON = function (url, param) {
+    publicNamespace.Ajax.putJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
             console.error('Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
         }
-        return commonAjaxJson(url, 'PUT', param);
+        return commonRequestJson(url, 'PUT', param);
     };
 
-    namespace.Ajax.putJSONs = function (urlParams, callback) {
+    publicNamespace.Ajax.putJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax putJSONs -> urlParams: ' + urlParams);
         }
-        return commonAjaxJsons(urlParams, callback, 'PUT');
+        return commonRequestJsons(urlParams, callback, 'PUT');
     };
 
-    namespace.Ajax.deleteJSON = function (url, param) {
+    publicNamespace.Ajax.deleteJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
             console.error('Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
         }
-        return commonAjaxJson(url, 'DELETE', param);
+        return commonRequestJson(url, 'DELETE', param);
     };
 
-    namespace.Ajax.deleteJSONs = function (urlParams, callback) {
+    publicNamespace.Ajax.deleteJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax deleteJSONs -> urlParams: ' + urlParams);
         }
-        return commonAjaxJsons(urlParams, callback, 'DELETE');
+        return commonRequestJsons(urlParams, callback, 'DELETE');
     };
 
-    var commonAjaxJson = function (url, method, param) {
+    var commonRequestJson = function (url, method, param) {
         //
         if (!url || typeof url !== 'string') {
             console.error('Invalid arguments for Ajax JSON -> url: ' + url + ', param: ' + param);
@@ -149,7 +212,7 @@ var NaraCommon = NaraCommon || {};
         return _jQuery.ajax(jqAjaxReq);
     };
 
-    var commonAjaxJsons = function (urlParams, callback, method) {
+    var commonRequestJsons = function (urlParams, callback, method) {
         //
         var callbackCallable = callback && typeof callback === 'function',
             promisses = [];
@@ -160,7 +223,7 @@ var NaraCommon = NaraCommon || {};
                 param = urlParams[i].param,
                 promiss;
 
-            promiss = commonAjaxJson(url, method, param);
+            promiss = commonRequestJson(url, method, param);
             promisses.push(promiss);
         }
 
@@ -185,6 +248,7 @@ var NaraCommon = NaraCommon || {};
 
     // Script cache object
     var scriptCache = {
+        //
         caches : { },
         add: function (url, script) {
             this.caches[url.split('?')[0]] = script;
@@ -205,13 +269,12 @@ var NaraCommon = NaraCommon || {};
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional, this param is calllback when exists param1
      */
-    namespace.Ajax.getScript = function (url, param1, param2) {
+    publicNamespace.Ajax.getScript = function (url, param1, param2) {
         //
         if (!url || typeof url !== 'string') {
             alert('Invalid url for Ajax getScript -> url: ' + url);
         }
-
-        namespace.Ajax.getScripts([url], param1, param2);
+        publicNamespace.Ajax.getScripts([url], param1, param2);
     };
 
     /**
@@ -225,7 +288,7 @@ var NaraCommon = NaraCommon || {};
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional calllback when param1 exists
      */
-    namespace.Ajax.getScripts = function (urlArray, param1, param2) {
+    publicNamespace.Ajax.getScripts = function (urlArray, param1, param2) {
         //
         var settings,
             callback,
@@ -309,54 +372,14 @@ var NaraCommon = NaraCommon || {};
     };
 
 
-    // Date util
-    namespace.Date = {};
-    namespace.Date.parseToString = function (date) {
-        if (!date) {
-            return null;
-        }
-        return new Date(date).toLocaleString();
-    };
+    // Nara commmon constant
+    publicNamespace.Const = {};
+
+    publicNamespace.Object.defineConstProperties(publicNamespace.Const, {
+        CTX: ','
+    });
 
 
-    // Object util
-    namespace.Object = {};
-    namespace.Object.isEmpty = function (object) {
-        return (!object || Object.keys(object).length === 0);
-    };
-
-    namespace.Object.deepCopy = function (source) {
-        if (!source || typeof source !== 'object') {
-            console.warn("Source is not array or object. > NaraCommon.Object.deepCopy");
-            return;
-        }
-        return deepCopy(source);
-    };
-
-    var deepCopy = function (source) {
-        //
-        var result;
-
-        if (!source || !(typeof source === 'object' || Array.isArray(source))) {
-            return source;
-        }
-        if (Array.isArray(source)) {
-            result = [];
-        }
-        else {
-            result = {};
-        }
-
-        for (var property in source) {
-            if (source.hasOwnProperty(property)) {
-                var sourcePropValue = source[property];
-                result[property] = deepCopy(sourcePropValue);
-            }
-        }
-        return result;
-    };
-
-
-    NaraCommon = namespace;
+    NaraCommon = publicNamespace;
 
 })();

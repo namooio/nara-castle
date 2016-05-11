@@ -17,7 +17,7 @@ Components.Castle.Basic = Components.Castle.Basic || {};
 
 
     // Define Content attributes name
-    var castleBasicModel = {
+    const castleBasicModel = {
         attrs: {
             id:         { name: 'id',         KOR: '아이디',   USA: 'Id' },
             name:       { name: 'name',       KOR: '이름',     USA: 'Name' },
