@@ -19,20 +19,20 @@ Components.Castle.Basic = Components.Castle.Basic || {};
     // Define Content attributes name
     const castleBasicModel = {
         attrs: {
-            id: {name: 'id', KOR: '아이디', USA: 'Id'},
-            name: {name: 'name', KOR: '이름', USA: 'Name'},
-            locale: {name: 'locale', KOR: '지역', USA: 'Locale'},
-            state: {name: 'state', KOR: '상태', USA: 'State'},
-            buildTime: {name: 'buildTime', KOR: '생성일시', USA: 'Build time'},
+            id:         { name: 'id',           KOR: '아이디',      USA: 'Id' },
+            name:       { name: 'name',         KOR: '이름',        USA: 'Name' },
+            locale:     { name: 'locale',       KOR: '지역',        USA: 'Locale' },
+            state:      { name: 'state',        KOR: '상태',        USA: 'State' },
+            buildTime:  { name: 'buildTime',    KOR: '생성일시',    USA: 'Build time' },
             castellan: {
-                primaryEmail: {name: 'primaryEmail', KOR: '기본 이메일', USA: 'Primary email'},
-                primaryPhone: {name: 'primaryPhone', KOR: '기본 전화번호', USA: 'Primary phone number'},
-                photo: {name: 'photoId', KOR: '사진', USA: 'Photo'}
+                primaryEmail:   { name: 'primaryEmail', KOR: '기본 이메일',   USA: 'Primary email' },
+                primaryPhone:   { name: 'primaryPhone', KOR: '기본 전화번호', USA: 'Primary phone number' },
+                photo:          { name: 'photoId',      KOR: '사진',          USA: 'Photo' }
             }
         },
         messages: {
-            notFoundCastle: {KOR: '해당 Id의 Castle 정보가 없습니다. -> Id: {id}', USA: 'Not found the Castle -> Id: {id}'},
-            completeModify: {KOR: 'Basic이 수정 되었습니다.', USA: 'Modify has been completed.'},
+            notFoundCastle: { KOR: '해당 Id의 Castle 정보가 없습니다. -> Id: {id}', USA: 'Not found the Castle -> Id: {id}'},
+            completeModify: { KOR: 'Basic이 수정 되었습니다.', USA: 'Modify has been completed.'},
             confirmRemove: {
                 KOR: '삭제 시 Contact와 History 관련 모든 정보가 삭제되며 복구할 수 없습니다. 정말 삭제하시겠습니까?',
                 USA: 'Are you really remove castle?'

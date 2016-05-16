@@ -18,13 +18,13 @@ Components.Castle.StateBook = Components.Castle.StateBook || {};
     // Define Content attributes name
     let castleStateModel = {
         attrs: {
-            currentState: {name: 'currentState', KOR: '현재상태', USA: 'Current state'},
-            targetState: {name: 'targetState', KOR: '다음상태', USA: 'Target state'},
-            remarks: {name: 'remarks', KOR: '설명', USA: 'Remarks'},
-            modifiedTime: {name: 'modifiedTime', KOR: '수정일시', USA: 'Modified time'}
+            currentState:   { name: 'currentState', KOR: '현재상태',    USA: 'Current state' },
+            targetState:    { name: 'targetState',  KOR: '다음상태',    USA: 'Target state' },
+            remarks:        { name: 'remarks',      KOR: '설명',        USA: 'Remarks' },
+            modifiedTime:   { name: 'modifiedTime', KOR: '수정일시',    USA: 'Modified time' }
         },
         messages: {
-            notExistsState: {KOR: 'State 이력이 없습니다.', USA: 'Not exists state history'}
+            notExistsState: { KOR: 'State 이력이 없습니다.', USA: 'Not exists state history' }
         }
     };
 

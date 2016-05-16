@@ -18,13 +18,13 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || {};
     // Define Content attributes name
     let castleEmailModel = {
         attrs: {
-            email: {name: 'email', KOR: '이메일', USA: 'Email'},
-            emailType: {name: 'emailType', KOR: '유형', USA: 'Type'},
-            verified: {name: 'verified', KOR: '유효확인 여부', USA: 'Verified'},
-            verifiedTime: {name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time'}
+            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' },
+            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'Type' },
+            verified:       { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' },
+            verifiedTime:   { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
         },
         messages: {
-            notRegisteredEmail: {KOR: '등록 된 email이 없습니다', USA: 'Not registered the email'}
+            notRegisteredEmail: { KOR: '등록 된 email이 없습니다', USA: 'Not registered the email' }
         }
     };
 

@@ -15,14 +15,14 @@ Components.Castle.Tab = Components.Castle.Tab || { };
     // Define Content attributes name
     let castleTabModel = {
         attrs: {
-            basic: {name: 'basic', KOR: '기본정보', USA: 'Basic information'},
-            name: {name: 'name', KOR: '이름', USA: 'Name'},
-            phone: {name: 'phone', KOR: '전화번호', USA: 'Phone number'},
-            email: {name: 'email', KOR: '이메일', USA: 'Email'},
-            address: {name: 'address', KOR: '주소', USA: 'Address'},
-            account: {name: 'account', KOR: '계정이력', USA: 'Account history'},
-            state: {name: 'state', KOR: '상태이력', USA: 'State history'},
-            metro: {name: 'metro', KOR: '메트로이력', USA: 'Metro history'}
+            basic:      { name: 'basic',    KOR: '기본정보',     USA: 'Basic information' },
+            name:       { name: 'name',     KOR: '이름',         USA: 'Name' },
+            phone:      { name: 'phone',    KOR: '전화번호',     USA: 'Phone number' },
+            email:      { name: 'email',    KOR: '이메일',       USA: 'Email' },
+            address:    { name: 'address',  KOR: '주소',         USA: 'Address' },
+            account:    { name: 'account',  KOR: '계정이력',     USA: 'Account history' },
+            state:      { name: 'state',    KOR: '상태이력',     USA: 'State history' },
+            metro:      { name: 'metro',    KOR: '메트로이력',   USA: 'Metro history' }
         }
     };
 

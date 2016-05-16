@@ -18,14 +18,14 @@ Components.Castle.MetroBook = Components.Castle.MetroBook || {};
     // Define Content attributes name
     let castleMetroModel = {
         attrs: {
-            metroId: {name: 'metroId', KOR: '메트로Id', USA: 'Metro id'},
-            metroName: {name: 'metroName', KOR: '메트로명', USA: 'Metro name'},
-            joinTime: {name: 'joinTime', KOR: '가입일시', USA: 'Join time'},
-            withdrawalTime: {name: 'withdrawalTime', KOR: '탈퇴일시', USA: 'Withdrawal time'},
-            remarks: {name: 'remarks', KOR: '설명', USA: 'Remarks'}
+            metroId:        { name: 'metroId',          KOR: '메트로Id', USA: 'Metro id' },
+            metroName:      { name: 'metroName',        KOR: '메트로명', USA: 'Metro name' },
+            joinTime:       { name: 'joinTime',         KOR: '가입일시', USA: 'Join time' },
+            withdrawalTime: { name: 'withdrawalTime',   KOR: '탈퇴일시', USA: 'Withdrawal time' },
+            remarks:        { name: 'remarks',          KOR: '설명',     USA: 'Remarks' }
         },
         messages: {
-            notExistsMetro: {KOR: 'Metro 이력이 없습니다', USA: 'Not exists metro history'}
+            notExistsMetro: { KOR: 'Metro 이력이 없습니다', USA: 'Not exists metro history' }
         }
     };
 

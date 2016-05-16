@@ -28,6 +28,7 @@ Components.Common.TopMenu = Components.Common.TopMenu || {};
              this.props.changeLanguage(lang);
          },
          render() {
+             //
              let MENUS = castleTopMenuModel.attrs,
                  lang = this.props.getLanguage(),
                  displayLang;

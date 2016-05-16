@@ -17,15 +17,15 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
     // Define Content attributes name
     let castleNameModel = {
         attrs: {
-            familyName: {name: 'familyName', KOR: '성', USA: 'Family name'},
-            firstName: {name: 'firstName', KOR: '이름', USA: 'First name'},
-            displayName: {name: 'displayName', KOR: '전체이름', USA: 'Display name'},
-            middleName: {name: 'middleName', KOR: '중간이름', USA: 'Middle name'},
-            langCode: {name: 'langCode', KOR: '언어', USA: 'Language'}
+            familyName:     { name: 'familyName',   KOR: '성',       USA: 'Family name' },
+            firstName:      { name: 'firstName',    KOR: '이름',     USA: 'First name' },
+            displayName:    { name: 'displayName',  KOR: '전체이름', USA: 'Display name' },
+            middleName:     { name: 'middleName',   KOR: '중간이름', USA: 'Middle name' },
+            langCode:       { name: 'langCode',     KOR: '언어',     USA: 'Language' }
         },
         messages: {
-            notRegisteredName: {KOR: '등록된 Name이 없습니다', USA: 'Not registered the name'},
-            completeSave: {KOR: 'NameBook이 저장되었습니다.', USA: 'Save has been completed.'}
+            notRegisteredName:  { KOR: '등록된 Name이 없습니다',        USA: 'Not registered the name' },
+            completeSave:       { KOR: 'NameBook이 저장되었습니다.',    USA: 'Save has been completed.' }
         }
     };
 

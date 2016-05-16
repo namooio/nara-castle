@@ -17,25 +17,25 @@ Components.Castle.List = Components.Castle.List || { };
     // Define content attributes
     let castleListModel = {
         finder: {
-            title: {KOR: 'Castle 검색', USA: 'Search Castle'},
+            title: { KOR: 'Castle 검색', USA: 'Search Castle' },
             criteria: {
-                name: {KOR: '이름', USA: 'Name'}
+                name: { KOR: '이름', USA: 'Name' }
             }
         },
         list: {
             header: {
-                id: {KOR: '아이디', USA: 'Id'},
-                name: {KOR: '이름', USA: 'Name'},
-                locale: {KOR: '지역', USA: 'Locale'},
-                primaryEmail: {KOR: '이메일', USA: 'Email'},
-                primaryPhone: {KOR: '전화번호', USA: 'Phone number'},
-                state: {KOR: '상태', USA: 'State'},
-                buildTime: {KOR: '생성일시', USA: 'Build time'},
-                detail: {KOR: '상세정보', USA: 'Detail info'}
+                id:             { KOR: '아이디',    USA: 'Id' },
+                name:           { KOR: '이름',      USA: 'Name' },
+                locale:         { KOR: '지역',      USA: 'Locale' },
+                primaryEmail:   { KOR: '이메일',    USA: 'Email' },
+                primaryPhone:   { KOR: '전화번호',  USA: 'Phone number' },
+                state:          { KOR: '상태',      USA: 'State' },
+                buildTime:      { KOR: '생성일시',  USA: 'Build time' },
+                detail:         { KOR: '상세정보',  USA: 'Detail info' }
             }
         },
         messages: {
-            notExistsMessage: {KOR: 'Castle이 존재하지 않습니다.', USA: 'Not exists castle'}
+            notExistsMessage: { KOR: 'Castle이 존재하지 않습니다.', USA: 'Not exists castle' }
         }
     };
 

@@ -17,13 +17,13 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
     // Define Content attributes name
     let castlePhoneModel = {
         attrs: {
-            phoneNumber: {name: 'phoneNumber', KOR: '전체 번호', USA: 'Phone number'},
-            countryCode: {name: 'countryCode', KOR: '국가코드', USA: 'Country code'},
-            areaCode: {name: 'areaCode', KOR: '지역코드', USA: 'Area code'},
-            number: {name: 'number', KOR: '번호', USA: 'Number'}
+            phoneNumber:    { name: 'phoneNumber',  KOR: '전체번호', USA: 'Phone number' },
+            countryCode:    { name: 'countryCode',  KOR: '국가코드', USA: 'Country code' },
+            areaCode:       { name: 'areaCode',     KOR: '지역코드', USA: 'Area code' },
+            number:         { name: 'number',       KOR: '번호',     USA: 'Number' }
         },
         messages: {
-            notRegisteredPhone: {KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone'}
+            notRegisteredPhone: { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
         }
     };
 

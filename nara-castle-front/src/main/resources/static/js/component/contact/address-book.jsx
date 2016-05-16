@@ -17,19 +17,19 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
     // Define Content attributes name
     let castleAddressModel = {
         attrs: {
-            title: {name: 'title', KOR: '주소명', USA: 'Title'},
-            langCode: {name: 'langCode', KOR: '언어코드', USA: 'Language code'},
-            style: {name: 'style', KOR: '유형', USA: 'Style'},
-            country: {name: 'country', KOR: '국가', USA: 'Coutnry'},
-            zipCode: {name: 'zipCode', KOR: '우편번호', USA: 'Zip code'},
-            state: {name: 'state', KOR: '지역', USA: 'State'},
-            city: {name: 'city', KOR: '시', USA: 'City'},
-            addressPartOne: {name: 'addressPartOne', KOR: '주소1', USA: 'Address part1'},
-            addressPartTwo: {name: 'addressPartTwo', KOR: '주소2', USA: 'Address part2'},
-            phoneNumber: {name: 'phoneNumber', KOR: '전화번호', USA: 'Phone number'}
+            title:          { name: 'title',            KOR: '주소명',   USA: 'Title' },
+            langCode:       { name: 'langCode',         KOR: '언어코드', USA: 'Language code' },
+            style:          { name: 'style',            KOR: '유형',     USA: 'Style' },
+            country:        { name: 'country',          KOR: '국가',     USA: 'Coutnry' },
+            zipCode:        { name: 'zipCode',          KOR: '우편번호', USA: 'Zip code' },
+            state:          { name: 'state',            KOR: '지역',     USA: 'State' },
+            city:           { name: 'city',             KOR: '시',       USA: 'City' },
+            addressPartOne: { name: 'addressPartOne',   KOR: '주소1',    USA: 'Address part1' },
+            addressPartTwo: { name: 'addressPartTwo',   KOR: '주소2',    USA: 'Address part2' },
+            phoneNumber:    { name: 'phoneNumber',      KOR: '전화번호', USA: 'Phone number' }
         },
         messages: {
-            notRegisteredAddress: {KOR: '등록 된 주소가 없습니다', USA: 'Not registered the address'}
+            notRegisteredAddress: { KOR: '등록 된 주소가 없습니다', USA: 'Not registered the address' }
         }
     };
 

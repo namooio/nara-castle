@@ -18,13 +18,13 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || {};
     // Define Content attributes name
     let castleAccountModel = {
         attrs: {
-            loginUserId: {name: 'loginUserId', KOR: '로그인Id', USA: 'Login user id'},
-            channel: {name: 'channel', KOR: '접속방법', USA: 'Channel'},
-            createTime: {name: 'createTime', KOR: '생성일시', USA: 'Create time'},
-            deleteTime: {name: 'deleteTime', KOR: '삭제일시', USA: 'Delete time'}
+            loginUserId:    { name: 'loginUserId',  KOR: '로그인Id', USA: 'Login user id' },
+            channel:        { name: 'channel',      KOR: '접속방법', USA: 'Channel' },
+            createTime:     { name: 'createTime',   KOR: '생성일시', USA: 'Create time' },
+            deleteTime:     { name: 'deleteTime',   KOR: '삭제일시', USA: 'Delete time' }
         },
         messages: {
-            notExistsAccount: {KOR: 'Account 이력이 없습니다.', USA: 'Not exists acount history'}
+            notExistsAccount: { KOR: 'Account 이력이 없습니다.', USA: 'Not exists acount history' }
         }
     };
 

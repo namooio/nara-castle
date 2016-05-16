@@ -15,12 +15,12 @@ Components.Common.Error = Components.Common.Error || {};
      let errorModel = {
         messages: {
             notFoundPage: {
-                title: {KOR: '404', USA: '404'},
-                message: {KOR: '요청 된 URL 주소가 잘못 되었습니다.', USA: 'Invalid the requested URL'}
+                title:      { KOR: '404', USA: '404' },
+                message:    { KOR: '요청 된 URL 주소가 잘못 되었습니다.', USA: 'Invalid the requested URL' }
             }
         },
         buttons: {
-            back: {KOR: '뒤로가기', USA: 'Previous page'}
+            back: { KOR: '뒤로가기', USA: 'Previous page' }
         }
     };
 
