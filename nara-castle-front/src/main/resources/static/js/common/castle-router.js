@@ -1,7 +1,7 @@
 /**
  * Created by hkkang on 2016-04-07.
  */
-CastleCommon.Router = CastleCommon.Router || { };
+CastleCommon.Router = CastleCommon.Router || {};
 
 
 ( function () {
@@ -9,7 +9,7 @@ CastleCommon.Router = CastleCommon.Router || { };
     'use strict';
 
     // Import module
-    var router = NaraReactRouter,
+    let router = NaraCommon.ReactRouter,
         constant = CastleCommon.Const;
 
 
@@ -18,47 +18,107 @@ CastleCommon.Router = CastleCommon.Router || { };
 
     // Castle
     router.addMapping('#/castles', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js', component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/list.jsx',        component: { namespace: Components.Castle,  name: 'List' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/list.jsx',
+            component: {namespace: Components.Castle, name: 'List'}
+        }
     ]);
 
     router.addMapping('#/castle/basic', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js', component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/basic.jsx',       component: { namespace: Components.Castle,  name: 'Basic' } },
-        { path: constant.CTX + '/resources/js/component/detail-tab.jsx',       component: { namespace: Components.Castle,  name: 'Tab' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/basic.jsx',
+            component: {namespace: Components.Castle, name: 'Basic'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/detail-tab.jsx',
+            component: {namespace: Components.Castle, name: 'Tab'}
+        }
     ]);
 
     // Castle contact
     router.addMapping('#/castle/contact/name-book', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/contact/name-book.jsx',   component: { namespace: Components.Castle,  name: 'NameBook' } },
-        { path: constant.CTX + '/resources/js/component/detail-tab.jsx',       component: { namespace: Components.Castle,  name: 'Tab' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/contact/name-book.jsx',
+            component: {namespace: Components.Castle, name: 'NameBook'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/detail-tab.jsx',
+            component: {namespace: Components.Castle, name: 'Tab'}
+        }
     ]);
     router.addMapping('#/castle/contact/phone-book', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/contact/phone-book.jsx',  component: { namespace: Components.Castle,  name: 'PhoneBook' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/contact/phone-book.jsx',
+            component: {namespace: Components.Castle, name: 'PhoneBook'}
+        }
     ]);
     router.addMapping('#/castle/contact/email-book', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/contact/email-book.jsx',  component: { namespace: Components.Castle,  name: 'EmailBook' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/contact/email-book.jsx',
+            component: {namespace: Components.Castle, name: 'EmailBook'}
+        }
     ]);
     router.addMapping('#/castle/contact/address-book', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js',             component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/contact/address-book.jsx',    component: { namespace: Components.Castle,  name: 'AddressBook' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/contact/address-book.jsx',
+            component: {namespace: Components.Castle, name: 'AddressBook'}
+        }
     ]);
 
     // Castle history
     router.addMapping('#/castle/history/account-book', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js',             component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/history/account-book.jsx',    component: { namespace: Components.Castle,  name: 'AccountBook' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/history/account-book.jsx',
+            component: {namespace: Components.Castle, name: 'AccountBook'}
+        }
     ]);
     router.addMapping('#/castle/history/state-book', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/history/state-book.jsx',  component: { namespace: Components.Castle,  name: 'StateBook' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/history/state-book.jsx',
+            component: {namespace: Components.Castle, name: 'StateBook'}
+        }
     ]);
     router.addMapping('#/castle/history/metro-book', [
-        { path: constant.CTX + '/resources/js/common/castle-model.js',         component: { namespace: Components.Castle,  name: 'Model' } },
-        { path: constant.CTX + '/resources/js/component/history/metro-book.jsx',  component: { namespace: Components.Castle,  name: 'MetroBook' } }
+        {
+            path: constant.CTX + '/resources/js/common/castle-model.js',
+            component: {namespace: Components.Castle, name: 'Model'}
+        },
+        {
+            path: constant.CTX + '/resources/js/component/history/metro-book.jsx',
+            component: {namespace: Components.Castle, name: 'MetroBook'}
+        }
     ]);
 
 })();

@@ -1,65 +1,65 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.EmailBook = Components.Castle.EmailBook || { };
+Components.Castle.EmailBook = Components.Castle.EmailBook || {};
 
 ( function () {
     //
     'use strict';
 
     // Import component module
-    var commonAjax = NaraCommon.Ajax,
+    let commonAjax = NaraCommon.Ajax,
         commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
-        mainComponent = Components.Main,
+        mainComponent = Components.Common.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castleEmailModel = {
+    let castleEmailModel = {
         attrs: {
-            email:          { name: 'email',        KOR: '이메일',        USA: 'Email' },
-            emailType:      { name: 'emailType',    KOR: '유형',          USA: 'Type' },
-            verified:       { name: 'verified',     KOR: '유효확인 여부', USA: 'Verified' },
-            verifiedTime:   { name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time' }
+            email: {name: 'email', KOR: '이메일', USA: 'Email'},
+            emailType: {name: 'emailType', KOR: '유형', USA: 'Type'},
+            verified: {name: 'verified', KOR: '유효확인 여부', USA: 'Verified'},
+            verifiedTime: {name: 'verifiedTime', KOR: '유효확인 일시', USA: 'Vefiried time'}
         },
         messages: {
-            notRegisteredEmail: { KOR: '등록 된 email이 없습니다', USA: 'Not registered the email' }
+            notRegisteredEmail: {KOR: '등록 된 email이 없습니다', USA: 'Not registered the email'}
         }
     };
 
     // Define components
-    var CastleDetailPage = React.createClass({
+    let CastleDetailPage = React.createClass({
         //
         statics: {
             FIND_EMAIL_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/email-book'
         },
-        propTypes : {
+        propTypes: {
             id: React.PropTypes.string
         },
-        getInitialState: function () {
+        getInitialState() {
             return {
-                emailBook: { emails: [] },
+                emailBook: {emails: []},
                 contentModifiable: false
             };
         },
-        componentDidMount: function () {
+        componentDidMount() {
             this.requestEmailBook(this.props);
         },
-        changeModifiableMode: function () {
+        changeModifiableMode() {
             this.setState({contentModifiable: true});
         },
-        changeViewMode: function () {
+        changeViewMode() {
             this.setState({contentModifiable: false});
         },
-        requestEmailBook: function (props) {
+        requestEmailBook(props) {
             commonAjax
                 .getJSON(CastleDetailPage.FIND_EMAIL_BOOK_URL.replace('{id}', props.id))
-                .done( function (emailBookResult) {
-                    this.setState({ emailBook: emailBookResult });
+                .done(function (emailBookResult) {
+                    this.setState({emailBook: emailBookResult});
                 }.bind(this));
         },
-        render: function () {
+        render() {
             return (
                 <Tab
                     castleId={this.props.id}
@@ -72,7 +72,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
         }
     });
 
-    var Tab = React.createClass({
+    let Tab = React.createClass({
         //
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -81,12 +81,12 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
 
             changeModifiableMode: React.PropTypes.func.isRequired
         },
-        render: function () {
-            var TAB_NAMES = castleModel.tabs,
+        render() {
+            let TAB_NAMES = castleModel.tabs,
                 lang = mainComponent.lang;
 
             return (
-                <div className="container" >
+                <div className="container">
                     <div className="panel panel-success">
                         <div className="panel-body">
                             <ul className="nav nav-tabs">
@@ -117,7 +117,7 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <EmailContent emailBook={this.props.emailBook} />
+                                    <EmailContent emailBook={this.props.emailBook}/>
                                 </div>
                             </div>
                         </div>
@@ -127,34 +127,36 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
         }
     });
 
-    var Content = React.createClass({
-        propTypes: {
-
-        },
-        render : function () {
+    let Content = React.createClass({
+        propTypes: {},
+        render () {
 
         }
     });
 
-    var ButtonGroup = React.createClass({
-        render : function () {
-            var BUTTON_NAMES = castleModel.buttons,
+    let ButtonGroup = React.createClass({
+        render () {
+            let BUTTON_NAMES = castleModel.buttons,
                 lang = mainComponent.lang,
                 buttonRender;
 
             if (this.props.modifiable) {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                        <button type="button" className="btn-group btn btn-primary"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                     </div>
                 );
             }
             else {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                        <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
+                        <button type="button" className="btn-group btn btn-danger"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
                     </div>
                 );
             }
@@ -163,15 +165,14 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
     });
 
 
-
-    var EmailContent = React.createClass({
+    let EmailContent = React.createClass({
         propTypes: {
             emailBook: React.PropTypes.shape({
                 emails: React.PropTypes.array.isRequired
             }).isRequired
         },
-        render: function () {
-            var ENUMS = castleModel.enums,
+        render() {
+            let ENUMS = castleModel.enums,
                 ATTRS = castleEmailModel.attrs,
                 MESSAGES = castleEmailModel.messages,
                 lang = mainComponent.lang,
@@ -182,16 +183,16 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
                 <article>
                     <table className="table table-striped table-hover">
                         <thead>
-                            <tr>
-                                <th>{ATTRS.email[lang]}</th>
-                                <th>{ATTRS.emailType[lang]}</th>
-                                <th>{ATTRS.verified[lang]}</th>
-                                <th>{ATTRS.verifiedTime[lang]}</th>
-                            </tr>
+                        <tr>
+                            <th>{ATTRS.email[lang]}</th>
+                            <th>{ATTRS.emailType[lang]}</th>
+                            <th>{ATTRS.verified[lang]}</th>
+                            <th>{ATTRS.verifiedTime[lang]}</th>
+                        </tr>
                         </thead>
                         <tbody>
                         { existsEmailBook ?
-                            propEmailBook.emails.map( function (email) {
+                            propEmailBook.emails.map(function (email) {
                                 return (
                                     <tr key={email[ATTRS.email.name]}>
                                         <td>{email[ATTRS.email.name]}</td>
@@ -202,7 +203,9 @@ Components.Castle.EmailBook = Components.Castle.EmailBook || { };
                                 )
                             })
                             :
-                            <tr><td colSpan="4">{MESSAGES.notRegisteredEmail[lang]}</td></tr>
+                            <tr>
+                                <td colSpan="4">{MESSAGES.notRegisteredEmail[lang]}</td>
+                            </tr>
                         }
                         </tbody>
                     </table>

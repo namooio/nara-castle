@@ -3,68 +3,68 @@
  */
 Components.Castle.AddressBook = Components.Castle.AddressBook || {};
 
-(function () {
+( function () {
     //
     'use strict';
 
     // Import component module
-    var commonAjax = NaraCommon.Ajax,
+    let commonAjax = NaraCommon.Ajax,
         constant = CastleCommon.Const,
-        mainComponent = Components.Main,
+        mainComponent = Components.Common.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castleAddressModel = {
+    let castleAddressModel = {
         attrs: {
-            title:          { name: 'title',            KOR: '주소명',    USA: 'Title' },
-            langCode:       { name: 'langCode',         KOR: '언어코드',  USA: 'Language code' },
-            style:          { name: 'style',            KOR: '유형',      USA: 'Style' },
-            country:        { name: 'country',          KOR: '국가',      USA: 'Coutnry' },
-            zipCode:        { name: 'zipCode',          KOR: '우편번호',  USA: 'Zip code' },
-            state:          { name: 'state',            KOR: '지역',      USA: 'State' },
-            city:           { name: 'city',             KOR: '시',        USA: 'City' },
-            addressPartOne: { name: 'addressPartOne',   KOR: '주소1',     USA: 'Address part1' },
-            addressPartTwo: { name: 'addressPartTwo',   KOR: '주소2',     USA: 'Address part2' },
-            phoneNumber:    { name: 'phoneNumber',      KOR: '전화번호',  USA: 'Phone number' }
+            title: {name: 'title', KOR: '주소명', USA: 'Title'},
+            langCode: {name: 'langCode', KOR: '언어코드', USA: 'Language code'},
+            style: {name: 'style', KOR: '유형', USA: 'Style'},
+            country: {name: 'country', KOR: '국가', USA: 'Coutnry'},
+            zipCode: {name: 'zipCode', KOR: '우편번호', USA: 'Zip code'},
+            state: {name: 'state', KOR: '지역', USA: 'State'},
+            city: {name: 'city', KOR: '시', USA: 'City'},
+            addressPartOne: {name: 'addressPartOne', KOR: '주소1', USA: 'Address part1'},
+            addressPartTwo: {name: 'addressPartTwo', KOR: '주소2', USA: 'Address part2'},
+            phoneNumber: {name: 'phoneNumber', KOR: '전화번호', USA: 'Phone number'}
         },
         messages: {
-            notRegisteredAddress: { KOR: '등록 된 주소가 없습니다', USA: 'Not registered the address' }
+            notRegisteredAddress: {KOR: '등록 된 주소가 없습니다', USA: 'Not registered the address'}
         }
     };
 
     // Define components
-    var CastleDetailPage = React.createClass({
+    let CastleDetailPage = React.createClass({
         //
         statics: {
             FIND_ADDRESS_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/address-book'
         },
-        propTypes : {
+        propTypes: {
             id: React.PropTypes.string
         },
-        getInitialState: function () {
+        getInitialState() {
             return {
-                addressBook: { addresses: [] },
+                addressBook: {addresses: []},
                 contentModifiable: false
             };
         },
-        componentDidMount: function () {
+        componentDidMount() {
             this.requestAddressBook(this.props);
         },
-        changeModifiableMode: function () {
+        changeModifiableMode() {
             this.setState({contentModifiable: true});
         },
-        changeViewMode: function () {
+        changeViewMode() {
             this.setState({contentModifiable: false});
         },
-        requestAddressBook: function (props) {
+        requestAddressBook(props) {
             commonAjax
                 .getJSON(CastleDetailPage.FIND_ADDRESS_BOOK_URL.replace('{id}', props.id))
-                .done( function (addressBookResult) {
-                    this.setState({ addressBook: addressBookResult });
+                .done(function (addressBookResult) {
+                    this.setState({addressBook: addressBookResult});
                 }.bind(this));
         },
-        render: function () {
+        render() {
             return (
                 <Tab
                     castleId={this.props.id}
@@ -77,7 +77,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
         }
     });
 
-    var Tab = React.createClass({
+    let Tab = React.createClass({
         //
         propTypes: {
             castleId: React.PropTypes.string,
@@ -86,13 +86,13 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
 
             changeModifiableMode: React.PropTypes.func.isRequired
         },
-        render: function () {
-            var TAB_NAMES = castleModel.tabs,
+        render() {
+            let TAB_NAMES = castleModel.tabs,
                 lang = mainComponent.lang;
 
 
             return (
-                <div className="container" >
+                <div className="container">
                     <div className="panel panel-success">
                         <div className="panel-body">
                             <ul className="nav nav-tabs">
@@ -123,7 +123,7 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <AddressContent addressBook={this.props.addressBook} />
+                                    <AddressContent addressBook={this.props.addressBook}/>
                                 </div>
                             </div>
                         </div>
@@ -133,34 +133,36 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
         }
     });
 
-    var Content = React.createClass({
-        propTypes: {
-
-        },
-        render : function () {
+    let Content = React.createClass({
+        propTypes: {},
+        render () {
 
         }
     });
 
-    var ButtonGroup = React.createClass({
-        render : function () {
-            var BUTTON_NAMES = castleModel.buttons,
+    let ButtonGroup = React.createClass({
+        render () {
+            let BUTTON_NAMES = castleModel.buttons,
                 lang = mainComponent.lang,
                 buttonRender;
 
             if (this.props.modifiable) {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                        <button type="button" className="btn-group btn btn-primary"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                     </div>
                 );
             }
             else {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                        <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
+                        <button type="button" className="btn-group btn btn-danger"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
                     </div>
                 );
             }
@@ -168,14 +170,14 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
         }
     });
 
-    var AddressContent = React.createClass({
+    let AddressContent = React.createClass({
         propTypes: {
             addressBook: React.PropTypes.shape({
                 addresses: React.PropTypes.array.isRequired
             }).isRequired
         },
-        render: function () {
-            var ENUMS = castleModel.enums,
+        render() {
+            let ENUMS = castleModel.enums,
                 ATTRS = castleAddressModel.attrs,
                 MESSAGES = castleAddressModel.messages,
                 lang = mainComponent.lang,
@@ -184,26 +186,26 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                 multipleRowAddresses = [],
                 odd = true;
 
-            propAddressBook.addresses.map( function (address) {
-                var arrayFirstNode = {
+            propAddressBook.addresses.map(function (address) {
+                let arrayFirstNode = {
                     type: 'basicAddress',
                     odd: odd,
-                    [ATTRS.title.name] : address.title,
-                    [ATTRS.langCode.name] : address[ATTRS.langCode.name],
-                    [ATTRS.style.name] : address[ATTRS.style.name],
-                    [ATTRS.country.name] : address[ATTRS.country.name],
-                    [ATTRS.zipCode.name] : address[ATTRS.zipCode.name],
-                    [ATTRS.phoneNumber.name] : address[ATTRS.phoneNumber.name],
-                    [ATTRS.state.name] : address[ATTRS.state.name],
-                    [ATTRS.city.name] : address[ATTRS.city.name]
+                    [ATTRS.title.name]: address.title,
+                    [ATTRS.langCode.name]: address[ATTRS.langCode.name],
+                    [ATTRS.style.name]: address[ATTRS.style.name],
+                    [ATTRS.country.name]: address[ATTRS.country.name],
+                    [ATTRS.zipCode.name]: address[ATTRS.zipCode.name],
+                    [ATTRS.phoneNumber.name]: address[ATTRS.phoneNumber.name],
+                    [ATTRS.state.name]: address[ATTRS.state.name],
+                    [ATTRS.city.name]: address[ATTRS.city.name]
                 };
                 multipleRowAddresses.push(arrayFirstNode);
 
-                var arraySecondNode = {
+                let arraySecondNode = {
                     type: 'detailAddress',
                     odd: odd,
-                    [ATTRS.addressPartOne.name] : address[ATTRS.addressPartOne.name],
-                    [ATTRS.addressPartTwo.name] : address[ATTRS.addressPartTwo.name]
+                    [ATTRS.addressPartOne.name]: address[ATTRS.addressPartOne.name],
+                    [ATTRS.addressPartTwo.name]: address[ATTRS.addressPartTwo.name]
                 };
                 multipleRowAddresses.push(arraySecondNode);
 
@@ -232,9 +234,9 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                         </thead>
                         <tbody>
                         { existsAddressBook ?
-                            multipleRowAddresses.map( function (address, index) {
+                            multipleRowAddresses.map(function (address, index) {
                                 //
-                                var className = address.odd ? 'active' : '';
+                                let className = address.odd ? 'active' : '';
 
                                 if (address.type === 'basicAddress') {
                                     return (
@@ -260,7 +262,9 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
                                 }
                             })
                             :
-                            <tr><td colSpan="9">{MESSAGES.notRegisteredAddress[lang]}</td></tr>
+                            <tr>
+                                <td colSpan="9">{MESSAGES.notRegisteredAddress[lang]}</td>
+                            </tr>
                         }
                         </tbody>
                     </table>

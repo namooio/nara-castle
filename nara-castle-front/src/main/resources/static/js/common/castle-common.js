@@ -1,11 +1,11 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-var CastleCommon = CastleCommon || {};
+let CastleCommon = {};
 
 
 // Castle app components namespace
-var Components = {
+let Components = {
     Castle : {},
     Common : {}
 };
@@ -14,17 +14,17 @@ var Components = {
     //
     'use strict';
 
-    var publicNamespace = {};
+    let publicNamespace = {};
 
     // Import external library and module
-    var _jQuery = $,
+    let _jQuery = $,
         commonObject = NaraCommon.Object;
 
 
     // Castle app constant
     publicNamespace.Const = {};
     commonObject.defineConstProperties(publicNamespace.Const, {
-        CTX: '.',
+        CTX: '.'
     });
 
 
@@ -33,7 +33,5 @@ var Components = {
     };
 
 
-
     CastleCommon = publicNamespace;
-
 })();

@@ -8,69 +8,69 @@ Components.Castle.Tab = Components.Castle.Tab || { };
     'use strict';
 
     // Import component module
-    var mainComponent = Components.Main,
+    let mainComponent = Components.Common.Main,
         castleNamespace = Components.Castle;
 
 
     // Define Content attributes name
-    var castleTabModel = {
+    let castleTabModel = {
         attrs: {
-            basic:      { name: 'basic',    KOR: '기본정보',   USA: 'Basic information' },
-            name:       { name: 'name',     KOR: '이름',       USA: 'Name' },
-            phone:      { name: 'phone',    KOR: '전화번호',   USA: 'Phone number' },
-            email:      { name: 'email',    KOR: '이메일',     USA: 'Email' },
-            address:    { name: 'address',  KOR: '주소',       USA: 'Address' },
-            account:    { name: 'account',  KOR: '계정이력',   USA: 'Account history' },
-            state:      { name: 'state',    KOR: '상태이력',   USA: 'State history' },
-            metro:      { name: 'metro',    KOR: '메트로이력', USA: 'Metro history' }
+            basic: {name: 'basic', KOR: '기본정보', USA: 'Basic information'},
+            name: {name: 'name', KOR: '이름', USA: 'Name'},
+            phone: {name: 'phone', KOR: '전화번호', USA: 'Phone number'},
+            email: {name: 'email', KOR: '이메일', USA: 'Email'},
+            address: {name: 'address', KOR: '주소', USA: 'Address'},
+            account: {name: 'account', KOR: '계정이력', USA: 'Account history'},
+            state: {name: 'state', KOR: '상태이력', USA: 'State history'},
+            metro: {name: 'metro', KOR: '메트로이력', USA: 'Metro history'}
         }
     };
 
 
     // Define components
-    var CastleDetailPage = React.createClass({
+    let CastleDetailPage = React.createClass({
         //
-        propTypes : {
+        propTypes: {
             id: React.PropTypes.string.isRequired,
             contentType: React.PropTypes.string
         },
-        getDefaultProps: function () {
+        getDefaultProps() {
             return {
                 contentType: 'basic'
             };
         },
-        getInitialState: function () {
+        getInitialState() {
             return {
                 castle: {
                     contact: {
-                        nameBook: { names: [] },
-                        phoneBook: { phones: [] },
-                        emailBook: { emails: [] },
-                        addressBook: { addresses: [] }
+                        nameBook: {names: []},
+                        phoneBook: {phones: []},
+                        emailBook: {emails: []},
+                        addressBook: {addresses: []}
                     },
                     history: {
-                        accountBook: { accounts: [] },
-                        stateBook: { states: [] },
-                        metroBook: { metros: [] }
+                        accountBook: {accounts: []},
+                        stateBook: {states: []},
+                        metroBook: {metros: []}
                     },
-                    basic: { castellan: {} }
+                    basic: {castellan: {}}
                 },
                 contentModifiable: false
             };
         },
-        componentWillReceiveProps: function () {
-            this.setState({ contentModifiable: false })
+        componentWillReceiveProps() {
+            this.setState({contentModifiable: false})
         },
-        changeModifiableMode: function () {
-            this.setState({ contentModifiable: true });
+        changeModifiableMode() {
+            this.setState({contentModifiable: true});
         },
-        changeViewMode: function () {
-            this.setState({ contentModifiable: false });
+        changeViewMode() {
+            this.setState({contentModifiable: false});
         },
-        setCastle: function (castle) {
-            this.setState({ castle: castle })
+        setCastle(castle) {
+            this.setState({castle: castle})
         },
-        render: function () {
+        render() {
             return (
                 <Tab
                     contentType={this.props.contentType}
@@ -85,7 +85,7 @@ Components.Castle.Tab = Components.Castle.Tab || { };
         }
     });
 
-    var Tab = React.createClass({
+    let Tab = React.createClass({
         //
         propTypes: {
             contentType: React.PropTypes.string.isRequired,
@@ -97,9 +97,9 @@ Components.Castle.Tab = Components.Castle.Tab || { };
             changeViewMode: React.PropTypes.func.isRequired,
             setCastle: React.PropTypes.func.isRequired
         },
-        getContentByType: function () {
+        getContentByType() {
             //
-            var TAB_NAMES = castleTabModel.attrs;
+            let TAB_NAMES = castleTabModel.attrs;
 
             switch (this.props.contentType) {
                 case TAB_NAMES.basic.name:
@@ -120,14 +120,14 @@ Components.Castle.Tab = Components.Castle.Tab || { };
                     return castleNamespace.MetroBook;
             }
         },
-        render: function () {
-            var TAB_NAMES = castleTabModel.attrs,
+        render() {
+            let TAB_NAMES = castleTabModel.attrs,
                 lang = mainComponent.lang,
                 contentComponent = this.getContentByType();
 
 
             return (
-                <div className="container" >
+                <div className="container">
                     <div className="panel panel-success">
                         <div className="panel-body">
                             <ul className="nav nav-tabs">

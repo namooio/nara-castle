@@ -1,65 +1,65 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.AccountBook = Components.Castle.AccountBook || { };
+Components.Castle.AccountBook = Components.Castle.AccountBook || {};
 
 ( function () {
     //
     'use strict';
 
     // Import component module
-    var commonAjax = NaraCommon.Ajax,
+    let commonAjax = NaraCommon.Ajax,
         commonDate = NaraCommon.Date,
         constant = CastleCommon.Const,
-        mainComponent = Components.Main,
+        mainComponent = Components.Common.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castleAccountModel = {
+    let castleAccountModel = {
         attrs: {
-            loginUserId:    { name: 'loginUserId',      KOR: '로그인Id',    USA: 'Login user id' },
-            channel:        { name: 'channel',          KOR: '접속방법',    USA: 'Channel' },
-            createTime:     { name: 'createTime',       KOR: '생성일시',    USA: 'Create time' },
-            deleteTime:     { name: 'deleteTime',       KOR: '삭제일시',    USA: 'Delete time' }
+            loginUserId: {name: 'loginUserId', KOR: '로그인Id', USA: 'Login user id'},
+            channel: {name: 'channel', KOR: '접속방법', USA: 'Channel'},
+            createTime: {name: 'createTime', KOR: '생성일시', USA: 'Create time'},
+            deleteTime: {name: 'deleteTime', KOR: '삭제일시', USA: 'Delete time'}
         },
         messages: {
-            notExistsAccount: { KOR: 'Account 이력이 없습니다.', USA: 'Not exists acount history' }
+            notExistsAccount: {KOR: 'Account 이력이 없습니다.', USA: 'Not exists acount history'}
         }
     };
 
     // Define components
-    var CastleDetailPage = React.createClass({
+    let CastleDetailPage = React.createClass({
         //
         statics: {
             FIND_ACCOUNT_BOOK_URL: constant.CTX + '/api/castles/{id}/histories/account-book'
         },
-        propTypes : {
+        propTypes: {
             id: React.PropTypes.string
         },
-        getInitialState: function () {
+        getInitialState() {
             return {
-                accountBook: { accounts: [] },
+                accountBook: {accounts: []},
                 contentModifiable: false
             };
         },
-        componentDidMount: function () {
+        componentDidMount() {
             this.requestAccountBook(this.props);
         },
-        changeModifiableMode: function () {
+        changeModifiableMode() {
             this.setState({contentModifiable: true});
         },
-        changeViewMode: function () {
+        changeViewMode() {
             this.setState({contentModifiable: false});
         },
-        requestAccountBook: function (props) {
+        requestAccountBook(props) {
             commonAjax
                 .getJSON(CastleDetailPage.FIND_ACCOUNT_BOOK_URL.replace('{id}', props.id))
-                .done( function (accountBookResult) {
-                    this.setState({ accountBook: accountBookResult });
+                .done(function (accountBookResult) {
+                    this.setState({accountBook: accountBookResult});
                 }.bind(this));
         },
-        render: function () {
+        render() {
             return (
                 <Tab
                     castleId={this.props.id}
@@ -72,7 +72,7 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
         }
     });
 
-    var Tab = React.createClass({
+    let Tab = React.createClass({
         //
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -81,13 +81,13 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
 
             changeModifiableMode: React.PropTypes.func.isRequired
         },
-        render: function () {
-            var TAB_NAMES = castleModel.tabs,
+        render() {
+            let TAB_NAMES = castleModel.tabs,
                 lang = mainComponent.lang;
 
 
             return (
-                <div className="container" >
+                <div className="container">
                     <div className="panel panel-success">
                         <div className="panel-body">
                             <ul className="nav nav-tabs">
@@ -118,7 +118,7 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <AccountContent accountBook={this.props.accountBook} />
+                                    <AccountContent accountBook={this.props.accountBook}/>
                                 </div>
                             </div>
                         </div>
@@ -128,34 +128,36 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
         }
     });
 
-    var Content = React.createClass({
-        propTypes: {
-
-        },
-        render : function () {
+    let Content = React.createClass({
+        propTypes: {},
+        render () {
 
         }
     });
 
-    var ButtonGroup = React.createClass({
-        render : function () {
-            var BUTTON_NAMES = castleModel.buttons,
+    let ButtonGroup = React.createClass({
+        render () {
+            let BUTTON_NAMES = castleModel.buttons,
                 lang = mainComponent.lang,
                 buttonRender;
 
             if (this.props.modifiable) {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                        <button type="button" className="btn-group btn btn-primary"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                     </div>
                 );
             }
             else {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                        <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
+                        <button type="button" className="btn-group btn btn-danger"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
                     </div>
                 );
             }
@@ -164,14 +166,14 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
     });
 
 
-    var AccountContent = React.createClass({
+    let AccountContent = React.createClass({
         propTypes: {
             accountBook: React.PropTypes.shape({
                 accounts: React.PropTypes.array.isRequired
             }).isRequired
         },
-        render: function () {
-            var ATTRS = castleAccountModel.attrs,
+        render() {
+            let ATTRS = castleAccountModel.attrs,
                 MESSAGES = castleAccountModel.messages,
                 lang = mainComponent.lang,
                 propAccountBook = this.props.accountBook,
@@ -189,7 +191,7 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
                     </thead>
                     <tbody>
                     { existsAccountBook ?
-                        propAccountBook.accounts.map( function (account, index) {
+                        propAccountBook.accounts.map(function (account, index) {
                             return (
                                 <tr key={index}>
                                     <td>{account[ATTRS.loginUserId.name]}</td>
@@ -200,7 +202,9 @@ Components.Castle.AccountBook = Components.Castle.AccountBook || { };
                             )
                         })
                         :
-                        <tr><td colSpan="4">{MESSAGES.notExistsAccount[lang]}</td></tr>
+                        <tr>
+                            <td colSpan="4">{MESSAGES.notExistsAccount[lang]}</td>
+                        </tr>
                     }
                     </tbody>
                 </table>

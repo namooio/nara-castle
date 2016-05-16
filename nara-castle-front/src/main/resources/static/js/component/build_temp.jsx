@@ -1,11 +1,13 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-Components.Castle.Build = Components.Castle.Build || { };
+Components.Castle.Build = Components.Castle.Build || {};
 
 ( function () {
     //
-    var CastellanRegisterer = React.createClass({
+    'use strict';
+
+    let CastellanRegisterer = React.createClass({
         //
         getInitialState: function () {
             return {};
@@ -20,7 +22,7 @@ Components.Castle.Build = Components.Castle.Build || { };
         },
         registerBtnClick: function () {
             //
-            var castellanCreateDto = {
+            let castellanCreateDto = {
                 id: this.state.id
                 , email: this.state.email
             };
@@ -39,7 +41,7 @@ Components.Castle.Build = Components.Castle.Build || { };
 
         },
         render: function () {
-            var containerStyle = {width: '800px'};
+            let containerStyle = {width: '800px'};
             return (
                 <article>
                     <div className="container" style={containerStyle}>

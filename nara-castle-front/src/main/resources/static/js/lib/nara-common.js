@@ -1,25 +1,17 @@
 /**
  * Created by hkkang on 2016-04-28.
  */
-var NaraCommon = NaraCommon || {};
+let NaraCommon = {};
 
-
+// Object util
 ( function () {
     //
     'use strict';
 
-    var publicNamespace = {};
-
-    // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
-    // Import external library
-    var _jQuery = jQuery,
-        _jsxTransform = babel.transform;
+    let publicNamespace = {};
 
 
-    // Object util
-    publicNamespace.Object = {};
-
-    publicNamespace.Object.defineConstProperty = function (obj, name, value) {
+    publicNamespace.defineConstProperty = function (obj, name, value) {
         //
         Object.defineProperty(obj, name, {
             value: value,
@@ -29,19 +21,19 @@ var NaraCommon = NaraCommon || {};
         });
     };
 
-    publicNamespace.Object.defineConstProperties = function (obj, nameValues) {
+    publicNamespace.defineConstProperties = function (obj, nameValues) {
         //
-        Object.keys(nameValues).forEach( function (name) {
-            publicNamespace.Object.defineConstProperty(obj, name, nameValues[name]);
+        Object.keys(nameValues).forEach(function (name) {
+            publicNamespace.defineConstProperty(obj, name, nameValues[name]);
         });
     };
 
-    publicNamespace.Object.isEmpty = function (object) {
+    publicNamespace.isEmpty = function (object) {
         //
         return (!object || Object.keys(object).length === 0);
     };
 
-    publicNamespace.Object.deepCopy = function (source) {
+    publicNamespace.deepCopy = function (source) {
         //
         if (!source || typeof source !== 'object') {
             console.warn("Source is not array or object. > NaraCommon.Object.deepCopy");
@@ -50,9 +42,9 @@ var NaraCommon = NaraCommon || {};
         return deepCopy(source);
     };
 
-    var deepCopy = function (source) {
+    let deepCopy = function (source) {
         //
-        var result;
+        let result;
 
         if (!source || !(typeof source === 'object' || Array.isArray(source))) {
             return source;
@@ -64,19 +56,27 @@ var NaraCommon = NaraCommon || {};
             result = {};
         }
 
-        for (var property in source) {
+        for (let property in source) {
             if (source.hasOwnProperty(property)) {
-                var sourcePropValue = source[property];
+                let sourcePropValue = source[property];
                 result[property] = deepCopy(sourcePropValue);
             }
         }
         return result;
     };
 
+    NaraCommon.Object = publicNamespace;
+})();
 
-    // Date util
-    publicNamespace.Date = {};
-    publicNamespace.Date.parseToString = function (date) {
+// Date util
+( function () {
+    //
+    'use strict';
+
+    //let publicNamespace = {};
+    let publicNamespace = {};
+
+    publicNamespace.parseToString = function (date) {
         //
         if (!date) {
             return null;
@@ -84,26 +84,54 @@ var NaraCommon = NaraCommon || {};
         return new Date(date).toLocaleString();
     };
 
+    NaraCommon.Date = publicNamespace;
+})();
 
-    // Ajax util
-    publicNamespace.Ajax = {};
+// Ajax util
+( function () {
+    //
+    'use strict';
 
+    var publicNamespace = {};
 
-    var UrlBuilder = function () {
+    // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
+    // Import external library
+    let _jQuery = jQuery,
+        _jsxTransform = babel.transform;
+
+    /*
+     let UrlBuilder = function () {
+     //
+     this.urlAndParams = [];
+     };
+     UrlBuilder.prototype.addUrl = function (url) {
+     this.urlAndParams.push({ url: url });
+     };
+     UrlBuilder.prototype.addUrlAndParam = function (url, param) {
+     this.urlAndParams.push({ url: url, param: param });
+     };
+     UrlBuilder.prototype.build = function () {
+     return this.urlAndParams;
+     };
+     */
+
+    class UrlBuilder {
         //
-        this.urlAndParams = [];
-    };
-    UrlBuilder.prototype.addUrl = function (url) {
-        this.urlAndParams.push({ url: url });
-    };
-    UrlBuilder.prototype.addUrlAndParam = function (url, param) {
-        this.urlAndParams.push({ url: url, param: param });
-    };
-    UrlBuilder.prototype.build = function () {
-        return this.urlAndParams;
-    };
+        constructor() {
+            this.urlAndParams = [];
+        }
+        addUrl(url) {
+            this.urlAndParams.push({url: url});
+        }
+        addUrlAndParam(url, parm) {
+            this.urlAndParams.push({url: url, param: param});
+        }
+        build() {
+            return this.urlAndParams;
+        }
+    }
 
-    publicNamespace.Ajax.createUrlBuilder = function () {
+    publicNamespace.createUrlBuilder = function () {
         //
         return new UrlBuilder();
     };
@@ -118,17 +146,17 @@ var NaraCommon = NaraCommon || {};
      * @param param
      * @returns {*}
      */
-    publicNamespace.Ajax.getJSON = function (url, param) {
+    publicNamespace.getJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
             console.error('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
         }
-        return commonRequestJson(url, 'GET', param).pipe( function (jsonResult, status, jqXHR) {
+        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
             return jsonResult;
         });
     };
 
-    publicNamespace.Ajax.getJSONs = function (urlParams, callback) {
+    publicNamespace.getJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax getJSONs -> urlParams: ' + urlParams);
@@ -145,7 +173,7 @@ var NaraCommon = NaraCommon || {};
      * @param param
      * @returns {*}
      */
-    publicNamespace.Ajax.postJSON = function (url, param) {
+    publicNamespace.postJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
             console.error('Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
@@ -153,7 +181,7 @@ var NaraCommon = NaraCommon || {};
         return commonRequestJson(url, 'POST', param);
     };
 
-    publicNamespace.Ajax.postJSONs = function (urlParams, callback) {
+    publicNamespace.postJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax postJSONs -> urlParams: ' + urlParams);
@@ -161,7 +189,7 @@ var NaraCommon = NaraCommon || {};
         return commonRequestJsons(urlParams, callback, 'POST');
     };
 
-    publicNamespace.Ajax.putJSON = function (url, param) {
+    publicNamespace.putJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
             console.error('Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
@@ -169,7 +197,7 @@ var NaraCommon = NaraCommon || {};
         return commonRequestJson(url, 'PUT', param);
     };
 
-    publicNamespace.Ajax.putJSONs = function (urlParams, callback) {
+    publicNamespace.putJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax putJSONs -> urlParams: ' + urlParams);
@@ -177,7 +205,7 @@ var NaraCommon = NaraCommon || {};
         return commonRequestJsons(urlParams, callback, 'PUT');
     };
 
-    publicNamespace.Ajax.deleteJSON = function (url, param) {
+    publicNamespace.deleteJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
             console.error('Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
@@ -185,7 +213,7 @@ var NaraCommon = NaraCommon || {};
         return commonRequestJson(url, 'DELETE', param);
     };
 
-    publicNamespace.Ajax.deleteJSONs = function (urlParams, callback) {
+    publicNamespace.deleteJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
             console.error('Invalid url for Ajax deleteJSONs -> urlParams: ' + urlParams);
@@ -193,13 +221,13 @@ var NaraCommon = NaraCommon || {};
         return commonRequestJsons(urlParams, callback, 'DELETE');
     };
 
-    var commonRequestJson = function (url, method, param) {
+    let commonRequestJson = function (url, method, param) {
         //
         if (!url || typeof url !== 'string') {
             console.error('Invalid arguments for Ajax JSON -> url: ' + url + ', param: ' + param);
         }
 
-        var jqAjaxReq = {
+        let jqAjaxReq = {
             url: url,
             method: method,
             contentType: 'application/json',
@@ -212,14 +240,14 @@ var NaraCommon = NaraCommon || {};
         return _jQuery.ajax(jqAjaxReq);
     };
 
-    var commonRequestJsons = function (urlParams, callback, method) {
+    let commonRequestJsons = function (urlParams, callback, method) {
         //
-        var callbackCallable = callback && typeof callback === 'function',
+        let callbackCallable = callback && typeof callback === 'function',
             promisses = [];
 
-        for (var i = 0; i < urlParams.length; i ++) {
+        for (let i = 0; i < urlParams.length; i++) {
             //
-            var url = urlParams[i].url,
+            let url = urlParams[i].url,
                 param = urlParams[i].param,
                 promiss;
 
@@ -227,13 +255,13 @@ var NaraCommon = NaraCommon || {};
             promisses.push(promiss);
         }
 
-        _jQuery.when.apply(_jQuery, promisses).done( function () {
+        _jQuery.when.apply(_jQuery, promisses).done(function () {
             //
-            var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
+            let ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
                 resultDatas = [];
 
-            for (var i = 0; i < ajaxResults.length; i++) {
-                var ajaxResult = ajaxResults[i],
+            for (let i = 0; i < ajaxResults.length; i++) {
+                let ajaxResult = ajaxResults[i],
                     resultData = ajaxResult[0];
                 resultDatas.push(resultData);
             }
@@ -247,16 +275,35 @@ var NaraCommon = NaraCommon || {};
 
 
     // Script cache object
-    var scriptCache = {
+    /*
+     let scriptCache = {
+     //
+     caches : { },
+     add: function (url, script) {
+     this.caches[url.split('?')[0]] = script;
+     },
+     get: function (url) {
+     return this.caches[url.split('?')[0]];
+     }
+     };
+     */
+    class ScriptCache {
         //
-        caches : { },
-        add: function (url, script) {
-            this.caches[url.split('?')[0]] = script;
-        },
-        get: function (url) {
+        constructor() {
+            this.caches = {};
+        }
+
+        get(url) {
             return this.caches[url.split('?')[0]];
         }
-    };
+
+        add(url, script) {
+            this.caches[url.split('?')[0]] = script;
+        }
+    }
+
+    let scriptCache = new ScriptCache();
+
 
     /**
      * Get and execute JavaScript or JSX
@@ -269,12 +316,12 @@ var NaraCommon = NaraCommon || {};
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional, this param is calllback when exists param1
      */
-    publicNamespace.Ajax.getScript = function (url, param1, param2) {
+    publicNamespace.getScript = function (url, param1, param2) {
         //
         if (!url || typeof url !== 'string') {
             alert('Invalid url for Ajax getScript -> url: ' + url);
         }
-        publicNamespace.Ajax.getScripts([url], param1, param2);
+        publicNamespace.getScripts([url], param1, param2);
     };
 
     /**
@@ -288,9 +335,9 @@ var NaraCommon = NaraCommon || {};
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional calllback when param1 exists
      */
-    publicNamespace.Ajax.getScripts = function (urlArray, param1, param2) {
+    publicNamespace.getScripts = function (urlArray, param1, param2) {
         //
-        var settings,
+        let settings,
             callback,
             callbackCallable = false;
 
@@ -315,11 +362,11 @@ var NaraCommon = NaraCommon || {};
             callbackCallable = true;
         }
 
-        var promisses = [];
+        let promisses = [];
 
-        for (var i = 0; i < urlArray.length; i ++) {
+        for (let i = 0; i < urlArray.length; i++) {
             //
-            var url = urlArray[i],
+            let url = urlArray[i],
                 cached = scriptCache.get(url);
 
             // Script exists in cache
@@ -329,7 +376,7 @@ var NaraCommon = NaraCommon || {};
             }
             // Not exists
             else {
-                var promiss = _jQuery.ajax({
+                let promiss = _jQuery.ajax({
                     url: url,
                     method: 'GET',
                     cache: false,
@@ -346,11 +393,11 @@ var NaraCommon = NaraCommon || {};
         if (promisses.length > 0) {
             _jQuery.when.apply(_jQuery, promisses).done(function () {
                 //
-                var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
+                let ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
                     ajaxRequest = Array.isArray(this) ? this : [this];
 
-                for (var i = 0; i < ajaxResults.length; i++) {
-                    var url = ajaxRequest[i].url,
+                for (let i = 0; i < ajaxResults.length; i++) {
+                    let url = ajaxRequest[i].url,
                         ajaxResult = ajaxResults[i],
                         resultScript = ajaxResult[0];
 
@@ -371,15 +418,25 @@ var NaraCommon = NaraCommon || {};
         }
     };
 
+    NaraCommon.Ajax = publicNamespace;
+})();
 
-    // Nara commmon constant
-    publicNamespace.Const = {};
 
-    publicNamespace.Object.defineConstProperties(publicNamespace.Const, {
+// Nara commmon constant
+( function () {
+    //
+    'use strict';
+
+    let publicNamespace = {};
+
+    let naraObject = NaraCommon.Object;
+
+
+    naraObject.defineConstProperties(publicNamespace, {
         CTX: ','
     });
 
 
-    NaraCommon = publicNamespace;
+    NaraCommon.Const = publicNamespace;
 
 })();

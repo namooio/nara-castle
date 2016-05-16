@@ -1,64 +1,64 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
+Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
 
 ( function () {
     //
     'use strict';
 
     // Import component module
-    var commonAjax = NaraCommon.Ajax,
+    let commonAjax = NaraCommon.Ajax,
         constant = CastleCommon.Const,
-        mainComponent = Components.Main,
+        mainComponent = Components.Common.Main,
         castleModel = Components.Castle.Model;
 
 
     // Define Content attributes name
-    var castlePhoneModel = {
+    let castlePhoneModel = {
         attrs: {
-            phoneNumber:    { name: 'phoneNumber',  KOR: '전체 번호', USA: 'Phone number' },
-            countryCode:    { name: 'countryCode',  KOR: '국가코드',  USA: 'Country code' },
-            areaCode:       { name: 'areaCode',     KOR: '지역코드',  USA: 'Area code' },
-            number:         { name: 'number',       KOR: '번호',      USA: 'Number' }
+            phoneNumber: {name: 'phoneNumber', KOR: '전체 번호', USA: 'Phone number'},
+            countryCode: {name: 'countryCode', KOR: '국가코드', USA: 'Country code'},
+            areaCode: {name: 'areaCode', KOR: '지역코드', USA: 'Area code'},
+            number: {name: 'number', KOR: '번호', USA: 'Number'}
         },
-        messages : {
-            notRegisteredPhone : { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
+        messages: {
+            notRegisteredPhone: {KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone'}
         }
     };
 
     // Define components
-    var CastleDetailPage = React.createClass({
+    let CastleDetailPage = React.createClass({
         //
         statics: {
             FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
         },
-        propTypes : {
+        propTypes: {
             id: React.PropTypes.string
         },
-        getInitialState: function () {
+        getInitialState() {
             return {
-                phoneBook: { phones: [] },
+                phoneBook: {phones: []},
                 contentModifiable: false
             };
         },
-        componentDidMount: function () {
+        componentDidMount() {
             this.requestPhoneBook(this.props);
         },
-        changeModifiableMode: function () {
+        changeModifiableMode() {
             this.setState({contentModifiable: true});
         },
-        changeViewMode: function () {
+        changeViewMode() {
             this.setState({contentModifiable: false});
         },
-        requestPhoneBook: function (props) {
+        requestPhoneBook(props) {
             commonAjax
                 .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
-                .done( function (phoneBookResult) {
-                    this.setState({ phoneBook: phoneBookResult });
+                .done(function (phoneBookResult) {
+                    this.setState({phoneBook: phoneBookResult});
                 }.bind(this));
         },
-        render: function () {
+        render() {
             return (
                 <Tab
                     castleId={this.props.id}
@@ -71,7 +71,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         }
     });
 
-    var Tab = React.createClass({
+    let Tab = React.createClass({
         //
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -80,12 +80,12 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
 
             changeModifiableMode: React.PropTypes.func.isRequired
         },
-        render: function () {
-            var TAB_NAMES = castleModel.tabs,
+        render() {
+            let TAB_NAMES = castleModel.tabs,
                 lang = mainComponent.lang;
 
             return (
-                <div className="container" >
+                <div className="container">
                     <div className="panel panel-success">
                         <div className="panel-body">
                             <ul className="nav nav-tabs">
@@ -116,7 +116,7 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane active">
-                                    <PhoneContent phoneBook={this.props.phoneBook} />
+                                    <PhoneContent phoneBook={this.props.phoneBook}/>
                                 </div>
                             </div>
                         </div>
@@ -126,34 +126,36 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
         }
     });
 
-    var Content = React.createClass({
-        propTypes: {
-
-        },
-        render : function () {
+    let Content = React.createClass({
+        propTypes: {},
+        render () {
 
         }
     });
 
-    var ButtonGroup = React.createClass({
-        render : function () {
-            var BUTTON_NAMES = castleModel.buttons,
+    let ButtonGroup = React.createClass({
+        render () {
+            let BUTTON_NAMES = castleModel.buttons,
                 lang = mainComponent.lang,
                 buttonRender;
 
             if (this.props.modifiable) {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-primary" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default" onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                        <button type="button" className="btn-group btn btn-primary"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
                     </div>
                 );
             }
             else {
                 buttonRender = (
                     <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-default" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                        <button type="button" className="btn-group btn btn-danger" onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
+                        <button type="button" className="btn-group btn btn-danger"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
                     </div>
                 );
             }
@@ -162,14 +164,14 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
     });
 
 
-    var PhoneContent = React.createClass({
+    let PhoneContent = React.createClass({
         propTypes: {
             phoneBook: React.PropTypes.shape({
                 phones: React.PropTypes.array.isRequired
             }).isRequired
         },
-        render: function () {
-            var ATTRS = castlePhoneModel.attrs,
+        render() {
+            let ATTRS = castlePhoneModel.attrs,
                 MESSAGES = castlePhoneModel.messages,
                 lang = mainComponent.lang,
                 propPhoneBook = this.props.phoneBook,
@@ -179,16 +181,16 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                 <article>
                     <table className="table table-striped table-hover">
                         <thead>
-                            <tr>
-                                <th>{ATTRS.phoneNumber[lang]}</th>
-                                <th>{ATTRS.countryCode[lang]}</th>
-                                <th>{ATTRS.areaCode[lang]}</th>
-                                <th>{ATTRS.number[lang]}</th>
-                            </tr>
+                        <tr>
+                            <th>{ATTRS.phoneNumber[lang]}</th>
+                            <th>{ATTRS.countryCode[lang]}</th>
+                            <th>{ATTRS.areaCode[lang]}</th>
+                            <th>{ATTRS.number[lang]}</th>
+                        </tr>
                         </thead>
                         <tbody>
                         { existsPhoneBook ?
-                            propPhoneBook.phones.map( function (phone) {
+                            propPhoneBook.phones.map(function (phone) {
                                 return (
                                     <tr key={phone[ATTRS.phoneNumber.name]}>
                                         <td>{phone[ATTRS.phoneNumber.name]}</td>
@@ -199,7 +201,9 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || { };
                                 )
                             })
                             :
-                            <tr><td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td></tr>
+                            <tr>
+                                <td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td>
+                            </tr>
                         }
                         </tbody>
                     </table>
