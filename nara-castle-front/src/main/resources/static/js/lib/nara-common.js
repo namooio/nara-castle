@@ -1,7 +1,11 @@
 /**
  * Created by hkkang on 2016-04-28.
  */
-let NaraCommon = {};
+let naraNamespaceName = 'NaraCommon';
+
+window[naraNamespaceName] = {};
+__naraNamespace = {};
+__naraNamespace[naraNamespaceName] = window[naraNamespaceName];
 
 // Object util
 ( function () {
@@ -36,7 +40,7 @@ let NaraCommon = {};
     publicNamespace.deepCopy = function (source) {
         //
         if (!source || typeof source !== 'object') {
-            console.warn("Source is not array or object. > NaraCommon.Object.deepCopy");
+            console.warn('Source is not array or object. > ' + NaraNamespace + '.Object.deepCopy');
             return;
         }
         return deepCopy(source);
@@ -65,7 +69,7 @@ let NaraCommon = {};
         return result;
     };
 
-    NaraCommon.Object = publicNamespace;
+    __naraNamespace[naraNamespaceName].Object = publicNamespace;
 })();
 
 // Date util
@@ -73,7 +77,6 @@ let NaraCommon = {};
     //
     'use strict';
 
-    //let publicNamespace = {};
     let publicNamespace = {};
 
     publicNamespace.parseToString = function (date) {
@@ -84,7 +87,7 @@ let NaraCommon = {};
         return new Date(date).toLocaleString();
     };
 
-    NaraCommon.Date = publicNamespace;
+    __naraNamespace[naraNamespaceName].Date = publicNamespace;
 })();
 
 // Ajax util
@@ -123,7 +126,7 @@ let NaraCommon = {};
         addUrl(url) {
             this.urlAndParams.push({url: url});
         }
-        addUrlAndParam(url, parm) {
+        addUrlAndParam(url, param) {
             this.urlAndParams.push({url: url, param: param});
         }
         build() {
@@ -275,28 +278,14 @@ let NaraCommon = {};
 
 
     // Script cache object
-    /*
-     let scriptCache = {
-     //
-     caches : { },
-     add: function (url, script) {
-     this.caches[url.split('?')[0]] = script;
-     },
-     get: function (url) {
-     return this.caches[url.split('?')[0]];
-     }
-     };
-     */
     class ScriptCache {
         //
         constructor() {
             this.caches = {};
         }
-
         get(url) {
             return this.caches[url.split('?')[0]];
         }
-
         add(url, script) {
             this.caches[url.split('?')[0]] = script;
         }
@@ -418,7 +407,7 @@ let NaraCommon = {};
         }
     };
 
-    NaraCommon.Ajax = publicNamespace;
+    __naraNamespace[naraNamespaceName].Ajax = publicNamespace;
 })();
 
 
@@ -429,7 +418,7 @@ let NaraCommon = {};
 
     let publicNamespace = {};
 
-    let naraObject = NaraCommon.Object;
+    let naraObject = __naraNamespace[naraNamespaceName].Object;
 
 
     naraObject.defineConstProperties(publicNamespace, {
@@ -437,6 +426,6 @@ let NaraCommon = {};
     });
 
 
-    NaraCommon.Const = publicNamespace;
+    __naraNamespace[naraNamespaceName].Const = publicNamespace;
 
 })();

@@ -2,7 +2,7 @@
  * Created by hkkang on 2016-04-07.
  */
 
-NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
+__naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceName].ReactRouter || {};
 
 /**
  * <p>Object structure of Router url mapping</p>
@@ -70,8 +70,8 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
     let publicNamespace = {};
 
     // Import module
-    let commonObject = NaraCommon.Object,
-        commonAjax = NaraCommon.Ajax;
+    let commonObject = __naraNamespace[naraNamespaceName].Object,
+        commonAjax = __naraNamespace[naraNamespaceName].Ajax;
 
 
     // URL mapping type object
@@ -85,31 +85,6 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
 
 
     // URL mapper object
-    /*
-    let urlMapper = {
-        //
-        mappings: {},
-        getMapping: function (url) {
-            return this.mappings[url];
-        },
-        addRequest: function (url, resources) {
-            //
-            if (typeof url !== 'string' || !Array.isArray(resources) || resources.length === 0) {
-                console.error('Invaild url or resourcess for router mapping -> url: ' + url + ', resourcess: ' + resources);
-                return;
-            }
-            this.mappings[url] = {type: mappingType.REQUEST, resources: resources};
-        },
-        addRedirect: function (url, redirectUrl) {
-            //
-            if (typeof url !== 'string' || typeof redirectUrl !== 'string') {
-                console.error('Invaild url or redirectUrl for router redirect mapping -> url: ' + url + ', redirectUrl: ' + redirectUrl);
-                return;
-            }
-            this.mappings[url] = {type: mappingType.REDIRECT, redirectUrl: redirectUrl};
-        }
-    };
-    */
     class UrlMapper {
         //
         constructor() {
@@ -118,7 +93,7 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
         addRequest(url, resources) {
             //
             if (typeof url !== 'string' || !Array.isArray(resources) || resources.length === 0) {
-                console.error('Invaild url or resourcess for router mapping -> url: ' + url + ', resourcess: ' + resources);
+                console.error('Invalid url or resourcess for router mapping -> url: ' + url + ', resourcess: ' + resources);
                 return;
             }
             this.mappings[url] = {type: mappingType.REQUEST, resources: resources};
@@ -126,7 +101,7 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
         addRedirect(url, redirectUrl) {
             //
             if (typeof url !== 'string' || typeof redirectUrl !== 'string') {
-                console.error('Invaild url or redirectUrl for router redirect mapping -> url: ' + url + ', redirectUrl: ' + redirectUrl);
+                console.error('Invalid url or redirectUrl for router redirect mapping -> url: ' + url + ', redirectUrl: ' + redirectUrl);
                 return;
             }
             this.mappings[url] = {type: mappingType.REDIRECT, redirectUrl: redirectUrl};
@@ -139,19 +114,6 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
 
 
     // Component cache object
-    /*
-    let componentCache = {
-        //
-        caches: {},
-        add: function (hashUrl, componentName, component) {
-            this.caches[hashUrl + '_' + componentName] = component;
-        },
-        get: function (hashUrl, componentName) {
-            return this.caches[hashUrl + '_' + componentName];
-        }
-    };
-    */
-
     class ComponentCache {
         //
         constructor() {
@@ -165,6 +127,7 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
         }
     }
     let componentCache = new ComponentCache();
+
 
 
     /**
@@ -182,55 +145,6 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
      *
      * @param initParam
      */
-    publicNamespace.initialize = function (initParam) {
-        //
-        if (!initParam) {
-            alert('Invaild initialization param of nara-react-router -> ' + initParam);
-        }
-        let callback = initParam.loadedScriptCallback,
-            pageNotFoundMapping = initParam.pageNotFoundMapping;
-
-
-        window.addEventListener('hashchange', function () {
-            navigate(callback, pageNotFoundMapping);
-        });
-        navigate(callback, pageNotFoundMapping);
-    };
-
-    /*
-    let Initializer = function () {
-        //
-        this.routerCallback = function () {
-        };
-        this.errorPages = {};
-    };
-    Initializer.prototype.setRouterCallback = function (callback) {
-        //
-        this.routerCallback = callback;
-    };
-    Initializer.prototype.addErrorPage = function (errorCode, resourcePath, componeneNamespace, componentName) {
-        //
-        this.errorPages[errorCode] = {
-            path: resourcePath,
-            componentNamespace: Components.Common,
-            componentName: 'Error'
-        };
-    };
-    Initializer.prototype.initialize = function () {
-        //
-        if (!this.routerCallback || typeof this.routerCallback !== 'function') {
-            console.error('Invaild router callback of nara-react-router initialization -> ' + this.callback);
-        }
-        let callback = this.routerCallback,
-            errorPage = this.errorPages['404'];
-
-        window.addEventListener('hashchange', function () {
-            navigate(callback, errorPage);
-        });
-        navigate(callback, errorPage);
-    };
-    */
-
     class Initializer {
         //
         constructor() {
@@ -241,18 +155,18 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
             //
             this.routerCallback = callback;
         }
-        addErrorPage(errorCode, resourcePath, componeneNamespace, componentName) {
+        addErrorPage(errorCode, resourcePath, componentNamespace, componentName) {
             //
             this.errorPages[errorCode] = {
                 path: resourcePath,
-                componentNamespace: Components.Common,
-                componentName: 'Error'
+                componentNamespace: componentNamespace,
+                componentName: componentName
             };
         }
         initRouter() {
             //
             if (!this.routerCallback || typeof this.routerCallback !== 'function') {
-                console.error('Invaild router callback of nara-react-router initialization -> ' + this.callback);
+                console.error('Invalid router callback of nara-react-router initialization -> ' + this.callback);
             }
             let callback = this.routerCallback,
                 errorPage = this.errorPages['404'];
@@ -264,10 +178,10 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
         }
     }
 
-
     publicNamespace.createInitializer = function () {
         return new Initializer();
     };
+
 
     /**
      * Add url mappaing information at router
@@ -407,5 +321,5 @@ NaraCommon.ReactRouter = NaraCommon.ReactRouter || {};
     };
 
 
-    NaraCommon.ReactRouter = publicNamespace;
+    __naraNamespace[naraNamespaceName].ReactRouter = publicNamespace;
 })();
