@@ -9,6 +9,7 @@ import namoo.nara.castle.domain.entity.history.CastleState;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.proxy.GatewayProxy;
+import namoo.nara.castle.domain.service.CastleCdo;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.*;
 
@@ -35,8 +36,14 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void buildCastle(String id, String name, String email, Locale locale) {
+    public void buildCastle(CastleCdo castleCdo) {
         //
+        String id = castleCdo.getId();
+        String name = castleCdo.getName();
+        String email = castleCdo.getEmail();
+        Locale locale = castleCdo.getLocale();
+        String password = castleCdo.getPassword();
+
         Castle castle = Castle.newInstance(id, name, email, locale);
 
         InfoBundleBox bundleBox = castle.getInfoBundleBox();
@@ -49,8 +56,7 @@ public class CastleServiceLogic implements CastleService {
         historyStore.create(history);
         contactBundleStore.create(contact);
 
-        // TODO password?
-        gatewayProxy.createNaraAccount(id, email, "");
+        gatewayProxy.createNaraAccount(id, email, password);
     }
 
     @Override
