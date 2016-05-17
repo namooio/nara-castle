@@ -25,6 +25,11 @@
 		</dependency>
 		<dependency>
 			<groupId>namoo.nara.castle</groupId>
+			<artifactId>nara-castle-proxy</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>namoo.nara.castle</groupId>
 			<artifactId>nara-castle-adapter</artifactId>
 			<version>${project.version}</version>
 		</dependency>

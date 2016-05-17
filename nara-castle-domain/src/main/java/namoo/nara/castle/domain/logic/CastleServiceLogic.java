@@ -7,6 +7,8 @@ import namoo.nara.castle.domain.entity.contact.ContactBundle;
 import namoo.nara.castle.domain.entity.contact.UserEmail;
 import namoo.nara.castle.domain.entity.history.CastleState;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
+import namoo.nara.castle.domain.proxy.CastleProxyLycler;
+import namoo.nara.castle.domain.proxy.GatewayProxy;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.store.*;
 
@@ -20,12 +22,16 @@ public class CastleServiceLogic implements CastleService {
     private HistoryBundleStore historyStore;
     private ContactBundleStore contactBundleStore;
 
-    public CastleServiceLogic(CastleStoreLycler storeLycler) {
+    private GatewayProxy gatewayProxy;
+
+    public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.castellanStore = storeLycler.requestCastellanStore();
         this.historyStore = storeLycler.requestHistoryBundleStore();
         this.contactBundleStore = storeLycler.requestContactBundleStore();
+
+        this.gatewayProxy = proxyLycler.requestGatewayProxy();
     }
 
     @Override
@@ -42,6 +48,9 @@ public class CastleServiceLogic implements CastleService {
         castellanStore.create(castle.getOwner());
         historyStore.create(history);
         contactBundleStore.create(contact);
+
+        // TODO password?
+        gatewayProxy.createNaraAccount(id, email, "");
     }
 
     @Override

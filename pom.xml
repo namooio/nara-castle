@@ -12,6 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <nara.share.version>0.1.7</nara.share.version>
+        <nara.gateway.version>0.0.4</nara.gateway.version>
     </properties>
 
     <dependencies>
@@ -40,6 +41,7 @@
         <module>nara-castle-store</module>
         <module>nara-castle-client</module>
         <module>nara-castle-front</module>
+        <module>nara-castle-proxy</module>
     </modules>
 
     <scm>
