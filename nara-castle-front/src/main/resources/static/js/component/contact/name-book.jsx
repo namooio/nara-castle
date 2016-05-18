@@ -1,7 +1,9 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.NameBook = Components.Castle.NameBook || {};
+
+castle.component.NameBook = castle.component.NameBook || {};
+
 
 ( function () {
     //
@@ -9,9 +11,9 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
 
     // Import component module
     let commonAjax = NaraCommon.Ajax,
-        constant = CastleCommon.Const,
-        mainComponent = Components.Common.Main,
-        castleModel = Components.Castle.Model;
+        constant = castle.common.Const,
+        castleModel = castle.common.Model,
+        mainComponent = castle.component.common.Main;
 
 
     // Define Content attributes name
@@ -33,8 +35,8 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
     let NameContent = React.createClass({
         //
         statics: {
-            FIND_NAME_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/name-book',
-            ATTACH_NAME_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/name-book'
+            FIND_NAME_BOOK_URL: constant.PAV_CTX_API + '/api/castellans/{id}/contacts/name-book',
+            ATTACH_NAME_BOOK_URL: constant.PAV_CTX_API + '/api/castellans/{id}/contacts/name-book'
         },
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -387,5 +389,5 @@ Components.Castle.NameBook = Components.Castle.NameBook || {};
     });
 
 
-    Components.Castle.NameBook = NameContent;
+    castle.component.NameBook = NameContent;
 })();

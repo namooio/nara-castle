@@ -1,7 +1,9 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.List = Components.Castle.List || { };
+
+castle.component.List = castle.component.List || { };
+
 
 ( function () {
     //
@@ -10,9 +12,10 @@ Components.Castle.List = Components.Castle.List || { };
     // Import component module
     let commonAjax = NaraCommon.Ajax,
         commonDate = NaraCommon.Date,
-        constant = CastleCommon.Const,
-        mainComponent = Components.Common.Main,
-        castleModel = Components.Castle.Model;
+        constant = castle.common.Const,
+        castleModel = castle.common.Model,
+        mainComponent = castle.component.common.Main;
+
 
     // Define content attributes
     let castleListModel = {
@@ -42,7 +45,7 @@ Components.Castle.List = Components.Castle.List || { };
     // Define components
     let CastleListPage = React.createClass({
         statics: {
-            FIND_CASTLES_URL: constant.CTX + '/api/castles'
+            FIND_CASTLES_URL: constant.PAV_CTX_API + '/api/castles'
         },
         getInitialState() {
             return {
@@ -72,6 +75,7 @@ Components.Castle.List = Components.Castle.List || { };
                 }.bind(this));
         },
         render() {
+            //
             return (
                 <article>
                     <Finder
@@ -96,18 +100,16 @@ Components.Castle.List = Components.Castle.List || { };
             change: React.PropTypes.func.isRequired,
             find: React.PropTypes.func.isRequired
         },
-        //findBtnClick: function () {
         findBtnClick() {
             this.props.find(this.props.criteria);
         },
-        //inputChange: function (event) {
         inputChange(event) {
             this.props.change({
                 name: event.target.value
             });
         },
-        //render: function () {
         render() {
+            //
             let ATTRS = castleListModel.finder,
                 BUTTON_NAMES = castleModel.buttons,
                 lang = mainComponent.lang;
@@ -151,7 +153,6 @@ Components.Castle.List = Components.Castle.List || { };
         propTypes: {
             castles: React.PropTypes.array.isRequired
         },
-        //render: function () {
         render() {
             //
             let ENUMS = castleModel.enums,
@@ -189,7 +190,7 @@ Components.Castle.List = Components.Castle.List || { };
                                                 <td>{castle.castellan ? castle.castellan.primaryPhone : null}</td>
                                                 <td>{ENUMS.state[castle.state][lang]}</td>
                                                 <td>{commonDate.parseToString(castle.buildTime)}</td>
-                                                <td><a href={"#/castle/basic?&id=" + castle.id}><span
+                                                <td><a href={constant.PAV_CTX_HASH + "/castle/basic?&id=" + castle.id}><span
                                                     className="glyphicon glyphicon-book"/></a></td>
                                             </tr>
                                         )
@@ -208,5 +209,5 @@ Components.Castle.List = Components.Castle.List || { };
     });
 
 
-    Components.Castle.List = CastleListPage;
+    castle.component.List = CastleListPage;
 })();

@@ -1,7 +1,9 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.Basic = Components.Castle.Basic || {};
+
+castle.component.Basic = castle.component.Basic || {};
+
 
 ( function () {
     //
@@ -11,9 +13,10 @@ Components.Castle.Basic = Components.Castle.Basic || {};
     let commonAjax = NaraCommon.Ajax,
         commonObject = NaraCommon.Object,
         commonDate = NaraCommon.Date,
-        constant = CastleCommon.Const,
-        mainComponent = Components.Common.Main,
-        castleModel = Components.Castle.Model;
+        constant = castle.common.Const,
+        castleModel = castle.common.Model,
+        mainComponent = castle.component.common.Main;
+
 
 
     // Define Content attributes name
@@ -43,12 +46,12 @@ Components.Castle.Basic = Components.Castle.Basic || {};
     let BasicContent = React.createClass({
         //
         statics: {
-            FIND_CASTLE_URL: constant.CTX + '/api/castles/{id}',
-            FIND_CASTELLAN_URL: constant.CTX + '/api/castellans/{id}',
-            MODIFY_NAME_URL: constant.CTX + '/api/castles/{id}/name',
-            MODIFY_LOCALE_URL: constant.CTX + '/api/castles/{id}/locale',
-            SUSPEND_CASTLE_URL: constant.CTX + '/api/castles/{id}/suspend',
-            REOPEN_CASTLE_URL: constant.CTX + '/api/castles/{id}/reopen'
+            FIND_CASTLE_URL: constant.PAV_CTX_API + '/api/castles/{id}',
+            FIND_CASTELLAN_URL: constant.PAV_CTX_API + '/api/castellans/{id}',
+            MODIFY_NAME_URL: constant.PAV_CTX_API + '/api/castles/{id}/name',
+            MODIFY_LOCALE_URL: constant.PAV_CTX_API + '/api/castles/{id}/locale',
+            SUSPEND_CASTLE_URL: constant.PAV_CTX_API + '/api/castles/{id}/suspend',
+            REOPEN_CASTLE_URL: constant.PAV_CTX_API + '/api/castles/{id}/reopen'
         },
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -378,5 +381,5 @@ Components.Castle.Basic = Components.Castle.Basic || {};
     });
 
 
-    Components.Castle.Basic = BasicContent;
+    castle.component.Basic = BasicContent;
 })();

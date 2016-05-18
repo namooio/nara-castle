@@ -1,11 +1,15 @@
 /**
  * Created by hkkang on 2016-04-28.
  */
-let naraNamespaceName = 'NaraCommon';
 
-window[naraNamespaceName] = {};
-__naraNamespace = {};
-__naraNamespace[naraNamespaceName] = window[naraNamespaceName];
+let naraNamespace = 'NaraCommon';
+
+window.__nara = {
+    namespace: naraNamespace,
+    [naraNamespace]: {}
+};
+window[naraNamespace] = window.__nara[naraNamespace];
+
 
 // Object util
 ( function () {
@@ -40,7 +44,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.deepCopy = function (source) {
         //
         if (!source || typeof source !== 'object') {
-            console.warn('Source is not array or object. > ' + NaraNamespace + '.Object.deepCopy');
+            console.warn('Source is not array or object. > ' + naraNamespace + '.Object.deepCopy');
             return;
         }
         return deepCopy(source);
@@ -69,8 +73,9 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
         return result;
     };
 
-    __naraNamespace[naraNamespaceName].Object = publicNamespace;
+    __nara[__nara.namespace].Object = publicNamespace;
 })();
+
 
 // Date util
 ( function () {
@@ -87,36 +92,22 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
         return new Date(date).toLocaleString();
     };
 
-    __naraNamespace[naraNamespaceName].Date = publicNamespace;
+    __nara[__nara.namespace].Date = publicNamespace;
 })();
+
 
 // Ajax util
 ( function () {
     //
     'use strict';
 
-    var publicNamespace = {};
+    let publicNamespace = {};
 
     // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
     // Import external library
     let _jQuery = jQuery,
         _jsxTransform = babel.transform;
 
-    /*
-     let UrlBuilder = function () {
-     //
-     this.urlAndParams = [];
-     };
-     UrlBuilder.prototype.addUrl = function (url) {
-     this.urlAndParams.push({ url: url });
-     };
-     UrlBuilder.prototype.addUrlAndParam = function (url, param) {
-     this.urlAndParams.push({ url: url, param: param });
-     };
-     UrlBuilder.prototype.build = function () {
-     return this.urlAndParams;
-     };
-     */
 
     class UrlBuilder {
         //
@@ -152,7 +143,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.getJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
-            console.error('Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
+            console.error('Invalid url for ' + __nara.namespace + ' Ajax getJSON -> url: ' + url + ', param: ' + param);
         }
         return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
             return jsonResult;
@@ -162,7 +153,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.getJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for Ajax getJSONs -> urlParams: ' + urlParams);
+            console.error('Invalid url for ' + __nara.namespace + ' Ajax getJSONs -> urlParams: ' + urlParams);
         }
         return commonRequestJsons(urlParams, callback, 'GET');
     };
@@ -187,7 +178,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.postJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for Ajax postJSONs -> urlParams: ' + urlParams);
+            console.error('Invalid url for ' + __nara.namespace + ' Ajax postJSONs -> urlParams: ' + urlParams);
         }
         return commonRequestJsons(urlParams, callback, 'POST');
     };
@@ -195,7 +186,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.putJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
-            console.error('Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
+            console.error('Invalid arguments for ' + __nara.namespace + ' Ajax putJSON -> url: ' + url + ', param: ' + param);
         }
         return commonRequestJson(url, 'PUT', param);
     };
@@ -203,7 +194,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.putJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for Ajax putJSONs -> urlParams: ' + urlParams);
+            console.error('Invalid url for ' + __nara.namespace + ' Ajax putJSONs -> urlParams: ' + urlParams);
         }
         return commonRequestJsons(urlParams, callback, 'PUT');
     };
@@ -211,7 +202,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.deleteJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
-            console.error('Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
+            console.error('Invalid arguments for ' + __nara.namespace + ' Ajax deleteJSON -> url: ' + url + ', param: ' + param);
         }
         return commonRequestJson(url, 'DELETE', param);
     };
@@ -219,7 +210,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     publicNamespace.deleteJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for Ajax deleteJSONs -> urlParams: ' + urlParams);
+            console.error('Invalid url for ' + __nara.namespace + ' Ajax deleteJSONs -> urlParams: ' + urlParams);
         }
         return commonRequestJsons(urlParams, callback, 'DELETE');
     };
@@ -227,7 +218,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     let commonRequestJson = function (url, method, param) {
         //
         if (!url || typeof url !== 'string') {
-            console.error('Invalid arguments for Ajax JSON -> url: ' + url + ', param: ' + param);
+            console.error('Invalid arguments for ' + __nara.namespace + ' Ajax JSON -> url: ' + url + ', param: ' + param);
         }
 
         let jqAjaxReq = {
@@ -246,19 +237,18 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     let commonRequestJsons = function (urlParams, callback, method) {
         //
         let callbackCallable = callback && typeof callback === 'function',
-            promisses = [];
+            promises = [];
 
         for (let i = 0; i < urlParams.length; i++) {
             //
             let url = urlParams[i].url,
                 param = urlParams[i].param,
-                promiss;
+                promise = commonRequestJson(url, method, param);
 
-            promiss = commonRequestJson(url, method, param);
-            promisses.push(promiss);
+            promises.push(promise);
         }
 
-        _jQuery.when.apply(_jQuery, promisses).done(function () {
+        _jQuery.when.apply(_jQuery, promises).done(function () {
             //
             let ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
                 resultDatas = [];
@@ -272,7 +262,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
             if (callbackCallable) {
                 callback.apply(this, resultDatas);
             }
-            return promisses;
+            return promises;
         });
     };
 
@@ -284,10 +274,12 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
             this.caches = {};
         }
         get(url) {
-            return this.caches[url.split('?')[0]];
+            var pureUrl = url.split('?')[0];
+            return this.caches[pureUrl];
         }
         add(url, script) {
-            this.caches[url.split('?')[0]] = script;
+            var pureUrl = url.split('?')[0];
+            this.caches[pureUrl] = script;
         }
     }
 
@@ -303,12 +295,12 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
      *
      * @param url
      * @param param1 Optional, this param is callback or settings
-     * @param param2 Optional, this param is calllback when exists param1
+     * @param param2 Optional, this param is callback when exists param1
      */
     publicNamespace.getScript = function (url, param1, param2) {
         //
         if (!url || typeof url !== 'string') {
-            alert('Invalid url for Ajax getScript -> url: ' + url);
+            alert('Invalid url for ' + __nara.namespace + ' Ajax getScript -> url: ' + url);
         }
         publicNamespace.getScripts([url], param1, param2);
     };
@@ -322,22 +314,19 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
      *
      * @param urlArray
      * @param param1 Optional, this param is callback or settings
-     * @param param2 Optional calllback when param1 exists
+     * @param param2 Optional callback when param1 exists
      */
     publicNamespace.getScripts = function (urlArray, param1, param2) {
         //
-        let settings,
-            callback,
-            callbackCallable = false;
+        let callback,
+            callbackCallable = false,
+            settings = { async: true };
 
         if (!urlArray || !Array.isArray(urlArray) || urlArray.length === 0) {
-            alert('Invalid url for Ajax getScripts -> urlArray: ' + urlArray);
+            alert('Invalid url for ' + __nara.namespace + ' Ajax getScripts -> urlArray: ' + urlArray);
         }
 
         if (param1 && typeof param1 === 'function') {
-            settings = {
-                async: true
-            };
             callback = param1;
         }
         else if (param1 && typeof param1 === 'object') {
@@ -351,7 +340,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
             callbackCallable = true;
         }
 
-        let promisses = [];
+        let promises = [];
 
         for (let i = 0; i < urlArray.length; i++) {
             //
@@ -360,27 +349,29 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
 
             // Script exists in cache
             if (cached) {
-                console.info('Execute cached script');
+                console.info('Execute cached script -> ' + url);
                 _jsxTransform.run(cached.script);
             }
             // Not exists
             else {
-                let promiss = _jQuery.ajax({
+                let promise = _jQuery.ajax({
                     url: url,
                     method: 'GET',
                     cache: false,
                     async: settings.async,
+                    dataType: 'text',
+                    contentType: 'text/plain',
                     error: function (result) {
-                        alert('Fail CastleCommon.getScript');
-                        console.error(result);
+                        console.error('Failed  get script at ' + __nara.namespace + ' Ajax -> url: ' + this.url + ', dataType: ' + this.dataType);
+                        console.log(result);
                     }
                 });
-                promisses.push(promiss);
+                promises.push(promise);
             }
         }
 
-        if (promisses.length > 0) {
-            _jQuery.when.apply(_jQuery, promisses).done(function () {
+        if (promises.length > 0) {
+            _jQuery.when.apply(_jQuery, promises).then(function () {
                 //
                 let ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
                     ajaxRequest = Array.isArray(this) ? this : [this];
@@ -390,7 +381,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
                         ajaxResult = ajaxResults[i],
                         resultScript = ajaxResult[0];
 
-                    console.info('Execute script from server');
+                    console.info('Execute script from server -> ' + url);
                     scriptCache.add(url, resultScript);
                     _jsxTransform.run(resultScript);
                 }
@@ -407,7 +398,12 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
         }
     };
 
-    __naraNamespace[naraNamespaceName].Ajax = publicNamespace;
+    publicNamespace.getHtml = function (url, callback) {
+        //
+        return _jQuery.get(url, callback, 'html');
+    };
+
+    __nara[__nara.namespace].Ajax = publicNamespace;
 })();
 
 
@@ -418,7 +414,7 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
 
     let publicNamespace = {};
 
-    let naraObject = __naraNamespace[naraNamespaceName].Object;
+    let naraObject = __nara[__nara.namespace].Object;
 
 
     naraObject.defineConstProperties(publicNamespace, {
@@ -426,6 +422,5 @@ __naraNamespace[naraNamespaceName] = window[naraNamespaceName];
     });
 
 
-    __naraNamespace[naraNamespaceName].Const = publicNamespace;
-
+    __nara[__nara.namespace].Const = publicNamespace;
 })();

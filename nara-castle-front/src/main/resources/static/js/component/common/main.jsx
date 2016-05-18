@@ -1,118 +1,334 @@
- /**
- * Created by hkkang on 2016-04-05.
+/**
+ * Created by hkkang on 2016-04-07.
  */
-Components.Common.Main = Components.Common.Main || {};
+
+__nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {};
 
 
- ( function () {
-     //
-     'use strict';
+/**
+ * <p>Object structure of Router url mapping</p>
+ *
+ * <pre>
+ *  {
+ *      'hashUrl' [object] : {
+ *          type [string] : Mapping type [REQUEST | REDIRECT],
+ *          resources [object array] : [
+ *              {
+ *                  path [string] : 'resource path',
+ *                  component [object] : {
+ *                      namespace [object] : Namespace of Component,
+ *                      name [string] : Component name in namespace
+ *                  }
+ *              },
+ *              ...
+ *          ]
+ *      },
+ *      ...
+ *  }
+ * </pre>
+ */
 
-     // Import component module
-     let naraReactRouter = NaraCommon.ReactRouter,
-         castleCommon = CastleCommon,
-         castleConst = CastleCommon.Const,
-         castleTopMenu = Components.Common.TopMenu;
+/**
+ * <p>Router url mapping sample</p>
+ *
+ * <pre>
+ *  {
+ *      '#' : {
+ *          type : 'REDIRECT',
+ *          redirectUrl : '#/inquiery'
+ *      },
+ *      '#/inquiry' : {
+ *          type : 'REQUEST',
+ *          resources : [
+ *              {
+ *                  path : '/js/castellan/view.jsx',
+ *                  component : {
+ *                      namespace : Components.Castellan,
+ *                      name : 'View'
+ *                  }
+ *              }
+ *          ]
+ *      },
+ *      '#/castle/list' : {
+ *          type : 'REQUEST',
+ *          resources : [
+ *              {
+ *                  path : '/js/castle/list.jsx',
+ *                  component : {
+ *                      namespace : Components.Castle,
+ *                      name : 'List'
+ *                  }
+ *              }
+ *          ]
+ *  }
+ * </pre>
+ */
 
+( function () {
+    //
+    'use strict';
 
-     // Define component
-     let MainPage = React.createClass({
-         //
-         statics: {
-             lang: 'KOR'
-         },
-         propTypes: {
-             contentComponent: React.PropTypes.func.isRequired,
-             params: React.PropTypes.object
-         },
-         getInitialState() {
-             return {};
-         },
-         componentDidMount() {
-             let lang;
+    let publicNamespace = {};
 
-             if (navigator.language) lang = navigator.language;
-             else if (navigator.browserLanguage) lang = navigator.browserLanguage;
-             else if (navigator.systemLanguage) lang = navigator.systemLanguage;
-             else if (navigator.userLanguage) lang = navigator.userLanguage;
-
-             if (lang === 'ko') {
-                 lang = 'KOR';
-             } else if (lang === 'en') {
-                 lang = 'USA';
-             }
-
-             this.changeLanguage(lang);
-         },
-         getLanguage() {
-             return this.state.lang;
-         },
-         changeLanguage(lang) {
-             this.setState({ lang: lang });
-             MainPage.lang = lang;
-         },
-         render() {
-             return (
-                 <div >
-                     <header>
-                         <Components.Common.TopMenu changeLanguage={this.changeLanguage} getLanguage={this.getLanguage}/>
-                     </header>
-
-                     <section >
-                         <Content contentComponent={this.props.contentComponent} params={this.props.params}/>
-                     </section>
-                 </div>
-             );
-         }
-     });
-
-
-     let Content = React.createClass({
-         //
-         propTypes: {
-             contentComponent: React.PropTypes.func.isRequired,
-             params: React.PropTypes.object
-         },
-         render() {
-             return (
-                 React.createElement(this.props.contentComponent, this.props.params)
-             );
-         }
-     });
-
-     // Initialize nara router
-     /*
-      let renderLayout = function (contentComponent, params) {
-      ReactDOM.render(<MainPage contentComponent={contentComponent} params={params}/>, castleCommon.getCastleMainJDom());
-      };
-
-      let initParam = {
-      loadedScriptCallback: renderLayout,
-      pageNotFoundMapping: {
-      path: castleConst.CTX + '/resources/js/common/error.jsx',
-      componentNameSpace: Components.Common,
-      componentName: 'Error'
-      }
-      };
-
-      naraReactRouter.initialize(initParam);
-      */
+    // Import module
+    let commonObject = __nara[__nara.namespace].Object,
+        commonAjax = __nara[__nara.namespace].Ajax;
 
 
-     let initializer = naraReactRouter.createInitializer();
+    // URL mapping type object
+    let mappingType = {};
+    commonObject.defineConstProperties(mappingType, {
+        REQUEST: 'REQ',
+        REDIRECT: 'RDR'
+    });
 
-     initializer.setRouterCallback( function (contentComponent, params) {
-         ReactDOM.render(
-             <MainPage
-                 contentComponent={contentComponent}
-                 params={params}
-             />, castleCommon.getCastleMainJDom());
-     });
-     initializer.addErrorPage('404', castleConst.CTX + '/resources/js/common/error.jsx', Components.Common, 'Error');
+    publicNamespace.MappingType = mappingType;
 
 
-     initializer.initRouter();
+    // URL mapper object
+    class UrlMapper {
+        //
+        constructor() {
+            this.mappings = {};
+        }
+        static _convertUrl(url) {
+            return url[url.length - 1] === '/' ? url.substring(0, url.length - 1) : url;
+        }
+        addRequest(url, resources) {
+            //
+            if (typeof url !== 'string' || !Array.isArray(resources) || resources.length === 0) {
+                console.error('Invalid url or resources for ' + __nara.namespace + ' router mapping -> url: ' + url + ', resources: ' + resources);
+                return;
+            }
+            url = this._convertUrl(url);
+            this.mappings[url] = {type: mappingType.REQUEST, resources: resources};
+        }
+        addRedirect(url, redirectUrl) {
+            //
+            if (typeof url !== 'string' || typeof redirectUrl !== 'string') {
+                console.error('Invalid url or redirectUrl for ' + __nara.namespace + ' router redirect mapping -> url: ' + url + ', redirectUrl: ' + redirectUrl);
+                return;
+            }
+            url = this._convertUrl(url);
+            this.mappings[url] = {type: mappingType.REDIRECT, redirectUrl: redirectUrl};
+        }
+        getMapping(url) {
+            url = this._convertUrl(url);
+            return this.mappings[url];
+        }
+    }
+
+    let urlMapper = new UrlMapper();
 
 
-     Components.Common.Main = MainPage;
- })();
+    // Component cache object
+    class ComponentCache {
+        //
+        constructor() {
+            this.caches = {};
+        }
+        get(hashUrl, componentName) {
+            return this.caches[hashUrl + '_' + componentName];
+        }
+        add(hashUrl, componentName, component) {
+            this.caches[hashUrl + '_' + componentName] = component;
+        }
+    }
+    let componentCache = new ComponentCache();
+
+
+
+    /**
+     *
+     * <pre>
+     *  initParam = {
+     *      loadedScriptCallback [function] : Callback after script loading,
+     *      pageNotFoundMapping [object] : {
+     *          path [string] : Error page resource path,
+     *          componentNameSapce [object] : Component namespace object,
+     *          componentName [string] : 'Error'
+     *      }
+     *  }
+     * </pre>
+     *
+     * @param initParam
+     */
+    class Initializer {
+        //
+        constructor() {
+            this.errorPages = {};
+            this.routerCallback = function () {};
+        }
+        setRouterCallback(callback) {
+            //
+            this.routerCallback = callback;
+        }
+        addErrorPage(errorCode, resourcePath, componentNamespace, componentName) {
+            //
+            this.errorPages[errorCode] = {
+                path: resourcePath,
+                componentNamespace: componentNamespace,
+                componentName: componentName
+            };
+        }
+        initRouter() {
+            //
+            if (!this.routerCallback || typeof this.routerCallback !== 'function') {
+                console.error('Invalid router callback of ' + __nara.namespace + ' nara-react-router initialization -> ' + this.callback);
+            }
+            let callback = this.routerCallback,
+                errorPage = this.errorPages['404'];
+
+            window.addEventListener('hashchange', function () {
+                navigate(callback, errorPage);
+            });
+            navigate(callback, errorPage);
+        }
+    }
+
+    publicNamespace.createInitializer = function () {
+        return new Initializer();
+    };
+
+
+    /**
+     * Add url mappaing information at router
+     *
+     * @param url
+     * @param resources
+     */
+    publicNamespace.addMapping = function (url, resources) {
+        //
+        urlMapper.addRequest(url, resources);
+    };
+
+    /**
+     * Add url mapping for redirect
+     *
+     * @param url
+     * @param redirectUrl
+     */
+    publicNamespace.addRedirect = function (url, redirectUrl) {
+        //
+        urlMapper.addRedirect(url, redirectUrl);
+    };
+
+    let navigate = function (loadedScriptCallback, errorPageMapping) {
+        //
+        let hashUrlAndParams = getHashUrlAndParams(),
+            hashUrl = hashUrlAndParams.hashUrl,
+            paramsObj = hashUrlAndParams.params,
+            mappingInfo = urlMapper.getMapping(hashUrl);
+
+        // Not exists mapping information
+        if (!mappingInfo) {
+            console.error('Not found url mapping from ' + __nara.namespace + ' router -> url: ' + hashUrl);
+            /*
+             let errorResourcePath = errorPageMapping.path;
+
+             commonAjax.getScript(errorResourcePath, function () {
+             //
+             let componentNamespace = errorPageMapping.componentNamespace,
+             componentName = errorPageMapping.componentName,
+             component = componentNamespace[componentName];
+
+             loadedScriptCallback(component);
+             });
+             */
+            return;
+        }
+
+
+        if (mappingInfo.type === mappingType.REQUEST) {
+            doRequest(hashUrl, mappingInfo.resources, paramsObj, loadedScriptCallback);
+        }
+        else if (mappingInfo.type === mappingType.REDIRECT) {
+            doRedirect(mappingInfo.redirectUrl);
+        }
+        else {
+            console.error('Invalid mapping type in router mappings, something wrong...');
+        }
+    };
+
+    let getHashUrlAndParams = function () {
+        //
+        let hashLocation = window.location.hash.split('?'),
+            hashUrl = hashLocation[0],
+            paramsText = hashLocation[1],
+            paramsObj = {};
+
+        if (paramsText) {
+            let paramItems = paramsText.split('&');
+
+            if (paramItems) {
+                paramItems.forEach(function (item) {
+                    let paramName = item.split('=')[0],
+                        paramValue = item.split('=')[1];
+
+                    paramsObj[paramName] = paramValue;
+                });
+            }
+        }
+
+        return {
+            hashUrl: hashUrl,
+            params: paramsObj
+        };
+    };
+
+    let doRequest = function (hashUrl, mappingResources, paramsObj, callback) {
+        //
+        let callbackComponent,
+            getScripts = [];
+
+        mappingResources.forEach(function (resourceItem, index) {
+            //
+            let componentInfo = resourceItem.component,
+                component = componentCache.get(hashUrl, componentInfo.name),
+                executable = (index === (mappingResources.length - 1));
+
+
+            // Component exists in the cache
+            if (component) {
+                if (executable) {
+                    callbackComponent = component;
+                }
+            }
+            // Component not exists, get server
+            else {
+                getScripts.push(resourceItem.path);
+            }
+        });
+
+        if (getScripts.length > 0) {
+            commonAjax.getScripts(getScripts, function () {
+                //
+                mappingResources.forEach(function (resourceItem, index) {
+                    //
+                    let componentInfo = resourceItem.component,
+                        component = componentInfo.namespace[componentInfo.name],
+                        executable = (index === (mappingResources.length - 1));
+
+                    componentCache.add(hashUrl, componentInfo.name, component);
+
+                    if (executable) {
+                        callbackComponent = component;
+                    }
+                });
+
+                callback(callbackComponent, paramsObj);
+            });
+        }
+        else {
+            callback(callbackComponent, paramsObj);
+        }
+    };
+
+    let doRedirect = function (redirectUrl) {
+        //
+        window.location.hash = redirectUrl;
+    };
+
+
+    __nara[__nara.namespace].ReactRouter = publicNamespace;
+})();

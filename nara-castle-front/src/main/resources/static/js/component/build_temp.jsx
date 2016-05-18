@@ -1,7 +1,9 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-Components.Castle.Build = Components.Castle.Build || {};
+
+castle.component.Build = castle.component.Build || {};
+
 
 ( function () {
     //

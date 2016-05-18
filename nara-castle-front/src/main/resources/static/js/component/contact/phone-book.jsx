@@ -1,7 +1,9 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
+
+castle.component.PhoneBook = castle.component.PhoneBook || {};
+
 
 ( function () {
     //
@@ -9,9 +11,9 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
 
     // Import component module
     let commonAjax = NaraCommon.Ajax,
-        constant = CastleCommon.Const,
-        mainComponent = Components.Common.Main,
-        castleModel = Components.Castle.Model;
+        constant = castle.common.Const,
+        castleModel = castle.common.Model,
+        mainComponent = castle.component.common.Main;
 
 
     // Define Content attributes name
@@ -214,5 +216,5 @@ Components.Castle.PhoneBook = Components.Castle.PhoneBook || {};
     });
 
 
-    Components.Castle.PhoneBook = CastleDetailPage;
+    castle.component.PhoneBook = CastleDetailPage;
 })();

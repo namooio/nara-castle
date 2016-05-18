@@ -1,7 +1,9 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.Model = Components.Castle.Model || {};
+
+castle.common.Model = castle.common.Model || {};
+
 
 ( function () {
     //
@@ -28,8 +30,8 @@ Components.Castle.Model = Components.Castle.Model || {};
             locale: {
                 ko:     { name: 'ko',       KOR: '대한민국', USA: 'Republic of Korea' },
                 ko_KR:  { name: 'ko_KR',    KOR: '대한민국', USA: 'Republic of Korea' },
-                us:     { name: 'us',       KOR: '미국',     USA: 'Unitied States of America' },
-                en_US:  { name: 'en_US',    KOR: '미국',     USA: 'Unitied States of America' }
+                us:     { name: 'us',       KOR: '미국',     USA: 'United States of America' },
+                en_US:  { name: 'en_US',    KOR: '미국',     USA: 'United States of America' }
             },
             language: {
                 ko:     { name: 'ko',   KOR: '한국어', USA: 'Korean' },
@@ -38,7 +40,7 @@ Components.Castle.Model = Components.Castle.Model || {};
                 eng:    { name: 'eng',  KOR: '영어',   USA: 'English' }
             },
             emailType: {
-                Business:   { KOR: '업무용', USA: 'Businedss' },
+                Business:   { KOR: '업무용', USA: 'Business' },
                 Private:    { KOR: '개인용', USA: 'Private' }
             },
             verified: {
@@ -53,5 +55,5 @@ Components.Castle.Model = Components.Castle.Model || {};
     };
 
 
-    Components.Castle.Model = castleModel;
+    castle.common.Model = castleModel;
 })();

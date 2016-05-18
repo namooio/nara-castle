@@ -2,7 +2,8 @@
  * Created by hkkang on 2016-04-07.
  */
 
-__naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceName].ReactRouter || {};
+__nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {};
+
 
 /**
  * <p>Object structure of Router url mapping</p>
@@ -11,7 +12,7 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
  *  {
  *      'hashUrl' [object] : {
  *          type [string] : Mapping type [REQUEST | REDIRECT],
- *          resourcess [object array] : [
+ *          resources [object array] : [
  *              {
  *                  path [string] : 'resource path',
  *                  component [object] : {
@@ -38,7 +39,7 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
  *      },
  *      '#/inquiry' : {
  *          type : 'REQUEST',
- *          resourcess : [
+ *          resources : [
  *              {
  *                  path : '/js/castellan/view.jsx',
  *                  component : {
@@ -50,7 +51,7 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
  *      },
  *      '#/castle/list' : {
  *          type : 'REQUEST',
- *          resourcess : [
+ *          resources : [
  *              {
  *                  path : '/js/castle/list.jsx',
  *                  component : {
@@ -70,8 +71,8 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
     let publicNamespace = {};
 
     // Import module
-    let commonObject = __naraNamespace[naraNamespaceName].Object,
-        commonAjax = __naraNamespace[naraNamespaceName].Ajax;
+    let commonObject = __nara[__nara.namespace].Object,
+        commonAjax = __nara[__nara.namespace].Ajax;
 
 
     // URL mapping type object
@@ -88,30 +89,37 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
     class UrlMapper {
         //
         constructor() {
-            this.mappings = {name: 'kim'};
+            this.mappings = {};
+        }
+        static _convertUrl(url) {
+            return url[url.length - 1] === '/' ? url.substring(0, url.length - 1) : url;
         }
         addRequest(url, resources) {
             //
             if (typeof url !== 'string' || !Array.isArray(resources) || resources.length === 0) {
-                console.error('Invalid url or resourcess for router mapping -> url: ' + url + ', resourcess: ' + resources);
+                console.error('Invalid url or resources for ' + __nara.namespace + ' router mapping -> url: ' + url + ', resources: ' + resources);
                 return;
             }
+            url = this._convertUrl(url);
             this.mappings[url] = {type: mappingType.REQUEST, resources: resources};
         }
         addRedirect(url, redirectUrl) {
             //
             if (typeof url !== 'string' || typeof redirectUrl !== 'string') {
-                console.error('Invalid url or redirectUrl for router redirect mapping -> url: ' + url + ', redirectUrl: ' + redirectUrl);
+                console.error('Invalid url or redirectUrl for ' + __nara.namespace + ' router redirect mapping -> url: ' + url + ', redirectUrl: ' + redirectUrl);
                 return;
             }
+            url = this._convertUrl(url);
             this.mappings[url] = {type: mappingType.REDIRECT, redirectUrl: redirectUrl};
         }
         getMapping(url) {
+            url = this._convertUrl(url);
             return this.mappings[url];
         }
     }
-    let urlMapper = new UrlMapper();
 
+    let urlMapper = new UrlMapper();
+    window.urlMapper = urlMapper;
 
     // Component cache object
     class ComponentCache {
@@ -127,7 +135,7 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
         }
     }
     let componentCache = new ComponentCache();
-
+    window.componentCache = componentCache;
 
 
     /**
@@ -166,7 +174,7 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
         initRouter() {
             //
             if (!this.routerCallback || typeof this.routerCallback !== 'function') {
-                console.error('Invalid router callback of nara-react-router initialization -> ' + this.callback);
+                console.error('Invalid router callback of ' + __nara.namespace + ' nara-react-router initialization -> ' + this.callback);
             }
             let callback = this.routerCallback,
                 errorPage = this.errorPages['404'];
@@ -205,7 +213,7 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
         urlMapper.addRedirect(url, redirectUrl);
     };
 
-    let navigate = function (loadedScriptCallback, pageNotFoundMapping) {
+    let navigate = function (loadedScriptCallback, errorPageMapping) {
         //
         let hashUrlAndParams = getHashUrlAndParams(),
             hashUrl = hashUrlAndParams.hashUrl,
@@ -214,18 +222,19 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
 
         // Not exists mapping information
         if (!mappingInfo) {
-            console.error('Not found url mapping from router -> url: ' + hashUrl);
-            let errorResourcePath = pageNotFoundMapping.path;
+            console.error('Not found url mapping from ' + __nara.namespace + ' router -> url: ' + hashUrl);
+            /*
+            let errorResourcePath = errorPageMapping.path;
 
             commonAjax.getScript(errorResourcePath, function () {
                 //
-                let componentNamespace = pageNotFoundMapping.componentNameSpace,
-                    componentName = pageNotFoundMapping.componentName,
+                let componentNamespace = errorPageMapping.componentNamespace,
+                    componentName = errorPageMapping.componentName,
                     component = componentNamespace[componentName];
 
                 loadedScriptCallback(component);
             });
-
+            */
             return;
         }
 
@@ -237,7 +246,7 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
             doRedirect(mappingInfo.redirectUrl);
         }
         else {
-            console.error('invalid mapping type in router mappings, something wrong...');
+            console.error('Invalid mapping type in router mappings, something wrong...');
         }
     };
 
@@ -321,5 +330,5 @@ __naraNamespace[naraNamespaceName].ReactRouter = __naraNamespace[naraNamespaceNa
     };
 
 
-    __naraNamespace[naraNamespaceName].ReactRouter = publicNamespace;
+    __nara[__nara.namespace].ReactRouter = publicNamespace;
 })();
