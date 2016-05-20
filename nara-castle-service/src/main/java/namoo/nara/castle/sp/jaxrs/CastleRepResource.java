@@ -2,10 +2,12 @@ package namoo.nara.castle.sp.jaxrs;
 
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.rep.dto.CastleBuildDto;
+import namoo.nara.castle.rep.dto.CastleFindDto;
 import namoo.nara.castle.rep.logic.CastleRepServiceLogic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -28,6 +30,13 @@ public class CastleRepResource extends CastleRepServiceLogic {
     @POST
     public void buildCastle(@PathParam("id") String castleId, CastleBuildDto castleBuildDto) {
         super.buildCastle(castleId, castleBuildDto);
+    }
+
+    @Override
+    @Path("{id}")
+    @GET
+    public CastleFindDto findCastle(@PathParam("id") String castleId) {
+        return super.findCastle(castleId);
     }
 
     @Override
