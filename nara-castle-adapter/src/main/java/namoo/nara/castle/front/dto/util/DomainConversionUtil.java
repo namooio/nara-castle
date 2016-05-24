@@ -1,14 +1,14 @@
 package namoo.nara.castle.front.dto.util;
 
-import namoo.nara.castle.front.dto.CastellanFindDto;
-import namoo.nara.castle.front.dto.CastleFindDto;
-import namoo.nara.castle.front.dto.contact.*;
-import namoo.nara.castle.front.dto.history.*;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.contact.*;
 import namoo.nara.castle.domain.entity.history.*;
+import namoo.nara.castle.front.dto.CastellanFindDto;
+import namoo.nara.castle.front.dto.CastleFindDto;
+import namoo.nara.castle.front.dto.contact.*;
+import namoo.nara.castle.front.dto.history.*;
 
 import java.util.Date;
 import java.util.List;
@@ -300,7 +300,7 @@ public class DomainConversionUtil {
     public static LoginAccountDto toLoginAccountDto(LoginAccount loginAccount) {
         //
         LoginAccountDto loginAccountDto = new LoginAccountDto();
-        loginAccountDto.setLoginUserId(loginAccount.getLoginUserId());
+        loginAccountDto.setLoginUserId(loginAccount.getLoginId());
         loginAccountDto.setChannel(loginAccount.getChannel().name());
         loginAccountDto.setCreateTime(loginAccount.getCreateTime());
         loginAccountDto.setDeleteTime(loginAccount.getDeleteTime());
@@ -310,7 +310,7 @@ public class DomainConversionUtil {
     public static LoginAccount toLoginAccount(LoginAccountDto loginAccountDto) {
         //
         LoginAccount loginAccount = new LoginAccount();
-        loginAccount.setLoginUserId(loginAccountDto.getLoginUserId());
+        loginAccount.setLoginId(loginAccountDto.getLoginUserId());
         loginAccount.setChannel(LoginAccount.LoginChannel.valueOf(loginAccountDto.getChannel()));
         loginAccount.setCreateTime(loginAccountDto.getCreateTime());
         loginAccount.setDeleteTime(loginAccountDto.getDeleteTime());

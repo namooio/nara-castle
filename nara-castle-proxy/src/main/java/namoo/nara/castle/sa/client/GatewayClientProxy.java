@@ -20,9 +20,9 @@ public class GatewayClientProxy implements GatewayProxy {
     }
 
     @Override
-    public void createNaraAccount(String castleId, String email, String password) {
+    public void createNaraAccount(String castleId, String username, String email, String password) {
         //
-        AccountCreationDto accountCreationDto = new AccountCreationDto(castleId, email, password);
+        AccountCreationDto accountCreationDto = new AccountCreationDto(castleId, username, email, password);
         gatewayRepClient.createNaraAccount(accountCreationDto);
     }
 }

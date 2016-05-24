@@ -37,9 +37,9 @@ public class HistoryBundleMongoStoreTest {
         HistoryBundle history = HistoryBundle.newInstance(id);
 
         AccountBook accountBook = new AccountBook();
-        accountBook.addAccount(new LoginAccount("kchuh@nextree.co.kr", LoginAccount.LoginChannel.Nara, System.currentTimeMillis()));
-        accountBook.addAccount(new LoginAccount("11111111", LoginAccount.LoginChannel.Facebook, System.currentTimeMillis()));
-        accountBook.addAccount(new LoginAccount("99999999", LoginAccount.LoginChannel.Google, System.currentTimeMillis()));
+        accountBook.addAccount(LoginAccount.newInstance("kchuh@nextree.co.kr", LoginAccount.LoginChannel.NaraEmail));
+        accountBook.addAccount(LoginAccount.newInstance("11111111", LoginAccount.LoginChannel.Facebook));
+        accountBook.addAccount(LoginAccount.newInstance("99999999", LoginAccount.LoginChannel.Google));
 
         MetroBook metroBook = new MetroBook();
         metroBook.addMetro(new ParticipantMetro("M-1", System.currentTimeMillis()));

@@ -37,7 +37,7 @@ public class AccountBook {
     public LoginAccount find(String loginUserId) {
         //
         for(LoginAccount account : accountList) {
-            if (account.getLoginUserId().equals(loginUserId)) {
+            if (account.getLoginId().equals(loginUserId)) {
                 return account;
             }
         }

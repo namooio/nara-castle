@@ -2,7 +2,7 @@ package namoo.nara.castle.domain.entity.history;
 
 public class LoginAccount {
     //
-    private String loginUserId;
+    private String loginId;
     private LoginChannel channel;
     private long createTime;
     private long deleteTime;
@@ -11,19 +11,24 @@ public class LoginAccount {
         //
     }
 
-    public LoginAccount(String loginUserId, LoginChannel channel, long createTime) {
+    protected LoginAccount(String loginId, LoginChannel channel) {
         //
-        this.loginUserId = loginUserId;
+        this.loginId = loginId;
         this.channel = channel;
-        this.createTime = createTime;
+        this.createTime = System.currentTimeMillis();
     }
 
-    public String getLoginUserId() {
-        return loginUserId;
+    public static LoginAccount newInstance(String loginId, LoginChannel loginChannel) {
+        //
+        return new LoginAccount(loginId, loginChannel);
     }
 
-    public void setLoginUserId(String loginUserId) {
-        this.loginUserId = loginUserId;
+    public String getLoginId() {
+        return loginId;
+    }
+
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
     public LoginChannel getChannel() {
@@ -51,7 +56,8 @@ public class LoginAccount {
     }
 
     public enum LoginChannel {
-        Nara,
+        NaraEmail,
+        NaraUsername,
         Facebook,
         Google
     }

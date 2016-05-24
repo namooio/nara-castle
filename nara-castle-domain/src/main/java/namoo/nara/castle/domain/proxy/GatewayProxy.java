@@ -5,5 +5,5 @@ package namoo.nara.castle.domain.proxy;
  */
 public interface GatewayProxy {
     //
-    void createNaraAccount(String castleId, String email, String password);
+    void createNaraAccount(String castleId, String username, String email, String password);
 }

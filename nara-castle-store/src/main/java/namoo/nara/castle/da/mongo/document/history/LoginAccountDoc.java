@@ -7,7 +7,7 @@ import namoo.nara.castle.domain.entity.history.LoginAccount;
  */
 public class LoginAccountDoc {
     //
-    private String loginUserId;
+    private String loginId;
     private String channel;
     private long createTime;
     private long deleteTime;
@@ -19,7 +19,7 @@ public class LoginAccountDoc {
     public static LoginAccountDoc newInstance(LoginAccount loginAccount) {
         //
         LoginAccountDoc loginAccountDoc = new LoginAccountDoc();
-        loginAccountDoc.setLoginUserId(loginAccount.getLoginUserId());
+        loginAccountDoc.setLoginId(loginAccount.getLoginId());
         loginAccountDoc.setChannel(loginAccount.getChannel().name());
         loginAccountDoc.setCreateTime(loginAccount.getCreateTime());
         loginAccountDoc.setDeleteTime(loginAccount.getDeleteTime());
@@ -29,19 +29,19 @@ public class LoginAccountDoc {
     public LoginAccount toDomain() {
         //
         LoginAccount loginAccount = new LoginAccount();
-        loginAccount.setLoginUserId(loginUserId);
+        loginAccount.setLoginId(loginId);
         loginAccount.setChannel(LoginAccount.LoginChannel.valueOf(channel));
         loginAccount.setCreateTime(createTime);
         loginAccount.setDeleteTime(deleteTime);
         return loginAccount;
     }
 
-    public String getLoginUserId() {
-        return loginUserId;
+    public String getLoginId() {
+        return loginId;
     }
 
-    public void setLoginUserId(String loginUserId) {
-        this.loginUserId = loginUserId;
+    public void setLoginId(String loginId) {
+        this.loginId = loginId;
     }
 
     public String getChannel() {

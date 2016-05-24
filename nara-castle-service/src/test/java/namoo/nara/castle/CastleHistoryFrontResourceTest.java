@@ -35,7 +35,7 @@ public class CastleHistoryFrontResourceTest extends AbstractCastleServiceApplica
         //
         AccountBookDto accountBookDto = new AccountBookDto();
         LoginAccountDto loginAccountDto = new LoginAccountDto();
-        loginAccountDto.setChannel(LoginAccount.LoginChannel.Nara.name());
+        loginAccountDto.setChannel(LoginAccount.LoginChannel.NaraEmail.name());
         loginAccountDto.setCreateTime(System.currentTimeMillis());
         loginAccountDto.setLoginUserId("1234");
         accountBookDto.addAccountDto(loginAccountDto);

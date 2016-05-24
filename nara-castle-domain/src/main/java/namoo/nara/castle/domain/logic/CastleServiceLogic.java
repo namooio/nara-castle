@@ -7,6 +7,7 @@ import namoo.nara.castle.domain.entity.contact.ContactBundle;
 import namoo.nara.castle.domain.entity.contact.UserEmail;
 import namoo.nara.castle.domain.entity.history.CastleState;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
+import namoo.nara.castle.domain.entity.history.LoginAccount;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.proxy.GatewayProxy;
 import namoo.nara.castle.domain.service.CastleCdo;
@@ -48,15 +49,20 @@ public class CastleServiceLogic implements CastleService {
 
         InfoBundleBox bundleBox = castle.getInfoBundleBox();
         HistoryBundle history = bundleBox.getHistoryBundle();
+        history.getAccountBook().addAccount(LoginAccount.newInstance(email, LoginAccount.LoginChannel.NaraEmail));
+        history.getAccountBook().addAccount(LoginAccount.newInstance(name, LoginAccount.LoginChannel.NaraUsername));
+
         ContactBundle contact = bundleBox.getContactBundle();
         contact.getEmailBook().addEmail(new UserEmail(email));
+        // username?
+//        contact.getNameBook().add(new UserName());
 
         castleStore.create(castle);     // Castellan을 별도로 생성 ???
         castellanStore.create(castle.getOwner());
         historyStore.create(history);
         contactBundleStore.create(contact);
 
-        gatewayProxy.createNaraAccount(id, email, password);
+        gatewayProxy.createNaraAccount(id, name, email, password);
     }
 
     @Override
