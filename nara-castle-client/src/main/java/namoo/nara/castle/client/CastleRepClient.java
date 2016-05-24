@@ -2,6 +2,7 @@ package namoo.nara.castle.client;
 
 import namoo.nara.castle.rep.CastleRepService;
 import namoo.nara.castle.rep.dto.CastleBuildDto;
+import namoo.nara.castle.rep.dto.CastleFindDto;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
@@ -21,9 +22,18 @@ public class CastleRepClient implements CastleRepService {
     public void buildCastle(String castleId, CastleBuildDto castleBuildDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_BUILD)
+                RequestBuilder.create(CastleServiceUrl.URL_REP_CASTLE_BUILD)
                         .addPathParam("id", castleId)
                         .setRequestDto(castleBuildDto)
+        );
+    }
+
+    @Override
+    public CastleFindDto findCastle(String castleId) {
+        //
+        return naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleServiceUrl.URL_REP_CASTLE_FIND)
+                        .addPathParam("id", castleId)
         );
     }
 
@@ -31,7 +41,7 @@ public class CastleRepClient implements CastleRepService {
     public void addMetro(String castleId, String metroId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_METRO_ADD)
+                RequestBuilder.create(CastleServiceUrl.URL_REP_CASTLE_METRO_ADD)
                         .addPathParam("id", castleId)
                         .addPathParam("metroId", metroId)
         );

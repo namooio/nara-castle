@@ -1,14 +1,16 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Common.Error = Components.Common.Error || {};
+
+castle.component.common.Error = castle.component.common.Error || {};
+
 
 ( function () {
     //
     'use strict';
 
     // Import component module
-     let mainComponent = Components.Common.Main;
+     let mainComponent = castle.component.common.Main;
 
 
     // Define Content properties name
@@ -52,5 +54,5 @@ Components.Common.Error = Components.Common.Error || {};
     });
 
 
-    Components.Common.Error = ErrorPage;
+    castle.component.common.Error = ErrorPage;
 })();

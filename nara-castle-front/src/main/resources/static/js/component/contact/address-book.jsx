@@ -1,7 +1,9 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.AddressBook = Components.Castle.AddressBook || {};
+
+castle.component.AddressBook = castle.component.AddressBook || {};
+
 
 ( function () {
     //
@@ -9,9 +11,10 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
 
     // Import component module
     let commonAjax = NaraCommon.Ajax,
-        constant = CastleCommon.Const,
-        mainComponent = Components.Common.Main,
-        castleModel = Components.Castle.Model;
+        constant = castle.common.Const,
+        castleModel = castle.common.Model,
+        mainComponent = castle.component.common.Main;
+
 
 
     // Define Content attributes name
@@ -275,5 +278,5 @@ Components.Castle.AddressBook = Components.Castle.AddressBook || {};
     });
 
 
-    Components.Castle.AddressBook = CastleDetailPage;
+    castle.component.AddressBook = CastleDetailPage;
 })();

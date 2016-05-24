@@ -1,15 +1,18 @@
 /**
  * Created by hkkang on 2016-04-12.
  */
-Components.Castle.Tab = Components.Castle.Tab || { };
+
+castle.component.Tab = castle.component.Tab || { };
+
 
 ( function () {
     //
     'use strict';
 
     // Import component module
-    let mainComponent = Components.Common.Main,
-        castleNamespace = Components.Castle;
+    let constant = castle.common.Const,
+        mainComponent = castle.component.common.Main,
+        castleNamespace = castle.component;
 
 
     // Define Content attributes name
@@ -132,28 +135,28 @@ Components.Castle.Tab = Components.Castle.Tab || { };
                         <div className="panel-body">
                             <ul className="nav nav-tabs">
                                 <li className={ this.props.contentType === TAB_NAMES.basic.name ? "active" : null }>
-                                    <a href={"#/castle/basic?contentType=" + TAB_NAMES.basic.name + '&id=' + this.props.castleId}>{TAB_NAMES.basic[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/basic?contentType=" + TAB_NAMES.basic.name + '&id=' + this.props.castleId}>{TAB_NAMES.basic[lang]}</a>
                                 </li>
                                 <li className={ this.props.contentType === TAB_NAMES.name.name ? "active" : null }>
-                                    <a href={"#/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
                                 </li>
                                 <li className={ this.props.contentType === TAB_NAMES.phone.name ? "active" : null }>
-                                    <a href={"#/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
                                 </li>
                                 <li className={ this.props.contentType === TAB_NAMES.email.name ? "active" : null }>
-                                    <a href={"#/castle/contact/email-book?contentType=" + TAB_NAMES.email.name + '&id=' + this.props.castleId}>{TAB_NAMES.email[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/contact/email-book?contentType=" + TAB_NAMES.email.name + '&id=' + this.props.castleId}>{TAB_NAMES.email[lang]}</a>
                                 </li>
                                 <li className={ this.props.contentType === TAB_NAMES.address.name ? "active" : null }>
-                                    <a href={"#/castle/contact/address-book?contentType=" + TAB_NAMES.address.name + '&id=' + this.props.castleId}>{TAB_NAMES.address[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/contact/address-book?contentType=" + TAB_NAMES.address.name + '&id=' + this.props.castleId}>{TAB_NAMES.address[lang]}</a>
                                 </li>
                                 <li className={ this.props.contentType === TAB_NAMES.account.name ? "active" : null }>
-                                    <a href={"#/castle/history/account-book?contentType=" + TAB_NAMES.account.name + '&id=' + this.props.castleId}>{TAB_NAMES.account[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/history/account-book?contentType=" + TAB_NAMES.account.name + '&id=' + this.props.castleId}>{TAB_NAMES.account[lang]}</a>
                                 </li>
                                 <li className={ this.props.contentType === TAB_NAMES.state.name ? "active" : null }>
-                                    <a href={"#/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[lang]}</a>
                                 </li>
                                 <li className={ this.props.contentType === TAB_NAMES.metro.name ? "active" : null }>
-                                    <a href={"#/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[lang]}</a>
+                                    <a href={constant.PAV_CTX_HASH + "/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[lang]}</a>
                                 </li>
                             </ul>
                             <div className="tab-content">
@@ -176,5 +179,5 @@ Components.Castle.Tab = Components.Castle.Tab || { };
     });
 
 
-    Components.Castle.Tab = CastleDetailPage;
+    castle.component.Tab = CastleDetailPage;
 })();

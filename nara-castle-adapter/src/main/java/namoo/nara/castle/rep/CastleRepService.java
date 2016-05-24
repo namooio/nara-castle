@@ -1,6 +1,7 @@
 package namoo.nara.castle.rep;
 
 import namoo.nara.castle.rep.dto.CastleBuildDto;
+import namoo.nara.castle.rep.dto.CastleFindDto;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 5. 9..
@@ -8,5 +9,7 @@ import namoo.nara.castle.rep.dto.CastleBuildDto;
 public interface CastleRepService {
     //
     void buildCastle(String castleId, CastleBuildDto castleBuildDto);
+    CastleFindDto findCastle(String castleId);
+
     void addMetro(String castleId, String metroId);
 }

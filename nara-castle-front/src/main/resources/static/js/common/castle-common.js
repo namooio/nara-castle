@@ -1,14 +1,15 @@
 /**
  * Created by hkkang on 2016-04-05.
  */
-let CastleCommon = {};
-
 
 // Castle app components namespace
-let Components = {
-    Castle : {},
-    Common : {}
+window.castle = {
+    component: {
+        common: {}
+    },
+    common: {}
 };
+
 
 ( function () {
     //
@@ -23,8 +24,13 @@ let Components = {
 
     // Castle app constant
     publicNamespace.Const = {};
+
     commonObject.defineConstProperties(publicNamespace.Const, {
-        CTX: '.'
+        CTX: '.',
+        PAV_CTX_API: '/drama/castle',
+        PAV_CTX_RSRC: '/drama/castle',
+        PAV_CTX_HASH: '#/drama/castle'
+
     });
 
 
@@ -33,5 +39,5 @@ let Components = {
     };
 
 
-    CastleCommon = publicNamespace;
+    window.castle.common = publicNamespace;
 })();

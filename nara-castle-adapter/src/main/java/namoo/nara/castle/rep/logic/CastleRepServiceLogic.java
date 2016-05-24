@@ -1,11 +1,13 @@
 package namoo.nara.castle.rep.logic;
 
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.service.CastleCdo;
 import namoo.nara.castle.domain.service.CastleHistoryService;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.rep.CastleRepService;
 import namoo.nara.castle.rep.dto.CastleBuildDto;
+import namoo.nara.castle.rep.dto.CastleFindDto;
 
 import java.util.Locale;
 
@@ -33,6 +35,21 @@ public class CastleRepServiceLogic implements CastleRepService {
 
         CastleCdo castleCdo = new CastleCdo(castleId, name, email, locale, password);
         castleService.buildCastle(castleCdo);
+    }
+
+    @Override
+    public CastleFindDto findCastle(String castleId) {
+        //
+        Castle castle = castleService.findCastle(castleId);
+
+        CastleFindDto dto = new CastleFindDto();
+        dto.setId(castle.getId());
+        dto.setName(castle.getName());
+        dto.setLocale(castle.getLocale());
+        dto.setState(castle.getState().name());
+        dto.setBuildTime(castle.getBuildTime());
+
+        return dto;
     }
 
     @Override
