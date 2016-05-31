@@ -10,7 +10,7 @@ castle.component.common.Main = castle.component.common.Main || {};
     'use strict';
 
     // Import component module
-    let naraReactRouter = NaraCommon.ReactRouter,
+    let NaraReactRouter = NaraCommon.ReactRouter,
         common = castle.common,
         constant = castle.common.Const,
         commonComponent = castle.component.common;
@@ -26,6 +26,7 @@ castle.component.common.Main = castle.component.common.Main || {};
             contentComponent: React.PropTypes.func.isRequired,
             params: React.PropTypes.object
         },
+        // overriding
         getInitialState() {
             return {};
         },
@@ -46,6 +47,7 @@ castle.component.common.Main = castle.component.common.Main || {};
 
             this.changeLanguage(lang);
         },
+        // custom
         getLanguage() {
             return this.state.lang;
         },
@@ -85,7 +87,7 @@ castle.component.common.Main = castle.component.common.Main || {};
     });
 
     // Initialize nara router
-    let initializer = naraReactRouter.createInitializer();
+    let initializer = NaraReactRouter.createInitializer();
 
     initializer.setRouterCallback( function (contentComponent, params) {
         //

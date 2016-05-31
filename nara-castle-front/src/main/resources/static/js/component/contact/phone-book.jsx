@@ -10,14 +10,16 @@ castle.component.PhoneBook = castle.component.PhoneBook || {};
     'use strict';
 
     // Import component module
-    let commonAjax = NaraCommon.Ajax,
-        constant = castle.common.Const,
-        castleModel = castle.common.Model,
-        mainComponent = castle.component.common.Main;
+    const NaraAjax = NaraCommon.Ajax,
+        NaraObject = NaraCommon.Object,
+        Constant = castle.common.Const,
+        CastleModel = castle.common.Model,
+        MainComponent = castle.component.common.Main;
 
 
     // Define Content attributes name
-    let castlePhoneModel = {
+    const CastlePhoneModel = {
+        //
         attrs: {
             phoneNumber:    { name: 'phoneNumber',  KOR: '전체번호', USA: 'Phone number' },
             countryCode:    { name: 'countryCode',  KOR: '국가코드', USA: 'Country code' },
@@ -25,176 +27,126 @@ castle.component.PhoneBook = castle.component.PhoneBook || {};
             number:         { name: 'number',       KOR: '번호',     USA: 'Number' }
         },
         messages: {
-            notRegisteredPhone: { KOR: '등록 된 phone이 없습니다', USA: 'Not registered the phone' }
+            notRegisteredPhone: { KOR: '등록 된 Phone이 없습니다',      USA: 'Not registered the phone' },
+            completeSave:       { KOR: 'PhoneBook이 저장되었습니다.',   USA: 'Save has been completed.' }
         }
     };
 
+
     // Define components
-    let CastleDetailPage = React.createClass({
+    let PhoneContent = React.createClass({
         //
         statics: {
-            FIND_PHONE_BOOK_URL: constant.CTX + '/api/castellans/{id}/contacts/phone-book'
+            FIND_PHONE_BOOK_URL: Constant.PAV_CTX_API + '/api/castellans/{id}/contacts/phone-book',
+            ATTACH_PHONE_BOOK_URL: Constant.PAV_CTX_API + '/api/castellans/{id}/contacts/phone-book'
         },
         propTypes: {
-            id: React.PropTypes.string
+            castleId: React.PropTypes.string.isRequired,
+            castle: React.PropTypes.shape({
+                contact: React.PropTypes.shape({
+                    phoneBook: React.PropTypes.shape({
+                        phones: React.PropTypes.array.isRequired
+                    }).isRequired
+                }).isRequired
+            }).isRequired,
+            modifiable: React.PropTypes.bool.isRequired,
+
+            changeModifiableMode: React.PropTypes.func.isRequired,
+            changeViewMode: React.PropTypes.func.isRequired,
+            setCastle: React.PropTypes.func.isRequired
         },
-        getInitialState() {
-            return {
-                phoneBook: {phones: []},
-                contentModifiable: false
-            };
-        },
+        // overriding
         componentDidMount() {
-            this.requestPhoneBook(this.props);
+            this.requestFindPhoneBook(this.props.castleId);
         },
-        changeModifiableMode() {
-            this.setState({contentModifiable: true});
+        // custom
+        setPhoneBook(phoneBook) {
+            let castle = this.props.castle;
+
+            castle.contact.phoneBook = phoneBook;
+            this.props.setCastle(castle);
         },
-        changeViewMode() {
-            this.setState({contentModifiable: false});
+        // request
+        requestFindPhoneBook(castleId) {
+            //
+            NaraAjax
+                .getJSON(PhoneContent.FIND_PHONE_BOOK_URL.replace('{id}', castleId))
+                .done( function (phoneBookResult) {
+                    this.setPhoneBook(phoneBookResult);
+                }.bind(this));
         },
-        requestPhoneBook(props) {
-            commonAjax
-                .getJSON(CastleDetailPage.FIND_PHONE_BOOK_URL.replace('{id}', props.id))
-                .done(function (phoneBookResult) {
-                    this.setState({phoneBook: phoneBookResult});
+        requestSavePhoneBook(phoneBook) {
+            //
+            NaraAjax
+                .postJSON(PhoneContent.ATTACH_PHONE_BOOK_URL.replace('{id}', this.props.castleId), phoneBook)
+                .done( function () {
+                    let lang = MainComponent.lang;
+
+                    this.setPhoneBook(phoneBook);
+                    alert(CastlePhoneModel.messages.completeSave[lang]);
+                    this.props.changeViewMode();
                 }.bind(this));
         },
         render() {
+            //
             return (
-                <Tab
-                    castleId={this.props.id}
-                    phoneBook={this.state.phoneBook}
-                    modifiable={this.state.contentModifiable}
-                    changeModifiableMode={this.changeModifiableMode}
-                    changeViewMode={this.changeViewMode}
-                />
+                this.props.modifiable ?
+                    <PhoneModifiableContent
+                        phoneBook={this.props.castle.contact.phoneBook}
+                        changeViewMode={this.props.changeViewMode}
+                        savePhoneBook={this.requestSavePhoneBook}
+                    />
+                    :
+                    <PhoneViewContent
+                        phoneBook={this.props.castle.contact.phoneBook}
+                        changeModifiableMode={this.props.changeModifiableMode}
+                    />
             );
         }
     });
 
-    let Tab = React.createClass({
+
+    let PhoneViewContent = React.createClass({
         //
-        propTypes: {
-            castleId: React.PropTypes.string.isRequired,
-            phoneBook: React.PropTypes.object,
-            modifiable: React.PropTypes.bool.isRequired,
-
-            changeModifiableMode: React.PropTypes.func.isRequired
-        },
-        render() {
-            let TAB_NAMES = castleModel.tabs,
-                lang = mainComponent.lang;
-
-            return (
-                <div className="container">
-                    <div className="panel panel-success">
-                        <div className="panel-body">
-                            <ul className="nav nav-tabs">
-                                <li>
-                                    <a href={"#/castle/basic?contentType=" + TAB_NAMES.basic.name + '&id=' + this.props.castleId}>{TAB_NAMES.basic[lang]}</a>
-                                </li>
-                                <li>
-                                    <a href={"#/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[lang]}</a>
-                                </li>
-                                <li className="active">
-                                    <a href={"#/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[lang]}</a>
-                                </li>
-                                <li>
-                                    <a href={"#/castle/contact/email-book?contentType=" + TAB_NAMES.email.name + '&id=' + this.props.castleId}>{TAB_NAMES.email[lang]}</a>
-                                </li>
-                                <li>
-                                    <a href={"#/castle/contact/address-book?contentType=" + TAB_NAMES.address.name + '&id=' + this.props.castleId}>{TAB_NAMES.address[lang]}</a>
-                                </li>
-                                <li>
-                                    <a href={"#/castle/history/account-book?contentType=" + TAB_NAMES.account.name + '&id=' + this.props.castleId}>{TAB_NAMES.account[lang]}</a>
-                                </li>
-                                <li>
-                                    <a href={"#/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[lang]}</a>
-                                </li>
-                                <li>
-                                    <a href={"#/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[lang]}</a>
-                                </li>
-                            </ul>
-                            <div className="tab-content">
-                                <div className="tab-pane active">
-                                    <PhoneContent phoneBook={this.props.phoneBook}/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        }
-    });
-
-    let Content = React.createClass({
-        propTypes: {},
-        render () {
-
-        }
-    });
-
-    let ButtonGroup = React.createClass({
-        render () {
-            let BUTTON_NAMES = castleModel.buttons,
-                lang = mainComponent.lang,
-                buttonRender;
-
-            if (this.props.modifiable) {
-                buttonRender = (
-                    <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-primary"
-                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.save[lang]}</button>
-                        <button type="button" className="btn-group btn btn-default"
-                                onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
-                    </div>
-                );
-            }
-            else {
-                buttonRender = (
-                    <div className="btn-toolbar pull-right">
-                        <button type="button" className="btn-group btn btn-default"
-                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
-                        <button type="button" className="btn-group btn btn-danger"
-                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
-                    </div>
-                );
-            }
-            return buttonRender;
-        }
-    });
-
-
-    let PhoneContent = React.createClass({
         propTypes: {
             phoneBook: React.PropTypes.shape({
                 phones: React.PropTypes.array.isRequired
-            }).isRequired
+            }).isRequired,
+            changeModifiableMode: React.PropTypes.func.isRequired
+        },
+        // event
+        modifiableModeBtnClick() {
+            this.props.changeModifiableMode();
+        },
+        removeBtnClick() {
+
         },
         render() {
-            let ATTRS = castlePhoneModel.attrs,
-                MESSAGES = castlePhoneModel.messages,
-                lang = mainComponent.lang,
-                propPhoneBook = this.props.phoneBook,
-                existsPhoneBook = (propPhoneBook && propPhoneBook.phones && propPhoneBook.phones.length > 0) ? true : false;
+            //
+            const BUTTON_NAMES = CastleModel.buttons,
+                ATTRS = CastlePhoneModel.attrs,
+                MESSAGES = CastlePhoneModel.messages,
+                LANG = MainComponent.lang;
+
+            let propPhoneBook = this.props.phoneBook,
+                existsPhoneBook = propPhoneBook.phones.length > 0;
 
             return (
                 <article>
                     <table className="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th>{ATTRS.phoneNumber[lang]}</th>
-                            <th>{ATTRS.countryCode[lang]}</th>
-                            <th>{ATTRS.areaCode[lang]}</th>
-                            <th>{ATTRS.number[lang]}</th>
+                            <th>{ATTRS.phoneNumber[LANG]}</th>
+                            <th>{ATTRS.countryCode[LANG]}</th>
+                            <th>{ATTRS.areaCode[LANG]}</th>
+                            <th>{ATTRS.number[LANG]}</th>
                         </tr>
                         </thead>
                         <tbody>
                         { existsPhoneBook ?
-                            propPhoneBook.phones.map(function (phone) {
+                            propPhoneBook.phones.map( function (phone, index) {
                                 return (
-                                    <tr key={phone[ATTRS.phoneNumber.name]}>
+                                    <tr key={index}>
                                         <td>{phone[ATTRS.phoneNumber.name]}</td>
                                         <td>{phone[ATTRS.countryCode.name]}</td>
                                         <td>{phone[ATTRS.areaCode.name]}</td>
@@ -204,17 +156,254 @@ castle.component.PhoneBook = castle.component.PhoneBook || {};
                             })
                             :
                             <tr>
-                                <td colSpan="4">{MESSAGES.notRegisteredPhone[lang]}</td>
+                                <td colSpan="4">{MESSAGES.notRegisteredPhone[LANG]}</td>
                             </tr>
                         }
                         </tbody>
                     </table>
-                    <ButtonGroup modifiable={this.props.modifiable}/>
+                    <div className="btn-toolbar pull-right">
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[LANG]}</button>
+                        <button type="button" className="btn-group btn btn-danger"
+                                onClick={this.removeBtnClick}>{BUTTON_NAMES.remove[LANG]}</button>
+                    </div>
                 </article>
             );
         }
     });
 
 
-    castle.component.PhoneBook = CastleDetailPage;
+    let PhoneModifiableContent = React.createClass({
+        //
+        propTypes: {
+            phoneBook: React.PropTypes.shape({
+                phones: React.PropTypes.array.isRequired
+            }).isRequired,
+            changeViewMode: React.PropTypes.func.isRequired,
+            savePhoneBook: React.PropTypes.func.isRequired
+        },
+        // overriding
+        getInitialState() {
+            return {
+                willModifyPhones: [],
+                inputProgressPhones : [],
+                rowsModifiable: []
+            };
+        },
+        componentDidMount() {
+            let phones = NaraObject.deepCopy(this.props.phoneBook.phones),
+                rowsModifiable = [];
+
+            rowsModifiable.length = phones.length;
+            rowsModifiable.fill(false);
+
+            this.setState({
+                willModifyPhones: phones,
+                inputProgressPhones: NaraObject.deepCopy(phones),
+                rowsModifiable: rowsModifiable
+            });
+        },
+        // event
+        phoneNumberChange(index, event) {
+            this.setProgressPhoneState(index, CastlePhoneModel.attrs.phoneNumber.name, event.target.value);
+        },
+        countryCodeChange(index, event) {
+            this.setProgressPhoneState(index, CastlePhoneModel.attrs.countryCode.name, event.target.value);
+        },
+        areaCodeChange(index, event) {
+            this.setProgressPhoneState(index, CastlePhoneModel.attrs.areaCode.name, event.target.value);
+        },
+        numberChange(index, event) {
+            this.setProgressPhoneState(index, CastlePhoneModel.attrs.number.name, event.target.value);
+        },
+        completePhoneBtnClick(index) {
+            let phones = NaraObject.deepCopy(this.state.willModifyPhones);
+            phones[index] = NaraObject.deepCopy(this.state.inputProgressPhones[index]);
+
+            this.setState({ willModifyPhones: phones });
+            this.setRowModifiableState(index, false);
+        },
+        cancelPhoneBtnClick(index) {
+            let phones = NaraObject.deepCopy(this.state.inputProgressPhones);
+            phones[index] = NaraObject.deepCopy(this.state.willModifyPhones[index]);
+
+            if (NaraObject.isEmpty(phones[index])) {
+                phones.splice(index, 1);
+
+                let rowsModifiable = this.state.rowsModifiable;
+                rowsModifiable.splice(index, 1);
+
+                this.setState({ rowsModifiable: rowsModifiable });
+            }
+            else {
+                this.setRowModifiableState(index, false);
+            }
+            this.setState({ inputProgressPhones: phones });
+        },
+        modifyPhoneBtnClick(index) {
+            this.setRowModifiableState(index, true);
+        },
+        removePhoneBtnClick(index) {
+            let progressPhones = this.state.inputProgressPhones,
+                willModifyPhones = this.state.willModifyPhones,
+                rowsModifiable = this.state.rowsModifiable;
+
+            progressPhones.splice(index, 1);
+            willModifyPhones.splice(index, 1);
+            rowsModifiable.splice(index, 1);
+
+
+            this.setState({
+                inputProgressPhones: progressPhones,
+                willModifyPhones: willModifyPhones,
+                rowsModifiable: rowsModifiable
+            });
+        },
+        addPhoneBtnClick() {
+            let phones = this.state.inputProgressPhones,
+                rowsModifiable = this.state.rowsModifiable;
+
+            phones.push({});
+            rowsModifiable.push(true);
+
+            this.setState({ inputProgressPhones: phones, rowsModifiable: rowsModifiable });
+        },
+        savePhoneBookBtnClick() {
+            this.props.savePhoneBook({ phones: this.state.willModifyPhones });
+        },
+        cancelModificationBtnClick() {
+            this.props.changeViewMode();
+        },
+        // custom
+        setRowModifiableState(index, modifiable) {
+            //
+            let rowsModifiable = this.state.rowsModifiable;
+
+            rowsModifiable[index] = modifiable;
+            this.setState({ rowsModifiable: rowsModifiable });
+        },
+        setProgressPhoneState(index, propertyName, value) {
+            //
+            let phones = this.state.inputProgressPhones;
+
+            phones[index][propertyName] = value;
+            this.setState({ inputProgressPhones: phones });
+        },
+        render() {
+            //
+            const ATTRS = CastlePhoneModel.attrs,
+                BUTTON_NAMES = CastleModel.buttons,
+                MESSAGES = CastlePhoneModel.messages,
+                LANG = MainComponent.lang;
+
+            let propPhoneBook = this.props.phoneBook,
+                existsPhoneBook = propPhoneBook.phones.length > 0;
+
+            return (
+                <article>
+                    <table className="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th className="col-md-3">{ATTRS.phoneNumber[LANG]}</th>
+                            <th className="col-md-2">{ATTRS.countryCode[LANG]}</th>
+                            <th className="col-md-2">{ATTRS.areaCode[LANG]}</th>
+                            <th className="col-md-3">{ATTRS.number[LANG]}</th>
+                            <th className="col-md-2">&nbsp;</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        { existsPhoneBook ?
+                            this.state.inputProgressPhones.map( function (phone, index) {
+                                return (
+                                    this.state.rowsModifiable[index] === true ?
+                                        <tr key={index}>
+                                            <td>
+                                                <input type="text" className="form-control"
+                                                       onChange={this.phoneNumberChange.bind(this, index)}
+                                                       value={phone[ATTRS.phoneNumber.name]}
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" className="form-control"
+                                                       onChange={this.countryCodeChange.bind(this, index)}
+                                                       value={phone[ATTRS.countryCode.name]}
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" className="form-control"
+                                                       onChange={this.areaCodeChange.bind(this, index)}
+                                                       value={phone[ATTRS.areaCode.name]}
+                                                />
+                                            </td>
+                                            <td>
+                                                <input type="text" className="form-control"
+                                                       onChange={this.numberChange.bind(this, index)}
+                                                       value={phone[ATTRS.number.name]}
+                                                />
+                                            </td>
+                                            <td>
+                                                <div className="btn-group btn-group-sm text-center">
+                                                    <button type="button" className="btn btn-sm btn-primary"
+                                                            onClick={this.completePhoneBtnClick.bind(this, index)}>
+                                                        {BUTTON_NAMES.complete[LANG]}
+                                                    </button>
+                                                    <button type="button" className="btn btn-sm btn-default"
+                                                            onClick={this.cancelPhoneBtnClick.bind(this, index)}>
+                                                        {BUTTON_NAMES.cancel[LANG]}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        :
+                                        <tr key={index}>
+                                            <td>{phone[ATTRS.phoneNumber.name]}</td>
+                                            <td>{phone[ATTRS.countryCode.name]}</td>
+                                            <td>{phone[ATTRS.areaCode.name]}</td>
+                                            <td>{phone[ATTRS.number.name]}</td>
+                                            <td>
+                                                <div className="btn-group btn-group-sm text-center">
+                                                    <button type="button" className="btn btn-sm btn-default"
+                                                            onClick={this.modifyPhoneBtnClick.bind(this, index)}>
+                                                        {BUTTON_NAMES.modify[LANG]}
+                                                    </button>
+                                                    <button type="button" className="btn btn-sm btn-danger"
+                                                            onClick={this.removePhoneBtnClick.bind(this, index)}>
+                                                        {BUTTON_NAMES.remove[LANG]}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                )
+                            }.bind(this))
+                            :
+                            <tr>
+                                <td colSpan="5">{MESSAGES.notRegisteredPhone[LANG]}</td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                    <div className="btn-block btn-toolbar">
+                        <div className="pull-right">
+                            <button type="button" className="btn btn-default btn-sm"
+                                    onClick={this.addPhoneBtnClick}>
+                                {BUTTON_NAMES.add[LANG]}
+                            </button>
+                        </div>
+                    </div>
+                    <div className="btn-toolbar pull-right">
+                        <button type="button" className="btn-group btn btn-primary"
+                                onClick={this.savePhoneBookBtnClick}>
+                            {BUTTON_NAMES.save[LANG]}
+                        </button>
+                        <button type="button" className="btn-group btn btn-default"
+                                onClick={this.cancelModificationBtnClick}>
+                            {BUTTON_NAMES.cancel[LANG]}
+                        </button>
+                    </div>
+                </article>
+            );
+        }
+    });
+
+    castle.component.PhoneBook = PhoneContent;
 })();

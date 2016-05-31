@@ -19,6 +19,7 @@ public class Castle implements Identifiable {
     private Castellan owner;
     private InfoBundleBox infoBundleBox;
 
+
     public Castle() {
         //
     }

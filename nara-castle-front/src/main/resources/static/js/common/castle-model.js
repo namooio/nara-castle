@@ -10,7 +10,7 @@ castle.common.Model = castle.common.Model || {};
     'use strict';
 
     // Define Content attributes name
-    const castleModel = {
+    const CastleModel = {
         buttons: {
             search:     { KOR: '검색',        USA: 'Search' },
             save:       { KOR: '저장',        USA: 'Save' },
@@ -27,6 +27,10 @@ castle.common.Model = castle.common.Model || {};
                 Suspended:  { name: 'Suspended',    KOR: '중단', USA: 'Suspended' },
                 Closed:     { name: 'Closed',       KOR: '닫힘', USA: 'Closed' }
             },
+            modifiableState: {
+                Open:       { name: 'Open',         KOR: '사용', USA: 'Open' },
+                Suspended:  { name: 'Suspended',    KOR: '중단', USA: 'Suspended' }
+            },
             locale: {
                 ko:     { name: 'ko',       KOR: '대한민국', USA: 'Republic of Korea' },
                 ko_KR:  { name: 'ko_KR',    KOR: '대한민국', USA: 'Republic of Korea' },
@@ -40,8 +44,8 @@ castle.common.Model = castle.common.Model || {};
                 eng:    { name: 'eng',  KOR: '영어',   USA: 'English' }
             },
             emailType: {
-                Business:   { KOR: '업무용', USA: 'Business' },
-                Private:    { KOR: '개인용', USA: 'Private' }
+                Business:   { name: 'Business', KOR: '업무용', USA: 'Business' },
+                Private:    { name: 'Private',  KOR: '개인용', USA: 'Private' }
             },
             verified: {
                 true:   { KOR: '확인완료',  USA: 'Verified' },
@@ -55,5 +59,5 @@ castle.common.Model = castle.common.Model || {};
     };
 
 
-    castle.common.Model = castleModel;
+    castle.common.Model = CastleModel;
 })();

@@ -10,11 +10,12 @@ castle.component.common.Error = castle.component.common.Error || {};
     'use strict';
 
     // Import component module
-     let mainComponent = castle.component.common.Main;
+    const MainComponent = castle.component.common.Main;
 
 
     // Define Content properties name
-     let errorModel = {
+    const ErrorModel = {
+         //
         messages: {
             notFoundPage: {
                 title:      { KOR: '404', USA: '404' },
@@ -27,16 +28,16 @@ castle.component.common.Error = castle.component.common.Error || {};
     };
 
 
-     let ErrorPage = React.createClass({
+    let ErrorPage = React.createClass({
         //
+        // event
         backBtnClick() {
             window.history.back();
         },
         render() {
-             let MESSAGE = errorModel.messages,
-                BUTTONS = errorModel.buttons,
-                lang = mainComponent.lang;
-
+            const MESSAGE = ErrorModel.messages,
+                BUTTONS = ErrorModel.buttons,
+                lang = MainComponent.lang;
 
             return (
                 <article>

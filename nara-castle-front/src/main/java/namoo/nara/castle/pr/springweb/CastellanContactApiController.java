@@ -24,6 +24,7 @@ public class CastellanContactApiController {
 
     @RequestMapping(value="/name-book", method=RequestMethod.POST)
     public void attachNameBook(@PathVariable("id") String castleId, @RequestBody NameBookDto nameBookDto) {
+        //
         castellanContactFrontService.attachNameBook(castleId, nameBookDto);
     }
 
@@ -36,6 +37,7 @@ public class CastellanContactApiController {
 
     @RequestMapping(value="/phone-book", method=RequestMethod.POST)
     public void attachPhoneBook(@PathVariable("id") String castleId, @RequestBody PhoneBookDto phoneBookDto) {
+        //
         castellanContactFrontService.attachPhoneBook(castleId, phoneBookDto);
     }
 
@@ -48,6 +50,7 @@ public class CastellanContactApiController {
 
     @RequestMapping(value="/email-book", method=RequestMethod.POST)
     public void attachEmailBook(@PathVariable("id") String castleId, @RequestBody EmailBookDto emailBookDto) {
+        //
         castellanContactFrontService.attachEmailBook(castleId, emailBookDto);
     }
 

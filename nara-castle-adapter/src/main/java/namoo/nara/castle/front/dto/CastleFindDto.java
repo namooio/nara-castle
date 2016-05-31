@@ -22,7 +22,7 @@ public class CastleFindDto {
     private String state;
     private Date  buildTime;
 
-    private CastellanFindDto castellan;
+    private CastellanFindDto owner;
 
     // TODO : 뷰모델(DTO) 구조 고민 필요 -> 도메인과 동일하게 갈 것인가..
     // Contact book
@@ -81,12 +81,12 @@ public class CastleFindDto {
         this.buildTime = buildTime;
     }
 
-    public CastellanFindDto getCastellan() {
-        return castellan;
+    public CastellanFindDto getOwner() {
+        return owner;
     }
 
-    public void setCastellan(CastellanFindDto castellan) {
-        this.castellan = castellan;
+    public void setOwner(CastellanFindDto owner) {
+        this.owner = owner;
     }
 
     public NameBookDto getNameBook() {

@@ -9,6 +9,8 @@ import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 6..
  */
@@ -33,6 +35,13 @@ public class CastellanMongoStore implements CastellanStore {
         CastellanDoc castellanDoc = castellanMongoRepository.findOne(id);
         if (castellanDoc == null) throw new NonExistenceException(String.format("No castellan document[ID:%s] to retrieve.", id));
         return castellanDoc.toDomain();
+    }
+
+    @Override
+    public List<Castellan> retrieveAll() {
+        //
+        List<CastellanDoc> allDocs = castellanMongoRepository.findAll();
+        return CastellanDoc.toDomains(allDocs);
     }
 
     @Override

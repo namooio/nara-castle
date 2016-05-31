@@ -47,8 +47,8 @@ public class CastleApiController {
     }
 
     @RequestMapping(value="/{id}/locale", method=RequestMethod.PUT)
-    public void modifyLocale(@PathVariable("id") String castleId, @RequestBody Locale locale) {
-        castleFrontService.modifyLocale(castleId, locale);
+    public void modifyLocale(@PathVariable("id") String castleId, @RequestBody String locale) {
+        castleFrontService.modifyLocale(castleId, new Locale(locale));
     }
 
 }

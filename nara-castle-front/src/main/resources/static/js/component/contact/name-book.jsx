@@ -10,14 +10,16 @@ castle.component.NameBook = castle.component.NameBook || {};
     'use strict';
 
     // Import component module
-    let commonAjax = NaraCommon.Ajax,
-        constant = castle.common.Const,
-        castleModel = castle.common.Model,
-        mainComponent = castle.component.common.Main;
+    const NaraAjax = NaraCommon.Ajax,
+        NaraObject = NaraCommon.Object,
+        Constant = castle.common.Const,
+        CastleModel = castle.common.Model,
+        MainComponent = castle.component.common.Main;
 
 
     // Define Content attributes name
-    let castleNameModel = {
+    const CastleNameModel = {
+        //
         attrs: {
             familyName:     { name: 'familyName',   KOR: '성',       USA: 'Family name' },
             firstName:      { name: 'firstName',    KOR: '이름',     USA: 'First name' },
@@ -31,12 +33,13 @@ castle.component.NameBook = castle.component.NameBook || {};
         }
     };
 
+
     // Define components
     let NameContent = React.createClass({
         //
         statics: {
-            FIND_NAME_BOOK_URL: constant.PAV_CTX_API + '/api/castellans/{id}/contacts/name-book',
-            ATTACH_NAME_BOOK_URL: constant.PAV_CTX_API + '/api/castellans/{id}/contacts/name-book'
+            FIND_NAME_BOOK_URL: Constant.PAV_CTX_API + '/api/castellans/{id}/contacts/name-book',
+            ATTACH_NAME_BOOK_URL: Constant.PAV_CTX_API + '/api/castellans/{id}/contacts/name-book'
         },
         propTypes: {
             castleId: React.PropTypes.string.isRequired,
@@ -53,18 +56,21 @@ castle.component.NameBook = castle.component.NameBook || {};
             changeViewMode: React.PropTypes.func.isRequired,
             setCastle: React.PropTypes.func.isRequired
         },
+        // overriding
         componentDidMount() {
             this.requestFindNameBook(this.props);
         },
+        // custom
         setNameBook(nameBook) {
             let castle = this.props.castle;
 
             castle.contact.nameBook = nameBook;
             this.props.setCastle(castle);
         },
+        // request
         requestFindNameBook(props) {
             //
-            commonAjax
+            NaraAjax
                 .getJSON(NameContent.FIND_NAME_BOOK_URL.replace('{id}', props.castleId))
                 .done(function (nameBookResult) {
                     this.setNameBook(nameBookResult);
@@ -72,13 +78,14 @@ castle.component.NameBook = castle.component.NameBook || {};
         },
         requestAttachNameBook(nameBook) {
             //
-            commonAjax
+            NaraAjax
                 .postJSON(NameContent.ATTACH_NAME_BOOK_URL.replace('{id}', this.props.castleId), nameBook)
                 .done(function () {
                     this.setNameBook(nameBook);
 
-                    let lang = mainComponent.lang;
-                    alert(castleNameModel.messages.completeSave[lang]);
+                    let lang = MainComponent.lang;
+                    alert(CastleNameModel.messages.completeSave[lang]);
+                    this.props.changeViewMode();
                 }.bind(this));
         },
         render () {
@@ -101,12 +108,14 @@ castle.component.NameBook = castle.component.NameBook || {};
 
 
     let NameViewContent = React.createClass({
+        //
         propTypes: {
             nameBook: React.PropTypes.shape({
                 names: React.PropTypes.array.isRequired
             }).isRequired,
             changeModifiableMode: React.PropTypes.func.isRequired
         },
+        // event
         modifiableModeBtnClick() {
             this.props.changeModifiableMode();
         },
@@ -115,23 +124,24 @@ castle.component.NameBook = castle.component.NameBook || {};
         },
         render() {
             //
-            let ENUMS = castleModel.enums,
-                BUTTON_NAMES = castleModel.buttons,
-                ATTRS = castleNameModel.attrs,
-                MESSAGES = castleNameModel.messages,
-                lang = mainComponent.lang,
-                existsNameBook = (this.props.nameBook && this.props.nameBook.names.length > 0) ? true : false;
+            const ENUMS = CastleModel.enums,
+                BUTTON_NAMES = CastleModel.buttons,
+                ATTRS = CastleNameModel.attrs,
+                MESSAGES = CastleNameModel.messages,
+                LANG = MainComponent.lang;
+
+            let existsNameBook = (this.props.nameBook && this.props.nameBook.names.length > 0) ? true : false;
 
             return (
                 <article>
                     <table className="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th className="col-md-2">{ATTRS.familyName[lang]}</th>
-                            <th className="col-md-2">{ATTRS.firstName[lang]}</th>
-                            <th className="col-md-3">{ATTRS.displayName[lang]}</th>
-                            <th className="col-md-3">{ATTRS.middleName[lang]}</th>
-                            <th className="col-md-2">{ATTRS.langCode[lang]}</th>
+                            <th className="col-md-2">{ATTRS.familyName[LANG]}</th>
+                            <th className="col-md-2">{ATTRS.firstName[LANG]}</th>
+                            <th className="col-md-3">{ATTRS.displayName[LANG]}</th>
+                            <th className="col-md-3">{ATTRS.middleName[LANG]}</th>
+                            <th className="col-md-2">{ATTRS.langCode[LANG]}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -143,22 +153,22 @@ castle.component.NameBook = castle.component.NameBook || {};
                                         <td>{name[ATTRS.firstName.name]}</td>
                                         <td>{name[ATTRS.displayName.name]}</td>
                                         <td>{name[ATTRS.middleName.name]}</td>
-                                        <td>{ENUMS.language[name[ATTRS.langCode.name]][lang]}</td>
+                                        <td>{ENUMS.language[name[ATTRS.langCode.name]][LANG]}</td>
                                     </tr>
                                 )
                             })
                             :
                             <tr>
-                                <td colSpan="5">{MESSAGES.notRegisteredName[lang]}</td>
+                                <td colSpan="5">{MESSAGES.notRegisteredName[LANG]}</td>
                             </tr>
                         }
                         </tbody>
                     </table>
                     <div className="btn-toolbar pull-right">
                         <button type="button" className="btn-group btn btn-default"
-                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[lang]}</button>
+                                onClick={this.modifiableModeBtnClick}>{BUTTON_NAMES.modify[LANG]}</button>
                         <button type="button" className="btn-group btn btn-danger"
-                                onClick={this.removeBtnClick}>{BUTTON_NAMES.remove[lang]}</button>
+                                onClick={this.removeBtnClick}>{BUTTON_NAMES.remove[LANG]}</button>
                     </div>
                 </article>
             );
@@ -166,6 +176,7 @@ castle.component.NameBook = castle.component.NameBook || {};
     });
 
     let NameModifiableContent = React.createClass({
+        //
         propTypes: {
             nameBook: React.PropTypes.shape({
                 names: React.PropTypes.array.isRequired
@@ -173,6 +184,7 @@ castle.component.NameBook = castle.component.NameBook || {};
             changeViewMode: React.PropTypes.func.isRequired,
             saveNameBook: React.PropTypes.func.isRequired
         },
+        // overriding
         getInitialState() {
             return {
                 willSaveNames: [],
@@ -181,7 +193,7 @@ castle.component.NameBook = castle.component.NameBook || {};
             };
         },
         componentDidMount() {
-            let names = NaraCommon.Object.deepCopy(this.props.nameBook.names),
+            let names = NaraObject.deepCopy(this.props.nameBook.names),
                 rowsModifiable = [];
 
             rowsModifiable.length = names.length;
@@ -189,9 +201,25 @@ castle.component.NameBook = castle.component.NameBook || {};
 
             this.setState({
                 willSaveNames: names,
-                inputProgressNames: NaraCommon.Object.deepCopy(names),
+                inputProgressNames: NaraObject.deepCopy(names),
                 rowsModifiable: rowsModifiable
             });
+        },
+        // event
+        familyNameChange(index, event) {
+            this.setProgressNameState(index, CastleNameModel.attrs.familyName.name, event.target.value);
+        },
+        firstNameChange(index, event) {
+            this.setProgressNameState(index, CastleNameModel.attrs.firstName.name, event.target.value);
+        },
+        displayNameChange(index, event) {
+            this.setProgressNameState(index, CastleNameModel.attrs.displayName.name, event.target.value);
+        },
+        middleNameChange(index, event) {
+            this.setProgressNameState(index, CastleNameModel.attrs.middleName.name, event.target.value);
+        },
+        langCodeChange(index, event) {
+            this.setProgressNameState(index, CastleNameModel.attrs.langCode.name, event.target.value);
         },
         addNameBtnClick() {
             let names = this.state.inputProgressNames,
@@ -200,93 +228,80 @@ castle.component.NameBook = castle.component.NameBook || {};
             names.push({});
             rowsModifiable.push(true);
 
-            this.setState({inputProgressNames: names, rowsModifiable: rowsModifiable});
+            this.setState({ inputProgressNames: names, rowsModifiable: rowsModifiable });
         },
         modifyNameBtnClick(index) {
             this.setRowModifiableState(index, true);
         },
         removeNameBtnClick(index) {
             let progressNames = this.state.inputProgressNames,
-                saveNames = this.state.willSaveNames,
+                willSaveNames = this.state.willSaveNames,
                 rowsModifiable = this.state.rowsModifiable;
 
             progressNames.splice(index, 1);
-            saveNames.splice(index, 1);
+            willSaveNames.splice(index, 1);
             rowsModifiable.splice(index, 1);
 
             this.setState({
                 inputProgressNames: progressNames,
-                willSaveNames: saveNames,
+                willSaveNames: willSaveNames,
                 rowsModifiable: rowsModifiable
             });
         },
         completeNameBtnClick(index) {
-            let names = NaraCommon.Object.deepCopy(this.state.willSaveNames);
-            names[index] = NaraCommon.Object.deepCopy(this.state.inputProgressNames[index]);
+            let names = NaraObject.deepCopy(this.state.willSaveNames);
+            names[index] = NaraObject.deepCopy(this.state.inputProgressNames[index]);
 
-            this.setState({willSaveNames: names});
+            this.setState({ willSaveNames: names });
             this.setRowModifiableState(index, false);
         },
         cancelNameBtnClick(index) {
-            let names = NaraCommon.Object.deepCopy(this.state.inputProgressNames);
-            names[index] = NaraCommon.Object.deepCopy(this.state.willSaveNames[index]);
+            let names = NaraObject.deepCopy(this.state.inputProgressNames);
+            names[index] = NaraObject.deepCopy(this.state.willSaveNames[index]);
 
-            if (NaraCommon.Object.isEmpty(names[index])) {
+            if (NaraObject.isEmpty(names[index])) {
                 names.splice(index, 1);
 
                 let rowsModifiable = this.state.rowsModifiable;
                 rowsModifiable.splice(index, 1);
 
-                this.setState({rowsModifiable: rowsModifiable});
+                this.setState({ rowsModifiable: rowsModifiable });
             }
             else {
                 this.setRowModifiableState(index, false);
             }
-            this.setState({inputProgressNames: names});
-        },
-        familyNameChange(index, event) {
-            this.setProgressNameState(index, castleNameModel.attrs.familyName.name, event.target.value);
-        },
-        firstNameChange(index, event) {
-            this.setProgressNameState(index, castleNameModel.attrs.firstName.name, event.target.value);
-        },
-        displayNameChange(index, event) {
-            this.setProgressNameState(index, castleNameModel.attrs.displayName.name, event.target.value);
-        },
-        middleNameChange(index, event) {
-            this.setProgressNameState(index, castleNameModel.attrs.middleName.name, event.target.value);
-        },
-        langCodeChange(index, event) {
-            this.setProgressNameState(index, castleNameModel.attrs.langCode.name, event.target.value);
+            this.setState({ inputProgressNames: names });
         },
         saveNameBookBtnClick() {
-            this.props.saveNameBook({names: this.state.willSaveNames});
+            this.props.saveNameBook({ names: this.state.willSaveNames });
         },
         cancelModificationBtnClick() {
             this.props.changeViewMode();
         },
+        // custom
         setRowModifiableState(index, modifiable) {
             //
             let rowsModifiable = this.state.rowsModifiable;
-            rowsModifiable[index] = modifiable;
 
-            this.setState({rowsModifiable: rowsModifiable});
+            rowsModifiable[index] = modifiable;
+            this.setState({ rowsModifiable: rowsModifiable });
         },
         setProgressNameState(index, propertyName, value) {
             //
             let names = this.state.inputProgressNames;
-            names[index][propertyName] = value;
 
-            this.setState({inputProgressNames: names});
+            names[index][propertyName] = value;
+            this.setState({ inputProgressNames: names });
         },
         render() {
             //
-            let BUTTON_NAMES = castleModel.buttons,
-                ENUMS = castleModel.enums,
-                ATTRS = castleNameModel.attrs,
-                MESSAGES = castleNameModel.messages,
-                lang = mainComponent.lang,
-                existsNameBook = this.state.willSaveNames.length > 0;
+            const BUTTON_NAMES = CastleModel.buttons,
+                ENUMS = CastleModel.enums,
+                ATTRS = CastleNameModel.attrs,
+                MESSAGES = CastleNameModel.messages,
+                LANG = MainComponent.lang;
+
+            let existsNameBook = this.state.willSaveNames.length > 0;
 
 
             return (
@@ -294,18 +309,17 @@ castle.component.NameBook = castle.component.NameBook || {};
                     <table className="table table-striped table-hover">
                         <thead>
                         <tr>
-                            <th className="col-md-2">{ATTRS.familyName[lang]}</th>
-                            <th className="col-md-2">{ATTRS.firstName[lang]}</th>
-                            <th className="col-md-3">{ATTRS.displayName[lang]}</th>
-                            <th className="col-md-2">{ATTRS.middleName[lang]}</th>
-                            <th className="col-md-1">{ATTRS.langCode[lang]}</th>
+                            <th className="col-md-2">{ATTRS.familyName[LANG]}</th>
+                            <th className="col-md-2">{ATTRS.firstName[LANG]}</th>
+                            <th className="col-md-3">{ATTRS.displayName[LANG]}</th>
+                            <th className="col-md-2">{ATTRS.middleName[LANG]}</th>
+                            <th className="col-md-1">{ATTRS.langCode[LANG]}</th>
                             <th className="col-md-2"></th>
                         </tr>
                         </thead>
                         <tbody>
                         { existsNameBook ?
-                            this.state.inputProgressNames.map(function (name, index) {
-
+                            this.state.inputProgressNames.map( function (name, index) {
                                 return (
                                     this.state.rowsModifiable[index] === true ?
                                         <tr key={index}>
@@ -325,13 +339,12 @@ castle.component.NameBook = castle.component.NameBook || {};
                                                 <select className="form-control"
                                                         onChange={this.langCodeChange.bind(this, index)}
                                                         value={name[ATTRS.langCode.name]}>
-                                                    <option>{ATTRS.langCode[lang]}</option>
-                                                    {Object.keys(ENUMS.language).map(function (languageKey, index) {
+                                                    <option>{ATTRS.langCode[LANG]}</option>
+                                                    {Object.keys(ENUMS.language).map( function (languageKey, index) {
                                                         let LANG_ENUM = ENUMS.language[languageKey];
 
                                                         return (
-                                                            <option key={index}
-                                                                    value={LANG_ENUM.name}>{LANG_ENUM[lang]}</option>
+                                                            <option key={index} value={LANG_ENUM.name}>{LANG_ENUM[LANG]}</option>
                                                         );
                                                     })}
                                                 </select>
@@ -339,9 +352,9 @@ castle.component.NameBook = castle.component.NameBook || {};
                                             <td>
                                                 <div className="btn-group btn-group-sm text-center">
                                                     <button type="button" className="btn btn-sm btn-primary"
-                                                            onClick={this.completeNameBtnClick.bind(this, index)}>{BUTTON_NAMES.complete[lang]}</button>
+                                                            onClick={this.completeNameBtnClick.bind(this, index)}>{BUTTON_NAMES.complete[LANG]}</button>
                                                     <button type="button" className="btn btn-sm btn-default"
-                                                            onClick={this.cancelNameBtnClick.bind(this, index)}>{BUTTON_NAMES.cancel[lang]}</button>
+                                                            onClick={this.cancelNameBtnClick.bind(this, index)}>{BUTTON_NAMES.cancel[LANG]}</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -351,13 +364,13 @@ castle.component.NameBook = castle.component.NameBook || {};
                                             <td>{name[ATTRS.firstName.name]}</td>
                                             <td>{name[ATTRS.displayName.name]}</td>
                                             <td>{name[ATTRS.middleName.name]}</td>
-                                            <td>{ENUMS.language[name[ATTRS.langCode.name]][lang]}</td>
+                                            <td>{ENUMS.language[name[ATTRS.langCode.name]][LANG]}</td>
                                             <td>
                                                 <div className="btn-group btn-group-sm text-center">
                                                     <button type="button" className="btn btn-sm btn-default"
-                                                            onClick={this.modifyNameBtnClick.bind(this, index)}>{BUTTON_NAMES.modify[lang]}</button>
+                                                            onClick={this.modifyNameBtnClick.bind(this, index)}>{BUTTON_NAMES.modify[LANG]}</button>
                                                     <button type="button" className="btn btn-sm btn-danger"
-                                                            onClick={this.removeNameBtnClick.bind(this, index)}>{BUTTON_NAMES.remove[lang]}</button>
+                                                            onClick={this.removeNameBtnClick.bind(this, index)}>{BUTTON_NAMES.remove[LANG]}</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -365,7 +378,7 @@ castle.component.NameBook = castle.component.NameBook || {};
                             }.bind(this))
                             :
                             <tr>
-                                <td colSpan="5">{MESSAGES.notRegisteredName[lang]}</td>
+                                <td colSpan="5">{MESSAGES.notRegisteredName[LANG]}</td>
                             </tr>
                         }
                         </tbody>
@@ -373,15 +386,15 @@ castle.component.NameBook = castle.component.NameBook || {};
                     <div className="btn-block btn-toolbar">
                         <div className="pull-right">
                             <button type="button" className="btn btn-default btn-sm"
-                                    onClick={this.addNameBtnClick}>{BUTTON_NAMES.add[lang]}</button>
+                                    onClick={this.addNameBtnClick}>{BUTTON_NAMES.add[LANG]}</button>
                         </div>
                     </div>
                     <div className="row"><p></p></div>
                     <div className="btn-toolbar pull-right">
                         <button type="button" className="btn btn-primary"
-                                onClick={this.saveNameBookBtnClick}>{BUTTON_NAMES.save[lang]}</button>
+                                onClick={this.saveNameBookBtnClick}>{BUTTON_NAMES.save[LANG]}</button>
                         <button type="button" className="btn btn-default"
-                                onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[lang]}</button>
+                                onClick={this.cancelModificationBtnClick}>{BUTTON_NAMES.cancel[LANG]}</button>
                     </div>
                 </article>
             );

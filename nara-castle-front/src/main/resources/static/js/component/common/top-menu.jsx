@@ -9,14 +9,16 @@ castle.component.common.TopMenu = castle.component.common.TopMenu || {};
     //
     'use strict';
 
-    var constant = castle.common.Const;
+    const constant = castle.common.Const;
 
     // Define attributes name
-    const castleTopMenuModel = {
+    const CastleTopMenuModel = {
+        //
         attrs: {
             castles: { KOR: '목록', USA: 'List'}
         }
     };
+
 
     /**
      * Castle 공통 상단 메뉴 컴포넌트
@@ -26,13 +28,14 @@ castle.component.common.TopMenu = castle.component.common.TopMenu || {};
         propTypes: {
             changeLanguage: React.PropTypes.func.isRequired
         },
+        // event
         changeLanguageClick(event) {
             let lang = $(event.target).data('lang');
             this.props.changeLanguage(lang);
         },
         render() {
             //
-            let MENUS = castleTopMenuModel.attrs,
+            let MENUS = CastleTopMenuModel.attrs,
                 lang = this.props.getLanguage(),
                 displayLang;
 

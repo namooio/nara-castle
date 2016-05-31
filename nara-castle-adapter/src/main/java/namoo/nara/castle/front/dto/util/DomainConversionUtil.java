@@ -44,6 +44,8 @@ public class DomainConversionUtil {
         castleFindDto.setState(castle.getState().toString());
         castleFindDto.setBuildTime(new Date(castle.getBuildTime()));
 
+        castleFindDto.setOwner(toCastellanFindDto(castle.getOwner()));
+
         return castleFindDto;
     }
 

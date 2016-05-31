@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.logic;
 
+import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.InfoBundleBox;
 import namoo.nara.castle.domain.entity.OpenState;
@@ -12,10 +13,16 @@ import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.proxy.GatewayProxy;
 import namoo.nara.castle.domain.service.CastleCdo;
 import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.store.*;
+import namoo.nara.castle.domain.store.CastellanStore;
+import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.domain.store.ContactBundleStore;
+import namoo.nara.castle.domain.store.HistoryBundleStore;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CastleServiceLogic implements CastleService {
     //
@@ -136,13 +143,25 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public Castle findCastle(String id) {
         //
-        return castleStore.retrieve(id);
+        Castle castle = castleStore.retrieve(id);
+        Castellan castellan = castellanStore.retrieve(id);
+
+        castle.setOwner(castellan);
+        return castle;
     }
 
     @Override
     public List<Castle> findAllCastles() {
         //
-        return castleStore.retrieveAll();
+        List<Castle> allCastles = castleStore.retrieveAll();
+
+        List<Castellan> allCastellans = castellanStore.retrieveAll();
+        Map<String, Castellan> allCastellansMap = allCastellans.stream()
+                .collect(Collectors.toMap(Castellan::getId, castellan -> castellan));
+
+        allCastles.forEach(castle -> castle.setOwner(allCastellansMap.get(castle.getId())));
+
+        return allCastles;
     }
 
 }

@@ -10,15 +10,16 @@ castle.component.List = castle.component.List || { };
     'use strict';
 
     // Import component module
-    let commonAjax = NaraCommon.Ajax,
-        commonDate = NaraCommon.Date,
-        constant = castle.common.Const,
-        castleModel = castle.common.Model,
-        mainComponent = castle.component.common.Main;
+    const NaraAjax = NaraCommon.Ajax,
+        NaraDate = NaraCommon.Date,
+        Constant = castle.common.Const,
+        CastleModel = castle.common.Model,
+        MainComponent = castle.component.common.Main;
 
 
     // Define content attributes
-    let castleListModel = {
+    const castleListModel = {
+        //
         finder: {
             title: { KOR: 'Castle 검색', USA: 'Search Castle' },
             criteria: {
@@ -42,10 +43,12 @@ castle.component.List = castle.component.List || { };
         }
     };
 
+
     // Define components
     let CastleListPage = React.createClass({
+        //
         statics: {
-            FIND_CASTLES_URL: constant.PAV_CTX_API + '/api/castles'
+            FIND_CASTLES_URL: Constant.PAV_CTX_API + '/api/castles'
         },
         getInitialState() {
             return {
@@ -54,18 +57,20 @@ castle.component.List = castle.component.List || { };
             };
         },
         componentDidMount() {
-            this.findCastles();
+            this.requestFindCastles();
         },
+        // custom
         changeCriteriaInput() {
 
         },
-        findCastles(castleCriteria) {
+        // request
+        requestFindCastles(castleCriteria) {
             //
-            commonAjax
+            NaraAjax
                 .getJSON(CastleListPage.FIND_CASTLES_URL)
                 .done(function (castlesResult) {
                     let notExistsMessage = castleListModel.messages.notExistsMessage,
-                        lang = mainComponent.lang;
+                        lang = MainComponent.lang;
 
                     if (!castlesResult || castlesResult.length === 0) {
                         alert(notExistsMessage[lang]);
@@ -81,7 +86,7 @@ castle.component.List = castle.component.List || { };
                     <Finder
                         criteria={this.state.castleCriteria}
                         change={this.changeCriteriaInput}
-                        find={this.findCastles}
+                        find={this.requestFindCastles}
                     />
                     <CastleList castles={this.state.castles}/>
                 </article>
@@ -100,6 +105,7 @@ castle.component.List = castle.component.List || { };
             change: React.PropTypes.func.isRequired,
             find: React.PropTypes.func.isRequired
         },
+        // event
         findBtnClick() {
             this.props.find(this.props.criteria);
         },
@@ -110,22 +116,22 @@ castle.component.List = castle.component.List || { };
         },
         render() {
             //
-            let ATTRS = castleListModel.finder,
-                BUTTON_NAMES = castleModel.buttons,
-                lang = mainComponent.lang;
+            const ATTRS = castleListModel.finder,
+                BUTTON_NAMES = CastleModel.buttons,
+                LANG = MainComponent.lang;
 
 
             return (
                 <div className="container">
                     <div className="panel panel-success">
                         <div className="panel-heading">
-                            <h4 className="panel-title">{ATTRS.title[lang]}</h4>
+                            <h4 className="panel-title">{ATTRS.title[LANG]}</h4>
                         </div>
                         <div className="panel-body">
                             <div className="form-horizontal">
                                 <div className="form-group">
                                     <label
-                                        className="col-md-1 col-md-offset-6 control-label">{ATTRS.criteria.name[lang]}</label>
+                                        className="col-md-1 col-md-offset-6 control-label">{ATTRS.criteria.name[LANG]}</label>
                                     <div className="col-md-3">
                                         <input className="form-control" type="text" value={this.props.criteria.name}
                                                onChange={this.inputChange} placeholder="Castle name"/>
@@ -133,7 +139,7 @@ castle.component.List = castle.component.List || { };
                                     <div className="col-md-2">
                                         <div className="btn-group">
                                             <button type="button" className="btn btn-default" id="inBtn"
-                                                    onClick={this.findBtnClick}>{BUTTON_NAMES.search[lang]}</button>
+                                                    onClick={this.findBtnClick}>{BUTTON_NAMES.search[LANG]}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -155,11 +161,12 @@ castle.component.List = castle.component.List || { };
         },
         render() {
             //
-            let ENUMS = castleModel.enums,
+            const ENUMS = CastleModel.enums,
                 ATTRS = castleListModel.list,
                 MESSAGES = castleListModel.messages,
-                lang = mainComponent.lang,
-                existsCastle = this.props.castles && this.props.castles.length > 0;
+                LANG = MainComponent.lang;
+
+            let existsCastle = this.props.castles && this.props.castles.length > 0;
 
             return (
                 <div className="container">
@@ -168,35 +175,40 @@ castle.component.List = castle.component.List || { };
                             <table className="table table-striped table-hover">
                                 <thead>
                                 <tr>
-                                    <th>{ATTRS.header.id[lang]}</th>
-                                    <th>{ATTRS.header.name[lang]}</th>
-                                    <th>{ATTRS.header.locale[lang]}</th>
-                                    <th>{ATTRS.header.primaryEmail[lang]}</th>
-                                    <th>{ATTRS.header.primaryPhone[lang]}</th>
-                                    <th>{ATTRS.header.state[lang]}</th>
-                                    <th>{ATTRS.header.buildTime[lang]}</th>
-                                    <th>{ATTRS.header.detail[lang]}</th>
+                                    <th>{ATTRS.header.id[LANG]}</th>
+                                    <th>{ATTRS.header.name[LANG]}</th>
+                                    <th>{ATTRS.header.locale[LANG]}</th>
+                                    <th>{ATTRS.header.primaryEmail[LANG]}</th>
+                                    <th>{ATTRS.header.primaryPhone[LANG]}</th>
+                                    <th>{ATTRS.header.state[LANG]}</th>
+                                    <th>{ATTRS.header.buildTime[LANG]}</th>
+                                    <th>{ATTRS.header.detail[LANG]}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 { existsCastle === true ?
-                                    this.props.castles.map(function (castle) {
+                                    this.props.castles.map( function (castle, index) {
+                                        let existsOwner = castle.owner ? true : false;
+
                                         return (
-                                            <tr key={castle.id}>
+                                            <tr key={index}>
                                                 <td>{castle.id}</td>
                                                 <td>{castle.name}</td>
-                                                <td>{ENUMS.locale[castle.locale][lang]}</td>
-                                                <td>{castle.castellan ? castle.castellan.primaryEmail : null}</td>
-                                                <td>{castle.castellan ? castle.castellan.primaryPhone : null}</td>
-                                                <td>{ENUMS.state[castle.state][lang]}</td>
-                                                <td>{commonDate.parseToString(castle.buildTime)}</td>
-                                                <td><a href={constant.PAV_CTX_HASH + "/castle/basic?&id=" + castle.id}><span
-                                                    className="glyphicon glyphicon-book"/></a></td>
+                                                <td>{ENUMS.locale[castle.locale][LANG]}</td>
+                                                <td>{existsOwner ? castle.owner.primaryEmail : null}</td>
+                                                <td>{existsOwner ? castle.owner.primaryPhone : null}</td>
+                                                <td>{ENUMS.state[castle.state][LANG]}</td>
+                                                <td>{NaraDate.parseToString(castle.buildTime)}</td>
+                                                <td>
+                                                    <a href={Constant.PAV_CTX_HASH + "/castle/basic?&id=" + castle.id}>
+                                                        <span className="glyphicon glyphicon-book"/>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         )
                                     })
                                     : <tr>
-                                    <td colSpan="6">{MESSAGES.notExistsMessage[lang]}</td>
+                                    <td colSpan="8">{MESSAGES.notExistsMessage[LANG]}</td>
                                 </tr>
                                 }
                                 </tbody>
