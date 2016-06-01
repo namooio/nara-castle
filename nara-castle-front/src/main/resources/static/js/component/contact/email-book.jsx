@@ -211,12 +211,6 @@ castle.component.EmailBook = castle.component.EmailBook || {};
         emailTypeChange(index, event) {
             this.setProgressEmailState(index, CastleEmailModel.attrs.emailType.name, event.target.value);
         },
-        verifiedChange(index, event) {
-            this.setProgressEmailState(index, CastleEmailModel.attrs.verified.name, event.target.value);
-        },
-        verifiedTimeChange(index, event) {
-            this.setProgressEmailState(index, CastleEmailModel.attrs.verifiedTime.name, event.target.value);
-        },
         completeEmailBtnClick(index) {
             let emails = NaraObject.deepCopy(this.state.willModifyEmails);
             emails[index] = NaraObject.deepCopy(this.state.inputProgressEmails[index]);
@@ -343,12 +337,12 @@ castle.component.EmailBook = castle.component.EmailBook || {};
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" className="form-control" disabled="disabled"
+                                                <input type="text" className="form-control" readOnly="readOnly"
                                                        value={ENUMS.verified[email[ATTRS.verified.name]][LANG]}
                                                 />
                                             </td>
                                             <td>
-                                                <input type="text" className="form-control" disabled="disabled"
+                                                <input type="text" className="form-control" readOnly="readOnly"
                                                        value={email[ATTRS.verifiedTime.name]}
                                                 />
                                             </td>

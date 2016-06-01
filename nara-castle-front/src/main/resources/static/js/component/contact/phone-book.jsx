@@ -204,9 +204,6 @@ castle.component.PhoneBook = castle.component.PhoneBook || {};
             });
         },
         // event
-        phoneNumberChange(index, event) {
-            this.setProgressPhoneState(index, CastlePhoneModel.attrs.phoneNumber.name, event.target.value);
-        },
         countryCodeChange(index, event) {
             this.setProgressPhoneState(index, CastlePhoneModel.attrs.countryCode.name, event.target.value);
         },
@@ -217,8 +214,11 @@ castle.component.PhoneBook = castle.component.PhoneBook || {};
             this.setProgressPhoneState(index, CastlePhoneModel.attrs.number.name, event.target.value);
         },
         completePhoneBtnClick(index) {
-            let phones = NaraObject.deepCopy(this.state.willModifyPhones);
-            phones[index] = NaraObject.deepCopy(this.state.inputProgressPhones[index]);
+            let phones = NaraObject.deepCopy(this.state.willModifyPhones),
+                completedPhone = this.state.inputProgressPhones[index];
+
+            completedPhone.phoneNumber = completedPhone.countryCode + '-' + completedPhone.areaCode + '-' + completedPhone.number;
+            phones[index] = NaraObject.deepCopy(completedPhone);
 
             this.setState({ willModifyPhones: phones });
             this.setRowModifiableState(index, false);
@@ -318,8 +318,7 @@ castle.component.PhoneBook = castle.component.PhoneBook || {};
                                     this.state.rowsModifiable[index] === true ?
                                         <tr key={index}>
                                             <td>
-                                                <input type="text" className="form-control"
-                                                       onChange={this.phoneNumberChange.bind(this, index)}
+                                                <input type="text" className="form-control" readOnly="readOnly"
                                                        value={phone[ATTRS.phoneNumber.name]}
                                                 />
                                             </td>

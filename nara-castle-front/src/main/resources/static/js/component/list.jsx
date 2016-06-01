@@ -76,7 +76,7 @@ castle.component.List = castle.component.List || { };
                         alert(notExistsMessage[lang]);
                         return;
                     }
-                    this.setState({castles: castlesResult});
+                    this.setState({ castles: castlesResult });
                 }.bind(this));
         },
         render() {
@@ -159,6 +159,22 @@ castle.component.List = castle.component.List || { };
         propTypes: {
             castles: React.PropTypes.array.isRequired
         },
+        renderList() {
+            //
+            let existsCastle = this.props.castles.length > 0,
+                result;
+
+
+            if (existsCastle === true) {
+                result = this.props.castles.map( function (castle, index) {
+
+                });
+            }
+            else {
+
+            }
+            return result;
+        },
         render() {
             //
             const ENUMS = CastleModel.enums,
@@ -166,7 +182,9 @@ castle.component.List = castle.component.List || { };
                 MESSAGES = castleListModel.messages,
                 LANG = MainComponent.lang;
 
-            let existsCastle = this.props.castles && this.props.castles.length > 0;
+            let existsCastle = this.props.castles.length > 0;
+
+            if (existsCastle) console.dir(this.props.castles[0]);
 
             return (
                 <div className="container">
@@ -207,9 +225,10 @@ castle.component.List = castle.component.List || { };
                                             </tr>
                                         )
                                     })
-                                    : <tr>
-                                    <td colSpan="8">{MESSAGES.notExistsMessage[LANG]}</td>
-                                </tr>
+                                    :
+                                    <tr>
+                                        <td colSpan="8">{MESSAGES.notExistsMessage[LANG]}</td>
+                                    </tr>
                                 }
                                 </tbody>
                             </table>
