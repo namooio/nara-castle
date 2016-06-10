@@ -2,42 +2,40 @@
  * Created by hkkang on 2016-04-05.
  */
 
-// Castle app components namespace
-window.castle = {
-    component: {
-        common: {}
-    },
-    common: {}
-};
+import { Object as NaraObject } from 'app/lib/nara-common';
 
+let constPublicNamespace = {};
+let domPublicNamespace = {};
 
 ( function () {
     //
     'use strict';
 
-    let publicNamespace = {};
-
-    // Import external library and module
-    let _jQuery = $,
-        commonObject = NaraCommon.Object;
-
+    //let publicNamespace = {};
 
     // Castle app constant
-    publicNamespace.Const = {};
+    constPublicNamespace = {};
 
-    commonObject.defineConstProperties(publicNamespace.Const, {
+    let hashs = window.location.hash.split('/'),
+        standAlone = (hashs.length < 2 || hashs[1] !== 'drama');
+
+
+    NaraObject.defineConstProperties(constPublicNamespace, {
         CTX: '.',
-        PAV_CTX_API: '/drama/castle',
-        PAV_CTX_RSRC: '/drama/castle',
-        PAV_CTX_HASH: '#/drama/castle'
-
+        PAV_CTX_API: standAlone ? '' : '/drama/castle',
+        PAV_CTX_RSRC: standAlone ? '' : '/drama/castle',
+        PAV_CTX_HASH: standAlone ? '' : '/drama/castle'
     });
 
+    domPublicNamespace = {};
 
-    publicNamespace.getCastleMainJDom = function () {
-        return _jQuery('#castle-drama')[0];
+    domPublicNamespace.getCastleMainJDom = function () {
+        return document.getElementById('castle-drama');
     };
 
 
-    window.castle.common = publicNamespace;
+    //window.castle.common = publicNamespace;
 })();
+
+export default { Const: constPublicNamespace, Dom: domPublicNamespace };
+export { constPublicNamespace as Const, domPublicNamespace as Dom };

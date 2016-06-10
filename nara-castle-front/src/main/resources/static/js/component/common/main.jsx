@@ -2,106 +2,64 @@
  * Created by hkkang on 2016-04-05.
  */
 
-castle.component.common.Main = castle.component.common.Main || {};
+import React, { Component } from 'react';
+import TopMenu from 'app/component/common/top-menu.jsx';
 
 
-( function () {
+'use strict';
+
+// Define component
+class MainComponent extends Component {
     //
-    'use strict';
+    constructor(props) {
+        super(props);
+        this.state = {};
 
-    // Import component module
-    let NaraReactRouter = NaraCommon.ReactRouter,
-        common = castle.common,
-        constant = castle.common.Const,
-        commonComponent = castle.component.common;
+        this.getLanguage = this.getLanguage.bind(this);
+        this.changeLanguage = this.changeLanguage.bind(this);
+    }
+    componentDidMount() {
+        let lang;
 
+        if (navigator.language) lang = navigator.language;
+        else if (navigator.browserLanguage) lang = navigator.browserLanguage;
+        else if (navigator.systemLanguage) lang = navigator.systemLanguage;
+        else if (navigator.userLanguage) lang = navigator.userLanguage;
 
-    // Define component
-    let MainPage = React.createClass({
-        //
-        statics: {
-            lang: 'KOR'
-        },
-        propTypes: {
-            contentComponent: React.PropTypes.func.isRequired,
-            params: React.PropTypes.object
-        },
-        // overriding
-        getInitialState() {
-            return {};
-        },
-        componentDidMount() {
-            let lang;
-
-            if (navigator.language) lang = navigator.language;
-            else if (navigator.browserLanguage) lang = navigator.browserLanguage;
-            else if (navigator.systemLanguage) lang = navigator.systemLanguage;
-            else if (navigator.userLanguage) lang = navigator.userLanguage;
-
-            if (lang === 'ko') {
-                lang = 'KOR';
-            }
-            else if (lang === 'en') {
-                lang = 'USA';
-            }
-
-            this.changeLanguage(lang);
-        },
-        // custom
-        getLanguage() {
-            return this.state.lang;
-        },
-        changeLanguage(lang) {
-            this.setState({ lang: lang });
-            MainPage.lang = lang;
-        },
-        render() {
-            //
-            return (
-                <div >
-                    <header>
-                        <commonComponent.TopMenu changeLanguage={this.changeLanguage} getLanguage={this.getLanguage}/>
-                    </header>
-
-                    <section>
-                        <Content contentComponent={this.props.contentComponent} params={this.props.params}/>
-                    </section>
-                </div>
-            );
+        if (lang === 'ko') {
+            lang = 'KOR';
         }
-    });
-
-
-    let Content = React.createClass({
-        //
-        propTypes: {
-            contentComponent: React.PropTypes.func.isRequired,
-            params: React.PropTypes.object
-        },
-        render() {
-            //
-            return (
-                React.createElement(this.props.contentComponent, this.props.params)
-            );
+        else if (lang === 'en') {
+            lang = 'USA';
         }
-    });
 
-    // Initialize nara router
-    let initializer = NaraReactRouter.createInitializer();
-
-    initializer.setRouterCallback( function (contentComponent, params) {
+        this.changeLanguage(lang);
+    }
+    // custom
+    getLanguage() {
+        return this.state.lang;
+    }
+    changeLanguage(lang) {
+        this.setState({lang: lang});
+        MainComponent.lang = lang;
+    }
+    render() {
         //
-        ReactDOM.render(
-            <MainPage
-                contentComponent={contentComponent}
-                params={params}
-            />, common.getCastleMainJDom());
-    });
-    initializer.addErrorPage('404', constant.PAV_CTX_RSRC + '/resources/js/component/common/error.jsx', commonComponent, 'Error');
+        return (
+            <div >
+                <header>
+                    <TopMenu changeLanguage={this.changeLanguage} getLanguage={this.getLanguage}/>
+                </header>
+
+                <section>
+                    {this.props.children}
+                </section>
+            </div>
+        );
+    }
+}
+
+MainComponent.lang = 'KOR';
 
 
-    initializer.initRouter();
-
-
-    castle.component.common.Main = MainPage;
-})();
+export default MainComponent;

@@ -2,7 +2,7 @@
  * Created by hkkang on 2016-04-07.
  */
 
-__nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {};
+//__nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {};
 
 
 /**
@@ -63,17 +63,22 @@ __nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {
  *  }
  * </pre>
  */
+import { Object as commonObject, Ajax as commonAjax } from './nara-common.js';
+
+
+let routerPublicNamespace = {};
 
 ( function () {
     //
     'use strict';
 
     let naraNamespace = __nara.namespace;
-    let publicNamespace = {};
+    //let publicNamespace = {};
 
     // Import module
-    let commonObject = __nara[naraNamespace].Object,
-        commonAjax = __nara[naraNamespace].Ajax;
+    //let commonObject = __nara[naraNamespace].Object,
+    //    commonAjax = __nara[naraNamespace].Ajax;
+
 
 
     // URL mapping type object
@@ -84,7 +89,7 @@ __nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {
         REDIRECT: 'RDR'
     });
 
-    publicNamespace.MappingType = mappingType;
+    routerPublicNamespace.MappingType = mappingType;
 
 
     // URL mapper object
@@ -188,7 +193,7 @@ __nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {
         }
     }
 
-    publicNamespace.createInitializer = function () {
+    routerPublicNamespace.createInitializer = function () {
         return new Initializer();
     };
 
@@ -199,7 +204,7 @@ __nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {
      * @param url
      * @param resources
      */
-    publicNamespace.addMapping = function (url, resources) {
+    routerPublicNamespace.addMapping = function (url, resources) {
         //
         urlMapper.addRequest(url, resources);
     };
@@ -210,7 +215,7 @@ __nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {
      * @param url
      * @param redirectUrl
      */
-    publicNamespace.addRedirect = function (url, redirectUrl) {
+    routerPublicNamespace.addRedirect = function (url, redirectUrl) {
         //
         urlMapper.addRedirect(url, redirectUrl);
     };
@@ -332,5 +337,6 @@ __nara[__nara.namespace].ReactRouter = __nara[__nara.namespace].ReactRouter || {
     };
 
 
-    __nara[naraNamespace].ReactRouter = publicNamespace;
+    //__nara[naraNamespace].ReactRouter = publicNamespace;
 })();
+export default routerPublicNamespace

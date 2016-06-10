@@ -2,187 +2,163 @@
  * Created by hkkang on 2016-04-12.
  */
 
-castle.component.Tab = castle.component.Tab || { };
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+
+import { Const as Constant } from 'app/common/castle-common';
+import MainComponent from 'app/component/common/main.jsx';
 
 
-( function () {
+'use strict';
+
+// Define Content attributes name
+const castleTabModel = {
     //
-    'use strict';
-
-    // Import component module
-    const Constant = castle.common.Const,
-        MainComponent = castle.component.common.Main,
-        castleNamespace = castle.component;
-
-
-    // Define Content attributes name
-    const castleTabModel = {
-        //
-        attrs: {
-            basic:      { name: 'basic',    KOR: '기본정보',     USA: 'Basic information' },
-            name:       { name: 'name',     KOR: '이름',         USA: 'Name' },
-            phone:      { name: 'phone',    KOR: '전화번호',     USA: 'Phone number' },
-            email:      { name: 'email',    KOR: '이메일',       USA: 'Email' },
-            address:    { name: 'address',  KOR: '주소',         USA: 'Address' },
-            account:    { name: 'account',  KOR: '계정이력',     USA: 'Account history' },
-            state:      { name: 'state',    KOR: '상태이력',     USA: 'State history' },
-            metro:      { name: 'metro',    KOR: '메트로이력',   USA: 'Metro history' }
-        }
-    };
+    attrs: {
+        'basic':        { name: 'basic',        url: 'basic',            KOR: '기본정보',     USA: 'Basic information' },
+        'nameBook':    { name: 'nameBook',     url: 'name-book',       KOR: '이름',         USA: 'Name' },
+        'phoneBook':   { name: 'phoneBook',    url: 'phone-book',      KOR: '전화번호',     USA: 'Phone number' },
+        'emailBook':   { name: 'emailBook',    url: 'email-book',      KOR: '이메일',       USA: 'Email' },
+        'addressBook': { name: 'addressBook', url: 'address-book',    KOR: '주소',         USA: 'Address' },
+        'accountBook': { name: 'accountBook', url: 'account-book',    KOR: '계정이력',     USA: 'Account history' },
+        'stateBook':   { name: 'stateBook',    url: 'state-book',      KOR: '상태이력',     USA: 'State history' },
+        'metroBook':   { name: 'metroBook',    url: 'metro-book',      KOR: '메트로이력',   USA: 'Metro history' }
+    }
+};
 
 
-    // Define components
-    let CastleDetailPage = React.createClass({
-        //
-        propTypes: {
-            id: React.PropTypes.string.isRequired,
-            contentType: React.PropTypes.string
-        },
-        getDefaultProps() {
-            return {
-                contentType: 'basic'
-            };
-        },
-        getInitialState() {
-            return {
-                castle: {
-                    contact: {
-                        nameBook: { names: [] },
-                        phoneBook: { phones: [] },
-                        emailBook: { emails: [] },
-                        addressBook: { addresses: [] }
-                    },
-                    history: {
-                        accountBook: { accounts: [] },
-                        stateBook: { states: [] },
-                        metroBook: { metros: [] }
-                    },
-                    basic: { castellan: {} }
+// Define components
+class CastleDetailPage extends Component {
+    //
+    constructor(props) {
+        super(props);
+
+        this.defaultProps = {
+            contentType: 'basic'
+        };
+
+        this.state = {
+            castle: {
+                contact: {
+                    nameBook: { names: [] },
+                    phoneBook: { phones: [] },
+                    emailBook: { emails: [] },
+                    addressBook: { addresses: [] }
                 },
-                contentModifiable: false
-            };
-        },
-        componentWillReceiveProps() {
-            this.setState({ contentModifiable: false })
-        },
-        // custom
-        changeModifiableMode() {
-            this.setState({ contentModifiable: true });
-        },
-        changeViewMode() {
-            this.setState({ contentModifiable: false });
-        },
-        setCastle(castle) {
-            this.setState({ castle: castle })
-        },
-        render() {
-            //
-            return (
-                <Tab
-                    contentType={this.props.contentType}
-                    castleId={this.props.id}
-                    castle={this.state.castle}
-                    modifiable={this.state.contentModifiable}
-                    changeModifiableMode={this.changeModifiableMode}
-                    changeViewMode={this.changeViewMode}
-                    setCastle={this.setCastle}
-                />
-            );
-        }
-    });
+                history: {
+                    accountBook: { accounts: [] },
+                    stateBook: { states: [] },
+                    metroBook: { metros: [] }
+                },
+                basic: { castellan: {} }
+            },
+            contentModifiable: false
+        };
 
-    let Tab = React.createClass({
+        this.changeModifiableMode = this.changeModifiableMode.bind(this);
+        this.changeViewMode = this.changeViewMode.bind(this);
+        this.setCastle = this.setCastle.bind(this);
+    }
+    componentWillReceiveProps() {
+        this.setState({ contentModifiable: false })
+    }
+    // custom
+    changeModifiableMode() {
+        this.setState({ contentModifiable: true });
+    }
+    changeViewMode() {
+        this.setState({ contentModifiable: false });
+    }
+    setCastle(castle) {
+        this.setState({ castle: castle })
+    }
+    render() {
         //
-        propTypes: {
-            contentType: React.PropTypes.string.isRequired,
-            castleId: React.PropTypes.string.isRequired,
-            castle: React.PropTypes.object,
-            modifiable: React.PropTypes.bool.isRequired,
+        let contentType = this.props.location.query.contentType || 'basic';
 
-            changeModifiableMode: React.PropTypes.func.isRequired,
-            changeViewMode: React.PropTypes.func.isRequired,
-            setCastle: React.PropTypes.func.isRequired
-        },
-        // custom
-        getContentByType() {
-            //
-            const TAB_NAMES = castleTabModel.attrs;
+        return (
+            <Tab
+                castleId={this.props.params.castleId}
+                contentType={contentType}
+                contentComponent={React.cloneElement(this.props.children, {
+                    castleId: this.props.params.castleId,
+                    castle: this.state.castle,
+                    modifiable: this.state.contentModifiable,
+                    changeModifiableMode: this.changeModifiableMode,
+                    changeViewMode: this.changeViewMode,
+                    setCastle: this.setCastle
+                })}
+            />
+        );
+    }
+}
 
-            switch (this.props.contentType) {
-                case TAB_NAMES.basic.name:
-                    return castleNamespace.Basic;
-                case TAB_NAMES.name.name:
-                    return castleNamespace.NameBook;
-                case TAB_NAMES.phone.name:
-                    return castleNamespace.PhoneBook;
-                case TAB_NAMES.email.name:
-                    return castleNamespace.EmailBook;
-                case TAB_NAMES.address.name:
-                    return castleNamespace.AddressBook;
-                case TAB_NAMES.account.name:
-                    return castleNamespace.AccountBook;
-                case TAB_NAMES.state.name:
-                    return castleNamespace.StateBook;
-                case TAB_NAMES.metro.name:
-                    return castleNamespace.MetroBook;
-            }
-        },
-        render() {
-            const TAB_NAMES = castleTabModel.attrs,
-                LANG = MainComponent.lang;
-
-            let contentComponent = this.getContentByType();
+CastleDetailPage.propTypes = {
+    contentType: PropTypes.string
+};
 
 
-            return (
-                <div className="container">
-                    <div className="panel panel-success">
-                        <div className="panel-body">
-                            <ul className="nav nav-tabs">
-                                <li className={ this.props.contentType === TAB_NAMES.basic.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/basic?contentType=" + TAB_NAMES.basic.name + '&id=' + this.props.castleId}>{TAB_NAMES.basic[LANG]}</a>
-                                </li>
-                                <li className={ this.props.contentType === TAB_NAMES.name.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/contact/name-book?contentType=" + TAB_NAMES.name.name + '&id=' + this.props.castleId}>{TAB_NAMES.name[LANG]}</a>
-                                </li>
-                                <li className={ this.props.contentType === TAB_NAMES.phone.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/contact/phone-book?contentType=" + TAB_NAMES.phone.name + '&id=' + this.props.castleId}>{TAB_NAMES.phone[LANG]}</a>
-                                </li>
-                                <li className={ this.props.contentType === TAB_NAMES.email.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/contact/email-book?contentType=" + TAB_NAMES.email.name + '&id=' + this.props.castleId}>{TAB_NAMES.email[LANG]}</a>
-                                </li>
-                                <li className={ this.props.contentType === TAB_NAMES.address.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/contact/address-book?contentType=" + TAB_NAMES.address.name + '&id=' + this.props.castleId}>{TAB_NAMES.address[LANG]}</a>
-                                </li>
-                                <li className={ this.props.contentType === TAB_NAMES.account.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/history/account-book?contentType=" + TAB_NAMES.account.name + '&id=' + this.props.castleId}>{TAB_NAMES.account[LANG]}</a>
-                                </li>
-                                <li className={ this.props.contentType === TAB_NAMES.state.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/history/state-book?contentType=" + TAB_NAMES.state.name + '&id=' + this.props.castleId}>{TAB_NAMES.state[LANG]}</a>
-                                </li>
-                                <li className={ this.props.contentType === TAB_NAMES.metro.name ? "active" : null }>
-                                    <a href={Constant.PAV_CTX_HASH + "/castle/history/metro-book?contentType=" + TAB_NAMES.metro.name + '&id=' + this.props.castleId}>{TAB_NAMES.metro[LANG]}</a>
-                                </li>
-                            </ul>
-                            <div className="tab-content">
-                                <div className="tab-pane active">
-                                    { React.createElement(contentComponent, {
-                                        castleId: this.props.castleId,
-                                        castle: this.props.castle,
-                                        modifiable: this.props.modifiable,
-                                        changeModifiableMode: this.props.changeModifiableMode,
-                                        changeViewMode: this.props.changeViewMode,
-                                        setCastle: this.props.setCastle
-                                    }) }
-                                </div>
+class Tab extends Component {
+    //
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        //
+        const TAB_NAMES = castleTabModel.attrs,
+            LANG = MainComponent.lang;
+
+        let contentType = this.props.contentType,
+            baseLinkUrl = `${Constant.PAV_CTX_HASH}/castle/${this.props.castleId}`;
+
+        return (
+            <div className="container">
+                <div className="panel panel-success">
+                    <div className="panel-body">
+                        <ul className="nav nav-tabs">
+                            <li className={ contentType === TAB_NAMES.basic.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.basic.url}?contentType=${TAB_NAMES.basic.name}`}>{TAB_NAMES.basic[LANG]}</Link>
+                            </li>
+                            <li className={ contentType === TAB_NAMES.nameBook.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.nameBook.url}?contentType=${TAB_NAMES.nameBook.name}`}>{TAB_NAMES.nameBook[LANG]}</Link>
+                            </li>
+                            <li className={ contentType === TAB_NAMES.phoneBook.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.phoneBook.url}?contentType=${TAB_NAMES.phoneBook.name}`}>{TAB_NAMES.phoneBook[LANG]}</Link>
+                            </li>
+                            <li className={ contentType === TAB_NAMES.emailBook.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.emailBook.url}?contentType=${TAB_NAMES.emailBook.name}`}>{TAB_NAMES.emailBook[LANG]}</Link>
+                            </li>
+                            <li className={ contentType === TAB_NAMES.addressBook.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.addressBook.url}?contentType=${TAB_NAMES.addressBook.name}`}>{TAB_NAMES.addressBook[LANG]}</Link>
+                            </li>
+                            <li className={ contentType === TAB_NAMES.accountBook.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.accountBook.url}?contentType=${TAB_NAMES.accountBook.name}`}>{TAB_NAMES.accountBook[LANG]}</Link>
+                            </li>
+                            <li className={ contentType === TAB_NAMES.stateBook.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.stateBook.url}?contentType=${TAB_NAMES.stateBook.name}`}>{TAB_NAMES.stateBook[LANG]}</Link>
+                            </li>
+                            <li className={ contentType === TAB_NAMES.metroBook.name ? "active" : null }>
+                                <Link to={`${baseLinkUrl}/${TAB_NAMES.metroBook.url}?contentType=${TAB_NAMES.metroBook.name}`}>{TAB_NAMES.metroBook[LANG]}</Link>
+                            </li>
+                        </ul>
+                        <div className="tab-content">
+                            <div className="tab-pane active">
+                                {this.props.contentComponent}
                             </div>
                         </div>
                     </div>
                 </div>
-            );
-        }
-    });
+            </div>
+        );
+    }
+}
+
+Tab.propTypes = {
+    //
+    castleId: PropTypes.string.isRequired,
+    contentType: PropTypes.string.isRequired,
+    contentComponent: PropTypes.object.isRequired
+};
 
 
-    castle.component.Tab = CastleDetailPage;
-})();
+export default CastleDetailPage;

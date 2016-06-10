@@ -2,77 +2,84 @@
  * Created by hkkang on 2016-04-05.
  */
 
-castle.component.common.TopMenu = castle.component.common.TopMenu || {};
+//castle.component.common.TopMenu = castle.component.common.TopMenu || {};
+
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import { Const as Constant } from 'app/common/castle-common';
 
 
-( function () {
+'use strict';
+
+// Define attributes name
+const CastleTopMenuModel = {
     //
-    'use strict';
+    attrs: {
+        castles: { KOR: '목록', USA: 'List'}
+    }
+};
 
-    const constant = castle.common.Const;
 
-    // Define attributes name
-    const CastleTopMenuModel = {
+/**
+ * Castle 공통 상단 메뉴 컴포넌트
+ */
+class TopMenu extends Component {
+    //
+    constructor(props) {
+        super(props);
+
+        this.changeLanguageClick = this.changeLanguageClick.bind(this);
+    }
+    // event
+    changeLanguageClick(event) {
+        let lang = $(event.target).data('lang');
+        this.props.changeLanguage(lang);
+    }
+    render() {
         //
-        attrs: {
-            castles: { KOR: '목록', USA: 'List'}
+        let MENUS = CastleTopMenuModel.attrs,
+            lang = this.props.getLanguage(),
+            displayLang;
+
+        if (lang === 'KOR') {
+            displayLang = '한국어';
         }
-    };
+        else if (lang === 'USA') {
+            displayLang = 'English';
+        }
 
-
-    /**
-     * Castle 공통 상단 메뉴 컴포넌트
-     */
-    let TopMenu = React.createClass({
-        //
-        propTypes: {
-            changeLanguage: React.PropTypes.func.isRequired
-        },
-        // event
-        changeLanguageClick(event) {
-            let lang = $(event.target).data('lang');
-            this.props.changeLanguage(lang);
-        },
-        render() {
-            //
-            let MENUS = CastleTopMenuModel.attrs,
-                lang = this.props.getLanguage(),
-                displayLang;
-
-            if (lang === 'KOR') {
-                displayLang = '한국어';
-            }
-            else if (lang === 'USA') {
-                displayLang = 'English';
-            }
-
-            return (
-                <nav className="navbar navbar-inverse navbar-static-top">
-                    <div className="container">
-                        <div className="navbar-header">
-                            <a className="navbar-brand" href={constant.PAV_CTX_HASH}>Castle</a>
-                        </div>
-                        <div className="collapse navbar-collapse">
-                            <ui className="nav navbar-nav">
-                                <li><a href={constant.PAV_CTX_HASH + "/castles"}>{MENUS.castles[lang]}</a></li>
-                            </ui>
-                            <ul className="nav navbar-nav navbar-right">
-                                <li className="dropdown">
-                                    <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                                        Language ({displayLang}) <span className="caret"/>
-                                    </a>
-                                    <ul className="dropdown-menu" role="menu">
-                                        <li><a href="javascript:" onClick={this.changeLanguageClick} data-lang="KOR">한국어</a></li>
-                                        <li><a href="javascript:" onClick={this.changeLanguageClick} data-lang="USA">English</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+        return (
+            <nav className="navbar navbar-inverse navbar-static-top">
+                <div className="container">
+                    <div className="navbar-header">
+                        <Link activeClassName="navbar-brand" to={`${Constant.PAV_CTX_HASH}/`}>Castle</Link>
                     </div>
-                </nav>
-            );
-        }
-    });
+                    <div className="collapse navbar-collapse">
+                        <ui className="nav navbar-nav">
+                            <li><Link to={`${Constant.PAV_CTX_HASH}/castles`}>{MENUS.castles[lang]}</Link></li>
+                        </ui>
+                        <ul className="nav navbar-nav navbar-right">
+                            <li className="dropdown">
+                                <a href="javascript:" className="dropdown-toggle" data-toggle="dropdown"
+                                   role="button" aria-expanded="false">
+                                    Language ({displayLang}) <span className="caret"/>
+                                </a>
+                                <ul className="dropdown-menu" role="menu">
+                                    <li><a href="javascript:" onClick={this.changeLanguageClick}
+                                           data-lang="KOR">한국어</a></li>
+                                    <li><a href="javascript:" onClick={this.changeLanguageClick} data-lang="USA">English</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        );
+    }
+}
 
-    castle.component.common.TopMenu = TopMenu;
-})();
+TopMenu.propTypes = { changeLanguage: PropTypes.func.isRequired };
+
+
+export default TopMenu;

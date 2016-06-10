@@ -2,15 +2,14 @@
  * Created by hkkang on 2016-04-12.
  */
 
-castle.common.Model = castle.common.Model || {};
-
+let CastleModel = {};
 
 ( function () {
     //
     'use strict';
 
-    // Define Content attributes name
-    const CastleModel = {
+    CastleModel = {
+        //
         buttons: {
             search:     { KOR: '검색',        USA: 'Search' },
             save:       { KOR: '저장',        USA: 'Save' },
@@ -58,6 +57,7 @@ castle.common.Model = castle.common.Model || {};
         }
     };
 
-
-    castle.common.Model = CastleModel;
 })();
+
+
+export default CastleModel;

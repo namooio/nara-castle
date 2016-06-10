@@ -2,25 +2,26 @@
  * Created by hkkang on 2016-04-28.
  */
 
-let naraNamespace = 'NaraCommon';
+let naraContextNamespace = 'NaraCommon';
 
-window.__nara = {
-    namespace: naraNamespace,
-    [naraNamespace]: {}
-};
-window[naraNamespace] = window.__nara[naraNamespace];
+//window.__nara = {
+//    namespace: naraNamespace,
+//    [naraNamespace]: {}
+//};
+//window[naraNamespace] = window.__nara[naraNamespace];
 
+let objectPublicNamespace = {};
 
 // Object util
 ( function () {
     //
     'use strict';
 
-    let naraNamespace = __nara.namespace;
-    let publicNamespace = {};
+    let naraNamespace = naraContextNamespace;
+    //let publicNamespace = {};
 
 
-    publicNamespace.defineConstProperty = function (obj, name, value) {
+    objectPublicNamespace.defineConstProperty = function (obj, name, value) {
         //
         Object.defineProperty(obj, name, {
             value: value,
@@ -30,22 +31,22 @@ window[naraNamespace] = window.__nara[naraNamespace];
         });
     };
 
-    publicNamespace.defineConstProperties = function (obj, nameValues) {
+    objectPublicNamespace.defineConstProperties = function (obj, nameValues) {
         //
         Object.keys(nameValues).forEach(function (name) {
-            publicNamespace.defineConstProperty(obj, name, nameValues[name]);
+            objectPublicNamespace.defineConstProperty(obj, name, nameValues[name]);
         });
     };
 
-    publicNamespace.isEmpty = function (object) {
+    objectPublicNamespace.isEmpty = function (object) {
         //
         return (!object || Object.keys(object).length === 0);
     };
 
-    publicNamespace.deepCopy = function (source) {
+    objectPublicNamespace.deepCopy = function (source) {
         //
         if (!source || typeof source !== 'object') {
-            console.warn('Source is not array or object. > ' + naraNamespace + '.Object.deepCopy');
+            console.warn(`Source is not array or object. > ${naraNamespace}.Object.deepCopy`);
             return;
         }
         return deepCopy(source);
@@ -74,18 +75,21 @@ window[naraNamespace] = window.__nara[naraNamespace];
         return result;
     };
 
-    __nara[__nara.namespace].Object = publicNamespace;
+    //__nara[__nara.namespace].Object = publicNamespace;
 })();
+export { objectPublicNamespace as Object };
 
+
+let datePublicNamespace = {};
 
 // Date util
 ( function () {
     //
     'use strict';
 
-    let publicNamespace = {};
+    //let publicNamespace = {};
 
-    publicNamespace.parseToString = function (date) {
+    datePublicNamespace.parseToString = function (date) {
         //
         if (!date) {
             return null;
@@ -93,22 +97,31 @@ window[naraNamespace] = window.__nara[naraNamespace];
         return new Date(date).toLocaleString();
     };
 
-    __nara[__nara.namespace].Date = publicNamespace;
+    //__nara[__nara.namespace].Date = publicNamespace;
 })();
+export { datePublicNamespace as Date };
 
+
+import * as _jQuery from 'jquery';
+//import { transform as _jsxTransform } from 'babel-core';
+//let babel = require('babel-core');
+//let _jsxTransform = babel.transform;
+
+let ajaxPublicNamespace = {};
 
 // Ajax util
 ( function () {
     //
     'use strict';
 
-    let naraNamespace = __nara.namespace;
-    let publicNamespace = {};
+    let naraNamespace = naraContextNamespace;
+    //let publicNamespace = {};
 
     // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
     // Import external library
-    let _jQuery = jQuery,
-        _jsxTransform = babel.transform;
+    //let _jQuery = jQuery,
+    //    _jsxTransform = babel.transform;
+
 
 
     class UrlBuilder {
@@ -127,7 +140,7 @@ window[naraNamespace] = window.__nara[naraNamespace];
         }
     }
 
-    publicNamespace.createUrlBuilder = function () {
+    ajaxPublicNamespace.createUrlBuilder = function () {
         //
         return new UrlBuilder();
     };
@@ -142,20 +155,20 @@ window[naraNamespace] = window.__nara[naraNamespace];
      * @param param
      * @returns {*}
      */
-    publicNamespace.getJSON = function (url, param) {
+    ajaxPublicNamespace.getJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
-            console.error('Invalid url for ' + naraNamespace + ' Ajax getJSON -> url: ' + url + ', param: ' + param);
+            console.error(`Invalid url for ${naraNamespace} Ajax getJSON -> url: ${url}, param: ${param}`);
         }
         return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
             return jsonResult;
         });
     };
 
-    publicNamespace.getJSONs = function (urlParams, callback) {
+    ajaxPublicNamespace.getJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for ' + naraNamespace + ' Ajax getJSONs -> urlParams: ' + urlParams);
+            console.error(`Invalid url for ${naraNamespace} Ajax getJSONs -> urlParams: ${urlParams}`);
         }
         return commonRequestJsons(urlParams, callback, 'GET');
     };
@@ -169,50 +182,50 @@ window[naraNamespace] = window.__nara[naraNamespace];
      * @param param
      * @returns {*}
      */
-    publicNamespace.postJSON = function (url, param) {
+    ajaxPublicNamespace.postJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
-            console.error('Invalid arguments for ' + naraNamespace + ' Ajax postJSON -> url: ' + url + ', param: ' + param);
+            console.error(`Invalid arguments for ${naraNamespace} Ajax postJSON -> url: ${url}, param: ${param}`);
         }
         return commonRequestJson(url, 'POST', param);
     };
 
-    publicNamespace.postJSONs = function (urlParams, callback) {
+    ajaxPublicNamespace.postJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for ' + naraNamespace + ' Ajax postJSONs -> urlParams: ' + urlParams);
+            console.error(`Invalid url for ${naraNamespace} Ajax postJSONs -> urlParams: ${urlParams}`);
         }
         return commonRequestJsons(urlParams, callback, 'POST');
     };
 
-    publicNamespace.putJSON = function (url, param) {
+    ajaxPublicNamespace.putJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string' || !param) {
-            console.error('Invalid arguments for ' + naraNamespace + ' Ajax putJSON -> url: ' + url + ', param: ' + param);
+            console.error(`Invalid arguments for ${naraNamespace} Ajax putJSON -> url: ${url}, param: ${param}`);
         }
         return commonRequestJson(url, 'PUT', param);
     };
 
-    publicNamespace.putJSONs = function (urlParams, callback) {
+    ajaxPublicNamespace.putJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for ' + naraNamespace + ' Ajax putJSONs -> urlParams: ' + urlParams);
+            console.error(`Invalid url for ${naraNamespace} Ajax putJSONs -> urlParams: ${urlParams}`);
         }
         return commonRequestJsons(urlParams, callback, 'PUT');
     };
 
-    publicNamespace.deleteJSON = function (url, param) {
+    ajaxPublicNamespace.deleteJSON = function (url, param) {
         //
         if (!url || typeof url !== 'string') {
-            console.error('Invalid arguments for ' + naraNamespace + ' Ajax deleteJSON -> url: ' + url + ', param: ' + param);
+            console.error(`Invalid arguments for ${naraNamespace} Ajax deleteJSON -> url: ${url}, param: ${param}`);
         }
         return commonRequestJson(url, 'DELETE', param);
     };
 
-    publicNamespace.deleteJSONs = function (urlParams, callback) {
+    ajaxPublicNamespace.deleteJSONs = function (urlParams, callback) {
         //
         if (!urlParams || !Array.isArray(urlParams)) {
-            console.error('Invalid url for ' + naraNamespace + ' Ajax deleteJSONs -> urlParams: ' + urlParams);
+            console.error(`Invalid url for ${naraNamespace} Ajax deleteJSONs -> urlParams: ${urlParams}`);
         }
         return commonRequestJsons(urlParams, callback, 'DELETE');
     };
@@ -220,7 +233,7 @@ window[naraNamespace] = window.__nara[naraNamespace];
     let commonRequestJson = function (url, method, param) {
         //
         if (!url || typeof url !== 'string') {
-            console.error('Invalid arguments for ' + naraNamespace + ' Ajax JSON -> url: ' + url + ', param: ' + param);
+            console.error(`Invalid arguments for ${naraNamespace} Ajax JSON -> url: ${url}, param: ${param}`);
         }
 
         let jqAjaxReq = {
@@ -299,12 +312,12 @@ window[naraNamespace] = window.__nara[naraNamespace];
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional, this param is callback when exists param1
      */
-    publicNamespace.getScript = function (url, param1, param2) {
+    ajaxPublicNamespace.getScript = function (url, param1, param2) {
         //
         if (!url || typeof url !== 'string') {
-            alert('Invalid url for ' + naraNamespace + ' Ajax getScript -> url: ' + url);
+            console.error(`Invalid url for ${naraNamespace} Ajax getScript -> url: ${url}`);
         }
-        publicNamespace.getScripts([url], param1, param2);
+        ajaxPublicNamespace.getScripts([url], param1, param2);
     };
 
     /**
@@ -318,14 +331,14 @@ window[naraNamespace] = window.__nara[naraNamespace];
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional callback when param1 exists
      */
-    publicNamespace.getScripts = function (urlArray, param1, param2) {
+    ajaxPublicNamespace.getScripts = function (urlArray, param1, param2) {
         //
         let callback,
             callbackCallable = false,
             settings = { async: true };
 
         if (!urlArray || !Array.isArray(urlArray) || urlArray.length === 0) {
-            alert('Invalid url for ' + naraNamespace + ' Ajax getScripts -> urlArray: ' + urlArray);
+            console.error(`Invalid url for ${naraNamespace} Ajax getScripts -> urlArray: ${urlArray}`);
         }
 
         if (param1 && typeof param1 === 'function') {
@@ -351,8 +364,8 @@ window[naraNamespace] = window.__nara[naraNamespace];
 
             // Script exists in cache
             if (cached) {
-                console.info('Execute cached script -> ' + url);
-                _jsxTransform.run(cached.script);
+                console.info(`Execute cached script -> ${url}`);
+                //_jsxTransform.run(cached.script);
             }
             // Not exists
             else {
@@ -364,7 +377,7 @@ window[naraNamespace] = window.__nara[naraNamespace];
                     dataType: 'text',
                     contentType: 'text/plain',
                     error: function (result) {
-                        console.error('Failed  get script at ' + naraNamespace + ' Ajax -> url: ' + this.url + ', dataType: ' + this.dataType);
+                        console.error(`Failed  get script at ${naraNamespace} Ajax -> url: ${this.url}, dataType: ${this.dataType}`);
                         console.log(result);
                     }
                 });
@@ -383,9 +396,9 @@ window[naraNamespace] = window.__nara[naraNamespace];
                         ajaxResult = ajaxResults[i],
                         resultScript = ajaxResult[0];
 
-                    console.info('Execute script from server -> ' + url);
+                    console.info(`Execute script from server -> ${url}`);
                     scriptCache.add(url, resultScript);
-                    _jsxTransform.run(resultScript);
+                    //_jsxTransform.run(resultScript);
                 }
 
                 if (callbackCallable) {
@@ -400,29 +413,43 @@ window[naraNamespace] = window.__nara[naraNamespace];
         }
     };
 
-    publicNamespace.getHtml = function (url, callback) {
+    ajaxPublicNamespace.getHtml = function (url, callback) {
         //
         return _jQuery.get(url, callback, 'html');
     };
 
-    __nara[naraNamespace].Ajax = publicNamespace;
+    //__nara[naraNamespace].Ajax = publicNamespace;
 })();
+export { ajaxPublicNamespace as Ajax };
 
+
+import { Object as NaraObject } from 'app/lib/nara-common';
+console.dir(NaraObject);
+let constantPublicNamespace = {};
 
 // Nara common constant
 ( function () {
     //
     'use strict';
 
-    let publicNamespace = {};
+    //let publicNamespace = {};
 
-    let naraObject = __nara[__nara.namespace].Object;
+    //let naraObject = __nara[__nara.namespace].Object;
 
 
-    naraObject.defineConstProperties(publicNamespace, {
+    //naraObject.defineConstProperties(constantPublicNamespace, {
+    objectPublicNamespace.defineConstProperties(constantPublicNamespace, {
         CTX: ','
     });
 
 
-    __nara[__nara.namespace].Const = publicNamespace;
+    //__nara[__nara.namespace].Const = publicNamespace;
 })();
+export { constantPublicNamespace as Const };
+
+export default {
+    Object: objectPublicNamespace,
+    Ajax: ajaxPublicNamespace,
+    Date: datePublicNamespace,
+    Const: constantPublicNamespace
+};
