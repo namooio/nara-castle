@@ -2,7 +2,7 @@
  * Created by hkkang on 2016-04-28.
  */
 
-let naraContextNamespace = 'NaraCommon';
+window.naraContextNamespace = 'NaraCommon';
 
 //window.__nara = {
 //    namespace: naraNamespace,
@@ -160,7 +160,7 @@ let ajaxPublicNamespace = {};
         if (!url || typeof url !== 'string') {
             console.error(`Invalid url for ${naraNamespace} Ajax getJSON -> url: ${url}, param: ${param}`);
         }
-        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
+        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult) {
             return jsonResult;
         });
     };

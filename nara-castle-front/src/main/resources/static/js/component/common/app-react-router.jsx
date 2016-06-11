@@ -11,7 +11,6 @@ import { Dom as CastleDom, Const as Constant } from 'app/common/castle-common';
 // Routes
 import MainComponent from 'app/component/common/main.jsx';
 import NotFound from 'app/component/common/error.jsx';
-import TopMenu from 'app/component/common/top-menu.jsx';
 import Castles from 'app/component/list.jsx';
 
 import DetailTab from 'app/component/detail-tab.jsx';
@@ -48,4 +47,4 @@ ReactDOM.render((
             <Route path="*" component={NotFound}/>
         </Route>
     </Router>
-), CastleDom.getCastleMainJDom());
+), CastleDom.getCastleMainDom());

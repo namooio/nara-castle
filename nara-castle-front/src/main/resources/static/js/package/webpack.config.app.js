@@ -12,7 +12,7 @@ module.exports = {
         app: './app.js'
     },
     resolve: {
-        moduleDirectories: ['node_moduels'],
+        moduleDirectories: ['node_modules'],
         extensions: ['', '.js', '.jsx'],
         alias:  {
             'app' : path.join(__dirname, '../')
@@ -42,10 +42,10 @@ module.exports = {
         ]
     },
     externals : {
-        'jquery': 'lib.jQuery',
-        'react': 'lib.React',
-        'react-dom': 'lib.ReactDOM',
-        'react-router': 'lib.ReactRouter'
+        'jquery': 'castleLib.jQuery',
+        'react': 'castleLib.React',
+        'react-dom': 'castleLib.ReactDOM',
+        'react-router': 'castleLib.ReactRouter'
     }
 
 };

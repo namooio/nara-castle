@@ -8,11 +8,11 @@ var webpack = require('webpack');
 module.exports = {
     //
     entry: {
-        lib: ['jquery', 'bootstra', 'react', 'react-dom', 'react-router'],
+        lib: ['jquery', 'bootstrap', 'react', 'react-dom', 'react-router'],
         app: './app.js'
     },
     resolve: {
-        moduleDirectories: ['node_moduels'],
+        moduleDirectories: ['node_modules'],
         extensions: ['', '.js', '.jsx'],
         alias:  {
             'app' : path.join(__dirname, '../')

@@ -2,8 +2,6 @@
  * Created by hkkang on 2016-04-05.
  */
 
-//castle.component.common.TopMenu = castle.component.common.TopMenu || {};
-
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Const as Constant } from 'app/common/castle-common';
@@ -79,7 +77,9 @@ class TopMenu extends Component {
     }
 }
 
-TopMenu.propTypes = { changeLanguage: PropTypes.func.isRequired };
+TopMenu.propTypes = {
+    changeLanguage: PropTypes.func.isRequired
+};
 
 
 export default TopMenu;

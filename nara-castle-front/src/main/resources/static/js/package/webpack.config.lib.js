@@ -12,7 +12,7 @@ module.exports = {
         lib: './lib.js'
     },
     resolve: {
-        moduleDirectories: ['node_moduels'],
+        moduleDirectories: ['node_modules'],
         extensions: ['', '.js', '.jsx'],
         alias:  {
             'app' : path.join(__dirname, '../')
@@ -21,7 +21,7 @@ module.exports = {
     output: {
         filename: '../[name]-bundle.js',
         libraryTarget: 'window',
-        library: 'lib'
+        library: 'castleLib'
     },
     //plugins: [
     //    new webpack.optimize.CommonsChunkPlugin({

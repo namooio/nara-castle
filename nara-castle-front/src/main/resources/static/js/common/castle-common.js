@@ -29,7 +29,7 @@ let domPublicNamespace = {};
 
     domPublicNamespace = {};
 
-    domPublicNamespace.getCastleMainJDom = function () {
+    domPublicNamespace.getCastleMainDom = function () {
         return document.getElementById('castle-drama');
     };
 
