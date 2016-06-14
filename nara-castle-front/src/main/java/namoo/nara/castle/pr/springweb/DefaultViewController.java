@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DefaultViewController {
     //
     @RequestMapping("/")
-    public String main(@RequestParam("townerId") String townerId) {
-        System.out.println(townerId);
+    public String main(@RequestParam("townId") String townId, @RequestParam("townerId") String townerId) {
+        //
+        System.out.println("townId: " + townId + ", townerId: " + townerId);
         return "/resources/index.html";
     }
 

@@ -147,7 +147,7 @@
 	 * Created by hkkang on 2016-04-28.
 	 */
 
-	var naraContextNamespace = 'NaraCommon';
+	window.naraContextNamespace = 'NaraCommon';
 
 	//window.__nara = {
 	//    namespace: naraNamespace,
@@ -311,7 +311,7 @@
 	        if (!url || typeof url !== 'string') {
 	            console.error('Invalid url for ' + naraNamespace + ' Ajax getJSON -> url: ' + url + ', param: ' + param);
 	        }
-	        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
+	        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult) {
 	            return jsonResult;
 	        });
 	    };
@@ -612,7 +612,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	module.exports = lib.jQuery;
+	module.exports = castleLib.jQuery;
 
 /***/ },
 /* 3 */
@@ -655,7 +655,7 @@
 
 	    exports.Dom = domPublicNamespace = {};
 
-	    domPublicNamespace.getCastleMainJDom = function () {
+	    domPublicNamespace.getCastleMainDom = function () {
 	        return document.getElementById('castle-drama');
 	    };
 
@@ -848,7 +848,7 @@
 /* 6 */
 /***/ function(module, exports) {
 
-	module.exports = lib.React;
+	module.exports = castleLib.React;
 
 /***/ },
 /* 7 */
@@ -879,8 +879,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-05.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-	//castle.component.common.TopMenu = castle.component.common.TopMenu || {};
 
 	'use strict';
 
@@ -1012,7 +1010,9 @@
 	    return TopMenu;
 	}(_react.Component);
 
-	TopMenu.propTypes = { changeLanguage: _react.PropTypes.func.isRequired };
+	TopMenu.propTypes = {
+	    changeLanguage: _react.PropTypes.func.isRequired
+	};
 
 	exports.default = TopMenu;
 
@@ -1020,7 +1020,7 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = lib.ReactRouter;
+	module.exports = castleLib.ReactRouter;
 
 /***/ },
 /* 9 */
@@ -1047,10 +1047,6 @@
 	var _error = __webpack_require__(11);
 
 	var _error2 = _interopRequireDefault(_error);
-
-	var _topMenu = __webpack_require__(7);
-
-	var _topMenu2 = _interopRequireDefault(_topMenu);
 
 	var _list = __webpack_require__(12);
 
@@ -1094,12 +1090,12 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	'use strict';
-
 	// Routes
 	/**
 	 * Created by hkkang on 2016-04-05.
 	 */
+
+	'use strict';
 
 	var CTX = _castleCommon.Const.PAV_CTX_HASH,
 	    appRootPath = CTX ? CTX : '/';
@@ -1125,13 +1121,13 @@
 	        ),
 	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _error2.default })
 	    )
-	), _castleCommon.Dom.getCastleMainJDom());
+	), _castleCommon.Dom.getCastleMainDom());
 
 /***/ },
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = lib.ReactDOM;
+	module.exports = castleLib.ReactDOM;
 
 /***/ },
 /* 11 */

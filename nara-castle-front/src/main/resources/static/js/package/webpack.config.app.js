@@ -45,7 +45,8 @@ module.exports = {
         'jquery': 'castleLib.jQuery',
         'react': 'castleLib.React',
         'react-dom': 'castleLib.ReactDOM',
-        'react-router': 'castleLib.ReactRouter'
+        'react-router': 'castleLib.ReactRouter',
+        'react-bootstrap': 'castleLib.ReactBootstrap'
     }
 
 };
