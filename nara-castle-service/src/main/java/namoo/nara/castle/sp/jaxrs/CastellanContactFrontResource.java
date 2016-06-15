@@ -1,21 +1,28 @@
 package namoo.nara.castle.sp.jaxrs;
 
 import namoo.nara.castle.domain.service.CastleServiceLycler;
-import namoo.nara.castle.front.dto.contact.*;
+import namoo.nara.castle.front.dto.contact.AddressBookDto;
+import namoo.nara.castle.front.dto.contact.EmailBookDto;
+import namoo.nara.castle.front.dto.contact.NameBookDto;
+import namoo.nara.castle.front.dto.contact.PhoneBookDto;
+import namoo.nara.castle.front.dto.contact.UserAddressDto;
 import namoo.nara.castle.front.logic.CastellanContactFrontServiceLogic;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-import javax.ws.rs.*;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-@Controller
+//@Controller
 @Path("front/castellans/{id}/contacts")
 public class CastellanContactFrontResource extends CastellanContactFrontServiceLogic {
     //
-    @Autowired
+//    @Autowired
     public CastellanContactFrontResource(CastleServiceLycler serviceLycler) {
         super(serviceLycler);
     }

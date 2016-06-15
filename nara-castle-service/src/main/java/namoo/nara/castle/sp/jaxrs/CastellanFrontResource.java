@@ -3,8 +3,6 @@ package namoo.nara.castle.sp.jaxrs;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.front.dto.CastellanFindDto;
 import namoo.nara.castle.front.logic.CastellanFrontServiceLogic;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -14,11 +12,11 @@ import javax.ws.rs.PathParam;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-@Controller
+//@Controller
 @Path("front/castellans/{id}")
 public class CastellanFrontResource extends CastellanFrontServiceLogic {
 
-    @Autowired
+//    @Autowired
     public CastellanFrontResource(CastleServiceLycler castleServiceLycler) {
         super(castleServiceLycler);
     }

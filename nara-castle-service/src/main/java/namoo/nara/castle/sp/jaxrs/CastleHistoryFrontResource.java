@@ -5,19 +5,21 @@ import namoo.nara.castle.front.dto.history.AccountBookDto;
 import namoo.nara.castle.front.dto.history.CastleStateBookDto;
 import namoo.nara.castle.front.dto.history.MetroBookDto;
 import namoo.nara.castle.front.logic.CastleHistoryFrontServiceLogic;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-import javax.ws.rs.*;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-@Controller
+//@Controller
 @Path("front/castles/{id}/histories")
 public class CastleHistoryFrontResource extends CastleHistoryFrontServiceLogic {
 
-    @Autowired
+//    @Autowired
     public CastleHistoryFrontResource(CastleServiceLycler serviceLycler) {
         super(serviceLycler);
     }

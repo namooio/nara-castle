@@ -14,6 +14,12 @@ public enum CastleServiceUrl implements NaraServiceUrl {
     URL_REP_CASTLE_METRO_ADD                    ("rep/castles/{id}/metro/{metroId}",                    HttpMethod.POST     ),
 
 
+    URL_STAGE_FIND_PLAYERS                      ("front/stage/players",                                 HttpMethod.GET      ),
+    URL_STAGE_SAVE_ROLE_BOOK                    ("front/stage/rolebooks",                               HttpMethod.POST     ),
+    URL_STAGE_FIND_ROLE_BOOK                    ("front/stage/rolebooks/castingId/{castingId}",     HttpMethod.GET      ),
+    URL_STAGE_FIND_ALL_ROLES                    ("front/stage/roles",                                   HttpMethod.GET      ),
+    URL_STAGE_FIND_ROLES_BY_PLYAER              ("front/stage/roles/castingId/{castingId}/plyaerId/{playerId}",     HttpMethod.GET),
+
     URL_ALL_CASTLES_FIND                        ("front/castles",                                       HttpMethod.GET      ),
     URL_CASTLE_FIND                             ("front/castles/{id}",                                  HttpMethod.GET      ),
     URL_CASTLE_SUSPEND                          ("front/castles/{id}/suspend",                          HttpMethod.PUT      ),

@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import { Ajax as NaraAjax, Date as NaraDate } from 'app/lib/nara-common';
-import { Const as Constant } from 'app/common/castle-common';
+import { Constant } from 'app/common/castle-common';
 import CastleModel from 'app/common/castle-model';
 import MainComponent from 'app/component/common/main.jsx';
 

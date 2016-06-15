@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, hashHistory, Link } from 'react-router';
 
-import { Dom as CastleDom, Const as Constant } from 'app/common/castle-common';
+import { Constantant, Dom as CastleDom } from 'app/common/castle-common';
 
 // Routes
 import MainComponent from 'app/component/common/main.jsx';

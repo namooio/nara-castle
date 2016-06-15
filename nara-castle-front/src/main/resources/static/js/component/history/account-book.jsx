@@ -4,7 +4,7 @@
 
 import React, { Component, PropTypes} from 'react';
 import { Ajax as NaraAjax, Date as NaraDate } from 'app/lib/nara-common';
-import { Const as Constant } from 'app/common/castle-common';
+import { Constant } from 'app/common/castle-common';
 import MainComponent from 'app/component/common/main.jsx';
 
 
