@@ -11,6 +11,10 @@ role :
   - name: ROLE_MANAGER
     description: Manager role.
 
-  - name: ROLE_User
+  - name: ROLE_USER
     description: User role.
 
+# Envoy.
+envoy :
+  town:
+    host: http://localhost:9920

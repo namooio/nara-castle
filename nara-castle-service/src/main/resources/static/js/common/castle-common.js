@@ -37,5 +37,5 @@ let domPublicNamespace = {};
     //window.castle.common = publicNamespace;
 })();
 
-export default { Const: constPublicNamespace, Dom: domPublicNamespace };
+export default { Constant: constPublicNamespace, Dom: domPublicNamespace };
 export { constPublicNamespace as Constant, domPublicNamespace as Dom };

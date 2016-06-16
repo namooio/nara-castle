@@ -3,6 +3,8 @@ package namoo.nara.stage.sp.springweb;
 import namoo.nara.stage.envoy.cp.pojo.EnvoyServicePojoLycler;
 import namoo.nara.stage.envoy.entity.Player;
 import namoo.nara.stage.envoy.service.PlayerService;
+import namoo.nara.stage.poster.cp.pojo.PosterServicePojoLycler;
+import namoo.nara.stage.poster.service.PosterService;
 import namoo.nara.stage.rolebook.cp.pojo.RoleBookServicePojoLycler;
 import namoo.nara.stage.rolebook.entity.Role;
 import namoo.nara.stage.rolebook.entity.RoleBook;
@@ -25,12 +27,14 @@ import java.util.List;
 @RequestMapping("stage")
 public class StageResource {
     //
+    private PosterService posterService;
     private PlayerService playerService;
     private RoleBookService roleBookService;
 
 
     public StageResource() {
         //
+        posterService = new PosterServicePojoLycler().requestPosterService();
         playerService = new EnvoyServicePojoLycler().requestPlayerService();
         roleBookService = new RoleBookServicePojoLycler().requestRoleBookService();
     }
@@ -39,7 +43,16 @@ public class StageResource {
     @RequestMapping(value = "players", method = RequestMethod.GET)
     public List<Player> findPlayers(@RequestParam("castingId") String castingId) {
         //
-        return playerService.findPlayers(castingId);
+//        return playerService.findPlayers(castingId);
+
+        List<Player> players = playerService.findPlayers(castingId);
+
+        for(Player player : players) {
+            if (player.getId().equals("01-002-1")) {
+                player.setLeader(true);
+            }
+        }
+        return players;
     }
 
     // RoleBook

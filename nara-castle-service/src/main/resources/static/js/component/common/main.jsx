@@ -4,6 +4,7 @@
 
 import React, { Component } from 'react';
 import TopMenu from 'app/component/common/top-menu.jsx';
+import RoleBook from 'app/component/common/role-book.jsx';
 
 
 'use strict';
@@ -12,13 +13,31 @@ import TopMenu from 'app/component/common/top-menu.jsx';
 class MainComponent extends Component {
     //
     constructor(props) {
+        //
         super(props);
-        this.state = {};
+
+        this.state = {
+            lang: 'KOR'
+        };
 
         this.getLanguage = this.getLanguage.bind(this);
         this.changeLanguage = this.changeLanguage.bind(this);
+        this.initLanguage = this.initLanguage.bind(this);
     }
     componentDidMount() {
+        //
+        this.initLanguage();
+    }
+    // custom
+    getLanguage() {
+        return this.state.lang;
+    }
+    changeLanguage(lang) {
+        this.setState({lang: lang});
+        MainComponent.lang = lang;
+    }
+    initLanguage() {
+        //
         let lang;
 
         if (navigator.language) lang = navigator.language;
@@ -35,20 +54,13 @@ class MainComponent extends Component {
 
         this.changeLanguage(lang);
     }
-    // custom
-    getLanguage() {
-        return this.state.lang;
-    }
-    changeLanguage(lang) {
-        this.setState({lang: lang});
-        MainComponent.lang = lang;
-    }
     render() {
         //
         return (
             <div >
                 <header>
                     <TopMenu changeLanguage={this.changeLanguage} getLanguage={this.getLanguage}/>
+                    <RoleBook />
                 </header>
 
                 <section>

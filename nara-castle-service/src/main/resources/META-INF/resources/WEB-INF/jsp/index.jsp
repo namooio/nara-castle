@@ -1,9 +1,14 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="ctx" value="${pageContext.request.contextPath}" scope="request"/>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="castingId" content=${}}
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="castingId" content="${castingId}"/>
+    <meta name="playerId" content="${playerId}"/>
     <title>Castle</title>
 
     <!--
@@ -26,8 +31,8 @@
     <script src="./resources/js/component/common/main.jsx" type="text/babel"></script>
     -->
 
-    <link rel="stylesheet" href="/resources/webjars/bootstrap/3.3.6/css/bootstrap.css" />
-    <link rel="stylesheet" href="/resources/css/castle.css" />
+    <link rel="stylesheet" href="${ctx}/resources/webjars/bootstrap/3.3.6/css/bootstrap.css" />
+    <link rel="stylesheet" href="${ctx}/resources/css/castle.css" />
 
 </head>
 <body>
@@ -36,8 +41,8 @@
 
 
     <!--<script src="/resources/webjars/bootstrap/3.3.6/js/bootstrap.js" ></script>-->
-    <script src="/resources/js/lib-bundle.js"></script>
-    <script src="/resources/js/app-bundle.js"></script>
+    <script src="${ctx}/resources/js/lib-bundle.js"></script>
+    <script src="${ctx}/resources/js/app-bundle.js"></script>
 
 </body>
 </html>

@@ -62,11 +62,11 @@
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _appReactRouter = __webpack_require__(11);
+	var _appReactRouter = __webpack_require__(12);
 
 	var CastleReactRouter = _interopRequireWildcard(_appReactRouter);
 
-	var _error = __webpack_require__(13);
+	var _error = __webpack_require__(14);
 
 	var _error2 = _interopRequireDefault(_error);
 
@@ -74,43 +74,43 @@
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
-	var _list = __webpack_require__(14);
+	var _list = __webpack_require__(15);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(15);
+	var _detailTab = __webpack_require__(16);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(16);
+	var _basic = __webpack_require__(17);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(17);
+	var _nameBook = __webpack_require__(18);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(18);
+	var _phoneBook = __webpack_require__(19);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(19);
+	var _emailBook = __webpack_require__(20);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(20);
+	var _addressBook = __webpack_require__(21);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(21);
+	var _accountBook = __webpack_require__(22);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _metroBook = __webpack_require__(23);
+	var _metroBook = __webpack_require__(24);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
-	var _stateBook = __webpack_require__(22);
+	var _stateBook = __webpack_require__(23);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
@@ -662,7 +662,7 @@
 	    //window.castle.common = publicNamespace;
 	})();
 
-	exports.default = { Const: constPublicNamespace, Dom: domPublicNamespace };
+	exports.default = { Constant: constPublicNamespace, Dom: domPublicNamespace };
 	exports.Constant = constPublicNamespace;
 	exports.Dom = domPublicNamespace;
 
@@ -757,6 +757,10 @@
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
+	var _roleBook = __webpack_require__(9);
+
+	var _roleBook2 = _interopRequireDefault(_roleBook);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -780,28 +784,24 @@
 	        _classCallCheck(this, MainComponent);
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MainComponent).call(this, props));
+	        //
 
-	        _this.state = {};
+
+	        _this.state = {
+	            lang: 'KOR'
+	        };
 
 	        _this.getLanguage = _this.getLanguage.bind(_this);
 	        _this.changeLanguage = _this.changeLanguage.bind(_this);
+	        _this.initLanguage = _this.initLanguage.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(MainComponent, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var lang = void 0;
-
-	            if (navigator.language) lang = navigator.language;else if (navigator.browserLanguage) lang = navigator.browserLanguage;else if (navigator.systemLanguage) lang = navigator.systemLanguage;else if (navigator.userLanguage) lang = navigator.userLanguage;
-
-	            if (lang === 'ko') {
-	                lang = 'KOR';
-	            } else if (lang === 'en') {
-	                lang = 'USA';
-	            }
-
-	            this.changeLanguage(lang);
+	            //
+	            this.initLanguage();
 	        }
 	        // custom
 
@@ -817,6 +817,22 @@
 	            MainComponent.lang = lang;
 	        }
 	    }, {
+	        key: 'initLanguage',
+	        value: function initLanguage() {
+	            //
+	            var lang = void 0;
+
+	            if (navigator.language) lang = navigator.language;else if (navigator.browserLanguage) lang = navigator.browserLanguage;else if (navigator.systemLanguage) lang = navigator.systemLanguage;else if (navigator.userLanguage) lang = navigator.userLanguage;
+
+	            if (lang === 'ko') {
+	                lang = 'KOR';
+	            } else if (lang === 'en') {
+	                lang = 'USA';
+	            }
+
+	            this.changeLanguage(lang);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            //
@@ -826,7 +842,8 @@
 	                _react2.default.createElement(
 	                    'header',
 	                    null,
-	                    _react2.default.createElement(_topMenu2.default, { changeLanguage: this.changeLanguage, getLanguage: this.getLanguage })
+	                    _react2.default.createElement(_topMenu2.default, { changeLanguage: this.changeLanguage, getLanguage: this.getLanguage }),
+	                    _react2.default.createElement(_roleBook2.default, null)
 	                ),
 	                _react2.default.createElement(
 	                    'section',
@@ -870,10 +887,6 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _rolePlayerPop = __webpack_require__(9);
-
-	var _rolePlayerPop2 = _interopRequireDefault(_rolePlayerPop);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -913,8 +926,6 @@
 	        };
 
 	        _this.changeLanguageClick = _this.changeLanguageClick.bind(_this);
-	        _this.playerRoleClick = _this.playerRoleClick.bind(_this);
-	        _this.closeRoleClick = _this.closeRoleClick.bind(_this);
 	        return _this;
 	    }
 	    // event
@@ -925,16 +936,6 @@
 	        value: function changeLanguageClick(event) {
 	            var lang = $(event.target).data('lang');
 	            this.props.changeLanguage(lang);
-	        }
-	    }, {
-	        key: 'playerRoleClick',
-	        value: function playerRoleClick() {
-	            this.setState({ roleDisplayable: true });
-	        }
-	    }, {
-	        key: 'closeRoleClick',
-	        value: function closeRoleClick() {
-	            this.setState({ roleDisplayable: false });
 	        }
 	    }, {
 	        key: 'render',
@@ -979,15 +980,6 @@
 	                                    { to: _castleCommon.Constant.PAV_CTX_HASH + '/castles' },
 	                                    MENUS.castles[lang]
 	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: 'javascript:', onClick: this.playerRoleClick },
-	                                    'Player 역할 설정'
-	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -1031,11 +1023,7 @@
 	                            )
 	                        )
 	                    )
-	                ),
-	                _react2.default.createElement(_rolePlayerPop2.default, {
-	                    displayable: this.state.roleDisplayable,
-	                    onHide: this.closeRoleClick
-	                })
+	                )
 	            );
 	        }
 	    }]);
@@ -1057,6 +1045,277 @@
 
 /***/ },
 /* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(6);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactBootstrap = __webpack_require__(10);
+
+	var _naraCommon = __webpack_require__(1);
+
+	var _castleCommon = __webpack_require__(3);
+
+	var _rolePlayerPop = __webpack_require__(11);
+
+	var _rolePlayerPop2 = _interopRequireDefault(_rolePlayerPop);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-05.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	'use strict';
+
+	// Define component
+
+	var RoleBook = function (_Component) {
+	    _inherits(RoleBook, _Component);
+
+	    //
+
+	    function RoleBook(props) {
+	        _classCallCheck(this, RoleBook);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RoleBook).call(this, props));
+	        //
+
+
+	        _this.state = {
+	            castingId: null,
+	            playerId: null,
+	            players: [],
+	            roles: [],
+	            roleState: {
+	                unconfigured: false,
+	                admin: false,
+	                user: false
+	            },
+	            popupState: {
+	                rolePlayerMapping: false,
+	                alertUnconfigured: false,
+	                alertRoles: false
+	            }
+	        };
+
+	        _this.roleCheckClick = _this.roleCheckClick.bind(_this);
+	        _this.rolePlayerMappingPopOnHide = _this.rolePlayerMappingPopOnHide.bind(_this);
+	        _this.rolesBtnOnClick = _this.rolesBtnOnClick.bind(_this);
+	        _this.isUnconfiguredAndAdmin = _this.isUnconfiguredAndAdmin.bind(_this);
+	        _this.isUnconfiguredAndUser = _this.isUnconfiguredAndUser.bind(_this);
+	        _this.requestRolesOfPlayer = _this.requestRolesOfPlayer.bind(_this);
+	        _this.requestPlayers = _this.requestPlayers.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(RoleBook, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //
+	            var castingId = document.getElementsByName('castingId')[0].content,
+	                playerId = document.getElementsByName('playerId')[0].content;
+
+	            this.setState({ castingId: castingId, playerId: playerId });
+	            //this.requestRolesOfPlayer(castingId, playerId);
+	        }
+	        // event
+
+	    }, {
+	        key: 'roleCheckClick',
+	        value: function roleCheckClick() {
+	            this.requestRolesOfPlayer(this.state.castingId, this.state.playerId);
+	        }
+	    }, {
+	        key: 'rolePlayerMappingPopOnHide',
+	        value: function rolePlayerMappingPopOnHide() {
+	            var popupState = this.state.popupState;
+	            popupState.rolePlayerMapping = false;
+	            this.setState({ popupState: popupState });
+	        }
+	    }, {
+	        key: 'rolesBtnOnClick',
+	        value: function rolesBtnOnClick() {
+	            var popupState = this.state.popupState;
+	            popupState.alertRoles = false;
+	            this.setState({ popupState: popupState });
+	        }
+	        // custom
+
+	    }, {
+	        key: 'isUnconfiguredAndAdmin',
+	        value: function isUnconfiguredAndAdmin() {
+	            return this.state.roleState.unconfigured && this.state.roleState.admin;
+	        }
+	    }, {
+	        key: 'isUnconfiguredAndUser',
+	        value: function isUnconfiguredAndUser() {
+	            return this.state.roleState.unconfigured && this.state.roleState.user;
+	        }
+	        // request
+
+	    }, {
+	        key: 'requestRolesOfPlayer',
+	        value: function requestRolesOfPlayer(castingId, playerId) {
+	            //
+	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId)).done(function (roles) {
+	                if (roles) {
+	                    var popupState = this.state.popupState;
+	                    popupState.alertRoles = true;
+
+	                    this.setState({ roles: roles, popupState: popupState });
+	                    RoleBook.rolesOfPlayer = roles;
+	                    window.RoleBook = {
+	                        rolesOfPlayer: roles
+	                    };
+	                } else {
+	                    var roleState = this.state.roleState;
+	                    roleState.unconfigured = true;
+
+	                    this.setState({ roleState: roleState });
+	                    this.requestPlayers(castingId, playerId);
+	                }
+	            }.bind(this));
+	        }
+	    }, {
+	        key: 'requestPlayers',
+	        value: function requestPlayers(castingId, playerId) {
+	            //
+	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_PLAYERS + '?castingId=' + castingId).done(function (players) {
+	                //
+	                var administrant = players.some(function (player) {
+	                    return player.id === playerId && player.leader === true;
+	                });
+
+	                if (administrant) {
+	                    var roleState = this.state.roleState,
+	                        popupState = this.state.popupState;
+
+	                    roleState.admin = true;
+	                    popupState.rolePlayerMapping = true;
+	                    this.setState({ roleState: roleState, popupState: popupState, players: players });
+	                } else {
+	                    var _roleState = this.state.roleState,
+	                        _popupState = this.state.popupState;
+
+	                    _roleState.user = true;
+	                    _popupState.alertUnconfigured = true;
+	                    this.setState({ roleState: _roleState, popupState: _popupState });
+	                }
+	            }.bind(this));
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            //
+	            return _react2.default.createElement(
+	                'section',
+	                null,
+	                _react2.default.createElement(
+	                    _reactBootstrap.Button,
+	                    { onClick: this.roleCheckClick },
+	                    'RoleCheck'
+	                ),
+	                this.isUnconfiguredAndAdmin() === true ? _react2.default.createElement(_rolePlayerPop2.default, {
+	                    castingId: this.state.castingId,
+	                    players: this.state.players,
+	                    displayable: this.state.popupState.rolePlayerMapping,
+	                    onHide: this.rolePlayerMappingPopOnHide
+	                }) : null,
+	                this.isUnconfiguredAndUser() === true ? _react2.default.createElement(
+	                    _reactBootstrap.Modal,
+	                    {
+	                        show: this.state.popupState.alertUnconfigured },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Header,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Modal.Title,
+	                            { id: 'modal-title' },
+	                            'Sorry!'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Body,
+	                        null,
+	                        _react2.default.createElement(
+	                            'h4',
+	                            null,
+	                            '해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.'
+	                        )
+	                    )
+	                ) : null,
+	                _react2.default.createElement(
+	                    _reactBootstrap.Modal,
+	                    { show: this.state.popupState.alertRoles },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Header,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Modal.Title,
+	                            { id: 'modal-roles-of-player-title' },
+	                            'Roles'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Body,
+	                        null,
+	                        this.state.roles.map(function (role, index) {
+	                            return _react2.default.createElement(
+	                                'h4',
+	                                { key: index },
+	                                role.name,
+	                                ' : ',
+	                                role.description
+	                            );
+	                        })
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Footer,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Button,
+	                            { onClick: this.rolesBtnOnClick },
+	                            'Close'
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return RoleBook;
+	}(_react.Component);
+
+	RoleBook.url = {
+	    //
+	    FIND_ROLES_OF_PLAYER: _castleCommon.Constant.PAV_CTX_API + '/stage/roles/castingId/{castingId}/playerId/{playerId}',
+	    FIND_PLAYERS: _castleCommon.Constant.PAV_CTX_API + '/stage/players'
+	};
+
+	exports.default = RoleBook;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = castleLib.ReactBootstrap;
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1104,11 +1363,15 @@
 
 	        _this.state = {
 	            roles: [],
-	            players: [],
-	            playerRoleCheckList: []
+	            rolePlayers: [],
+	            successPopup: false
 	        };
 
 	        _this.roleCheckChange = _this.roleCheckChange.bind(_this);
+	        _this.saveRoleBookBtnOnClick = _this.saveRoleBookBtnOnClick.bind(_this);
+	        _this.successPopCloseBtnOnClick = _this.successPopCloseBtnOnClick.bind(_this);
+	        _this.requestRolePlayer = _this.requestRolePlayer.bind(_this);
+	        _this.requestSaveRoleBook = _this.requestSaveRoleBook.bind(_this);
 	        return _this;
 	    }
 	    // overriding
@@ -1125,128 +1388,188 @@
 	        key: 'roleCheckChange',
 	        value: function roleCheckChange(playerIndex, roleIndex) {
 	            //
-	            var playerRoleCheckList = this.state.playerRoleCheckList;
-	            playerRoleCheckList[playerIndex][roleIndex] = !playerRoleCheckList[playerIndex][roleIndex];
+	            var rolePlayers = this.state.rolePlayers;
+	            rolePlayers[playerIndex][roleIndex] = !rolePlayers[playerIndex][roleIndex];
 
-	            this.setState({ playerRoleCheckList: playerRoleCheckList });
+	            this.setState({ rolePlayers: rolePlayers });
+	        }
+	    }, {
+	        key: 'saveRoleBookBtnOnClick',
+	        value: function saveRoleBookBtnOnClick() {
+	            //
+	            var roleBook = {
+	                castingId: this.props.castingId,
+	                rolePlayers: []
+	            };
+
+	            this.state.rolePlayers.forEach(function (roleCheckList, index) {
+	                //
+	                var player = this.props.players[index];
+
+	                var rolePlayer = {
+	                    playerId: player.id,
+	                    name: player.name,
+	                    roles: []
+	                };
+
+	                roleCheckList.forEach(function (roleCheck, index) {
+	                    //
+	                    if (roleCheck === false) {
+	                        return;
+	                    }
+	                    var role = this.state.roles[index];
+	                    rolePlayer.roles.push(role);
+	                }.bind(this));
+
+	                roleBook.rolePlayers.push(rolePlayer);
+	            }.bind(this));
+
+	            this.requestSaveRoleBook(roleBook);
+	        }
+	    }, {
+	        key: 'successPopCloseBtnOnClick',
+	        value: function successPopCloseBtnOnClick() {
+	            this.setState({ successPopup: false });
 	        }
 	        // request
 
 	    }, {
 	        key: 'requestRolePlayer',
 	        value: function requestRolePlayer() {
+	            //
+	            _naraCommon.Ajax.getJSON(RolePlayerPop.url.FIND_ROLES).done(function (roles) {
+	                //
+	                var roleCheckList = [];
+	                roleCheckList.length = roles.length;
+	                roleCheckList.fill(false);
 
-	            var roles = [{
-	                name: 'Admin'
-	            }, {
-	                name: 'User'
-	            }];
+	                var rolePlayers = [];
 
-	            var players = [{
-	                name: 'kim'
-	            }, {
-	                name: 'lee'
-	            }, {
-	                name: 'park'
-	            }];
+	                for (var index in this.props.players) {
+	                    rolePlayers[index] = _naraCommon.Object.deepCopy(roleCheckList);
+	                }
 
-	            var roleCheckList = [];
-	            roleCheckList.length = roles.length;
-	            roleCheckList.fill(false);
-
-	            var playerRoleCheckList = [];
-
-	            for (var index in players) {
-	                playerRoleCheckList[index] = _naraCommon.Object.deepCopy(roleCheckList);
-	            }
-
-	            this.setState({ roles: roles, players: players, playerRoleCheckList: playerRoleCheckList });
+	                this.setState({ roles: roles, rolePlayers: rolePlayers });
+	            }.bind(this));
 	        }
 	    }, {
-	        key: 'requestSavePlayerRoles',
-	        value: function requestSavePlayerRoles() {}
+	        key: 'requestSaveRoleBook',
+	        value: function requestSaveRoleBook(roleBook) {
+	            //
+	            _naraCommon.Ajax.postJSON(RolePlayerPop.url.SAVE_ROLE_BOOK, roleBook).done(function () {
+	                this.props.onHide();
+	                this.setState({ successPopup: true });
+	            }.bind(this));
+	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            //
-	            var existsPlayerCheckList = this.state.playerRoleCheckList.length > 0;
+	            var existsPlayerCheckList = this.state.rolePlayers.length > 0;
 
 	            return _react2.default.createElement(
-	                _reactBootstrap.Modal,
-	                {
-	                    bsSize: 'large',
-	                    'aria-labelledby': 'contained-modal-title-lg',
-	                    show: this.props.displayable },
+	                'section',
+	                null,
 	                _react2.default.createElement(
-	                    _reactBootstrap.Modal.Header,
-	                    null,
+	                    _reactBootstrap.Modal,
+	                    {
+	                        bsSize: 'large',
+	                        'aria-labelledby': 'contained-modal-title-lg',
+	                        show: this.props.displayable },
 	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Title,
-	                        { id: 'contained-modal-title-lg' },
-	                        'Role player'
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactBootstrap.Modal.Body,
-	                    null,
-	                    existsPlayerCheckList ? _react2.default.createElement(
-	                        'table',
-	                        { className: 'table table-stri1ed table-hover' },
+	                        _reactBootstrap.Modal.Header,
+	                        null,
 	                        _react2.default.createElement(
-	                            'thead',
-	                            null,
+	                            _reactBootstrap.Modal.Title,
+	                            { id: 'contained-modal-title-lg' },
+	                            'Role player'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Body,
+	                        null,
+	                        existsPlayerCheckList ? _react2.default.createElement(
+	                            'table',
+	                            { className: 'table table-stri1ed table-hover' },
 	                            _react2.default.createElement(
-	                                'tr',
+	                                'thead',
 	                                null,
 	                                _react2.default.createElement(
-	                                    'th',
-	                                    { className: 'col-md-3' },
-	                                    'Player'
-	                                ),
-	                                this.state.roles.map(function (role, index) {
-	                                    return _react2.default.createElement(
-	                                        'th',
-	                                        { key: index },
-	                                        role.name
-	                                    );
-	                                })
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'tbody',
-	                            null,
-	                            this.state.players.map(function (player, playerIndex) {
-	                                return _react2.default.createElement(
 	                                    'tr',
-	                                    { key: playerIndex },
+	                                    null,
 	                                    _react2.default.createElement(
-	                                        'td',
-	                                        null,
-	                                        player.name
+	                                        'th',
+	                                        { className: 'col-md-3' },
+	                                        'Player'
 	                                    ),
-	                                    this.state.playerRoleCheckList[playerIndex].map(function (roleCheck, roleIndex) {
+	                                    this.state.roles.map(function (role, index) {
 	                                        return _react2.default.createElement(
-	                                            'td',
-	                                            { key: roleIndex },
-	                                            _react2.default.createElement('input', { type: 'checkbox', checked: roleCheck, onChange: this.roleCheckChange.bind(this, playerIndex, roleIndex) })
+	                                            'th',
+	                                            { key: index },
+	                                            role.name
 	                                        );
-	                                    }.bind(this))
-	                                );
-	                            }.bind(this))
+	                                    })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'tbody',
+	                                null,
+	                                this.props.players.map(function (player, playerIndex) {
+	                                    return _react2.default.createElement(
+	                                        'tr',
+	                                        { key: playerIndex },
+	                                        _react2.default.createElement(
+	                                            'td',
+	                                            null,
+	                                            player.name
+	                                        ),
+	                                        this.state.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
+	                                            return _react2.default.createElement(
+	                                                'td',
+	                                                { key: roleIndex },
+	                                                _react2.default.createElement('input', { type: 'checkbox', checked: roleCheck, onChange: this.roleCheckChange.bind(this, playerIndex, roleIndex) })
+	                                            );
+	                                        }.bind(this))
+	                                    );
+	                                }.bind(this))
+	                            )
+	                        ) : _react2.default.createElement(
+	                            'h4',
+	                            null,
+	                            '역할 목록이 없습니다.'
 	                        )
-	                    ) : _react2.default.createElement(
-	                        'h4',
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Footer,
 	                        null,
-	                        '역할 목록이 없습니다.'
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Button,
+	                            { onClick: this.saveRoleBookBtnOnClick },
+	                            'Save'
+	                        )
 	                    )
 	                ),
 	                _react2.default.createElement(
-	                    _reactBootstrap.Modal.Footer,
-	                    null,
+	                    _reactBootstrap.Modal,
+	                    { show: this.state.successPopup },
 	                    _react2.default.createElement(
-	                        _reactBootstrap.Button,
-	                        { onClick: this.props.onHide },
-	                        'Close'
+	                        _reactBootstrap.Modal.Header,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Modal.Title,
+	                            { id: 'modal-success-title' },
+	                            'Success'
+	                        )
+	                    ),
+	                    _react2.default.createElement(_reactBootstrap.Modal.Body, null),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Footer,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Button,
+	                            { onClick: this.successPopCloseBtnOnClick },
+	                            'Close'
+	                        )
 	                    )
 	                )
 	            );
@@ -1258,26 +1581,21 @@
 
 	RolePlayerPop.propTypes = {
 	    //
+	    castingId: _react.PropTypes.string.isRequired,
+	    players: _react.PropTypes.array.isRequired,
 	    displayable: _react.PropTypes.bool.isRequired,
 	    onHide: _react.PropTypes.func.isRequired
 	};
 	RolePlayerPop.url = {
 	    //
-	    FIND_ROLES: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/email-book',
-	    FIND_PLAYERS: '',
-	    SAVE_PLAYER_ROLE_LIST: ''
+	    FIND_ROLES: _castleCommon.Constant.PAV_CTX_API + '/stage/roles',
+	    SAVE_ROLE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/stage/rolebooks'
 	};
 
 	exports.default = RolePlayerPop;
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	module.exports = castleLib.ReactBootstrap;
-
-/***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1286,7 +1604,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(12);
+	var _reactDom = __webpack_require__(13);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -1298,47 +1616,47 @@
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _error = __webpack_require__(13);
+	var _error = __webpack_require__(14);
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _list = __webpack_require__(14);
+	var _list = __webpack_require__(15);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(15);
+	var _detailTab = __webpack_require__(16);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(16);
+	var _basic = __webpack_require__(17);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(17);
+	var _nameBook = __webpack_require__(18);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(18);
+	var _phoneBook = __webpack_require__(19);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(19);
+	var _emailBook = __webpack_require__(20);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(20);
+	var _addressBook = __webpack_require__(21);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(21);
+	var _accountBook = __webpack_require__(22);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _stateBook = __webpack_require__(22);
+	var _stateBook = __webpack_require__(23);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
-	var _metroBook = __webpack_require__(23);
+	var _metroBook = __webpack_require__(24);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
@@ -1378,13 +1696,13 @@
 	), _castleCommon.Dom.getCastleMainDom());
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	module.exports = castleLib.ReactDOM;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1496,7 +1814,7 @@
 	exports.default = ErrorPage;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1928,7 +2246,7 @@
 	exports.default = CastleListPage;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2202,7 +2520,7 @@
 	exports.default = CastleDetailPage;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3062,7 +3380,7 @@
 	exports.default = BasicContent;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3784,7 +4102,7 @@
 	exports.default = NameContent;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4447,7 +4765,7 @@
 	exports.default = PhoneContent;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5121,7 +5439,7 @@
 	exports.default = EmailContent;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6047,7 +6365,7 @@
 	exports.default = AddressContent;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6279,7 +6597,7 @@
 	exports.default = AccountContent;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6517,7 +6835,7 @@
 	exports.default = StateContent;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

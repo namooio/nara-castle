@@ -6,8 +6,6 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Constant } from 'app/common/castle-common';
 
-import RolePlayerPop from 'app/component/common/role-player-pop.jsx';
-
 
 'use strict';
 
@@ -33,19 +31,11 @@ class TopMenu extends Component {
         };
 
         this.changeLanguageClick = this.changeLanguageClick.bind(this);
-        this.playerRoleClick = this.playerRoleClick.bind(this);
-        this.closeRoleClick = this.closeRoleClick.bind(this);
     }
     // event
     changeLanguageClick(event) {
         let lang = $(event.target).data('lang');
         this.props.changeLanguage(lang);
-    }
-    playerRoleClick() {
-        this.setState({ roleDisplayable: true });
-    }
-    closeRoleClick() {
-        this.setState({ roleDisplayable: false });
     }
     render() {
         //
@@ -69,7 +59,6 @@ class TopMenu extends Component {
                     <div className="collapse navbar-collapse">
                         <ui className="nav navbar-nav">
                             <li><Link to={`${Constant.PAV_CTX_HASH}/castles`}>{MENUS.castles[lang]}</Link></li>
-                            <li><a href="javascript:" onClick={this.playerRoleClick}>Player 역할 설정</a></li>
                         </ui>
                         <ul className="nav navbar-nav navbar-right">
                             <li className="dropdown">
@@ -87,10 +76,6 @@ class TopMenu extends Component {
                         </ul>
                     </div>
                 </div>
-                <RolePlayerPop
-                    displayable={this.state.roleDisplayable}
-                    onHide={this.closeRoleClick}
-                />
             </nav>
         );
     }
