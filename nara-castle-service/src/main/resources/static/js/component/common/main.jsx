@@ -4,7 +4,6 @@
 
 import React, { Component } from 'react';
 import TopMenu from 'app/component/common/top-menu.jsx';
-import RoleBook from 'app/component/common/role-book.jsx';
 
 
 'use strict';
@@ -60,7 +59,6 @@ class MainComponent extends Component {
             <div >
                 <header>
                     <TopMenu changeLanguage={this.changeLanguage} getLanguage={this.getLanguage}/>
-                    <RoleBook />
                 </header>
 
                 <section>

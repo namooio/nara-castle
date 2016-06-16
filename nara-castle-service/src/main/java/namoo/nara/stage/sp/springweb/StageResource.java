@@ -47,7 +47,7 @@ public class StageResource {
 
         List<Player> players = playerService.findPlayers(castingId);
 
-        for(Player player : players) {
+        for (Player player : players) {
             if (player.getId().equals("01-002-1")) {
                 player.setLeader(true);
             }

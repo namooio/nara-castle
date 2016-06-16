@@ -15,13 +15,13 @@ import java.util.Map;
 public class DefaultFrontView {
     //
     @RequestMapping("/")
-    public ModelAndView main(@RequestParam("townId") String townId, @RequestParam("townerId") String townerId) {
+    public ModelAndView main(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
-        System.out.println("townId: " + townId + ", townerId: " + townerId);
+        System.out.println("castingId: " + castingId + ", playerId: " + playerId);
 
         Map<String, String> model = new HashMap<>();
-        model.put("castingId", townId);
-        model.put("playerId", townerId);
+        model.put("castingId", castingId);
+        model.put("playerId", playerId);
 
         return new ModelAndView("/WEB-INF/jsp/index.jsp", model);
 //        return "/resources/index.html";

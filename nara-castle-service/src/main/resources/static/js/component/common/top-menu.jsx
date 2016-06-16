@@ -4,6 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import NaraRoleBook from 'app/lib/nara-role-book.jsx';
 import { Constant } from 'app/common/castle-common';
 
 
@@ -61,6 +62,7 @@ class TopMenu extends Component {
                             <li><Link to={`${Constant.PAV_CTX_HASH}/castles`}>{MENUS.castles[lang]}</Link></li>
                         </ui>
                         <ul className="nav navbar-nav navbar-right">
+                            <NaraRoleBook />
                             <li className="dropdown">
                                 <a href="javascript:" className="dropdown-toggle" data-toggle="dropdown"
                                    role="button" aria-expanded="false">
