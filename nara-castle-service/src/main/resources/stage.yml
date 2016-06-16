@@ -14,6 +14,13 @@ role :
   - name: ROLE_USER
     description: User role.
 
+# RoleBook storage.
+rolebook:
+  storage:
+    shed:
+      host: http://localhost:9970
+      name: castle_test_shed
+
 # Envoy.
 envoy :
   town:

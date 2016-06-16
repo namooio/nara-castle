@@ -13,7 +13,7 @@
         <java.version>1.8</java.version>
         <nara.share.version>0.1.7</nara.share.version>
         <nara.gateway.version>0.0.7</nara.gateway.version>
-        <nara.stage.version>0.2.3</nara.stage.version>
+        <nara.stage.version>0.2.6</nara.stage.version>
     </properties>
 
     <dependencies>
