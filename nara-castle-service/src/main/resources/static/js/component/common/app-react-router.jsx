@@ -4,7 +4,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, hashHistory, Link } from 'react-router';
+import { Router, Route, IndexRedirect, hashHistory, Link } from 'react-router';
 
 import { Constant, Dom as CastleDom } from 'app/common/castle-common';
 
@@ -33,6 +33,7 @@ let CTX = Constant.PAV_CTX_HASH,
 ReactDOM.render((
     <Router history={hashHistory} >
         <Route path={`${appRootPath}`} component={MainComponent}>
+            <IndexRedirect to="castles" />
             <Route path="castles" component={Castles}/>
             <Route path="castle/:castleId" component={DetailTab}>
                 <Route path="basic" component={Castle}/>

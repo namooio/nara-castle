@@ -17,14 +17,12 @@ public class DefaultFrontView {
     @RequestMapping("/")
     public ModelAndView main(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
-        System.out.println("castingId: " + castingId + ", playerId: " + playerId);
-
         Map<String, String> model = new HashMap<>();
+        model.put("pavilionId", pavilionId);
         model.put("castingId", castingId);
         model.put("playerId", playerId);
 
         return new ModelAndView("/WEB-INF/jsp/index.jsp", model);
-//        return "/resources/index.html";
     }
 
 }

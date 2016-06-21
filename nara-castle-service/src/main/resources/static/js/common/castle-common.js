@@ -2,10 +2,28 @@
  * Created by hkkang on 2016-04-05.
  */
 
+import jQuery from 'jquery';
 import { Object as NaraObject } from 'app/lib/nara-common';
 
-let constPublicNamespace = {};
-let domPublicNamespace = {};
+let constPublicContext = {};
+let domPublicContext = {};
+
+
+// Initialize
+( function () {
+    //
+    'use strict';
+
+    //let _jQuery = pavilion.lib.jQuery,
+    let token = jQuery('meta[name=_csrf]').attr('content'),
+        header = jQuery('meta[name=_csrf_header]').attr('content');
+
+    if (token && header) {
+        jQuery(document).ajaxSend( function(event, xhr) {
+            xhr.setRequestHeader(header, token);
+        });
+    }
+})();
 
 ( function () {
     //
@@ -14,22 +32,22 @@ let domPublicNamespace = {};
     //let publicNamespace = {};
 
     // Castle app constant
-    constPublicNamespace = {};
+    constPublicContext = {};
 
     let hashs = window.location.hash.split('/'),
         standAlone = (hashs.length < 2 || hashs[1] !== 'drama');
 
 
-    NaraObject.defineConstProperties(constPublicNamespace, {
+    NaraObject.defineConstProperties(constPublicContext, {
         CTX: '.',
         PAV_CTX_API: standAlone ? '' : '/drama/castle',
         PAV_CTX_RSRC: standAlone ? '' : '/drama/castle',
         PAV_CTX_HASH: standAlone ? '' : '/drama/castle'
     });
 
-    domPublicNamespace = {};
+    domPublicContext = {};
 
-    domPublicNamespace.getCastleMainDom = function () {
+    domPublicContext.getCastleMainDom = function () {
         return document.getElementById('castle-drama');
     };
 
@@ -37,5 +55,5 @@ let domPublicNamespace = {};
     //window.castle.common = publicNamespace;
 })();
 
-export default { Constant: constPublicNamespace, Dom: domPublicNamespace };
-export { constPublicNamespace as Constant, domPublicNamespace as Dom };
+export default { Constant: constPublicContext, Dom: domPublicContext };
+export { constPublicContext as Constant, domPublicContext as Dom };

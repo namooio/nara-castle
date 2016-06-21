@@ -66,14 +66,14 @@ class MetroContent extends Component {
 
 MetroContent.propTypes = {
     //
-    castleId: React.PropTypes.string.isRequired,
+    castleId: React.PropTypes.string,
     castle: React.PropTypes.shape({
         history: React.PropTypes.shape({
             metroBook: React.PropTypes.shape({
-                metros: React.PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired
+                metros: React.PropTypes.array
+            })
+        })
+    })
 };
 
 MetroContent.url = {
@@ -130,7 +130,7 @@ class MetroViewContent extends Component{
     }
 }
 
-MetroContent.propTypes = {
+MetroViewContent.propTypes = {
     //
     metroBook: React.PropTypes.shape({
         metros: React.PropTypes.array.isRequired

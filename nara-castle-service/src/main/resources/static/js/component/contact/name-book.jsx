@@ -95,19 +95,19 @@ NameContent.url = {
 };
 NameContent.propTypes = {
     //
-    castleId: PropTypes.string.isRequired,
+    castleId: PropTypes.string,
     castle: PropTypes.shape({
         contact: PropTypes.shape({
             nameBook: PropTypes.shape({
-                names: PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired,
-    modifiable: PropTypes.bool.isRequired,
+                names: PropTypes.array
+            })
+        })
+    }),
+    modifiable: PropTypes.bool,
 
-    changeModifiableMode: PropTypes.func.isRequired,
-    changeViewMode: PropTypes.func.isRequired,
-    setCastle: PropTypes.func.isRequired
+    changeModifiableMode: PropTypes.func,
+    changeViewMode: PropTypes.func,
+    setCastle: PropTypes.func
 };
 
 

@@ -68,14 +68,14 @@ class StateContent extends Component {
 
 StateContent.propTypes = {
     //
-    castleId: PropTypes.string.isRequired,
+    castleId: PropTypes.string,
     castle: PropTypes.shape({
         history: PropTypes.shape({
             stateBook: PropTypes.shape({
-                states: PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired
+                states: PropTypes.array
+            })
+        })
+    })
 };
 
 StateContent.url = {

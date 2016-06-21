@@ -66,14 +66,14 @@ class AccountContent extends Component {
 
 AccountContent.propTypes = {
     //
-    castleId: PropTypes.string.isRequired,
+    castleId: PropTypes.string,
     castle: PropTypes.shape({
         history: PropTypes.shape({
             accountBook: PropTypes.shape({
-                accounts: PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired
+                accounts: PropTypes.array
+            })
+        })
+    })
 };
 
 AccountContent.url = {

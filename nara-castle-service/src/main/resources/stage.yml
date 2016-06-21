@@ -1,3 +1,8 @@
+# Drama basic information.
+basic information:
+  title: town
+  summary: Nara town drama.
+
 # Define drama edition.
 edition :
   - name: BASIC
@@ -13,6 +18,7 @@ role :
 
   - name: ROLE_USER
     description: User role.
+    default: true
 
 # RoleBook storage.
 rolebook:

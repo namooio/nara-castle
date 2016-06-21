@@ -96,19 +96,19 @@ class AddressContent extends Component {
 
 AddressContent.propTypes = {
     //
-    castleId: PropTypes.string.isRequired,
+    castleId: PropTypes.string,
     castle: PropTypes.shape({
         contact: PropTypes.shape({
             addressBook: PropTypes.shape({
-                addresses: PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired,
-    modifiable: PropTypes.bool.isRequired,
+                addresses: PropTypes.array
+            })
+        })
+    }),
+    modifiable: PropTypes.bool,
 
-    changeModifiableMode: PropTypes.func.isRequired,
-    changeViewMode: PropTypes.func.isRequired,
-    setCastle: PropTypes.func.isRequired
+    changeModifiableMode: PropTypes.func,
+    changeViewMode: PropTypes.func,
+    setCastle: PropTypes.func
 };
 
 AddressContent.url = {

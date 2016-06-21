@@ -3,8 +3,6 @@
  */
 // Nara library
 import * as NaraCommon from 'app/lib/nara-common';
-//import NaraReactRouter from './lib/nara-react-router.js';
-
 
 // Castle commmon
 import * as CastleCommon from 'app/common/castle-common';

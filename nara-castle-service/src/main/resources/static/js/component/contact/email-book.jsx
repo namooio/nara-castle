@@ -89,19 +89,19 @@ class EmailContent extends Component {
 
 EmailContent.propTypes = {
     //
-    castleId: PropTypes.string.isRequired,
+    castleId: PropTypes.string,
     castle: PropTypes.shape({
         contact: PropTypes.shape({
             emailBook: PropTypes.shape({
-                emails: PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired,
-    modifiable: PropTypes.bool.isRequired,
+                emails: PropTypes.array
+            })
+        })
+    }),
+    modifiable: PropTypes.bool,
 
-    changeModifiableMode: PropTypes.func.isRequired,
-    changeViewMode: PropTypes.func.isRequired,
-    setCastle: PropTypes.func.isRequired
+    changeModifiableMode: PropTypes.func,
+    changeViewMode: PropTypes.func,
+    setCastle: PropTypes.func
 };
 
 EmailContent.url = {

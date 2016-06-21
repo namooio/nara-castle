@@ -135,11 +135,11 @@
 
 	var _jquery = __webpack_require__(2);
 
-	var _jQuery = _interopRequireWildcard(_jquery);
+	var _jquery2 = _interopRequireDefault(_jquery);
 
 	var _naraCommon = __webpack_require__(1);
 
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -147,25 +147,18 @@
 	 * Created by hkkang on 2016-04-28.
 	 */
 
-	window.naraContextNamespace = 'NaraCommon';
+	var appContextName = 'CastleNaraCommon';
 
-	//window.__nara = {
-	//    namespace: naraNamespace,
-	//    [naraNamespace]: {}
-	//};
-	//window[naraNamespace] = window.__nara[naraNamespace];
-
-	var objectPublicNamespace = {};
+	var objectPublicContext = {};
 
 	// Object util
 	(function () {
 	    //
 	    'use strict';
 
-	    var naraNamespace = naraContextNamespace;
-	    //let publicNamespace = {};
+	    var contextName = appContextName;
 
-	    objectPublicNamespace.defineConstProperty = function (obj, name, value) {
+	    objectPublicContext.defineConstProperty = function (obj, name, value) {
 	        //
 	        Object.defineProperty(obj, name, {
 	            value: value,
@@ -175,22 +168,22 @@
 	        });
 	    };
 
-	    objectPublicNamespace.defineConstProperties = function (obj, nameValues) {
+	    objectPublicContext.defineConstProperties = function (obj, nameValues) {
 	        //
 	        Object.keys(nameValues).forEach(function (name) {
-	            objectPublicNamespace.defineConstProperty(obj, name, nameValues[name]);
+	            objectPublicContext.defineConstProperty(obj, name, nameValues[name]);
 	        });
 	    };
 
-	    objectPublicNamespace.isEmpty = function (object) {
+	    objectPublicContext.isEmpty = function (object) {
 	        //
 	        return !object || Object.keys(object).length === 0;
 	    };
 
-	    objectPublicNamespace.deepCopy = function (source) {
+	    objectPublicContext.deepCopy = function (source) {
 	        //
 	        if (!source || (typeof source === 'undefined' ? 'undefined' : _typeof(source)) !== 'object') {
-	            console.warn('Source is not array or object. > ' + naraNamespace + '.Object.deepCopy');
+	            console.warn('[' + contextName + '] Source for copy is not array or object. -> Object.deepCopy');
 	            return;
 	        }
 	        return deepCopy(source);
@@ -217,51 +210,42 @@
 	        }
 	        return result;
 	    };
-
-	    //__nara[__nara.namespace].Object = publicNamespace;
 	})();
-	exports.Object = objectPublicNamespace;
+
+	exports.Object = objectPublicContext;
 
 
-	var datePublicNamespace = {};
+	var datePublicContext = {};
 
 	// Date util
 	(function () {
 	    //
 	    'use strict';
 
-	    //let publicNamespace = {};
-
-	    datePublicNamespace.parseToString = function (date) {
+	    datePublicContext.parseToString = function (date) {
 	        //
 	        if (!date) {
 	            return null;
 	        }
 	        return new Date(date).toLocaleString();
 	    };
-
-	    //__nara[__nara.namespace].Date = publicNamespace;
 	})();
-	exports.Date = datePublicNamespace;
+
+	exports.Date = datePublicContext;
 
 	//import { transform as _jsxTransform } from 'babel-core';
-	//let babel = require('babel-core');
 	//let _jsxTransform = babel.transform;
 
-	var ajaxPublicNamespace = {};
+	var ajaxPublicContext = {};
 
 	// Ajax util
 	(function () {
 	    //
 	    'use strict';
 
-	    var naraNamespace = naraContextNamespace;
-	    //let publicNamespace = {};
+	    var contextName = appContextName;
 
 	    // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
-	    // Import external library
-	    //let _jQuery = jQuery,
-	    //    _jsxTransform = babel.transform;
 
 	    var UrlBuilder = function () {
 	        //
@@ -292,7 +276,7 @@
 	        return UrlBuilder;
 	    }();
 
-	    ajaxPublicNamespace.createUrlBuilder = function () {
+	    ajaxPublicContext.createUrlBuilder = function () {
 	        //
 	        return new UrlBuilder();
 	    };
@@ -306,20 +290,22 @@
 	     * @param param
 	     * @returns {*}
 	     */
-	    ajaxPublicNamespace.getJSON = function (url, param) {
+	    ajaxPublicContext.getJSON = function (url, param) {
 	        //
+	        console.debug('[' + contextName + '] getJSON');
 	        if (!url || typeof url !== 'string') {
-	            console.error('Invalid url for ' + naraNamespace + ' Ajax getJSON -> url: ' + url + ', param: ' + param);
+	            console.error('[' + contextName + '] Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
 	        }
-	        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult) {
+	        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
 	            return jsonResult;
 	        });
 	    };
 
-	    ajaxPublicNamespace.getJSONs = function (urlParams, callback) {
+	    ajaxPublicContext.getJSONs = function (urlParams, callback) {
 	        //
+	        console.debug('[' + contextName + '] getJSONs');
 	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('Invalid url for ' + naraNamespace + ' Ajax getJSONs -> urlParams: ' + urlParams);
+	            console.error('[' + contextName + '] Invalid url for Ajax getJSONs -> urlParams: ' + urlParams);
 	        }
 	        return commonRequestJsons(urlParams, callback, 'GET');
 	    };
@@ -333,50 +319,50 @@
 	     * @param param
 	     * @returns {*}
 	     */
-	    ajaxPublicNamespace.postJSON = function (url, param) {
+	    ajaxPublicContext.postJSON = function (url, param) {
 	        //
 	        if (!url || typeof url !== 'string' || !param) {
-	            console.error('Invalid arguments for ' + naraNamespace + ' Ajax postJSON -> url: ' + url + ', param: ' + param);
+	            console.error('[' + contextName + '] Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
 	        }
 	        return commonRequestJson(url, 'POST', param);
 	    };
 
-	    ajaxPublicNamespace.postJSONs = function (urlParams, callback) {
+	    ajaxPublicContext.postJSONs = function (urlParams, callback) {
 	        //
 	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('Invalid url for ' + naraNamespace + ' Ajax postJSONs -> urlParams: ' + urlParams);
+	            console.error('[' + contextName + '] Invalid url for Ajax postJSONs -> urlParams: ' + urlParams);
 	        }
 	        return commonRequestJsons(urlParams, callback, 'POST');
 	    };
 
-	    ajaxPublicNamespace.putJSON = function (url, param) {
+	    ajaxPublicContext.putJSON = function (url, param) {
 	        //
 	        if (!url || typeof url !== 'string' || !param) {
-	            console.error('Invalid arguments for ' + naraNamespace + ' Ajax putJSON -> url: ' + url + ', param: ' + param);
+	            console.error('[' + contextName + '] Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
 	        }
 	        return commonRequestJson(url, 'PUT', param);
 	    };
 
-	    ajaxPublicNamespace.putJSONs = function (urlParams, callback) {
+	    ajaxPublicContext.putJSONs = function (urlParams, callback) {
 	        //
 	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('Invalid url for ' + naraNamespace + ' Ajax putJSONs -> urlParams: ' + urlParams);
+	            console.error('[' + contextName + '] Invalid url for Ajax putJSONs -> urlParams: ' + urlParams);
 	        }
 	        return commonRequestJsons(urlParams, callback, 'PUT');
 	    };
 
-	    ajaxPublicNamespace.deleteJSON = function (url, param) {
+	    ajaxPublicContext.deleteJSON = function (url, param) {
 	        //
 	        if (!url || typeof url !== 'string') {
-	            console.error('Invalid arguments for ' + naraNamespace + ' Ajax deleteJSON -> url: ' + url + ', param: ' + param);
+	            console.error('[' + contextName + '] Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
 	        }
 	        return commonRequestJson(url, 'DELETE', param);
 	    };
 
-	    ajaxPublicNamespace.deleteJSONs = function (urlParams, callback) {
+	    ajaxPublicContext.deleteJSONs = function (urlParams, callback) {
 	        //
 	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('Invalid url for ' + naraNamespace + ' Ajax deleteJSONs -> urlParams: ' + urlParams);
+	            console.error('[' + contextName + '] Invalid url for Ajax deleteJSONs -> urlParams: ' + urlParams);
 	        }
 	        return commonRequestJsons(urlParams, callback, 'DELETE');
 	    };
@@ -384,7 +370,7 @@
 	    var commonRequestJson = function commonRequestJson(url, method, param) {
 	        //
 	        if (!url || typeof url !== 'string') {
-	            console.error('Invalid arguments for ' + naraNamespace + ' Ajax JSON -> url: ' + url + ', param: ' + param);
+	            console.error('[' + contextName + '] Invalid arguments for Ajax JSON -> url: ' + url + ', param: ' + param);
 	        }
 
 	        var jqAjaxReq = {
@@ -397,7 +383,7 @@
 	        if (param) {
 	            jqAjaxReq.data = (typeof param === 'undefined' ? 'undefined' : _typeof(param)) === 'object' ? JSON.stringify(param) : param;
 	        }
-	        return _jQuery.ajax(jqAjaxReq);
+	        return _jquery2.default.ajax(jqAjaxReq);
 	    };
 
 	    var commonRequestJsons = function commonRequestJsons(urlParams, callback, method) {
@@ -414,7 +400,7 @@
 	            promises.push(promise);
 	        }
 
-	        _jQuery.when.apply(_jQuery, promises).done(function () {
+	        _jquery2.default.when.apply(_jquery2.default, promises).done(function () {
 	            //
 	            var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
 	                resultDatas = [];
@@ -473,12 +459,13 @@
 	     * @param param1 Optional, this param is callback or settings
 	     * @param param2 Optional, this param is callback when exists param1
 	     */
-	    ajaxPublicNamespace.getScript = function (url, param1, param2) {
+	    ajaxPublicContext.getScript = function (url, param1, param2) {
 	        //
+	        console.debug('[' + contextName + '] getScript ');
 	        if (!url || typeof url !== 'string') {
-	            console.error('Invalid url for ' + naraNamespace + ' Ajax getScript -> url: ' + url);
+	            console.error('[' + contextName + '] Invalid url for Ajax getScript -> url: ' + url);
 	        }
-	        ajaxPublicNamespace.getScripts([url], param1, param2);
+	        ajaxPublicContext.getScripts([url], param1, param2);
 	    };
 
 	    /**
@@ -492,14 +479,15 @@
 	     * @param param1 Optional, this param is callback or settings
 	     * @param param2 Optional callback when param1 exists
 	     */
-	    ajaxPublicNamespace.getScripts = function (urlArray, param1, param2) {
+	    ajaxPublicContext.getScripts = function (urlArray, param1, param2) {
 	        //
+	        console.debug('[' + contextName + '] getScripts ');
 	        var callback = void 0,
 	            callbackCallable = false,
 	            settings = { async: true };
 
 	        if (!urlArray || !Array.isArray(urlArray) || urlArray.length === 0) {
-	            console.error('Invalid url for ' + naraNamespace + ' Ajax getScripts -> urlArray: ' + urlArray);
+	            console.error('[' + contextName + '] Invalid url for Ajax getScripts -> urlArray: ' + urlArray);
 	        }
 
 	        if (param1 && typeof param1 === 'function') {
@@ -524,12 +512,17 @@
 
 	            // Script exists in cache
 	            if (cached) {
-	                console.info('Execute cached script -> ' + url);
-	                //_jsxTransform.run(cached.script);
+	                console.info('[' + contextName + '] Execute cached script -> ' + url);
+
+	                try {
+	                    new Function(cached.script)();
+	                } catch (e) {
+	                    _jsxTransform.run(cached.script);
+	                }
 	            }
 	            // Not exists
 	            else {
-	                    var promise = _jQuery.ajax({
+	                    var promise = _jquery2.default.ajax({
 	                        url: url,
 	                        method: 'GET',
 	                        cache: false,
@@ -537,7 +530,7 @@
 	                        dataType: 'text',
 	                        contentType: 'text/plain',
 	                        error: function error(result) {
-	                            console.error('Failed  get script at ' + naraNamespace + ' Ajax -> url: ' + this.url + ', dataType: ' + this.dataType);
+	                            console.error('[' + contextName + '] Failed  get script at Ajax -> url: ' + this.url + ', dataType: ' + this.dataType);
 	                            console.log(result);
 	                        }
 	                    });
@@ -546,7 +539,7 @@
 	        }
 
 	        if (promises.length > 0) {
-	            _jQuery.when.apply(_jQuery, promises).then(function () {
+	            _jquery2.default.when.apply(_jquery2.default, promises).then(function () {
 	                //
 	                var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
 	                    ajaxRequest = Array.isArray(this) ? this : [this];
@@ -556,9 +549,14 @@
 	                        ajaxResult = ajaxResults[_i2],
 	                        resultScript = ajaxResult[0];
 
-	                    console.info('Execute script from server -> ' + _url);
+	                    console.info('[' + contextName + '] Execute script from server -> ' + _url);
 	                    scriptCache.add(_url, resultScript);
-	                    //_jsxTransform.run(resultScript);
+
+	                    try {
+	                        new Function(resultScript)();
+	                    } catch (e) {
+	                        _jsxTransform.run(resultScript);
+	                    }
 	                }
 
 	                if (callbackCallable) {
@@ -572,40 +570,31 @@
 	        }
 	    };
 
-	    ajaxPublicNamespace.getHtml = function (url, callback) {
+	    ajaxPublicContext.getHtml = function (url, callback) {
 	        //
-	        return _jQuery.get(url, callback, 'html');
+	        return _jquery2.default.get(url, callback, 'html');
 	    };
-
-	    //__nara[naraNamespace].Ajax = publicNamespace;
 	})();
-	exports.Ajax = ajaxPublicNamespace;
+	exports.Ajax = ajaxPublicContext;
 
-	console.dir(_naraCommon.Object);
-	var constantPublicNamespace = {};
+
+	var constantPublicContext = {};
 
 	// Nara common constant
 	(function () {
 	    //
 	    'use strict';
 
-	    //let publicNamespace = {};
-
-	    //let naraObject = __nara[__nara.namespace].Object;
-
-	    //naraObject.defineConstProperties(constantPublicNamespace, {
-	    objectPublicNamespace.defineConstProperties(constantPublicNamespace, {
+	    _naraCommon.Object.defineConstProperties(constantPublicContext, {
 	        CTX: ','
 	    });
-
-	    //__nara[__nara.namespace].Const = publicNamespace;
 	})();
-	exports.Constant = constantPublicNamespace;
+	exports.Constant = constantPublicContext;
 	exports.default = {
-	    Object: objectPublicNamespace,
-	    Ajax: ajaxPublicNamespace,
-	    Date: datePublicNamespace,
-	    Constant: constantPublicNamespace
+	    Object: objectPublicContext,
+	    Ajax: ajaxPublicContext,
+	    Date: datePublicContext,
+	    Constant: constantPublicContext
 	};
 
 /***/ },
@@ -625,13 +614,37 @@
 	});
 	exports.Dom = exports.Constant = undefined;
 
+	var _jquery = __webpack_require__(2);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
 	var _naraCommon = __webpack_require__(1);
 
-	var constPublicNamespace = {}; /**
-	                                * Created by hkkang on 2016-04-05.
-	                                */
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var domPublicNamespace = {};
+	/**
+	 * Created by hkkang on 2016-04-05.
+	 */
+
+	var constPublicContext = {};
+	var domPublicContext = {};
+
+	// Initialize
+	(function () {
+	    //
+	    'use strict';
+
+	    //let _jQuery = pavilion.lib.jQuery,
+
+	    var token = (0, _jquery2.default)('meta[name=_csrf]').attr('content'),
+	        header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content');
+
+	    if (token && header) {
+	        (0, _jquery2.default)(document).ajaxSend(function (event, xhr) {
+	            xhr.setRequestHeader(header, token);
+	        });
+	    }
+	})();
 
 	(function () {
 	    //
@@ -641,30 +654,30 @@
 
 	    // Castle app constant
 
-	    exports.Constant = constPublicNamespace = {};
+	    exports.Constant = constPublicContext = {};
 
 	    var hashs = window.location.hash.split('/'),
 	        standAlone = hashs.length < 2 || hashs[1] !== 'drama';
 
-	    _naraCommon.Object.defineConstProperties(constPublicNamespace, {
+	    _naraCommon.Object.defineConstProperties(constPublicContext, {
 	        CTX: '.',
 	        PAV_CTX_API: standAlone ? '' : '/drama/castle',
 	        PAV_CTX_RSRC: standAlone ? '' : '/drama/castle',
 	        PAV_CTX_HASH: standAlone ? '' : '/drama/castle'
 	    });
 
-	    exports.Dom = domPublicNamespace = {};
+	    exports.Dom = domPublicContext = {};
 
-	    domPublicNamespace.getCastleMainDom = function () {
+	    domPublicContext.getCastleMainDom = function () {
 	        return document.getElementById('castle-drama');
 	    };
 
 	    //window.castle.common = publicNamespace;
 	})();
 
-	exports.default = { Constant: constPublicNamespace, Dom: domPublicNamespace };
-	exports.Constant = constPublicNamespace;
-	exports.Dom = domPublicNamespace;
+	exports.default = { Constant: constPublicContext, Dom: domPublicContext };
+	exports.Constant = constPublicContext;
+	exports.Dom = domPublicContext;
 
 /***/ },
 /* 4 */
@@ -1667,6 +1680,7 @@
 	    _react2.default.createElement(
 	        _reactRouter.Route,
 	        { path: '' + appRootPath, component: _main2.default },
+	        _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'castles' }),
 	        _react2.default.createElement(_reactRouter.Route, { path: 'castles', component: _list2.default }),
 	        _react2.default.createElement(
 	            _reactRouter.Route,
@@ -2722,25 +2736,25 @@
 
 	BasicContent.propTypes = {
 	    //
-	    castleId: _react.PropTypes.string.isRequired,
+	    castleId: _react.PropTypes.string,
 	    castle: _react.PropTypes.shape({
 	        basic: _react.PropTypes.shape({
-	            castellan: _react.PropTypes.object.isRequired
-	        }).isRequired,
+	            castellan: _react.PropTypes.object
+	        }),
 	        contact: _react.PropTypes.shape({
 	            emailBook: _react.PropTypes.shape({
-	                emails: _react.PropTypes.array.isRequired
+	                emails: _react.PropTypes.array
 	            }).isRequired,
 	            phoneBook: _react.PropTypes.shape({
-	                phones: _react.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired,
-	    modifiable: _react.PropTypes.bool.isRequired,
+	                phones: _react.PropTypes.array
+	            })
+	        })
+	    }),
+	    modifiable: _react.PropTypes.bool,
 
-	    changeModifiableMode: _react.PropTypes.func.isRequired,
-	    changeViewMode: _react.PropTypes.func.isRequired,
-	    setCastle: _react.PropTypes.func.isRequired
+	    changeModifiableMode: _react.PropTypes.func,
+	    changeViewMode: _react.PropTypes.func,
+	    setCastle: _react.PropTypes.func
 	};
 
 	BasicContent.url = {
@@ -3506,19 +3520,19 @@
 	};
 	NameContent.propTypes = {
 	    //
-	    castleId: _react.PropTypes.string.isRequired,
+	    castleId: _react.PropTypes.string,
 	    castle: _react.PropTypes.shape({
 	        contact: _react.PropTypes.shape({
 	            nameBook: _react.PropTypes.shape({
-	                names: _react.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired,
-	    modifiable: _react.PropTypes.bool.isRequired,
+	                names: _react.PropTypes.array
+	            })
+	        })
+	    }),
+	    modifiable: _react.PropTypes.bool,
 
-	    changeModifiableMode: _react.PropTypes.func.isRequired,
-	    changeViewMode: _react.PropTypes.func.isRequired,
-	    setCastle: _react.PropTypes.func.isRequired
+	    changeModifiableMode: _react.PropTypes.func,
+	    changeViewMode: _react.PropTypes.func,
+	    setCastle: _react.PropTypes.func
 	};
 
 	var NameViewContent = function (_Component2) {
@@ -4222,19 +4236,19 @@
 
 	PhoneContent.propTypes = {
 	    //
-	    castleId: _react.PropTypes.string.isRequired,
+	    castleId: _react.PropTypes.string,
 	    castle: _react.PropTypes.shape({
 	        contact: _react.PropTypes.shape({
 	            phoneBook: _react.PropTypes.shape({
-	                phones: _react.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired,
-	    modifiable: _react.PropTypes.bool.isRequired,
+	                phones: _react.PropTypes.array
+	            })
+	        })
+	    }),
+	    modifiable: _react.PropTypes.bool,
 
-	    changeModifiableMode: _react.PropTypes.func.isRequired,
-	    changeViewMode: _react.PropTypes.func.isRequired,
-	    setCastle: _react.PropTypes.func.isRequired
+	    changeModifiableMode: _react.PropTypes.func,
+	    changeViewMode: _react.PropTypes.func,
+	    setCastle: _react.PropTypes.func
 	};
 
 	PhoneContent.url = {
@@ -4885,19 +4899,19 @@
 
 	EmailContent.propTypes = {
 	    //
-	    castleId: _react.PropTypes.string.isRequired,
+	    castleId: _react.PropTypes.string,
 	    castle: _react.PropTypes.shape({
 	        contact: _react.PropTypes.shape({
 	            emailBook: _react.PropTypes.shape({
-	                emails: _react.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired,
-	    modifiable: _react.PropTypes.bool.isRequired,
+	                emails: _react.PropTypes.array
+	            })
+	        })
+	    }),
+	    modifiable: _react.PropTypes.bool,
 
-	    changeModifiableMode: _react.PropTypes.func.isRequired,
-	    changeViewMode: _react.PropTypes.func.isRequired,
-	    setCastle: _react.PropTypes.func.isRequired
+	    changeModifiableMode: _react.PropTypes.func,
+	    changeViewMode: _react.PropTypes.func,
+	    setCastle: _react.PropTypes.func
 	};
 
 	EmailContent.url = {
@@ -5567,19 +5581,19 @@
 
 	AddressContent.propTypes = {
 	    //
-	    castleId: _react.PropTypes.string.isRequired,
+	    castleId: _react.PropTypes.string,
 	    castle: _react.PropTypes.shape({
 	        contact: _react.PropTypes.shape({
 	            addressBook: _react.PropTypes.shape({
-	                addresses: _react.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired,
-	    modifiable: _react.PropTypes.bool.isRequired,
+	                addresses: _react.PropTypes.array
+	            })
+	        })
+	    }),
+	    modifiable: _react.PropTypes.bool,
 
-	    changeModifiableMode: _react.PropTypes.func.isRequired,
-	    changeViewMode: _react.PropTypes.func.isRequired,
-	    setCastle: _react.PropTypes.func.isRequired
+	    changeModifiableMode: _react.PropTypes.func,
+	    changeViewMode: _react.PropTypes.func,
+	    setCastle: _react.PropTypes.func
 	};
 
 	AddressContent.url = {
@@ -6464,14 +6478,14 @@
 
 	AccountContent.propTypes = {
 	    //
-	    castleId: _react.PropTypes.string.isRequired,
+	    castleId: _react.PropTypes.string,
 	    castle: _react.PropTypes.shape({
 	        history: _react.PropTypes.shape({
 	            accountBook: _react.PropTypes.shape({
-	                accounts: _react.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired
+	                accounts: _react.PropTypes.array
+	            })
+	        })
+	    })
 	};
 
 	AccountContent.url = {
@@ -6700,14 +6714,14 @@
 
 	StateContent.propTypes = {
 	    //
-	    castleId: _react.PropTypes.string.isRequired,
+	    castleId: _react.PropTypes.string,
 	    castle: _react.PropTypes.shape({
 	        history: _react.PropTypes.shape({
 	            stateBook: _react.PropTypes.shape({
-	                states: _react.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired
+	                states: _react.PropTypes.array
+	            })
+	        })
+	    })
 	};
 
 	StateContent.url = {
@@ -6932,14 +6946,14 @@
 
 	MetroContent.propTypes = {
 	    //
-	    castleId: _react2.default.PropTypes.string.isRequired,
+	    castleId: _react2.default.PropTypes.string,
 	    castle: _react2.default.PropTypes.shape({
 	        history: _react2.default.PropTypes.shape({
 	            metroBook: _react2.default.PropTypes.shape({
-	                metros: _react2.default.PropTypes.array.isRequired
-	            }).isRequired
-	        }).isRequired
-	    }).isRequired
+	                metros: _react2.default.PropTypes.array
+	            })
+	        })
+	    })
 	};
 
 	MetroContent.url = {
@@ -7054,7 +7068,7 @@
 	    return MetroViewContent;
 	}(_react.Component);
 
-	MetroContent.propTypes = {
+	MetroViewContent.propTypes = {
 	    //
 	    metroBook: _react2.default.PropTypes.shape({
 	        metros: _react2.default.PropTypes.array.isRequired

@@ -167,25 +167,25 @@ class BasicContent extends Component {
 
 BasicContent.propTypes = {
     //
-    castleId: PropTypes.string.isRequired,
+    castleId: PropTypes.string,
     castle: PropTypes.shape({
         basic: PropTypes.shape({
-            castellan: PropTypes.object.isRequired
-        }).isRequired,
+            castellan: PropTypes.object
+        }),
         contact: PropTypes.shape({
             emailBook: PropTypes.shape({
-                emails: PropTypes.array.isRequired
+                emails: PropTypes.array
             }).isRequired,
             phoneBook: PropTypes.shape({
-                phones: PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired,
-    modifiable: PropTypes.bool.isRequired,
+                phones: PropTypes.array
+            })
+        })
+    }),
+    modifiable: PropTypes.bool,
 
-    changeModifiableMode: PropTypes.func.isRequired,
-    changeViewMode: PropTypes.func.isRequired,
-    setCastle: PropTypes.func.isRequired
+    changeModifiableMode: PropTypes.func,
+    changeViewMode: PropTypes.func,
+    setCastle: PropTypes.func
 };
 
 BasicContent.url = {

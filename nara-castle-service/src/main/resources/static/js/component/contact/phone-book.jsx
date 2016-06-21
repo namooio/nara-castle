@@ -89,19 +89,19 @@ class PhoneContent extends Component {
 
 PhoneContent.propTypes = {
     //
-    castleId: PropTypes.string.isRequired,
+    castleId: PropTypes.string,
     castle: PropTypes.shape({
         contact: PropTypes.shape({
             phoneBook: PropTypes.shape({
-                phones: PropTypes.array.isRequired
-            }).isRequired
-        }).isRequired
-    }).isRequired,
-    modifiable: PropTypes.bool.isRequired,
+                phones: PropTypes.array
+            })
+        })
+    }),
+    modifiable: PropTypes.bool,
 
-    changeModifiableMode: PropTypes.func.isRequired,
-    changeViewMode: PropTypes.func.isRequired,
-    setCastle: PropTypes.func.isRequired
+    changeModifiableMode: PropTypes.func,
+    changeViewMode: PropTypes.func,
+    setCastle: PropTypes.func
 };
 
 PhoneContent.url = {
