@@ -1095,7 +1095,39 @@
 	var RoleBook = function (_Component) {
 	    _inherits(RoleBook, _Component);
 
-	    //
+	    _createClass(RoleBook, null, [{
+	        key: 'getRoles',
+
+	        //
+	        value: function getRoles() {
+	            return RoleBook.rolesOfPlayer;
+	        }
+	    }, {
+	        key: 'hasRole',
+	        value: function hasRole(roleName) {
+	            //
+	            var result = false;
+	            if (RoleBook.rolesOfPlayer) {
+	                result = RoleBook.rolesOfPlayer.some(function (role) {
+	                    return roleName === role.name;
+	                });
+	            }
+	            return result;
+	        }
+	    }, {
+	        key: 'getRoleNames',
+	        value: function getRoleNames() {
+	            //
+	            var roleNames = [];
+
+	            if (RoleBook.rolesOfPlayer) {
+	                RoleBook.rolesOfPlayer.forEach(function (role) {
+	                    roleNames.push(role.name);
+	                });
+	            }
+	            return roleNames;
+	        }
+	    }]);
 
 	    function RoleBook(props) {
 	        _classCallCheck(this, RoleBook);
@@ -1208,9 +1240,6 @@
 
 	                    this.setState({ roles: roles, popupState: popupState });
 	                    RoleBook.rolesOfPlayer = roles;
-	                    window.RoleBook = {
-	                        rolesOfPlayer: roles
-	                    };
 	                } else {
 	                    var _roleState = this.state.roleState;
 	                    _roleState.unconfigured = true;
@@ -1337,9 +1366,44 @@
 
 	RoleBook.url = {
 	    //
-	    FIND_ROLES_OF_PLAYER: _castleCommon.Constant.PAV_CTX_API + '/stage/roles/castingId/{castingId}/playerId/{playerId}',
+	    FIND_ROLES_OF_PLAYER: _castleCommon.Constant.PAV_CTX_API + '/stage/rolebook/players/{playerId}/roles?castingId={castingId}',
 	    FIND_PLAYERS: _castleCommon.Constant.PAV_CTX_API + '/stage/players'
 	};
+
+	RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
+
+	window.RoleBook = RoleBook;
+
+	/*
+	RoleBook.hasRole = function () {
+	    //
+
+	};
+
+	let globalRoleBook = window.RoleBook || {};
+	globalRoleBook.hasRole = function (roleName) {
+	    //
+	    let result = false;
+	    if (globalRoleBook.rolesOfPlayer) {
+	        result = globalRoleBook.rolesOfPlayer.some( function (role) {
+	            return roleName === role.name;
+	        });
+	    }
+	    return result;
+	};
+	globalRoleBook.getRoleNames = function () {
+	    //
+	    let roleNames = [];
+
+	    if (globalRoleBook.rolesOfPlayer) {
+	        globalRoleBook.rolesOfPlayer.forEach( function (role) {
+	            roleNames.push(role.name);
+	        });
+	    }
+	    return roleNames;
+	};
+	window.RoleBook = globalRoleBook;
+	*/
 
 	var RolePlayerMappingPop = function (_Component2) {
 	    _inherits(RolePlayerMappingPop, _Component2);
@@ -1585,7 +1649,7 @@
 	RolePlayerMappingPop.url = {
 	    //
 	    FIND_ROLES: _castleCommon.Constant.PAV_CTX_API + '/stage/roles',
-	    SAVE_ROLE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/stage/rolebooks'
+	    SAVE_ROLE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/stage/rolebook'
 	};
 
 	exports.default = RoleBook;

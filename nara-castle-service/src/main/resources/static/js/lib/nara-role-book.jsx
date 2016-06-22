@@ -13,6 +13,33 @@ import { Constant } from 'app/common/castle-common';
 // Define component
 class RoleBook extends Component {
     //
+    static getRoles() {
+        return RoleBook.rolesOfPlayer;
+    }
+
+    static hasRole(roleName) {
+        //
+        let result = false;
+        if (RoleBook.rolesOfPlayer) {
+            result = RoleBook.rolesOfPlayer.some( function (role) {
+                return roleName === role.name;
+            });
+        }
+        return result;
+    }
+
+    static getRoleNames() {
+        //
+        let roleNames = [];
+
+        if (RoleBook.rolesOfPlayer) {
+            RoleBook.rolesOfPlayer.forEach( function (role) {
+                roleNames.push(role.name);
+            });
+        }
+        return roleNames;
+    }
+
     constructor(props) {
         //
         super(props);
@@ -99,9 +126,6 @@ class RoleBook extends Component {
 
                     this.setState({ roles: roles, popupState: popupState });
                     RoleBook.rolesOfPlayer = roles;
-                    window.RoleBook = {
-                        rolesOfPlayer: roles
-                    };
                 }
                 else {
                     let roleState = this.state.roleState;
@@ -188,9 +212,12 @@ class RoleBook extends Component {
 
 RoleBook.url = {
     //
-    FIND_ROLES_OF_PLAYER: `${Constant.PAV_CTX_API}/stage/roles/castingId/{castingId}/playerId/{playerId}`,
+    FIND_ROLES_OF_PLAYER: `${Constant.PAV_CTX_API}/stage/rolebook/players/{playerId}/roles?castingId={castingId}`,
     FIND_PLAYERS: `${Constant.PAV_CTX_API}/stage/players`
 };
+
+RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
+
 
 
 class RolePlayerMappingPop extends Component {
@@ -363,7 +390,7 @@ RolePlayerMappingPop.propTypes = {
 RolePlayerMappingPop.url = {
     //
     FIND_ROLES: `${Constant.PAV_CTX_API}/stage/roles`,
-    SAVE_ROLE_BOOK: `${Constant.PAV_CTX_API}/stage/rolebooks`
+    SAVE_ROLE_BOOK: `${Constant.PAV_CTX_API}/stage/rolebook`
 };
 
 
