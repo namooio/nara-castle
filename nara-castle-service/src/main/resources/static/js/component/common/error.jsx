@@ -2,8 +2,6 @@
  * Created by hkkang on 2016-04-12.
  */
 
-//castle.component.common.Error = castle.component.common.Error || {};
-
 import React, { Component } from 'react';
 import MainComponent from 'app/component/common/main.jsx';
 

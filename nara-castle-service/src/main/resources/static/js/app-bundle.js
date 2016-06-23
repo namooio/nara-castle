@@ -54,11 +54,11 @@
 
 	var CastleCommon = _interopRequireWildcard(_castleCommon);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -70,7 +70,7 @@
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _topMenu = __webpack_require__(7);
+	var _topMenu = __webpack_require__(9);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
@@ -127,7 +127,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.Constant = exports.Ajax = exports.Date = exports.Object = undefined;
+	exports.Dom = exports.Url = exports.Ajax = exports.Date = exports.Object = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -140,6 +140,8 @@
 	var _naraCommon = __webpack_require__(1);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -517,7 +519,8 @@
 	                try {
 	                    new Function(cached.script)();
 	                } catch (e) {
-	                    _jsxTransform.run(cached.script);
+	                    console.error(e);
+	                    //_jsxTransform.run(cached.script);
 	                }
 	            }
 	            // Not exists
@@ -555,7 +558,8 @@
 	                    try {
 	                        new Function(resultScript)();
 	                    } catch (e) {
-	                        _jsxTransform.run(resultScript);
+	                        console.error(e);
+	                        //_jsxTransform.run(resultScript);
 	                    }
 	                }
 
@@ -575,26 +579,90 @@
 	        return _jquery2.default.get(url, callback, 'html');
 	    };
 	})();
+
 	exports.Ajax = ajaxPublicContext;
 
 
-	var constantPublicContext = {};
+	var urlPublicContext = {};
 
-	// Nara common constant
+	// Nara common url
 	(function () {
 	    //
 	    'use strict';
 
-	    _naraCommon.Object.defineConstProperties(constantPublicContext, {
-	        CTX: ','
+	    urlPublicContext.getPavilionContextPath = function (appContextPath) {
+	        //
+	        var hashUrls = window.location.hash.split('/'),
+	            local = hashUrls.length < 2 || hashUrls[1] !== 'dramas',
+	            pavilionContextPath = null;
+
+	        if (local) {
+	            pavilionContextPath = '';
+	        } else {
+	            var dramaId = hashUrls[2],
+	                revision = hashUrls[4];
+
+	            if (revision.split('?').length > 1) {
+	                revision = revision.split('?')[0];
+	            }
+	            pavilionContextPath = '/dramas/' + dramaId + '/revisions/' + revision;
+	            console.log('dramaId: ' + dramaId + ', revision: ' + revision + ', urls: ' + hashUrls);
+	        }
+	        return appContextPath ? pavilionContextPath + '/' + appContextPath : pavilionContextPath;
+	    };
+
+	    var pavilionContextPath = urlPublicContext.getPavilionContextPath(),
+	        PAV_CTX = {};
+
+	    _naraCommon.Object.defineConstProperties(PAV_CTX, {
+	        api: pavilionContextPath,
+	        res: pavilionContextPath,
+	        hash: pavilionContextPath
+	    });
+	    _naraCommon.Object.defineConstProperties(urlPublicContext, {
+	        PAV_CTX: PAV_CTX
 	    });
 	})();
-	exports.Constant = constantPublicContext;
+
+	exports.Url = urlPublicContext;
+
+
+	var domPublicContext = {};
+
+	// Nara common dom
+	(function () {
+	    //
+	    var contextName = appContextName;
+
+	    domPublicContext.getCSRF = function () {
+	        //
+	        var token = jQuery('meta[name=_csrf]').attr('content'),
+	            header = jQuery('meta[name=_csrf_header]').attr('content');
+
+	        return _defineProperty({}, header, token);
+	    };
+	    domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName, tokenValue) {
+	        //
+	        var header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content'),
+	            token = (0, _jquery2.default)('meta[name=_csrf]').attr('content');
+
+	        if (header && token) {
+	            (0, _jquery2.default)(document).ajaxSend(function (event, xhr) {
+	                xhr.setRequestHeader(header, token);
+	            });
+	        } else {
+	            console.warn('[' + contextName + '] Invalid token header name or value -> name: ' + header + ', value: ' + token);
+	        }
+	    };
+	})();
+
+	exports.Dom = domPublicContext;
 	exports.default = {
 	    Object: objectPublicContext,
 	    Ajax: ajaxPublicContext,
 	    Date: datePublicContext,
-	    Constant: constantPublicContext
+	    Url: urlPublicContext,
+	    Dom: domPublicContext
 	};
 
 /***/ },
@@ -614,286 +682,9 @@
 	});
 	exports.Dom = exports.Constant = undefined;
 
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
 	var _naraCommon = __webpack_require__(1);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/**
-	 * Created by hkkang on 2016-04-05.
-	 */
-
-	var constPublicContext = {};
-	var domPublicContext = {};
-
-	// Initialize
-	(function () {
-	    //
-	    'use strict';
-
-	    //let _jQuery = pavilion.lib.jQuery,
-
-	    var token = (0, _jquery2.default)('meta[name=_csrf]').attr('content'),
-	        header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content');
-
-	    if (token && header) {
-	        (0, _jquery2.default)(document).ajaxSend(function (event, xhr) {
-	            xhr.setRequestHeader(header, token);
-	        });
-	    }
-	})();
-
-	(function () {
-	    //
-	    'use strict';
-
-	    //let publicNamespace = {};
-
-	    // Castle app constant
-
-	    exports.Constant = constPublicContext = {};
-
-	    var hashs = window.location.hash.split('/'),
-	        standAlone = hashs.length < 2 || hashs[1] !== 'drama';
-
-	    _naraCommon.Object.defineConstProperties(constPublicContext, {
-	        CTX: '.',
-	        PAV_CTX_API: standAlone ? '' : '/drama/castle',
-	        PAV_CTX_RSRC: standAlone ? '' : '/drama/castle',
-	        PAV_CTX_HASH: standAlone ? '' : '/drama/castle'
-	    });
-
-	    exports.Dom = domPublicContext = {};
-
-	    domPublicContext.getCastleMainDom = function () {
-	        return document.getElementById('castle-drama');
-	    };
-
-	    //window.castle.common = publicNamespace;
-	})();
-
-	exports.default = { Constant: constPublicContext, Dom: domPublicContext };
-	exports.Constant = constPublicContext;
-	exports.Dom = domPublicContext;
-
-/***/ },
-/* 4 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	/**
-	 * Created by hkkang on 2016-04-12.
-	 */
-
-	var CastleModel = {};
-
-	(function () {
-	    //
-	    'use strict';
-
-	    CastleModel = {
-	        //
-	        buttons: {
-	            search: { KOR: '검색', USA: 'Search' },
-	            save: { KOR: '저장', USA: 'Save' },
-	            modify: { KOR: '수정', USA: 'Modify' },
-	            remove: { KOR: '삭제', USA: 'Remove' },
-	            cancel: { KOR: '취소', USA: 'Cancel' },
-	            complete: { KOR: '입력완료', USA: 'Complete' },
-	            add: { KOR: '추가', USA: 'Add' }
-	        },
-	        enums: {
-	            state: {
-	                Ready: { name: 'Ready', KOR: '준비', USA: 'Ready' },
-	                Open: { name: 'Open', KOR: '사용', USA: 'Open' },
-	                Suspended: { name: 'Suspended', KOR: '중단', USA: 'Suspended' },
-	                Closed: { name: 'Closed', KOR: '닫힘', USA: 'Closed' }
-	            },
-	            modifiableState: {
-	                Open: { name: 'Open', KOR: '사용', USA: 'Open' },
-	                Suspended: { name: 'Suspended', KOR: '중단', USA: 'Suspended' }
-	            },
-	            locale: {
-	                ko: { name: 'ko', KOR: '대한민국', USA: 'Republic of Korea' },
-	                ko_KR: { name: 'ko_KR', KOR: '대한민국', USA: 'Republic of Korea' },
-	                us: { name: 'us', KOR: '미국', USA: 'United States of America' },
-	                en_US: { name: 'en_US', KOR: '미국', USA: 'United States of America' }
-	            },
-	            language: {
-	                ko: { name: 'ko', KOR: '한국어', USA: 'Korean' },
-	                kor: { name: 'kor', KOR: '한국어', USA: 'Korean' },
-	                en: { name: 'en', KOR: '영어', USA: 'English' },
-	                eng: { name: 'eng', KOR: '영어', USA: 'English' }
-	            },
-	            emailType: {
-	                Business: { name: 'Business', KOR: '업무용', USA: 'Business' },
-	                Private: { name: 'Private', KOR: '개인용', USA: 'Private' }
-	            },
-	            verified: {
-	                true: { KOR: '확인완료', USA: 'Verified' },
-	                false: { KOR: '미확인', USA: 'Unverified' }
-	            },
-	            addressStyle: {
-	                Korean: { KOR: '대한민국', USA: 'Korean' },
-	                US: { KOR: '미국', USA: 'USA' }
-	            }
-	        }
-	    };
-	})();
-
-	exports.default = CastleModel;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _topMenu = __webpack_require__(7);
-
-	var _topMenu2 = _interopRequireDefault(_topMenu);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-05.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-	'use strict';
-
-	// Define component
-
-	var MainComponent = function (_Component) {
-	    _inherits(MainComponent, _Component);
-
-	    //
-
-	    function MainComponent(props) {
-	        _classCallCheck(this, MainComponent);
-
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MainComponent).call(this, props));
-	        //
-
-
-	        _this.state = {
-	            lang: 'KOR'
-	        };
-
-	        _this.getLanguage = _this.getLanguage.bind(_this);
-	        _this.changeLanguage = _this.changeLanguage.bind(_this);
-	        _this.initLanguage = _this.initLanguage.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(MainComponent, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            //
-	            this.initLanguage();
-	        }
-	        // custom
-
-	    }, {
-	        key: 'getLanguage',
-	        value: function getLanguage() {
-	            return this.state.lang;
-	        }
-	    }, {
-	        key: 'changeLanguage',
-	        value: function changeLanguage(lang) {
-	            this.setState({ lang: lang });
-	            MainComponent.lang = lang;
-	        }
-	    }, {
-	        key: 'initLanguage',
-	        value: function initLanguage() {
-	            //
-	            var lang = void 0;
-
-	            if (navigator.language) lang = navigator.language;else if (navigator.browserLanguage) lang = navigator.browserLanguage;else if (navigator.systemLanguage) lang = navigator.systemLanguage;else if (navigator.userLanguage) lang = navigator.userLanguage;
-
-	            if (lang === 'ko') {
-	                lang = 'KOR';
-	            } else if (lang === 'en') {
-	                lang = 'USA';
-	            }
-
-	            this.changeLanguage(lang);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            //
-	            return _react2.default.createElement(
-	                'div',
-	                null,
-	                _react2.default.createElement(
-	                    'header',
-	                    null,
-	                    _react2.default.createElement(_topMenu2.default, { changeLanguage: this.changeLanguage, getLanguage: this.getLanguage })
-	                ),
-	                _react2.default.createElement(
-	                    'section',
-	                    null,
-	                    this.props.children
-	                )
-	            );
-	        }
-	    }]);
-
-	    return MainComponent;
-	}(_react.Component);
-
-	MainComponent.lang = 'KOR';
-
-	exports.default = MainComponent;
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	module.exports = castleLib.React;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(6);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(8);
-
-	var _naraRoleBook = __webpack_require__(9);
+	var _naraRoleBook = __webpack_require__(4);
 
 	var _naraRoleBook2 = _interopRequireDefault(_naraRoleBook);
 
@@ -901,163 +692,60 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var constantPublicContext = {}; /**
+	                                 * Created by hkkang on 2016-04-05.
+	                                 */
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	var domPublicContext = {};
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-05.
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-	'use strict';
-
-	// Define attributes name
-	var CastleTopMenuModel = {
+	(function () {
 	    //
-	    attrs: {
-	        castles: { KOR: '목록', USA: 'List' }
-	    }
+	    'use strict';
+
+	    // Castle app constant
+
+	    var PAV_CTX = {};
+
+	    _naraCommon.Object.defineConstProperties(PAV_CTX, {
+	        root: _naraCommon.Url.getPavilionContextPath(),
+	        api: _naraCommon.Url.getPavilionContextPath() + '/api',
+	        res: _naraCommon.Url.getPavilionContextPath() + '/resource',
+	        hash: _naraCommon.Url.getPavilionContextPath()
+	    });
+	    _naraCommon.Object.defineConstProperties(constantPublicContext, {
+	        PAV_CTX: PAV_CTX
+	    });
+
+	    // Dom
+	    domPublicContext.getCastleMainDom = function () {
+	        //
+	        return document.getElementById('castle-drama');
+	    };
+	})();
+
+	exports.Constant = constantPublicContext;
+	exports.Dom = domPublicContext;
+	exports.default = {
+	    Constant: constantPublicContext,
+	    Dom: domPublicContext
 	};
 
-	/**
-	 * Castle 공통 상단 메뉴 컴포넌트
-	 */
 
-	var TopMenu = function (_Component) {
-	    _inherits(TopMenu, _Component);
-
+	// Initialize
+	(function () {
 	    //
+	    'use strict';
 
-	    function TopMenu(props) {
-	        _classCallCheck(this, TopMenu);
+	    // Security token
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TopMenu).call(this, props));
+	    _naraCommon.Dom.addTokenAtAjaxSendEvent();
 
-	        _this.state = {
-	            roleDisplayable: false
-	        };
-
-	        _this.changeLanguageClick = _this.changeLanguageClick.bind(_this);
-	        return _this;
-	    }
-	    // event
-
-
-	    _createClass(TopMenu, [{
-	        key: 'changeLanguageClick',
-	        value: function changeLanguageClick(event) {
-	            var lang = $(event.target).data('lang');
-	            this.props.changeLanguage(lang);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            //
-	            var MENUS = CastleTopMenuModel.attrs,
-	                lang = this.props.getLanguage(),
-	                displayLang = void 0;
-
-	            if (lang === 'KOR') {
-	                displayLang = '한국어';
-	            } else if (lang === 'USA') {
-	                displayLang = 'English';
-	            }
-
-	            return _react2.default.createElement(
-	                'nav',
-	                { className: 'navbar navbar-inverse navbar-static-top' },
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'container' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'navbar-header' },
-	                        _react2.default.createElement(
-	                            _reactRouter.Link,
-	                            { activeClassName: 'navbar-brand', to: _castleCommon.Constant.PAV_CTX_HASH + '/' },
-	                            'Castle'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'collapse navbar-collapse' },
-	                        _react2.default.createElement(
-	                            'ui',
-	                            { className: 'nav navbar-nav' },
-	                            _react2.default.createElement(
-	                                'li',
-	                                null,
-	                                _react2.default.createElement(
-	                                    _reactRouter.Link,
-	                                    { to: _castleCommon.Constant.PAV_CTX_HASH + '/castles' },
-	                                    MENUS.castles[lang]
-	                                )
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'ul',
-	                            { className: 'nav navbar-nav navbar-right' },
-	                            _react2.default.createElement(_naraRoleBook2.default, null),
-	                            _react2.default.createElement(
-	                                'li',
-	                                { className: 'dropdown' },
-	                                _react2.default.createElement(
-	                                    'a',
-	                                    { href: 'javascript:', className: 'dropdown-toggle', 'data-toggle': 'dropdown',
-	                                        role: 'button', 'aria-expanded': 'false' },
-	                                    'Language (',
-	                                    displayLang,
-	                                    ') ',
-	                                    _react2.default.createElement('span', { className: 'caret' })
-	                                ),
-	                                _react2.default.createElement(
-	                                    'ul',
-	                                    { className: 'dropdown-menu', role: 'menu' },
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: 'javascript:', onClick: this.changeLanguageClick,
-	                                                'data-lang': 'KOR' },
-	                                            '한국어'
-	                                        )
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'li',
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            'a',
-	                                            { href: 'javascript:', onClick: this.changeLanguageClick, 'data-lang': 'USA' },
-	                                            'English'
-	                                        )
-	                                    )
-	                                )
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return TopMenu;
-	}(_react.Component);
-
-	TopMenu.propTypes = {
-	    changeLanguage: _react.PropTypes.func.isRequired
-	};
-
-	exports.default = TopMenu;
+	    // RoleBook set context path
+	    _naraRoleBook2.default.setContextPath(_castleCommon.Constant.PAV_CTX.root);
+	})();
 
 /***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	module.exports = castleLib.ReactRouter;
-
-/***/ },
-/* 9 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1068,15 +756,13 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(10);
+	var _reactBootstrap = __webpack_require__(6);
 
 	var _naraCommon = __webpack_require__(1);
-
-	var _castleCommon = __webpack_require__(3);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1096,23 +782,29 @@
 	    _inherits(RoleBook, _Component);
 
 	    _createClass(RoleBook, null, [{
-	        key: 'getRoles',
+	        key: 'setContextPath',
 
 	        //
-	        value: function getRoles() {
-	            return RoleBook.rolesOfPlayer;
+	        value: function setContextPath(contextPath) {
+	            //
+	            RoleBook.contextPath = contextPath;
+	            RoleBook.setUrl();
 	        }
 	    }, {
-	        key: 'hasRole',
-	        value: function hasRole(roleName) {
+	        key: 'setUrl',
+	        value: function setUrl() {
 	            //
-	            var result = false;
-	            if (RoleBook.rolesOfPlayer) {
-	                result = RoleBook.rolesOfPlayer.some(function (role) {
-	                    return roleName === role.name;
-	                });
-	            }
-	            return result;
+	            RoleBook.url = {
+	                //
+	                FIND_ROLES_OF_PLAYER: RoleBook.contextPath + '/stage/rolebook/players/{playerId}/roles?castingId={castingId}',
+	                FIND_PLAYERS: RoleBook.contextPath + '/stage/players'
+	            };
+	        }
+	    }, {
+	        key: 'getRoles',
+	        value: function getRoles() {
+	            //
+	            return RoleBook.rolesOfPlayer;
 	        }
 	    }, {
 	        key: 'getRoleNames',
@@ -1126,6 +818,19 @@
 	                });
 	            }
 	            return roleNames;
+	        }
+	    }, {
+	        key: 'hasRole',
+	        value: function hasRole(roleName) {
+	            //
+	            var result = false;
+
+	            if (RoleBook.rolesOfPlayer) {
+	                result = RoleBook.rolesOfPlayer.some(function (role) {
+	                    return roleName === role.name;
+	                });
+	            }
+	            return result;
 	        }
 	    }]);
 
@@ -1364,46 +1069,8 @@
 	    return RoleBook;
 	}(_react.Component);
 
-	RoleBook.url = {
-	    //
-	    FIND_ROLES_OF_PLAYER: _castleCommon.Constant.PAV_CTX_API + '/stage/rolebook/players/{playerId}/roles?castingId={castingId}',
-	    FIND_PLAYERS: _castleCommon.Constant.PAV_CTX_API + '/stage/players'
-	};
-
+	RoleBook.contextPath = null;
 	RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
-
-	window.RoleBook = RoleBook;
-
-	/*
-	RoleBook.hasRole = function () {
-	    //
-
-	};
-
-	let globalRoleBook = window.RoleBook || {};
-	globalRoleBook.hasRole = function (roleName) {
-	    //
-	    let result = false;
-	    if (globalRoleBook.rolesOfPlayer) {
-	        result = globalRoleBook.rolesOfPlayer.some( function (role) {
-	            return roleName === role.name;
-	        });
-	    }
-	    return result;
-	};
-	globalRoleBook.getRoleNames = function () {
-	    //
-	    let roleNames = [];
-
-	    if (globalRoleBook.rolesOfPlayer) {
-	        globalRoleBook.rolesOfPlayer.forEach( function (role) {
-	            roleNames.push(role.name);
-	        });
-	    }
-	    return roleNames;
-	};
-	window.RoleBook = globalRoleBook;
-	*/
 
 	var RolePlayerMappingPop = function (_Component2) {
 	    _inherits(RolePlayerMappingPop, _Component2);
@@ -1648,17 +1315,394 @@
 	};
 	RolePlayerMappingPop.url = {
 	    //
-	    FIND_ROLES: _castleCommon.Constant.PAV_CTX_API + '/stage/roles',
-	    SAVE_ROLE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/stage/rolebook'
+	    FIND_ROLES: RoleBook.contextPath + '/stage/roles',
+	    SAVE_ROLE_BOOK: RoleBook.contextPath + '/stage/rolebook'
 	};
 
 	exports.default = RoleBook;
 
 /***/ },
-/* 10 */
+/* 5 */
+/***/ function(module, exports) {
+
+	module.exports = castleLib.React;
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = castleLib.ReactBootstrap;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	/**
+	 * Created by hkkang on 2016-04-12.
+	 */
+
+	var CastleModel = {};
+
+	(function () {
+	    //
+	    'use strict';
+
+	    CastleModel = {
+	        //
+	        buttons: {
+	            search: { KOR: '검색', USA: 'Search' },
+	            save: { KOR: '저장', USA: 'Save' },
+	            modify: { KOR: '수정', USA: 'Modify' },
+	            remove: { KOR: '삭제', USA: 'Remove' },
+	            cancel: { KOR: '취소', USA: 'Cancel' },
+	            complete: { KOR: '입력완료', USA: 'Complete' },
+	            add: { KOR: '추가', USA: 'Add' }
+	        },
+	        enums: {
+	            state: {
+	                Ready: { name: 'Ready', KOR: '준비', USA: 'Ready' },
+	                Open: { name: 'Open', KOR: '사용', USA: 'Open' },
+	                Suspended: { name: 'Suspended', KOR: '중단', USA: 'Suspended' },
+	                Closed: { name: 'Closed', KOR: '닫힘', USA: 'Closed' }
+	            },
+	            modifiableState: {
+	                Open: { name: 'Open', KOR: '사용', USA: 'Open' },
+	                Suspended: { name: 'Suspended', KOR: '중단', USA: 'Suspended' }
+	            },
+	            locale: {
+	                ko: { name: 'ko', KOR: '대한민국', USA: 'Republic of Korea' },
+	                ko_KR: { name: 'ko_KR', KOR: '대한민국', USA: 'Republic of Korea' },
+	                us: { name: 'us', KOR: '미국', USA: 'United States of America' },
+	                en_US: { name: 'en_US', KOR: '미국', USA: 'United States of America' }
+	            },
+	            language: {
+	                ko: { name: 'ko', KOR: '한국어', USA: 'Korean' },
+	                kor: { name: 'kor', KOR: '한국어', USA: 'Korean' },
+	                en: { name: 'en', KOR: '영어', USA: 'English' },
+	                eng: { name: 'eng', KOR: '영어', USA: 'English' }
+	            },
+	            emailType: {
+	                Business: { name: 'Business', KOR: '업무용', USA: 'Business' },
+	                Private: { name: 'Private', KOR: '개인용', USA: 'Private' }
+	            },
+	            verified: {
+	                true: { KOR: '확인완료', USA: 'Verified' },
+	                false: { KOR: '미확인', USA: 'Unverified' }
+	            },
+	            addressStyle: {
+	                Korean: { KOR: '대한민국', USA: 'Korean' },
+	                US: { KOR: '미국', USA: 'USA' }
+	            }
+	        }
+	    };
+	})();
+
+	exports.default = CastleModel;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _topMenu = __webpack_require__(9);
+
+	var _topMenu2 = _interopRequireDefault(_topMenu);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-05.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	'use strict';
+
+	// Define component
+
+	var MainComponent = function (_Component) {
+	    _inherits(MainComponent, _Component);
+
+	    //
+
+	    function MainComponent(props) {
+	        _classCallCheck(this, MainComponent);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MainComponent).call(this, props));
+	        //
+
+
+	        _this.state = {
+	            lang: 'KOR'
+	        };
+
+	        _this.getLanguage = _this.getLanguage.bind(_this);
+	        _this.changeLanguage = _this.changeLanguage.bind(_this);
+	        _this.initLanguage = _this.initLanguage.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(MainComponent, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //
+	            this.initLanguage();
+	        }
+	        // custom
+
+	    }, {
+	        key: 'getLanguage',
+	        value: function getLanguage() {
+	            return this.state.lang;
+	        }
+	    }, {
+	        key: 'changeLanguage',
+	        value: function changeLanguage(lang) {
+	            this.setState({ lang: lang });
+	            MainComponent.lang = lang;
+	        }
+	    }, {
+	        key: 'initLanguage',
+	        value: function initLanguage() {
+	            //
+	            var lang = void 0;
+
+	            if (navigator.language) lang = navigator.language;else if (navigator.browserLanguage) lang = navigator.browserLanguage;else if (navigator.systemLanguage) lang = navigator.systemLanguage;else if (navigator.userLanguage) lang = navigator.userLanguage;
+
+	            if (lang === 'ko') {
+	                lang = 'KOR';
+	            } else if (lang === 'en') {
+	                lang = 'USA';
+	            }
+
+	            this.changeLanguage(lang);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            //
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'header',
+	                    null,
+	                    _react2.default.createElement(_topMenu2.default, { changeLanguage: this.changeLanguage, getLanguage: this.getLanguage })
+	                ),
+	                _react2.default.createElement(
+	                    'section',
+	                    null,
+	                    this.props.children
+	                )
+	            );
+	        }
+	    }]);
+
+	    return MainComponent;
+	}(_react.Component);
+
+	MainComponent.lang = 'KOR';
+
+	exports.default = MainComponent;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(5);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(10);
+
+	var _naraRoleBook = __webpack_require__(4);
+
+	var _naraRoleBook2 = _interopRequireDefault(_naraRoleBook);
+
+	var _castleCommon = __webpack_require__(3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-05.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	'use strict';
+
+	// Define attributes name
+	var CastleTopMenuModel = {
+	    //
+	    attrs: {
+	        castles: { KOR: '목록', USA: 'List' }
+	    }
+	};
+
+	/**
+	 * Castle 공통 상단 메뉴 컴포넌트
+	 */
+
+	var TopMenu = function (_Component) {
+	    _inherits(TopMenu, _Component);
+
+	    //
+
+	    function TopMenu(props) {
+	        _classCallCheck(this, TopMenu);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TopMenu).call(this, props));
+
+	        _this.state = {
+	            roleDisplayable: false
+	        };
+
+	        _this.changeLanguageClick = _this.changeLanguageClick.bind(_this);
+	        return _this;
+	    }
+	    // event
+
+
+	    _createClass(TopMenu, [{
+	        key: 'changeLanguageClick',
+	        value: function changeLanguageClick(event) {
+	            var lang = $(event.target).data('lang');
+	            this.props.changeLanguage(lang);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            //
+	            var MENUS = CastleTopMenuModel.attrs,
+	                lang = this.props.getLanguage(),
+	                displayLang = void 0;
+
+	            if (lang === 'KOR') {
+	                displayLang = '한국어';
+	            } else if (lang === 'USA') {
+	                displayLang = 'English';
+	            }
+
+	            return _react2.default.createElement(
+	                'nav',
+	                { className: 'navbar navbar-inverse navbar-static-top' },
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'container' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'navbar-header' },
+	                        _react2.default.createElement(
+	                            _reactRouter.Link,
+	                            { className: 'navbar-brand', to: _castleCommon.Constant.PAV_CTX.hash + '/' },
+	                            'Castle'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'collapse navbar-collapse' },
+	                        _react2.default.createElement(
+	                            'ui',
+	                            { className: 'nav navbar-nav' },
+	                            _react2.default.createElement(
+	                                'li',
+	                                null,
+	                                _react2.default.createElement(
+	                                    _reactRouter.Link,
+	                                    { to: _castleCommon.Constant.PAV_CTX.hash + '/castles' },
+	                                    MENUS.castles[lang]
+	                                )
+	                            )
+	                        ),
+	                        _react2.default.createElement(
+	                            'ul',
+	                            { className: 'nav navbar-nav navbar-right' },
+	                            _react2.default.createElement(_naraRoleBook2.default, null),
+	                            _react2.default.createElement(
+	                                'li',
+	                                { className: 'dropdown' },
+	                                _react2.default.createElement(
+	                                    'a',
+	                                    { href: 'javascript:', className: 'dropdown-toggle', 'data-toggle': 'dropdown',
+	                                        role: 'button', 'aria-expanded': 'false' },
+	                                    'Language (',
+	                                    displayLang,
+	                                    ') ',
+	                                    _react2.default.createElement('span', { className: 'caret' })
+	                                ),
+	                                _react2.default.createElement(
+	                                    'ul',
+	                                    { className: 'dropdown-menu', role: 'menu' },
+	                                    _react2.default.createElement(
+	                                        'li',
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            'a',
+	                                            { href: 'javascript:', onClick: this.changeLanguageClick,
+	                                                'data-lang': 'KOR' },
+	                                            '한국어'
+	                                        )
+	                                    ),
+	                                    _react2.default.createElement(
+	                                        'li',
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            'a',
+	                                            { href: 'javascript:', onClick: this.changeLanguageClick, 'data-lang': 'USA' },
+	                                            'English'
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TopMenu;
+	}(_react.Component);
+
+	TopMenu.propTypes = {
+	    changeLanguage: _react.PropTypes.func.isRequired
+	};
+
+	exports.default = TopMenu;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	module.exports = castleLib.ReactRouter;
 
 /***/ },
 /* 11 */
@@ -1666,7 +1710,7 @@
 
 	'use strict';
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -1674,11 +1718,11 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(8);
+	var _reactRouter = __webpack_require__(10);
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -1735,8 +1779,9 @@
 
 	'use strict';
 
-	var CTX = _castleCommon.Constant.PAV_CTX_HASH,
+	var CTX = _castleCommon.Constant.PAV_CTX.hash,
 	    appRootPath = CTX ? CTX : '/';
+	console.log(appRootPath);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRouter.Router,
@@ -1780,11 +1825,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -1797,8 +1842,6 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-12.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-	//castle.component.common.Error = castle.component.common.Error || {};
 
 	'use strict';
 
@@ -1892,21 +1935,21 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(8);
+	var _reactRouter = __webpack_require__(10);
 
 	var _naraCommon = __webpack_require__(1);
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -2016,7 +2059,7 @@
 
 	CastleListPage.url = {
 	    //
-	    FIND_CASTLES: _castleCommon.Constant.PAV_CTX_API + '/front/castles'
+	    FIND_CASTLES: _castleCommon.Constant.PAV_CTX.api + '/castles'
 	};
 
 	/**
@@ -2281,7 +2324,7 @@
 	                                            null,
 	                                            _react2.default.createElement(
 	                                                _reactRouter.Link,
-	                                                { to: _castleCommon.Constant.PAV_CTX_HASH + '/castle/' + castle.id + '/basic' },
+	                                                { to: _castleCommon.Constant.PAV_CTX.hash + '/castle/' + castle.id + '/basic' },
 	                                                _react2.default.createElement('span', { className: 'glyphicon glyphicon-book' })
 	                                            )
 	                                        )
@@ -2324,15 +2367,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(8);
+	var _reactRouter = __webpack_require__(10);
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -2472,7 +2515,7 @@
 	                LANG = _main2.default.lang;
 
 	            var contentType = this.props.contentType,
-	                baseLinkUrl = _castleCommon.Constant.PAV_CTX_HASH + '/castle/' + this.props.castleId;
+	                baseLinkUrl = _castleCommon.Constant.PAV_CTX.hash + '/castle/' + this.props.castleId;
 
 	            return _react2.default.createElement(
 	                'div',
@@ -2598,7 +2641,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -2606,11 +2649,11 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -2823,17 +2866,17 @@
 
 	BasicContent.url = {
 	    //
-	    FIND_CASTLE: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}',
-	    FIND_CASTELLAN: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}',
-	    MODIFY_NAME: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}/name',
-	    MODIFY_LOCALE: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}/locale',
-	    SUSPEND_CASTLE: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}/suspend',
-	    REOPEN_CASTLE: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}/reopen',
-	    MODIFY_PRIMARY_EMAIL: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/primary-email',
-	    MODIFY_PRIMARY_PHONE: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/primary-phone',
-	    FIND_NAME_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/name-book',
-	    FIND_EMAIL_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/email-book',
-	    FIND_PHONE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/phone-book'
+	    FIND_CASTLE: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}',
+	    FIND_CASTELLAN: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}',
+	    MODIFY_NAME: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/name',
+	    MODIFY_LOCALE: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/locale',
+	    SUSPEND_CASTLE: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/suspend',
+	    REOPEN_CASTLE: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/reopen',
+	    MODIFY_PRIMARY_EMAIL: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/primary-email',
+	    MODIFY_PRIMARY_PHONE: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/primary-phone',
+	    FIND_NAME_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/name-book',
+	    FIND_EMAIL_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/email-book',
+	    FIND_PHONE_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/phone-book'
 	};
 
 	var BasicViewContent = function (_Component2) {
@@ -3458,7 +3501,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -3466,11 +3509,11 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -3579,8 +3622,8 @@
 
 	NameContent.url = {
 	    //
-	    FIND_NAME_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/name-book',
-	    ATTACH_NAME_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/name-book'
+	    FIND_NAME_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/name-book',
+	    ATTACH_NAME_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/name-book'
 	};
 	NameContent.propTypes = {
 	    //
@@ -4180,7 +4223,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -4188,11 +4231,11 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -4317,8 +4360,8 @@
 
 	PhoneContent.url = {
 	    //
-	    FIND_PHONE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/phone-book',
-	    ATTACH_PHONE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/phone-book'
+	    FIND_PHONE_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/phone-book',
+	    ATTACH_PHONE_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/phone-book'
 	};
 
 	var PhoneViewContent = function (_Component2) {
@@ -4843,7 +4886,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -4851,11 +4894,11 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -4980,8 +5023,8 @@
 
 	EmailContent.url = {
 	    //
-	    FIND_EMAIL_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/email-book',
-	    ATTACH_EMAIL_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/email-book'
+	    FIND_EMAIL_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/email-book',
+	    ATTACH_EMAIL_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/email-book'
 	};
 
 	var EmailViewContent = function (_Component2) {
@@ -5517,7 +5560,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -5525,11 +5568,11 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -5662,8 +5705,8 @@
 
 	AddressContent.url = {
 	    //
-	    FIND_ADDRESS_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/address-book',
-	    ATTACH_PHONE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castellans/{id}/contacts/address-book'
+	    FIND_ADDRESS_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/address-book',
+	    ATTACH_PHONE_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/address-book'
 	};
 
 	var AddressViewContent = function (_Component2) {
@@ -6443,7 +6486,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -6451,7 +6494,7 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -6554,7 +6597,7 @@
 
 	AccountContent.url = {
 	    //
-	    FIND_ACCOUNT_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}/histories/account-book'
+	    FIND_ACCOUNT_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/histories/account-book'
 	};
 
 	var AccountViewContent = function (_Component2) {
@@ -6675,7 +6718,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -6683,11 +6726,11 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _castleModel = __webpack_require__(4);
+	var _castleModel = __webpack_require__(7);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -6790,7 +6833,7 @@
 
 	StateContent.url = {
 	    //
-	    FIND_STATE_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}/histories/state-book'
+	    FIND_STATE_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/histories/state-book'
 	};
 
 	var StateViewContent = function (_Component2) {
@@ -6913,7 +6956,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(6);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -6921,7 +6964,7 @@
 
 	var _castleCommon = __webpack_require__(3);
 
-	var _main = __webpack_require__(5);
+	var _main = __webpack_require__(8);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -7022,7 +7065,7 @@
 
 	MetroContent.url = {
 	    //
-	    FIND_METRO_BOOK: _castleCommon.Constant.PAV_CTX_API + '/front/castles/{id}/histories/metro-book'
+	    FIND_METRO_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/histories/metro-book'
 	};
 
 	var MetroViewContent = function (_Component2) {

@@ -109,7 +109,7 @@ class Tab extends Component {
             LANG = MainComponent.lang;
 
         let contentType = this.props.contentType,
-            baseLinkUrl = `${Constant.PAV_CTX_HASH}/castle/${this.props.castleId}`;
+            baseLinkUrl = `${Constant.PAV_CTX.hash}/castle/${this.props.castleId}`;
 
         return (
             <div className="container">

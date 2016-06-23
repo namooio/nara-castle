@@ -90,8 +90,8 @@ class NameContent extends Component {
 
 NameContent.url = {
     //
-    FIND_NAME_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/name-book`,
-    ATTACH_NAME_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/name-book`
+    FIND_NAME_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/name-book`,
+    ATTACH_NAME_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/name-book`
 };
 NameContent.propTypes = {
     //

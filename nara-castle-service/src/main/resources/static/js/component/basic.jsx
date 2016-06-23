@@ -190,17 +190,17 @@ BasicContent.propTypes = {
 
 BasicContent.url = {
     //
-    FIND_CASTLE:            `${Constant.PAV_CTX_API}/front/castles/{id}`,
-    FIND_CASTELLAN:         `${Constant.PAV_CTX_API}/front/castellans/{id}`,
-    MODIFY_NAME:            `${Constant.PAV_CTX_API}/front/castles/{id}/name`,
-    MODIFY_LOCALE:          `${Constant.PAV_CTX_API}/front/castles/{id}/locale`,
-    SUSPEND_CASTLE:         `${Constant.PAV_CTX_API}/front/castles/{id}/suspend`,
-    REOPEN_CASTLE:          `${Constant.PAV_CTX_API}/front/castles/{id}/reopen`,
-    MODIFY_PRIMARY_EMAIL:   `${Constant.PAV_CTX_API}/front/castellans/{id}/primary-email`,
-    MODIFY_PRIMARY_PHONE:   `${Constant.PAV_CTX_API}/front/castellans/{id}/primary-phone`,
-    FIND_NAME_BOOK:         `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/name-book`,
-    FIND_EMAIL_BOOK:        `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/email-book`,
-    FIND_PHONE_BOOK:        `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/phone-book`
+    FIND_CASTLE:            `${Constant.PAV_CTX.api}/castles/{id}`,
+    FIND_CASTELLAN:         `${Constant.PAV_CTX.api}/castellans/{id}`,
+    MODIFY_NAME:            `${Constant.PAV_CTX.api}/castles/{id}/name`,
+    MODIFY_LOCALE:          `${Constant.PAV_CTX.api}/castles/{id}/locale`,
+    SUSPEND_CASTLE:         `${Constant.PAV_CTX.api}/castles/{id}/suspend`,
+    REOPEN_CASTLE:          `${Constant.PAV_CTX.api}/castles/{id}/reopen`,
+    MODIFY_PRIMARY_EMAIL:   `${Constant.PAV_CTX.api}/castellans/{id}/primary-email`,
+    MODIFY_PRIMARY_PHONE:   `${Constant.PAV_CTX.api}/castellans/{id}/primary-phone`,
+    FIND_NAME_BOOK:         `${Constant.PAV_CTX.api}/castellans/{id}/contacts/name-book`,
+    FIND_EMAIL_BOOK:        `${Constant.PAV_CTX.api}/castellans/{id}/contacts/email-book`,
+    FIND_PHONE_BOOK:        `${Constant.PAV_CTX.api}/castellans/{id}/contacts/phone-book`
 };
 
 

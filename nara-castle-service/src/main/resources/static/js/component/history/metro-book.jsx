@@ -78,7 +78,7 @@ MetroContent.propTypes = {
 
 MetroContent.url = {
     //
-    FIND_METRO_BOOK: `${Constant.PAV_CTX_API}/front/castles/{id}/histories/metro-book`
+    FIND_METRO_BOOK: `${Constant.PAV_CTX.api}/castles/{id}/histories/metro-book`
 };
 
 

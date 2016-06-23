@@ -91,7 +91,7 @@ class CastleListPage extends Component {
 
 CastleListPage.url = {
     //
-    FIND_CASTLES : `${Constant.PAV_CTX_API}/front/castles`
+    FIND_CASTLES : `${Constant.PAV_CTX.api}/castles`
 };
 
 
@@ -227,7 +227,7 @@ class CastleList extends Component {
                                             <td>{ENUMS.state[castle.state][LANG]}</td>
                                             <td>{NaraDate.parseToString(castle.buildTime)}</td>
                                             <td>
-                                                <Link to={`${Constant.PAV_CTX_HASH}/castle/${castle.id}/basic`}><span className="glyphicon glyphicon-book"/></Link>
+                                                <Link to={`${Constant.PAV_CTX.hash}/castle/${castle.id}/basic`}><span className="glyphicon glyphicon-book"/></Link>
                                             </td>
                                         </tr>
                                     )

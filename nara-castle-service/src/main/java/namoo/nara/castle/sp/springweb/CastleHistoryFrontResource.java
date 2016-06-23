@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @RestController
-@RequestMapping("front/castles/{id}/histories")
+@RequestMapping("api/castles/{id}/histories")
 public class CastleHistoryFrontResource extends CastleHistoryFrontServiceLogic {
     //
     @Autowired

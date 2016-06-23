@@ -106,8 +106,8 @@ PhoneContent.propTypes = {
 
 PhoneContent.url = {
     //
-    FIND_PHONE_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/phone-book`,
-    ATTACH_PHONE_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/phone-book`
+    FIND_PHONE_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/phone-book`,
+    ATTACH_PHONE_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/phone-book`
 };
 
 

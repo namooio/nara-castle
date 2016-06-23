@@ -37,6 +37,7 @@ public class StageResource {
         roleBookService = new RoleBookServicePojoLycler().requestRoleBookService();
     }
 
+
     // Envoy
     @RequestMapping(value = "players", method = RequestMethod.GET)
     public List<Player> findPlayers(@RequestParam("castingId") String castingId) {
@@ -54,11 +55,7 @@ public class StageResource {
     @RequestMapping(value = "rolebooks/castingId/{castingId}", method = RequestMethod.GET)
     public RoleBook findRoleBook(@PathVariable("castingId") String castingId) {
         //
-        try {
-            return roleBookService.findRoleBook(castingId);
-        } catch (Exception e) {
-            return null;
-        }
+        return roleBookService.findRoleBook(castingId);
     }
 
     @RequestMapping(value = "roles", method = RequestMethod.GET)

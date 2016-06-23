@@ -78,7 +78,7 @@ AccountContent.propTypes = {
 
 AccountContent.url = {
     //
-    FIND_ACCOUNT_BOOK: `${Constant.PAV_CTX_API}/front/castles/{id}/histories/account-book`
+    FIND_ACCOUNT_BOOK: `${Constant.PAV_CTX.api}/castles/{id}/histories/account-book`
 };
 
 

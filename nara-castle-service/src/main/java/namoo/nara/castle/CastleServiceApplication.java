@@ -18,9 +18,11 @@ public class CastleServiceApplication {
 		SpringApplication.run(CastleServiceApplication.class, args);
 	}
 
+
 	@Bean
 	public CastleProxyLycler createCastleProxyLycler() {
 		//
 		return new CastleProxySpringLycler();
 	}
+
 }

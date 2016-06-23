@@ -80,7 +80,7 @@ StateContent.propTypes = {
 
 StateContent.url = {
     //
-    FIND_STATE_BOOK: `${Constant.PAV_CTX_API}/front/castles/{id}/histories/state-book`
+    FIND_STATE_BOOK: `${Constant.PAV_CTX.api}/castles/{id}/histories/state-book`
 };
 
 

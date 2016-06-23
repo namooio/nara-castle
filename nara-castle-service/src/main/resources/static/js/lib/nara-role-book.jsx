@@ -5,7 +5,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Ajax as NaraAjax, Object as NaraObject } from 'app/lib/nara-common';
-import { Constant } from 'app/common/castle-common';
 
 
 'use strict';
@@ -13,21 +12,23 @@ import { Constant } from 'app/common/castle-common';
 // Define component
 class RoleBook extends Component {
     //
+    static setContextPath(contextPath) {
+        //
+        RoleBook.contextPath = contextPath;
+        RoleBook.setUrl();
+    }
+    static setUrl() {
+        //
+        RoleBook.url = {
+            //
+            FIND_ROLES_OF_PLAYER: `${RoleBook.contextPath}/stage/rolebook/players/{playerId}/roles?castingId={castingId}`,
+            FIND_PLAYERS: `${RoleBook.contextPath}/stage/players`
+        };
+    }
     static getRoles() {
+        //
         return RoleBook.rolesOfPlayer;
     }
-
-    static hasRole(roleName) {
-        //
-        let result = false;
-        if (RoleBook.rolesOfPlayer) {
-            result = RoleBook.rolesOfPlayer.some( function (role) {
-                return roleName === role.name;
-            });
-        }
-        return result;
-    }
-
     static getRoleNames() {
         //
         let roleNames = [];
@@ -39,7 +40,17 @@ class RoleBook extends Component {
         }
         return roleNames;
     }
+    static hasRole(roleName) {
+        //
+        let result = false;
 
+        if (RoleBook.rolesOfPlayer) {
+            result = RoleBook.rolesOfPlayer.some( function (role) {
+                return roleName === role.name;
+            });
+        }
+        return result;
+    }
     constructor(props) {
         //
         super(props);
@@ -210,12 +221,7 @@ class RoleBook extends Component {
     }
 }
 
-RoleBook.url = {
-    //
-    FIND_ROLES_OF_PLAYER: `${Constant.PAV_CTX_API}/stage/rolebook/players/{playerId}/roles?castingId={castingId}`,
-    FIND_PLAYERS: `${Constant.PAV_CTX_API}/stage/players`
-};
-
+RoleBook.contextPath = null;
 RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
 
 
@@ -389,8 +395,8 @@ RolePlayerMappingPop.propTypes = {
 };
 RolePlayerMappingPop.url = {
     //
-    FIND_ROLES: `${Constant.PAV_CTX_API}/stage/roles`,
-    SAVE_ROLE_BOOK: `${Constant.PAV_CTX_API}/stage/rolebook`
+    FIND_ROLES: `${RoleBook.contextPath}/stage/roles`,
+    SAVE_ROLE_BOOK: `${RoleBook.contextPath}/stage/rolebook`
 };
 
 

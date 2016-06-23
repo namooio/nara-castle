@@ -26,9 +26,8 @@ import MetroBook from 'app/component/history/metro-book.jsx';
 
 'use strict';
 
-let CTX = Constant.PAV_CTX_HASH,
+let CTX = Constant.PAV_CTX.hash,
     appRootPath = CTX ?  CTX : '/';
-
 
 ReactDOM.render((
     <Router history={hashHistory} >

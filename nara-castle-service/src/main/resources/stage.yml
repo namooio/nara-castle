@@ -1,7 +1,12 @@
 # Drama basic information.
 basic information:
-  title: town
-  summary: Nara town drama.
+  title: castle
+  summary: Nara castle drama.
+
+# Drama revision note.
+revision:
+  number: 0.2
+  description: Nara castle dev version(0.2).
 
 # Define drama edition.
 edition :
@@ -31,3 +36,5 @@ rolebook:
 envoy :
   town:
     host: http://localhost:9920
+  artcenter:
+    host: http://localhost:9950

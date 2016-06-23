@@ -113,8 +113,8 @@ AddressContent.propTypes = {
 
 AddressContent.url = {
     //
-    FIND_ADDRESS_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/address-book`,
-    ATTACH_PHONE_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/address-book`
+    FIND_ADDRESS_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/address-book`,
+    ATTACH_PHONE_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/address-book`
 };
 
 

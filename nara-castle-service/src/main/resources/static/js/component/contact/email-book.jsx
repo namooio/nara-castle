@@ -106,8 +106,8 @@ EmailContent.propTypes = {
 
 EmailContent.url = {
     //
-    FIND_EMAIL_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/email-book`,
-    ATTACH_EMAIL_BOOK: `${Constant.PAV_CTX_API}/front/castellans/{id}/contacts/email-book`
+    FIND_EMAIL_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/email-book`,
+    ATTACH_EMAIL_BOOK: `${Constant.PAV_CTX.api}/castellans/{id}/contacts/email-book`
 };
 
 

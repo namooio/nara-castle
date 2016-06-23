@@ -55,11 +55,11 @@ class TopMenu extends Component {
             <nav className="navbar navbar-inverse navbar-static-top">
                 <div className="container">
                     <div className="navbar-header">
-                        <Link activeClassName="navbar-brand" to={`${Constant.PAV_CTX_HASH}/`}>Castle</Link>
+                        <Link className="navbar-brand" to={`${Constant.PAV_CTX.hash}/`}>Castle</Link>
                     </div>
                     <div className="collapse navbar-collapse">
                         <ui className="nav navbar-nav">
-                            <li><Link to={`${Constant.PAV_CTX_HASH}/castles`}>{MENUS.castles[lang]}</Link></li>
+                            <li><Link to={`${Constant.PAV_CTX.hash}/castles`}>{MENUS.castles[lang]}</Link></li>
                         </ui>
                         <ul className="nav navbar-nav navbar-right">
                             <NaraRoleBook />

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @RestController
-@RequestMapping("front/castellans/{id}/contacts")
+@RequestMapping("api/castellans/{id}/contacts")
 public class CastellanContactFrontResource extends CastellanContactFrontServiceLogic {
     //
     @Autowired

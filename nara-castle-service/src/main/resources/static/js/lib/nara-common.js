@@ -361,7 +361,8 @@ let ajaxPublicContext = {};
                 try {
                     new Function(cached.script)();
                 } catch (e) {
-                    _jsxTransform.run(cached.script);
+                    console.error(e);
+                    //_jsxTransform.run(cached.script);
                 }
             }
             // Not exists
@@ -399,7 +400,8 @@ let ajaxPublicContext = {};
                     try {
                         new Function(resultScript)();
                     } catch (e) {
-                        _jsxTransform.run(resultScript);
+                        console.error(e);
+                        //_jsxTransform.run(resultScript);
                     }
                 }
 
@@ -421,30 +423,100 @@ let ajaxPublicContext = {};
     };
 
 })();
+
 export { ajaxPublicContext as Ajax };
 
 
 
 import { Object as NaraObject } from 'app/lib/nara-common';
 
-let constantPublicContext = {};
+let urlPublicContext = {};
 
-// Nara common constant
+// Nara common url
 ( function () {
     //
     'use strict';
 
-    NaraObject.defineConstProperties(constantPublicContext, {
-        CTX: ','
+    urlPublicContext.getPavilionContextPath = function (appContextPath) {
+        //
+        let hashUrls = window.location.hash.split('/'),
+            local = (hashUrls.length < 2 || hashUrls[1] !== 'dramas'),
+            pavilionContextPath = null;
+
+        if (local) {
+            pavilionContextPath = '';
+        }
+        else {
+            let dramaId = hashUrls[2],
+                revision = hashUrls[4];
+
+            if (revision.split('?').length > 1) {
+                revision = revision.split('?')[0];
+            }
+            pavilionContextPath = `/dramas/${dramaId}/revisions/${revision}`;
+        }
+        return appContextPath ? `${pavilionContextPath}/${appContextPath}` : pavilionContextPath;
+    };
+
+
+    let pavilionContextPath = urlPublicContext.getPavilionContextPath(),
+        PAV_CTX = {};
+
+    NaraObject.defineConstProperties(PAV_CTX, {
+        api: pavilionContextPath,
+        res: pavilionContextPath,
+        hash: pavilionContextPath
+    });
+    NaraObject.defineConstProperties(urlPublicContext, {
+        PAV_CTX: PAV_CTX
     });
 
 })();
-export { constantPublicContext as Constant };
+
+export { urlPublicContext as Url };
+
+
+
+let domPublicContext = {};
+
+// Nara common dom
+( function () {
+    //
+    let contextName = appContextName;
+
+    domPublicContext.getCSRF = function () {
+        //
+        let token = jQuery('meta[name=_csrf]').attr('content'),
+            header = jQuery('meta[name=_csrf_header]').attr('content');
+
+        return {
+            [header]: token
+        };
+    };
+    domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName, tokenValue) {
+        //
+        let header = _jQuery('meta[name=_csrf_header]').attr('content'),
+            token = _jQuery('meta[name=_csrf]').attr('content');
+
+        if (header && token) {
+            _jQuery(document).ajaxSend( function(event, xhr) {
+                xhr.setRequestHeader(header, token);
+            });
+        }
+        else {
+            console.warn(`[${contextName}] Invalid token header name or value -> name: ${header}, value: ${token}`);
+        }
+    };
+
+})();
+
+export { domPublicContext as Dom };
 
 
 export default {
     Object: objectPublicContext,
     Ajax: ajaxPublicContext,
     Date: datePublicContext,
-    Constant: constantPublicContext
+    Url: urlPublicContext,
+    Dom: domPublicContext
 };
