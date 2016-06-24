@@ -24,6 +24,11 @@ class RoleBook extends Component {
             FIND_ROLES_OF_PLAYER: `${RoleBook.contextPath}/stage/rolebook/players/{playerId}/roles?castingId={castingId}`,
             FIND_PLAYERS: `${RoleBook.contextPath}/stage/players`
         };
+
+        RolePlayerMappingPop.url = {
+            FIND_ROLES: `${RoleBook.contextPath}/stage/roles`,
+            SAVE_ROLE_BOOK: `${RoleBook.contextPath}/stage/rolebook`
+        };
     }
     static getRoles() {
         //
@@ -367,7 +372,10 @@ class RolePlayerMappingPop extends Component {
                         }
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.saveRoleBookBtnOnClick}>Save</Button>
+                        { existsPlayerCheckList ?
+                            <Button onClick={this.saveRoleBookBtnOnClick}>Save</Button>
+                            : null
+                        }
                     </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.successPopup}>
@@ -392,11 +400,6 @@ RolePlayerMappingPop.propTypes = {
     players: PropTypes.array.isRequired,
     displayable: PropTypes.bool.isRequired,
     onHide: PropTypes.func.isRequired
-};
-RolePlayerMappingPop.url = {
-    //
-    FIND_ROLES: `${RoleBook.contextPath}/stage/roles`,
-    SAVE_ROLE_BOOK: `${RoleBook.contextPath}/stage/rolebook`
 };
 
 

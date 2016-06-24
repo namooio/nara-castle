@@ -42,7 +42,7 @@ public class StageResource {
     @RequestMapping(value = "players", method = RequestMethod.GET)
     public List<Player> findPlayers(@RequestParam("castingId") String castingId) {
         //
-        return playerService.findPlayers(castingId);
+        return playerService.findPlayers("01", castingId);
     }
 
     // RoleBook

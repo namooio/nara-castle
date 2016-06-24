@@ -606,7 +606,6 @@
 	                revision = revision.split('?')[0];
 	            }
 	            pavilionContextPath = '/dramas/' + dramaId + '/revisions/' + revision;
-	            console.log('dramaId: ' + dramaId + ', revision: ' + revision + ', urls: ' + hashUrls);
 	        }
 	        return appContextPath ? pavilionContextPath + '/' + appContextPath : pavilionContextPath;
 	    };
@@ -798,6 +797,11 @@
 	                //
 	                FIND_ROLES_OF_PLAYER: RoleBook.contextPath + '/stage/rolebook/players/{playerId}/roles?castingId={castingId}',
 	                FIND_PLAYERS: RoleBook.contextPath + '/stage/players'
+	            };
+
+	            RolePlayerMappingPop.url = {
+	                FIND_ROLES: RoleBook.contextPath + '/stage/roles',
+	                SAVE_ROLE_BOOK: RoleBook.contextPath + '/stage/rolebook'
 	            };
 	        }
 	    }, {
@@ -1265,11 +1269,11 @@
 	                    _react2.default.createElement(
 	                        _reactBootstrap.Modal.Footer,
 	                        null,
-	                        _react2.default.createElement(
+	                        existsPlayerCheckList ? _react2.default.createElement(
 	                            _reactBootstrap.Button,
 	                            { onClick: this.saveRoleBookBtnOnClick },
 	                            'Save'
-	                        )
+	                        ) : null
 	                    )
 	                ),
 	                _react2.default.createElement(
@@ -1312,11 +1316,6 @@
 	    players: _react.PropTypes.array.isRequired,
 	    displayable: _react.PropTypes.bool.isRequired,
 	    onHide: _react.PropTypes.func.isRequired
-	};
-	RolePlayerMappingPop.url = {
-	    //
-	    FIND_ROLES: RoleBook.contextPath + '/stage/roles',
-	    SAVE_ROLE_BOOK: RoleBook.contextPath + '/stage/rolebook'
 	};
 
 	exports.default = RoleBook;
