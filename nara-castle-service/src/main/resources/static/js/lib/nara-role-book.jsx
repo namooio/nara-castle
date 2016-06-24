@@ -22,7 +22,7 @@ class RoleBook extends Component {
         RoleBook.url = {
             //
             FIND_ROLES_OF_PLAYER: `${RoleBook.contextPath}/stage/rolebook/players/{playerId}/roles?castingId={castingId}`,
-            FIND_PLAYERS: `${RoleBook.contextPath}/stage/players`
+            FIND_PLAYERS: `${RoleBook.contextPath}/stage/players?pavilionId={pavilionId}&castingId={castingId}`
         };
 
         RolePlayerMappingPop.url = {
@@ -61,6 +61,7 @@ class RoleBook extends Component {
         super(props);
 
         this.state = {
+            pavilionId: null,
             castingId: null,
             playerId: null,
             players: [],
@@ -91,15 +92,16 @@ class RoleBook extends Component {
     // overriding
     componentDidMount() {
         //
-        let castingId = document.getElementsByName('castingId')[0].content,
+        let pavilionId = document.getElementsByName('pavilionId')[0].content,
+            castingId = document.getElementsByName('castingId')[0].content,
             playerId = document.getElementsByName('playerId')[0].content;
 
-        this.setState({ castingId: castingId, playerId: playerId });
+        this.setState({ pavilionId: pavilionId, castingId: castingId, playerId: playerId });
         //this.requestRolesOfPlayer(castingId, playerId);
     }
     // event
     roleCheckClick() {
-        this.requestRolesOfPlayer(this.state.castingId, this.state.playerId);
+        this.requestRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
     }
     rolePlayerMappingPopOnHide() {
         let popupState = this.state.popupState;
@@ -128,7 +130,7 @@ class RoleBook extends Component {
         return this.state.roleState.modifiable && this.state.roleState.admin;
     }
     // request
-    requestRolesOfPlayer(castingId, playerId) {
+    requestRolesOfPlayer(pavilionId, castingId, playerId) {
         //
         NaraAjax
             .getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId))
@@ -149,13 +151,13 @@ class RoleBook extends Component {
 
                     this.setState({ roleState: roleState });
                 }
-                this.requestPlayers(castingId, playerId);
+                this.requestPlayers(pavilionId, castingId, playerId);
             }.bind(this));
     }
-    requestPlayers(castingId, playerId) {
+    requestPlayers(pavilionId, castingId, playerId) {
         //
         NaraAjax
-            .getJSON(`${RoleBook.url.FIND_PLAYERS}?castingId=${castingId}`)
+            .getJSON(RoleBook.url.FIND_PLAYERS.replace('{pavilionId}', pavilionId).replace('{castingId}', castingId))
             .done( function (players) {
                 //
                 let administrant =
