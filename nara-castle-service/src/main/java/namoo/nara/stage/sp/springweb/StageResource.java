@@ -40,9 +40,9 @@ public class StageResource {
 
     // Envoy
     @RequestMapping(value = "players", method = RequestMethod.GET)
-    public List<Player> findPlayers(@RequestParam("castingId") String castingId) {
+    public List<Player> findPlayers(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId) {
         //
-        return playerService.findPlayers("01", castingId);
+        return playerService.findPlayers(pavilionId, castingId);
     }
 
     // RoleBook

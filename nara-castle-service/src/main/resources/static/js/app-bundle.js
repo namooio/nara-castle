@@ -796,7 +796,7 @@
 	            RoleBook.url = {
 	                //
 	                FIND_ROLES_OF_PLAYER: RoleBook.contextPath + '/stage/rolebook/players/{playerId}/roles?castingId={castingId}',
-	                FIND_PLAYERS: RoleBook.contextPath + '/stage/players'
+	                FIND_PLAYERS: RoleBook.contextPath + '/stage/players?pavilionId={pavilionId}&castingId={castingId}'
 	            };
 
 	            RolePlayerMappingPop.url = {
@@ -846,6 +846,7 @@
 
 
 	        _this.state = {
+	            pavilionId: null,
 	            castingId: null,
 	            playerId: null,
 	            players: [],
@@ -881,10 +882,11 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            //
-	            var castingId = document.getElementsByName('castingId')[0].content,
+	            var pavilionId = document.getElementsByName('pavilionId')[0].content,
+	                castingId = document.getElementsByName('castingId')[0].content,
 	                playerId = document.getElementsByName('playerId')[0].content;
 
-	            this.setState({ castingId: castingId, playerId: playerId });
+	            this.setState({ pavilionId: pavilionId, castingId: castingId, playerId: playerId });
 	            //this.requestRolesOfPlayer(castingId, playerId);
 	        }
 	        // event
@@ -892,7 +894,7 @@
 	    }, {
 	        key: 'roleCheckClick',
 	        value: function roleCheckClick() {
-	            this.requestRolesOfPlayer(this.state.castingId, this.state.playerId);
+	            this.requestRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
 	        }
 	    }, {
 	        key: 'rolePlayerMappingPopOnHide',
@@ -937,7 +939,7 @@
 
 	    }, {
 	        key: 'requestRolesOfPlayer',
-	        value: function requestRolesOfPlayer(castingId, playerId) {
+	        value: function requestRolesOfPlayer(pavilionId, castingId, playerId) {
 	            //
 	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId)).done(function (roles) {
 	                if (roles) {
@@ -955,14 +957,14 @@
 
 	                    this.setState({ roleState: _roleState });
 	                }
-	                this.requestPlayers(castingId, playerId);
+	                this.requestPlayers(pavilionId, castingId, playerId);
 	            }.bind(this));
 	        }
 	    }, {
 	        key: 'requestPlayers',
-	        value: function requestPlayers(castingId, playerId) {
+	        value: function requestPlayers(pavilionId, castingId, playerId) {
 	            //
-	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_PLAYERS + '?castingId=' + castingId).done(function (players) {
+	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_PLAYERS.replace('{pavilionId}', pavilionId).replace('{castingId}', castingId)).done(function (players) {
 	                //
 	                var administrant = players.some(function (player) {
 	                    return player.id === playerId && player.leader === true;
