@@ -38,3 +38,6 @@ envoy :
     host: http://localhost:9920
   artcenter:
     host: http://localhost:9950
+
+# Annotation scan package root.
+scan package root: namoo.nara.castle
