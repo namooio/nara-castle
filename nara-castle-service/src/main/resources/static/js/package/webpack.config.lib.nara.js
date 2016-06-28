@@ -8,7 +8,7 @@ var webpack = require('webpack');
 module.exports = {
     //
     entry: {
-        app: './app.js'
+        'nara-lib': './nara-lib.js'
     },
     resolve: {
         moduleDirectories: ['node_modules'],
@@ -18,7 +18,9 @@ module.exports = {
         }
     },
     output: {
-        filename: '../[name]-bundle.js'
+        filename: '../[name]-bundle.js',
+        libraryTarget: 'var',
+        library: 'naraLib'
     },
     module: {
         loaders: [

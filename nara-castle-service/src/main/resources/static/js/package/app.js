@@ -1,9 +1,6 @@
 /**
  * Created by hkkang on 2016-06-01.
  */
-// Nara library
-import * as NaraCommon from 'app/lib/nara-common';
-
 // Castle commmon
 import * as CastleCommon from 'app/common/castle-common';
 import CastleModel from 'app/common/castle-model';

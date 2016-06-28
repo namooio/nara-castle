@@ -4,7 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { Ajax as NaraAjax, Object as NaraObject } from 'app/lib/nara-common';
+import { Ajax as NaraAjax, Object as NaraObject } from './nara-common';
 
 
 'use strict';

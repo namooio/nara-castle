@@ -4,7 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import NaraRoleBook from 'app/lib/nara-role-book.jsx';
+import NaraRoleBook from 'nara-role-book';
 import { Constant } from 'app/common/castle-common';
 
 

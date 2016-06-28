@@ -3,7 +3,7 @@
  */
 
 import React, { Component, PropTypes} from 'react';
-import { Ajax as NaraAjax, Object as NaraObject } from 'app/lib/nara-common';
+import { Ajax as NaraAjax, Object as NaraObject } from 'nara';
 import { Constant } from 'app/common/castle-common';
 import CastleModel from 'app/common/castle-model';
 import MainComponent from 'app/component/common/main.jsx';
@@ -137,31 +137,31 @@ class AddressViewContent extends Component {
         //
         const ENUMS = CastleModel.enums,
             BUTTON_NAMES = CastleModel.buttons,
-            ATTRS = CastleAddressModel.attrs,
-            MESSAGES = CastleAddressModel.messages,
-            LANG = MainComponent.lang;
+                    ATTRS = CastleAddressModel.attrs,
+                    MESSAGES = CastleAddressModel.messages,
+                    LANG = MainComponent.lang;
 
-        let existsAddressBook = this.props.addressBook.addresses.length > 0;
+                    let existsAddressBook = this.props.addressBook.addresses.length > 0;
 
-        return (
-            <article>
-                <table className="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>{ATTRS.title[LANG]}</th>
-                            <th>{ATTRS.langCode[LANG]}</th>
-                            <th>{ATTRS.style[LANG]}</th>
-                            <th>{ATTRS.country[LANG]}</th>
-                            <th>{ATTRS.zipCode[LANG]}</th>
-                            <th>{ATTRS.phoneNumber[LANG]}</th>
-                            <th>{ATTRS.state[LANG]}</th>
-                            <th>{ATTRS.city[LANG]}</th>
-                        </tr>
-                        <tr>
-                            <th colSpan="4">{ATTRS.addressPartOne[LANG]}</th>
-                            <th colSpan="4">{ATTRS.addressPartTwo[LANG]}</th>
-                        </tr>
-                    </thead>
+                    return (
+                    <article>
+                        <table className="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>{ATTRS.title[LANG]}</th>
+                                <th>{ATTRS.langCode[LANG]}</th>
+                                <th>{ATTRS.style[LANG]}</th>
+                                <th>{ATTRS.country[LANG]}</th>
+                                <th>{ATTRS.zipCode[LANG]}</th>
+                                <th>{ATTRS.phoneNumber[LANG]}</th>
+                                <th>{ATTRS.state[LANG]}</th>
+                                <th>{ATTRS.city[LANG]}</th>
+                            </tr>
+                            <tr>
+                                <th colSpan="4">{ATTRS.addressPartOne[LANG]}</th>
+                                <th colSpan="4">{ATTRS.addressPartTwo[LANG]}</th>
+                            </tr>
+                            </thead>
                     { existsAddressBook ?
                         this.props.addressBook.addresses.map( function (address, index) {
                             //
@@ -357,7 +357,7 @@ class AddressModifiableContent extends Component {
         addresses[index] = copiedAddress;
         this.setState({ willModifyAddresses: addresses });
     }
-    setProgressAddressState(index, propertyName, value) {
+        setProgressAddressState(index, propertyName, value) {
         //
         let addresses = this.state.inputProgressAddresses;
 

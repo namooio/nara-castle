@@ -3,7 +3,7 @@
  */
 
 import React, { Component, PropTypes} from 'react';
-import { Ajax as NaraAjax, Object as NaraObject } from 'app/lib/nara-common';
+import { Ajax as NaraAjax, Object as NaraObject } from 'nara';
 import { Constant } from 'app/common/castle-common';
 import CastleModel from 'app/common/castle-model';
 import MainComponent from 'app/component/common/main.jsx';

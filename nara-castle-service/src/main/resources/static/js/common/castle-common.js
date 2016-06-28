@@ -2,7 +2,7 @@
  * Created by hkkang on 2016-04-05.
  */
 
-import { Object as NaraObject, Url as NaraUrl } from 'app/lib/nara-common';
+import { Object as NaraObject, Url as NaraUrl } from 'nara';
 
 
 let constantPublicContext = {};
@@ -43,7 +43,7 @@ export default {
 
 
 
-import { Dom as NaraDom } from 'app/lib/nara-common';
+import { Dom as NaraDom } from 'nara';
 import NaraRoleBook from 'app/lib/nara-role-book.jsx';
 import { Constant } from 'app/common/castle-common';
 

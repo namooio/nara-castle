@@ -1,14 +1,15 @@
 {
   "name": "castle-webpack",
-  "version": "1.0.0",
-  "description": "",
-  "main": "webpack.config.js",
+  "version": "0.1.0",
+  "description": "Castle webpack package",
+  "author": "nara",
+  "license": "ISC",
+  "main": "webpack.config.app.js",
   "scripts": {
-    "build-lib": "webpack --config webpack.config.lib.js --progress --colors",
+    "build-external": "webpack --config webpack.config.lib.external.js --progress --colors",
+    "build-nara": "webpack --config webpack.config.lib.nara.js --progress --colors",
     "build-app": "webpack --config webpack.config.app.js --progress --colors"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "jquery": "^2.2.4",
     "bootstrap": "^3.3.6",

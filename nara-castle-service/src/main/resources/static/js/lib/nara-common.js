@@ -2,7 +2,7 @@
  * Created by hkkang on 2016-04-28.
  */
 
-let appContextName = 'CastleNaraCommon';
+let appContextName = 'NaraCommon';
 
 
 let objectPublicContext = {};
@@ -96,7 +96,7 @@ export { datePublicContext as Date };
 
 
 
-import _jQuery from 'jquery';
+import jQuery from 'jquery';
 //import { transform as _jsxTransform } from 'babel-core';
 //let _jsxTransform = babel.transform;
 
@@ -236,7 +236,7 @@ let ajaxPublicContext = {};
         if (param) {
             jqAjaxReq.data = typeof param === 'object' ? JSON.stringify(param) : param;
         }
-        return _jQuery.ajax(jqAjaxReq);
+        return jQuery.ajax(jqAjaxReq);
     };
 
     let commonRequestJsons = function (urlParams, callback, method) {
@@ -253,7 +253,7 @@ let ajaxPublicContext = {};
             promises.push(promise);
         }
 
-        _jQuery.when.apply(_jQuery, promises).done(function () {
+        jQuery.when.apply(jQuery, promises).done(function () {
             //
             let ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
                 resultDatas = [];
@@ -362,12 +362,17 @@ let ajaxPublicContext = {};
                     new Function(cached.script)();
                 } catch (e) {
                     console.error(e);
-                    //_jsxTransform.run(cached.script);
+                    if (window.babel) {
+                        babel.transform.run(cached.script);
+                    }
+                    else {
+                        console.error('Babel 없음');
+                    }
                 }
             }
             // Not exists
             else {
-                let promise = _jQuery.ajax({
+                let promise = jQuery.ajax({
                     url: url,
                     method: 'GET',
                     cache: false,
@@ -384,7 +389,7 @@ let ajaxPublicContext = {};
         }
 
         if (promises.length > 0) {
-            _jQuery.when.apply(_jQuery, promises).then(function () {
+            jQuery.when.apply(jQuery, promises).then(function () {
                 //
                 let ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
                     ajaxRequest = Array.isArray(this) ? this : [this];
@@ -401,7 +406,12 @@ let ajaxPublicContext = {};
                         new Function(resultScript)();
                     } catch (e) {
                         console.error(e);
-                        //_jsxTransform.run(resultScript);
+                        if (window.babel) {
+                            babel.transform.run(resultScript);
+                        }
+                        else {
+                            console.error('Babel 없음');
+                        }
                     }
                 }
 
@@ -419,7 +429,7 @@ let ajaxPublicContext = {};
 
     ajaxPublicContext.getHtml = function (url, callback) {
         //
-        return _jQuery.get(url, callback, 'html');
+        return jQuery.get(url, callback, 'html');
     };
 
 })();
@@ -428,7 +438,7 @@ export { ajaxPublicContext as Ajax };
 
 
 
-import { Object as NaraObject } from 'app/lib/nara-common';
+let NaraObject = objectPublicContext;
 
 let urlPublicContext = {};
 
@@ -495,11 +505,11 @@ let domPublicContext = {};
     };
     domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName, tokenValue) {
         //
-        let header = _jQuery('meta[name=_csrf_header]').attr('content'),
-            token = _jQuery('meta[name=_csrf]').attr('content');
+        let header = jQuery('meta[name=_csrf_header]').attr('content'),
+            token = jQuery('meta[name=_csrf]').attr('content');
 
         if (header && token) {
-            _jQuery(document).ajaxSend( function(event, xhr) {
+            jQuery(document).ajaxSend( function(event, xhr) {
                 xhr.setRequestHeader(header, token);
             });
         }

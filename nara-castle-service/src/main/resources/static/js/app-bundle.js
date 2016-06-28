@@ -1,3 +1,5 @@
+console.log('App bundle');
+console.dir(this);
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -46,71 +48,67 @@
 
 	'use strict';
 
-	var _naraCommon = __webpack_require__(1);
-
-	var NaraCommon = _interopRequireWildcard(_naraCommon);
-
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
 	var CastleCommon = _interopRequireWildcard(_castleCommon);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _appReactRouter = __webpack_require__(11);
+	var _appReactRouter = __webpack_require__(12);
 
 	var CastleReactRouter = _interopRequireWildcard(_appReactRouter);
 
-	var _error = __webpack_require__(13);
+	var _error = __webpack_require__(14);
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _topMenu = __webpack_require__(9);
+	var _topMenu = __webpack_require__(10);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
-	var _list = __webpack_require__(14);
+	var _list = __webpack_require__(15);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(15);
+	var _detailTab = __webpack_require__(16);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(16);
+	var _basic = __webpack_require__(17);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(17);
+	var _nameBook = __webpack_require__(18);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(18);
+	var _phoneBook = __webpack_require__(19);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(19);
+	var _emailBook = __webpack_require__(20);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(20);
+	var _addressBook = __webpack_require__(21);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(21);
+	var _accountBook = __webpack_require__(22);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _metroBook = __webpack_require__(23);
+	var _metroBook = __webpack_require__(24);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
-	var _stateBook = __webpack_require__(22);
+	var _stateBook = __webpack_require__(23);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
@@ -127,567 +125,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.Dom = exports.Url = exports.Ajax = exports.Date = exports.Object = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var _jquery = __webpack_require__(2);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _naraCommon = __webpack_require__(1);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	/**
-	 * Created by hkkang on 2016-04-28.
-	 */
-
-	var appContextName = 'CastleNaraCommon';
-
-	var objectPublicContext = {};
-
-	// Object util
-	(function () {
-	    //
-	    'use strict';
-
-	    var contextName = appContextName;
-
-	    objectPublicContext.defineConstProperty = function (obj, name, value) {
-	        //
-	        Object.defineProperty(obj, name, {
-	            value: value,
-	            writable: false,
-	            configurable: false,
-	            enumerable: true
-	        });
-	    };
-
-	    objectPublicContext.defineConstProperties = function (obj, nameValues) {
-	        //
-	        Object.keys(nameValues).forEach(function (name) {
-	            objectPublicContext.defineConstProperty(obj, name, nameValues[name]);
-	        });
-	    };
-
-	    objectPublicContext.isEmpty = function (object) {
-	        //
-	        return !object || Object.keys(object).length === 0;
-	    };
-
-	    objectPublicContext.deepCopy = function (source) {
-	        //
-	        if (!source || (typeof source === 'undefined' ? 'undefined' : _typeof(source)) !== 'object') {
-	            console.warn('[' + contextName + '] Source for copy is not array or object. -> Object.deepCopy');
-	            return;
-	        }
-	        return deepCopy(source);
-	    };
-
-	    var deepCopy = function deepCopy(source) {
-	        //
-	        var result = void 0;
-
-	        if (!source || !((typeof source === 'undefined' ? 'undefined' : _typeof(source)) === 'object' || Array.isArray(source))) {
-	            return source;
-	        }
-	        if (Array.isArray(source)) {
-	            result = [];
-	        } else {
-	            result = {};
-	        }
-
-	        for (var property in source) {
-	            if (source.hasOwnProperty(property)) {
-	                var sourcePropValue = source[property];
-	                result[property] = deepCopy(sourcePropValue);
-	            }
-	        }
-	        return result;
-	    };
-	})();
-
-	exports.Object = objectPublicContext;
-
-
-	var datePublicContext = {};
-
-	// Date util
-	(function () {
-	    //
-	    'use strict';
-
-	    datePublicContext.parseToString = function (date) {
-	        //
-	        if (!date) {
-	            return null;
-	        }
-	        return new Date(date).toLocaleString();
-	    };
-	})();
-
-	exports.Date = datePublicContext;
-
-	//import { transform as _jsxTransform } from 'babel-core';
-	//let _jsxTransform = babel.transform;
-
-	var ajaxPublicContext = {};
-
-	// Ajax util
-	(function () {
-	    //
-	    'use strict';
-
-	    var contextName = appContextName;
-
-	    // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
-
-	    var UrlBuilder = function () {
-	        //
-
-	        function UrlBuilder() {
-	            _classCallCheck(this, UrlBuilder);
-
-	            this.urlAndParams = [];
-	        }
-
-	        _createClass(UrlBuilder, [{
-	            key: 'addUrl',
-	            value: function addUrl(url) {
-	                this.urlAndParams.push({ url: url });
-	            }
-	        }, {
-	            key: 'addUrlAndParam',
-	            value: function addUrlAndParam(url, param) {
-	                this.urlAndParams.push({ url: url, param: param });
-	            }
-	        }, {
-	            key: 'build',
-	            value: function build() {
-	                return this.urlAndParams;
-	            }
-	        }]);
-
-	        return UrlBuilder;
-	    }();
-
-	    ajaxPublicContext.createUrlBuilder = function () {
-	        //
-	        return new UrlBuilder();
-	    };
-
-	    /**
-	     * Get Json AJAX
-	     *
-	     * <p>postJSON(String url, Object paramData)</p>
-	     *
-	     * @param url url
-	     * @param param
-	     * @returns {*}
-	     */
-	    ajaxPublicContext.getJSON = function (url, param) {
-	        //
-	        console.debug('[' + contextName + '] getJSON');
-	        if (!url || typeof url !== 'string') {
-	            console.error('[' + contextName + '] Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
-	        }
-	        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
-	            return jsonResult;
-	        });
-	    };
-
-	    ajaxPublicContext.getJSONs = function (urlParams, callback) {
-	        //
-	        console.debug('[' + contextName + '] getJSONs');
-	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('[' + contextName + '] Invalid url for Ajax getJSONs -> urlParams: ' + urlParams);
-	        }
-	        return commonRequestJsons(urlParams, callback, 'GET');
-	    };
-
-	    /**
-	     * Post Json AJAX
-	     *
-	     * <p>postJSON(String url, Object paramData)</p>
-	     *
-	     * @param url url
-	     * @param param
-	     * @returns {*}
-	     */
-	    ajaxPublicContext.postJSON = function (url, param) {
-	        //
-	        if (!url || typeof url !== 'string' || !param) {
-	            console.error('[' + contextName + '] Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
-	        }
-	        return commonRequestJson(url, 'POST', param);
-	    };
-
-	    ajaxPublicContext.postJSONs = function (urlParams, callback) {
-	        //
-	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('[' + contextName + '] Invalid url for Ajax postJSONs -> urlParams: ' + urlParams);
-	        }
-	        return commonRequestJsons(urlParams, callback, 'POST');
-	    };
-
-	    ajaxPublicContext.putJSON = function (url, param) {
-	        //
-	        if (!url || typeof url !== 'string' || !param) {
-	            console.error('[' + contextName + '] Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
-	        }
-	        return commonRequestJson(url, 'PUT', param);
-	    };
-
-	    ajaxPublicContext.putJSONs = function (urlParams, callback) {
-	        //
-	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('[' + contextName + '] Invalid url for Ajax putJSONs -> urlParams: ' + urlParams);
-	        }
-	        return commonRequestJsons(urlParams, callback, 'PUT');
-	    };
-
-	    ajaxPublicContext.deleteJSON = function (url, param) {
-	        //
-	        if (!url || typeof url !== 'string') {
-	            console.error('[' + contextName + '] Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
-	        }
-	        return commonRequestJson(url, 'DELETE', param);
-	    };
-
-	    ajaxPublicContext.deleteJSONs = function (urlParams, callback) {
-	        //
-	        if (!urlParams || !Array.isArray(urlParams)) {
-	            console.error('[' + contextName + '] Invalid url for Ajax deleteJSONs -> urlParams: ' + urlParams);
-	        }
-	        return commonRequestJsons(urlParams, callback, 'DELETE');
-	    };
-
-	    var commonRequestJson = function commonRequestJson(url, method, param) {
-	        //
-	        if (!url || typeof url !== 'string') {
-	            console.error('[' + contextName + '] Invalid arguments for Ajax JSON -> url: ' + url + ', param: ' + param);
-	        }
-
-	        var jqAjaxReq = {
-	            url: url,
-	            method: method,
-	            contentType: 'application/json',
-	            cache: false
-	        };
-
-	        if (param) {
-	            jqAjaxReq.data = (typeof param === 'undefined' ? 'undefined' : _typeof(param)) === 'object' ? JSON.stringify(param) : param;
-	        }
-	        return _jquery2.default.ajax(jqAjaxReq);
-	    };
-
-	    var commonRequestJsons = function commonRequestJsons(urlParams, callback, method) {
-	        //
-	        var callbackCallable = callback && typeof callback === 'function',
-	            promises = [];
-
-	        for (var i = 0; i < urlParams.length; i++) {
-	            //
-	            var url = urlParams[i].url,
-	                param = urlParams[i].param,
-	                promise = commonRequestJson(url, method, param);
-
-	            promises.push(promise);
-	        }
-
-	        _jquery2.default.when.apply(_jquery2.default, promises).done(function () {
-	            //
-	            var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
-	                resultDatas = [];
-
-	            for (var _i = 0; _i < ajaxResults.length; _i++) {
-	                var ajaxResult = ajaxResults[_i],
-	                    resultData = ajaxResult[0];
-	                resultDatas.push(resultData);
-	            }
-
-	            if (callbackCallable) {
-	                callback.apply(this, resultDatas);
-	            }
-	            return promises;
-	        });
-	    };
-
-	    // Script cache object
-
-	    var ScriptCache = function () {
-	        //
-
-	        function ScriptCache() {
-	            _classCallCheck(this, ScriptCache);
-
-	            this.caches = {};
-	        }
-
-	        _createClass(ScriptCache, [{
-	            key: 'get',
-	            value: function get(url) {
-	                var pureUrl = url.split('?')[0];
-	                return this.caches[pureUrl];
-	            }
-	        }, {
-	            key: 'add',
-	            value: function add(url, script) {
-	                var pureUrl = url.split('?')[0];
-	                this.caches[pureUrl] = script;
-	            }
-	        }]);
-
-	        return ScriptCache;
-	    }();
-
-	    var scriptCache = new ScriptCache();
-
-	    /**
-	     * Get and execute JavaScript or JSX
-	     * <p>
-	     *     function (string url, function callback [optional])
-	     *     function (string url, object settings [optional], function callback [optional]
-	     * </p>
-	     *
-	     * @param url
-	     * @param param1 Optional, this param is callback or settings
-	     * @param param2 Optional, this param is callback when exists param1
-	     */
-	    ajaxPublicContext.getScript = function (url, param1, param2) {
-	        //
-	        console.debug('[' + contextName + '] getScript ');
-	        if (!url || typeof url !== 'string') {
-	            console.error('[' + contextName + '] Invalid url for Ajax getScript -> url: ' + url);
-	        }
-	        ajaxPublicContext.getScripts([url], param1, param2);
-	    };
-
-	    /**
-	     * Get and execute JavaScript or JSX list
-	     * <p>
-	     *     function (array<string> url, function callback [optional])
-	     *     function (array<string> url, object settings [optional], function callback [optional]
-	     * </p>
-	     *
-	     * @param urlArray
-	     * @param param1 Optional, this param is callback or settings
-	     * @param param2 Optional callback when param1 exists
-	     */
-	    ajaxPublicContext.getScripts = function (urlArray, param1, param2) {
-	        //
-	        console.debug('[' + contextName + '] getScripts ');
-	        var callback = void 0,
-	            callbackCallable = false,
-	            settings = { async: true };
-
-	        if (!urlArray || !Array.isArray(urlArray) || urlArray.length === 0) {
-	            console.error('[' + contextName + '] Invalid url for Ajax getScripts -> urlArray: ' + urlArray);
-	        }
-
-	        if (param1 && typeof param1 === 'function') {
-	            callback = param1;
-	        } else if (param1 && (typeof param1 === 'undefined' ? 'undefined' : _typeof(param1)) === 'object') {
-	            settings = param1;
-	            if (param2 && typeof param2 === 'function') {
-	                callback = param2;
-	            }
-	        }
-
-	        if (callback && typeof callback === 'function') {
-	            callbackCallable = true;
-	        }
-
-	        var promises = [];
-
-	        for (var i = 0; i < urlArray.length; i++) {
-	            //
-	            var url = urlArray[i],
-	                cached = scriptCache.get(url);
-
-	            // Script exists in cache
-	            if (cached) {
-	                console.info('[' + contextName + '] Execute cached script -> ' + url);
-
-	                try {
-	                    new Function(cached.script)();
-	                } catch (e) {
-	                    console.error(e);
-	                    //_jsxTransform.run(cached.script);
-	                }
-	            }
-	            // Not exists
-	            else {
-	                    var promise = _jquery2.default.ajax({
-	                        url: url,
-	                        method: 'GET',
-	                        cache: false,
-	                        async: settings.async,
-	                        dataType: 'text',
-	                        contentType: 'text/plain',
-	                        error: function error(result) {
-	                            console.error('[' + contextName + '] Failed  get script at Ajax -> url: ' + this.url + ', dataType: ' + this.dataType);
-	                            console.log(result);
-	                        }
-	                    });
-	                    promises.push(promise);
-	                }
-	        }
-
-	        if (promises.length > 0) {
-	            _jquery2.default.when.apply(_jquery2.default, promises).then(function () {
-	                //
-	                var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
-	                    ajaxRequest = Array.isArray(this) ? this : [this];
-
-	                for (var _i2 = 0; _i2 < ajaxResults.length; _i2++) {
-	                    var _url = ajaxRequest[_i2].url,
-	                        ajaxResult = ajaxResults[_i2],
-	                        resultScript = ajaxResult[0];
-
-	                    console.info('[' + contextName + '] Execute script from server -> ' + _url);
-	                    scriptCache.add(_url, resultScript);
-
-	                    try {
-	                        new Function(resultScript)();
-	                    } catch (e) {
-	                        console.error(e);
-	                        //_jsxTransform.run(resultScript);
-	                    }
-	                }
-
-	                if (callbackCallable) {
-	                    callback();
-	                }
-	            });
-	        } else {
-	            if (callbackCallable) {
-	                callback();
-	            }
-	        }
-	    };
-
-	    ajaxPublicContext.getHtml = function (url, callback) {
-	        //
-	        return _jquery2.default.get(url, callback, 'html');
-	    };
-	})();
-
-	exports.Ajax = ajaxPublicContext;
-
-
-	var urlPublicContext = {};
-
-	// Nara common url
-	(function () {
-	    //
-	    'use strict';
-
-	    urlPublicContext.getPavilionContextPath = function (appContextPath) {
-	        //
-	        var hashUrls = window.location.hash.split('/'),
-	            local = hashUrls.length < 2 || hashUrls[1] !== 'dramas',
-	            pavilionContextPath = null;
-
-	        if (local) {
-	            pavilionContextPath = '';
-	        } else {
-	            var dramaId = hashUrls[2],
-	                revision = hashUrls[4];
-
-	            if (revision.split('?').length > 1) {
-	                revision = revision.split('?')[0];
-	            }
-	            pavilionContextPath = '/dramas/' + dramaId + '/revisions/' + revision;
-	        }
-	        return appContextPath ? pavilionContextPath + '/' + appContextPath : pavilionContextPath;
-	    };
-
-	    var pavilionContextPath = urlPublicContext.getPavilionContextPath(),
-	        PAV_CTX = {};
-
-	    _naraCommon.Object.defineConstProperties(PAV_CTX, {
-	        api: pavilionContextPath,
-	        res: pavilionContextPath,
-	        hash: pavilionContextPath
-	    });
-	    _naraCommon.Object.defineConstProperties(urlPublicContext, {
-	        PAV_CTX: PAV_CTX
-	    });
-	})();
-
-	exports.Url = urlPublicContext;
-
-
-	var domPublicContext = {};
-
-	// Nara common dom
-	(function () {
-	    //
-	    var contextName = appContextName;
-
-	    domPublicContext.getCSRF = function () {
-	        //
-	        var token = jQuery('meta[name=_csrf]').attr('content'),
-	            header = jQuery('meta[name=_csrf_header]').attr('content');
-
-	        return _defineProperty({}, header, token);
-	    };
-	    domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName, tokenValue) {
-	        //
-	        var header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content'),
-	            token = (0, _jquery2.default)('meta[name=_csrf]').attr('content');
-
-	        if (header && token) {
-	            (0, _jquery2.default)(document).ajaxSend(function (event, xhr) {
-	                xhr.setRequestHeader(header, token);
-	            });
-	        } else {
-	            console.warn('[' + contextName + '] Invalid token header name or value -> name: ' + header + ', value: ' + token);
-	        }
-	    };
-	})();
-
-	exports.Dom = domPublicContext;
-	exports.default = {
-	    Object: objectPublicContext,
-	    Ajax: ajaxPublicContext,
-	    Date: datePublicContext,
-	    Url: urlPublicContext,
-	    Dom: domPublicContext
-	};
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = castleLib.jQuery;
-
-/***/ },
-/* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
 	exports.Dom = exports.Constant = undefined;
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _naraRoleBook = __webpack_require__(4);
+	var _naraRoleBook = __webpack_require__(3);
 
 	var _naraRoleBook2 = _interopRequireDefault(_naraRoleBook);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -705,13 +151,13 @@
 
 	    var PAV_CTX = {};
 
-	    _naraCommon.Object.defineConstProperties(PAV_CTX, {
-	        root: _naraCommon.Url.getPavilionContextPath(),
-	        api: _naraCommon.Url.getPavilionContextPath() + '/api',
-	        res: _naraCommon.Url.getPavilionContextPath() + '/resource',
-	        hash: _naraCommon.Url.getPavilionContextPath()
+	    _nara.Object.defineConstProperties(PAV_CTX, {
+	        root: _nara.Url.getPavilionContextPath(),
+	        api: _nara.Url.getPavilionContextPath() + '/api',
+	        res: _nara.Url.getPavilionContextPath() + '/resource',
+	        hash: _nara.Url.getPavilionContextPath()
 	    });
-	    _naraCommon.Object.defineConstProperties(constantPublicContext, {
+	    _nara.Object.defineConstProperties(constantPublicContext, {
 	        PAV_CTX: PAV_CTX
 	    });
 
@@ -737,14 +183,20 @@
 
 	    // Security token
 
-	    _naraCommon.Dom.addTokenAtAjaxSendEvent();
+	    _nara.Dom.addTokenAtAjaxSendEvent();
 
 	    // RoleBook set context path
 	    _naraRoleBook2.default.setContextPath(_castleCommon.Constant.PAV_CTX.root);
 	})();
 
 /***/ },
-/* 4 */
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = naraLib.Nara;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -755,13 +207,13 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactBootstrap = __webpack_require__(6);
+	var _reactBootstrap = __webpack_require__(5);
 
-	var _naraCommon = __webpack_require__(1);
+	var _naraCommon = __webpack_require__(6);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1323,19 +775,579 @@
 	exports.default = RoleBook;
 
 /***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	module.exports = externalLib.React;
+
+/***/ },
 /* 5 */
 /***/ function(module, exports) {
 
-	module.exports = castleLib.React;
+	module.exports = externalLib.ReactBootstrap;
 
 /***/ },
 /* 6 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = castleLib.ReactBootstrap;
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Dom = exports.Url = exports.Ajax = exports.Date = exports.Object = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _jquery = __webpack_require__(7);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	/**
+	 * Created by hkkang on 2016-04-28.
+	 */
+
+	var appContextName = 'NaraCommon';
+
+	var objectPublicContext = {};
+
+	// Object util
+	(function () {
+	    //
+	    'use strict';
+
+	    var contextName = appContextName;
+
+	    objectPublicContext.defineConstProperty = function (obj, name, value) {
+	        //
+	        Object.defineProperty(obj, name, {
+	            value: value,
+	            writable: false,
+	            configurable: false,
+	            enumerable: true
+	        });
+	    };
+
+	    objectPublicContext.defineConstProperties = function (obj, nameValues) {
+	        //
+	        Object.keys(nameValues).forEach(function (name) {
+	            objectPublicContext.defineConstProperty(obj, name, nameValues[name]);
+	        });
+	    };
+
+	    objectPublicContext.isEmpty = function (object) {
+	        //
+	        return !object || Object.keys(object).length === 0;
+	    };
+
+	    objectPublicContext.deepCopy = function (source) {
+	        //
+	        if (!source || (typeof source === 'undefined' ? 'undefined' : _typeof(source)) !== 'object') {
+	            console.warn('[' + contextName + '] Source for copy is not array or object. -> Object.deepCopy');
+	            return;
+	        }
+	        return deepCopy(source);
+	    };
+
+	    var deepCopy = function deepCopy(source) {
+	        //
+	        var result = void 0;
+
+	        if (!source || !((typeof source === 'undefined' ? 'undefined' : _typeof(source)) === 'object' || Array.isArray(source))) {
+	            return source;
+	        }
+	        if (Array.isArray(source)) {
+	            result = [];
+	        } else {
+	            result = {};
+	        }
+
+	        for (var property in source) {
+	            if (source.hasOwnProperty(property)) {
+	                var sourcePropValue = source[property];
+	                result[property] = deepCopy(sourcePropValue);
+	            }
+	        }
+	        return result;
+	    };
+	})();
+
+	exports.Object = objectPublicContext;
+
+
+	var datePublicContext = {};
+
+	// Date util
+	(function () {
+	    //
+	    'use strict';
+
+	    datePublicContext.parseToString = function (date) {
+	        //
+	        if (!date) {
+	            return null;
+	        }
+	        return new Date(date).toLocaleString();
+	    };
+	})();
+
+	exports.Date = datePublicContext;
+
+	//import { transform as _jsxTransform } from 'babel-core';
+	//let _jsxTransform = babel.transform;
+
+	var ajaxPublicContext = {};
+
+	// Ajax util
+	(function () {
+	    //
+	    'use strict';
+
+	    var contextName = appContextName;
+
+	    // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
+
+	    var UrlBuilder = function () {
+	        //
+
+	        function UrlBuilder() {
+	            _classCallCheck(this, UrlBuilder);
+
+	            this.urlAndParams = [];
+	        }
+
+	        _createClass(UrlBuilder, [{
+	            key: 'addUrl',
+	            value: function addUrl(url) {
+	                this.urlAndParams.push({ url: url });
+	            }
+	        }, {
+	            key: 'addUrlAndParam',
+	            value: function addUrlAndParam(url, param) {
+	                this.urlAndParams.push({ url: url, param: param });
+	            }
+	        }, {
+	            key: 'build',
+	            value: function build() {
+	                return this.urlAndParams;
+	            }
+	        }]);
+
+	        return UrlBuilder;
+	    }();
+
+	    ajaxPublicContext.createUrlBuilder = function () {
+	        //
+	        return new UrlBuilder();
+	    };
+
+	    /**
+	     * Get Json AJAX
+	     *
+	     * <p>postJSON(String url, Object paramData)</p>
+	     *
+	     * @param url url
+	     * @param param
+	     * @returns {*}
+	     */
+	    ajaxPublicContext.getJSON = function (url, param) {
+	        //
+	        console.debug('[' + contextName + '] getJSON');
+	        if (!url || typeof url !== 'string') {
+	            console.error('[' + contextName + '] Invalid url for Ajax getJSON -> url: ' + url + ', param: ' + param);
+	        }
+	        return commonRequestJson(url, 'GET', param).pipe(function (jsonResult, status, jqXHR) {
+	            return jsonResult;
+	        });
+	    };
+
+	    ajaxPublicContext.getJSONs = function (urlParams, callback) {
+	        //
+	        console.debug('[' + contextName + '] getJSONs');
+	        if (!urlParams || !Array.isArray(urlParams)) {
+	            console.error('[' + contextName + '] Invalid url for Ajax getJSONs -> urlParams: ' + urlParams);
+	        }
+	        return commonRequestJsons(urlParams, callback, 'GET');
+	    };
+
+	    /**
+	     * Post Json AJAX
+	     *
+	     * <p>postJSON(String url, Object paramData)</p>
+	     *
+	     * @param url url
+	     * @param param
+	     * @returns {*}
+	     */
+	    ajaxPublicContext.postJSON = function (url, param) {
+	        //
+	        if (!url || typeof url !== 'string' || !param) {
+	            console.error('[' + contextName + '] Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
+	        }
+	        return commonRequestJson(url, 'POST', param);
+	    };
+
+	    ajaxPublicContext.postJSONs = function (urlParams, callback) {
+	        //
+	        if (!urlParams || !Array.isArray(urlParams)) {
+	            console.error('[' + contextName + '] Invalid url for Ajax postJSONs -> urlParams: ' + urlParams);
+	        }
+	        return commonRequestJsons(urlParams, callback, 'POST');
+	    };
+
+	    ajaxPublicContext.putJSON = function (url, param) {
+	        //
+	        if (!url || typeof url !== 'string' || !param) {
+	            console.error('[' + contextName + '] Invalid arguments for Ajax putJSON -> url: ' + url + ', param: ' + param);
+	        }
+	        return commonRequestJson(url, 'PUT', param);
+	    };
+
+	    ajaxPublicContext.putJSONs = function (urlParams, callback) {
+	        //
+	        if (!urlParams || !Array.isArray(urlParams)) {
+	            console.error('[' + contextName + '] Invalid url for Ajax putJSONs -> urlParams: ' + urlParams);
+	        }
+	        return commonRequestJsons(urlParams, callback, 'PUT');
+	    };
+
+	    ajaxPublicContext.deleteJSON = function (url, param) {
+	        //
+	        if (!url || typeof url !== 'string') {
+	            console.error('[' + contextName + '] Invalid arguments for Ajax deleteJSON -> url: ' + url + ', param: ' + param);
+	        }
+	        return commonRequestJson(url, 'DELETE', param);
+	    };
+
+	    ajaxPublicContext.deleteJSONs = function (urlParams, callback) {
+	        //
+	        if (!urlParams || !Array.isArray(urlParams)) {
+	            console.error('[' + contextName + '] Invalid url for Ajax deleteJSONs -> urlParams: ' + urlParams);
+	        }
+	        return commonRequestJsons(urlParams, callback, 'DELETE');
+	    };
+
+	    var commonRequestJson = function commonRequestJson(url, method, param) {
+	        //
+	        if (!url || typeof url !== 'string') {
+	            console.error('[' + contextName + '] Invalid arguments for Ajax JSON -> url: ' + url + ', param: ' + param);
+	        }
+
+	        var jqAjaxReq = {
+	            url: url,
+	            method: method,
+	            contentType: 'application/json',
+	            cache: false
+	        };
+
+	        if (param) {
+	            jqAjaxReq.data = (typeof param === 'undefined' ? 'undefined' : _typeof(param)) === 'object' ? JSON.stringify(param) : param;
+	        }
+	        return _jquery2.default.ajax(jqAjaxReq);
+	    };
+
+	    var commonRequestJsons = function commonRequestJsons(urlParams, callback, method) {
+	        //
+	        var callbackCallable = callback && typeof callback === 'function',
+	            promises = [];
+
+	        for (var i = 0; i < urlParams.length; i++) {
+	            //
+	            var url = urlParams[i].url,
+	                param = urlParams[i].param,
+	                promise = commonRequestJson(url, method, param);
+
+	            promises.push(promise);
+	        }
+
+	        _jquery2.default.when.apply(_jquery2.default, promises).done(function () {
+	            //
+	            var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
+	                resultDatas = [];
+
+	            for (var _i = 0; _i < ajaxResults.length; _i++) {
+	                var ajaxResult = ajaxResults[_i],
+	                    resultData = ajaxResult[0];
+	                resultDatas.push(resultData);
+	            }
+
+	            if (callbackCallable) {
+	                callback.apply(this, resultDatas);
+	            }
+	            return promises;
+	        });
+	    };
+
+	    // Script cache object
+
+	    var ScriptCache = function () {
+	        //
+
+	        function ScriptCache() {
+	            _classCallCheck(this, ScriptCache);
+
+	            this.caches = {};
+	        }
+
+	        _createClass(ScriptCache, [{
+	            key: 'get',
+	            value: function get(url) {
+	                var pureUrl = url.split('?')[0];
+	                return this.caches[pureUrl];
+	            }
+	        }, {
+	            key: 'add',
+	            value: function add(url, script) {
+	                var pureUrl = url.split('?')[0];
+	                this.caches[pureUrl] = script;
+	            }
+	        }]);
+
+	        return ScriptCache;
+	    }();
+
+	    var scriptCache = new ScriptCache();
+
+	    /**
+	     * Get and execute JavaScript or JSX
+	     * <p>
+	     *     function (string url, function callback [optional])
+	     *     function (string url, object settings [optional], function callback [optional]
+	     * </p>
+	     *
+	     * @param url
+	     * @param param1 Optional, this param is callback or settings
+	     * @param param2 Optional, this param is callback when exists param1
+	     */
+	    ajaxPublicContext.getScript = function (url, param1, param2) {
+	        //
+	        console.debug('[' + contextName + '] getScript ');
+	        if (!url || typeof url !== 'string') {
+	            console.error('[' + contextName + '] Invalid url for Ajax getScript -> url: ' + url);
+	        }
+	        ajaxPublicContext.getScripts([url], param1, param2);
+	    };
+
+	    /**
+	     * Get and execute JavaScript or JSX list
+	     * <p>
+	     *     function (array<string> url, function callback [optional])
+	     *     function (array<string> url, object settings [optional], function callback [optional]
+	     * </p>
+	     *
+	     * @param urlArray
+	     * @param param1 Optional, this param is callback or settings
+	     * @param param2 Optional callback when param1 exists
+	     */
+	    ajaxPublicContext.getScripts = function (urlArray, param1, param2) {
+	        //
+	        console.debug('[' + contextName + '] getScripts ');
+	        var callback = void 0,
+	            callbackCallable = false,
+	            settings = { async: true };
+
+	        if (!urlArray || !Array.isArray(urlArray) || urlArray.length === 0) {
+	            console.error('[' + contextName + '] Invalid url for Ajax getScripts -> urlArray: ' + urlArray);
+	        }
+
+	        if (param1 && typeof param1 === 'function') {
+	            callback = param1;
+	        } else if (param1 && (typeof param1 === 'undefined' ? 'undefined' : _typeof(param1)) === 'object') {
+	            settings = param1;
+	            if (param2 && typeof param2 === 'function') {
+	                callback = param2;
+	            }
+	        }
+
+	        if (callback && typeof callback === 'function') {
+	            callbackCallable = true;
+	        }
+
+	        var promises = [];
+
+	        for (var i = 0; i < urlArray.length; i++) {
+	            //
+	            var url = urlArray[i],
+	                cached = scriptCache.get(url);
+
+	            // Script exists in cache
+	            if (cached) {
+	                console.info('[' + contextName + '] Execute cached script -> ' + url);
+
+	                try {
+	                    new Function(cached.script)();
+	                } catch (e) {
+	                    console.error(e);
+	                    if (window.babel) {
+	                        babel.transform.run(cached.script);
+	                    } else {
+	                        console.error('Babel 없음');
+	                    }
+	                }
+	            }
+	            // Not exists
+	            else {
+	                    var promise = _jquery2.default.ajax({
+	                        url: url,
+	                        method: 'GET',
+	                        cache: false,
+	                        async: settings.async,
+	                        dataType: 'text',
+	                        contentType: 'text/plain',
+	                        error: function error(result) {
+	                            console.error('[' + contextName + '] Failed  get script at Ajax -> url: ' + this.url + ', dataType: ' + this.dataType);
+	                            console.log(result);
+	                        }
+	                    });
+	                    promises.push(promise);
+	                }
+	        }
+
+	        if (promises.length > 0) {
+	            _jquery2.default.when.apply(_jquery2.default, promises).then(function () {
+	                //
+	                var ajaxResults = Array.isArray(arguments[0]) ? arguments : [arguments],
+	                    ajaxRequest = Array.isArray(this) ? this : [this];
+
+	                for (var _i2 = 0; _i2 < ajaxResults.length; _i2++) {
+	                    var _url = ajaxRequest[_i2].url,
+	                        ajaxResult = ajaxResults[_i2],
+	                        resultScript = ajaxResult[0];
+
+	                    console.info('[' + contextName + '] Execute script from server -> ' + _url);
+	                    scriptCache.add(_url, resultScript);
+
+	                    try {
+	                        new Function(resultScript)();
+	                    } catch (e) {
+	                        console.error(e);
+	                        if (window.babel) {
+	                            babel.transform.run(resultScript);
+	                        } else {
+	                            console.error('Babel 없음');
+	                        }
+	                    }
+	                }
+
+	                if (callbackCallable) {
+	                    callback();
+	                }
+	            });
+	        } else {
+	            if (callbackCallable) {
+	                callback();
+	            }
+	        }
+	    };
+
+	    ajaxPublicContext.getHtml = function (url, callback) {
+	        //
+	        return _jquery2.default.get(url, callback, 'html');
+	    };
+	})();
+
+	exports.Ajax = ajaxPublicContext;
+
+
+	var NaraObject = objectPublicContext;
+
+	var urlPublicContext = {};
+
+	// Nara common url
+	(function () {
+	    //
+	    'use strict';
+
+	    urlPublicContext.getPavilionContextPath = function (appContextPath) {
+	        //
+	        var hashUrls = window.location.hash.split('/'),
+	            local = hashUrls.length < 2 || hashUrls[1] !== 'dramas',
+	            pavilionContextPath = null;
+
+	        if (local) {
+	            pavilionContextPath = '';
+	        } else {
+	            var dramaId = hashUrls[2],
+	                revision = hashUrls[4];
+
+	            if (revision.split('?').length > 1) {
+	                revision = revision.split('?')[0];
+	            }
+	            pavilionContextPath = '/dramas/' + dramaId + '/revisions/' + revision;
+	        }
+	        return appContextPath ? pavilionContextPath + '/' + appContextPath : pavilionContextPath;
+	    };
+
+	    var pavilionContextPath = urlPublicContext.getPavilionContextPath(),
+	        PAV_CTX = {};
+
+	    NaraObject.defineConstProperties(PAV_CTX, {
+	        api: pavilionContextPath,
+	        res: pavilionContextPath,
+	        hash: pavilionContextPath
+	    });
+	    NaraObject.defineConstProperties(urlPublicContext, {
+	        PAV_CTX: PAV_CTX
+	    });
+	})();
+
+	exports.Url = urlPublicContext;
+
+
+	var domPublicContext = {};
+
+	// Nara common dom
+	(function () {
+	    //
+	    var contextName = appContextName;
+
+	    domPublicContext.getCSRF = function () {
+	        //
+	        var token = (0, _jquery2.default)('meta[name=_csrf]').attr('content'),
+	            header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content');
+
+	        return _defineProperty({}, header, token);
+	    };
+	    domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName, tokenValue) {
+	        //
+	        var header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content'),
+	            token = (0, _jquery2.default)('meta[name=_csrf]').attr('content');
+
+	        if (header && token) {
+	            (0, _jquery2.default)(document).ajaxSend(function (event, xhr) {
+	                xhr.setRequestHeader(header, token);
+	            });
+	        } else {
+	            console.warn('[' + contextName + '] Invalid token header name or value -> name: ' + header + ', value: ' + token);
+	        }
+	    };
+	})();
+
+	exports.Dom = domPublicContext;
+	exports.default = {
+	    Object: objectPublicContext,
+	    Ajax: ajaxPublicContext,
+	    Date: datePublicContext,
+	    Url: urlPublicContext,
+	    Dom: domPublicContext
+	};
 
 /***/ },
 /* 7 */
+/***/ function(module, exports) {
+
+	module.exports = externalLib.jQuery;
+
+/***/ },
+/* 8 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1406,7 +1418,7 @@
 	exports.default = CastleModel;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1417,11 +1429,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _topMenu = __webpack_require__(9);
+	var _topMenu = __webpack_require__(10);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
@@ -1525,7 +1537,7 @@
 	exports.default = MainComponent;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1536,17 +1548,17 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(10);
+	var _reactRouter = __webpack_require__(11);
 
-	var _naraRoleBook = __webpack_require__(4);
+	var _naraRoleBook = __webpack_require__(3);
 
 	var _naraRoleBook2 = _interopRequireDefault(_naraRoleBook);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1700,74 +1712,74 @@
 	exports.default = TopMenu;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
-	module.exports = castleLib.ReactRouter;
+	module.exports = externalLib.ReactRouter;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(12);
+	var _reactDom = __webpack_require__(13);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(10);
+	var _reactRouter = __webpack_require__(11);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _error = __webpack_require__(13);
+	var _error = __webpack_require__(14);
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _list = __webpack_require__(14);
+	var _list = __webpack_require__(15);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(15);
+	var _detailTab = __webpack_require__(16);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(16);
+	var _basic = __webpack_require__(17);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(17);
+	var _nameBook = __webpack_require__(18);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(18);
+	var _phoneBook = __webpack_require__(19);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(19);
+	var _emailBook = __webpack_require__(20);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(20);
+	var _addressBook = __webpack_require__(21);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(21);
+	var _accountBook = __webpack_require__(22);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _stateBook = __webpack_require__(22);
+	var _stateBook = __webpack_require__(23);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
-	var _metroBook = __webpack_require__(23);
+	var _metroBook = __webpack_require__(24);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
@@ -1782,7 +1794,6 @@
 
 	var CTX = _castleCommon.Constant.PAV_CTX.hash,
 	    appRootPath = CTX ? CTX : '/';
-	console.log(appRootPath);
 
 	_reactDom2.default.render(_react2.default.createElement(
 	    _reactRouter.Router,
@@ -1809,13 +1820,13 @@
 	), _castleCommon.Dom.getCastleMainDom());
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
-	module.exports = castleLib.ReactDOM;
+	module.exports = externalLib.ReactDOM;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1826,11 +1837,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -1925,7 +1936,7 @@
 	exports.default = ErrorPage;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1936,21 +1947,21 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(10);
+	var _reactRouter = __webpack_require__(11);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -2027,7 +2038,7 @@
 	        key: 'requestFindCastles',
 	        value: function requestFindCastles(castleCriteria) {
 	            //
-	            _naraCommon.Ajax.getJSON(CastleListPage.url.FIND_CASTLES).done(function (castlesResult) {
+	            _nara.Ajax.getJSON(CastleListPage.url.FIND_CASTLES).done(function (castlesResult) {
 	                var notExistsMessage = castleListModel.messages.notExistsMessage,
 	                    lang = _main2.default.lang;
 
@@ -2318,7 +2329,7 @@
 	                                        _react2.default.createElement(
 	                                            'td',
 	                                            null,
-	                                            _naraCommon.Date.parseToString(castle.buildTime)
+	                                            _nara.Date.parseToString(castle.buildTime)
 	                                        ),
 	                                        _react2.default.createElement(
 	                                            'td',
@@ -2357,7 +2368,7 @@
 	exports.default = CastleListPage;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2368,15 +2379,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(10);
+	var _reactRouter = __webpack_require__(11);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -2631,7 +2642,7 @@
 	exports.default = CastleDetailPage;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2642,19 +2653,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -2752,14 +2763,14 @@
 	        key: 'requestFindCastle',
 	        value: function requestFindCastle(castleId) {
 	            //
-	            var urlBuilder = _naraCommon.Ajax.createUrlBuilder();
+	            var urlBuilder = _nara.Ajax.createUrlBuilder();
 
 	            urlBuilder.addUrl(BasicContent.url.FIND_CASTLE.replace('{id}', castleId));
 	            urlBuilder.addUrl(BasicContent.url.FIND_CASTELLAN.replace('{id}', castleId));
 
-	            _naraCommon.Ajax.getJSONs(urlBuilder.build(), function (castleResult, castellanResult) {
+	            _nara.Ajax.getJSONs(urlBuilder.build(), function (castleResult, castellanResult) {
 	                //
-	                if (_naraCommon.Object.isEmpty(castleResult)) {
+	                if (_nara.Object.isEmpty(castleResult)) {
 	                    var MESSAGES = CastleBasicModel.messages,
 	                        lang = _main2.default.lang;
 
@@ -2773,7 +2784,7 @@
 	        key: 'requestFindNameBook',
 	        value: function requestFindNameBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(BasicContent.url.FIND_NAME_BOOK.replace('{id}', castleId)).done(function (nameBook) {
+	            _nara.Ajax.getJSON(BasicContent.url.FIND_NAME_BOOK.replace('{id}', castleId)).done(function (nameBook) {
 	                this.setContactBook(CastleBasicModel.attrs.name.bookName, nameBook);
 	            }.bind(this));
 	        }
@@ -2781,7 +2792,7 @@
 	        key: 'requestFindEmailBook',
 	        value: function requestFindEmailBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(BasicContent.url.FIND_EMAIL_BOOK.replace('{id}', castleId)).done(function (emailBook) {
+	            _nara.Ajax.getJSON(BasicContent.url.FIND_EMAIL_BOOK.replace('{id}', castleId)).done(function (emailBook) {
 	                this.setContactBook(CastleBasicModel.attrs.castellan.primaryEmail.bookName, emailBook);
 	            }.bind(this));
 	        }
@@ -2789,7 +2800,7 @@
 	        key: 'requestFindPhoneBook',
 	        value: function requestFindPhoneBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(BasicContent.url.FIND_PHONE_BOOK.replace('{id}', castleId)).done(function (phoneBook) {
+	            _nara.Ajax.getJSON(BasicContent.url.FIND_PHONE_BOOK.replace('{id}', castleId)).done(function (phoneBook) {
 	                this.setContactBook(CastleBasicModel.attrs.castellan.primaryPhone.bookName, phoneBook);
 	            }.bind(this));
 	        }
@@ -2797,7 +2808,7 @@
 	        key: 'requestModifyBasic',
 	        value: function requestModifyBasic(castleBasic) {
 	            //
-	            var urlBuilder = _naraCommon.Ajax.createUrlBuilder(),
+	            var urlBuilder = _nara.Ajax.createUrlBuilder(),
 	                castleId = castleBasic.id;
 
 	            urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_NAME.replace('{id}', castleId), castleBasic.name);
@@ -2811,7 +2822,7 @@
 	                urlBuilder.addUrlAndParam(BasicContent.url.SUSPEND_CASTLE.replace('{id}', castleId), 'remaraks');
 	            }
 
-	            _naraCommon.Ajax.putJSONs(urlBuilder.build(), function () {
+	            _nara.Ajax.putJSONs(urlBuilder.build(), function () {
 	                this.setBasic(castleBasic);
 
 	                var lang = _main2.default.lang;
@@ -2920,7 +2931,7 @@
 	                LANG = _main2.default.lang;
 
 	            var propBasicInfo = this.props.basicInfo,
-	                existsCastle = !_naraCommon.Object.isEmpty(propBasicInfo) && propBasicInfo[ATTRS.id.name];
+	                existsCastle = !_nara.Object.isEmpty(propBasicInfo) && propBasicInfo[ATTRS.id.name];
 
 	            return _react2.default.createElement(
 	                'form',
@@ -3076,7 +3087,7 @@
 	                        _react2.default.createElement(
 	                            'p',
 	                            { className: 'form-control-static' },
-	                            _naraCommon.Date.parseToString(propBasicInfo[ATTRS.buildTime.name])
+	                            _nara.Date.parseToString(propBasicInfo[ATTRS.buildTime.name])
 	                        )
 	                    )
 	                ),
@@ -3144,7 +3155,7 @@
 	    _createClass(BasicModifiableContent, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var basicInfo = _naraCommon.Object.deepCopy(this.props.basicInfo);
+	            var basicInfo = _nara.Object.deepCopy(this.props.basicInfo);
 	            this.setState({ willModifyBasic: basicInfo });
 	        }
 	        // event
@@ -3441,7 +3452,7 @@
 	                                _react2.default.createElement(
 	                                    'p',
 	                                    { className: 'form-control-static' },
-	                                    _naraCommon.Date.parseToString(propBasicInfo[ATTRS.buildTime.name])
+	                                    _nara.Date.parseToString(propBasicInfo[ATTRS.buildTime.name])
 	                                )
 	                            )
 	                        ),
@@ -3491,7 +3502,7 @@
 	exports.default = BasicContent;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3502,19 +3513,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -3587,7 +3598,7 @@
 	        key: 'requestFindNameBook',
 	        value: function requestFindNameBook(props) {
 	            //
-	            _naraCommon.Ajax.getJSON(NameContent.url.FIND_NAME_BOOK.replace('{id}', props.castleId)).done(function (nameBookResult) {
+	            _nara.Ajax.getJSON(NameContent.url.FIND_NAME_BOOK.replace('{id}', props.castleId)).done(function (nameBookResult) {
 	                this.setNameBook(nameBookResult);
 	            }.bind(this));
 	        }
@@ -3595,7 +3606,7 @@
 	        key: 'requestAttachNameBook',
 	        value: function requestAttachNameBook(nameBook) {
 	            //
-	            _naraCommon.Ajax.postJSON(NameContent.url.ATTACH_NAME_BOOK.replace('{id}', this.props.castleId), nameBook).done(function () {
+	            _nara.Ajax.postJSON(NameContent.url.ATTACH_NAME_BOOK.replace('{id}', this.props.castleId), nameBook).done(function () {
 	                this.setNameBook(nameBook);
 
 	                var lang = _main2.default.lang;
@@ -3835,7 +3846,7 @@
 	    _createClass(NameModifiableContent, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var names = _naraCommon.Object.deepCopy(this.props.nameBook.names),
+	            var names = _nara.Object.deepCopy(this.props.nameBook.names),
 	                rowsModifiable = [];
 
 	            rowsModifiable.length = names.length;
@@ -3843,7 +3854,7 @@
 
 	            this.setState({
 	                willSaveNames: names,
-	                inputProgressNames: _naraCommon.Object.deepCopy(names),
+	                inputProgressNames: _nara.Object.deepCopy(names),
 	                rowsModifiable: rowsModifiable
 	            });
 	        }
@@ -3910,8 +3921,8 @@
 	    }, {
 	        key: 'completeNameBtnClick',
 	        value: function completeNameBtnClick(index) {
-	            var names = _naraCommon.Object.deepCopy(this.state.willSaveNames);
-	            names[index] = _naraCommon.Object.deepCopy(this.state.inputProgressNames[index]);
+	            var names = _nara.Object.deepCopy(this.state.willSaveNames);
+	            names[index] = _nara.Object.deepCopy(this.state.inputProgressNames[index]);
 
 	            this.setState({ willSaveNames: names });
 	            this.setRowModifiableState(index, false);
@@ -3919,10 +3930,10 @@
 	    }, {
 	        key: 'cancelNameBtnClick',
 	        value: function cancelNameBtnClick(index) {
-	            var names = _naraCommon.Object.deepCopy(this.state.inputProgressNames);
-	            names[index] = _naraCommon.Object.deepCopy(this.state.willSaveNames[index]);
+	            var names = _nara.Object.deepCopy(this.state.inputProgressNames);
+	            names[index] = _nara.Object.deepCopy(this.state.willSaveNames[index]);
 
-	            if (_naraCommon.Object.isEmpty(names[index])) {
+	            if (_nara.Object.isEmpty(names[index])) {
 	                names.splice(index, 1);
 
 	                var rowsModifiable = this.state.rowsModifiable;
@@ -4213,7 +4224,7 @@
 	exports.default = NameContent;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4224,19 +4235,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -4308,7 +4319,7 @@
 	        key: 'requestFindPhoneBook',
 	        value: function requestFindPhoneBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(PhoneContent.url.FIND_PHONE_BOOK.replace('{id}', castleId)).done(function (phoneBookResult) {
+	            _nara.Ajax.getJSON(PhoneContent.url.FIND_PHONE_BOOK.replace('{id}', castleId)).done(function (phoneBookResult) {
 	                this.setPhoneBook(phoneBookResult);
 	            }.bind(this));
 	        }
@@ -4316,7 +4327,7 @@
 	        key: 'requestSavePhoneBook',
 	        value: function requestSavePhoneBook(phoneBook) {
 	            //
-	            _naraCommon.Ajax.postJSON(PhoneContent.url.ATTACH_PHONE_BOOK.replace('{id}', this.props.castleId), phoneBook).done(function () {
+	            _nara.Ajax.postJSON(PhoneContent.url.ATTACH_PHONE_BOOK.replace('{id}', this.props.castleId), phoneBook).done(function () {
 	                var lang = _main2.default.lang;
 
 	                this.setPhoneBook(phoneBook);
@@ -4541,7 +4552,7 @@
 	    _createClass(PhoneModifiableContent, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var phones = _naraCommon.Object.deepCopy(this.props.phoneBook.phones),
+	            var phones = _nara.Object.deepCopy(this.props.phoneBook.phones),
 	                rowsModifiable = [];
 
 	            rowsModifiable.length = phones.length;
@@ -4549,7 +4560,7 @@
 
 	            this.setState({
 	                willModifyPhones: phones,
-	                inputProgressPhones: _naraCommon.Object.deepCopy(phones),
+	                inputProgressPhones: _nara.Object.deepCopy(phones),
 	                rowsModifiable: rowsModifiable
 	            });
 	        }
@@ -4573,11 +4584,11 @@
 	    }, {
 	        key: 'completePhoneBtnClick',
 	        value: function completePhoneBtnClick(index) {
-	            var phones = _naraCommon.Object.deepCopy(this.state.willModifyPhones),
+	            var phones = _nara.Object.deepCopy(this.state.willModifyPhones),
 	                completedPhone = this.state.inputProgressPhones[index];
 
 	            completedPhone.phoneNumber = completedPhone.countryCode + '-' + completedPhone.areaCode + '-' + completedPhone.number;
-	            phones[index] = _naraCommon.Object.deepCopy(completedPhone);
+	            phones[index] = _nara.Object.deepCopy(completedPhone);
 
 	            this.setState({ willModifyPhones: phones });
 	            this.setRowModifiableState(index, false);
@@ -4585,10 +4596,10 @@
 	    }, {
 	        key: 'cancelPhoneBtnClick',
 	        value: function cancelPhoneBtnClick(index) {
-	            var phones = _naraCommon.Object.deepCopy(this.state.inputProgressPhones);
-	            phones[index] = _naraCommon.Object.deepCopy(this.state.willModifyPhones[index]);
+	            var phones = _nara.Object.deepCopy(this.state.inputProgressPhones);
+	            phones[index] = _nara.Object.deepCopy(this.state.willModifyPhones[index]);
 
-	            if (_naraCommon.Object.isEmpty(phones[index])) {
+	            if (_nara.Object.isEmpty(phones[index])) {
 	                phones.splice(index, 1);
 
 	                var rowsModifiable = this.state.rowsModifiable;
@@ -4876,7 +4887,7 @@
 	exports.default = PhoneContent;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4887,19 +4898,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -4971,7 +4982,7 @@
 	        key: 'requestFindEmailBook',
 	        value: function requestFindEmailBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(EmailContent.url.FIND_EMAIL_BOOK.replace('{id}', castleId)).done(function (emailBookResult) {
+	            _nara.Ajax.getJSON(EmailContent.url.FIND_EMAIL_BOOK.replace('{id}', castleId)).done(function (emailBookResult) {
 	                this.setEmailBook(emailBookResult);
 	            }.bind(this));
 	        }
@@ -4979,7 +4990,7 @@
 	        key: 'requestSaveEmailBook',
 	        value: function requestSaveEmailBook(emailBook) {
 	            //
-	            _naraCommon.Ajax.postJSON(EmailContent.url.ATTACH_EMAIL_BOOK.replace('{id}', this.props.castleId), emailBook).done(function () {
+	            _nara.Ajax.postJSON(EmailContent.url.ATTACH_EMAIL_BOOK.replace('{id}', this.props.castleId), emailBook).done(function () {
 	                var LANG = _main2.default.lang;
 
 	                this.setEmailBook(emailBook);
@@ -5124,7 +5135,7 @@
 	                                _react2.default.createElement(
 	                                    'td',
 	                                    null,
-	                                    _naraCommon.Date.parseToString(email[ATTRS.verifiedTime.name])
+	                                    _nara.Date.parseToString(email[ATTRS.verifiedTime.name])
 	                                )
 	                            );
 	                        }) : _react2.default.createElement(
@@ -5204,7 +5215,7 @@
 	    _createClass(EmailModifiableContent, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var emails = _naraCommon.Object.deepCopy(this.props.emailBook.emails),
+	            var emails = _nara.Object.deepCopy(this.props.emailBook.emails),
 	                rowsModifiable = [];
 
 	            rowsModifiable.length = emails.length;
@@ -5212,7 +5223,7 @@
 
 	            this.setState({
 	                willModifyEmails: emails,
-	                inputProgressEmails: _naraCommon.Object.deepCopy(emails),
+	                inputProgressEmails: _nara.Object.deepCopy(emails),
 	                rowsModifiable: rowsModifiable
 	            });
 	        }
@@ -5231,8 +5242,8 @@
 	    }, {
 	        key: 'completeEmailBtnClick',
 	        value: function completeEmailBtnClick(index) {
-	            var emails = _naraCommon.Object.deepCopy(this.state.willModifyEmails);
-	            emails[index] = _naraCommon.Object.deepCopy(this.state.inputProgressEmails[index]);
+	            var emails = _nara.Object.deepCopy(this.state.willModifyEmails);
+	            emails[index] = _nara.Object.deepCopy(this.state.inputProgressEmails[index]);
 
 	            this.setState({ willModifyEmails: emails });
 	            this.setRowModifiableState(index, false);
@@ -5240,10 +5251,10 @@
 	    }, {
 	        key: 'cancelEmailBtnClick',
 	        value: function cancelEmailBtnClick(index) {
-	            var emails = _naraCommon.Object.deepCopy(this.state.inputProgressEmails);
-	            emails[index] = _naraCommon.Object.deepCopy(this.state.willModifyEmails[index]);
+	            var emails = _nara.Object.deepCopy(this.state.inputProgressEmails);
+	            emails[index] = _nara.Object.deepCopy(this.state.willModifyEmails[index]);
 
-	            if (_naraCommon.Object.isEmpty(emails[index])) {
+	            if (_nara.Object.isEmpty(emails[index])) {
 	                emails.splice(index, 1);
 
 	                var rowsModifiable = this.state.rowsModifiable;
@@ -5467,7 +5478,7 @@
 	                                _react2.default.createElement(
 	                                    'td',
 	                                    null,
-	                                    _naraCommon.Date.parseToString(email[ATTRS.verifiedTime.name])
+	                                    _nara.Date.parseToString(email[ATTRS.verifiedTime.name])
 	                                ),
 	                                _react2.default.createElement(
 	                                    'td',
@@ -5550,7 +5561,7 @@
 	exports.default = EmailContent;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5561,19 +5572,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -5653,7 +5664,7 @@
 	        key: 'requestFindAddressBook',
 	        value: function requestFindAddressBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(AddressContent.url.FIND_ADDRESS_BOOK.replace('{id}', castleId)).done(function (addressBookResult) {
+	            _nara.Ajax.getJSON(AddressContent.url.FIND_ADDRESS_BOOK.replace('{id}', castleId)).done(function (addressBookResult) {
 	                this.setAddressBook(addressBookResult);
 	            }.bind(this));
 	        }
@@ -5661,7 +5672,7 @@
 	        key: 'requestSaveAddressBook',
 	        value: function requestSaveAddressBook(addressBook) {
 	            //
-	            _naraCommon.Ajax.postJSON(AddressContent.url.ATTACH_PHONE_BOOK.replace('{id}', this.props.castleId), addressBook).done(function () {
+	            _nara.Ajax.postJSON(AddressContent.url.ATTACH_PHONE_BOOK.replace('{id}', this.props.castleId), addressBook).done(function () {
 	                var lang = _main2.default.lang;
 
 	                this.setAddressBook(addressBook);
@@ -5971,7 +5982,7 @@
 	    _createClass(AddressModifiableContent, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var addresses = _naraCommon.Object.deepCopy(this.props.addressBook.addresses),
+	            var addresses = _nara.Object.deepCopy(this.props.addressBook.addresses),
 	                rowsModifiable = [];
 
 	            rowsModifiable.length = addresses.length;
@@ -5979,7 +5990,7 @@
 
 	            this.setState({
 	                willModifyAddresses: addresses,
-	                inputProgressAddresses: _naraCommon.Object.deepCopy(addresses),
+	                inputProgressAddresses: _nara.Object.deepCopy(addresses),
 	                rowsModifiable: rowsModifiable
 	            });
 	        }
@@ -6044,10 +6055,10 @@
 	    }, {
 	        key: 'cancelAddressBtnClick',
 	        value: function cancelAddressBtnClick(index) {
-	            var addresses = _naraCommon.Object.deepCopy(this.state.inputProgressAddresses);
-	            addresses[index] = _naraCommon.Object.deepCopy(this.state.willModifyAddresses[index]);
+	            var addresses = _nara.Object.deepCopy(this.state.inputProgressAddresses);
+	            addresses[index] = _nara.Object.deepCopy(this.state.willModifyAddresses[index]);
 
-	            if (_naraCommon.Object.isEmpty(addresses[index])) {
+	            if (_nara.Object.isEmpty(addresses[index])) {
 	                addresses.splice(index, 1);
 
 	                var rowsModifiable = this.state.rowsModifiable;
@@ -6108,7 +6119,7 @@
 	        key: 'setWillModifyAddress',
 	        value: function setWillModifyAddress(index, address) {
 	            //
-	            var copiedAddress = _naraCommon.Object.deepCopy(address);
+	            var copiedAddress = _nara.Object.deepCopy(address);
 	            var addresses = this.state.willModifyAddresses;
 
 	            addresses[index] = copiedAddress;
@@ -6476,7 +6487,7 @@
 	exports.default = AddressContent;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6487,15 +6498,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -6567,7 +6578,7 @@
 	        key: 'requestFindAccountBook',
 	        value: function requestFindAccountBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(AccountContent.url.FIND_ACCOUNT_BOOK.replace('{id}', castleId)).done(function (resultAccountBook) {
+	            _nara.Ajax.getJSON(AccountContent.url.FIND_ACCOUNT_BOOK.replace('{id}', castleId)).done(function (resultAccountBook) {
 	                this.setAccountBook(resultAccountBook);
 	            }.bind(this));
 	        }
@@ -6673,12 +6684,12 @@
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
-	                                _naraCommon.Date.parseToString(account[ATTRS.createTime.name])
+	                                _nara.Date.parseToString(account[ATTRS.createTime.name])
 	                            ),
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
-	                                _naraCommon.Date.parseToString(account[ATTRS.deleteTime.name])
+	                                _nara.Date.parseToString(account[ATTRS.deleteTime.name])
 	                            )
 	                        );
 	                    }) : _react2.default.createElement(
@@ -6708,7 +6719,7 @@
 	exports.default = AccountContent;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6719,19 +6730,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(7);
+	var _castleModel = __webpack_require__(8);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -6803,7 +6814,7 @@
 	        key: 'requestFindStateBook',
 	        value: function requestFindStateBook(castleId) {
 	            //
-	            _naraCommon.Ajax.getJSON(StateContent.url.FIND_STATE_BOOK.replace('{id}', castleId)).done(function (stateBookResult) {
+	            _nara.Ajax.getJSON(StateContent.url.FIND_STATE_BOOK.replace('{id}', castleId)).done(function (stateBookResult) {
 	                this.setStateBook(stateBookResult);
 	            }.bind(this));
 	        }
@@ -6916,7 +6927,7 @@
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
-	                                _naraCommon.Date.parseToString(state[ATTRS.modifiedTime.name])
+	                                _nara.Date.parseToString(state[ATTRS.modifiedTime.name])
 	                            )
 	                        );
 	                    }) : _react2.default.createElement(
@@ -6946,7 +6957,7 @@
 	exports.default = StateContent;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6957,15 +6968,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraCommon = __webpack_require__(1);
+	var _nara = __webpack_require__(2);
 
-	var _castleCommon = __webpack_require__(3);
+	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(8);
+	var _main = __webpack_require__(9);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -7035,7 +7046,7 @@
 	    }, {
 	        key: 'requestFindMetroBook',
 	        value: function requestFindMetroBook(castleId) {
-	            _naraCommon.Ajax.getJSON(MetroContent.url.FIND_METRO_BOOK.replace('{id}', castleId)).done(function (resultMetroBook) {
+	            _nara.Ajax.getJSON(MetroContent.url.FIND_METRO_BOOK.replace('{id}', castleId)).done(function (resultMetroBook) {
 	                this.setMetroBook(resultMetroBook);
 	            }.bind(this));
 	        }
@@ -7146,12 +7157,12 @@
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
-	                                _naraCommon.Date.parseToString(metro[ATTRS.joinTime.name])
+	                                _nara.Date.parseToString(metro[ATTRS.joinTime.name])
 	                            ),
 	                            _react2.default.createElement(
 	                                'td',
 	                                null,
-	                                _naraCommon.Date.parseToString(metro[ATTRS.withdrawalTime.name])
+	                                _nara.Date.parseToString(metro[ATTRS.withdrawalTime.name])
 	                            ),
 	                            _react2.default.createElement(
 	                                'td',

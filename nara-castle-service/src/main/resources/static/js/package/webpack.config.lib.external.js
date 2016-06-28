@@ -8,7 +8,7 @@ var webpack = require('webpack');
 module.exports = {
     //
     entry: {
-        app: './app.js'
+        'external-lib': './external-lib.js'
     },
     resolve: {
         moduleDirectories: ['node_modules'],
@@ -18,7 +18,9 @@ module.exports = {
         }
     },
     output: {
-        filename: '../[name]-bundle.js'
+        filename: '../[name]-bundle.js',
+        libraryTarget: 'var',
+        library: 'externalLib'
     },
     module: {
         loaders: [
@@ -29,24 +31,7 @@ module.exports = {
                     presets: ['babel-preset-es2015'],
                     compact: false
                 }
-            },
-            {
-                test: /\.jsx$/,
-                loader: 'babel',
-                query: {
-                    presets: ['babel-preset-react-es2015'],
-                    compact: false
-                }
             }
         ]
-    },
-    externals : {
-        'jquery': 'externalLib.jQuery',
-        'react': 'externalLib.React',
-        'react-dom': 'externalLib.ReactDOM',
-        'react-router': 'externalLib.ReactRouter',
-        'react-bootstrap': 'externalLib.ReactBootstrap',
-        'nara': 'naraLib.Nara',
-        'nara-role-book': 'naraLib.NaraRoleBook'
     }
 };
