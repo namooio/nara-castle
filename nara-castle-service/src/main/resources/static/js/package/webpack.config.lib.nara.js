@@ -19,7 +19,7 @@ module.exports = {
     },
     output: {
         filename: '../[name]-bundle.js',
-        libraryTarget: 'var',
+        libraryTarget: 'window',
         library: 'naraLib'
     },
     module: {
@@ -42,13 +42,13 @@ module.exports = {
             }
         ]
     },
-    externals : {
-        'jquery': 'externalLib.jQuery',
-        'react': 'externalLib.React',
-        'react-dom': 'externalLib.ReactDOM',
-        'react-router': 'externalLib.ReactRouter',
-        'react-bootstrap': 'externalLib.ReactBootstrap',
-        'nara': 'naraLib.Nara',
-        'nara-role-book': 'naraLib.NaraRoleBook'
-    }
+    externals : [{
+        'jquery': 'var externalLib.jQuery',
+        'react': 'var externalLib.React',
+        'react-dom': 'var externalLib.ReactDOM',
+        'react-router': 'var externalLib.ReactRouter',
+        'react-bootstrap': 'var externalLib.ReactBootstrap',
+        'nara': 'var naraLib.Nara',
+        'nara-role-book': 'var naraLib.NaraRoleBook'
+    }]
 };

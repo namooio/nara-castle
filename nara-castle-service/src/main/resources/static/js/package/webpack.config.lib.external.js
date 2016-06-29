@@ -19,7 +19,7 @@ module.exports = {
     },
     output: {
         filename: '../[name]-bundle.js',
-        libraryTarget: 'var',
+        libraryTarget: 'window',
         library: 'externalLib'
     },
     module: {

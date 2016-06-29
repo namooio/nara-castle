@@ -1,5 +1,3 @@
-console.log('App bundle');
-console.dir(this);
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -60,11 +58,11 @@ console.dir(this);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _appReactRouter = __webpack_require__(12);
+	var _appReactRouter = __webpack_require__(13);
 
 	var CastleReactRouter = _interopRequireWildcard(_appReactRouter);
 
-	var _error = __webpack_require__(14);
+	var _error = __webpack_require__(15);
 
 	var _error2 = _interopRequireDefault(_error);
 
@@ -72,43 +70,43 @@ console.dir(this);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
-	var _list = __webpack_require__(15);
+	var _list = __webpack_require__(16);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(16);
+	var _detailTab = __webpack_require__(17);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(17);
+	var _basic = __webpack_require__(18);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(18);
+	var _nameBook = __webpack_require__(19);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(19);
+	var _phoneBook = __webpack_require__(20);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(20);
+	var _emailBook = __webpack_require__(21);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(21);
+	var _addressBook = __webpack_require__(22);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(22);
+	var _accountBook = __webpack_require__(23);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _metroBook = __webpack_require__(24);
+	var _metroBook = __webpack_require__(25);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
-	var _stateBook = __webpack_require__(23);
+	var _stateBook = __webpack_require__(24);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
@@ -1554,7 +1552,7 @@ console.dir(this);
 
 	var _reactRouter = __webpack_require__(11);
 
-	var _naraRoleBook = __webpack_require__(3);
+	var _naraRoleBook = __webpack_require__(12);
 
 	var _naraRoleBook2 = _interopRequireDefault(_naraRoleBook);
 
@@ -1719,6 +1717,12 @@ console.dir(this);
 
 /***/ },
 /* 12 */
+/***/ function(module, exports) {
+
+	module.exports = naraLib.NaraRoleBook;
+
+/***/ },
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1727,7 +1731,7 @@ console.dir(this);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(13);
+	var _reactDom = __webpack_require__(14);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -1739,47 +1743,47 @@ console.dir(this);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _error = __webpack_require__(14);
+	var _error = __webpack_require__(15);
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _list = __webpack_require__(15);
+	var _list = __webpack_require__(16);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(16);
+	var _detailTab = __webpack_require__(17);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(17);
+	var _basic = __webpack_require__(18);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(18);
+	var _nameBook = __webpack_require__(19);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(19);
+	var _phoneBook = __webpack_require__(20);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(20);
+	var _emailBook = __webpack_require__(21);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(21);
+	var _addressBook = __webpack_require__(22);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(22);
+	var _accountBook = __webpack_require__(23);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _stateBook = __webpack_require__(23);
+	var _stateBook = __webpack_require__(24);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
-	var _metroBook = __webpack_require__(24);
+	var _metroBook = __webpack_require__(25);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
@@ -1820,13 +1824,13 @@ console.dir(this);
 	), _castleCommon.Dom.getCastleMainDom());
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports) {
 
 	module.exports = externalLib.ReactDOM;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1936,7 +1940,7 @@ console.dir(this);
 	exports.default = ErrorPage;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2368,7 +2372,7 @@ console.dir(this);
 	exports.default = CastleListPage;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2642,7 +2646,7 @@ console.dir(this);
 	exports.default = CastleDetailPage;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3502,7 +3506,7 @@ console.dir(this);
 	exports.default = BasicContent;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4224,7 +4228,7 @@ console.dir(this);
 	exports.default = NameContent;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4887,7 +4891,7 @@ console.dir(this);
 	exports.default = PhoneContent;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5561,7 +5565,7 @@ console.dir(this);
 	exports.default = EmailContent;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6487,7 +6491,7 @@ console.dir(this);
 	exports.default = AddressContent;
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6719,7 +6723,7 @@ console.dir(this);
 	exports.default = AccountContent;
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6957,7 +6961,7 @@ console.dir(this);
 	exports.default = StateContent;
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

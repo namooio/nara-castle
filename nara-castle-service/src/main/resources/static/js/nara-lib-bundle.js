@@ -1,4 +1,4 @@
-window.naraLib =
+window["naraLib"] =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
