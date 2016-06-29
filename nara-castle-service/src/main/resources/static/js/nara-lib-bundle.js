@@ -746,8 +746,8 @@ window["naraLib"] =
 	        _this.isUnconfiguredAndAdmin = _this.isUnconfiguredAndAdmin.bind(_this);
 	        _this.isUnconfiguredAndUser = _this.isUnconfiguredAndUser.bind(_this);
 	        _this.isModifiableAndAdmin = _this.isModifiableAndAdmin.bind(_this);
-	        _this.requestRolesOfPlayer = _this.requestRolesOfPlayer.bind(_this);
-	        _this.requestPlayers = _this.requestPlayers.bind(_this);
+	        _this.requestFindRolesOfPlayer = _this.requestFindRolesOfPlayer.bind(_this);
+	        _this.requestFindPlayers = _this.requestFindPlayers.bind(_this);
 	        return _this;
 	    }
 	    // overriding
@@ -762,14 +762,22 @@ window["naraLib"] =
 	                playerId = document.getElementsByName('playerId')[0].content;
 
 	            this.setState({ pavilionId: pavilionId, castingId: castingId, playerId: playerId });
-	            //this.requestRolesOfPlayer(castingId, playerId);
+
+	            if (!RoleBook.contextPath) {
+	                RoleBook.contextPath = _naraCommon.Url.getPavilionContextPath();
+	                RoleBook.setUrl();
+	            }
+
+	            if (this.props.init === true) {
+	                this.requestFindRolesOfPlayer(pavilionId, castingId, playerId);
+	            }
 	        }
 	        // event
 
 	    }, {
 	        key: 'roleCheckClick',
 	        value: function roleCheckClick() {
-	            this.requestRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
+	            this.requestFindRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
 	        }
 	    }, {
 	        key: 'rolePlayerMappingPopOnHide',
@@ -813,11 +821,11 @@ window["naraLib"] =
 	        // request
 
 	    }, {
-	        key: 'requestRolesOfPlayer',
-	        value: function requestRolesOfPlayer(pavilionId, castingId, playerId) {
+	        key: 'requestFindRolesOfPlayer',
+	        value: function requestFindRolesOfPlayer(pavilionId, castingId, playerId) {
 	            //
 	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId)).done(function (roles) {
-	                if (roles) {
+	                if (roles && roles.length > 0) {
 	                    var popupState = this.state.popupState,
 	                        roleState = this.state.roleState;
 
@@ -832,12 +840,12 @@ window["naraLib"] =
 
 	                    this.setState({ roleState: _roleState });
 	                }
-	                this.requestPlayers(pavilionId, castingId, playerId);
+	                this.requestFindPlayers(pavilionId, castingId, playerId);
 	            }.bind(this));
 	        }
 	    }, {
-	        key: 'requestPlayers',
-	        value: function requestPlayers(pavilionId, castingId, playerId) {
+	        key: 'requestFindPlayers',
+	        value: function requestFindPlayers(pavilionId, castingId, playerId) {
 	            //
 	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_PLAYERS.replace('{pavilionId}', pavilionId).replace('{castingId}', castingId)).done(function (players) {
 	                //
@@ -869,6 +877,11 @@ window["naraLib"] =
 	            return _react2.default.createElement(
 	                'li',
 	                null,
+	                this.props.init === true ? _react2.default.createElement(
+	                    'a',
+	                    { href: 'javascript:', onClick: this.roleCheckClick },
+	                    'RoleCheck'
+	                ) : null,
 	                _react2.default.createElement(
 	                    'a',
 	                    { href: 'javascript:', onClick: this.roleCheckClick },
@@ -883,7 +896,8 @@ window["naraLib"] =
 	                    castingId: this.state.castingId,
 	                    players: this.state.players,
 	                    displayable: this.state.popupState.rolePlayerMapping,
-	                    onHide: this.rolePlayerMappingPopOnHide
+	                    onHide: this.rolePlayerMappingPopOnHide,
+	                    onSaveSuccess: this.props.onSaveSuccess
 	                }) : null,
 	                this.isUnconfiguredAndUser() === true ? _react2.default.createElement(
 	                    _reactBootstrap.Modal,
@@ -952,6 +966,12 @@ window["naraLib"] =
 
 	RoleBook.contextPath = null;
 	RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
+
+	RoleBook.propTypes = {
+	    init: _react.PropTypes.bool,
+	    onSaveSuccess: _react.PropTypes.func
+	};
+	RoleBook.defaultProps = {};
 
 	var RolePlayerMappingPop = function (_Component2) {
 	    _inherits(RolePlayerMappingPop, _Component2);
@@ -1063,6 +1083,10 @@ window["naraLib"] =
 	            _naraCommon.Ajax.postJSON(RolePlayerMappingPop.url.SAVE_ROLE_BOOK, roleBook).done(function () {
 	                this.props.onHide();
 	                this.setState({ successPopup: true });
+
+	                if (this.props.onSaveSuccess) {
+	                    this.props.onSaveSuccess();
+	                }
 	            }.bind(this));
 	        }
 	    }, {

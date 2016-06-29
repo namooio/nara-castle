@@ -4,7 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { Ajax as NaraAjax, Object as NaraObject } from './nara-common';
+import { Ajax as NaraAjax, Object as NaraObject, Url as NaraUrl } from './nara-common';
 
 
 'use strict';
@@ -86,8 +86,8 @@ class RoleBook extends Component {
         this.isUnconfiguredAndAdmin = this.isUnconfiguredAndAdmin.bind(this);
         this.isUnconfiguredAndUser = this.isUnconfiguredAndUser.bind(this);
         this.isModifiableAndAdmin = this.isModifiableAndAdmin.bind(this);
-        this.requestRolesOfPlayer = this.requestRolesOfPlayer.bind(this);
-        this.requestPlayers = this.requestPlayers.bind(this);
+        this.requestFindRolesOfPlayer = this.requestFindRolesOfPlayer.bind(this);
+        this.requestFindPlayers = this.requestFindPlayers.bind(this);
     }
     // overriding
     componentDidMount() {
@@ -97,11 +97,19 @@ class RoleBook extends Component {
             playerId = document.getElementsByName('playerId')[0].content;
 
         this.setState({ pavilionId: pavilionId, castingId: castingId, playerId: playerId });
-        //this.requestRolesOfPlayer(castingId, playerId);
+
+        if (!RoleBook.contextPath) {
+            RoleBook.contextPath = NaraUrl.getPavilionContextPath();
+            RoleBook.setUrl();
+        }
+
+        if (this.props.init === true) {
+            this.requestFindRolesOfPlayer(pavilionId, castingId, playerId);
+        }
     }
     // event
     roleCheckClick() {
-        this.requestRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
+        this.requestFindRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
     }
     rolePlayerMappingPopOnHide() {
         let popupState = this.state.popupState;
@@ -130,12 +138,12 @@ class RoleBook extends Component {
         return this.state.roleState.modifiable && this.state.roleState.admin;
     }
     // request
-    requestRolesOfPlayer(pavilionId, castingId, playerId) {
+    requestFindRolesOfPlayer(pavilionId, castingId, playerId) {
         //
         NaraAjax
             .getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId))
             .done( function (roles) {
-                if (roles) {
+                if (roles && roles.length > 0) {
                     let popupState = this.state.popupState,
                         roleState = this.state.roleState;
 
@@ -151,10 +159,10 @@ class RoleBook extends Component {
 
                     this.setState({ roleState: roleState });
                 }
-                this.requestPlayers(pavilionId, castingId, playerId);
+                this.requestFindPlayers(pavilionId, castingId, playerId);
             }.bind(this));
     }
-    requestPlayers(pavilionId, castingId, playerId) {
+    requestFindPlayers(pavilionId, castingId, playerId) {
         //
         NaraAjax
             .getJSON(RoleBook.url.FIND_PLAYERS.replace('{pavilionId}', pavilionId).replace('{castingId}', castingId))
@@ -187,6 +195,10 @@ class RoleBook extends Component {
         //
         return (
             <li>
+                { this.props.init === true ?
+                    <a href="javascript:" onClick={this.roleCheckClick} >RoleCheck</a>
+                    : null
+                }
                 <a href="javascript:" onClick={this.roleCheckClick} >RoleCheck</a>
                 { this.isModifiableAndAdmin() === true ?
                     <a href="javascript:" onClick={this.modifyRoleBookBtnOnClick}>Modify role book</a> : null
@@ -197,6 +209,7 @@ class RoleBook extends Component {
                         players={this.state.players}
                         displayable={this.state.popupState.rolePlayerMapping}
                         onHide={this.rolePlayerMappingPopOnHide}
+                        onSaveSuccess={this.props.onSaveSuccess}
                     /> : null
                 }
                 { this.isUnconfiguredAndUser() === true ?
@@ -230,6 +243,12 @@ class RoleBook extends Component {
 
 RoleBook.contextPath = null;
 RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
+
+RoleBook.propTypes = {
+    init: PropTypes.bool,
+    onSaveSuccess: PropTypes.func
+};
+RoleBook.defaultProps = {};
 
 
 
@@ -324,6 +343,10 @@ class RolePlayerMappingPop extends Component {
             .done( function () {
                 this.props.onHide();
                 this.setState({ successPopup: true});
+
+                if (this.props.onSaveSuccess) {
+                    this.props.onSaveSuccess();
+                }
             }.bind(this));
     }
     render() {
