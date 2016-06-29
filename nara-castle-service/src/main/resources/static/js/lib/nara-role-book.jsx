@@ -152,6 +152,9 @@ class RoleBook extends Component {
 
                     this.setState({ roles: roles, popupState: popupState });
                     RoleBook.rolesOfPlayer = roles;
+                    if (this.props.onInit) {
+                        this.props.onInit();
+                    }
                 }
                 else {
                     let roleState = this.state.roleState;
@@ -246,6 +249,7 @@ RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
 
 RoleBook.propTypes = {
     init: PropTypes.bool,
+    onInit: PropTypes.func,
     onSaveSuccess: PropTypes.func
 };
 RoleBook.defaultProps = {};
