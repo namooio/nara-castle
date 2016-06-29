@@ -359,11 +359,11 @@ let ajaxPublicContext = {};
                 console.info(`[${contextName}] Execute cached script -> ${url}`);
 
                 try {
-                    new Function(cached.script)();
+                    new Function(cached)();
                 } catch (e) {
                     console.error(e);
                     if (window.babel) {
-                        babel.transform.run(cached.script);
+                        babel.transform.run(cached);
                     }
                     else {
                         console.error('Babel 없음');

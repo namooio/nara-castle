@@ -455,11 +455,11 @@ window["naraLib"] =
 	                console.info('[' + contextName + '] Execute cached script -> ' + url);
 
 	                try {
-	                    new Function(cached.script)();
+	                    new Function(cached)();
 	                } catch (e) {
 	                    console.error(e);
 	                    if (window.babel) {
-	                        babel.transform.run(cached.script);
+	                        babel.transform.run(cached);
 	                    } else {
 	                        console.error('Babel 없음');
 	                    }
@@ -834,6 +834,9 @@ window["naraLib"] =
 
 	                    this.setState({ roles: roles, popupState: popupState });
 	                    RoleBook.rolesOfPlayer = roles;
+	                    if (this.props.onInit) {
+	                        this.props.onInit();
+	                    }
 	                } else {
 	                    var _roleState = this.state.roleState;
 	                    _roleState.unconfigured = true;
@@ -969,6 +972,7 @@ window["naraLib"] =
 
 	RoleBook.propTypes = {
 	    init: _react.PropTypes.bool,
+	    onInit: _react.PropTypes.func,
 	    onSaveSuccess: _react.PropTypes.func
 	};
 	RoleBook.defaultProps = {};
