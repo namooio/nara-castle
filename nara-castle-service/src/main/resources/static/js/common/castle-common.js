@@ -2,9 +2,19 @@
  * Created by hkkang on 2016-04-05.
  */
 
+// Initialize
+( function () {
+    //
+    'use strict';
+
+})();
+
+
+
 import { Object as NaraObject, Url as NaraUrl } from 'nara';
 
 
+// Castle app common
 let constantPublicContext = {};
 let domPublicContext = {};
 
@@ -12,14 +22,14 @@ let domPublicContext = {};
     //
     'use strict';
 
-    // Castle app constant
+    // Constant
     let PAV_CTX = {};
 
     NaraObject.defineConstProperties(PAV_CTX, {
-        root: NaraUrl.getPavilionContextPath(),
-        api: `${NaraUrl.getPavilionContextPath()}/api`,
-        res: `${NaraUrl.getPavilionContextPath()}/resource`,
-        hash: NaraUrl.getPavilionContextPath()
+        root: NaraUrl.getPavilionHashContextPath(),
+        api: `${NaraUrl.getPavilionHashContextPath()}/api`,
+        res: `${NaraUrl.getPavilionHashContextPath()}/resource`,
+        hash: NaraUrl.getPavilionHashContextPath()
     });
     NaraObject.defineConstProperties(constantPublicContext, {
         PAV_CTX: PAV_CTX
@@ -40,22 +50,3 @@ export default {
     Constant: constantPublicContext,
     Dom: domPublicContext
 };
-
-
-
-import { Dom as NaraDom } from 'nara';
-import NaraRoleBook from 'app/lib/nara-role-book.jsx';
-import { Constant } from 'app/common/castle-common';
-
-// Initialize
-( function () {
-    //
-    'use strict';
-
-    // Security token
-    NaraDom.addTokenAtAjaxSendEvent();
-
-    // RoleBook set context path
-    NaraRoleBook.setContextPath(Constant.PAV_CTX.root);
-
-})();

@@ -99,8 +99,7 @@ class RoleBook extends Component {
         this.setState({ pavilionId: pavilionId, castingId: castingId, playerId: playerId });
 
         if (!RoleBook.contextPath) {
-            RoleBook.contextPath = NaraUrl.getPavilionContextPath();
-            RoleBook.setUrl();
+            RoleBook.setContextPath(NaraUrl.getPavilionHashContextPath());
         }
 
         if (this.props.init === true) {
@@ -152,6 +151,7 @@ class RoleBook extends Component {
 
                     this.setState({ roles: roles, popupState: popupState });
                     RoleBook.rolesOfPlayer = roles;
+
                     if (this.props.onInit) {
                         this.props.onInit();
                     }

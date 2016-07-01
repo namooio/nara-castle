@@ -399,9 +399,11 @@ window["naraLib"] =
 	     * @param param1 Optional, this param is callback or settings
 	     * @param param2 Optional, this param is callback when exists param1
 	     */
-	    ajaxPublicContext.getScript = function (url, param1, param2) {
+	    ajaxPublicContext.getScript = function (url) {
+	        var param1 = arguments.length <= 1 || arguments[1] === undefined ? { async: false } : arguments[1];
+	        var param2 = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
+
 	        //
-	        console.debug('[' + contextName + '] getScript ');
 	        if (!url || typeof url !== 'string') {
 	            console.error('[' + contextName + '] Invalid url for Ajax getScript -> url: ' + url);
 	        }
@@ -419,7 +421,50 @@ window["naraLib"] =
 	     * @param param1 Optional, this param is callback or settings
 	     * @param param2 Optional callback when param1 exists
 	     */
-	    ajaxPublicContext.getScripts = function (urlArray, param1, param2) {
+	    ajaxPublicContext.getScripts = function (urls) {
+	        var param1 = arguments.length <= 1 || arguments[1] === undefined ? { async: false } : arguments[1];
+	        var param2 = arguments.length <= 2 || arguments[2] === undefined ? function () {} : arguments[2];
+
+	        //
+	        console.debug('[' + contextName + '] getScripts -> ' + urls);
+
+	        var settings = void 0,
+	            callback = void 0;
+
+	        if (!urls || !Array.isArray(urls) || urls.length === 0) {
+	            console.error('[' + contextName + '] Invalid url for Ajax getScripts -> urls: ' + urls);
+	        }
+
+	        if ((typeof param1 === 'undefined' ? 'undefined' : _typeof(param1)) === 'object' && typeof param2 === 'function') {
+	            settings = param1;
+	            callback = param2;
+	        } else if (typeof param1 === 'function' && param2 === undefined) {
+	            settings = {
+	                async: false
+	            };
+	            callback = param1;
+	        }
+
+	        var scriptsDiv = document.getElementById('scripts');
+
+	        if (!scriptsDiv) {
+	            scriptsDiv = document.createElement('div');
+	            scriptsDiv.id = 'scripts';
+	            document.getElementsByTagName('head')[0].appendChild(scriptsDiv);
+	        }
+
+	        urls.forEach(function (url) {
+
+	            var scriptElement = document.createElement('script');
+	            scriptElement.src = url;
+	            scriptElement.async = settings.async;
+
+	            scriptsDiv.appendChild(scriptElement);
+	        });
+	        callback();
+	    };
+
+	    ajaxPublicContext.getScripts_deprecated = function (urlArray, param1, param2) {
 	        //
 	        console.debug('[' + contextName + '] getScripts ');
 	        var callback = void 0,
@@ -524,6 +569,11 @@ window["naraLib"] =
 	        //
 	        return _jquery2.default.get(url, callback, 'html');
 	    };
+
+	    ajaxPublicContext.getScriptWithjQuery = function (url) {
+	        console.debug('getScriptWithjQuery: ' + url + ' -> Pav nara-common.js');
+	        _jquery2.default.getScript(url);
+	    };
 	})();
 
 	exports.Ajax = ajaxPublicContext;
@@ -538,7 +588,7 @@ window["naraLib"] =
 	    //
 	    'use strict';
 
-	    urlPublicContext.getPavilionContextPath = function (appContextPath) {
+	    urlPublicContext.getPavilionHashContextPath = function (appContextPath) {
 	        //
 	        var hashUrls = window.location.hash.split('/'),
 	            local = hashUrls.length < 2 || hashUrls[1] !== 'dramas',
@@ -558,7 +608,7 @@ window["naraLib"] =
 	        return appContextPath ? pavilionContextPath + '/' + appContextPath : pavilionContextPath;
 	    };
 
-	    var pavilionContextPath = urlPublicContext.getPavilionContextPath(),
+	    var pavilionContextPath = urlPublicContext.getPavilionHashContextPath(),
 	        PAV_CTX = {};
 
 	    NaraObject.defineConstProperties(PAV_CTX, {
@@ -581,25 +631,38 @@ window["naraLib"] =
 	    //
 	    var contextName = appContextName;
 
+	    domPublicContext.addTokenAtAjaxSendEvent = function () {
+	        var headerTokenName = arguments.length <= 0 || arguments[0] === undefined ? (0, _jquery2.default)('meta[name=_csrf_header]').attr('content') : arguments[0];
+	        var tokenValue = arguments.length <= 1 || arguments[1] === undefined ? (0, _jquery2.default)('meta[name=_csrf]').attr('content') : arguments[1];
+
+	        //
+	        if (headerTokenName && tokenValue) {
+	            (function () {
+	                /*
+	                 // Using jQuery
+	                 jQuery(document).ajaxSend( function(event, xhr) {
+	                 xhr.setRequestHeader(headerTokenName, tokenValue);
+	                 });
+	                 */
+	                var originalOpen = XMLHttpRequest.prototype.send;
+
+	                XMLHttpRequest.prototype.send = function (something) {
+	                    //
+	                    this.setRequestHeader(headerTokenName, tokenValue);
+	                    originalOpen.apply(this, arguments);
+	                };
+	            })();
+	        } else {
+	            console.warn('[' + contextName + '] Invalid token header name or value -> name: ' + headerTokenName + ', value: ' + tokenValue);
+	        }
+	    };
+
 	    domPublicContext.getCSRF = function () {
 	        //
 	        var token = (0, _jquery2.default)('meta[name=_csrf]').attr('content'),
 	            header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content');
 
 	        return _defineProperty({}, header, token);
-	    };
-	    domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName, tokenValue) {
-	        //
-	        var header = (0, _jquery2.default)('meta[name=_csrf_header]').attr('content'),
-	            token = (0, _jquery2.default)('meta[name=_csrf]').attr('content');
-
-	        if (header && token) {
-	            (0, _jquery2.default)(document).ajaxSend(function (event, xhr) {
-	                xhr.setRequestHeader(header, token);
-	            });
-	        } else {
-	            console.warn('[' + contextName + '] Invalid token header name or value -> name: ' + header + ', value: ' + token);
-	        }
 	    };
 	})();
 
@@ -764,8 +827,7 @@ window["naraLib"] =
 	            this.setState({ pavilionId: pavilionId, castingId: castingId, playerId: playerId });
 
 	            if (!RoleBook.contextPath) {
-	                RoleBook.contextPath = _naraCommon.Url.getPavilionContextPath();
-	                RoleBook.setUrl();
+	                RoleBook.setContextPath(_naraCommon.Url.getPavilionHashContextPath());
 	            }
 
 	            if (this.props.init === true) {
@@ -834,6 +896,7 @@ window["naraLib"] =
 
 	                    this.setState({ roles: roles, popupState: popupState });
 	                    RoleBook.rolesOfPlayer = roles;
+
 	                    if (this.props.onInit) {
 	                        this.props.onInit();
 	                    }

@@ -12,7 +12,7 @@ let objectPublicContext = {};
     //
     'use strict';
 
-    let contextName = appContextName;
+    const contextName = appContextName;
 
 
     objectPublicContext.defineConstProperty = function (obj, name, value) {
@@ -107,7 +107,7 @@ let ajaxPublicContext = {};
     //
     'use strict';
 
-    let contextName = appContextName;
+    const contextName = appContextName;
 
     // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
 
@@ -118,7 +118,7 @@ let ajaxPublicContext = {};
             this.urlAndParams = [];
         }
         addUrl(url) {
-            this.urlAndParams.push({url: url});
+            this.urlAndParams.push({ url: url });
         }
         addUrlAndParam(url, param) {
             this.urlAndParams.push({ url: url, param: param });
@@ -302,9 +302,8 @@ let ajaxPublicContext = {};
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional, this param is callback when exists param1
      */
-    ajaxPublicContext.getScript = function (url, param1, param2) {
+    ajaxPublicContext.getScript = function (url, param1 = { async: false }, param2 = function () {}) {
         //
-        console.debug(`[${contextName}] getScript `);
         if (!url || typeof url !== 'string') {
             console.error(`[${contextName}] Invalid url for Ajax getScript -> url: ${url}`);
         }
@@ -322,7 +321,49 @@ let ajaxPublicContext = {};
      * @param param1 Optional, this param is callback or settings
      * @param param2 Optional callback when param1 exists
      */
-    ajaxPublicContext.getScripts = function (urlArray, param1, param2) {
+    ajaxPublicContext.getScripts = function (urls, param1 = { async: false }, param2 = function () {}) {
+        //
+        console.debug(`[${contextName}] getScripts -> ${urls}`);
+
+        let settings,
+            callback;
+
+        if (!urls || !Array.isArray(urls) || urls.length === 0) {
+            console.error(`[${contextName}] Invalid url for Ajax getScripts -> urls: ${urls}`);
+        }
+
+        if (typeof param1 === 'object' && typeof param2 === 'function') {
+            settings = param1;
+            callback = param2;
+        }
+        else if (typeof param1 === 'function' && param2 === undefined) {
+            settings = {
+                async: false
+            };
+            callback = param1;
+        }
+
+        let scriptsDiv = document.getElementById('scripts');
+
+        if (!scriptsDiv) {
+            scriptsDiv = document.createElement('div');
+            scriptsDiv.id = 'scripts';
+            document.getElementsByTagName('head')[0].appendChild(scriptsDiv);
+        }
+
+        urls.forEach( function (url) {
+
+            let scriptElement = document.createElement('script');
+            scriptElement.src = url;
+            scriptElement.async = settings.async;
+
+            scriptsDiv.appendChild(scriptElement);
+        });
+        callback();
+    };
+
+
+    ajaxPublicContext.getScripts_deprecated = function (urlArray, param1, param2) {
         //
         console.debug(`[${contextName}] getScripts `);
         let callback,
@@ -432,13 +473,18 @@ let ajaxPublicContext = {};
         return jQuery.get(url, callback, 'html');
     };
 
+    ajaxPublicContext.getScriptWithjQuery = function (url) {
+        console.debug(`getScriptWithjQuery: ${url} -> Pav nara-common.js`);
+        jQuery.getScript(url);
+    }
+
 })();
 
 export { ajaxPublicContext as Ajax };
 
 
 
-let NaraObject = objectPublicContext;
+const NaraObject = objectPublicContext;
 
 let urlPublicContext = {};
 
@@ -447,7 +493,7 @@ let urlPublicContext = {};
     //
     'use strict';
 
-    urlPublicContext.getPavilionContextPath = function (appContextPath) {
+    urlPublicContext.getPavilionHashContextPath = function (appContextPath) {
         //
         let hashUrls = window.location.hash.split('/'),
             local = (hashUrls.length < 2 || hashUrls[1] !== 'dramas'),
@@ -469,7 +515,7 @@ let urlPublicContext = {};
     };
 
 
-    let pavilionContextPath = urlPublicContext.getPavilionContextPath(),
+    let pavilionContextPath = urlPublicContext.getPavilionHashContextPath(),
         PAV_CTX = {};
 
     NaraObject.defineConstProperties(PAV_CTX, {
@@ -492,7 +538,31 @@ let domPublicContext = {};
 // Nara common dom
 ( function () {
     //
-    let contextName = appContextName;
+    const contextName = appContextName;
+
+
+    domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName = jQuery('meta[name=_csrf_header]').attr('content'),
+                                                         tokenValue = jQuery('meta[name=_csrf]').attr('content')) {
+        //
+        if (headerTokenName && tokenValue) {
+            /*
+             // Using jQuery
+             jQuery(document).ajaxSend( function(event, xhr) {
+             xhr.setRequestHeader(headerTokenName, tokenValue);
+             });
+             */
+            let originalOpen = XMLHttpRequest.prototype.send;
+
+            XMLHttpRequest.prototype.send = function(something) {
+                //
+                this.setRequestHeader(headerTokenName, tokenValue);
+                originalOpen.apply(this, arguments);
+            };
+        }
+        else {
+            console.warn(`[${contextName}] Invalid token header name or value -> name: ${headerTokenName}, value: ${tokenValue}`);
+        }
+    };
 
     domPublicContext.getCSRF = function () {
         //
@@ -502,20 +572,6 @@ let domPublicContext = {};
         return {
             [header]: token
         };
-    };
-    domPublicContext.addTokenAtAjaxSendEvent = function (headerTokenName, tokenValue) {
-        //
-        let header = jQuery('meta[name=_csrf_header]').attr('content'),
-            token = jQuery('meta[name=_csrf]').attr('content');
-
-        if (header && token) {
-            jQuery(document).ajaxSend( function(event, xhr) {
-                xhr.setRequestHeader(header, token);
-            });
-        }
-        else {
-            console.warn(`[${contextName}] Invalid token header name or value -> name: ${header}, value: ${token}`);
-        }
     };
 
 })();
