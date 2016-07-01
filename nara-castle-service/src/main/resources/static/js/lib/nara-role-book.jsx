@@ -198,11 +198,10 @@ class RoleBook extends Component {
         //
         return (
             <li>
-                { this.props.init === true ?
+                { this.props.init !== true ?
                     <a href="javascript:" onClick={this.roleCheckClick} >RoleCheck</a>
                     : null
                 }
-                <a href="javascript:" onClick={this.roleCheckClick} >RoleCheck</a>
                 { this.isModifiableAndAdmin() === true ?
                     <a href="javascript:" onClick={this.modifyRoleBookBtnOnClick}>Modify role book</a> : null
                 }
