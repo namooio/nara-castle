@@ -5,7 +5,7 @@ basic information:
 
 # Drama revision note.
 revision:
-  number: 0.15
+  number: 0.2
   description: Nara castle dev version(0.2).
 
 # Define drama edition.
@@ -29,16 +29,12 @@ role :
 rolebook:
   storage:
     shed:
-      host: http://localhost:9970
+      host: http://localhost:9070
       name: castle_test_shed
 
 # Envoy.
 envoy :
-  host: http://localhost:9980
-  town:
-    host: http://localhost:9920
-  artcenter:
-    host: http://localhost:9950
+  host: http://localhost:9080
 
 # Annotation scan package root.
 scan package root: namoo.nara.castle

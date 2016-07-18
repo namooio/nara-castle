@@ -4,6 +4,7 @@ import namoo.nara.envoy.rep.EnvoyRepService;
 import namoo.nara.envoy.rep.dto.PlayerDto;
 import namoo.nara.stage.envoy.EnvoyLycler;
 import namoo.nara.stage.poster.cp.pojo.PosterServicePojoLycler;
+import namoo.nara.stage.poster.entity.DramaPoster;
 import namoo.nara.stage.poster.service.PosterService;
 import namoo.nara.stage.rolebook.cp.pojo.RoleBookServicePojoLycler;
 import namoo.nara.stage.rolebook.entity.Role;
@@ -35,6 +36,13 @@ public class StageResource {
         posterService = new PosterServicePojoLycler().requestPosterService();
         roleBookService = new RoleBookServicePojoLycler().requestRoleBookService();
         envoyRepService = EnvoyLycler.getInstance().requestEnvoyService();
+    }
+
+    // Poster
+    @RequestMapping(value = "poster", method = RequestMethod.GET)
+    public DramaPoster requestDramaPoster() {
+        //
+        return posterService.requestDramaPoster();
     }
 
 

@@ -17,6 +17,7 @@
     <main id="castle-drama">
     </main>
 
+
     <script src="${ctx}/resource/js/external-lib-bundle.js"></script>
     <script src="${ctx}/resource/js/nara-lib-bundle.js"></script>
     <script src="${ctx}/resource/js/app-bundle.js"></script>
