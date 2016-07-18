@@ -4,7 +4,7 @@
 
     <groupId>namoo.nara.castle</groupId>
     <artifactId>nara-castle-pom</artifactId>
-    <version>0.2.2-SNAPSHOT</version>
+    <version>0.2.4-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
