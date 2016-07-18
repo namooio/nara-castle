@@ -34,6 +34,7 @@ rolebook:
 
 # Envoy.
 envoy :
+  host: http://localhost:9980
   town:
     host: http://localhost:9920
   artcenter:

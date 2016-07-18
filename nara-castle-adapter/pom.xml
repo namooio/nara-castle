@@ -18,20 +18,5 @@
             <artifactId>nara-castle-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>namoo.nara.stage</groupId>
-            <artifactId>nara-poster</artifactId>
-            <version>${nara.stage.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>namoo.nara.stage</groupId>
-            <artifactId>nara-rolebook</artifactId>
-            <version>${nara.stage.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>namoo.nara.stage</groupId>
-            <artifactId>nara-envoy</artifactId>
-            <version>${nara.stage.version}</version>
-        </dependency>
     </dependencies>
 </project>
