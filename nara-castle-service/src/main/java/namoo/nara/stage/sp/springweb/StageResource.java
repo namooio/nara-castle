@@ -1,8 +1,8 @@
 package namoo.nara.stage.sp.springweb;
 
-import namoo.nara.stage.envoy.cp.pojo.EnvoyServicePojoLycler;
-import namoo.nara.stage.envoy.entity.Player;
-import namoo.nara.stage.envoy.service.PlayerService;
+import namoo.nara.envoy.rep.EnvoyRepService;
+import namoo.nara.envoy.rep.dto.PlayerDto;
+import namoo.nara.stage.envoy.EnvoyLycler;
 import namoo.nara.stage.poster.cp.pojo.PosterServicePojoLycler;
 import namoo.nara.stage.poster.service.PosterService;
 import namoo.nara.stage.rolebook.cp.pojo.RoleBookServicePojoLycler;
@@ -26,23 +26,23 @@ import java.util.List;
 public class StageResource {
     //
     private PosterService posterService;
-    private PlayerService playerService;
     private RoleBookService roleBookService;
+    private EnvoyRepService envoyRepService;
 
 
     public StageResource() {
         //
         posterService = new PosterServicePojoLycler().requestPosterService();
-        playerService = new EnvoyServicePojoLycler().requestPlayerService();
         roleBookService = new RoleBookServicePojoLycler().requestRoleBookService();
+        envoyRepService = EnvoyLycler.getInstance().requestEnvoyService();
     }
 
 
     // Envoy
     @RequestMapping(value = "players", method = RequestMethod.GET)
-    public List<Player> findPlayers(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId) {
+    public List<PlayerDto> findPlayers(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId) {
         //
-        return playerService.findPlayers(pavilionId, castingId);
+        return envoyRepService.findPlayers(pavilionId, castingId);
     }
 
     // RoleBook

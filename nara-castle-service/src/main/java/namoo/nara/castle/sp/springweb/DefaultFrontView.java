@@ -1,7 +1,6 @@
 package namoo.nara.castle.sp.springweb;
 
-import namoo.nara.stage.envoy.cp.pojo.EnvoyServicePojoLycler;
-import namoo.nara.stage.envoy.service.DramaContextService;
+import namoo.nara.stage.context.DramaContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,12 +15,12 @@ import java.util.Map;
 @Controller
 public class DefaultFrontView {
     //
-    private DramaContextService dramaContextService;
+    private DramaContext dramaContext;
 
 
     public DefaultFrontView() {
         //
-        dramaContextService = new EnvoyServicePojoLycler().requestDramaContextService();
+        dramaContext = DramaContext.getInstance();
     }
 
 
@@ -33,7 +32,7 @@ public class DefaultFrontView {
         model.put("castingId", castingId);
         model.put("playerId", playerId);
 
-        model.put("ctx", dramaContextService.getContextPath());
+        model.put("ctx", dramaContext.getContextPath());
 
         return new ModelAndView("/WEB-INF/jsp/index.jsp", model);
     }
