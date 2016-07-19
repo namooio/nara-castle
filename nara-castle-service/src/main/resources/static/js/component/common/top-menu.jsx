@@ -4,7 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import NaraRoleBook from 'nara-role-book';
+import { RoleBook } from 'nara-react';
 import { Constant } from 'app/common/castle-common';
 
 
@@ -35,7 +35,7 @@ class TopMenu extends Component {
     }
     // event
     changeLanguageClick(event) {
-        let lang = $(event.target).data('lang');
+        let lang = event.target.dataset.lang;
         this.props.changeLanguage(lang);
     }
     render() {
@@ -62,15 +62,14 @@ class TopMenu extends Component {
                             <li><Link to={`${Constant.PAV_CTX.hash}/castles`}>{MENUS.castles[lang]}</Link></li>
                         </ui>
                         <ul className="nav navbar-nav navbar-right">
-                            <NaraRoleBook />
+                            <RoleBook init={true}/>
                             <li className="dropdown">
                                 <a href="javascript:" className="dropdown-toggle" data-toggle="dropdown"
                                    role="button" aria-expanded="false">
                                     Language ({displayLang}) <span className="caret"/>
                                 </a>
                                 <ul className="dropdown-menu" role="menu">
-                                    <li><a href="javascript:" onClick={this.changeLanguageClick}
-                                           data-lang="KOR">한국어</a></li>
+                                    <li><a href="javascript:" onClick={this.changeLanguageClick} data-lang="KOR">한국어</a></li>
                                     <li><a href="javascript:" onClick={this.changeLanguageClick} data-lang="USA">English</a>
                                     </li>
                                 </ul>

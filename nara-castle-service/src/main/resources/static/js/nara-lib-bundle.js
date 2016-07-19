@@ -51,11 +51,11 @@ window["naraLib"] =
 	 * Created by hkkang on 2016-06-01.
 	 */
 	var Nara = __webpack_require__(1);
-	var NaraRoleBook = __webpack_require__(3);
+	var NaraReact = __webpack_require__(3);
 
 	module.exports = {
 	  Nara: Nara,
-	  NaraRoleBook: NaraRoleBook
+	  NaraReact: NaraReact
 	};
 
 /***/ },
@@ -690,6 +690,9 @@ window["naraLib"] =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.RoleBook = exports.Modal = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -708,15 +711,288 @@ window["naraLib"] =
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-04-05.
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by hkkang on 2016-07-09.
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+	// Modal
+	'use strict';
+
+	var modalPublicContext = {
+	    alert: null,
+	    confirm: null,
+	    openModal: null
+	};
+
+	// Define component
+
+	var NaraModal = function (_Component) {
+	    _inherits(NaraModal, _Component);
+
+	    _createClass(NaraModal, null, [{
+	        key: 'alert',
+
+	        //
+	        value: function alert(contentOrParams, handleOk) {
+	            //
+	            if (typeof modalPublicContext.alert === 'function') {
+	                modalPublicContext.alert(contentOrParams, handleOk);
+	            }
+	        }
+	    }, {
+	        key: 'confirm',
+	        value: function confirm(contentOrParams, handleOk, handleCancel) {
+	            //
+	            if (typeof modalPublicContext.confirm === 'function') {
+	                modalPublicContext.confirm(contentOrParams, handleOk, handleCancel);
+	            }
+	        }
+	    }, {
+	        key: 'openModal',
+	        value: function openModal(paramsObject) {
+	            //
+	            if (typeof modalPublicContext.openModal === 'function') {
+	                modalPublicContext.openModal(paramsObject);
+	            }
+	        }
+	    }]);
+
+	    function NaraModal(props) {
+	        _classCallCheck(this, NaraModal);
+
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NaraModal).call(this, props));
+	        //
+
+
+	        _this.state = NaraModal.initialState;
+
+	        _this.handleOk = _this.handleOk.bind(_this);
+	        _this.handleCancel = _this.handleCancel.bind(_this);
+	        _this._alert = _this._alert.bind(_this);
+	        _this._confirm = _this._confirm.bind(_this);
+	        _this._openModal = _this._openModal.bind(_this);
+	        _this.setParams = _this.setParams.bind(_this);
+
+	        modalPublicContext.alert = _this._alert;
+	        modalPublicContext.confirm = _this._confirm;
+	        modalPublicContext.openModal = _this._openModal;
+	        return _this;
+	    }
+	    // event
+
+
+	    _createClass(NaraModal, [{
+	        key: 'handleOk',
+	        value: function handleOk() {
+	            //
+	            var handleOk = this.state.handleOk;
+
+	            if (typeof handleOk === 'function') {
+	                handleOk();
+	            }
+	            this.setState(NaraModal.initialState);
+	        }
+	    }, {
+	        key: 'handleCancel',
+	        value: function handleCancel() {
+	            //
+	            var handleCancel = this.state.handleCancel;
+
+	            if (typeof handleCancel === 'function') {
+	                handleCancel();
+	            }
+	            this.setState(NaraModal.initialState);
+	        }
+	        // private custom
+
+	    }, {
+	        key: '_alert',
+	        value: function _alert(contentOrParams, handleOk) {
+	            //
+	            // Content and handleOk
+	            if (contentOrParams && typeof contentOrParams === 'string') {
+	                this.setState({
+	                    content: contentOrParams,
+	                    handleOk: typeof handleOk === 'function' ? handleOk : NaraModal.initialState.handleOk
+	                });
+	            }
+	            // Parameters object
+	            else if (contentOrParams && (typeof contentOrParams === 'undefined' ? 'undefined' : _typeof(contentOrParams)) === 'object') {
+	                    this.setParams(contentOrParams);
+	                } else {
+	                    console.error('Invalid alert arguments');
+	                }
+
+	            this.setState({ show: true, type: NaraModal.type.ALERT });
+	        }
+	    }, {
+	        key: '_confirm',
+	        value: function _confirm(contentOrParams, handleOk, handleCancel) {
+	            //
+	            // Content and handleOk
+	            if (contentOrParams && typeof contentOrParams === 'string') {
+	                this.setState({
+	                    content: contentOrParams,
+	                    handleOk: typeof handleOk === 'function' ? handleOk : NaraModal.initialState.handleOk,
+	                    handleCancel: typeof handleCancel === 'function' ? handleCancel : NaraModal.initialState.handleCancel
+	                });
+	            }
+	            // Parameters object
+	            else if (contentOrParams && (typeof contentOrParams === 'undefined' ? 'undefined' : _typeof(contentOrParams)) === 'object') {
+	                    this.setParams(contentOrParams);
+	                } else {
+	                    console.error('Invalid confirm arguments');
+	                }
+
+	            this.setState({ show: true, type: NaraModal.type.CONFIRM });
+	        }
+	    }, {
+	        key: '_openModal',
+	        value: function _openModal(paramsObject) {
+	            //
+	            this.setParams(paramsObject);
+	            this.setState({ show: true, type: NaraModal.type.CUSTOM });
+	        }
+	    }, {
+	        key: 'setParams',
+	        value: function setParams(paramsObject) {
+	            var title = paramsObject.title;
+	            var content = paramsObject.content;
+	            var handleOk = paramsObject.handleOk;
+	            var handleCancel = paramsObject.handleCancel;
+	            var options = paramsObject.options;
+
+
+	            this.setState({
+	                content: content,
+	                title: typeof title === 'string' ? title : NaraModal.initialState.title,
+	                handleOk: typeof handleOk === 'function' ? handleOk : NaraModal.initialState.handleOk,
+	                handleCancel: typeof handleCancel === 'function' ? handleCancel : NaraModal.initialState.handleCancel
+	            });
+	            if (options) {
+	                this.setState({
+	                    options: {
+	                        okUsable: typeof options.okUsable === 'boolean' ? options.okUsable : NaraModal.initialState.options.okUsable
+	                    }
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            //
+	            if (this.state.show !== true) {
+	                return null;
+	            }
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'div',
+	                    { className: 'modal-container' },
+	                    _react2.default.createElement(
+	                        'div',
+	                        { className: 'modal fade in', id: 'myModal', role: 'dialog', style: { display: 'block' } },
+	                        _react2.default.createElement(
+	                            'div',
+	                            { className: 'modal-dialog' },
+	                            _react2.default.createElement(
+	                                'div',
+	                                { className: 'modal-content' },
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'modal-header' },
+	                                    _react2.default.createElement(
+	                                        'h4',
+	                                        { className: 'modal-title' },
+	                                        this.state.title
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'modal-body' },
+	                                    this.state.content
+	                                ),
+	                                _react2.default.createElement(
+	                                    'div',
+	                                    { className: 'modal-footer' },
+	                                    this.state.type === NaraModal.type.ALERT && this.state.options.okUsable === true ? _react2.default.createElement(
+	                                        'button',
+	                                        { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', onClick: this.handleOk },
+	                                        'Ok'
+	                                    ) : null,
+	                                    this.state.type === NaraModal.type.CONFIRM ? _react2.default.createElement(
+	                                        'div',
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', onClick: this.handleCancel },
+	                                            'Cancel'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { type: 'button', className: 'btn btn-success', 'data-dismiss': 'modal', onClick: this.handleOk },
+	                                            'Ok'
+	                                        )
+	                                    ) : null,
+	                                    this.state.type === NaraModal.type.CUSTOM ? _react2.default.createElement(
+	                                        'div',
+	                                        null,
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', onClick: this.handleCancel },
+	                                            'Cancel'
+	                                        ),
+	                                        _react2.default.createElement(
+	                                            'button',
+	                                            { type: 'button', className: 'btn btn-success', 'data-dismiss': 'modal', onClick: this.handleOk },
+	                                            'Ok'
+	                                        )
+	                                    ) : null
+	                                )
+	                            )
+	                        )
+	                    )
+	                ),
+	                _react2.default.createElement('div', { className: 'modal-backdrop fade in' })
+	            );
+	        }
+	    }]);
+
+	    return NaraModal;
+	}(_react.Component);
+	/*
+	<button type="button" className="close" data-dismiss="modal">×</button>
+	*/
+
+
+	NaraModal.initialState = {
+	    show: false, // boolean
+	    type: null, // enum
+	    title: 'Notice', // string
+	    content: null, // string or html
+	    handleOk: null, // function
+	    handleCancel: null, // function
+	    options: {
+	        okUsable: true // boolean
+	    }
+	};
+
+	NaraModal.type = {
+	    ALERT: 'ALERT',
+	    CONFIRM: 'CONFIRM',
+	    CUSTOM: 'CUSTOM'
+	};
+
+	exports.Modal = NaraModal;
+
+	// RoleBook
 
 	'use strict';
 
 	// Define component
 
-	var RoleBook = function (_Component) {
-	    _inherits(RoleBook, _Component);
+	var RoleBook = function (_Component2) {
+	    _inherits(RoleBook, _Component2);
 
 	    _createClass(RoleBook, null, [{
 	        key: 'setContextPath',
@@ -779,11 +1055,11 @@ window["naraLib"] =
 	    function RoleBook(props) {
 	        _classCallCheck(this, RoleBook);
 
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RoleBook).call(this, props));
+	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(RoleBook).call(this, props));
 	        //
 
 
-	        _this.state = {
+	        _this2.state = {
 	            pavilionId: null,
 	            castingId: null,
 	            playerId: null,
@@ -802,16 +1078,16 @@ window["naraLib"] =
 	            }
 	        };
 
-	        _this.roleCheckClick = _this.roleCheckClick.bind(_this);
-	        _this.rolePlayerMappingPopOnHide = _this.rolePlayerMappingPopOnHide.bind(_this);
-	        _this.rolesBtnOnClick = _this.rolesBtnOnClick.bind(_this);
-	        _this.modifyRoleBookBtnOnClick = _this.modifyRoleBookBtnOnClick.bind(_this);
-	        _this.isUnconfiguredAndAdmin = _this.isUnconfiguredAndAdmin.bind(_this);
-	        _this.isUnconfiguredAndUser = _this.isUnconfiguredAndUser.bind(_this);
-	        _this.isModifiableAndAdmin = _this.isModifiableAndAdmin.bind(_this);
-	        _this.requestFindRolesOfPlayer = _this.requestFindRolesOfPlayer.bind(_this);
-	        _this.requestFindPlayers = _this.requestFindPlayers.bind(_this);
-	        return _this;
+	        _this2.roleCheckClick = _this2.roleCheckClick.bind(_this2);
+	        _this2.rolePlayerMappingPopOnHide = _this2.rolePlayerMappingPopOnHide.bind(_this2);
+	        _this2.rolesBtnOnClick = _this2.rolesBtnOnClick.bind(_this2);
+	        _this2.modifyRoleBookBtnOnClick = _this2.modifyRoleBookBtnOnClick.bind(_this2);
+	        _this2.isUnconfiguredAndAdmin = _this2.isUnconfiguredAndAdmin.bind(_this2);
+	        _this2.isUnconfiguredAndUser = _this2.isUnconfiguredAndUser.bind(_this2);
+	        _this2.isModifiableAndAdmin = _this2.isModifiableAndAdmin.bind(_this2);
+	        _this2.requestFindRolesOfPlayer = _this2.requestFindRolesOfPlayer.bind(_this2);
+	        _this2.requestFindPlayers = _this2.requestFindPlayers.bind(_this2);
+	        return _this2;
 	    }
 	    // overriding
 
@@ -834,11 +1110,42 @@ window["naraLib"] =
 	                this.requestFindRolesOfPlayer(pavilionId, castingId, playerId);
 	            }
 	        }
+	    }, {
+	        key: 'componentWillUpdate',
+	        value: function componentWillUpdate(nextProps, nextState) {
+	            var _this3 = this;
+
+	            if (nextState.init === true || nextProps.init === true) {
+	                if (nextState.roleState.unconfigured && nextState.roleState.user) {
+	                    NaraModal.alert({
+	                        title: 'Sorry!',
+	                        content: '해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.',
+	                        options: { okUsable: false }
+	                    });
+	                } else if (nextState.roleState.unconfigured && nextState.roleState.admin) {
+	                    console.log('Configuration popup');
+	                } else if (nextState.popupState.alertRoles) {
+	                    (function () {
+	                        var rolesElement = '';
+	                        _this3.state.roles.forEach(function (role, index) {
+	                            rolesElement.concat(role.name + ' : ' + role.description + '}');
+	                        });
+
+	                        NaraModal.alert({
+	                            title: 'Roles',
+	                            content: rolesElement,
+	                            handleOk: _this3.rolesBtnOnClick
+	                        });
+	                    })();
+	                }
+	            }
+	        }
 	        // event
 
 	    }, {
 	        key: 'roleCheckClick',
 	        value: function roleCheckClick() {
+	            this.setState({ init: true });
 	            this.requestFindRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
 	        }
 	    }, {
@@ -940,19 +1247,15 @@ window["naraLib"] =
 	        key: 'render',
 	        value: function render() {
 	            //
+
 	            return _react2.default.createElement(
 	                'li',
 	                null,
-	                this.props.init === true ? _react2.default.createElement(
+	                this.props.init !== true ? _react2.default.createElement(
 	                    'a',
 	                    { href: 'javascript:', onClick: this.roleCheckClick },
 	                    'RoleCheck'
 	                ) : null,
-	                _react2.default.createElement(
-	                    'a',
-	                    { href: 'javascript:', onClick: this.roleCheckClick },
-	                    'RoleCheck'
-	                ),
 	                this.isModifiableAndAdmin() === true ? _react2.default.createElement(
 	                    'a',
 	                    { href: 'javascript:', onClick: this.modifyRoleBookBtnOnClick },
@@ -964,71 +1267,44 @@ window["naraLib"] =
 	                    displayable: this.state.popupState.rolePlayerMapping,
 	                    onHide: this.rolePlayerMappingPopOnHide,
 	                    onSaveSuccess: this.props.onSaveSuccess
-	                }) : null,
-	                this.isUnconfiguredAndUser() === true ? _react2.default.createElement(
-	                    _reactBootstrap.Modal,
-	                    {
-	                        show: this.state.popupState.alertUnconfigured },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Header,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Modal.Title,
-	                            { id: 'modal-title' },
-	                            'Sorry!'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Body,
-	                        null,
-	                        _react2.default.createElement(
-	                            'h4',
-	                            null,
-	                            '해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.'
-	                        )
-	                    )
-	                ) : null,
-	                _react2.default.createElement(
-	                    _reactBootstrap.Modal,
-	                    { show: this.state.popupState.alertRoles },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Header,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Modal.Title,
-	                            { id: 'modal-roles-of-player-title' },
-	                            'Roles'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Body,
-	                        null,
-	                        this.state.roles.map(function (role, index) {
-	                            return _react2.default.createElement(
-	                                'h4',
-	                                { key: index },
-	                                role.name,
-	                                ' : ',
-	                                role.description
-	                            );
-	                        })
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Footer,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Button,
-	                            { onClick: this.rolesBtnOnClick },
-	                            'Close'
-	                        )
-	                    )
-	                )
+	                }) : null
 	            );
 	        }
 	    }]);
 
 	    return RoleBook;
 	}(_react.Component);
+
+	/*
+	{ this.isUnconfiguredAndUser() === true ?
+	    <Modal
+	        show={this.state.popupState.alertUnconfigured}>
+	        <Modal.Header>
+	            <Modal.Title id="modal-title">Sorry!</Modal.Title>
+	        </Modal.Header>
+	        <Modal.Body>
+	            <h4>해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.</h4>
+	        </Modal.Body>
+	    </Modal> : null
+	}
+	*/
+	/*
+	<div className="modal-container">
+	    <Modal show={this.state.popupState.alertRoles} container={this} aria-labelledby="contained-modal-title">
+	        <Modal.Header>
+	            <Modal.Title id="modal-roles-of-player-title">Roles</Modal.Title>
+	        </Modal.Header>
+	        <Modal.Body>
+	            { this.state.roles.map( function (role, index) {
+	                return (<h4 key={index}>{role.name} : {role.description}</h4>);
+	            })}
+	        </Modal.Body>
+	        <Modal.Footer>
+	            <Button onClick={this.rolesBtnOnClick}>Close</Button>
+	        </Modal.Footer>
+	    </Modal>
+	</div>
+	*/
 
 	RoleBook.contextPath = null;
 	RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
@@ -1040,30 +1316,30 @@ window["naraLib"] =
 	};
 	RoleBook.defaultProps = {};
 
-	var RolePlayerMappingPop = function (_Component2) {
-	    _inherits(RolePlayerMappingPop, _Component2);
+	var RolePlayerMappingPop = function (_Component3) {
+	    _inherits(RolePlayerMappingPop, _Component3);
 
 	    //
 
 	    function RolePlayerMappingPop(props) {
 	        _classCallCheck(this, RolePlayerMappingPop);
 
-	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(RolePlayerMappingPop).call(this, props));
+	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(RolePlayerMappingPop).call(this, props));
 	        //
 
 
-	        _this2.state = {
+	        _this4.state = {
 	            roles: [],
 	            rolePlayers: [],
 	            successPopup: false
 	        };
 
-	        _this2.roleCheckChange = _this2.roleCheckChange.bind(_this2);
-	        _this2.saveRoleBookBtnOnClick = _this2.saveRoleBookBtnOnClick.bind(_this2);
-	        _this2.successPopCloseBtnOnClick = _this2.successPopCloseBtnOnClick.bind(_this2);
-	        _this2.requestRolePlayer = _this2.requestRolePlayer.bind(_this2);
-	        _this2.requestSaveRoleBook = _this2.requestSaveRoleBook.bind(_this2);
-	        return _this2;
+	        _this4.roleCheckChange = _this4.roleCheckChange.bind(_this4);
+	        _this4.saveRoleBookBtnOnClick = _this4.saveRoleBookBtnOnClick.bind(_this4);
+	        _this4.successPopCloseBtnOnClick = _this4.successPopCloseBtnOnClick.bind(_this4);
+	        _this4.requestRolePlayer = _this4.requestRolePlayer.bind(_this4);
+	        _this4.requestSaveRoleBook = _this4.requestSaveRoleBook.bind(_this4);
+	        return _this4;
 	    }
 	    // overriding
 
@@ -1072,6 +1348,66 @@ window["naraLib"] =
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.requestRolePlayer();
+	        }
+	    }, {
+	        key: 'componentWillUpdate',
+	        value: function componentWillUpdate(nextProps, nextState) {
+
+	            if (nextState.rolePlayers.length > 0) {
+
+	                var content = _react2.default.createElement(
+	                    'table',
+	                    { className: 'table table-stri1ed table-hover' },
+	                    _react2.default.createElement(
+	                        'thead',
+	                        null,
+	                        _react2.default.createElement(
+	                            'tr',
+	                            null,
+	                            _react2.default.createElement(
+	                                'th',
+	                                { className: 'col-md-3' },
+	                                'Player'
+	                            ),
+	                            nextState.roles.map(function (role, index) {
+	                                return _react2.default.createElement(
+	                                    'th',
+	                                    { key: index },
+	                                    role.name
+	                                );
+	                            })
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        'tbody',
+	                        null,
+	                        this.props.players.map(function (player, playerIndex) {
+	                            return _react2.default.createElement(
+	                                'tr',
+	                                { key: playerIndex },
+	                                _react2.default.createElement(
+	                                    'td',
+	                                    null,
+	                                    player.name
+	                                ),
+	                                nextState.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
+	                                    return _react2.default.createElement(
+	                                        'td',
+	                                        { key: roleIndex },
+	                                        _react2.default.createElement('input', { type: 'checkbox', checked: roleCheck, onChange: this.roleCheckChange.bind(this, playerIndex, roleIndex) })
+	                                    );
+	                                }.bind(this))
+	                            );
+	                        }.bind(this))
+	                    )
+	                );
+
+	                NaraModal.openModal({
+	                    title: 'Role player configuration',
+	                    content: content,
+	                    handleOk: this.saveRoleBookBtnOnClick
+	                });
+	            }
 	        }
 	        // event
 
@@ -1148,12 +1484,13 @@ window["naraLib"] =
 	        value: function requestSaveRoleBook(roleBook) {
 	            //
 	            _naraCommon.Ajax.postJSON(RolePlayerMappingPop.url.SAVE_ROLE_BOOK, roleBook).done(function () {
-	                this.props.onHide();
-	                this.setState({ successPopup: true });
-
-	                if (this.props.onSaveSuccess) {
-	                    this.props.onSaveSuccess();
-	                }
+	                NaraModal.alert('RoleBook 저장이 완료 되었습니다.');
+	                //this.props.onHide();
+	                //this.setState({ successPopup: true});
+	                //
+	                //if (this.props.onSaveSuccess) {
+	                //    this.props.onSaveSuccess();
+	                //}
 	            }.bind(this));
 	        }
 	    }, {
@@ -1161,122 +1498,78 @@ window["naraLib"] =
 	        value: function render() {
 	            //
 	            var existsPlayerCheckList = this.state.rolePlayers.length > 0;
-
-	            return _react2.default.createElement(
-	                'section',
-	                null,
-	                _react2.default.createElement(
-	                    _reactBootstrap.Modal,
-	                    {
-	                        bsSize: 'large',
-	                        'aria-labelledby': 'contained-modal-title-lg',
-	                        show: this.props.displayable },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Header,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Modal.Title,
-	                            { id: 'contained-modal-title-lg' },
-	                            'Role player'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Body,
-	                        null,
-	                        existsPlayerCheckList ? _react2.default.createElement(
-	                            'table',
-	                            { className: 'table table-stri1ed table-hover' },
-	                            _react2.default.createElement(
-	                                'thead',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'tr',
-	                                    null,
-	                                    _react2.default.createElement(
-	                                        'th',
-	                                        { className: 'col-md-3' },
-	                                        'Player'
-	                                    ),
-	                                    this.state.roles.map(function (role, index) {
-	                                        return _react2.default.createElement(
-	                                            'th',
-	                                            { key: index },
-	                                            role.name
-	                                        );
-	                                    })
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'tbody',
-	                                null,
-	                                this.props.players.map(function (player, playerIndex) {
-	                                    return _react2.default.createElement(
-	                                        'tr',
-	                                        { key: playerIndex },
-	                                        _react2.default.createElement(
-	                                            'td',
-	                                            null,
-	                                            player.name
-	                                        ),
-	                                        this.state.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
-	                                            return _react2.default.createElement(
-	                                                'td',
-	                                                { key: roleIndex },
-	                                                _react2.default.createElement('input', { type: 'checkbox', checked: roleCheck, onChange: this.roleCheckChange.bind(this, playerIndex, roleIndex) })
-	                                            );
-	                                        }.bind(this))
-	                                    );
-	                                }.bind(this))
-	                            )
-	                        ) : _react2.default.createElement(
-	                            'h4',
-	                            null,
-	                            '역할 목록이 없습니다.'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Footer,
-	                        null,
-	                        existsPlayerCheckList ? _react2.default.createElement(
-	                            _reactBootstrap.Button,
-	                            { onClick: this.saveRoleBookBtnOnClick },
-	                            'Save'
-	                        ) : null
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactBootstrap.Modal,
-	                    { show: this.state.successPopup },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Header,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Modal.Title,
-	                            { id: 'modal-success-title' },
-	                            'Success'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Body,
-	                        null,
-	                        'RoleBook 저장이 완료 되었습니다.'
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Footer,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Button,
-	                            { onClick: this.successPopCloseBtnOnClick },
-	                            'Close'
-	                        )
-	                    )
-	                )
-	            );
+	            return null;
 	        }
 	    }]);
 
 	    return RolePlayerMappingPop;
 	}(_react.Component);
+
+	/*
+	return (
+	    <section>
+	        <Modal
+	            bsSize="large"
+	            aria-labelledby="contained-modal-title-lg"
+	            show={this.props.displayable} >
+	            <Modal.Header>
+	                <Modal.Title id="contained-modal-title-lg">Role player</Modal.Title>
+	            </Modal.Header>
+	            <Modal.Body>
+	                { existsPlayerCheckList ?
+	                    <table className="table table-stri1ed table-hover">
+	                        <thead>
+	                        <tr>
+	                            <th className="col-md-3">Player</th>
+	                            {
+	                                this.state.roles.map(function (role, index) {
+	                                    return (<th key={index}>{role.name}</th>);
+	                                })
+	                            }
+	                        </tr>
+	                        </thead>
+	                        <tbody>
+	                        {
+	                            this.props.players.map(function (player, playerIndex) {
+	                                return (
+	                                    <tr key={playerIndex}>
+	                                        <td>{player.name}</td>
+	                                        {this.state.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
+	                                            return (
+	                                                <td key={roleIndex}><input type="checkbox" checked={roleCheck} onChange={this.roleCheckChange.bind(this, playerIndex, roleIndex)}/></td>
+	                                            );
+	                                        }.bind(this))}
+	                                    </tr>
+	                                );
+	                            }.bind(this))
+	                        }
+	                        </tbody>
+	                    </table>
+	                    :
+	                    <h4>역할 목록이 없습니다.</h4>
+	                }
+	            </Modal.Body>
+	            <Modal.Footer>
+	                { existsPlayerCheckList ?
+	                    <Button onClick={this.saveRoleBookBtnOnClick}>Save</Button>
+	                    : null
+	                }
+	            </Modal.Footer>
+	        </Modal>
+	        <Modal show={this.state.successPopup}>
+	            <Modal.Header>
+	                <Modal.Title id="modal-success-title">Success</Modal.Title>
+	            </Modal.Header>
+	            <Modal.Body>
+	                RoleBook 저장이 완료 되었습니다.
+	            </Modal.Body>
+	            <Modal.Footer>
+	                <Button onClick={this.successPopCloseBtnOnClick}>Close</Button>
+	            </Modal.Footer>
+	        </Modal>
+	    </section>
+	);
+	*/
 
 	RolePlayerMappingPop.propTypes = {
 	    //
@@ -1286,7 +1579,11 @@ window["naraLib"] =
 	    onHide: _react.PropTypes.func.isRequired
 	};
 
-	exports.default = RoleBook;
+	exports.RoleBook = RoleBook;
+	exports.default = {
+	    RoleBook: RoleBook,
+	    Modal: _reactBootstrap.Modal
+	};
 
 /***/ },
 /* 4 */

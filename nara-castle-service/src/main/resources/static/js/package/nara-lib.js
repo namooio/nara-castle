@@ -2,9 +2,9 @@
  * Created by hkkang on 2016-06-01.
  */
 var Nara = require('app/lib/nara-common');
-var NaraRoleBook = require('app/lib/nara-role-book.jsx');
+var NaraReact = require('app/lib/nara-react-common.jsx');
 
 module.exports = {
     Nara: Nara,
-    NaraRoleBook: NaraRoleBook
+    NaraReact: NaraReact
 };

@@ -66,7 +66,7 @@
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _topMenu = __webpack_require__(6);
+	var _topMenu = __webpack_require__(7);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
@@ -263,7 +263,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _topMenu = __webpack_require__(6);
+	var _naraReact = __webpack_require__(6);
+
+	var _topMenu = __webpack_require__(7);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
@@ -352,6 +354,11 @@
 	                ),
 	                _react2.default.createElement(
 	                    'section',
+	                    { role: 'dialog' },
+	                    _react2.default.createElement(_naraReact.Modal, null)
+	                ),
+	                _react2.default.createElement(
+	                    'section',
 	                    null,
 	                    this.props.children
 	                )
@@ -374,6 +381,12 @@
 
 /***/ },
 /* 6 */
+/***/ function(module, exports) {
+
+	module.exports = naraLib.NaraReact;
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -388,11 +401,9 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(8);
 
-	var _naraRoleBook = __webpack_require__(8);
-
-	var _naraRoleBook2 = _interopRequireDefault(_naraRoleBook);
+	var _naraReact = __webpack_require__(6);
 
 	var _castleCommon = __webpack_require__(1);
 
@@ -443,7 +454,7 @@
 	    _createClass(TopMenu, [{
 	        key: 'changeLanguageClick',
 	        value: function changeLanguageClick(event) {
-	            var lang = $(event.target).data('lang');
+	            var lang = event.target.dataset.lang;
 	            this.props.changeLanguage(lang);
 	        }
 	    }, {
@@ -494,7 +505,7 @@
 	                        _react2.default.createElement(
 	                            'ul',
 	                            { className: 'nav navbar-nav navbar-right' },
-	                            _react2.default.createElement(_naraRoleBook2.default, null),
+	                            _react2.default.createElement(_naraReact.RoleBook, { init: true }),
 	                            _react2.default.createElement(
 	                                'li',
 	                                { className: 'dropdown' },
@@ -515,8 +526,7 @@
 	                                        null,
 	                                        _react2.default.createElement(
 	                                            'a',
-	                                            { href: 'javascript:', onClick: this.changeLanguageClick,
-	                                                'data-lang': 'KOR' },
+	                                            { href: 'javascript:', onClick: this.changeLanguageClick, 'data-lang': 'KOR' },
 	                                            '한국어'
 	                                        )
 	                                    ),
@@ -548,16 +558,10 @@
 	exports.default = TopMenu;
 
 /***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	module.exports = externalLib.ReactRouter;
-
-/***/ },
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = naraLib.NaraRoleBook;
+	module.exports = externalLib.ReactRouter;
 
 /***/ },
 /* 9 */
@@ -573,7 +577,7 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(8);
 
 	var _castleCommon = __webpack_require__(1);
 
@@ -793,7 +797,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(8);
 
 	var _nara = __webpack_require__(2);
 
@@ -1225,7 +1229,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(7);
+	var _reactRouter = __webpack_require__(8);
 
 	var _castleCommon = __webpack_require__(1);
 

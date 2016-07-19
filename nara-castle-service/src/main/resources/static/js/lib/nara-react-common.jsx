@@ -1,9 +1,189 @@
 /**
- * Created by hkkang on 2016-04-05.
+ * Created by hkkang on 2016-07-09.
  */
 
 import React, { Component, PropTypes } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+
+
+// Modal
+'use strict';
+
+let modalPublicContext = {
+    alert: null,
+    confirm: null,
+    openModal: null
+};
+
+// Define component
+class NaraModal extends Component {
+    //
+    static alert(contentOrParams, handleOk) {
+        //
+        if (typeof modalPublicContext.alert === 'function') {
+            modalPublicContext.alert(contentOrParams, handleOk);
+        }
+    }
+    static confirm(contentOrParams, handleOk, handleCancel) {
+        //
+        if (typeof modalPublicContext.confirm === 'function') {
+            modalPublicContext.confirm(contentOrParams, handleOk, handleCancel);
+        }
+    }
+    static openModal(paramsObject) {
+        //
+        if (typeof modalPublicContext.openModal === 'function') {
+            modalPublicContext.openModal(paramsObject);
+        }
+    }
+    constructor(props) {
+        //
+        super(props);
+
+        this.state = NaraModal.initialState;
+
+        this.handleOk = this.handleOk.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+        this._alert = this._alert.bind(this);
+        this._confirm = this._confirm.bind(this);
+        this._openModal = this._openModal.bind(this);
+
+        modalPublicContext.alert = this._alert;
+        modalPublicContext.confirm = this._confirm;
+        modalPublicContext.openModal = this._openModal;
+    }
+    // event
+    handleOk() {
+        //
+        let handleOk = this.state.handleOk;
+
+        if (typeof handleOk === 'function') {
+            handleOk();
+        }
+        this.setState(NaraModal.initialState);
+    }
+    handleCancel() {
+        //
+        let handleCancel = this.state.handleCancel;
+
+        if (typeof handleCancel === 'function') {
+            handleCancel();
+        }
+        this.setState(NaraModal.initialState);
+    }
+    // private custom
+    _alert(contentOrParams, handleOk) {
+        //
+        // Content and handleOk
+        if (contentOrParams && typeof contentOrParams === 'string') {
+            this.setState({
+                content: contentOrParams,
+                handleOk: typeof handleOk === 'function' ? handleOk : NaraModal.initialState.handleOk
+            });
+        }
+        // Parameters object
+        else if (contentOrParams && typeof contentOrParams === 'object') {
+            this._openModal(contentOrParams);
+        }
+        else {
+            console.error('Invalid alert arguments');
+        }
+
+        this.setState({ show: true, type: NaraModal.type.ALERT });
+    }
+    _confirm(contentOrParams, handleOk, handleCancel) {
+        //
+        // Content and handleOk
+        if (contentOrParams && typeof contentOrParams === 'string') {
+            this.setState({
+                content: contentOrParams,
+                handleOk: typeof handleOk === 'function' ? handleOk : NaraModal.initialState.handleOk,
+                handleCancel: typeof handleCancel === 'function' ? handleCancel : NaraModal.initialState.handleCancel
+            });
+        }
+        // Parameters object
+        else if (contentOrParams && typeof contentOrParams === 'object') {
+            this._openModal(contentOrParams);
+        }
+        else {
+            console.error('Invalid confirm arguments')
+        }
+
+        this.setState({ show: true, type: NaraModal.type.CONFIRM });
+    }
+    _openModal(paramsObject) {
+        //
+        let { title, content, handleOk, handleCancel } = paramsObject;
+        this.setState({
+            content,
+            title: typeof title === 'string' ? title : NaraModal.initialState.title,
+            handleOk: typeof handleOk === 'function' ? handleOk : NaraModal.initialState.handleOk,
+            handleCancel: typeof handleCancel === 'function' ? handleCancel : NaraModal.initialState.handleCancel
+        });
+    }
+    render() {
+        //
+        if (this.state.show !== true) {
+            return (null);
+        }
+        return (
+            <div>
+                <div className="modal-container">
+                    <div className="modal fade in" id="myModal" role="dialog" style={{display: 'block'}}>
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <button type="button" className="close" data-dismiss="modal">×</button>
+                                    <h4 className="modal-title">{this.state.title}</h4>
+                                </div>
+                                <div className="modal-body">
+                                    <p>{this.state.content}</p>
+                                </div>
+                                <div className="modal-footer">
+                                    { this.state.type === NaraModal.type.ALERT && this.state.options.okUsable === true ?
+                                        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleOk}>Ok</button>
+                                        : null
+                                    }
+                                    { this.state.type === NaraModal.type.CONFIRM ?
+                                        <div>
+                                            <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.handleCancel}>Cancel</button>
+                                            <button type="button" className="btn btn-info" data-dismiss="modal" onClick={this.handleOk}>Ok</button>
+                                        </div>
+                                        : null
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="modal-backdrop fade in"></div>
+            </div>
+        );
+    }
+}
+
+NaraModal.initialState = {
+    show: false,        // boolean
+    type: null,         // enum
+    title: 'Notice',   // string
+    content: null,      // string or html
+    handleOk: null,     // function
+    handleCancel: null, // function
+    options: {
+        okUsable: true
+    }
+};
+
+NaraModal.type = {
+    ALERT: 'ALERT',
+    CONFIRM: 'CONFIRM',
+    CUSTOM: 'CUSTOM'
+};
+
+export { NaraModal as Modal };
+
+
+// RoleBook
 import { Ajax as NaraAjax, Object as NaraObject, Url as NaraUrl } from './nara-common';
 
 
@@ -196,6 +376,25 @@ class RoleBook extends Component {
     }
     render() {
         //
+        if (this.isUnconfiguredAndUser() === true) {
+            NaraModal.alert({
+                title: 'Sorry!',
+                content: '해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.',
+                okUsable: false
+            });
+        }
+        else {
+            let rolesElement = this.state.roles.map( function (role, index) {
+                return `${role.name} : ${role.description}}`;
+            });
+
+            NaraModal.alert({
+                title: 'Roles',
+                content: rolesElement,
+                handleOk: this.rolesBtnOnClick
+            });
+        }
+
         return (
             <li>
                 { this.props.init !== true ?
@@ -214,36 +413,41 @@ class RoleBook extends Component {
                         onSaveSuccess={this.props.onSaveSuccess}
                     /> : null
                 }
-                { this.isUnconfiguredAndUser() === true ?
-                    <Modal
-                        show={this.state.popupState.alertUnconfigured}>
-                        <Modal.Header>
-                            <Modal.Title id="modal-title">Sorry!</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <h4>해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.</h4>
-                        </Modal.Body>
-                    </Modal> : null
-                }
-                <div className="modal-container">
-                    <Modal show={this.state.popupState.alertRoles} container={this} aria-labelledby="contained-modal-title">
-                        <Modal.Header>
-                            <Modal.Title id="modal-roles-of-player-title">Roles</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            { this.state.roles.map( function (role, index) {
-                                return (<h4 key={index}>{role.name} : {role.description}</h4>);
-                            })}
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={this.rolesBtnOnClick}>Close</Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
             </li>
         );
     }
 }
+
+/*
+{ this.isUnconfiguredAndUser() === true ?
+    <Modal
+        show={this.state.popupState.alertUnconfigured}>
+        <Modal.Header>
+            <Modal.Title id="modal-title">Sorry!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <h4>해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.</h4>
+        </Modal.Body>
+    </Modal> : null
+}
+*/
+/*
+<div className="modal-container">
+    <Modal show={this.state.popupState.alertRoles} container={this} aria-labelledby="contained-modal-title">
+        <Modal.Header>
+            <Modal.Title id="modal-roles-of-player-title">Roles</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            { this.state.roles.map( function (role, index) {
+                return (<h4 key={index}>{role.name} : {role.description}</h4>);
+            })}
+        </Modal.Body>
+        <Modal.Footer>
+            <Button onClick={this.rolesBtnOnClick}>Close</Button>
+        </Modal.Footer>
+    </Modal>
+</div>
+*/
 
 RoleBook.contextPath = null;
 RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
@@ -432,5 +636,10 @@ RolePlayerMappingPop.propTypes = {
     onHide: PropTypes.func.isRequired
 };
 
+export { RoleBook };
 
-export default RoleBook;
+
+export default {
+    RoleBook: RoleBook,
+    Modal: Modal
+};

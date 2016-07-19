@@ -3,6 +3,7 @@
  */
 
 import React, { Component } from 'react';
+import { Modal as NaraModal } from 'nara-react';
 import TopMenu from 'app/component/common/top-menu.jsx';
 
 
@@ -60,7 +61,9 @@ class MainComponent extends Component {
                 <header>
                     <TopMenu changeLanguage={this.changeLanguage} getLanguage={this.getLanguage}/>
                 </header>
-
+                <section role="dialog">
+                    <NaraModal />
+                </section>
                 <section>
                     {this.props.children}
                 </section>
