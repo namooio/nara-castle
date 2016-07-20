@@ -11,8 +11,6 @@ public class CastleBuildDto {
     private String email;
     private Locale locale;
 
-    private String password;
-
     public CastleBuildDto() {
         //
     }
@@ -39,13 +37,5 @@ public class CastleBuildDto {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

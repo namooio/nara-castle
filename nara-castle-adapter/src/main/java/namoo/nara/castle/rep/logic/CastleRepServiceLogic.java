@@ -31,9 +31,7 @@ public class CastleRepServiceLogic implements CastleRepService {
         String name = castleBuildDto.getName();
         String email = castleBuildDto.getEmail();
         Locale locale = castleBuildDto.getLocale();
-        String password = castleBuildDto.getPassword();
-
-        CastleCdo castleCdo = new CastleCdo(castleId, name, email, locale, password);
+        CastleCdo castleCdo = new CastleCdo(castleId, name, email, locale);
         castleService.buildCastle(castleCdo);
     }
 

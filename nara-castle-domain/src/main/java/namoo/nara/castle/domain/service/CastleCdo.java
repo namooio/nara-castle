@@ -12,19 +12,16 @@ public class CastleCdo {
     private String email;
     private Locale locale;
 
-    private String password;
-
     public CastleCdo() {
         //
     }
 
-    public CastleCdo(String id, String name, String email, Locale locale, String password) {
+    public CastleCdo(String id, String name, String email, Locale locale) {
         //
         this.id = id;
         this.name = name;
         this.email = email;
         this.locale = locale;
-        this.password = password;
     }
 
     public String getId() {
@@ -59,11 +56,4 @@ public class CastleCdo {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

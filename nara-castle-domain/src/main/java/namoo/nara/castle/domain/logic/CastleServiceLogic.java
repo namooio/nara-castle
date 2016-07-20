@@ -46,7 +46,6 @@ public class CastleServiceLogic implements CastleService {
         String name = castleCdo.getName();
         String email = castleCdo.getEmail();
         Locale locale = castleCdo.getLocale();
-        String password = castleCdo.getPassword();
 
         Castle castle = Castle.newInstance(id, name, email, locale);
 
