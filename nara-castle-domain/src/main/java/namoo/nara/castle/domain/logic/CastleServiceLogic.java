@@ -13,11 +13,7 @@ import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.proxy.GatewayProxy;
 import namoo.nara.castle.domain.service.CastleCdo;
 import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.store.CastellanStore;
-import namoo.nara.castle.domain.store.CastleStore;
-import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.castle.domain.store.ContactBundleStore;
-import namoo.nara.castle.domain.store.HistoryBundleStore;
+import namoo.nara.castle.domain.store.*;
 
 import java.util.List;
 import java.util.Locale;
@@ -69,7 +65,7 @@ public class CastleServiceLogic implements CastleService {
         historyStore.create(history);
         contactBundleStore.create(contact);
 
-        gatewayProxy.createNaraAccount(id, name, email, password);
+//        gatewayProxy.createNaraAccount(id, name, email, password);
     }
 
     @Override

@@ -15,11 +15,11 @@
             <artifactId>nara-castle-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>namoo.nara.gateway</groupId>
-            <artifactId>nara-gateway-client</artifactId>
-            <version>${nara.gateway.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>namoo.nara.gateway</groupId>-->
+            <!--<artifactId>nara-gateway-client</artifactId>-->
+            <!--<version>${nara.gateway.version}</version>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>
