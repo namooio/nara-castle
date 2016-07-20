@@ -4,17 +4,13 @@ import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.front.dto.CastellanFindDto;
 import namoo.nara.castle.front.logic.CastellanFrontServiceLogic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @RestController
-@RequestMapping("api/castellans")
+@RequestMapping("castle/api/castellans")
 public class CastellanFrontResource extends CastellanFrontServiceLogic {
     //
     @Autowired

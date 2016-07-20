@@ -24,7 +24,7 @@ public class DefaultFrontView {
     }
 
 
-    @RequestMapping("/")
+    @RequestMapping("castle")
     public ModelAndView main(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();
@@ -37,7 +37,7 @@ public class DefaultFrontView {
         return new ModelAndView("/WEB-INF/jsp/index.jsp", model);
     }
 
-    @RequestMapping("/local")
+    @RequestMapping("castle/local")
     public ModelAndView localMain(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();

@@ -4,11 +4,7 @@ import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.front.dto.CastleFindDto;
 import namoo.nara.castle.front.logic.CastleFrontServiceLogic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Locale;
@@ -17,7 +13,7 @@ import java.util.Locale;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @RestController
-@RequestMapping("api/castles")
+@RequestMapping("castle/api/castles")
 public class CastleFrontResource extends CastleFrontServiceLogic{
     //
     @Autowired

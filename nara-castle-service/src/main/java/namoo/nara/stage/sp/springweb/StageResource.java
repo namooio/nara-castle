@@ -10,12 +10,7 @@ import namoo.nara.stage.rolebook.cp.pojo.RoleBookServicePojoLycler;
 import namoo.nara.stage.rolebook.entity.Role;
 import namoo.nara.stage.rolebook.entity.RoleBook;
 import namoo.nara.stage.rolebook.service.RoleBookService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +18,7 @@ import java.util.List;
  * Created by hkkang on 2016-06-14.
  */
 @RestController
-@RequestMapping("stage")
+@RequestMapping("castle/stage")
 public class StageResource {
     //
     private PosterService posterService;
