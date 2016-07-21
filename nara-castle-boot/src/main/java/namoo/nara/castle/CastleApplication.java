@@ -9,10 +9,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 				"namoo.nara.stage"
 		}
 )
-public class CastleServiceApplication {
+public class CastleApplication {
 	//
 	public static void main(String[] args) {
-		SpringApplication.run(CastleServiceApplication.class, args);
+		SpringApplication.run(CastleApplication.class, args);
 	}
 
 }

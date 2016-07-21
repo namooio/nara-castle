@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 12..
  */
-public class CastellanContactFrontResourceTest { // extends AbstractCastleServiceApplicationTests  {
+public class CastellanContactFrontResourceTest { // extends AbstractCastleApplicationTests  {
     //
     private String id;
 

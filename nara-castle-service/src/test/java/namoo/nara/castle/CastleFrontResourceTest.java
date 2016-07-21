@@ -3,7 +3,7 @@ package namoo.nara.castle;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 11..
  */
-public class CastleFrontResourceTest { //extends AbstractCastleServiceApplicationTests {
+public class CastleFrontResourceTest { //extends AbstractCastleApplicationTests {
     //
     // FIXME: 수정할 것.
     /*
