@@ -148,8 +148,8 @@
 
 	    _nara.Object.defineConstProperties(PAV_CTX, {
 	        root: _nara.Url.getPavilionHashContextPath(),
-	        api: _nara.Url.getPavilionHashContextPath() + '/api',
-	        res: _nara.Url.getPavilionHashContextPath() + '/resource',
+	        api: _nara.Url.getPavilionHashContextPath() + '/castle-api',
+	        res: _nara.Url.getPavilionHashContextPath() + '/castle-resource',
 	        hash: _nara.Url.getPavilionHashContextPath()
 	    });
 	    _nara.Object.defineConstProperties(constantPublicContext, {
@@ -505,7 +505,7 @@
 	                        _react2.default.createElement(
 	                            'ul',
 	                            { className: 'nav navbar-nav navbar-right' },
-	                            _react2.default.createElement(_naraReact.RoleBook, { init: true }),
+	                            _react2.default.createElement(_naraReact.RoleBook, { init: false }),
 	                            _react2.default.createElement(
 	                                'li',
 	                                { className: 'dropdown' },
@@ -1505,6 +1505,8 @@
 
 	var _nara = __webpack_require__(2);
 
+	var _naraReact = __webpack_require__(6);
+
 	var _castleCommon = __webpack_require__(1);
 
 	var _castleModel = __webpack_require__(3);
@@ -2070,7 +2072,8 @@
 	                ATTRS = CastleBasicModel.attrs,
 	                LANG = _main2.default.lang;
 
-	            var propBasicInfo = this.state.willModifyBasic;
+	            var propBasicInfo = this.state.willModifyBasic,
+	                cinemaRoomId = localStorage.getItem('cinemaRoomId') || '01-0003';
 
 	            return _react2.default.createElement(
 	                'div',
@@ -2121,15 +2124,13 @@
 	                                { className: 'col-lg-5' },
 	                                _react2.default.createElement(
 	                                    'select',
-	                                    { className: 'form-control', onChange: this.nameChange,
-	                                        value: propBasicInfo[ATTRS.name.name] },
+	                                    { className: 'form-control', onChange: this.nameChange, value: propBasicInfo[ATTRS.name.name] },
 	                                    _react2.default.createElement(
 	                                        'option',
 	                                        { value: '' },
 	                                        ATTRS.name[LANG]
 	                                    ),
 	                                    this.props.nameBook.names.map(function (name, index) {
-
 	                                        return _react2.default.createElement(
 	                                            'option',
 	                                            { key: index, value: name.displayName },
@@ -2137,8 +2138,7 @@
 	                                        );
 	                                    })
 	                                ),
-	                                _react2.default.createElement('input', { type: 'text', className: 'form-control', onChange: this.nameChange,
-	                                    value: propBasicInfo[ATTRS.name.name] })
+	                                _react2.default.createElement('input', { type: 'text', className: 'form-control', onChange: this.nameChange, value: propBasicInfo[ATTRS.name.name] })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -2154,8 +2154,7 @@
 	                                { className: 'col-lg-5' },
 	                                _react2.default.createElement(
 	                                    'select',
-	                                    { className: 'form-control', onChange: this.localeChange,
-	                                        value: propBasicInfo[ATTRS.locale.name] },
+	                                    { className: 'form-control', onChange: this.localeChange, value: propBasicInfo[ATTRS.locale.name] },
 	                                    _react2.default.createElement(
 	                                        'option',
 	                                        { value: '' },
@@ -2217,15 +2216,13 @@
 	                                { className: 'col-lg-5' },
 	                                _react2.default.createElement(
 	                                    'select',
-	                                    { className: 'form-control', onChange: this.primaryEmailChange,
-	                                        value: propBasicInfo.castellan[ATTRS.castellan.primaryEmail.name] },
+	                                    { className: 'form-control', onChange: this.primaryEmailChange, value: propBasicInfo.castellan[ATTRS.castellan.primaryEmail.name] },
 	                                    _react2.default.createElement(
 	                                        'option',
 	                                        { value: '' },
 	                                        ATTRS.castellan.primaryEmail[LANG]
 	                                    ),
 	                                    this.props.emailBook.emails.map(function (email, index) {
-
 	                                        return _react2.default.createElement(
 	                                            'option',
 	                                            { key: index, value: email.email },
@@ -2248,15 +2245,13 @@
 	                                { className: 'col-lg-5' },
 	                                _react2.default.createElement(
 	                                    'select',
-	                                    { className: 'form-control', onChange: this.primaryPhoneNumberChange,
-	                                        value: propBasicInfo.castellan[ATTRS.castellan.primaryPhone.name] },
+	                                    { className: 'form-control', onChange: this.primaryPhoneNumberChange, value: propBasicInfo.castellan[ATTRS.castellan.primaryPhone.name] },
 	                                    _react2.default.createElement(
 	                                        'option',
 	                                        { value: '' },
 	                                        ATTRS.castellan.primaryPhone[LANG]
 	                                    ),
 	                                    this.props.phoneBook.phones.map(function (phone, index) {
-
 	                                        return _react2.default.createElement(
 	                                            'option',
 	                                            { key: index, value: phone.phoneNumber },
@@ -2277,6 +2272,7 @@
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'col-lg-5' },
+	                                _react2.default.createElement(_naraReact.File, { cinemaRoomId: cinemaRoomId }),
 	                                _react2.default.createElement(
 	                                    'p',
 	                                    { className: 'form-control-static' },

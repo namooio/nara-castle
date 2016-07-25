@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by kchuh@nextree.co.kr on 2016. 5. 9..
  */
 @RestController
-@RequestMapping("castle/rep/castles")
+@RequestMapping("castle-rep/castles")
 public class CastleRepResource extends CastleRepServiceLogic {
     //
     @Autowired

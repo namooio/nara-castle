@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @RestController
-@RequestMapping("castle/api/castellans")
+@RequestMapping("castle-api/castellans")
 public class CastellanFrontResource extends CastellanFrontServiceLogic {
     //
     @Autowired

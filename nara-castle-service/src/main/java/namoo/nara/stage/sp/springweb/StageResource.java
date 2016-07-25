@@ -18,7 +18,7 @@ import java.util.List;
  * Created by hkkang on 2016-06-14.
  */
 @RestController(value = "CastleStageResource") // 한통으로 배포될 시 bean이름 충돌을 방지하기 위해 지정
-@RequestMapping("castle/stage")
+@RequestMapping("stage")
 public class StageResource {
     //
     private PosterService posterService;

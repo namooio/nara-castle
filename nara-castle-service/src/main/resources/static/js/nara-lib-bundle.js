@@ -690,7 +690,7 @@ window["naraLib"] =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.RoleBook = exports.Modal = undefined;
+	exports.File = exports.RoleBook = exports.Modal = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -701,6 +701,10 @@ window["naraLib"] =
 	var _react2 = _interopRequireDefault(_react);
 
 	var _reactBootstrap = __webpack_require__(5);
+
+	var _jquery = __webpack_require__(2);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
 
 	var _naraCommon = __webpack_require__(1);
 
@@ -770,7 +774,6 @@ window["naraLib"] =
 	        _this._alert = _this._alert.bind(_this);
 	        _this._confirm = _this._confirm.bind(_this);
 	        _this._openModal = _this._openModal.bind(_this);
-	        _this.setParams = _this.setParams.bind(_this);
 
 	        modalPublicContext.alert = _this._alert;
 	        modalPublicContext.confirm = _this._confirm;
@@ -817,7 +820,7 @@ window["naraLib"] =
 	            }
 	            // Parameters object
 	            else if (contentOrParams && (typeof contentOrParams === 'undefined' ? 'undefined' : _typeof(contentOrParams)) === 'object') {
-	                    this.setParams(contentOrParams);
+	                    this._openModal(contentOrParams);
 	                } else {
 	                    console.error('Invalid alert arguments');
 	                }
@@ -838,7 +841,7 @@ window["naraLib"] =
 	            }
 	            // Parameters object
 	            else if (contentOrParams && (typeof contentOrParams === 'undefined' ? 'undefined' : _typeof(contentOrParams)) === 'object') {
-	                    this.setParams(contentOrParams);
+	                    this._openModal(contentOrParams);
 	                } else {
 	                    console.error('Invalid confirm arguments');
 	                }
@@ -849,18 +852,10 @@ window["naraLib"] =
 	        key: '_openModal',
 	        value: function _openModal(paramsObject) {
 	            //
-	            this.setParams(paramsObject);
-	            this.setState({ show: true, type: NaraModal.type.CUSTOM });
-	        }
-	    }, {
-	        key: 'setParams',
-	        value: function setParams(paramsObject) {
 	            var title = paramsObject.title;
 	            var content = paramsObject.content;
 	            var handleOk = paramsObject.handleOk;
 	            var handleCancel = paramsObject.handleCancel;
-	            var options = paramsObject.options;
-
 
 	            this.setState({
 	                content: content,
@@ -868,13 +863,6 @@ window["naraLib"] =
 	                handleOk: typeof handleOk === 'function' ? handleOk : NaraModal.initialState.handleOk,
 	                handleCancel: typeof handleCancel === 'function' ? handleCancel : NaraModal.initialState.handleCancel
 	            });
-	            if (options) {
-	                this.setState({
-	                    options: {
-	                        okUsable: typeof options.okUsable === 'boolean' ? options.okUsable : NaraModal.initialState.options.okUsable
-	                    }
-	                });
-	            }
 	        }
 	    }, {
 	        key: 'render',
@@ -902,6 +890,11 @@ window["naraLib"] =
 	                                    'div',
 	                                    { className: 'modal-header' },
 	                                    _react2.default.createElement(
+	                                        'button',
+	                                        { type: 'button', className: 'close', 'data-dismiss': 'modal' },
+	                                        '×'
+	                                    ),
+	                                    _react2.default.createElement(
 	                                        'h4',
 	                                        { className: 'modal-title' },
 	                                        this.state.title
@@ -910,7 +903,11 @@ window["naraLib"] =
 	                                _react2.default.createElement(
 	                                    'div',
 	                                    { className: 'modal-body' },
-	                                    this.state.content
+	                                    _react2.default.createElement(
+	                                        'p',
+	                                        null,
+	                                        this.state.content
+	                                    )
 	                                ),
 	                                _react2.default.createElement(
 	                                    'div',
@@ -930,21 +927,7 @@ window["naraLib"] =
 	                                        ),
 	                                        _react2.default.createElement(
 	                                            'button',
-	                                            { type: 'button', className: 'btn btn-success', 'data-dismiss': 'modal', onClick: this.handleOk },
-	                                            'Ok'
-	                                        )
-	                                    ) : null,
-	                                    this.state.type === NaraModal.type.CUSTOM ? _react2.default.createElement(
-	                                        'div',
-	                                        null,
-	                                        _react2.default.createElement(
-	                                            'button',
-	                                            { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', onClick: this.handleCancel },
-	                                            'Cancel'
-	                                        ),
-	                                        _react2.default.createElement(
-	                                            'button',
-	                                            { type: 'button', className: 'btn btn-success', 'data-dismiss': 'modal', onClick: this.handleOk },
+	                                            { type: 'button', className: 'btn btn-info', 'data-dismiss': 'modal', onClick: this.handleOk },
 	                                            'Ok'
 	                                        )
 	                                    ) : null
@@ -960,10 +943,6 @@ window["naraLib"] =
 
 	    return NaraModal;
 	}(_react.Component);
-	/*
-	<button type="button" className="close" data-dismiss="modal">×</button>
-	*/
-
 
 	NaraModal.initialState = {
 	    show: false, // boolean
@@ -973,7 +952,7 @@ window["naraLib"] =
 	    handleOk: null, // function
 	    handleCancel: null, // function
 	    options: {
-	        okUsable: true // boolean
+	        okUsable: true
 	    }
 	};
 
@@ -1110,42 +1089,11 @@ window["naraLib"] =
 	                this.requestFindRolesOfPlayer(pavilionId, castingId, playerId);
 	            }
 	        }
-	    }, {
-	        key: 'componentWillUpdate',
-	        value: function componentWillUpdate(nextProps, nextState) {
-	            var _this3 = this;
-
-	            if (nextState.init === true || nextProps.init === true) {
-	                if (nextState.roleState.unconfigured && nextState.roleState.user) {
-	                    NaraModal.alert({
-	                        title: 'Sorry!',
-	                        content: '해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.',
-	                        options: { okUsable: false }
-	                    });
-	                } else if (nextState.roleState.unconfigured && nextState.roleState.admin) {
-	                    console.log('Configuration popup');
-	                } else if (nextState.popupState.alertRoles) {
-	                    (function () {
-	                        var rolesElement = '';
-	                        _this3.state.roles.forEach(function (role, index) {
-	                            rolesElement.concat(role.name + ' : ' + role.description + '}');
-	                        });
-
-	                        NaraModal.alert({
-	                            title: 'Roles',
-	                            content: rolesElement,
-	                            handleOk: _this3.rolesBtnOnClick
-	                        });
-	                    })();
-	                }
-	            }
-	        }
 	        // event
 
 	    }, {
 	        key: 'roleCheckClick',
 	        value: function roleCheckClick() {
-	            this.setState({ init: true });
 	            this.requestFindRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
 	        }
 	    }, {
@@ -1193,7 +1141,7 @@ window["naraLib"] =
 	        key: 'requestFindRolesOfPlayer',
 	        value: function requestFindRolesOfPlayer(pavilionId, castingId, playerId) {
 	            //
-	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId)).done(function (roles) {
+	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId)).done(function (roles, a1, a2) {
 	                if (roles && roles.length > 0) {
 	                    var popupState = this.state.popupState,
 	                        roleState = this.state.roleState;
@@ -1247,6 +1195,23 @@ window["naraLib"] =
 	        key: 'render',
 	        value: function render() {
 	            //
+	            if (this.isUnconfiguredAndUser() === true) {
+	                NaraModal.alert({
+	                    title: 'Sorry!',
+	                    content: '해당 드라마의 역할이 설정되지 않아 이용할 수 없습니다.',
+	                    okUsable: false
+	                });
+	            } else if (this.props.init === true) {
+	                var rolesElement = this.state.roles.map(function (role, index) {
+	                    return role.name + ' : ' + role.description + '}';
+	                });
+
+	                NaraModal.alert({
+	                    title: 'Roles',
+	                    content: rolesElement,
+	                    handleOk: this.rolesBtnOnClick
+	                });
+	            }
 
 	            return _react2.default.createElement(
 	                'li',
@@ -1314,7 +1279,11 @@ window["naraLib"] =
 	    onInit: _react.PropTypes.func,
 	    onSaveSuccess: _react.PropTypes.func
 	};
-	RoleBook.defaultProps = {};
+	RoleBook.defaultProps = {
+	    init: true,
+	    onInit: function onInit() {},
+	    onSaveSuccess: function onSaveSuccess() {}
+	};
 
 	var RolePlayerMappingPop = function (_Component3) {
 	    _inherits(RolePlayerMappingPop, _Component3);
@@ -1324,22 +1293,22 @@ window["naraLib"] =
 	    function RolePlayerMappingPop(props) {
 	        _classCallCheck(this, RolePlayerMappingPop);
 
-	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(RolePlayerMappingPop).call(this, props));
+	        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(RolePlayerMappingPop).call(this, props));
 	        //
 
 
-	        _this4.state = {
+	        _this3.state = {
 	            roles: [],
 	            rolePlayers: [],
 	            successPopup: false
 	        };
 
-	        _this4.roleCheckChange = _this4.roleCheckChange.bind(_this4);
-	        _this4.saveRoleBookBtnOnClick = _this4.saveRoleBookBtnOnClick.bind(_this4);
-	        _this4.successPopCloseBtnOnClick = _this4.successPopCloseBtnOnClick.bind(_this4);
-	        _this4.requestRolePlayer = _this4.requestRolePlayer.bind(_this4);
-	        _this4.requestSaveRoleBook = _this4.requestSaveRoleBook.bind(_this4);
-	        return _this4;
+	        _this3.roleCheckChange = _this3.roleCheckChange.bind(_this3);
+	        _this3.saveRoleBookBtnOnClick = _this3.saveRoleBookBtnOnClick.bind(_this3);
+	        _this3.successPopCloseBtnOnClick = _this3.successPopCloseBtnOnClick.bind(_this3);
+	        _this3.requestRolePlayer = _this3.requestRolePlayer.bind(_this3);
+	        _this3.requestSaveRoleBook = _this3.requestSaveRoleBook.bind(_this3);
+	        return _this3;
 	    }
 	    // overriding
 
@@ -1348,66 +1317,6 @@ window["naraLib"] =
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.requestRolePlayer();
-	        }
-	    }, {
-	        key: 'componentWillUpdate',
-	        value: function componentWillUpdate(nextProps, nextState) {
-
-	            if (nextState.rolePlayers.length > 0) {
-
-	                var content = _react2.default.createElement(
-	                    'table',
-	                    { className: 'table table-stri1ed table-hover' },
-	                    _react2.default.createElement(
-	                        'thead',
-	                        null,
-	                        _react2.default.createElement(
-	                            'tr',
-	                            null,
-	                            _react2.default.createElement(
-	                                'th',
-	                                { className: 'col-md-3' },
-	                                'Player'
-	                            ),
-	                            nextState.roles.map(function (role, index) {
-	                                return _react2.default.createElement(
-	                                    'th',
-	                                    { key: index },
-	                                    role.name
-	                                );
-	                            })
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'tbody',
-	                        null,
-	                        this.props.players.map(function (player, playerIndex) {
-	                            return _react2.default.createElement(
-	                                'tr',
-	                                { key: playerIndex },
-	                                _react2.default.createElement(
-	                                    'td',
-	                                    null,
-	                                    player.name
-	                                ),
-	                                nextState.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
-	                                    return _react2.default.createElement(
-	                                        'td',
-	                                        { key: roleIndex },
-	                                        _react2.default.createElement('input', { type: 'checkbox', checked: roleCheck, onChange: this.roleCheckChange.bind(this, playerIndex, roleIndex) })
-	                                    );
-	                                }.bind(this))
-	                            );
-	                        }.bind(this))
-	                    )
-	                );
-
-	                NaraModal.openModal({
-	                    title: 'Role player configuration',
-	                    content: content,
-	                    handleOk: this.saveRoleBookBtnOnClick
-	                });
-	            }
 	        }
 	        // event
 
@@ -1484,13 +1393,12 @@ window["naraLib"] =
 	        value: function requestSaveRoleBook(roleBook) {
 	            //
 	            _naraCommon.Ajax.postJSON(RolePlayerMappingPop.url.SAVE_ROLE_BOOK, roleBook).done(function () {
-	                NaraModal.alert('RoleBook 저장이 완료 되었습니다.');
-	                //this.props.onHide();
-	                //this.setState({ successPopup: true});
-	                //
-	                //if (this.props.onSaveSuccess) {
-	                //    this.props.onSaveSuccess();
-	                //}
+	                this.props.onHide();
+	                this.setState({ successPopup: true });
+
+	                if (this.props.onSaveSuccess) {
+	                    this.props.onSaveSuccess();
+	                }
 	            }.bind(this));
 	        }
 	    }, {
@@ -1498,78 +1406,122 @@ window["naraLib"] =
 	        value: function render() {
 	            //
 	            var existsPlayerCheckList = this.state.rolePlayers.length > 0;
-	            return null;
+
+	            return _react2.default.createElement(
+	                'section',
+	                null,
+	                _react2.default.createElement(
+	                    _reactBootstrap.Modal,
+	                    {
+	                        bsSize: 'large',
+	                        'aria-labelledby': 'contained-modal-title-lg',
+	                        show: this.props.displayable },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Header,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Modal.Title,
+	                            { id: 'contained-modal-title-lg' },
+	                            'Role player'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Body,
+	                        null,
+	                        existsPlayerCheckList ? _react2.default.createElement(
+	                            'table',
+	                            { className: 'table table-stri1ed table-hover' },
+	                            _react2.default.createElement(
+	                                'thead',
+	                                null,
+	                                _react2.default.createElement(
+	                                    'tr',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        'th',
+	                                        { className: 'col-md-3' },
+	                                        'Player'
+	                                    ),
+	                                    this.state.roles.map(function (role, index) {
+	                                        return _react2.default.createElement(
+	                                            'th',
+	                                            { key: index },
+	                                            role.name
+	                                        );
+	                                    })
+	                                )
+	                            ),
+	                            _react2.default.createElement(
+	                                'tbody',
+	                                null,
+	                                this.props.players.map(function (player, playerIndex) {
+	                                    return _react2.default.createElement(
+	                                        'tr',
+	                                        { key: playerIndex },
+	                                        _react2.default.createElement(
+	                                            'td',
+	                                            null,
+	                                            player.name
+	                                        ),
+	                                        this.state.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
+	                                            return _react2.default.createElement(
+	                                                'td',
+	                                                { key: roleIndex },
+	                                                _react2.default.createElement('input', { type: 'checkbox', checked: roleCheck, onChange: this.roleCheckChange.bind(this, playerIndex, roleIndex) })
+	                                            );
+	                                        }.bind(this))
+	                                    );
+	                                }.bind(this))
+	                            )
+	                        ) : _react2.default.createElement(
+	                            'h4',
+	                            null,
+	                            '역할 목록이 없습니다.'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Footer,
+	                        null,
+	                        existsPlayerCheckList ? _react2.default.createElement(
+	                            _reactBootstrap.Button,
+	                            { onClick: this.saveRoleBookBtnOnClick },
+	                            'Save'
+	                        ) : null
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    _reactBootstrap.Modal,
+	                    { show: this.state.successPopup },
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Header,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Modal.Title,
+	                            { id: 'modal-success-title' },
+	                            'Success'
+	                        )
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Body,
+	                        null,
+	                        'RoleBook 저장이 완료 되었습니다.'
+	                    ),
+	                    _react2.default.createElement(
+	                        _reactBootstrap.Modal.Footer,
+	                        null,
+	                        _react2.default.createElement(
+	                            _reactBootstrap.Button,
+	                            { onClick: this.successPopCloseBtnOnClick },
+	                            'Close'
+	                        )
+	                    )
+	                )
+	            );
 	        }
 	    }]);
 
 	    return RolePlayerMappingPop;
 	}(_react.Component);
-
-	/*
-	return (
-	    <section>
-	        <Modal
-	            bsSize="large"
-	            aria-labelledby="contained-modal-title-lg"
-	            show={this.props.displayable} >
-	            <Modal.Header>
-	                <Modal.Title id="contained-modal-title-lg">Role player</Modal.Title>
-	            </Modal.Header>
-	            <Modal.Body>
-	                { existsPlayerCheckList ?
-	                    <table className="table table-stri1ed table-hover">
-	                        <thead>
-	                        <tr>
-	                            <th className="col-md-3">Player</th>
-	                            {
-	                                this.state.roles.map(function (role, index) {
-	                                    return (<th key={index}>{role.name}</th>);
-	                                })
-	                            }
-	                        </tr>
-	                        </thead>
-	                        <tbody>
-	                        {
-	                            this.props.players.map(function (player, playerIndex) {
-	                                return (
-	                                    <tr key={playerIndex}>
-	                                        <td>{player.name}</td>
-	                                        {this.state.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
-	                                            return (
-	                                                <td key={roleIndex}><input type="checkbox" checked={roleCheck} onChange={this.roleCheckChange.bind(this, playerIndex, roleIndex)}/></td>
-	                                            );
-	                                        }.bind(this))}
-	                                    </tr>
-	                                );
-	                            }.bind(this))
-	                        }
-	                        </tbody>
-	                    </table>
-	                    :
-	                    <h4>역할 목록이 없습니다.</h4>
-	                }
-	            </Modal.Body>
-	            <Modal.Footer>
-	                { existsPlayerCheckList ?
-	                    <Button onClick={this.saveRoleBookBtnOnClick}>Save</Button>
-	                    : null
-	                }
-	            </Modal.Footer>
-	        </Modal>
-	        <Modal show={this.state.successPopup}>
-	            <Modal.Header>
-	                <Modal.Title id="modal-success-title">Success</Modal.Title>
-	            </Modal.Header>
-	            <Modal.Body>
-	                RoleBook 저장이 완료 되었습니다.
-	            </Modal.Body>
-	            <Modal.Footer>
-	                <Button onClick={this.successPopCloseBtnOnClick}>Close</Button>
-	            </Modal.Footer>
-	        </Modal>
-	    </section>
-	);
-	*/
 
 	RolePlayerMappingPop.propTypes = {
 	    //
@@ -1580,9 +1532,174 @@ window["naraLib"] =
 	};
 
 	exports.RoleBook = RoleBook;
+
+	// File
+
+	var File = function (_Component4) {
+	    _inherits(File, _Component4);
+
+	    //
+
+	    function File(props) {
+	        _classCallCheck(this, File);
+
+	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(File).call(this, props));
+	        //
+
+
+	        _this4.state = {
+	            files: [], // data, name, type
+	            processing: false,
+	            uploadedUri: null
+	        };
+
+	        _this4.fileOnChange = _this4.fileOnChange.bind(_this4);
+	        _this4.fileOnSubmit = _this4.fileOnSubmit.bind(_this4);
+	        _this4.requestUpload = _this4.requestUpload.bind(_this4);
+	        return _this4;
+	    }
+	    // event
+
+
+	    _createClass(File, [{
+	        key: 'fileOnChange',
+	        value: function fileOnChange(event) {
+	            //
+	            /*
+	            const _this = this;
+	              [].forEach.call(event.target.files, function (file) {
+	                let reader = new FileReader();
+	                  reader.onload = (fileEvent) => {
+	                    let files = _this.state.files;
+	                      files.push({
+	                        dataUrl: fileEvent.target.result,
+	                        name: file.name,
+	                        type: file.type
+	                    });
+	                    _this.setState({ files });
+	                };
+	                reader.readAsDataURL(file);
+	            });
+	            //*/
+
+	            //*
+	            var fileForm = new FormData();
+
+	            [].forEach.call(event.target.files, function (file, index) {
+	                fileForm.append('files[' + index + ']', file);
+	            });
+
+	            var cinemaRoomId = this.props.cinemaRoomId;
+
+	            if (cinemaRoomId) {
+	                fileForm.append('cinemaRoomId', cinemaRoomId);
+	            } else {
+	                console.error('[NaraFile] Invalid cinemaRoomId -> ' + cinemaRoomId);
+	                return;
+	            }
+
+	            if (localStorage.getItem('clubId')) {
+	                fileForm.append('clubId', localStorage.getItem('clubId'));
+	            } else {
+	                fileForm.append('clubId', '02-00D');
+	            }
+
+	            this.setState({ files: fileForm });
+	            //*
+	        }
+	    }, {
+	        key: 'fileOnSubmit',
+	        value: function fileOnSubmit(event) {
+	            //
+	            event.preventDefault();
+
+	            this.setState({
+	                processing: true
+	            });
+	            this.requestUpload();
+	        }
+	        // request
+
+	    }, {
+	        key: 'requestUpload',
+	        value: function requestUpload() {
+	            //
+	            /*
+	            NaraAjax
+	                .postJSON('/files', this.state.files)
+	                .done(function (result) {
+	                    console.log('Complete ajax -> ' +  result);
+	                });
+	            */
+	            //jQuery.post('/files', this.state.files, function (result) {
+	            //    console.log('Complete ajax -> ' +  result);
+	            //});
+	            _jquery2.default.ajax({
+	                method: 'POST',
+	                url: '/files',
+	                data: this.state.files,
+	                processData: false,
+	                contentType: false,
+	                success: function success(result) {
+	                    console.log(result);
+	                }
+	            });
+
+	            /*
+	             const _this = this;
+	             let formData = new FormData();
+	               this.state.files.forEach( function (file, index) {
+	             formData.append(`files[${index}]`, JSON.stringify(file));
+	             });
+	               const promise = jQuery.ajax({
+	             url: '/file-form',
+	             type: "POST",
+	             data: formData,
+	             //enctype: 'multipart/form-data',
+	             processData: false,
+	             contentType: false,
+	             dataType: 'json'
+	             });
+	               promise.done( function(data) {
+	             _this.setState({
+	             processing: false,
+	             uploadedUri: data.uri
+	             });
+	             });
+	             */
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var multiple = this.props.multiple;
+
+	            return _react2.default.createElement(
+	                'form',
+	                { onSubmit: this.fileOnSubmit, enctype: 'multipart/form-data' },
+	                multiple ? _react2.default.createElement('input', { type: 'file', className: 'file', onChange: this.fileOnChange }) : _react2.default.createElement('input', { type: 'file', className: 'file', onChange: this.fileOnChange, multiple: 'multiple' }),
+	                _react2.default.createElement(
+	                    'button',
+	                    { type: 'submit', className: 'btn btn-primary' },
+	                    this.props.btnName
+	                )
+	            );
+	        }
+	    }]);
+
+	    return File;
+	}(_react.Component);
+
+	File.defaultProps = {
+	    cinemaRoomId: null,
+	    multiple: false,
+	    btnName: 'File upload'
+	};
+
+	exports.File = File;
 	exports.default = {
+	    Modal: _reactBootstrap.Modal,
 	    RoleBook: RoleBook,
-	    Modal: _reactBootstrap.Modal
+	    File: File
 	};
 
 /***/ },

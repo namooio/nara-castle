@@ -24,7 +24,7 @@ public class DefaultFrontView {
     }
 
 
-    @RequestMapping("castle")
+    @RequestMapping("/")
     public ModelAndView main(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();
@@ -34,10 +34,10 @@ public class DefaultFrontView {
 
         model.put("ctx", dramaContext.getContextPath());
 
-        return new ModelAndView("/WEB-INF/jsp/index.jsp", model);
+        return new ModelAndView("index", model);
     }
 
-    @RequestMapping("castle/local")
+    @RequestMapping("/local")
     public ModelAndView localMain(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();
@@ -47,7 +47,7 @@ public class DefaultFrontView {
 
         model.put("ctx", "");
 
-        return new ModelAndView("/WEB-INF/jsp/index.jsp", model);
+        return new ModelAndView("index", model);
     }
 
 }

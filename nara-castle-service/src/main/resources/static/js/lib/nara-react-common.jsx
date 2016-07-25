@@ -4,6 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import jQuery from 'jquery';
 
 
 // Modal
@@ -379,11 +380,11 @@ class RoleBook extends Component {
         if (this.isUnconfiguredAndUser() === true) {
             NaraModal.alert({
                 title: 'Sorry!',
-                content: '해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.',
+                content: '해당 드라마의 역할이 설정되지 않아 이용할 수 없습니다.',
                 okUsable: false
             });
         }
-        else {
+        else if (this.props.init === true) {
             let rolesElement = this.state.roles.map( function (role, index) {
                 return `${role.name} : ${role.description}}`;
             });
@@ -457,7 +458,11 @@ RoleBook.propTypes = {
     onInit: PropTypes.func,
     onSaveSuccess: PropTypes.func
 };
-RoleBook.defaultProps = {};
+RoleBook.defaultProps = {
+    init: true,
+    onInit: function () {},
+    onSaveSuccess: function () {}
+};
 
 
 
@@ -639,7 +644,158 @@ RolePlayerMappingPop.propTypes = {
 export { RoleBook };
 
 
+
+// File
+class File extends Component {
+    //
+    constructor(props) {
+        //
+        super(props);
+
+        this.state = {
+            files: [],  // data, name, type
+            processing: false,
+            uploadedUri: null
+        };
+
+        this.fileOnChange = this.fileOnChange.bind(this);
+        this.fileOnSubmit = this.fileOnSubmit.bind(this);
+        this.requestUpload = this.requestUpload.bind(this);
+    }
+    // event
+    fileOnChange(event) {
+        //
+        /*
+        const _this = this;
+
+        [].forEach.call(event.target.files, function (file) {
+            let reader = new FileReader();
+
+            reader.onload = (fileEvent) => {
+                let files = _this.state.files;
+
+                files.push({
+                    dataUrl: fileEvent.target.result,
+                    name: file.name,
+                    type: file.type
+                });
+                _this.setState({ files });
+            };
+            reader.readAsDataURL(file);
+        });
+        //*/
+
+        //*
+        let fileForm = new FormData();
+
+        [].forEach.call(event.target.files, function (file, index) {
+            fileForm.append(`files[${index}]`, file);
+        });
+
+        let cinemaRoomId = this.props.cinemaRoomId;
+
+        if (cinemaRoomId) {
+            fileForm.append('cinemaRoomId', cinemaRoomId);
+        }
+        else {
+            console.error(`[NaraFile] Invalid cinemaRoomId -> ${cinemaRoomId}`);
+            return;
+        }
+
+        if (localStorage.getItem('clubId')) {
+            fileForm.append('clubId', localStorage.getItem('clubId'));
+        } else {
+            fileForm.append('clubId', '02-00D');
+        }
+
+        this.setState({ files: fileForm });
+        //*
+    }
+    fileOnSubmit(event) {
+        //
+        event.preventDefault();
+
+        this.setState({
+            processing: true
+        });
+        this.requestUpload();
+    }
+    // request
+    requestUpload() {
+        //
+        /*
+        NaraAjax
+            .postJSON('/files', this.state.files)
+            .done(function (result) {
+                console.log('Complete ajax -> ' +  result);
+            });
+        */
+        //jQuery.post('/files', this.state.files, function (result) {
+        //    console.log('Complete ajax -> ' +  result);
+        //});
+        jQuery.ajax({
+            method: 'POST',
+            url: '/files',
+            data: this.state.files,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                console.log(result);
+            }
+        });
+
+        /*
+         const _this = this;
+         let formData = new FormData();
+
+         this.state.files.forEach( function (file, index) {
+         formData.append(`files[${index}]`, JSON.stringify(file));
+         });
+
+         const promise = jQuery.ajax({
+         url: '/file-form',
+         type: "POST",
+         data: formData,
+         //enctype: 'multipart/form-data',
+         processData: false,
+         contentType: false,
+         dataType: 'json'
+         });
+
+         promise.done( function(data) {
+         _this.setState({
+         processing: false,
+         uploadedUri: data.uri
+         });
+         });
+         */
+    }
+    render() {
+        let multiple = this.props.multiple;
+
+        return (
+            <form onSubmit={this.fileOnSubmit} enctype="multipart/form-data">
+                { multiple ?
+                    <input type="file" className="file" onChange={this.fileOnChange} />
+                    :
+                    <input type="file" className="file" onChange={this.fileOnChange} multiple="multiple" />
+                }
+                <button type="submit" className="btn btn-primary" >{this.props.btnName}</button>
+            </form>
+        );
+    }
+}
+File.defaultProps = {
+    cinemaRoomId: null,
+    multiple: false,
+    btnName: 'File upload'
+};
+
+export { File };
+
+
 export default {
+    Modal: Modal,
     RoleBook: RoleBook,
-    Modal: Modal
+    File: File
 };

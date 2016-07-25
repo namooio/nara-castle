@@ -4,6 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Ajax as NaraAjax, Object as NaraObject, Date as NaraDate } from 'nara';
+import { File as NaraFile } from 'nara-react';
 import { Constant } from 'app/common/castle-common';
 import CastleModel from 'app/common/castle-model';
 import MainComponent from 'app/component/common/main.jsx';
@@ -377,7 +378,8 @@ class BasicModifiableContent extends Component {
             ATTRS = CastleBasicModel.attrs,
             LANG = MainComponent.lang;
 
-        let propBasicInfo = this.state.willModifyBasic;
+        let propBasicInfo = this.state.willModifyBasic,
+            cinemaRoomId = localStorage.getItem('cinemaRoomId') || '01-0003';
 
         return (
             <div className="tab-content">
@@ -393,25 +395,21 @@ class BasicModifiableContent extends Component {
                         <div className="form-group">
                             <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.name[LANG]}</label>
                             <div className="col-lg-5">
-                                <select className="form-control" onChange={this.nameChange}
-                                        value={propBasicInfo[ATTRS.name.name]}>
+                                <select className="form-control" onChange={this.nameChange} value={propBasicInfo[ATTRS.name.name]}>
                                     <option value="">{ ATTRS.name[LANG] }</option>
                                     { this.props.nameBook.names.map( function (name, index) {
-
                                         return (
                                             <option key={index} value={name.displayName}>{name.displayName}</option>
                                         );
                                     })}
                                 </select>
-                                <input type="text" className="form-control" onChange={this.nameChange}
-                                       value={propBasicInfo[ATTRS.name.name]}/>
+                                <input type="text" className="form-control" onChange={this.nameChange} value={propBasicInfo[ATTRS.name.name]}/>
                             </div>
                         </div>
                         <div className="form-group">
                             <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.locale[LANG]}</label>
                             <div className="col-lg-5">
-                                <select className="form-control" onChange={this.localeChange}
-                                        value={ propBasicInfo[ATTRS.locale.name] }>
+                                <select className="form-control" onChange={this.localeChange} value={ propBasicInfo[ATTRS.locale.name] }>
                                     <option value="">{ ATTRS.locale[LANG] }</option>
                                     { Object.keys(ENUMS.locale).map( function (localeKey, index) {
                                         const LOCALE_ENUM = ENUMS.locale[localeKey];
@@ -445,11 +443,9 @@ class BasicModifiableContent extends Component {
                                 {ATTRS.castellan.primaryEmail[LANG]}
                             </label>
                             <div className="col-lg-5">
-                                <select className="form-control" onChange={this.primaryEmailChange}
-                                        value={propBasicInfo.castellan[ATTRS.castellan.primaryEmail.name]}>
+                                <select className="form-control" onChange={this.primaryEmailChange} value={propBasicInfo.castellan[ATTRS.castellan.primaryEmail.name]}>
                                     <option value="">{ ATTRS.castellan.primaryEmail[LANG] }</option>
                                     { this.props.emailBook.emails.map( function (email, index) {
-
                                         return (
                                             <option key={index} value={email.email}>{email.email}</option>
                                         );
@@ -462,11 +458,9 @@ class BasicModifiableContent extends Component {
                                 {ATTRS.castellan.primaryPhone[LANG]}
                             </label>
                             <div className="col-lg-5">
-                                <select className="form-control" onChange={this.primaryPhoneNumberChange}
-                                        value={propBasicInfo.castellan[ATTRS.castellan.primaryPhone.name]}>
+                                <select className="form-control" onChange={this.primaryPhoneNumberChange} value={propBasicInfo.castellan[ATTRS.castellan.primaryPhone.name]}>
                                     <option value="">{ ATTRS.castellan.primaryPhone[LANG] }</option>
                                     { this.props.phoneBook.phones.map( function (phone, index) {
-
                                         return (
                                             <option key={index} value={phone.phoneNumber}>{phone.phoneNumber}</option>
                                         );
@@ -479,6 +473,7 @@ class BasicModifiableContent extends Component {
                                 {ATTRS.castellan.photo[LANG]}
                             </label>
                             <div className="col-lg-5">
+                                <NaraFile cinemaRoomId={ cinemaRoomId } />
                                 <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
                             </div>
                         </div>
