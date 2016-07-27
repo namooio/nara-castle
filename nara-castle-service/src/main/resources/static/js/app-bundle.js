@@ -1919,7 +1919,9 @@
 	                            { className: 'form-control-static' },
 	                            propBasicInfo.castellan[ATTRS.castellan.photo.name]
 	                        )
-	                    )
+	                    ),
+	                    _react2.default.createElement(_naraReact.File.Downloader, { fileId: propBasicInfo.castellan[ATTRS.castellan.photo.name] }),
+	                    _react2.default.createElement(_naraReact.File.Downloader, { fileId: propBasicInfo.castellan[ATTRS.castellan.photo.name], elementType: 'link' })
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -2073,7 +2075,7 @@
 	                LANG = _main2.default.lang;
 
 	            var propBasicInfo = this.state.willModifyBasic,
-	                cinemaRoomId = localStorage.getItem('cinemaRoomId') || '01-0003';
+	                dramaId = localStorage.getItem('dramaId') || '01-0003';
 
 	            return _react2.default.createElement(
 	                'div',
@@ -2272,7 +2274,6 @@
 	                            _react2.default.createElement(
 	                                'div',
 	                                { className: 'col-lg-5' },
-	                                _react2.default.createElement(_naraReact.File, { cinemaRoomId: cinemaRoomId }),
 	                                _react2.default.createElement(
 	                                    'p',
 	                                    { className: 'form-control-static' },
@@ -2312,7 +2313,8 @@
 	                                BUTTON_NAMES.cancel[LANG]
 	                            )
 	                        )
-	                    )
+	                    ),
+	                    _react2.default.createElement(_naraReact.File, { dramaId: dramaId, btnName: '프로필 사진 업로드' })
 	                )
 	            );
 	        }

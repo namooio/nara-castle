@@ -24,7 +24,7 @@ public class DefaultFrontView {
     }
 
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public ModelAndView main(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();

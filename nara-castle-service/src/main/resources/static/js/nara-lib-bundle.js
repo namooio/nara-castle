@@ -1543,44 +1543,178 @@ window["naraLib"] =
 	    function File(props) {
 	        _classCallCheck(this, File);
 
-	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(File).call(this, props));
+	        //
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(File).call(this, props));
+	    }
+
+	    _createClass(File, [{
+	        key: 'render',
+	        value: function render() {
+	            //
+	            if (this.props.defaultProps === File.mode.DOWNLOAD) {
+	                return _react2.default.createElement(FileDownloader, null);
+	            } else {
+	                return _react2.default.createElement(FileUploader, null);
+	            }
+	        }
+	    }]);
+
+	    return File;
+	}(_react.Component);
+
+	File.mode = {
+	    DOWNLOAD: 'Download',
+	    UPLOAD: 'Upload'
+	};
+
+	File.defaultProps = {
+	    mode: File.mode.DOWNLOAD
+	};
+
+	var FileDownloader = function (_Component5) {
+	    _inherits(FileDownloader, _Component5);
+
+	    //
+
+	    function FileDownloader(props) {
+	        _classCallCheck(this, FileDownloader);
+
+	        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(FileDownloader).call(this, props));
 	        //
 
 
-	        _this4.state = {
-	            files: [], // data, name, type
-	            processing: false,
-	            uploadedUri: null
+	        _this5.state = {
+	            naraFile: null, // { name, type, size, content }
+	            fileDataUrl: null // string -> data:{imageType};base64,{fileBytes}
 	        };
 
-	        _this4.fileOnChange = _this4.fileOnChange.bind(_this4);
-	        _this4.fileOnSubmit = _this4.fileOnSubmit.bind(_this4);
-	        _this4.requestUpload = _this4.requestUpload.bind(_this4);
-	        return _this4;
+	        _this5.requestDownload = _this5.requestDownload.bind(_this5);
+	        return _this5;
+	    }
+	    // overriding
+
+
+	    _createClass(FileDownloader, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //
+	            if (!this.props.fileId) {
+	                console.warn('[NaraFileDownloader] Invalid file id of props. -> ' + this.props.fileId);
+	                return false;
+	            }
+	            this.requestDownload();
+	        }
+	        // request
+
+	    }, {
+	        key: 'requestDownload',
+	        value: function requestDownload() {
+	            //
+	            _naraCommon.Ajax.getJSON(FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', this.props.fileId)).done(function (resultNaraFile) {
+	                this.state.naraFile = resultNaraFile;
+	                this.state.fileDataUrl = 'data:' + resultNaraFile.type + ';base64,';
+
+	                console.debug('Download file result -> name: ' + resultNaraFile.name + ', type: ' + resultNaraFile.type + ', size: ' + resultNaraFile.size);
+
+	                if (!resultNaraFile.type) {
+	                    console.error('[NaraFile] Invalid content type of file. -> ' + resultNaraFile.type);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            //
+	            var fileExistence = this.state.naraFile ? true : false,
+	                fileType = void 0;
+
+	            if (!fileExistence) {
+	                return null;
+	            }
+
+	            fileType = this.state.naraFile.type;
+
+	            if (this.props.elementType === 'auto') {
+	                if (fileType.includes('image')) {
+	                    return _react2.default.createElement('img', { src: this.state.fileDataUrl + this.state.naraFile.content });
+	                }
+	            } else if (this.props.elementType === 'link') {
+	                return _react2.default.createElement('a', { href: this.state.fileDataUrl });
+	            }
+
+	            console.warn('[NaraFileDownloader] Not match any types.');
+	            return null;
+	        }
+	    }]);
+
+	    return FileDownloader;
+	}(_react.Component);
+
+	FileDownloader.propTypes = {
+	    //
+	    fileId: _react.PropTypes.string.isRequired,
+	    contentType: _react.PropTypes.string,
+	    elementType: _react.PropTypes.string
+	};
+
+	FileDownloader.defaultProps = {
+	    //
+	    contentType: 'image/jpeg',
+	    elementType: 'auto'
+	};
+
+	FileDownloader.url = {
+	    //
+	    DOWNLOAD_FILE: '/files/{naraFileId}'
+	};
+
+	File.Downloader = FileDownloader;
+
+	var FileUploader = function (_Component6) {
+	    _inherits(FileUploader, _Component6);
+
+	    //
+
+	    function FileUploader(props) {
+	        _classCallCheck(this, FileUploader);
+
+	        var _this6 = _possibleConstructorReturn(this, Object.getPrototypeOf(FileUploader).call(this, props));
+	        //
+
+
+	        _this6.state = {
+	            fileForm: null, // { files[], dramaId, clubId }
+	            processing: false
+	        };
+
+	        _this6.fileOnChange = _this6.fileOnChange.bind(_this6);
+	        _this6.fileOnSubmit = _this6.fileOnSubmit.bind(_this6);
+	        _this6.requestUpload = _this6.requestUpload.bind(_this6);
+	        return _this6;
 	    }
 	    // event
 
 
-	    _createClass(File, [{
+	    _createClass(FileUploader, [{
 	        key: 'fileOnChange',
 	        value: function fileOnChange(event) {
 	            //
 	            /*
-	            const _this = this;
-	              [].forEach.call(event.target.files, function (file) {
-	                let reader = new FileReader();
-	                  reader.onload = (fileEvent) => {
-	                    let files = _this.state.files;
-	                      files.push({
-	                        dataUrl: fileEvent.target.result,
-	                        name: file.name,
-	                        type: file.type
-	                    });
-	                    _this.setState({ files });
-	                };
-	                reader.readAsDataURL(file);
-	            });
-	            //*/
+	             const _this = this;
+	               [].forEach.call(event.target.files, function (file) {
+	             let reader = new FileReader();
+	               reader.onload = (fileEvent) => {
+	             let files = _this.state.files;
+	               files.push({
+	             dataUrl: fileEvent.target.result,
+	             name: file.name,
+	             type: file.type
+	             });
+	             _this.setState({ files });
+	             };
+	             reader.readAsDataURL(file);
+	             });
+	             //*/
 
 	            //*
 	            var fileForm = new FormData();
@@ -1589,13 +1723,13 @@ window["naraLib"] =
 	                fileForm.append('files[' + index + ']', file);
 	            });
 
-	            var cinemaRoomId = this.props.cinemaRoomId;
+	            var dramaId = this.props.dramaId;
 
-	            if (cinemaRoomId) {
-	                fileForm.append('cinemaRoomId', cinemaRoomId);
+	            if (dramaId) {
+	                fileForm.append('dramaId', dramaId);
 	            } else {
-	                console.error('[NaraFile] Invalid cinemaRoomId -> ' + cinemaRoomId);
-	                return;
+	                console.error('[NaraFile] Invalid dramaId -> ' + dramaId);
+	                return false;
 	            }
 
 	            if (localStorage.getItem('clubId')) {
@@ -1625,23 +1759,35 @@ window["naraLib"] =
 	        value: function requestUpload() {
 	            //
 	            /*
-	            NaraAjax
-	                .postJSON('/files', this.state.files)
-	                .done(function (result) {
-	                    console.log('Complete ajax -> ' +  result);
-	                });
-	            */
+	             NaraAjax
+	             .postJSON('/files', this.state.files)
+	             .done(function (result) {
+	             console.log('Complete ajax -> ' +  result);
+	             });
+	             */
 	            //jQuery.post('/files', this.state.files, function (result) {
 	            //    console.log('Complete ajax -> ' +  result);
 	            //});
 	            _jquery2.default.ajax({
 	                method: 'POST',
-	                url: '/files',
+	                url: FileUploader.url.UPLOAD_FILE,
 	                data: this.state.files,
 	                processData: false,
 	                contentType: false,
-	                success: function success(result) {
-	                    console.log(result);
+	                success: function success(resultFileIds) {
+	                    console.log('File ids: ' + resultFileIds);
+
+	                    _naraCommon.Ajax.getJSON(FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', resultFileIds[0])).done(function (resultNaraFile) {
+	                        console.log('Download file result -> name: ' + resultNaraFile.name + ', type: ' + resultNaraFile.type + ', size: ' + resultNaraFile.size);
+
+	                        if (!resultNaraFile.type) {
+	                            console.error('[NaraFile] Invalid content type of file. -> ' + resultNaraFile.type);
+	                        } else if (resultNaraFile.type.includes('image')) {
+	                            (0, _jquery2.default)('body').append('<img src="data:image/jpeg;base64,' + resultNaraFile.content + '" />');
+	                        } else {
+	                            console.log('File content: ' + resultNaraFile.content);
+	                        }
+	                    });
 	                }
 	            });
 
@@ -1671,6 +1817,7 @@ window["naraLib"] =
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            //
 	            var multiple = this.props.multiple;
 
 	            return _react2.default.createElement(
@@ -1686,14 +1833,20 @@ window["naraLib"] =
 	        }
 	    }]);
 
-	    return File;
+	    return FileUploader;
 	}(_react.Component);
 
-	File.defaultProps = {
-	    cinemaRoomId: null,
+	FileUploader.defaultProps = {
+	    dramaId: null,
 	    multiple: false,
 	    btnName: 'File upload'
 	};
+
+	FileUploader.url = {
+	    UPLOAD_FILE: '/files'
+	};
+
+	File.Uploader = FileUploader;
 
 	exports.File = File;
 	exports.default = {

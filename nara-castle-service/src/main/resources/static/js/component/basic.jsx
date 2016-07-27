@@ -280,6 +280,8 @@ class BasicViewContent extends Component {
                     <div className="col-lg-5">
                         <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
                     </div>
+                    <NaraFile.Downloader fileId={propBasicInfo.castellan[ATTRS.castellan.photo.name]} />
+                    <NaraFile.Downloader fileId={propBasicInfo.castellan[ATTRS.castellan.photo.name]} elementType="link" />
                 </div>
                 <div className="form-group">
                     <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.buildTime[LANG]}</label>
@@ -379,7 +381,7 @@ class BasicModifiableContent extends Component {
             LANG = MainComponent.lang;
 
         let propBasicInfo = this.state.willModifyBasic,
-            cinemaRoomId = localStorage.getItem('cinemaRoomId') || '01-0003';
+            dramaId = localStorage.getItem('dramaId') || '01-0003';
 
         return (
             <div className="tab-content">
@@ -473,7 +475,6 @@ class BasicModifiableContent extends Component {
                                 {ATTRS.castellan.photo[LANG]}
                             </label>
                             <div className="col-lg-5">
-                                <NaraFile cinemaRoomId={ cinemaRoomId } />
                                 <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
                             </div>
                         </div>
@@ -495,6 +496,7 @@ class BasicModifiableContent extends Component {
                             </button>
                         </div>
                     </form>
+                    <NaraFile dramaId={dramaId} btnName='프로필 사진 업로드'/>
                 </div>
             </div>
         );
