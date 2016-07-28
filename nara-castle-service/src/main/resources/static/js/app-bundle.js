@@ -2314,7 +2314,7 @@
 	                            )
 	                        )
 	                    ),
-	                    _react2.default.createElement(_naraReact.File, { dramaId: dramaId, btnName: '프로필 사진 업로드' })
+	                    _react2.default.createElement(_naraReact.File.Uploader, { dramaId: dramaId, btnName: '프로필 사진 업로드' })
 	                )
 	            );
 	        }

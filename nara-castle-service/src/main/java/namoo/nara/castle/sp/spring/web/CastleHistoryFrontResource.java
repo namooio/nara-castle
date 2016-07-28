@@ -1,4 +1,4 @@
-package namoo.nara.castle.sp.springweb;
+package namoo.nara.castle.sp.spring.web;
 
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.front.dto.history.AccountBookDto;

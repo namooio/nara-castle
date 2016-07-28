@@ -27,12 +27,6 @@ public class CastellanContactFrontServiceLogic implements CastellanContactFrontS
     }
 
     @Override
-    public void detachNameBook(String castleId) {
-        //
-        castellanContactService.detachNameBook(castleId);
-    }
-
-    @Override
     public NameBookDto findNameBook(String castleId) {
         //
         NameBook nameBook = castellanContactService.findNameBook(castleId);
@@ -41,16 +35,17 @@ public class CastellanContactFrontServiceLogic implements CastellanContactFrontS
     }
 
     @Override
+    public void detachNameBook(String castleId) {
+        //
+        castellanContactService.detachNameBook(castleId);
+    }
+
+
+    @Override
     public void attachEmailBook(String castleId, EmailBookDto emailBookDto) {
         //
         EmailBook emailBook = DomainConversionUtil.toEmailBook(emailBookDto);
         castellanContactService.attachEmailBook(castleId, emailBook);
-    }
-
-    @Override
-    public void detachEmailBook(String castleId) {
-        //
-        castellanContactService.detachEmailBook(castleId);
     }
 
     @Override
@@ -62,16 +57,17 @@ public class CastellanContactFrontServiceLogic implements CastellanContactFrontS
     }
 
     @Override
+    public void detachEmailBook(String castleId) {
+        //
+        castellanContactService.detachEmailBook(castleId);
+    }
+
+
+    @Override
     public void attachPhoneBook(String castleId, PhoneBookDto phoneBookDto) {
         //
         PhoneBook phoneBook = DomainConversionUtil.toPhoneBook(phoneBookDto);
         castellanContactService.attachPhoneBook(castleId, phoneBook);
-    }
-
-    @Override
-    public void detachPhoneBook(String castleId) {
-        //
-        castellanContactService.detachPhoneBook(castleId);
     }
 
     @Override
@@ -83,16 +79,17 @@ public class CastellanContactFrontServiceLogic implements CastellanContactFrontS
     }
 
     @Override
+    public void detachPhoneBook(String castleId) {
+        //
+        castellanContactService.detachPhoneBook(castleId);
+    }
+
+
+    @Override
     public void attachAddressBook(String castleId, AddressBookDto addressBookDto) {
         //
         AddressBook addressBook = DomainConversionUtil.toAddressBook(addressBookDto);
         castellanContactService.attachAddressBook(castleId, addressBook);
-    }
-
-    @Override
-    public void detachAddressBook(String castleId) {
-        //
-        castellanContactService.detachAddressBook(castleId);
     }
 
     @Override
@@ -103,9 +100,11 @@ public class CastellanContactFrontServiceLogic implements CastellanContactFrontS
     }
 
     @Override
-    public void removeUserAddress(String castleId, String addressTitle) {
+    public AddressBookDto findAddressBook(String castleId) {
         //
-        castellanContactService.removeUserAddress(castleId, addressTitle);
+        AddressBook addressBook = castellanContactService.findAddressBook(castleId);
+        if (addressBook == null) return null;
+        return DomainConversionUtil.toAddressBookDto(addressBook);
     }
 
     @Override
@@ -116,10 +115,15 @@ public class CastellanContactFrontServiceLogic implements CastellanContactFrontS
     }
 
     @Override
-    public AddressBookDto findAddressBook(String castleId) {
+    public void detachAddressBook(String castleId) {
         //
-        AddressBook addressBook = castellanContactService.findAddressBook(castleId);
-        if (addressBook == null) return null;
-        return DomainConversionUtil.toAddressBookDto(addressBook);
+        castellanContactService.detachAddressBook(castleId);
     }
+
+    @Override
+    public void removeUserAddress(String castleId, String addressTitle) {
+        //
+        castellanContactService.removeUserAddress(castleId, addressTitle);
+    }
+
 }

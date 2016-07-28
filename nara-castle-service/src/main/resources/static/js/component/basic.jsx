@@ -496,7 +496,7 @@ class BasicModifiableContent extends Component {
                             </button>
                         </div>
                     </form>
-                    <NaraFile dramaId={dramaId} btnName='프로필 사진 업로드'/>
+                    <NaraFile.Uploader dramaId={dramaId} btnName='프로필 사진 업로드'/>
                 </div>
             </div>
         );

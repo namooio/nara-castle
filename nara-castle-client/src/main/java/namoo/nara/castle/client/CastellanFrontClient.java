@@ -31,7 +31,7 @@ public class CastellanFrontClient implements CastellanFrontService {
     public void modifyDisplayName(String id, String displayName) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_DISPLAYNAME_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_MODIFY_DISPLAY_NAME)
                 .addPathParam("id", id)
                 .setRequestDto(displayName)
         );
@@ -41,7 +41,7 @@ public class CastellanFrontClient implements CastellanFrontService {
     public void modifyPhoto(String id, String photoId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_PHOTO_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_MODIFY_PHOTO)
                         .addPathParam("id", id)
                         .setRequestDto(photoId)
         );
@@ -51,7 +51,7 @@ public class CastellanFrontClient implements CastellanFrontService {
     public void modifyPrimaryEmail(String id, String email) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_PRIMARYEMAIL_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_MODIFY_PRIMARY_EMAIL)
                         .addPathParam("id", id)
                         .setRequestDto(email)
         );
@@ -61,7 +61,7 @@ public class CastellanFrontClient implements CastellanFrontService {
     public void modifyPrimaryPhone(String id, String phoneNumber) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_PRIMARYPHONE_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_MODIFY_PRIMARY_PHONE)
                         .addPathParam("id", id)
                         .setRequestDto(phoneNumber)
         );

@@ -1,4 +1,4 @@
-package namoo.nara.castle.sp.springweb;
+package namoo.nara.castle.sp.spring.web;
 
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.front.dto.CastleFindDto;
@@ -14,7 +14,7 @@ import java.util.Locale;
  */
 @RestController
 @RequestMapping("castle-api/castles")
-public class CastleFrontResource extends CastleFrontServiceLogic{
+public class CastleFrontResource extends CastleFrontServiceLogic {
     //
     @Autowired
     public CastleFrontResource(CastleServiceLycler castleServiceLycler) {

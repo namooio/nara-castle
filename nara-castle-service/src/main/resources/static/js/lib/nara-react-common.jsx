@@ -688,13 +688,11 @@ class FileDownloader extends Component {
         this.requestDownload = this.requestDownload.bind(this);
     }
     // overriding
-    componentDidMount() {
+    componentWillReceiveProps(nextProps) {
         //
-        if (!this.props.fileId) {
-            console.warn(`[NaraFileDownloader] Invalid file id of props. -> ${this.props.fileId}`);
-            return false;
+        if (nextProps.fileId) {
+            this.requestDownload();
         }
-        this.requestDownload();
     }
     // request
     requestDownload() {
@@ -739,14 +737,14 @@ class FileDownloader extends Component {
 
 FileDownloader.propTypes = {
     //
-    fileId: PropTypes.string.isRequired,
+    fileId: PropTypes.string,
     contentType: PropTypes.string,
     elementType: PropTypes.string
 };
 
 FileDownloader.defaultProps = {
     //
-    contentType: 'image/jpeg',
+    contentType: 'image',
     elementType: 'auto'
 };
 

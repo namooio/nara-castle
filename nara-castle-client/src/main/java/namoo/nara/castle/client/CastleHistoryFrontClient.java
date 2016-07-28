@@ -22,7 +22,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public void attachAccountBook(String castleId, AccountBookDto accountBookDto) {
         //
         naraRestClient.sendAndRecieve(
-            RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_ACCOUNTBOOK_ATTACH)
+            RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_ATTACH_ACCOUNT_BOOK)
                 .addPathParam("id", castleId)
                 .setRequestDto(accountBookDto)
         );
@@ -32,7 +32,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public void detachAccountBook(String castleId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_ACCOUNTBOOK_DETACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_DETACH_ACCOUNT_BOOK)
                         .addPathParam("id", castleId)
         );
     }
@@ -41,7 +41,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public AccountBookDto findAccountBook(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_ACCOUNTBOOK_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_FIND_ACCOUNT_BOOK)
                         .addPathParam("id", castleId)
                         .setResponseType(AccountBookDto.class)
         );
@@ -51,7 +51,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public void attachCastleStateBook(String castleId, CastleStateBookDto castleStateBookDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_STATEBOOK_ATTACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_ATTACH_STATE_BOOK)
                         .addPathParam("id", castleId)
                         .setRequestDto(castleStateBookDto)
         );
@@ -61,7 +61,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public void detachCastleStateBook(String castleId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_STATEBOOK_DETACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_DETACH_STATE_BOOK)
                         .addPathParam("id", castleId)
         );
     }
@@ -70,7 +70,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public CastleStateBookDto findCastleStateBook(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_STATEBOOK_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_FIND_STATE_BOOK)
                         .addPathParam("id", castleId)
                         .setResponseType(CastleStateBookDto.class)
         );
@@ -80,7 +80,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public void attachMetroBook(String castleId, MetroBookDto metroBookDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_METROBOOK_ATTACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_ATTACH_METRO_BOOK)
                         .addPathParam("id", castleId)
                         .setRequestDto(metroBookDto)
         );
@@ -90,7 +90,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public void detatchMetroBook(String castleId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_METROBOOK_DETACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_DETACH_METRO_BOOKH)
                         .addPathParam("id", castleId)
         );
     }
@@ -99,7 +99,7 @@ public class CastleHistoryFrontClient implements CastleHistoryFrontService {
     public MetroBookDto findMetroBook(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_METROBOOK_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_HISTORY_FIND_METRO_BOOK)
                         .addPathParam("id", castleId)
                         .setResponseType(MetroBookDto.class)
         );

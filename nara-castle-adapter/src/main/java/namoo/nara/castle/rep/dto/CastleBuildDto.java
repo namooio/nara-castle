@@ -1,11 +1,12 @@
 package namoo.nara.castle.rep.dto;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 7..
  */
-public class CastleBuildDto {
+public class CastleBuildDto implements Serializable {
     //
     private String name;
     private String email;

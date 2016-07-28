@@ -21,7 +21,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void attachNameBook(String castleId, NameBookDto nameBookDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_NAMEBOOK_ATTACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ATTACH_NAME_BOOK)
                         .addPathParam("id", castleId)
                         .setRequestDto(nameBookDto)
         );
@@ -31,7 +31,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void detachNameBook(String castleId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_NAMEBOOK_DETACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_DETACH_NAME_BOOK)
                         .addPathParam("id", castleId)
         );
     }
@@ -40,7 +40,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public NameBookDto findNameBook(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_NAMEBOOK_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_FIND_NAME_BOOK)
                         .addPathParam("id", castleId)
                         .setResponseType(NameBookDto.class)
         );
@@ -50,7 +50,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void attachEmailBook(String castleId, EmailBookDto emailBookDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_EMAILBOOK_ATTACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ATTACH_EMAIL_BOOK)
                         .addPathParam("id", castleId)
                         .setRequestDto(emailBookDto)
         );
@@ -60,7 +60,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void detachEmailBook(String castleId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_EMAILBOOK_DETACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_DETACH_EMAIL_BOOK)
                         .addPathParam("id", castleId)
         );
     }
@@ -69,7 +69,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public EmailBookDto findEmailBook(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_EMAILBOOK_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_FIND_EMAIL_BOOK)
                         .addPathParam("id", castleId)
                         .setResponseType(EmailBookDto.class)
         );
@@ -79,7 +79,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void attachPhoneBook(String castleId, PhoneBookDto phoneBookDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_PHONEBOOK_ATTACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ATTACH_PHONE_BOOK)
                         .addPathParam("id", castleId)
                         .setRequestDto(phoneBookDto)
         );
@@ -89,7 +89,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void detachPhoneBook(String castleId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_PHONEBOOK_DETACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_DETACH_PHONE_BOOK)
                         .addPathParam("id", castleId)
         );
     }
@@ -98,7 +98,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public PhoneBookDto findPhoneBook(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_PHONEBOOK_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_FIND_PHONE_BOOK)
                         .addPathParam("id", castleId)
                         .setResponseType(PhoneBookDto.class)
         );
@@ -108,7 +108,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void attachAddressBook(String castleId, AddressBookDto addressBookDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADDRESSBOOK_ATTACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ATTACH_ADDRESS_BOOK)
                         .addPathParam("id", castleId)
                         .setRequestDto(addressBookDto)
         );
@@ -118,7 +118,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void detachAddressBook(String castleId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADDRESSBOOK_DETACH)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_DETACH_ADDRESS_BOOK)
                         .addPathParam("id", castleId)
         );
     }
@@ -127,7 +127,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void addUserAddress(String castleId, UserAddressDto addressDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADDRESS_ADD)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADD_ADDRESS)
                         .addPathParam("id", castleId)
                         .setRequestDto(addressDto)
         );
@@ -137,7 +137,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void removeUserAddress(String castleId, String addressTitle) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADDRESS_REMOVE)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_REMOVE_ADDRESS)
                         .addPathParam("id", castleId)
                         .addPathParam("title", addressTitle)
         );
@@ -147,7 +147,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public void modifyUserAddress(String castleId, UserAddressDto addressDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADDRESS_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_MODIFY_ADDRESS)
                         .addPathParam("id", castleId)
                         .setRequestDto(addressDto)
         );
@@ -157,7 +157,7 @@ public class CastellanContactFrontClient implements CastellanContactFrontService
     public AddressBookDto findAddressBook(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_ADDRESSBOOK_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_CONTACT_FIND_ADDRESS_BOOK)
                         .addPathParam("id", castleId)
                         .setResponseType(AddressBookDto.class)
         );

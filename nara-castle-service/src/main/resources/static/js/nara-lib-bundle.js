@@ -1595,14 +1595,12 @@ window["naraLib"] =
 
 
 	    _createClass(FileDownloader, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
 	            //
-	            if (!this.props.fileId) {
-	                console.warn('[NaraFileDownloader] Invalid file id of props. -> ' + this.props.fileId);
-	                return false;
+	            if (nextProps.fileId) {
+	                this.requestDownload();
 	            }
-	            this.requestDownload();
 	        }
 	        // request
 
@@ -1652,14 +1650,14 @@ window["naraLib"] =
 
 	FileDownloader.propTypes = {
 	    //
-	    fileId: _react.PropTypes.string.isRequired,
+	    fileId: _react.PropTypes.string,
 	    contentType: _react.PropTypes.string,
 	    elementType: _react.PropTypes.string
 	};
 
 	FileDownloader.defaultProps = {
 	    //
-	    contentType: 'image/jpeg',
+	    contentType: 'image',
 	    elementType: 'auto'
 	};
 

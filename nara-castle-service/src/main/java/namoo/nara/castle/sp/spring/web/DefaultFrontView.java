@@ -1,4 +1,4 @@
-package namoo.nara.castle.sp.springweb;
+package namoo.nara.castle.sp.spring.web;
 
 import namoo.nara.stage.context.DramaContext;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,8 @@ public class DefaultFrontView {
         model.put("castingId", castingId);
         model.put("playerId", playerId);
 
-        model.put("ctx", dramaContext.getContextPath());
+//        model.put("ctx", dramaContext.getContextPath());
+        model.put("ctx", "/dramas/01-0003/revisions/0.15/");
 
         return new ModelAndView("index", model);
     }
