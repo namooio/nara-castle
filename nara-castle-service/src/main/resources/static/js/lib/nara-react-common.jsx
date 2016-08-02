@@ -187,32 +187,7 @@ export { NaraModal as Modal };
 
 
 // File
-class File extends Component {
-    //
-    constructor(props) {
-        //
-        super(props);
-    }
-    render() {
-        //
-        if (this.props.defaultProps === File.mode.DOWNLOAD) {
-            return (<FileDownloader />);
-        }
-        else {
-            return (<FileUploader  />);
-        }
-    }
-}
-
-File.mode = {
-    DOWNLOAD: 'Download',
-    UPLOAD: 'Upload'
-};
-
-File.defaultProps = {
-    mode: File.mode.DOWNLOAD
-};
-
+let File = {};
 
 // Downloader common static component
 class FileDownloader extends Component {

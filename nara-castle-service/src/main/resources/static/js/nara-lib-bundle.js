@@ -966,46 +966,12 @@ window["naraLib"] =
 
 	// File
 
-	var File = function (_Component2) {
-	    _inherits(File, _Component2);
-
-	    //
-
-	    function File(props) {
-	        _classCallCheck(this, File);
-
-	        //
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(File).call(this, props));
-	    }
-
-	    _createClass(File, [{
-	        key: 'render',
-	        value: function render() {
-	            //
-	            if (this.props.defaultProps === File.mode.DOWNLOAD) {
-	                return _react2.default.createElement(FileDownloader, null);
-	            } else {
-	                return _react2.default.createElement(FileUploader, null);
-	            }
-	        }
-	    }]);
-
-	    return File;
-	}(_react.Component);
-
-	File.mode = {
-	    DOWNLOAD: 'Download',
-	    UPLOAD: 'Upload'
-	};
-
-	File.defaultProps = {
-	    mode: File.mode.DOWNLOAD
-	};
+	var File = {};
 
 	// Downloader common static component
 
-	var FileDownloader = function (_Component3) {
-	    _inherits(FileDownloader, _Component3);
+	var FileDownloader = function (_Component2) {
+	    _inherits(FileDownloader, _Component2);
 
 	    _createClass(FileDownloader, null, [{
 	        key: 'requestDownload',
@@ -1079,20 +1045,20 @@ window["naraLib"] =
 	    DOWNLOAD_FILE: '/pavilion-api/files/{naraFileId}'
 	};
 
-	var ImageDownloader = function (_Component4) {
-	    _inherits(ImageDownloader, _Component4);
+	var ImageDownloader = function (_Component3) {
+	    _inherits(ImageDownloader, _Component3);
 
 	    //
 
 	    function ImageDownloader(props) {
 	        _classCallCheck(this, ImageDownloader);
 
-	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageDownloader).call(this, props));
+	        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageDownloader).call(this, props));
 	        //
 
 
-	        _this4.state = FileDownloader.getDownloaderInitailState();
-	        return _this4;
+	        _this3.state = FileDownloader.getDownloaderInitailState();
+	        return _this3;
 	    }
 	    // overriding
 
@@ -1125,7 +1091,7 @@ window["naraLib"] =
 
 	ImageDownloader.propTypes = {
 	    //
-	    fileId: _react.PropTypes.string.isRequired,
+	    fileId: _react.PropTypes.string,
 	    className: _react.PropTypes.string,
 	    width: _react.PropTypes.node,
 	    heigth: _react.PropTypes.node
@@ -1140,20 +1106,20 @@ window["naraLib"] =
 
 	File.ImageLoader = ImageDownloader;
 
-	var LinkDownloader = function (_Component5) {
-	    _inherits(LinkDownloader, _Component5);
+	var LinkDownloader = function (_Component4) {
+	    _inherits(LinkDownloader, _Component4);
 
 	    //
 
 	    function LinkDownloader(props) {
 	        _classCallCheck(this, LinkDownloader);
 
-	        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(LinkDownloader).call(this, props));
+	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(LinkDownloader).call(this, props));
 	        //
 
 
-	        _this5.state = FileDownloader.getDownloaderInitailState();
-	        return _this5;
+	        _this4.state = FileDownloader.getDownloaderInitailState();
+	        return _this4;
 	    }
 	    // overriding
 
@@ -1189,7 +1155,7 @@ window["naraLib"] =
 
 	LinkDownloader.propTypes = {
 	    //
-	    fileId: _react.PropTypes.string.isRequired,
+	    fileId: _react.PropTypes.string,
 	    className: _react.PropTypes.string,
 	    linkName: _react.PropTypes.string
 	};
@@ -1202,28 +1168,28 @@ window["naraLib"] =
 
 	File.LinkLoader = LinkDownloader;
 
-	var FileUploader = function (_Component6) {
-	    _inherits(FileUploader, _Component6);
+	var FileUploader = function (_Component5) {
+	    _inherits(FileUploader, _Component5);
 
 	    //
 
 	    function FileUploader(props) {
 	        _classCallCheck(this, FileUploader);
 
-	        var _this6 = _possibleConstructorReturn(this, Object.getPrototypeOf(FileUploader).call(this, props));
+	        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(FileUploader).call(this, props));
 	        //
 
 
-	        _this6.state = {
+	        _this5.state = {
 	            fileForm: null, // { files[], dramaId, clubId }
 	            processing: false
 	        };
 
-	        _this6.fileOnChange = _this6.fileOnChange.bind(_this6);
-	        _this6.fileOnSubmit = _this6.fileOnSubmit.bind(_this6);
-	        _this6.processUpload = _this6.processUpload.bind(_this6);
-	        _this6.requestUpload = _this6.requestUpload.bind(_this6);
-	        return _this6;
+	        _this5.fileOnChange = _this5.fileOnChange.bind(_this5);
+	        _this5.fileOnSubmit = _this5.fileOnSubmit.bind(_this5);
+	        _this5.processUpload = _this5.processUpload.bind(_this5);
+	        _this5.requestUpload = _this5.requestUpload.bind(_this5);
+	        return _this5;
 	    }
 	    // overriding
 
