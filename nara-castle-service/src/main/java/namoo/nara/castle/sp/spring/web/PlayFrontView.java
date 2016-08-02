@@ -1,8 +1,9 @@
 package namoo.nara.castle.sp.spring.web;
 
-import namoo.nara.stage.context.DramaContext;
+import namoo.nara.stage.support.context.DramaContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,40 +14,30 @@ import java.util.Map;
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
 @Controller
-public class DefaultFrontView {
+public class PlayFrontView {
     //
-    private DramaContext dramaContext;
-
-
-    public DefaultFrontView() {
-        //
-        dramaContext = DramaContext.getInstance();
-    }
-
-
-    @RequestMapping("")
-    public ModelAndView main(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
+    @RequestMapping(value = "castle-play", method = RequestMethod.GET)
+    public ModelAndView play(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();
+        model.put("ctx", DramaContext.getInstance().getContextPath());
+
         model.put("pavilionId", pavilionId);
         model.put("castingId", castingId);
         model.put("playerId", playerId);
-
-//        model.put("ctx", dramaContext.getContextPath());
-        model.put("ctx", "/dramas/01-0003/revisions/0.15/");
 
         return new ModelAndView("index", model);
     }
 
-    @RequestMapping("/local")
-    public ModelAndView localMain(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
+    @RequestMapping(value = "castle-local-play", method = RequestMethod.GET)
+    public ModelAndView localPlay(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();
+        model.put("ctx", "");
+
         model.put("pavilionId", pavilionId);
         model.put("castingId", castingId);
         model.put("playerId", playerId);
-
-        model.put("ctx", "");
 
         return new ModelAndView("index", model);
     }

@@ -7,12 +7,14 @@ import namoo.nara.castle.front.dto.contact.NameBookDto;
 import namoo.nara.castle.front.dto.contact.PhoneBookDto;
 import namoo.nara.castle.front.dto.contact.UserAddressDto;
 import namoo.nara.castle.front.logic.CastellanContactFrontServiceLogic;
+import namoo.nara.stage.annotation.Feature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
+@Feature(name = "Castellan Contact Service")
 @RestController
 @RequestMapping("castle-api/castellans/{id}/contacts")
 public class CastellanContactFrontResource extends CastellanContactFrontServiceLogic {

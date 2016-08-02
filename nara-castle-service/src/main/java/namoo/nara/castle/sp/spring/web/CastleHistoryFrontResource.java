@@ -5,6 +5,7 @@ import namoo.nara.castle.front.dto.history.AccountBookDto;
 import namoo.nara.castle.front.dto.history.CastleStateBookDto;
 import namoo.nara.castle.front.dto.history.MetroBookDto;
 import namoo.nara.castle.front.logic.CastleHistoryFrontServiceLogic;
+import namoo.nara.stage.annotation.Feature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
+@Feature(name = "Castle History Service")
 @RestController
 @RequestMapping("castle-api/castles/{id}/histories")
 public class CastleHistoryFrontResource extends CastleHistoryFrontServiceLogic {

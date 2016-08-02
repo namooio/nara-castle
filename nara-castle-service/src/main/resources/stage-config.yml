@@ -1,0 +1,8 @@
+# Drama stage configuration
+drama:
+  - title: castle
+    revision: 0.15
+
+# Stage service host config
+stage:
+  host: http://10.0.1.17:9092

@@ -690,7 +690,7 @@ window["naraLib"] =
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.File = exports.RoleBook = exports.Modal = undefined;
+	exports.File = exports.Modal = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -964,579 +964,10 @@ window["naraLib"] =
 
 	exports.Modal = NaraModal;
 
-	// RoleBook
-
-	'use strict';
-
-	// Define component
-
-	var RoleBook = function (_Component2) {
-	    _inherits(RoleBook, _Component2);
-
-	    _createClass(RoleBook, null, [{
-	        key: 'setContextPath',
-
-	        //
-	        value: function setContextPath(contextPath) {
-	            //
-	            RoleBook.contextPath = contextPath;
-	            RoleBook.setUrl();
-	        }
-	    }, {
-	        key: 'setUrl',
-	        value: function setUrl() {
-	            //
-	            RoleBook.url = {
-	                //
-	                FIND_ROLES_OF_PLAYER: RoleBook.contextPath + '/stage/rolebook/players/{playerId}/roles?castingId={castingId}',
-	                FIND_PLAYERS: RoleBook.contextPath + '/stage/players?pavilionId={pavilionId}&castingId={castingId}'
-	            };
-
-	            RolePlayerMappingPop.url = {
-	                FIND_ROLES: RoleBook.contextPath + '/stage/roles',
-	                SAVE_ROLE_BOOK: RoleBook.contextPath + '/stage/rolebook'
-	            };
-	        }
-	    }, {
-	        key: 'getRoles',
-	        value: function getRoles() {
-	            //
-	            return RoleBook.rolesOfPlayer;
-	        }
-	    }, {
-	        key: 'getRoleNames',
-	        value: function getRoleNames() {
-	            //
-	            var roleNames = [];
-
-	            if (RoleBook.rolesOfPlayer) {
-	                RoleBook.rolesOfPlayer.forEach(function (role) {
-	                    roleNames.push(role.name);
-	                });
-	            }
-	            return roleNames;
-	        }
-	    }, {
-	        key: 'hasRole',
-	        value: function hasRole(roleName) {
-	            //
-	            var result = false;
-
-	            if (RoleBook.rolesOfPlayer) {
-	                result = RoleBook.rolesOfPlayer.some(function (role) {
-	                    return roleName === role.name;
-	                });
-	            }
-	            return result;
-	        }
-	    }]);
-
-	    function RoleBook(props) {
-	        _classCallCheck(this, RoleBook);
-
-	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(RoleBook).call(this, props));
-	        //
-
-
-	        _this2.state = {
-	            pavilionId: null,
-	            castingId: null,
-	            playerId: null,
-	            players: [],
-	            roles: [],
-	            roleState: {
-	                unconfigured: false,
-	                admin: false,
-	                user: false,
-	                modifiable: false
-	            },
-	            popupState: {
-	                rolePlayerMapping: false,
-	                alertUnconfigured: false,
-	                alertRoles: false
-	            }
-	        };
-
-	        _this2.roleCheckClick = _this2.roleCheckClick.bind(_this2);
-	        _this2.rolePlayerMappingPopOnHide = _this2.rolePlayerMappingPopOnHide.bind(_this2);
-	        _this2.rolesBtnOnClick = _this2.rolesBtnOnClick.bind(_this2);
-	        _this2.modifyRoleBookBtnOnClick = _this2.modifyRoleBookBtnOnClick.bind(_this2);
-	        _this2.isUnconfiguredAndAdmin = _this2.isUnconfiguredAndAdmin.bind(_this2);
-	        _this2.isUnconfiguredAndUser = _this2.isUnconfiguredAndUser.bind(_this2);
-	        _this2.isModifiableAndAdmin = _this2.isModifiableAndAdmin.bind(_this2);
-	        _this2.requestFindRolesOfPlayer = _this2.requestFindRolesOfPlayer.bind(_this2);
-	        _this2.requestFindPlayers = _this2.requestFindPlayers.bind(_this2);
-	        return _this2;
-	    }
-	    // overriding
-
-
-	    _createClass(RoleBook, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            //
-	            var pavilionId = document.getElementsByName('pavilionId')[0].content,
-	                castingId = document.getElementsByName('castingId')[0].content,
-	                playerId = document.getElementsByName('playerId')[0].content;
-
-	            this.setState({ pavilionId: pavilionId, castingId: castingId, playerId: playerId });
-
-	            if (!RoleBook.contextPath) {
-	                RoleBook.setContextPath(_naraCommon.Url.getPavilionHashContextPath());
-	            }
-
-	            if (this.props.init === true) {
-	                this.requestFindRolesOfPlayer(pavilionId, castingId, playerId);
-	            }
-	        }
-	        // event
-
-	    }, {
-	        key: 'roleCheckClick',
-	        value: function roleCheckClick() {
-	            this.requestFindRolesOfPlayer(this.state.pavilionId, this.state.castingId, this.state.playerId);
-	        }
-	    }, {
-	        key: 'rolePlayerMappingPopOnHide',
-	        value: function rolePlayerMappingPopOnHide() {
-	            var popupState = this.state.popupState;
-	            popupState.rolePlayerMapping = false;
-	            this.setState({ popupState: popupState });
-	        }
-	    }, {
-	        key: 'rolesBtnOnClick',
-	        value: function rolesBtnOnClick() {
-	            var popupState = this.state.popupState;
-	            popupState.alertRoles = false;
-	            this.setState({ popupState: popupState });
-	        }
-	    }, {
-	        key: 'modifyRoleBookBtnOnClick',
-	        value: function modifyRoleBookBtnOnClick() {
-	            var roleState = this.state.roleState;
-	            roleState.unconfigured = true;
-
-	            this.setState({ roleState: roleState });
-	        }
-	        // custom
-
-	    }, {
-	        key: 'isUnconfiguredAndAdmin',
-	        value: function isUnconfiguredAndAdmin() {
-	            return this.state.roleState.unconfigured && this.state.roleState.admin;
-	        }
-	    }, {
-	        key: 'isUnconfiguredAndUser',
-	        value: function isUnconfiguredAndUser() {
-	            return this.state.roleState.unconfigured && this.state.roleState.user;
-	        }
-	    }, {
-	        key: 'isModifiableAndAdmin',
-	        value: function isModifiableAndAdmin() {
-	            return this.state.roleState.modifiable && this.state.roleState.admin;
-	        }
-	        // request
-
-	    }, {
-	        key: 'requestFindRolesOfPlayer',
-	        value: function requestFindRolesOfPlayer(pavilionId, castingId, playerId) {
-	            //
-	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_ROLES_OF_PLAYER.replace('{castingId}', castingId).replace('{playerId}', playerId)).done(function (roles, a1, a2) {
-	                if (roles && roles.length > 0) {
-	                    var popupState = this.state.popupState,
-	                        roleState = this.state.roleState;
-
-	                    popupState.alertRoles = true;
-	                    roleState.modifiable = true;
-
-	                    this.setState({ roles: roles, popupState: popupState });
-	                    RoleBook.rolesOfPlayer = roles;
-
-	                    if (this.props.onInit) {
-	                        this.props.onInit();
-	                    }
-	                } else {
-	                    var _roleState = this.state.roleState;
-	                    _roleState.unconfigured = true;
-
-	                    this.setState({ roleState: _roleState });
-	                }
-	                this.requestFindPlayers(pavilionId, castingId, playerId);
-	            }.bind(this));
-	        }
-	    }, {
-	        key: 'requestFindPlayers',
-	        value: function requestFindPlayers(pavilionId, castingId, playerId) {
-	            //
-	            _naraCommon.Ajax.getJSON(RoleBook.url.FIND_PLAYERS.replace('{pavilionId}', pavilionId).replace('{castingId}', castingId)).done(function (players) {
-	                //
-	                var administrant = players.some(function (player) {
-	                    return player.id === playerId && player.leader === true;
-	                });
-
-	                if (administrant) {
-	                    var roleState = this.state.roleState,
-	                        popupState = this.state.popupState;
-
-	                    roleState.admin = true;
-	                    popupState.rolePlayerMapping = true;
-	                    this.setState({ roleState: roleState, popupState: popupState, players: players });
-	                } else {
-	                    var _roleState2 = this.state.roleState,
-	                        _popupState = this.state.popupState;
-
-	                    _roleState2.user = true;
-	                    _popupState.alertUnconfigured = true;
-	                    this.setState({ roleState: _roleState2, popupState: _popupState });
-	                }
-	            }.bind(this));
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            //
-	            if (this.isUnconfiguredAndUser() === true) {
-	                NaraModal.alert({
-	                    title: 'Sorry!',
-	                    content: '해당 드라마의 역할이 설정되지 않아 이용할 수 없습니다.',
-	                    okUsable: false
-	                });
-	            } else if (this.props.init === true) {
-	                var rolesElement = this.state.roles.map(function (role, index) {
-	                    return role.name + ' : ' + role.description + '}';
-	                });
-
-	                NaraModal.alert({
-	                    title: 'Roles',
-	                    content: rolesElement,
-	                    handleOk: this.rolesBtnOnClick
-	                });
-	            }
-
-	            return _react2.default.createElement(
-	                'li',
-	                null,
-	                this.props.init !== true ? _react2.default.createElement(
-	                    'a',
-	                    { href: 'javascript:', onClick: this.roleCheckClick },
-	                    'RoleCheck'
-	                ) : null,
-	                this.isModifiableAndAdmin() === true ? _react2.default.createElement(
-	                    'a',
-	                    { href: 'javascript:', onClick: this.modifyRoleBookBtnOnClick },
-	                    'Modify role book'
-	                ) : null,
-	                this.isUnconfiguredAndAdmin() === true ? _react2.default.createElement(RolePlayerMappingPop, {
-	                    castingId: this.state.castingId,
-	                    players: this.state.players,
-	                    displayable: this.state.popupState.rolePlayerMapping,
-	                    onHide: this.rolePlayerMappingPopOnHide,
-	                    onSaveSuccess: this.props.onSaveSuccess
-	                }) : null
-	            );
-	        }
-	    }]);
-
-	    return RoleBook;
-	}(_react.Component);
-
-	/*
-	{ this.isUnconfiguredAndUser() === true ?
-	    <Modal
-	        show={this.state.popupState.alertUnconfigured}>
-	        <Modal.Header>
-	            <Modal.Title id="modal-title">Sorry!</Modal.Title>
-	        </Modal.Header>
-	        <Modal.Body>
-	            <h4>해당 드라마의 역할 설정이 되지 않아 이용할 수 없습니다.</h4>
-	        </Modal.Body>
-	    </Modal> : null
-	}
-	*/
-	/*
-	<div className="modal-container">
-	    <Modal show={this.state.popupState.alertRoles} container={this} aria-labelledby="contained-modal-title">
-	        <Modal.Header>
-	            <Modal.Title id="modal-roles-of-player-title">Roles</Modal.Title>
-	        </Modal.Header>
-	        <Modal.Body>
-	            { this.state.roles.map( function (role, index) {
-	                return (<h4 key={index}>{role.name} : {role.description}</h4>);
-	            })}
-	        </Modal.Body>
-	        <Modal.Footer>
-	            <Button onClick={this.rolesBtnOnClick}>Close</Button>
-	        </Modal.Footer>
-	    </Modal>
-	</div>
-	*/
-
-	RoleBook.contextPath = null;
-	RoleBook.rolesOfPlayer = RoleBook.rolesOfPlayer || [];
-
-	RoleBook.propTypes = {
-	    init: _react.PropTypes.bool,
-	    onInit: _react.PropTypes.func,
-	    onSaveSuccess: _react.PropTypes.func
-	};
-	RoleBook.defaultProps = {
-	    init: true,
-	    onInit: function onInit() {},
-	    onSaveSuccess: function onSaveSuccess() {}
-	};
-
-	var RolePlayerMappingPop = function (_Component3) {
-	    _inherits(RolePlayerMappingPop, _Component3);
-
-	    //
-
-	    function RolePlayerMappingPop(props) {
-	        _classCallCheck(this, RolePlayerMappingPop);
-
-	        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(RolePlayerMappingPop).call(this, props));
-	        //
-
-
-	        _this3.state = {
-	            roles: [],
-	            rolePlayers: [],
-	            successPopup: false
-	        };
-
-	        _this3.roleCheckChange = _this3.roleCheckChange.bind(_this3);
-	        _this3.saveRoleBookBtnOnClick = _this3.saveRoleBookBtnOnClick.bind(_this3);
-	        _this3.successPopCloseBtnOnClick = _this3.successPopCloseBtnOnClick.bind(_this3);
-	        _this3.requestRolePlayer = _this3.requestRolePlayer.bind(_this3);
-	        _this3.requestSaveRoleBook = _this3.requestSaveRoleBook.bind(_this3);
-	        return _this3;
-	    }
-	    // overriding
-
-
-	    _createClass(RolePlayerMappingPop, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.requestRolePlayer();
-	        }
-	        // event
-
-	    }, {
-	        key: 'roleCheckChange',
-	        value: function roleCheckChange(playerIndex, roleIndex) {
-	            //
-	            var rolePlayers = this.state.rolePlayers;
-	            rolePlayers[playerIndex][roleIndex] = !rolePlayers[playerIndex][roleIndex];
-
-	            this.setState({ rolePlayers: rolePlayers });
-	        }
-	    }, {
-	        key: 'saveRoleBookBtnOnClick',
-	        value: function saveRoleBookBtnOnClick() {
-	            //
-	            var roleBook = {
-	                castingId: this.props.castingId,
-	                rolePlayers: []
-	            };
-
-	            this.state.rolePlayers.forEach(function (roleCheckList, index) {
-	                //
-	                var player = this.props.players[index];
-
-	                var rolePlayer = {
-	                    playerId: player.id,
-	                    name: player.name,
-	                    roles: []
-	                };
-
-	                roleCheckList.forEach(function (roleCheck, index) {
-	                    //
-	                    if (roleCheck === false) {
-	                        return;
-	                    }
-	                    var role = this.state.roles[index];
-	                    rolePlayer.roles.push(role);
-	                }.bind(this));
-
-	                roleBook.rolePlayers.push(rolePlayer);
-	            }.bind(this));
-
-	            this.requestSaveRoleBook(roleBook);
-	        }
-	    }, {
-	        key: 'successPopCloseBtnOnClick',
-	        value: function successPopCloseBtnOnClick() {
-	            this.setState({ successPopup: false });
-	        }
-	        // request
-
-	    }, {
-	        key: 'requestRolePlayer',
-	        value: function requestRolePlayer() {
-	            //
-	            _naraCommon.Ajax.getJSON(RolePlayerMappingPop.url.FIND_ROLES).done(function (roles) {
-	                //
-	                var roleCheckList = [];
-	                roleCheckList.length = roles.length;
-	                roleCheckList.fill(false);
-
-	                var rolePlayers = [];
-
-	                for (var index in this.props.players) {
-	                    rolePlayers[index] = _naraCommon.Object.deepCopy(roleCheckList);
-	                }
-
-	                this.setState({ roles: roles, rolePlayers: rolePlayers });
-	            }.bind(this));
-	        }
-	    }, {
-	        key: 'requestSaveRoleBook',
-	        value: function requestSaveRoleBook(roleBook) {
-	            //
-	            _naraCommon.Ajax.postJSON(RolePlayerMappingPop.url.SAVE_ROLE_BOOK, roleBook).done(function () {
-	                this.props.onHide();
-	                this.setState({ successPopup: true });
-
-	                if (this.props.onSaveSuccess) {
-	                    this.props.onSaveSuccess();
-	                }
-	            }.bind(this));
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            //
-	            var existsPlayerCheckList = this.state.rolePlayers.length > 0;
-
-	            return _react2.default.createElement(
-	                'section',
-	                null,
-	                _react2.default.createElement(
-	                    _reactBootstrap.Modal,
-	                    {
-	                        bsSize: 'large',
-	                        'aria-labelledby': 'contained-modal-title-lg',
-	                        show: this.props.displayable },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Header,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Modal.Title,
-	                            { id: 'contained-modal-title-lg' },
-	                            'Role player'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Body,
-	                        null,
-	                        existsPlayerCheckList ? _react2.default.createElement(
-	                            'table',
-	                            { className: 'table table-stri1ed table-hover' },
-	                            _react2.default.createElement(
-	                                'thead',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'tr',
-	                                    null,
-	                                    _react2.default.createElement(
-	                                        'th',
-	                                        { className: 'col-md-3' },
-	                                        'Player'
-	                                    ),
-	                                    this.state.roles.map(function (role, index) {
-	                                        return _react2.default.createElement(
-	                                            'th',
-	                                            { key: index },
-	                                            role.name
-	                                        );
-	                                    })
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'tbody',
-	                                null,
-	                                this.props.players.map(function (player, playerIndex) {
-	                                    return _react2.default.createElement(
-	                                        'tr',
-	                                        { key: playerIndex },
-	                                        _react2.default.createElement(
-	                                            'td',
-	                                            null,
-	                                            player.name
-	                                        ),
-	                                        this.state.rolePlayers[playerIndex].map(function (roleCheck, roleIndex) {
-	                                            return _react2.default.createElement(
-	                                                'td',
-	                                                { key: roleIndex },
-	                                                _react2.default.createElement('input', { type: 'checkbox', checked: roleCheck, onChange: this.roleCheckChange.bind(this, playerIndex, roleIndex) })
-	                                            );
-	                                        }.bind(this))
-	                                    );
-	                                }.bind(this))
-	                            )
-	                        ) : _react2.default.createElement(
-	                            'h4',
-	                            null,
-	                            '역할 목록이 없습니다.'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Footer,
-	                        null,
-	                        existsPlayerCheckList ? _react2.default.createElement(
-	                            _reactBootstrap.Button,
-	                            { onClick: this.saveRoleBookBtnOnClick },
-	                            'Save'
-	                        ) : null
-	                    )
-	                ),
-	                _react2.default.createElement(
-	                    _reactBootstrap.Modal,
-	                    { show: this.state.successPopup },
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Header,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Modal.Title,
-	                            { id: 'modal-success-title' },
-	                            'Success'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Body,
-	                        null,
-	                        'RoleBook 저장이 완료 되었습니다.'
-	                    ),
-	                    _react2.default.createElement(
-	                        _reactBootstrap.Modal.Footer,
-	                        null,
-	                        _react2.default.createElement(
-	                            _reactBootstrap.Button,
-	                            { onClick: this.successPopCloseBtnOnClick },
-	                            'Close'
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return RolePlayerMappingPop;
-	}(_react.Component);
-
-	RolePlayerMappingPop.propTypes = {
-	    //
-	    castingId: _react.PropTypes.string.isRequired,
-	    players: _react.PropTypes.array.isRequired,
-	    displayable: _react.PropTypes.bool.isRequired,
-	    onHide: _react.PropTypes.func.isRequired
-	};
-
-	exports.RoleBook = RoleBook;
-
 	// File
 
-	var File = function (_Component4) {
-	    _inherits(File, _Component4);
+	var File = function (_Component2) {
+	    _inherits(File, _Component2);
 
 	    //
 
@@ -1571,76 +1002,71 @@ window["naraLib"] =
 	    mode: File.mode.DOWNLOAD
 	};
 
-	var FileDownloader = function (_Component5) {
-	    _inherits(FileDownloader, _Component5);
+	// Downloader common static component
 
-	    //
+	var FileDownloader = function (_Component3) {
+	    _inherits(FileDownloader, _Component3);
 
-	    function FileDownloader(props) {
-	        _classCallCheck(this, FileDownloader);
-
-	        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(FileDownloader).call(this, props));
-	        //
-
-
-	        _this5.state = {
-	            naraFile: null, // { name, type, size, content }
-	            fileDataUrl: null // string -> data:{imageType};base64,{fileBytes}
-	        };
-
-	        _this5.requestDownload = _this5.requestDownload.bind(_this5);
-	        return _this5;
-	    }
-	    // overriding
-
-
-	    _createClass(FileDownloader, [{
-	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {
-	            //
-	            if (nextProps.fileId) {
-	                this.requestDownload();
-	            }
-	        }
-	        // request
-
-	    }, {
+	    _createClass(FileDownloader, null, [{
 	        key: 'requestDownload',
-	        value: function requestDownload() {
+
+	        //
+	        value: function requestDownload(fileId, model) {
 	            //
-	            _naraCommon.Ajax.getJSON(FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', this.props.fileId)).done(function (resultNaraFile) {
-	                this.state.naraFile = resultNaraFile;
-	                this.state.fileDataUrl = 'data:' + resultNaraFile.type + ';base64,';
+	            _naraCommon.Ajax.getJSON(FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', fileId)).done(function (resultNaraFile) {
+	                //
+	                //model.setState({ naraFile: resultNaraFile, fileDataUrl:  `data:${resultNaraFile.type};base64,` });
+	                model.setState({ naraFile: resultNaraFile });
 
 	                console.debug('Download file result -> name: ' + resultNaraFile.name + ', type: ' + resultNaraFile.type + ', size: ' + resultNaraFile.size);
-
 	                if (!resultNaraFile.type) {
-	                    console.error('[NaraFile] Invalid content type of file. -> ' + resultNaraFile.type);
+	                    console.warn('[NaraFile] Invalid content type of file. -> ' + resultNaraFile.type);
 	                }
 	            });
 	        }
 	    }, {
+	        key: 'getDownloaderInitailState',
+	        value: function getDownloaderInitailState() {
+	            //
+	            return {
+	                naraFile: null // { name, type, size, content }
+	            };
+	        }
+	    }, {
+	        key: 'getFileDataUrl',
+	        value: function getFileDataUrl(contentType) {
+	            //
+	            return 'data:' + contentType + ';base64,';
+	        }
+	    }, {
+	        key: 'isNotRenderable',
+	        value: function isNotRenderable(model) {
+	            //
+	            var fileType = void 0;
+
+	            if (!model.state.naraFile) {
+	                return true;
+	            }
+
+	            fileType = model.state.naraFile.type;
+	            if (!fileType || !fileType.includes('image')) {
+	                console.warn('[NaraFile Downaloder] Invalid file content type. -> ' + fileType);
+	            }
+	            return false;
+	        }
+	    }]);
+
+	    function FileDownloader(props) {
+	        _classCallCheck(this, FileDownloader);
+
+	        //
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(FileDownloader).call(this, props));
+	    }
+
+	    _createClass(FileDownloader, [{
 	        key: 'render',
 	        value: function render() {
 	            //
-	            var fileExistence = this.state.naraFile ? true : false,
-	                fileType = void 0;
-
-	            if (!fileExistence) {
-	                return null;
-	            }
-
-	            fileType = this.state.naraFile.type;
-
-	            if (this.props.elementType === 'auto') {
-	                if (fileType.includes('image')) {
-	                    return _react2.default.createElement('img', { src: this.state.fileDataUrl + this.state.naraFile.content });
-	                }
-	            } else if (this.props.elementType === 'link') {
-	                return _react2.default.createElement('a', { href: this.state.fileDataUrl });
-	            }
-
-	            console.warn('[NaraFileDownloader] Not match any types.');
 	            return null;
 	        }
 	    }]);
@@ -1648,25 +1074,133 @@ window["naraLib"] =
 	    return FileDownloader;
 	}(_react.Component);
 
-	FileDownloader.propTypes = {
-	    //
-	    fileId: _react.PropTypes.string,
-	    contentType: _react.PropTypes.string,
-	    elementType: _react.PropTypes.string
-	};
-
-	FileDownloader.defaultProps = {
-	    //
-	    contentType: 'image',
-	    elementType: 'auto'
-	};
-
 	FileDownloader.url = {
 	    //
-	    DOWNLOAD_FILE: '/files/{naraFileId}'
+	    DOWNLOAD_FILE: '/pavilion-api/files/{naraFileId}'
 	};
 
-	File.Downloader = FileDownloader;
+	var ImageDownloader = function (_Component4) {
+	    _inherits(ImageDownloader, _Component4);
+
+	    //
+
+	    function ImageDownloader(props) {
+	        _classCallCheck(this, ImageDownloader);
+
+	        var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(ImageDownloader).call(this, props));
+	        //
+
+
+	        _this4.state = FileDownloader.getDownloaderInitailState();
+	        return _this4;
+	    }
+	    // overriding
+
+
+	    _createClass(ImageDownloader, [{
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            //
+	            if (nextProps.fileId) {
+	                FileDownloader.requestDownload(nextProps.fileId, this);
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            //
+	            if (FileDownloader.isNotRenderable(this)) {
+	                return null;
+	            }
+	            return _react2.default.createElement('img', { src: FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content,
+	                className: this.props.className,
+	                width: this.props.width,
+	                height: this.props.height
+	            });
+	        }
+	    }]);
+
+	    return ImageDownloader;
+	}(_react.Component);
+
+	ImageDownloader.propTypes = {
+	    //
+	    fileId: _react.PropTypes.string.isRequired,
+	    className: _react.PropTypes.string,
+	    width: _react.PropTypes.node,
+	    heigth: _react.PropTypes.node
+	};
+	ImageDownloader.defaultProps = {
+	    //
+	    fileId: null,
+	    className: null,
+	    width: null,
+	    heigth: null
+	};
+
+	File.ImageLoader = ImageDownloader;
+
+	var LinkDownloader = function (_Component5) {
+	    _inherits(LinkDownloader, _Component5);
+
+	    //
+
+	    function LinkDownloader(props) {
+	        _classCallCheck(this, LinkDownloader);
+
+	        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(LinkDownloader).call(this, props));
+	        //
+
+
+	        _this5.state = FileDownloader.getDownloaderInitailState();
+	        return _this5;
+	    }
+	    // overriding
+
+
+	    _createClass(LinkDownloader, [{
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            //
+	            if (nextProps.fileId) {
+	                FileDownloader.requestDownload(nextProps.fileId, this);
+	            }
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            //
+	            if (FileDownloader.isNotRenderable(this)) {
+	                return null;
+	            }
+
+	            var linkName = this.props.linkName || (this.state.naraFile ? this.state.naraFile.name : 'File link');
+	            return _react2.default.createElement(
+	                'a',
+	                { href: FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content,
+	                    className: this.props.className },
+	                linkName
+	            );
+	        }
+	    }]);
+
+	    return LinkDownloader;
+	}(_react.Component);
+
+	LinkDownloader.propTypes = {
+	    //
+	    fileId: _react.PropTypes.string.isRequired,
+	    className: _react.PropTypes.string,
+	    linkName: _react.PropTypes.string
+	};
+	LinkDownloader.defaultProps = {
+	    //
+	    fileId: null,
+	    className: null,
+	    linkName: null
+	};
+
+	File.LinkLoader = LinkDownloader;
 
 	var FileUploader = function (_Component6) {
 	    _inherits(FileUploader, _Component6);
@@ -1687,13 +1221,24 @@ window["naraLib"] =
 
 	        _this6.fileOnChange = _this6.fileOnChange.bind(_this6);
 	        _this6.fileOnSubmit = _this6.fileOnSubmit.bind(_this6);
+	        _this6.processUpload = _this6.processUpload.bind(_this6);
 	        _this6.requestUpload = _this6.requestUpload.bind(_this6);
 	        return _this6;
 	    }
-	    // event
+	    // overriding
 
 
 	    _createClass(FileUploader, [{
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            //
+	            if (nextProps.startUpload === true) {
+	                this.processUpload();
+	            }
+	        }
+	        // event
+
+	    }, {
 	        key: 'fileOnChange',
 	        value: function fileOnChange(event) {
 	            //
@@ -1744,17 +1289,36 @@ window["naraLib"] =
 	        value: function fileOnSubmit(event) {
 	            //
 	            event.preventDefault();
+	            this.processUpload();
+	        }
+	        // custom
+
+	    }, {
+	        key: 'processUpload',
+	        value: function processUpload() {
+	            //
+	            if (this.props.onStartUpload) {
+	                var uploadable = this.props.onStartUpload();
+	                if (uploadable === false) {
+	                    return;
+	                }
+	            }
 
 	            this.setState({
 	                processing: true
 	            });
-	            this.requestUpload();
+
+	            var successCallback = function successCallback() {};
+	            if (typeof this.props.onSuccessUpload === 'function') {
+	                successCallback = this.props.onSuccessUpload;
+	            }
+	            this.requestUpload(successCallback);
 	        }
 	        // request
 
 	    }, {
 	        key: 'requestUpload',
-	        value: function requestUpload() {
+	        value: function requestUpload(successCallback) {
 	            //
 	            /*
 	             NaraAjax
@@ -1772,21 +1336,15 @@ window["naraLib"] =
 	                data: this.state.files,
 	                processData: false,
 	                contentType: false,
-	                success: function success(resultFileIds) {
+	                success: function (resultFileIds) {
 	                    console.log('File ids: ' + resultFileIds);
 
-	                    _naraCommon.Ajax.getJSON(FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', resultFileIds[0])).done(function (resultNaraFile) {
-	                        console.log('Download file result -> name: ' + resultNaraFile.name + ', type: ' + resultNaraFile.type + ', size: ' + resultNaraFile.size);
-
-	                        if (!resultNaraFile.type) {
-	                            console.error('[NaraFile] Invalid content type of file. -> ' + resultNaraFile.type);
-	                        } else if (resultNaraFile.type.includes('image')) {
-	                            (0, _jquery2.default)('body').append('<img src="data:image/jpeg;base64,' + resultNaraFile.content + '" />');
-	                        } else {
-	                            console.log('File content: ' + resultNaraFile.content);
-	                        }
-	                    });
-	                }
+	                    if (this.props.multiple === true) {
+	                        successCallback(resultFileIds);
+	                    } else {
+	                        successCallback(resultFileIds[0]);
+	                    }
+	                }.bind(this)
 	            });
 
 	            /*
@@ -1816,32 +1374,37 @@ window["naraLib"] =
 	        key: 'render',
 	        value: function render() {
 	            //
-	            var multiple = this.props.multiple;
-
-	            return _react2.default.createElement(
-	                'form',
-	                { onSubmit: this.fileOnSubmit, enctype: 'multipart/form-data' },
-	                multiple ? _react2.default.createElement('input', { type: 'file', className: 'file', onChange: this.fileOnChange }) : _react2.default.createElement('input', { type: 'file', className: 'file', onChange: this.fileOnChange, multiple: 'multiple' }),
-	                _react2.default.createElement(
-	                    'button',
-	                    { type: 'submit', className: 'btn btn-primary' },
-	                    this.props.btnName
-	                )
-	            );
+	            if (this.props.multiple === true) {
+	                return _react2.default.createElement('input', { type: 'file', className: this.props.className, onChange: this.fileOnChange });
+	            } else {
+	                return _react2.default.createElement('input', { type: 'file', className: this.props.className, onChange: this.fileOnChange, multiple: 'multiple' });
+	            }
 	        }
 	    }]);
 
 	    return FileUploader;
 	}(_react.Component);
 
+	FileUploader.propTypes = {
+	    //
+	    dramaId: _react.PropTypes.string.isRequired,
+	    startUpload: _react.PropTypes.bool.isRequired,
+	    multiple: _react.PropTypes.bool,
+	    className: _react.PropTypes.string,
+	    onStartUpload: _react.PropTypes.func,
+	    onSuccessUpload: _react.PropTypes.func.isRequired
+	};
+
 	FileUploader.defaultProps = {
+	    //
 	    dramaId: null,
+	    startUpload: null,
 	    multiple: false,
-	    btnName: 'File upload'
+	    className: 'file'
 	};
 
 	FileUploader.url = {
-	    UPLOAD_FILE: '/files'
+	    UPLOAD_FILE: '/pavilion-api/files'
 	};
 
 	File.Uploader = FileUploader;
@@ -1849,7 +1412,6 @@ window["naraLib"] =
 	exports.File = File;
 	exports.default = {
 	    Modal: _reactBootstrap.Modal,
-	    RoleBook: RoleBook,
 	    File: File
 	};
 

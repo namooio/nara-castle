@@ -505,7 +505,6 @@
 	                        _react2.default.createElement(
 	                            'ul',
 	                            { className: 'nav navbar-nav navbar-right' },
-	                            _react2.default.createElement(_naraReact.RoleBook, { init: false }),
 	                            _react2.default.createElement(
 	                                'li',
 	                                { className: 'dropdown' },
@@ -1541,7 +1540,7 @@
 	        castellan: {
 	            primaryEmail: { name: 'primaryEmail', bookName: 'emailBook', KOR: '기본 이메일', USA: 'Primary email' },
 	            primaryPhone: { name: 'primaryPhone', bookName: 'phoneBook', KOR: '기본 전화번호', USA: 'Primary phone number' },
-	            photo: { name: 'photoId', KOR: '사진', USA: 'Photo' }
+	            photoId: { name: 'photoId', KOR: '사진', USA: 'Photo' }
 	        }
 	    },
 	    messages: {
@@ -1563,6 +1562,8 @@
 	        _classCallCheck(this, BasicContent);
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(BasicContent).call(this, props));
+	        //
+
 
 	        _this.setBasic = _this.setBasic.bind(_this);
 	        _this.setContactBook = _this.setContactBook.bind(_this);
@@ -1663,6 +1664,7 @@
 	            urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_LOCALE.replace('{id}', castleId), castleBasic.locale);
 	            urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_PRIMARY_EMAIL.replace('{id}', castleId), castleBasic.castellan.primaryEmail);
 	            urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_PRIMARY_PHONE.replace('{id}', castleId), castleBasic.castellan.primaryPhone);
+	            urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_PHOTO.replace('{id}', castleId), castleBasic.castellan.photoId);
 
 	            if (castleBasic.state === _castleModel2.default.enums.state.Open.name) {
 	                urlBuilder.addUrlAndParam(BasicContent.url.REOPEN_CASTLE.replace('{id}', castleId), 'remaraks');
@@ -1732,11 +1734,12 @@
 	    MODIFY_LOCALE: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/locale',
 	    SUSPEND_CASTLE: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/suspend',
 	    REOPEN_CASTLE: _castleCommon.Constant.PAV_CTX.api + '/castles/{id}/reopen',
-	    MODIFY_PRIMARY_EMAIL: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/primary-email',
-	    MODIFY_PRIMARY_PHONE: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/primary-phone',
 	    FIND_NAME_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/name-book',
 	    FIND_EMAIL_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/email-book',
-	    FIND_PHONE_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/phone-book'
+	    FIND_PHONE_BOOK: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/contacts/phone-book',
+	    MODIFY_PRIMARY_EMAIL: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/primary-email',
+	    MODIFY_PRIMARY_PHONE: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/primary-phone',
+	    MODIFY_PHOTO: _castleCommon.Constant.PAV_CTX.api + '/castellans/{id}/photo'
 	};
 
 	var BasicViewContent = function (_Component2) {
@@ -1748,6 +1751,8 @@
 	        _classCallCheck(this, BasicViewContent);
 
 	        var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(BasicViewContent).call(this, props));
+	        //
+
 
 	        _this2.modifiableModeBtnClick = _this2.modifiableModeBtnClick.bind(_this2);
 	        _this2.removeBtnClick = _this2.removeBtnClick.bind(_this2);
@@ -1909,7 +1914,7 @@
 	                    _react2.default.createElement(
 	                        'label',
 	                        { className: 'col-lg-3 col-lg-offset-1 control-label' },
-	                        ATTRS.castellan.photo[LANG]
+	                        ATTRS.castellan.photoId[LANG]
 	                    ),
 	                    _react2.default.createElement(
 	                        'div',
@@ -1917,11 +1922,24 @@
 	                        _react2.default.createElement(
 	                            'p',
 	                            { className: 'form-control-static' },
-	                            propBasicInfo.castellan[ATTRS.castellan.photo.name]
+	                            _react2.default.createElement(_naraReact.File.ImageLoader, { fileId: propBasicInfo.castellan[ATTRS.castellan.photoId.name], width: '100', height: '150' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            { className: 'form-control-static' },
+	                            _react2.default.createElement(_naraReact.File.LinkLoader, { fileId: propBasicInfo.castellan[ATTRS.castellan.photoId.name] })
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            { className: 'form-control-static' },
+	                            _react2.default.createElement(_naraReact.File.LinkLoader, { fileId: propBasicInfo.castellan[ATTRS.castellan.photoId.name], linkName: 'Profile image', className: 'btn btn-default' })
+	                        ),
+	                        _react2.default.createElement(
+	                            'p',
+	                            { className: 'form-control-static' },
+	                            propBasicInfo.castellan[ATTRS.castellan.photoId.name]
 	                        )
-	                    ),
-	                    _react2.default.createElement(_naraReact.File.Downloader, { fileId: propBasicInfo.castellan[ATTRS.castellan.photo.name] }),
-	                    _react2.default.createElement(_naraReact.File.Downloader, { fileId: propBasicInfo.castellan[ATTRS.castellan.photo.name], elementType: 'link' })
+	                    )
 	                ),
 	                _react2.default.createElement(
 	                    'div',
@@ -1981,11 +1999,14 @@
 	        _classCallCheck(this, BasicModifiableContent);
 
 	        var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(BasicModifiableContent).call(this, props));
+	        //
+
 
 	        _this3.state = {
 	            willModifyBasic: {
 	                castellan: {}
-	            }
+	            },
+	            startFileUpload: false
 	        };
 
 	        _this3.nameChange = _this3.nameChange.bind(_this3);
@@ -1997,6 +2018,8 @@
 	        _this3.cancelModificationBtnClick = _this3.cancelModificationBtnClick.bind(_this3);
 	        _this3.setWillModifyBasicState = _this3.setWillModifyBasicState.bind(_this3);
 	        _this3.setWillModifyCastellanState = _this3.setWillModifyCastellanState.bind(_this3);
+	        _this3.uploadFileStart = _this3.uploadFileStart.bind(_this3);
+	        _this3.uploadFileSuccess = _this3.uploadFileSuccess.bind(_this3);
 	        return _this3;
 	    }
 	    // overriding
@@ -2038,12 +2061,26 @@
 	    }, {
 	        key: 'saveBtnClick',
 	        value: function saveBtnClick() {
-	            this.props.modifyBasic(this.state.willModifyBasic);
+	            this.setState({ startFileUpload: true });
+	            //this.props.modifyBasic(this.state.willModifyBasic);
 	        }
 	    }, {
 	        key: 'cancelModificationBtnClick',
 	        value: function cancelModificationBtnClick() {
 	            this.props.changeViewMode();
+	        }
+	    }, {
+	        key: 'uploadFileStart',
+	        value: function uploadFileStart() {
+	            return alert('파일을 업로드 합니다.');
+	        }
+	    }, {
+	        key: 'uploadFileSuccess',
+	        value: function uploadFileSuccess(fileId) {
+	            alert('파일 업로드가 완료 되었습니다. -> ' + fileId);
+	            this.setState({ startFileUpload: false });
+	            this.setWillModifyCastellanState('photoId', fileId);
+	            this.props.modifyBasic(this.state.willModifyBasic);
 	        }
 	        // custom
 
@@ -2269,7 +2306,7 @@
 	                            _react2.default.createElement(
 	                                'label',
 	                                { className: 'col-lg-3 col-lg-offset-1 control-label' },
-	                                ATTRS.castellan.photo[LANG]
+	                                ATTRS.castellan.photoId[LANG]
 	                            ),
 	                            _react2.default.createElement(
 	                                'div',
@@ -2277,8 +2314,9 @@
 	                                _react2.default.createElement(
 	                                    'p',
 	                                    { className: 'form-control-static' },
-	                                    propBasicInfo.castellan[ATTRS.castellan.photo.name]
-	                                )
+	                                    propBasicInfo.castellan[ATTRS.castellan.photoId.name]
+	                                ),
+	                                _react2.default.createElement(_naraReact.File.Uploader, { dramaId: dramaId, btnName: '프로필 사진 업로드', startUpload: this.state.startFileUpload, onStartUpload: this.uploadFileStart, onSuccessUpload: this.uploadFileSuccess })
 	                            )
 	                        ),
 	                        _react2.default.createElement(
@@ -2313,8 +2351,7 @@
 	                                BUTTON_NAMES.cancel[LANG]
 	                            )
 	                        )
-	                    ),
-	                    _react2.default.createElement(_naraReact.File.Uploader, { dramaId: dramaId, btnName: '프로필 사진 업로드' })
+	                    )
 	                )
 	            );
 	        }

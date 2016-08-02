@@ -24,7 +24,7 @@ const CastleBasicModel = {
         castellan: {
             primaryEmail:   { name: 'primaryEmail', bookName: 'emailBook', KOR: '기본 이메일',   USA: 'Primary email' },
             primaryPhone:   { name: 'primaryPhone', bookName: 'phoneBook', KOR: '기본 전화번호', USA: 'Primary phone number' },
-            photo:          { name: 'photoId',      KOR: '사진',          USA: 'Photo' }
+            photoId:        { name: 'photoId',      KOR: '사진',          USA: 'Photo' }
         }
     },
     messages: {
@@ -41,6 +41,7 @@ const CastleBasicModel = {
 class BasicContent extends Component {
     //
     constructor(props) {
+        //
         super(props);
 
         this.setBasic = this.setBasic.bind(this);
@@ -127,6 +128,7 @@ class BasicContent extends Component {
         urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_LOCALE.replace('{id}', castleId), castleBasic.locale);
         urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_PRIMARY_EMAIL.replace('{id}', castleId), castleBasic.castellan.primaryEmail);
         urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_PRIMARY_PHONE.replace('{id}', castleId), castleBasic.castellan.primaryPhone);
+        urlBuilder.addUrlAndParam(BasicContent.url.MODIFY_PHOTO.replace('{id}', castleId), castleBasic.castellan.photoId);
 
         if (castleBasic.state === CastleModel.enums.state.Open.name) {
             urlBuilder.addUrlAndParam(BasicContent.url.REOPEN_CASTLE.replace('{id}', castleId), 'remaraks');
@@ -197,17 +199,19 @@ BasicContent.url = {
     MODIFY_LOCALE:          `${Constant.PAV_CTX.api}/castles/{id}/locale`,
     SUSPEND_CASTLE:         `${Constant.PAV_CTX.api}/castles/{id}/suspend`,
     REOPEN_CASTLE:          `${Constant.PAV_CTX.api}/castles/{id}/reopen`,
-    MODIFY_PRIMARY_EMAIL:   `${Constant.PAV_CTX.api}/castellans/{id}/primary-email`,
-    MODIFY_PRIMARY_PHONE:   `${Constant.PAV_CTX.api}/castellans/{id}/primary-phone`,
     FIND_NAME_BOOK:         `${Constant.PAV_CTX.api}/castellans/{id}/contacts/name-book`,
     FIND_EMAIL_BOOK:        `${Constant.PAV_CTX.api}/castellans/{id}/contacts/email-book`,
-    FIND_PHONE_BOOK:        `${Constant.PAV_CTX.api}/castellans/{id}/contacts/phone-book`
+    FIND_PHONE_BOOK:        `${Constant.PAV_CTX.api}/castellans/{id}/contacts/phone-book`,
+    MODIFY_PRIMARY_EMAIL:   `${Constant.PAV_CTX.api}/castellans/{id}/primary-email`,
+    MODIFY_PRIMARY_PHONE:   `${Constant.PAV_CTX.api}/castellans/{id}/primary-phone`,
+    MODIFY_PHOTO:           `${Constant.PAV_CTX.api}/castellans/{id}/photo`
 };
 
 
 class BasicViewContent extends Component {
     //
     constructor(props) {
+        //
         super(props);
 
         this.modifiableModeBtnClick = this.modifiableModeBtnClick.bind(this);
@@ -276,12 +280,13 @@ class BasicViewContent extends Component {
                     </div>
                 </div>
                 <div className="form-group">
-                    <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photo[LANG]}</label>
+                    <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.castellan.photoId[LANG]}</label>
                     <div className="col-lg-5">
-                        <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
+                        <p className="form-control-static"><NaraFile.ImageLoader fileId={propBasicInfo.castellan[ATTRS.castellan.photoId.name]} width='100' height='150' /></p>
+                        <p className="form-control-static"><NaraFile.LinkLoader fileId={propBasicInfo.castellan[ATTRS.castellan.photoId.name]} /></p>
+                        <p className="form-control-static"><NaraFile.LinkLoader fileId={propBasicInfo.castellan[ATTRS.castellan.photoId.name]} linkName='Profile image' className="btn btn-default"/></p>
+                        <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photoId.name]}</p>
                     </div>
-                    <NaraFile.Downloader fileId={propBasicInfo.castellan[ATTRS.castellan.photo.name]} />
-                    <NaraFile.Downloader fileId={propBasicInfo.castellan[ATTRS.castellan.photo.name]} elementType="link" />
                 </div>
                 <div className="form-group">
                     <label className="col-lg-3 col-lg-offset-1 control-label">{ATTRS.buildTime[LANG]}</label>
@@ -313,12 +318,14 @@ BasicViewContent.propTypes = {
 class BasicModifiableContent extends Component {
     //
     constructor(props) {
+        //
         super(props);
 
         this.state = {
             willModifyBasic: {
                 castellan: {}
-            }
+            },
+            startFileUpload: false
         };
 
         this.nameChange = this.nameChange.bind(this);
@@ -330,6 +337,8 @@ class BasicModifiableContent extends Component {
         this.cancelModificationBtnClick = this.cancelModificationBtnClick.bind(this);
         this.setWillModifyBasicState = this.setWillModifyBasicState.bind(this);
         this.setWillModifyCastellanState = this.setWillModifyCastellanState.bind(this);
+        this.uploadFileStart = this.uploadFileStart.bind(this);
+        this.uploadFileSuccess = this.uploadFileSuccess.bind(this);
     }
     // overriding
     componentDidMount() {
@@ -353,10 +362,20 @@ class BasicModifiableContent extends Component {
         this.setWillModifyCastellanState(CastleBasicModel.attrs.castellan.primaryPhone.name, event.target.value);
     }
     saveBtnClick() {
-        this.props.modifyBasic(this.state.willModifyBasic);
+        this.setState({ startFileUpload: true });
+        //this.props.modifyBasic(this.state.willModifyBasic);
     }
     cancelModificationBtnClick() {
         this.props.changeViewMode();
+    }
+    uploadFileStart() {
+        return alert('파일을 업로드 합니다.');
+    }
+    uploadFileSuccess(fileId) {
+        alert(`파일 업로드가 완료 되었습니다. -> ${fileId}`);
+        this.setState({ startFileUpload: false });
+        this.setWillModifyCastellanState('photoId', fileId);
+        this.props.modifyBasic(this.state.willModifyBasic);
     }
     // custom
     setWillModifyBasicState(propertyName, value) {
@@ -364,14 +383,14 @@ class BasicModifiableContent extends Component {
         let basic = this.state.willModifyBasic;
 
         basic[propertyName] = value;
-        this.setState({willModifyBasic: basic});
+        this.setState({ willModifyBasic: basic });
     }
     setWillModifyCastellanState(propertyName, value) {
         //
         let basic = this.state.willModifyBasic;
 
         basic.castellan[propertyName] = value;
-        this.setState({willModifyBasic: basic});
+        this.setState({ willModifyBasic: basic });
     }
     render() {
         //
@@ -472,10 +491,11 @@ class BasicModifiableContent extends Component {
                         </div>
                         <div className="form-group">
                             <label className="col-lg-3 col-lg-offset-1 control-label">
-                                {ATTRS.castellan.photo[LANG]}
+                                {ATTRS.castellan.photoId[LANG]}
                             </label>
                             <div className="col-lg-5">
-                                <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photo.name]}</p>
+                                <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photoId.name]}</p>
+                                <NaraFile.Uploader dramaId={dramaId} btnName='프로필 사진 업로드' startUpload={this.state.startFileUpload} onStartUpload={this.uploadFileStart} onSuccessUpload={this.uploadFileSuccess}/>
                             </div>
                         </div>
                         <div className="form-group">
@@ -496,7 +516,6 @@ class BasicModifiableContent extends Component {
                             </button>
                         </div>
                     </form>
-                    <NaraFile.Uploader dramaId={dramaId} btnName='프로필 사진 업로드'/>
                 </div>
             </div>
         );
