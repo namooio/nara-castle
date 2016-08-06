@@ -54,9 +54,23 @@ public class UserEmail {
         this.verifiedTime = verifiedTime;
     }
 
+    public void verify() {
+        this.verified = true;
+        this.verifiedTime = System.currentTimeMillis();
+    }
+
     public enum EmailType {
         Business,
         Private
     }
 
+    @Override
+    public String toString() {
+        return "UserEmail{" +
+                "email='" + email + '\'' +
+                ", emailType=" + emailType +
+                ", verified=" + verified +
+                ", verifiedTime=" + verifiedTime +
+                '}';
+    }
 }

@@ -1,10 +1,7 @@
 package namoo.nara.castle.rep.logic;
 
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.service.CastleCdo;
-import namoo.nara.castle.domain.service.CastleHistoryService;
-import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.service.CastleServiceLycler;
+import namoo.nara.castle.domain.service.*;
 import namoo.nara.castle.rep.CastleRepService;
 import namoo.nara.castle.rep.dto.CastleBuildDto;
 import namoo.nara.castle.rep.dto.CastleFindDto;
@@ -17,11 +14,13 @@ import java.util.Locale;
 public class CastleRepServiceLogic implements CastleRepService {
     //
     private CastleService castleService;
+    private CastellanContactService castellanContactService;
     private CastleHistoryService castleHistoryService;
 
     public CastleRepServiceLogic(CastleServiceLycler castleServiceLycler) {
         //
         castleService = castleServiceLycler.requestCastleService();
+        castellanContactService = castleServiceLycler.requestCastellanContactService();
         castleHistoryService = castleServiceLycler.requestCastleHisotryService();
     }
 
@@ -54,5 +53,23 @@ public class CastleRepServiceLogic implements CastleRepService {
     public void addMetro(String castleId, String metroId) {
         //
         castleHistoryService.addMetro(castleId, metroId);
+    }
+
+    @Override
+    public void addEmail(String castleId, String email) {
+        //
+        castellanContactService.addEmail(castleId, email);
+    }
+
+    @Override
+    public void removeEmail(String castleId, String email) {
+        //
+        castellanContactService.removeEmail(castleId, email);
+    }
+
+    @Override
+    public void verifyEmail(String castleId, String email) {
+        //
+        castellanContactService.verifyEmail(castleId, email);
     }
 }

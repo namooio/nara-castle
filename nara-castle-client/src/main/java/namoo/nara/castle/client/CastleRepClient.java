@@ -46,4 +46,19 @@ public class CastleRepClient implements CastleRepService {
                         .addPathParam("metroId", metroId)
         );
     }
+
+    @Override
+    public void addEmail(String castleId, String email) {
+
+    }
+
+    @Override
+    public void removeEmail(String castleId, String email) {
+
+    }
+
+    @Override
+    public void verifyEmail(String castleId, String email) {
+
+    }
 }

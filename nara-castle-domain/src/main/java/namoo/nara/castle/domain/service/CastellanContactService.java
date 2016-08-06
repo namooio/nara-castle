@@ -12,6 +12,9 @@ public interface CastellanContactService {
     void attachEmailBook(String castleId, EmailBook emailBook);
     void detachEmailBook(String castleId);
     EmailBook findEmailBook(String castleId);
+    void addEmail(String castleId, String email);
+    void removeEmail(String castleId, String email);
+    void verifyEmail(String castleId, String email);
 
     void attachPhoneBook(String castleId, PhoneBook phoneBook);
     void detachPhoneBook(String castleId);

@@ -65,6 +65,37 @@ public class CastellanContactServiceLogic implements CastellanContactService {
     }
 
     @Override
+    public void addEmail(String castleId, String email) {
+        //
+        ContactBundle contact = contactStore.retrieve(castleId);
+        EmailBook emailBook = contact.getEmailBook();
+        UserEmail userEmail = new UserEmail(email);
+        emailBook.addEmail(userEmail);
+
+        contactStore.updateEmailBook(contact);
+    }
+
+    @Override
+    public void removeEmail(String castleId, String email) {
+        //
+        ContactBundle contact = contactStore.retrieve(castleId);
+        EmailBook emailBook = contact.getEmailBook();
+        emailBook.removeEmail(email);
+
+        contactStore.updateEmailBook(contact);
+    }
+
+    @Override
+    public void verifyEmail(String castleId, String email) {
+        //
+        ContactBundle contact = contactStore.retrieve(castleId);
+        EmailBook emailBook = contact.getEmailBook();
+
+        emailBook.verifyEmail(email);
+        contactStore.updateEmailBook(contact);
+    }
+
+    @Override
     public void attachPhoneBook(String castleId, PhoneBook phoneBook) {
         //
         ContactBundle contact = contactStore.retrieve(castleId);

@@ -12,4 +12,8 @@ public interface CastleRepService {
     CastleFindDto findCastle(String castleId);
 
     void addMetro(String castleId, String metroId);
+
+    void addEmail(String castleId, String email);
+    void removeEmail(String castleId, String email);
+    void verifyEmail(String castleId, String email);
 }
