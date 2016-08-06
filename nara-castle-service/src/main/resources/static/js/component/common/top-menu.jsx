@@ -62,7 +62,6 @@ class TopMenu extends Component {
                             <li><Link to={`${Constant.PAV_CTX.hash}/castles`}>{MENUS.castles[lang]}</Link></li>
                         </ui>
                         <ul className="nav navbar-nav navbar-right">
-                            <RoleBook init={true}/>
                             <li className="dropdown">
                                 <a href="javascript:" className="dropdown-toggle" data-toggle="dropdown"
                                    role="button" aria-expanded="false">

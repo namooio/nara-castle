@@ -27,8 +27,8 @@ let domPublicContext = {};
 
     NaraObject.defineConstProperties(PAV_CTX, {
         root: NaraUrl.getPavilionHashContextPath(),
-        api: `${NaraUrl.getPavilionHashContextPath()}/api`,
-        res: `${NaraUrl.getPavilionHashContextPath()}/resource`,
+        api: `${NaraUrl.getPavilionHashContextPath()}/castle-api`,
+        res: `${NaraUrl.getPavilionHashContextPath()}/castle-resource`,
         hash: NaraUrl.getPavilionHashContextPath()
     });
     NaraObject.defineConstProperties(constantPublicContext, {

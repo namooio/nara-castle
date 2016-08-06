@@ -22,7 +22,7 @@ public class CastleRepClient implements CastleRepService {
     public void buildCastle(String castleId, CastleBuildDto castleBuildDto) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_REP_CASTLE_BUILD)
+                RequestBuilder.create(CastleServiceUrl.URL_REP_BUILD_CASTLE)
                         .addPathParam("id", castleId)
                         .setRequestDto(castleBuildDto)
         );
@@ -32,7 +32,7 @@ public class CastleRepClient implements CastleRepService {
     public CastleFindDto findCastle(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_REP_CASTLE_FIND)
+                RequestBuilder.create(CastleServiceUrl.URL_REP_FIND_CASTLE)
                         .addPathParam("id", castleId)
         );
     }
@@ -41,7 +41,7 @@ public class CastleRepClient implements CastleRepService {
     public void addMetro(String castleId, String metroId) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_REP_CASTLE_METRO_ADD)
+                RequestBuilder.create(CastleServiceUrl.URL_REP_ADD_METRO)
                         .addPathParam("id", castleId)
                         .addPathParam("metroId", metroId)
         );

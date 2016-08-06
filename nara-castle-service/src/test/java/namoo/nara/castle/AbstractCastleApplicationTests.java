@@ -1,6 +1,9 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.client.*;
+import namoo.nara.castle.client.CastellanContactFrontClient;
+import namoo.nara.castle.client.CastellanFrontClient;
+import namoo.nara.castle.client.CastleFrontClient;
+import namoo.nara.castle.client.CastleHistoryFrontClient;
 import namoo.nara.castle.front.CastellanContactFrontService;
 import namoo.nara.castle.front.CastellanFrontService;
 import namoo.nara.castle.front.CastleFrontService;
@@ -9,7 +12,8 @@ import namoo.nara.castle.rep.CastleRepService;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.jaxrs.JaxRSClient;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -17,38 +21,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CastleTestApplication.class)
-@WebIntegrationTest("server.port:0")
+@WebIntegrationTest
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class AbstractCastleApplicationTests {
 	//
-	private String host = "http://127.0.0.1";
+	private NaraRestClient naraRestClient;
 
-	@Value("${local.server.port}")
-	private int port;
-
-	private CastleRepClient castleRepClient;
 	private CastleFrontClient castleFrontClient;
 	private CastleHistoryFrontClient castleHistoryFrontClient;
 	private CastellanFrontClient castellanFrontClient;
 	private CastellanContactFrontClient castellanContactFrontClient;
 
-	private NaraRestClient naraRestClient;
+	@Autowired
+	@Qualifier(value = "CastleRepRemoteClient")
+	private CastleRepService castleRepRemoteClient;
 
-	private NaraRestClient getNaraRestClient() {
-		//
-		if (naraRestClient == null) {
-			naraRestClient = new JaxRSClient(host + ":" + port + "/");
-		}
-		return naraRestClient;
-	}
-
-	public CastleRepService getCastleRepClient() {
-		//
-		if (castleRepClient == null) {
-			castleRepClient = new CastleRepClient(getNaraRestClient());
-		}
-		return castleRepClient;
-	}
 
 	public CastleFrontService getCastleFrontClient() {
 		//
@@ -80,6 +67,20 @@ public abstract class AbstractCastleApplicationTests {
 			castellanContactFrontClient = new CastellanContactFrontClient(getNaraRestClient());
 		}
 		return castellanContactFrontClient;
+	}
+
+	private NaraRestClient getNaraRestClient() {
+		//
+		if (naraRestClient == null) {
+			naraRestClient = new JaxRSClient("http://127.0.0.1:19030");
+		}
+		return naraRestClient;
+	}
+
+
+	public CastleRepService getCastleRepClient() {
+		//
+		return castleRepRemoteClient;
 	}
 
 }

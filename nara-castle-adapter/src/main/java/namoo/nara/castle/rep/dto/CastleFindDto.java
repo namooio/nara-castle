@@ -2,13 +2,13 @@ package namoo.nara.castle.rep.dto;
 
 import namoo.nara.castle.front.dto.CastellanFindDto;
 
-import java.util.Date;
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
  * Created by hkkang on 2016-05-20.
  */
-public class CastleFindDto {
+public class CastleFindDto implements Serializable {
     //
     private String id;
     private String name;

@@ -10,17 +10,17 @@
     <meta name="playerId" content="${playerId}"/>
     <title>Castle</title>
 
-    <link rel="stylesheet" href="${ctx}/resource/webjars/bootstrap/3.3.6/css/bootstrap.css" />
-    <link rel="stylesheet" href="${ctx}/resource/css/castle.css" />
+    <link rel="stylesheet" href="${ctx}/castle-resource/webjars/bootstrap/3.3.6/css/bootstrap.css" />
+    <link rel="stylesheet" href="${ctx}/castle-resource/css/castle.css" />
 </head>
 <body>
     <main id="castle-drama">
     </main>
 
 
-    <script src="${ctx}/resource/js/external-lib-bundle.js"></script>
-    <script src="${ctx}/resource/js/nara-lib-bundle.js"></script>
-    <script src="${ctx}/resource/js/app-bundle.js"></script>
+    <script src="${ctx}/castle-resource/js/external-lib-bundle.js"></script>
+    <script src="${ctx}/castle-resource/js/nara-lib-bundle.js"></script>
+    <script src="${ctx}/castle-resource/js/app-bundle.js"></script>
 
 </body>
 </html>

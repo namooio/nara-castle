@@ -44,7 +44,7 @@ public class CastleFrontClient implements CastleFrontService {
     public void modifyName(String id, String name) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_NAME_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_MODIFY_NAME)
                         .addPathParam("id", id)
                         .setRequestDto(name)
         );
@@ -54,7 +54,7 @@ public class CastleFrontClient implements CastleFrontService {
     public void modifyLocale(String id, Locale locale) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_LOCALE_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTLE_MODIFY_LOCALE)
                         .addPathParam("id", id)
                         .setRequestDto(locale)
         );
@@ -74,7 +74,7 @@ public class CastleFrontClient implements CastleFrontService {
     public List<CastleFindDto> findAllCastles() {
         //
          return naraRestClient.sendAndRecieve(
-                 RequestBuilder.create(CastleServiceUrl.URL_ALL_CASTLES_FIND)
+                 RequestBuilder.create(CastleServiceUrl.URL_CASTLE_FIND_ALL)
                          .setResponseType(List.class)
          );
     }

@@ -1,8 +1,9 @@
-package namoo.nara.castle.sp.springweb;
+package namoo.nara.castle.sp.spring.web;
 
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.front.dto.CastleFindDto;
 import namoo.nara.castle.front.logic.CastleFrontServiceLogic;
+import namoo.nara.stage.annotation.Feature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,10 @@ import java.util.Locale;
 /**
  * Created by kchuh@nextree.co.kr on 2016. 2. 18..
  */
+@Feature(name = "Castle Service")
 @RestController
-@RequestMapping("castle/api/castles")
-public class CastleFrontResource extends CastleFrontServiceLogic{
+@RequestMapping("castle-api/castles")
+public class CastleFrontResource extends CastleFrontServiceLogic {
     //
     @Autowired
     public CastleFrontResource(CastleServiceLycler castleServiceLycler) {

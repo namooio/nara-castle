@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>namoo.nara.castle</groupId>
 		<artifactId>nara-castle-pom</artifactId>
-		<version>0.3.5-SNAPSHOT</version>
+		<version>0.3.7-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -27,21 +27,11 @@
 			<artifactId>nara-castle-adapter</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>namoo.nara.stage</groupId>
-			<artifactId>nara-poster</artifactId>
+			<artifactId>nara-stage-support</artifactId>
 			<version>${nara.stage.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>namoo.nara.stage</groupId>
-			<artifactId>nara-rolebook</artifactId>
-			<version>${nara.stage.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-client</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- spring -->
@@ -53,16 +43,28 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
+
+		<!-- web -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<scope>test</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.3.6</version>
+		</dependency>
+
+
+		<!-- test -->
+		<dependency>
+			<groupId>namoo.nara.castle</groupId>
+			<artifactId>nara-castle-client</artifactId>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
@@ -70,26 +72,17 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- web -->
 		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-jasper</artifactId>
-			<scope>provided</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>2.1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.6</version>
-		</dependency>
+
 	</dependencies>
 
 </project>
