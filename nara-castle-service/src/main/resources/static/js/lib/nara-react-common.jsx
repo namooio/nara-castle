@@ -371,27 +371,6 @@ class FileUploader extends Component {
     // event
     fileOnChange(event) {
         //
-        /*
-         const _this = this;
-
-         [].forEach.call(event.target.files, function (file) {
-         let reader = new FileReader();
-
-         reader.onload = (fileEvent) => {
-         let files = _this.state.files;
-
-         files.push({
-         dataUrl: fileEvent.target.result,
-         name: file.name,
-         type: file.type
-         });
-         _this.setState({ files });
-         };
-         reader.readAsDataURL(file);
-         });
-         //*/
-
-        //*
         let fileForm = new FormData();
 
         [].forEach.call(event.target.files, function (file, index) {
@@ -415,7 +394,6 @@ class FileUploader extends Component {
         }
 
         this.setState({ files: fileForm });
-        //*
     }
     fileOnSubmit(event) {
         //
@@ -445,16 +423,6 @@ class FileUploader extends Component {
     // request
     requestUpload(successCallback) {
         //
-        /*
-         NaraAjax
-         .postJSON('/files', this.state.files)
-         .done(function (result) {
-         console.log('Complete ajax -> ' +  result);
-         });
-         */
-        //jQuery.post('/files', this.state.files, function (result) {
-        //    console.log('Complete ajax -> ' +  result);
-        //});
         jQuery.ajax({
             method: 'POST',
             url: FileUploader.url.UPLOAD_FILE,
@@ -473,31 +441,6 @@ class FileUploader extends Component {
             }.bind(this)
         });
 
-        /*
-         const _this = this;
-         let formData = new FormData();
-
-         this.state.files.forEach( function (file, index) {
-         formData.append(`files[${index}]`, JSON.stringify(file));
-         });
-
-         const promise = jQuery.ajax({
-         url: '/file-form',
-         type: "POST",
-         data: formData,
-         //enctype: 'multipart/form-data',
-         processData: false,
-         contentType: false,
-         dataType: 'json'
-         });
-
-         promise.done( function(data) {
-         _this.setState({
-         processing: false,
-         uploadedUri: data.uri
-         });
-         });
-         */
     }
     render() {
         //

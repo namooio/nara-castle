@@ -5,4 +5,4 @@ drama:
 
 # Stage service host config
 stage:
-  host: http://10.0.1.17:9092
+  host: http://dev.namoo.io:9092

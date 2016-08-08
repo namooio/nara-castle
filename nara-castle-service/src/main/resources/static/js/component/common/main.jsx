@@ -45,7 +45,7 @@ class MainComponent extends Component {
         else if (navigator.systemLanguage) lang = navigator.systemLanguage;
         else if (navigator.userLanguage) lang = navigator.userLanguage;
 
-        if (lang === 'ko') {
+        if (lang === 'ko' || lang === 'ko-kr') {
             lang = 'KOR';
         }
         else if (lang === 'en') {

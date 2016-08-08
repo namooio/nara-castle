@@ -187,9 +187,9 @@ window["naraLib"] =
 
 	    // TODO: jQuery랑 babel을 사용하고 있으므로 해당 라이브러리(스크립트)가 로드 됐는지 확인 필요
 
+
 	    var UrlBuilder = function () {
 	        //
-
 	        function UrlBuilder() {
 	            _classCallCheck(this, UrlBuilder);
 
@@ -362,7 +362,6 @@ window["naraLib"] =
 
 	    var ScriptCache = function () {
 	        //
-
 	        function ScriptCache() {
 	            _classCallCheck(this, ScriptCache);
 
@@ -1049,7 +1048,6 @@ window["naraLib"] =
 	    _inherits(ImageDownloader, _Component3);
 
 	    //
-
 	    function ImageDownloader(props) {
 	        _classCallCheck(this, ImageDownloader);
 
@@ -1110,7 +1108,6 @@ window["naraLib"] =
 	    _inherits(LinkDownloader, _Component4);
 
 	    //
-
 	    function LinkDownloader(props) {
 	        _classCallCheck(this, LinkDownloader);
 
@@ -1172,7 +1169,6 @@ window["naraLib"] =
 	    _inherits(FileUploader, _Component5);
 
 	    //
-
 	    function FileUploader(props) {
 	        _classCallCheck(this, FileUploader);
 
@@ -1210,11 +1206,11 @@ window["naraLib"] =
 	            //
 	            /*
 	             const _this = this;
-	               [].forEach.call(event.target.files, function (file) {
+	              [].forEach.call(event.target.files, function (file) {
 	             let reader = new FileReader();
-	               reader.onload = (fileEvent) => {
+	              reader.onload = (fileEvent) => {
 	             let files = _this.state.files;
-	               files.push({
+	              files.push({
 	             dataUrl: fileEvent.target.result,
 	             name: file.name,
 	             type: file.type
@@ -1316,10 +1312,10 @@ window["naraLib"] =
 	            /*
 	             const _this = this;
 	             let formData = new FormData();
-	               this.state.files.forEach( function (file, index) {
+	              this.state.files.forEach( function (file, index) {
 	             formData.append(`files[${index}]`, JSON.stringify(file));
 	             });
-	               const promise = jQuery.ajax({
+	              const promise = jQuery.ajax({
 	             url: '/file-form',
 	             type: "POST",
 	             data: formData,
@@ -1328,7 +1324,7 @@ window["naraLib"] =
 	             contentType: false,
 	             dataType: 'json'
 	             });
-	               promise.done( function(data) {
+	              promise.done( function(data) {
 	             _this.setState({
 	             processing: false,
 	             uploadedUri: data.uri

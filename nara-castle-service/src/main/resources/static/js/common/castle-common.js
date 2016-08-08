@@ -2,13 +2,20 @@
  * Created by hkkang on 2016-04-05.
  */
 
+import NaraRoleBook from 'nara-role-book';
+
 // Initialize
 ( function () {
     //
     'use strict';
 
+    // NaraRoleBook
+    let roleBookConfig = {
+        onLoad: function () { console.log(`[Castle] role book on load`); },
+        onSaveSuccess: function () { console.log(`[Castle] role book on save success`); }
+    };
+    NaraRoleBook.setRoleBookComponentConfig(roleBookConfig);
 })();
-
 
 
 import { Object as NaraObject, Url as NaraUrl } from 'nara';
@@ -41,6 +48,7 @@ let domPublicContext = {};
         //
         return document.getElementById('castle-drama');
     };
+
 
 })();
 

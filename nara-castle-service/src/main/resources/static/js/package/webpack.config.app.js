@@ -47,6 +47,7 @@ module.exports = {
         'react-router': 'var externalLib.ReactRouter',
         'react-bootstrap': 'var externalLib.ReactBootstrap',
         'nara': 'var naraLib.Nara',
-        'nara-react': 'var naraLib.NaraReact'
+        'nara-react': 'var naraLib.NaraReact',
+        'nara-role-book': 'var pavNaraLib.RoleBook'
     }
 };

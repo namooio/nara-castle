@@ -50,63 +50,63 @@
 
 	var CastleCommon = _interopRequireWildcard(_castleCommon);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _appReactRouter = __webpack_require__(9);
+	var _appReactRouter = __webpack_require__(10);
 
 	var CastleReactRouter = _interopRequireWildcard(_appReactRouter);
 
-	var _error = __webpack_require__(11);
+	var _error = __webpack_require__(12);
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _topMenu = __webpack_require__(7);
+	var _topMenu = __webpack_require__(8);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
-	var _list = __webpack_require__(12);
+	var _list = __webpack_require__(13);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(13);
+	var _detailTab = __webpack_require__(14);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(14);
+	var _basic = __webpack_require__(15);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(15);
+	var _nameBook = __webpack_require__(16);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(16);
+	var _phoneBook = __webpack_require__(17);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(17);
+	var _emailBook = __webpack_require__(18);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(18);
+	var _addressBook = __webpack_require__(19);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(19);
+	var _accountBook = __webpack_require__(20);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _metroBook = __webpack_require__(21);
+	var _metroBook = __webpack_require__(22);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
-	var _stateBook = __webpack_require__(20);
+	var _stateBook = __webpack_require__(21);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
@@ -125,14 +125,31 @@
 	});
 	exports.Dom = exports.Constant = undefined;
 
-	var _nara = __webpack_require__(2);
+	var _naraRoleBook = __webpack_require__(2);
 
-	/**
-	 * Created by hkkang on 2016-04-05.
-	 */
+	var _naraRoleBook2 = _interopRequireDefault(_naraRoleBook);
+
+	var _nara = __webpack_require__(3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	// Initialize
-	(function () {})();
+	(function () {
+	    //
+	    'use strict';
+
+	    var roleBookConfig = {
+	        onInit: function onInit() {
+	            console.log('[Castle] role book on init');
+	        },
+	        onSaveSuccess: function onSaveSuccess() {
+	            console.log('[Castle] role book on save success');
+	        }
+	    };
+	    _naraRoleBook2.default.setRoleBookComponentConfig(roleBookConfig);
+	})(); /**
+	       * Created by hkkang on 2016-04-05.
+	       */
 
 	// Castle app common
 	var constantPublicContext = {};
@@ -174,10 +191,16 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	module.exports = naraLib.Nara;
+	module.exports = pavNaraLib.RoleBook;
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	module.exports = naraLib.Nara;
+
+/***/ },
+/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -248,7 +271,7 @@
 	exports.default = CastleModel;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -259,13 +282,13 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _naraReact = __webpack_require__(6);
+	var _naraReact = __webpack_require__(7);
 
-	var _topMenu = __webpack_require__(7);
+	var _topMenu = __webpack_require__(8);
 
 	var _topMenu2 = _interopRequireDefault(_topMenu);
 
@@ -287,7 +310,6 @@
 	    _inherits(MainComponent, _Component);
 
 	    //
-
 	    function MainComponent(props) {
 	        _classCallCheck(this, MainComponent);
 
@@ -332,7 +354,7 @@
 
 	            if (navigator.language) lang = navigator.language;else if (navigator.browserLanguage) lang = navigator.browserLanguage;else if (navigator.systemLanguage) lang = navigator.systemLanguage;else if (navigator.userLanguage) lang = navigator.userLanguage;
 
-	            if (lang === 'ko') {
+	            if (lang === 'ko' || lang === 'ko-kr') {
 	                lang = 'KOR';
 	            } else if (lang === 'en') {
 	                lang = 'USA';
@@ -374,19 +396,19 @@
 	exports.default = MainComponent;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = externalLib.React;
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	module.exports = naraLib.NaraReact;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -397,13 +419,13 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(8);
+	var _reactRouter = __webpack_require__(9);
 
-	var _naraReact = __webpack_require__(6);
+	var _naraReact = __webpack_require__(7);
 
 	var _castleCommon = __webpack_require__(1);
 
@@ -435,7 +457,6 @@
 	    _inherits(TopMenu, _Component);
 
 	    //
-
 	    function TopMenu(props) {
 	        _classCallCheck(this, TopMenu);
 
@@ -557,74 +578,74 @@
 	exports.default = TopMenu;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	module.exports = externalLib.ReactRouter;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(10);
+	var _reactDom = __webpack_require__(11);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _reactRouter = __webpack_require__(8);
+	var _reactRouter = __webpack_require__(9);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
-	var _error = __webpack_require__(11);
+	var _error = __webpack_require__(12);
 
 	var _error2 = _interopRequireDefault(_error);
 
-	var _list = __webpack_require__(12);
+	var _list = __webpack_require__(13);
 
 	var _list2 = _interopRequireDefault(_list);
 
-	var _detailTab = __webpack_require__(13);
+	var _detailTab = __webpack_require__(14);
 
 	var _detailTab2 = _interopRequireDefault(_detailTab);
 
-	var _basic = __webpack_require__(14);
+	var _basic = __webpack_require__(15);
 
 	var _basic2 = _interopRequireDefault(_basic);
 
-	var _nameBook = __webpack_require__(15);
+	var _nameBook = __webpack_require__(16);
 
 	var _nameBook2 = _interopRequireDefault(_nameBook);
 
-	var _phoneBook = __webpack_require__(16);
+	var _phoneBook = __webpack_require__(17);
 
 	var _phoneBook2 = _interopRequireDefault(_phoneBook);
 
-	var _emailBook = __webpack_require__(17);
+	var _emailBook = __webpack_require__(18);
 
 	var _emailBook2 = _interopRequireDefault(_emailBook);
 
-	var _addressBook = __webpack_require__(18);
+	var _addressBook = __webpack_require__(19);
 
 	var _addressBook2 = _interopRequireDefault(_addressBook);
 
-	var _accountBook = __webpack_require__(19);
+	var _accountBook = __webpack_require__(20);
 
 	var _accountBook2 = _interopRequireDefault(_accountBook);
 
-	var _stateBook = __webpack_require__(20);
+	var _stateBook = __webpack_require__(21);
 
 	var _stateBook2 = _interopRequireDefault(_stateBook);
 
-	var _metroBook = __webpack_require__(21);
+	var _metroBook = __webpack_require__(22);
 
 	var _metroBook2 = _interopRequireDefault(_metroBook);
 
@@ -665,13 +686,13 @@
 	), _castleCommon.Dom.getCastleMainDom());
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	module.exports = externalLib.ReactDOM;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -682,11 +703,11 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -719,7 +740,6 @@
 	    _inherits(ErrorPage, _Component);
 
 	    //
-
 	    function ErrorPage(props) {
 	        _classCallCheck(this, ErrorPage);
 
@@ -781,7 +801,7 @@
 	exports.default = ErrorPage;
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -792,21 +812,21 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(8);
+	var _reactRouter = __webpack_require__(9);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -854,7 +874,6 @@
 	    _inherits(CastleListPage, _Component);
 
 	    //
-
 	    function CastleListPage(props) {
 	        _classCallCheck(this, CastleListPage);
 
@@ -927,7 +946,6 @@
 	    _inherits(Finder, _Component2);
 
 	    //
-
 	    function Finder(props) {
 	        _classCallCheck(this, Finder);
 
@@ -1037,7 +1055,6 @@
 	    _inherits(CastleList, _Component3);
 
 	    //
-
 	    function CastleList(props) {
 	        _classCallCheck(this, CastleList);
 
@@ -1213,7 +1230,7 @@
 	exports.default = CastleListPage;
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1224,15 +1241,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(8);
+	var _reactRouter = __webpack_require__(9);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -1269,7 +1286,6 @@
 	    _inherits(CastleDetailPage, _Component);
 
 	    //
-
 	    function CastleDetailPage(props) {
 	        _classCallCheck(this, CastleDetailPage);
 
@@ -1357,7 +1373,6 @@
 	    _inherits(Tab, _Component2);
 
 	    //
-
 	    function Tab(props) {
 	        _classCallCheck(this, Tab);
 
@@ -1487,7 +1502,7 @@
 	exports.default = CastleDetailPage;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1498,21 +1513,21 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
-	var _naraReact = __webpack_require__(6);
+	var _naraReact = __webpack_require__(7);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -1557,7 +1572,6 @@
 	    _inherits(BasicContent, _Component);
 
 	    //
-
 	    function BasicContent(props) {
 	        _classCallCheck(this, BasicContent);
 
@@ -1746,7 +1760,6 @@
 	    _inherits(BasicViewContent, _Component2);
 
 	    //
-
 	    function BasicViewContent(props) {
 	        _classCallCheck(this, BasicViewContent);
 
@@ -1994,7 +2007,6 @@
 	    _inherits(BasicModifiableContent, _Component3);
 
 	    //
-
 	    function BasicModifiableContent(props) {
 	        _classCallCheck(this, BasicModifiableContent);
 
@@ -2383,7 +2395,7 @@
 	exports.default = BasicContent;
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2394,19 +2406,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -2444,7 +2456,6 @@
 	    _inherits(NameContent, _Component);
 
 	    //
-
 	    function NameContent(props) {
 	        _classCallCheck(this, NameContent);
 
@@ -2539,7 +2550,6 @@
 	    _inherits(NameViewContent, _Component2);
 
 	    //
-
 	    function NameViewContent(props) {
 	        _classCallCheck(this, NameViewContent);
 
@@ -2692,7 +2702,6 @@
 	    _inherits(NameModifiableContent, _Component3);
 
 	    //
-
 	    function NameModifiableContent(props) {
 	        _classCallCheck(this, NameModifiableContent);
 
@@ -3105,7 +3114,7 @@
 	exports.default = NameContent;
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3116,19 +3125,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -3165,7 +3174,6 @@
 	    _inherits(PhoneContent, _Component);
 
 	    //
-
 	    function PhoneContent(props) {
 	        _classCallCheck(this, PhoneContent);
 
@@ -3261,7 +3269,6 @@
 	    _inherits(PhoneViewContent, _Component2);
 
 	    //
-
 	    function PhoneViewContent(props) {
 	        _classCallCheck(this, PhoneViewContent);
 
@@ -3401,7 +3408,6 @@
 	    _inherits(PhoneModifiableContent, _Component3);
 
 	    //
-
 	    function PhoneModifiableContent(props) {
 	        _classCallCheck(this, PhoneModifiableContent);
 
@@ -3768,7 +3774,7 @@
 	exports.default = PhoneContent;
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3779,19 +3785,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -3828,7 +3834,6 @@
 	    _inherits(EmailContent, _Component);
 
 	    //
-
 	    function EmailContent(props) {
 	        _classCallCheck(this, EmailContent);
 
@@ -3924,7 +3929,6 @@
 	    _inherits(EmailViewContent, _Component2);
 
 	    //
-
 	    function EmailViewContent(props) {
 	        _classCallCheck(this, EmailViewContent);
 
@@ -4065,7 +4069,6 @@
 	    _inherits(EmailModifiableContent, _Component3);
 
 	    //
-
 	    function EmailModifiableContent(props) {
 	        _classCallCheck(this, EmailModifiableContent);
 
@@ -4442,7 +4445,7 @@
 	exports.default = EmailContent;
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -4453,19 +4456,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -4508,7 +4511,6 @@
 	    _inherits(AddressContent, _Component);
 
 	    //
-
 	    function AddressContent(props) {
 	        _classCallCheck(this, AddressContent);
 
@@ -4606,7 +4608,6 @@
 	    _inherits(AddressViewContent, _Component2);
 
 	    //
-
 	    function AddressViewContent(props) {
 	        _classCallCheck(this, AddressViewContent);
 
@@ -4821,7 +4822,6 @@
 	    _inherits(AddressModifiableContent, _Component3);
 
 	    //
-
 	    function AddressModifiableContent(props) {
 	        _classCallCheck(this, AddressModifiableContent);
 
@@ -5368,7 +5368,7 @@
 	exports.default = AddressContent;
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5379,15 +5379,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -5423,7 +5423,6 @@
 	    _inherits(AccountContent, _Component);
 
 	    //
-
 	    function AccountContent(props) {
 	        _classCallCheck(this, AccountContent);
 
@@ -5497,7 +5496,6 @@
 	    _inherits(AccountViewContent, _Component2);
 
 	    //
-
 	    function AccountViewContent(props) {
 	        _classCallCheck(this, AccountViewContent);
 
@@ -5600,7 +5598,7 @@
 	exports.default = AccountContent;
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5611,19 +5609,19 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _castleModel = __webpack_require__(3);
+	var _castleModel = __webpack_require__(4);
 
 	var _castleModel2 = _interopRequireDefault(_castleModel);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -5659,7 +5657,6 @@
 	    _inherits(StateContent, _Component);
 
 	    //
-
 	    function StateContent(props) {
 	        _classCallCheck(this, StateContent);
 
@@ -5733,7 +5730,6 @@
 	    _inherits(StateViewContent, _Component2);
 
 	    //
-
 	    function StateViewContent(props) {
 	        _classCallCheck(this, StateViewContent);
 
@@ -5838,7 +5834,7 @@
 	exports.default = StateContent;
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -5849,15 +5845,15 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(5);
+	var _react = __webpack_require__(6);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _nara = __webpack_require__(2);
+	var _nara = __webpack_require__(3);
 
 	var _castleCommon = __webpack_require__(1);
 
-	var _main = __webpack_require__(4);
+	var _main = __webpack_require__(5);
 
 	var _main2 = _interopRequireDefault(_main);
 
@@ -5894,7 +5890,6 @@
 	    _inherits(MetroContent, _Component);
 
 	    //
-
 	    function MetroContent(props) {
 	        _classCallCheck(this, MetroContent);
 
@@ -5965,7 +5960,6 @@
 	    _inherits(MetroViewContent, _Component2);
 
 	    //
-
 	    function MetroViewContent(props) {
 	        _classCallCheck(this, MetroViewContent);
 
