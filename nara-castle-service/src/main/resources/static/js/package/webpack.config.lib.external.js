@@ -18,7 +18,7 @@ module.exports = {
         }
     },
     output: {
-        filename: '../[name]-bundle.js',
+        filename: '../castle-[name]-bundle.js',
         libraryTarget: 'window',
         library: 'externalLib'
     },

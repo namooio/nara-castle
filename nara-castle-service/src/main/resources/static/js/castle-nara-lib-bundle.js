@@ -150,6 +150,15 @@ window["naraLib"] =
 	        }
 	        return result;
 	    };
+
+	    objectPublicContext.bindThis = function (thisObject, targets) {
+	        //
+	        var _targets = Array.isArray(targets) ? targets : [targets];
+
+	        _targets.forEach(function (target) {
+	            thisObject[target.name] = thisObject[target.name].bind(thisObject);
+	        });
+	    };
 	})();
 
 	exports.Object = objectPublicContext;
@@ -261,7 +270,7 @@ window["naraLib"] =
 	     */
 	    ajaxPublicContext.postJSON = function (url, param) {
 	        //
-	        if (!url || typeof url !== 'string' || !param) {
+	        if (!url || typeof url !== 'string') {
 	            console.error('[' + contextName + '] Invalid arguments for Ajax postJSON -> url: ' + url + ', param: ' + param);
 	        }
 	        return commonRequestJson(url, 'POST', param);
@@ -590,19 +599,26 @@ window["naraLib"] =
 	    urlPublicContext.getPavilionHashContextPath = function (appContextPath) {
 	        //
 	        var hashUrls = window.location.hash.split('/'),
-	            local = hashUrls.length < 2 || hashUrls[1] !== 'dramas',
+	            local = hashUrls.length < 2 || hashUrls[1] !== 'subscriptions' && hashUrls[1] !== 'public-subscriptions',
 	            pavilionContextPath = null;
 
 	        if (local) {
 	            pavilionContextPath = '';
 	        } else {
-	            var dramaId = hashUrls[2],
-	                revision = hashUrls[4];
+	            // let dramaId = hashUrls[2],
+	            //     revision = hashUrls[4];
+	            //
+	            // if (revision.split('?').length > 1) {
+	            //     revision = revision.split('?')[0];
+	            // }
+	            // pavilionContextPath = `/dramas/${dramaId}/revisions/${revision}`;
 
-	            if (revision.split('?').length > 1) {
-	                revision = revision.split('?')[0];
+	            var subscriptionId = hashUrls[2];
+
+	            if (subscriptionId.split('?').length > 1) {
+	                subscriptionId = subscriptionId.split('?')[0];
 	            }
-	            pavilionContextPath = '/dramas/' + dramaId + '/revisions/' + revision;
+	            pavilionContextPath = hashUrls[1] + '/' + subscriptionId;
 	        }
 	        return appContextPath ? pavilionContextPath + '/' + appContextPath : pavilionContextPath;
 	    };
@@ -637,12 +653,6 @@ window["naraLib"] =
 	        //
 	        if (headerTokenName && tokenValue) {
 	            (function () {
-	                /*
-	                 // Using jQuery
-	                 jQuery(document).ajaxSend( function(event, xhr) {
-	                 xhr.setRequestHeader(headerTokenName, tokenValue);
-	                 });
-	                 */
 	                var originalOpen = XMLHttpRequest.prototype.send;
 
 	                XMLHttpRequest.prototype.send = function (something) {
@@ -698,8 +708,6 @@ window["naraLib"] =
 	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
-
-	var _reactBootstrap = __webpack_require__(5);
 
 	var _jquery = __webpack_require__(2);
 
@@ -1319,7 +1327,7 @@ window["naraLib"] =
 
 	exports.File = File;
 	exports.default = {
-	    Modal: _reactBootstrap.Modal,
+	    Modal: NaraModal,
 	    File: File
 	};
 
@@ -1328,12 +1336,6 @@ window["naraLib"] =
 /***/ function(module, exports) {
 
 	module.exports = externalLib.React;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	module.exports = externalLib.ReactBootstrap;
 
 /***/ }
 /******/ ]);

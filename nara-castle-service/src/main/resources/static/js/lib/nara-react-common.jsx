@@ -481,6 +481,6 @@ export { File };
 
 
 export default {
-    Modal: Modal,
+    Modal: NaraModal,
     File: File
 };

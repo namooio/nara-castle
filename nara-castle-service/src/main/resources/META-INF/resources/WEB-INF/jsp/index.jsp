@@ -18,9 +18,9 @@
     </main>
 
 
-    <script src="${ctx}/castle-resource/js/external-lib-bundle.js"></script>
-    <script src="${ctx}/castle-resource/js/nara-lib-bundle.js"></script>
-    <script src="${ctx}/castle-resource/js/app-bundle.js"></script>
+    <script src="${ctx}/castle-resource/js/castle-external-lib-bundle.js"></script>
+    <script src="${ctx}/castle-resource/js/castle-nara-lib-bundle.js"></script>
+    <script src="${ctx}/castle-resource/js/castle-app-bundle.js"></script>
 
 </body>
 </html>

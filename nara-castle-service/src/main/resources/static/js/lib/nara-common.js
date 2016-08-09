@@ -69,6 +69,17 @@ let objectPublicContext = {};
         return result;
     };
 
+
+    objectPublicContext.bindThis = function (thisObject, targets) {
+        //
+        let _targets = Array.isArray(targets) ? targets : [targets];
+
+
+        _targets.forEach( function (target) {
+            thisObject[target.name] = thisObject[target.name].bind(thisObject);
+        });
+    }
+
 })();
 
 export { objectPublicContext as Object };
@@ -174,7 +185,7 @@ let ajaxPublicContext = {};
      */
     ajaxPublicContext.postJSON = function (url, param) {
         //
-        if (!url || typeof url !== 'string' || !param) {
+        if (!url || typeof url !== 'string') {
             console.error(`[${contextName}] Invalid arguments for Ajax postJSON -> url: ${url}, param: ${param}`);
         }
         return commonRequestJson(url, 'POST', param);
@@ -496,20 +507,19 @@ let urlPublicContext = {};
     urlPublicContext.getPavilionHashContextPath = function (appContextPath) {
         //
         let hashUrls = window.location.hash.split('/'),
-            local = (hashUrls.length < 2 || hashUrls[1] !== 'dramas'),
+            local = (hashUrls.length < 2 || ( hashUrls[1] !== 'subscriptions' && hashUrls[1] !== 'public-subscriptions') ),
             pavilionContextPath = null;
 
         if (local) {
             pavilionContextPath = '';
         }
         else {
-            let dramaId = hashUrls[2],
-                revision = hashUrls[4];
+            let subscriptionId = hashUrls[2];
 
-            if (revision.split('?').length > 1) {
-                revision = revision.split('?')[0];
+            if (subscriptionId.split('?').length > 1) {
+                subscriptionId = subscriptionId.split('?')[0];
             }
-            pavilionContextPath = `/dramas/${dramaId}/revisions/${revision}`;
+            pavilionContextPath = `${hashUrls[1]}/${subscriptionId}`;
         }
         return appContextPath ? `${pavilionContextPath}/${appContextPath}` : pavilionContextPath;
     };
@@ -545,12 +555,6 @@ let domPublicContext = {};
                                                          tokenValue = jQuery('meta[name=_csrf]').attr('content')) {
         //
         if (headerTokenName && tokenValue) {
-            /*
-             // Using jQuery
-             jQuery(document).ajaxSend( function(event, xhr) {
-             xhr.setRequestHeader(headerTokenName, tokenValue);
-             });
-             */
             let originalOpen = XMLHttpRequest.prototype.send;
 
             XMLHttpRequest.prototype.send = function(something) {
