@@ -142,8 +142,8 @@
 
 	    var roleBookConfig = {
 	        handler: {
-	            onLoad: function onLoad() {
-	                console.log('[Castle] role book on load');
+	            onLoad: function onLoad(roleNames) {
+	                console.log('[Castle] role book on load -> ' + roleNames);
 	            },
 	            onSaveSuccess: function onSaveSuccess() {
 	                console.log('[Castle] role book on save success');

@@ -12,7 +12,7 @@ import NaraRoleBook from 'nara-role-book';
     // NaraRoleBook
     let roleBookConfig = {
         handler: {
-            onLoad: function () { console.log(`[Castle] role book on load`); },
+            onLoad: function (roleNames) { console.log(`[Castle] role book on load -> ${roleNames}`); },
             onSaveSuccess: function () { console.log(`[Castle] role book on save success`); }
         }
     };
