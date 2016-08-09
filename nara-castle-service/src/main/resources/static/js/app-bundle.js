@@ -138,12 +138,16 @@
 	    //
 	    'use strict';
 
+	    // NaraRoleBook
+
 	    var roleBookConfig = {
-	        onInit: function onInit() {
-	            console.log('[Castle] role book on init');
-	        },
-	        onSaveSuccess: function onSaveSuccess() {
-	            console.log('[Castle] role book on save success');
+	        handler: {
+	            onLoad: function onLoad() {
+	                console.log('[Castle] role book on load');
+	            },
+	            onSaveSuccess: function onSaveSuccess() {
+	                console.log('[Castle] role book on save success');
+	            }
 	        }
 	    };
 	    _naraRoleBook2.default.setRoleBookComponentConfig(roleBookConfig);

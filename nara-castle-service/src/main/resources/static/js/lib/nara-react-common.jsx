@@ -227,7 +227,7 @@ class FileDownloader extends Component {
 
         fileType = model.state.naraFile.type;
         if (!fileType || !fileType.includes('image')) {
-            console.warn(`[NaraFile Downaloder] Invalid file content type. -> ${fileType}`);
+            console.warn(`[NaraFile Downloader] Invalid file content type. -> ${fileType}`);
         }
         return false;
     }
@@ -283,14 +283,14 @@ ImageDownloader.propTypes = {
     fileId: PropTypes.string,
     className: PropTypes.string,
     width: PropTypes.node,
-    heigth: PropTypes.node
+    height: PropTypes.node
 };
 ImageDownloader.defaultProps = {
     //
     fileId: null,
     className: null,
     width: null,
-    heigth: null
+    height: null
 };
 
 File.ImageLoader = ImageDownloader;
