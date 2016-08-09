@@ -3,9 +3,8 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { Modal, Button } from 'react-bootstrap';
 import jQuery from 'jquery';
-import { Ajax as NaraAjax } from 'app/lib/nara-common.js';
+import { Ajax as NaraAjax } from './nara-common.js';
 
 
 // Modal
@@ -444,12 +443,11 @@ class FileUploader extends Component {
     }
     render() {
         //
-        if (this.props.multiple === true) {
-            return (<input type="file" className={this.props.className} onChange={this.fileOnChange} />);
-        }
-        else {
-            return (<input type="file" className={this.props.className} onChange={this.fileOnChange} multiple="multiple" />);
-        }
+        let multiple = this.props.multiple === true;
+
+        return (
+            <input type="file" className={this.props.className} onChange={this.fileOnChange} multiple={multiple}/>
+        );
     }
 }
 

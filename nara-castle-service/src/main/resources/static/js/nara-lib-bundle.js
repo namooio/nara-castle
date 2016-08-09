@@ -1015,7 +1015,7 @@ window["naraLib"] =
 
 	            fileType = model.state.naraFile.type;
 	            if (!fileType || !fileType.includes('image')) {
-	                console.warn('[NaraFile Downaloder] Invalid file content type. -> ' + fileType);
+	                console.warn('[NaraFile Downloader] Invalid file content type. -> ' + fileType);
 	            }
 	            return false;
 	        }
@@ -1092,14 +1092,14 @@ window["naraLib"] =
 	    fileId: _react.PropTypes.string,
 	    className: _react.PropTypes.string,
 	    width: _react.PropTypes.node,
-	    heigth: _react.PropTypes.node
+	    height: _react.PropTypes.node
 	};
 	ImageDownloader.defaultProps = {
 	    //
 	    fileId: null,
 	    className: null,
 	    width: null,
-	    heigth: null
+	    height: null
 	};
 
 	File.ImageLoader = ImageDownloader;
@@ -1204,24 +1204,6 @@ window["naraLib"] =
 	        key: 'fileOnChange',
 	        value: function fileOnChange(event) {
 	            //
-	            /*
-	             const _this = this;
-	              [].forEach.call(event.target.files, function (file) {
-	             let reader = new FileReader();
-	              reader.onload = (fileEvent) => {
-	             let files = _this.state.files;
-	              files.push({
-	             dataUrl: fileEvent.target.result,
-	             name: file.name,
-	             type: file.type
-	             });
-	             _this.setState({ files });
-	             };
-	             reader.readAsDataURL(file);
-	             });
-	             //*/
-
-	            //*
 	            var fileForm = new FormData();
 
 	            [].forEach.call(event.target.files, function (file, index) {
@@ -1244,7 +1226,6 @@ window["naraLib"] =
 	            }
 
 	            this.setState({ files: fileForm });
-	            //*
 	        }
 	    }, {
 	        key: 'fileOnSubmit',
@@ -1282,16 +1263,6 @@ window["naraLib"] =
 	        key: 'requestUpload',
 	        value: function requestUpload(successCallback) {
 	            //
-	            /*
-	             NaraAjax
-	             .postJSON('/files', this.state.files)
-	             .done(function (result) {
-	             console.log('Complete ajax -> ' +  result);
-	             });
-	             */
-	            //jQuery.post('/files', this.state.files, function (result) {
-	            //    console.log('Complete ajax -> ' +  result);
-	            //});
 	            _jquery2.default.ajax({
 	                method: 'POST',
 	                url: FileUploader.url.UPLOAD_FILE,
@@ -1308,39 +1279,14 @@ window["naraLib"] =
 	                    }
 	                }.bind(this)
 	            });
-
-	            /*
-	             const _this = this;
-	             let formData = new FormData();
-	              this.state.files.forEach( function (file, index) {
-	             formData.append(`files[${index}]`, JSON.stringify(file));
-	             });
-	              const promise = jQuery.ajax({
-	             url: '/file-form',
-	             type: "POST",
-	             data: formData,
-	             //enctype: 'multipart/form-data',
-	             processData: false,
-	             contentType: false,
-	             dataType: 'json'
-	             });
-	              promise.done( function(data) {
-	             _this.setState({
-	             processing: false,
-	             uploadedUri: data.uri
-	             });
-	             });
-	             */
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
 	            //
-	            if (this.props.multiple === true) {
-	                return _react2.default.createElement('input', { type: 'file', className: this.props.className, onChange: this.fileOnChange });
-	            } else {
-	                return _react2.default.createElement('input', { type: 'file', className: this.props.className, onChange: this.fileOnChange, multiple: 'multiple' });
-	            }
+	            var multiple = this.props.multiple === true;
+
+	            return _react2.default.createElement('input', { type: 'file', className: this.props.className, onChange: this.fileOnChange, multiple: multiple });
 	        }
 	    }]);
 

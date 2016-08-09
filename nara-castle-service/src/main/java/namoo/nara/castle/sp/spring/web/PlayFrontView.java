@@ -20,7 +20,7 @@ public class PlayFrontView {
     public ModelAndView play(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
         //
         Map<String, String> model = new HashMap<>();
-        model.put("ctx", DramaContext.getInstance().getContextPath());
+        model.put("ctx", DramaContext.getInstance().getContextPath(castingId));
 
         model.put("pavilionId", pavilionId);
         model.put("castingId", castingId);
