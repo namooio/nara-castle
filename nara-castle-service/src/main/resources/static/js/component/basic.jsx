@@ -392,6 +392,13 @@ class BasicModifiableContent extends Component {
         basic.castellan[propertyName] = value;
         this.setState({ willModifyBasic: basic });
     }
+    onChangeFile(fileInfos) {
+        console.log('Castle on change file');
+        console.dir(fileInfos);
+    }
+    deleteFile() {
+        NaraFile.Uploader.deleteFile(1);
+    }
     render() {
         //
         const ENUMS = CastleModel.enums,
@@ -495,7 +502,16 @@ class BasicModifiableContent extends Component {
                             </label>
                             <div className="col-lg-5">
                                 <p className="form-control-static">{propBasicInfo.castellan[ATTRS.castellan.photoId.name]}</p>
-                                <NaraFile.Uploader dramaId={dramaId} btnName='프로필 사진 업로드' startUpload={this.state.startFileUpload} onStartUpload={this.uploadFileStart} onSuccessUpload={this.uploadFileSuccess}/>
+                                <NaraFile.Uploader
+                                    dramaId={dramaId}
+                                    startUpload={this.state.startFileUpload}
+                                    onStartUpload={this.uploadFileStart}
+                                    onSuccessUpload={this.uploadFileSuccess}
+                                    fileAttachable={true}
+                                    onChangeFile={this.onChangeFile}
+                                    deleteFile={this.deleteFile}
+                                />
+                                <button onClick={this.deleteFile} >버튼버튼</button>
                             </div>
                         </div>
                         <div className="form-group">

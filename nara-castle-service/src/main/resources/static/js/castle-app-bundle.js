@@ -2119,6 +2119,17 @@
 	            this.setState({ willModifyBasic: basic });
 	        }
 	    }, {
+	        key: 'onChangeFile',
+	        value: function onChangeFile(fileInfos) {
+	            console.log('Castle on change file');
+	            console.dir(fileInfos);
+	        }
+	    }, {
+	        key: 'deleteFile',
+	        value: function deleteFile() {
+	            _naraReact.File.Uploader.deleteFile(1);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            //
@@ -2332,7 +2343,20 @@
 	                                    { className: 'form-control-static' },
 	                                    propBasicInfo.castellan[ATTRS.castellan.photoId.name]
 	                                ),
-	                                _react2.default.createElement(_naraReact.File.Uploader, { dramaId: dramaId, btnName: '프로필 사진 업로드', startUpload: this.state.startFileUpload, onStartUpload: this.uploadFileStart, onSuccessUpload: this.uploadFileSuccess })
+	                                _react2.default.createElement(_naraReact.File.Uploader, {
+	                                    dramaId: dramaId,
+	                                    startUpload: this.state.startFileUpload,
+	                                    onStartUpload: this.uploadFileStart,
+	                                    onSuccessUpload: this.uploadFileSuccess,
+	                                    fileAttachable: true,
+	                                    onChangeFile: this.onChangeFile,
+	                                    deleteFile: this.deleteFile
+	                                }),
+	                                _react2.default.createElement(
+	                                    'button',
+	                                    { onClick: this.deleteFile },
+	                                    '버튼버튼'
+	                                )
 	                            )
 	                        ),
 	                        _react2.default.createElement(

@@ -605,14 +605,6 @@ window["naraLib"] =
 	        if (local) {
 	            pavilionContextPath = '';
 	        } else {
-	            // let dramaId = hashUrls[2],
-	            //     revision = hashUrls[4];
-	            //
-	            // if (revision.split('?').length > 1) {
-	            //     revision = revision.split('?')[0];
-	            // }
-	            // pavilionContextPath = `/dramas/${dramaId}/revisions/${revision}`;
-
 	            var subscriptionId = hashUrls[2];
 
 	            if (subscriptionId.split('?').length > 1) {
@@ -1176,7 +1168,15 @@ window["naraLib"] =
 	var FileUploader = function (_Component5) {
 	    _inherits(FileUploader, _Component5);
 
-	    //
+	    _createClass(FileUploader, null, [{
+	        key: 'deleteFile',
+
+	        //
+	        value: function deleteFile() {
+	            // Will replace function in component
+	        }
+	    }]);
+
 	    function FileUploader(props) {
 	        _classCallCheck(this, FileUploader);
 
@@ -1185,14 +1185,18 @@ window["naraLib"] =
 
 
 	        _this5.state = {
-	            fileForm: null, // { files[], dramaId, clubId }
+	            files: null,
+	            fileInfos: [],
 	            processing: false
 	        };
 
 	        _this5.fileOnChange = _this5.fileOnChange.bind(_this5);
 	        _this5.fileOnSubmit = _this5.fileOnSubmit.bind(_this5);
+	        _this5._deleteFile = _this5._deleteFile.bind(_this5);
 	        _this5.processUpload = _this5.processUpload.bind(_this5);
 	        _this5.requestUpload = _this5.requestUpload.bind(_this5);
+
+	        FileUploader.deleteFile = _this5._deleteFile;
 	        return _this5;
 	    }
 	    // overriding
@@ -1212,28 +1216,29 @@ window["naraLib"] =
 	        key: 'fileOnChange',
 	        value: function fileOnChange(event) {
 	            //
-	            var fileForm = new FormData();
+	            var files = this.state.files,
+	                fileInfos = this.state.fileInfos;
+
+	            if (!this.props.fileAttachable || !files) {
+	                files = [];
+	                fileInfos = [];
+	            }
 
 	            [].forEach.call(event.target.files, function (file, index) {
-	                fileForm.append('files[' + index + ']', file);
+	                files.push(file);
+	                fileInfos.push({
+	                    name: file.name,
+	                    type: file.type,
+	                    size: file.size
+	                });
 	            });
 
-	            var dramaId = this.props.dramaId;
+	            this.setState({ files: files, fileInfos: fileInfos });
 
-	            if (dramaId) {
-	                fileForm.append('dramaId', dramaId);
-	            } else {
-	                console.error('[NaraFile] Invalid dramaId -> ' + dramaId);
-	                return false;
+	            // Execute file change listener from drama
+	            if (typeof this.props.onChangeFile === 'function') {
+	                this.props.onChangeFile(fileInfos);
 	            }
-
-	            if (localStorage.getItem('clubId')) {
-	                fileForm.append('clubId', localStorage.getItem('clubId'));
-	            } else {
-	                fileForm.append('clubId', '02-00D');
-	            }
-
-	            this.setState({ files: fileForm });
 	        }
 	    }, {
 	        key: 'fileOnSubmit',
@@ -1244,6 +1249,34 @@ window["naraLib"] =
 	        }
 	        // custom
 
+	    }, {
+	        key: '_deleteFile',
+	        value: function _deleteFile(fileIndexs) {
+	            //
+	            if (!(Array.isArray(fileIndexs) || typeof fileIndexs === 'number')) {
+	                console.error('[NaraFileUploader] Invalid parameter of delete file -> ' + fileIndexs);
+	                return;
+	            }
+
+	            if (typeof fileIndexs === 'number') {
+	                fileIndexs = [fileIndexs];
+	            }
+
+	            var files = this.state.files,
+	                fileInfos = this.state.fileInfos;
+
+	            fileIndexs.forEach(function (fileIndex) {
+	                files.splice(fileIndex, 1);
+	                fileInfos.splice(fileIndex, 1);
+	            });
+
+	            this.setState({ files: files, fileInfos: fileInfos });
+
+	            // Execute file change listener from drama
+	            if (typeof this.props.onChangeFile === 'function') {
+	                this.props.onChangeFile(fileInfos);
+	            }
+	        }
 	    }, {
 	        key: 'processUpload',
 	        value: function processUpload() {
@@ -1259,28 +1292,55 @@ window["naraLib"] =
 	                processing: true
 	            });
 
+	            // Create form data
+	            var fileForm = new FormData();
+
+	            [].forEach.call(this.state.files, function (file, index) {
+	                fileForm.append('files[' + index + ']', file);
+	            });
+
+	            // Add drama id
+	            var dramaId = this.props.dramaId;
+
+	            if (dramaId) {
+	                fileForm.append('dramaId', dramaId);
+	            } else {
+	                console.error('[NaraFile] Invalid dramaId -> ' + dramaId);
+	                return false;
+	            }
+
+	            // Add club id
+	            if (localStorage.getItem('clubId')) {
+	                fileForm.append('clubId', localStorage.getItem('clubId'));
+	            } else {
+	                console.error('[NaraFile] Not exists club id in storage');
+	                return;
+	            }
+
 	            var successCallback = function successCallback() {};
+
 	            if (typeof this.props.onSuccessUpload === 'function') {
 	                successCallback = this.props.onSuccessUpload;
 	            }
-	            this.requestUpload(successCallback);
+
+	            this.requestUpload(fileForm, successCallback);
 	        }
 	        // request
 
 	    }, {
 	        key: 'requestUpload',
-	        value: function requestUpload(successCallback) {
+	        value: function requestUpload(fileFormData, successCallback) {
 	            //
 	            _jquery2.default.ajax({
 	                method: 'POST',
 	                url: FileUploader.url.UPLOAD_FILE,
-	                data: this.state.files,
+	                data: fileFormData,
 	                processData: false,
 	                contentType: false,
 	                success: function (resultFileIds) {
 	                    console.log('File ids: ' + resultFileIds);
 
-	                    if (this.props.multiple === true) {
+	                    if (this.state.fileInfos.length > 1) {
 	                        successCallback(resultFileIds);
 	                    } else {
 	                        successCallback(resultFileIds[0]);
@@ -1305,10 +1365,13 @@ window["naraLib"] =
 	    //
 	    dramaId: _react.PropTypes.string.isRequired,
 	    startUpload: _react.PropTypes.bool.isRequired,
-	    multiple: _react.PropTypes.bool,
-	    className: _react.PropTypes.string,
-	    onStartUpload: _react.PropTypes.func,
-	    onSuccessUpload: _react.PropTypes.func.isRequired
+	    className: _react.PropTypes.string, // optional
+	    multiple: _react.PropTypes.bool, // optional, default false
+	    fileAttachable: _react.PropTypes.bool, // optional, default false
+	    onStartUpload: _react.PropTypes.func, // optional
+	    onSuccessUpload: _react.PropTypes.func,
+	    onChangeFile: _react.PropTypes.func, // optional
+	    deleteFile: _react.PropTypes.func // optional, use only fileAttachable is true
 	};
 
 	FileUploader.defaultProps = {
@@ -1316,6 +1379,7 @@ window["naraLib"] =
 	    dramaId: null,
 	    startUpload: null,
 	    multiple: false,
+	    fileAttachable: false,
 	    className: 'file'
 	};
 
