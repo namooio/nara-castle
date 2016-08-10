@@ -1062,6 +1062,14 @@ window["naraLib"] =
 
 
 	    _createClass(ImageDownloader, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //
+	            if (this.props.fileId) {
+	                FileDownloader.requestDownload(this.props.fileId, this);
+	            }
+	        }
+	    }, {
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
 	            //
@@ -1122,6 +1130,14 @@ window["naraLib"] =
 
 
 	    _createClass(LinkDownloader, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //
+	            if (this.props.fileId) {
+	                FileDownloader.requestDownload(this.props.fileId, this);
+	            }
+	        }
+	    }, {
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
 	            //
