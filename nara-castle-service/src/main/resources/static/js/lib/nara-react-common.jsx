@@ -256,6 +256,12 @@ class ImageDownloader extends Component {
         this.state = FileDownloader.getDownloaderInitailState();
     }
     // overriding
+    componentDidMount() {
+        //
+        if (this.props.fileId) {
+            FileDownloader.requestDownload(this.props.fileId, this);
+        }
+    }
     componentWillReceiveProps(nextProps) {
         //
         if (nextProps.fileId) {
@@ -305,6 +311,12 @@ class LinkDownloader extends Component {
         this.state = FileDownloader.getDownloaderInitailState();
     }
     // overriding
+    componentDidMount() {
+        //
+        if (this.props.fileId) {
+            FileDownloader.requestDownload(this.props.fileId, this);
+        }
+    }
     componentWillReceiveProps(nextProps) {
         //
         if (nextProps.fileId) {
@@ -371,6 +383,12 @@ class FileUploader extends Component {
         FileUploader.deleteFile = this._deleteFile;
     }
     // overriding
+    componentDidMount() {
+        //
+        if (this.props.startUpload === true) {
+            this.processUpload();
+        }
+    }
     componentWillReceiveProps(nextProps) {
         //
         if (nextProps.startUpload === true) {

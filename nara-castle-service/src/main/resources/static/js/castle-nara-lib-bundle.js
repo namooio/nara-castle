@@ -1208,6 +1208,14 @@ window["naraLib"] =
 
 
 	    _createClass(FileUploader, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            //
+	            if (this.props.startUpload === true) {
+	                this.processUpload();
+	            }
+	        }
+	    }, {
 	        key: 'componentWillReceiveProps',
 	        value: function componentWillReceiveProps(nextProps) {
 	            //
