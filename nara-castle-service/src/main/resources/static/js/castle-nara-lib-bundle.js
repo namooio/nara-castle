@@ -1175,6 +1175,16 @@ window["naraLib"] =
 	        value: function deleteFile() {
 	            // Will replace function in component
 	        }
+	    }, {
+	        key: '_getInitialState',
+	        value: function _getInitialState() {
+	            //
+	            return {
+	                files: [],
+	                fileInfos: [],
+	                processing: false
+	            };
+	        }
 	    }]);
 
 	    function FileUploader(props) {
@@ -1184,14 +1194,9 @@ window["naraLib"] =
 	        //
 
 
-	        _this5.state = {
-	            files: null,
-	            fileInfos: [],
-	            processing: false
-	        };
+	        _this5.state = FileUploader._getInitialState();
 
 	        _this5.fileOnChange = _this5.fileOnChange.bind(_this5);
-	        _this5.fileOnSubmit = _this5.fileOnSubmit.bind(_this5);
 	        _this5._deleteFile = _this5._deleteFile.bind(_this5);
 	        _this5.processUpload = _this5.processUpload.bind(_this5);
 	        _this5.requestUpload = _this5.requestUpload.bind(_this5);
@@ -1240,13 +1245,6 @@ window["naraLib"] =
 	                this.props.onChangeFile(fileInfos);
 	            }
 	        }
-	    }, {
-	        key: 'fileOnSubmit',
-	        value: function fileOnSubmit(event) {
-	            //
-	            event.preventDefault();
-	            this.processUpload();
-	        }
 	        // custom
 
 	    }, {
@@ -1281,11 +1279,20 @@ window["naraLib"] =
 	        key: 'processUpload',
 	        value: function processUpload() {
 	            //
-	            if (this.props.onStartUpload) {
-	                var uploadable = this.props.onStartUpload();
+	            // onStartUpload에서 false를 리턴하면 중단
+	            if (typeof this.props.onStartUpload === 'function') {
+	                var uploadable = this.props.onStartUpload(this.state.fileInfos);
 	                if (uploadable === false) {
 	                    return;
 	                }
+	            }
+
+	            // 선택된 파일이 없는 경우에는 업로드를 하지 않고 callback만 실행
+	            if (!this.state.files || this.state.files.length < 1) {
+	                if (typeof this.props.onSuccessUpload === 'function') {
+	                    this.props.onSuccessUpload();
+	                }
+	                return;
 	            }
 
 	            this.setState({
@@ -1338,12 +1345,13 @@ window["naraLib"] =
 	                processData: false,
 	                contentType: false,
 	                success: function (resultFileIds) {
-	                    console.log('File ids: ' + resultFileIds);
+	                    //
+	                    this.setState(FileUploader._getInitialState());
 
-	                    if (this.state.fileInfos.length > 1) {
-	                        successCallback(resultFileIds);
-	                    } else {
+	                    if (!this.props.multiple && !this.props.fileAttachable) {
 	                        successCallback(resultFileIds[0]);
+	                    } else {
+	                        successCallback(resultFileIds);
 	                    }
 	                }.bind(this)
 	            });

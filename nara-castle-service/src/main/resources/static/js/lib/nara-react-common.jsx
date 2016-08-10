@@ -349,18 +349,21 @@ class FileUploader extends Component {
     static deleteFile() {
         // Will replace function in component
     }
+    static _getInitialState() {
+        //
+        return {
+            files: [],
+            fileInfos: [],
+            processing: false
+        };
+    }
     constructor(props) {
         //
         super(props);
 
-        this.state = {
-            files: null,
-            fileInfos: [],
-            processing: false
-        };
+        this.state = FileUploader._getInitialState();
 
         this.fileOnChange = this.fileOnChange.bind(this);
-        this.fileOnSubmit = this.fileOnSubmit.bind(this);
         this._deleteFile = this._deleteFile.bind(this);
         this.processUpload = this.processUpload.bind(this);
         this.requestUpload = this.requestUpload.bind(this);
@@ -403,11 +406,6 @@ class FileUploader extends Component {
             this.props.onChangeFile(fileInfos);
         }
     }
-    fileOnSubmit(event) {
-        //
-        event.preventDefault();
-        this.processUpload();
-    }
     // custom
     _deleteFile(fileIndexs) {
         //
@@ -439,17 +437,26 @@ class FileUploader extends Component {
     }
     processUpload() {
         //
-        if (this.props.onStartUpload) {
-            let uploadable = this.props.onStartUpload();
+        // onStartUpload에서 false를 리턴하면 중단
+        if (typeof this.props.onStartUpload === 'function') {
+            let uploadable = this.props.onStartUpload(this.state.fileInfos);
             if (uploadable === false) {
                 return;
             }
         }
 
+        // 선택된 파일이 없는 경우에는 업로드를 하지 않고 callback만 실행
+        if (!this.state.files || this.state.files.length < 1) {
+            if (typeof this.props.onSuccessUpload === 'function') {
+                this.props.onSuccessUpload();
+            }
+            return;
+        }
+
+
         this.setState({
             processing: true
         });
-
 
         // Create form data
         let fileForm = new FormData();
@@ -498,13 +505,14 @@ class FileUploader extends Component {
             processData: false,
             contentType: false,
             success: function (resultFileIds) {
-                console.log(`File ids: ${resultFileIds}`);
+                //
+                this.setState(FileUploader._getInitialState());
 
-                if (this.state.fileInfos.length > 1) {
-                    successCallback(resultFileIds);
+                if (!this.props.multiple && !this.props.fileAttachable) {
+                    successCallback(resultFileIds[0]);
                 }
                 else {
-                    successCallback(resultFileIds[0]);
+                    successCallback(resultFileIds);
                 }
             }.bind(this)
         });
