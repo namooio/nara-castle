@@ -245,7 +245,32 @@ FileDownloader.url = {
     DOWNLOAD_FILE: '/pavilion-api/files/{naraFileId}'
 };
 
+class ZipDownloader {
+    static requestZipFile(param, successCallback, failCallback) {
+        //
+        NaraAjax
+            .postJSON(ZipDownloader.url.REQUEST_ZIP_FILE, param)
+            .done( function (naraFileId) {
+                //
+                if (naraFileId) {
+                    successCallback(ZipDownloader.url.DOWNLOAD_ZIP_FILE.replace('{naraFileId}', naraFileId));
+                } else {
+                    failCallback();
+                }
+            })
+            .fail( function () {
+                failCallback();
+            });
+    }
+}
 
+ZipDownloader.url = {
+    //
+    REQUEST_ZIP_FILE: '/pavilion-api/files/request-zip',
+    DOWNLOAD_ZIP_FILE: '/pavilion-api/files/zip/{naraFileId}'
+}
+
+File.ZipFileloader = ZipDownloader;
 
 class ImageDownloader extends Component {
     //
