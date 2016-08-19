@@ -193,23 +193,36 @@ class FileDownloader extends Component {
     //
     static requestDownload(fileId, model) {
         //
+        let url = FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', fileId);
+
         NaraAjax
-            .getJSON(FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', fileId))
+            .getJSON(url)
             .done( function (resultNaraFile) {
                 //
-                //model.setState({ naraFile: resultNaraFile, fileDataUrl:  `data:${resultNaraFile.type};base64,` });
-                model.setState({ naraFile: resultNaraFile });
+                model.setState({ naraFile: resultNaraFile, type: 'DATA_URL' });
 
-                console.debug(`Download file result -> name: ${resultNaraFile.name}, type: ${resultNaraFile.type}, size: ${resultNaraFile.size}`);
                 if (!resultNaraFile.type) {
                     console.warn(`[NaraFile] Invalid content type of file. -> ${resultNaraFile.type}`);
                 }
             });
     }
+    static requestUrl(fileId, model) {
+        //
+        let url = FileDownloader.url.GET_FILE_URL.replace('{naraFileId}', fileId);
+
+        NaraAjax
+            .getJSON(url)
+            .done( function (fileUrl) {
+                //
+                model.setState({ naraFileUrl: fileUrl, type: 'URL' });
+            });
+    }
     static getDownloaderInitailState() {
         //
         return {
-            naraFile: null      // { name, type, size, content }
+            naraFile: null,     // { name, type, size, content },
+            naraFileUrl: null,  // string
+            type: null          // DATA_URL or URL
         }
     }
     static getFileDataUrl(contentType) {
@@ -220,13 +233,15 @@ class FileDownloader extends Component {
         //
         let fileType;
 
-        if (!model.state.naraFile) {
+        if (!model.state.naraFileUrl && !model.state.naraFile) {
             return true;
         }
 
-        fileType = model.state.naraFile.type;
-        if (!fileType || !fileType.includes('image')) {
-            console.warn(`[NaraFile Downloader] Invalid file content type. -> ${fileType}`);
+        if (model.state.type === 'DATA_URL') {
+            fileType = model.state.naraFile.type;
+            if (!fileType || !fileType.includes('image')) {
+                console.warn(`[NaraFile Downloader] Invalid file content type. -> ${fileType}`);
+            }
         }
         return false;
     }
@@ -242,35 +257,11 @@ class FileDownloader extends Component {
 
 FileDownloader.url = {
     //
-    DOWNLOAD_FILE: '/pavilion-api/files/{naraFileId}'
+    DOWNLOAD_FILE: '/pavilion-api/files/{naraFileId}',
+    GET_FILE_URL: '/pavilion-api/files/{naraFileId}/url'
 };
 
-class ZipDownloader {
-    static requestZipFile(param, successCallback, failCallback) {
-        //
-        NaraAjax
-            .postJSON(ZipDownloader.url.REQUEST_ZIP_FILE, param)
-            .done( function (naraFileId) {
-                //
-                if (naraFileId) {
-                    successCallback(ZipDownloader.url.DOWNLOAD_ZIP_FILE.replace('{naraFileId}', naraFileId));
-                } else {
-                    failCallback();
-                }
-            })
-            .fail( function () {
-                failCallback();
-            });
-    }
-}
 
-ZipDownloader.url = {
-    //
-    REQUEST_ZIP_FILE: '/pavilion-api/files/request-zip',
-    DOWNLOAD_ZIP_FILE: '/pavilion-api/files/zip/{naraFileId}'
-}
-
-File.ZipFileloader = ZipDownloader;
 
 class ImageDownloader extends Component {
     //
@@ -284,13 +275,15 @@ class ImageDownloader extends Component {
     componentDidMount() {
         //
         if (this.props.fileId) {
-            FileDownloader.requestDownload(this.props.fileId, this);
+            // FileDownloader.requestDownload(this.props.fileId, this);
+            FileDownloader.requestUrl(this.props.fileId, this);
         }
     }
     componentWillReceiveProps(nextProps) {
         //
         if (nextProps.fileId) {
-            FileDownloader.requestDownload(nextProps.fileId, this);
+            // FileDownloader.requestDownload(nextProps.fileId, this);
+            FileDownloader.requestUrl(nextProps.fileId, this);
         }
     }
     render() {
@@ -298,8 +291,18 @@ class ImageDownloader extends Component {
         if (FileDownloader.isNotRenderable(this)) {
             return null;
         }
+
+        let src = null;
+
+        if (this.state.type === 'URL') {
+            src = this.state.naraFileUrl;
+        }
+        else if (this.state.type === 'DATA_URL') {
+            src = FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content;
+        }
+
         return (
-            <img src={FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content}
+            <img src={src}
                  className={this.props.className}
                  width={this.props.width}
                  height={this.props.height}
@@ -339,13 +342,15 @@ class LinkDownloader extends Component {
     componentDidMount() {
         //
         if (this.props.fileId) {
-            FileDownloader.requestDownload(this.props.fileId, this);
+            // FileDownloader.requestDownload(this.props.fileId, this);
+            FileDownloader.requestUrl(this.props.fileId, this);
         }
     }
     componentWillReceiveProps(nextProps) {
         //
         if (nextProps.fileId) {
-            FileDownloader.requestDownload(nextProps.fileId, this);
+            // FileDownloader.requestDownload(nextProps.fileId, this);
+            FileDownloader.requestUrl(nextProps.fileId, this);
         }
     }
     render() {
@@ -354,10 +359,20 @@ class LinkDownloader extends Component {
             return null;
         }
 
-        let linkName = this.props.linkName || (this.state.naraFile ? this.state.naraFile.name : 'File link');
+        let linkName = this.props.linkName || (this.state.naraFile ? this.state.naraFile.name : 'File link'),
+            href = null;
+
+
+        if (this.state.type === 'URL') {
+            href = this.state.naraFileUrl;
+        }
+        else if (this.state.type === 'DATA_URL') {
+            href = FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content;
+        }
+
         return (
-            <a href={FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content}
-               className={this.props.className}>
+            <a href={href}
+               className={this.props.className} target="_blank" >
                     {linkName}
             </a>
         );
@@ -379,6 +394,35 @@ LinkDownloader.defaultProps = {
 
 File.LinkLoader = LinkDownloader;
 
+
+
+class ZipDownloader {
+    //
+    static requestZipFile(param, successCallback, failCallback) {
+        //
+        NaraAjax
+            .postJSON(ZipDownloader.url.REQUEST_ZIP_FILE, param)
+            .done( function (naraFileId) {
+                //
+                if (naraFileId) {
+                    successCallback(ZipDownloader.url.DOWNLOAD_ZIP_FILE.replace('{naraFileId}', naraFileId));
+                } else {
+                    failCallback();
+                }
+            })
+            .fail( function () {
+                failCallback();
+            });
+    }
+}
+
+ZipDownloader.url = {
+    //
+    REQUEST_ZIP_FILE: '/pavilion-api/files/request-zip',
+    DOWNLOAD_ZIP_FILE: '/pavilion-api/files/zip/{naraFileId}'
+};
+
+File.ZipFileloader = ZipDownloader;
 
 
 class FileUploader extends Component {

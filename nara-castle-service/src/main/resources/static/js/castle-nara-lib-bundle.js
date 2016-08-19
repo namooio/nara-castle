@@ -978,15 +978,26 @@ window["naraLib"] =
 	        //
 	        value: function requestDownload(fileId, model) {
 	            //
-	            _naraCommon.Ajax.getJSON(FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', fileId)).done(function (resultNaraFile) {
-	                //
-	                //model.setState({ naraFile: resultNaraFile, fileDataUrl:  `data:${resultNaraFile.type};base64,` });
-	                model.setState({ naraFile: resultNaraFile });
+	            var url = FileDownloader.url.DOWNLOAD_FILE.replace('{naraFileId}', fileId);
 
-	                console.debug('Download file result -> name: ' + resultNaraFile.name + ', type: ' + resultNaraFile.type + ', size: ' + resultNaraFile.size);
+	            _naraCommon.Ajax.getJSON(url).done(function (resultNaraFile) {
+	                //
+	                model.setState({ naraFile: resultNaraFile, type: 'DATA_URL' });
+
 	                if (!resultNaraFile.type) {
 	                    console.warn('[NaraFile] Invalid content type of file. -> ' + resultNaraFile.type);
 	                }
+	            });
+	        }
+	    }, {
+	        key: 'requestUrl',
+	        value: function requestUrl(fileId, model) {
+	            //
+	            var url = FileDownloader.url.GET_FILE_URL.replace('{naraFileId}', fileId);
+
+	            _naraCommon.Ajax.getJSON(url).done(function (fileUrl) {
+	                //
+	                model.setState({ naraFileUrl: fileUrl, type: 'URL' });
 	            });
 	        }
 	    }, {
@@ -994,7 +1005,9 @@ window["naraLib"] =
 	        value: function getDownloaderInitailState() {
 	            //
 	            return {
-	                naraFile: null // { name, type, size, content }
+	                naraFile: null, // { name, type, size, content },
+	                naraFileUrl: null, // string
+	                type: null // DATA_URL or URL
 	            };
 	        }
 	    }, {
@@ -1009,13 +1022,15 @@ window["naraLib"] =
 	            //
 	            var fileType = void 0;
 
-	            if (!model.state.naraFile) {
+	            if (!model.state.naraFileUrl && !model.state.naraFile) {
 	                return true;
 	            }
 
-	            fileType = model.state.naraFile.type;
-	            if (!fileType || !fileType.includes('image')) {
-	                console.warn('[NaraFile Downloader] Invalid file content type. -> ' + fileType);
+	            if (model.state.type === 'DATA_URL') {
+	                fileType = model.state.naraFile.type;
+	                if (!fileType || !fileType.includes('image')) {
+	                    console.warn('[NaraFile Downloader] Invalid file content type. -> ' + fileType);
+	                }
 	            }
 	            return false;
 	        }
@@ -1041,7 +1056,8 @@ window["naraLib"] =
 
 	FileDownloader.url = {
 	    //
-	    DOWNLOAD_FILE: '/pavilion-api/files/{naraFileId}'
+	    DOWNLOAD_FILE: '/pavilion-api/files/{naraFileId}',
+	    GET_FILE_URL: '/pavilion-api/files/{naraFileId}/url'
 	};
 
 	var ImageDownloader = function (_Component3) {
@@ -1066,7 +1082,8 @@ window["naraLib"] =
 	        value: function componentDidMount() {
 	            //
 	            if (this.props.fileId) {
-	                FileDownloader.requestDownload(this.props.fileId, this);
+	                // FileDownloader.requestDownload(this.props.fileId, this);
+	                FileDownloader.requestUrl(this.props.fileId, this);
 	            }
 	        }
 	    }, {
@@ -1074,7 +1091,8 @@ window["naraLib"] =
 	        value: function componentWillReceiveProps(nextProps) {
 	            //
 	            if (nextProps.fileId) {
-	                FileDownloader.requestDownload(nextProps.fileId, this);
+	                // FileDownloader.requestDownload(nextProps.fileId, this);
+	                FileDownloader.requestUrl(nextProps.fileId, this);
 	            }
 	        }
 	    }, {
@@ -1084,7 +1102,16 @@ window["naraLib"] =
 	            if (FileDownloader.isNotRenderable(this)) {
 	                return null;
 	            }
-	            return _react2.default.createElement('img', { src: FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content,
+
+	            var src = null;
+
+	            if (this.state.type === 'URL') {
+	                src = this.state.naraFileUrl;
+	            } else if (this.state.type === 'DATA_URL') {
+	                src = FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content;
+	            }
+
+	            return _react2.default.createElement('img', { src: src,
 	                className: this.props.className,
 	                width: this.props.width,
 	                height: this.props.height
@@ -1134,7 +1161,8 @@ window["naraLib"] =
 	        value: function componentDidMount() {
 	            //
 	            if (this.props.fileId) {
-	                FileDownloader.requestDownload(this.props.fileId, this);
+	                // FileDownloader.requestDownload(this.props.fileId, this);
+	                FileDownloader.requestUrl(this.props.fileId, this);
 	            }
 	        }
 	    }, {
@@ -1142,7 +1170,8 @@ window["naraLib"] =
 	        value: function componentWillReceiveProps(nextProps) {
 	            //
 	            if (nextProps.fileId) {
-	                FileDownloader.requestDownload(nextProps.fileId, this);
+	                // FileDownloader.requestDownload(nextProps.fileId, this);
+	                FileDownloader.requestUrl(nextProps.fileId, this);
 	            }
 	        }
 	    }, {
@@ -1153,11 +1182,19 @@ window["naraLib"] =
 	                return null;
 	            }
 
-	            var linkName = this.props.linkName || (this.state.naraFile ? this.state.naraFile.name : 'File link');
+	            var linkName = this.props.linkName || (this.state.naraFile ? this.state.naraFile.name : 'File link'),
+	                href = null;
+
+	            if (this.state.type === 'URL') {
+	                href = this.state.naraFileUrl;
+	            } else if (this.state.type === 'DATA_URL') {
+	                href = FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content;
+	            }
+
 	            return _react2.default.createElement(
 	                'a',
-	                { href: FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content,
-	                    className: this.props.className },
+	                { href: href,
+	                    className: this.props.className, target: '_blank' },
 	                linkName
 	            );
 	        }
@@ -1180,6 +1217,41 @@ window["naraLib"] =
 	};
 
 	File.LinkLoader = LinkDownloader;
+
+	var ZipDownloader = function () {
+	    function ZipDownloader() {
+	        _classCallCheck(this, ZipDownloader);
+	    }
+
+	    _createClass(ZipDownloader, null, [{
+	        key: 'requestZipFile',
+
+	        //
+	        value: function requestZipFile(param, successCallback, failCallback) {
+	            //
+	            _naraCommon.Ajax.postJSON(ZipDownloader.url.REQUEST_ZIP_FILE, param).done(function (naraFileId) {
+	                //
+	                if (naraFileId) {
+	                    successCallback(ZipDownloader.url.DOWNLOAD_ZIP_FILE.replace('{naraFileId}', naraFileId));
+	                } else {
+	                    failCallback();
+	                }
+	            }).fail(function () {
+	                failCallback();
+	            });
+	        }
+	    }]);
+
+	    return ZipDownloader;
+	}();
+
+	ZipDownloader.url = {
+	    //
+	    REQUEST_ZIP_FILE: '/pavilion-api/files/request-zip',
+	    DOWNLOAD_ZIP_FILE: '/pavilion-api/files/zip/{naraFileId}'
+	};
+
+	File.ZipFileloader = ZipDownloader;
 
 	var FileUploader = function (_Component5) {
 	    _inherits(FileUploader, _Component5);

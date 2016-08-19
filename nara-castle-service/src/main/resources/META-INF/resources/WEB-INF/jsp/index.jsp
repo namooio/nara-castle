@@ -10,8 +10,11 @@
     <meta name="playerId" content="${playerId}"/>
     <title>Castle</title>
 
+
     <link rel="stylesheet" href="${ctx}/castle-resource/webjars/bootstrap/3.3.6/css/bootstrap.css" />
+    <!--
     <link rel="stylesheet" href="${ctx}/castle-resource/css/castle.css" />
+    -->
 </head>
 <body>
     <main id="castle-drama">
