@@ -74,8 +74,11 @@ let objectPublicContext = {};
         //
         let _targets = Array.isArray(targets) ? targets : [targets];
 
-
         _targets.forEach( function (target) {
+            if (!target || !target.name) {
+                console.error(`[NaraCommon] Invalid target. May be target is not exists. -> target: ${target}, thisObject constructor: ${thisObject.constructor}`);
+                return;
+            }
             thisObject[target.name] = thisObject[target.name].bind(thisObject);
         });
     }

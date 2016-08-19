@@ -156,6 +156,10 @@ window["naraLib"] =
 	        var _targets = Array.isArray(targets) ? targets : [targets];
 
 	        _targets.forEach(function (target) {
+	            if (!target || !target.name) {
+	                console.error('[NaraCommon] Invalid target. May be target is not exists. -> target: ' + target + ', thisObject constructor: ' + thisObject.constructor);
+	                return;
+	            }
 	            thisObject[target.name] = thisObject[target.name].bind(thisObject);
 	        });
 	    };
@@ -995,9 +999,9 @@ window["naraLib"] =
 	            //
 	            var url = FileDownloader.url.GET_FILE_URL.replace('{naraFileId}', fileId);
 
-	            _naraCommon.Ajax.getJSON(url).done(function (fileUrl) {
+	            _naraCommon.Ajax.getJSON(url).done(function (resultNaraFileUrl) {
 	                //
-	                model.setState({ naraFileUrl: fileUrl, type: 'URL' });
+	                model.setState({ naraFileUrl: resultNaraFileUrl, type: 'URL' });
 	            });
 	        }
 	    }, {
@@ -1005,8 +1009,8 @@ window["naraLib"] =
 	        value: function getDownloaderInitailState() {
 	            //
 	            return {
-	                naraFile: null, // { name, type, size, content },
-	                naraFileUrl: null, // string
+	                naraFile: null, // { name, type, size, content }
+	                naraFileUrl: null, // { name, type, size, url}
 	                type: null // DATA_URL or URL
 	            };
 	        }
@@ -1106,7 +1110,7 @@ window["naraLib"] =
 	            var src = null;
 
 	            if (this.state.type === 'URL') {
-	                src = this.state.naraFileUrl;
+	                src = this.state.naraFileUrl.url;
 	            } else if (this.state.type === 'DATA_URL') {
 	                src = FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content;
 	            }
@@ -1182,13 +1186,15 @@ window["naraLib"] =
 	                return null;
 	            }
 
-	            var linkName = this.props.linkName || (this.state.naraFile ? this.state.naraFile.name : 'File link'),
+	            var linkName = this.props.linkName,
 	                href = null;
 
 	            if (this.state.type === 'URL') {
-	                href = this.state.naraFileUrl;
+	                href = this.state.naraFileUrl.url;
+	                linkName = linkName || (this.state.naraFileUrl ? this.state.naraFileUrl.name : 'Download');
 	            } else if (this.state.type === 'DATA_URL') {
 	                href = FileDownloader.getFileDataUrl(this.state.naraFile.type) + this.state.naraFile.content;
+	                linkName = linkName || (this.state.naraFile ? this.state.naraFile.name : 'Download');
 	            }
 
 	            return _react2.default.createElement(
@@ -1484,7 +1490,7 @@ window["naraLib"] =
 	    startUpload: null,
 	    multiple: false,
 	    fileAttachable: false,
-	    className: 'file'
+	    className: ''
 	};
 
 	FileUploader.url = {
