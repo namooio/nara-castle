@@ -8,6 +8,8 @@ import java.util.Locale;
  */
 public class CastleBuildDto implements Serializable {
     //
+    private static final long serialVersionUID = -442485043205381840L;
+
     private String name;
     private String email;
     private Locale locale;
