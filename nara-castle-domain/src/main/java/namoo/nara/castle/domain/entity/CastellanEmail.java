@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 public class CastellanEmail implements ValueObject {
     //
     private String address;
-    private ZonedDateTime registeredTime;
+    private ZonedDateTime createdTime;
 
     private boolean verified;
     private ZonedDateTime verifiedTime;
@@ -32,12 +32,12 @@ public class CastellanEmail implements ValueObject {
         this.address = address;
     }
 
-    public ZonedDateTime getRegisteredTime() {
-        return registeredTime;
+    public ZonedDateTime getCreatedTime() {
+        return createdTime;
     }
 
-    public void setRegisteredTime(ZonedDateTime registeredTime) {
-        this.registeredTime = registeredTime;
+    public void setCreatedTime(ZonedDateTime createdTime) {
+        this.createdTime = createdTime;
     }
 
     public boolean isVerified() {
@@ -68,7 +68,7 @@ public class CastellanEmail implements ValueObject {
     public String toString() {
         return "CastellanEmail{" +
                 "address='" + address + '\'' +
-                ", registeredTime=" + registeredTime +
+                ", createdTime=" + createdTime +
                 ", verified=" + verified +
                 ", verifiedTime=" + verifiedTime +
                 ", primary=" + primary +

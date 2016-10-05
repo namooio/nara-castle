@@ -83,7 +83,7 @@ public class Castellan extends Entity implements Aggregate {
     public void addEmail(String address) {
         //
         CastellanEmail castellanEmail = new CastellanEmail(address);
-        castellanEmail.setRegisteredTime(ZonedDateTime.now());
+        castellanEmail.setCreatedTime(ZonedDateTime.now());
         this.emails.add(castellanEmail);
     }
 
