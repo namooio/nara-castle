@@ -2,45 +2,29 @@ package namoo.nara.castle.domain.entity;
 
 import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
-import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 
 import java.time.ZonedDateTime;
 import java.util.Locale;
 
-public class Castle extends Entity implements Aggregate {
+public class Castle extends Entity {
     //
     private Locale locale;
     private ZonedDateTime builtTime;
-
-    private Castellan owner;
 
     public Castle(String id) {
         //
         super(id);
     }
 
-    public static Castle newInstance(Locale locale, String displayName, String primaryEmail, long castleSequence) {
+    public static Castle newInstance(Locale locale, long castleSequence) {
         //
         CastleIdBuilder castleIdBuilder = CastleContext.getCastleIdBuilder();
         String castleId = castleIdBuilder.makeCastleId(castleSequence);
         Castle castle = new Castle(castleId);
         castle.setLocale(locale);
         castle.setBuiltTime(ZonedDateTime.now());
-        Castellan castellan = new Castellan(displayName, primaryEmail);
-        castle.setOwner(castellan);
-
         return castle;
-    }
-
-    public void setCastellanDisplayName(String displayName) {
-        //
-        this.owner.setDisplayName(displayName);
-    }
-
-    public void setCastellanPhotoId(String photoId) {
-        //
-        this.owner.setPhotoId(photoId);
     }
 
     public Locale getLocale() {
@@ -59,26 +43,17 @@ public class Castle extends Entity implements Aggregate {
         this.builtTime = builtTime;
     }
 
-    public Castellan getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Castellan owner) {
-        this.owner = owner;
-    }
-
     @Override
     public String toString() {
         return "Castle{" +
                 "locale=" + locale +
                 ", builtTime=" + builtTime +
-                ", owner=" + owner +
                 '}';
     }
 
     public static Castle getSample() {
         //
-        Castle castle = Castle.newInstance(Locale.KOREA, "Ki Chul", "kchuh@nextree.co.kr", 1);
+        Castle castle = Castle.newInstance(Locale.KOREA, 1);
         return castle;
     }
 
@@ -87,6 +62,5 @@ public class Castle extends Entity implements Aggregate {
         Castle sample = Castle.getSample();
         System.out.println(sample);
     }
-
 
 }

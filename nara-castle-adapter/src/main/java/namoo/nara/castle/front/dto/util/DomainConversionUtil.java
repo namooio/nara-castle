@@ -21,7 +21,7 @@ public class DomainConversionUtil {
     public static CastellanFindDto toCastellanFindDto(Castellan castellan) {
         //
         CastellanFindDto castellanFindDto = new CastellanFindDto();
-        castellanFindDto.setDisplayName(castellan.getDisplayName());
+        castellanFindDto.setDisplayName(castellan.getName());
         castellanFindDto.setPhotoId(castellan.getPhotoId());
         castellanFindDto.setPrimaryEmail(castellan.getPrimaryEmail());
         castellanFindDto.setPrimaryPhone(castellan.getPrimaryPhone());

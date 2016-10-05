@@ -1,4 +1,4 @@
-package namoo.nara.castle.domain.entity.contact;
+package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
 
@@ -11,6 +11,8 @@ public class CastellanEmail implements ValueObject {
 
     private boolean verified;
     private ZonedDateTime verifiedTime;
+
+    private boolean primary;
 
     public CastellanEmail(String address) {
         this.address = address;
@@ -54,6 +56,14 @@ public class CastellanEmail implements ValueObject {
         this.verifiedTime = verifiedTime;
     }
 
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(boolean primary) {
+        this.primary = primary;
+    }
+
     @Override
     public String toString() {
         return "CastellanEmail{" +
@@ -61,6 +71,7 @@ public class CastellanEmail implements ValueObject {
                 ", registeredTime=" + registeredTime +
                 ", verified=" + verified +
                 ", verifiedTime=" + verifiedTime +
+                ", primary=" + primary +
                 '}';
     }
 }

@@ -38,13 +38,13 @@ public class CastellanMongoStoreTest {
 
         // retrieve test
         castellan = castellanStore.retrieve(id);
-        Assert.assertEquals("허기철", castellan.getDisplayName());
+        Assert.assertEquals("허기철", castellan.getName());
 
         // update test
-        castellan.setDisplayName("Michael");
+        castellan.setName("Michael");
         castellanStore.update(castellan);
         castellan = castellanStore.retrieve(id);
-        Assert.assertEquals("Michael", castellan.getDisplayName());
+        Assert.assertEquals("Michael", castellan.getName());
 
         // delete test
         castellanStore.delete(id);

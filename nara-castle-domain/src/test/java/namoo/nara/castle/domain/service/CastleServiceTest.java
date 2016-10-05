@@ -33,9 +33,10 @@ public class CastleServiceTest {
         //
         Assert.assertEquals(5, castleService.findCastles().size());
         Castle castle = castleService.findCastle(kchuhCastleId);
-        Assert.assertEquals("kchuh", castle.getOwner().getDisplayName());
-        Assert.assertEquals("kchuh@nextree.co.kr", castle.getOwner().getPrimaryEmail());
+        Assert.assertEquals(Locale.KOREA, castle.getLocale());
 
+        castleService.modifyLocale(kchuhCastleId, Locale.US);
+        Assert.assertEquals(Locale.US, castle.getLocale());
     }
 
 }

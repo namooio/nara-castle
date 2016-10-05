@@ -28,7 +28,7 @@ public class CastellanDoc {
         //
         CastellanDoc castellanDoc = new CastellanDoc();
         castellanDoc.setId(castellan.getId());
-        castellanDoc.setDisplayName(castellan.getDisplayName());
+        castellanDoc.setDisplayName(castellan.getName());
         castellanDoc.setPhotoId(castellan.getPhotoId());
         castellanDoc.setPrimaryEmail(castellan.getPrimaryEmail());
         castellanDoc.setPrimaryPhone(castellan.getPrimaryPhone());

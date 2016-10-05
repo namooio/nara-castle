@@ -12,7 +12,4 @@ public interface CastleService {
     void modifyLocale(String castleId, Locale locale);
     Castle findCastle(String castleId);
     List<Castle> findCastles();
-
-    void modifyCastellanDisplayName(String castleId, String name);
-    void modifyCastellanPhoto(String castleId, String photoId);
 }

@@ -26,7 +26,7 @@ public class CastleServiceLogic implements CastleService {
         String castellanEmail = castleCdo.getCastellanEmail();
 
         long sequence = castleStore.retrieveNextSequence();
-        Castle castle = Castle.newInstance(locale, castellanName, castellanEmail, sequence);
+        Castle castle = Castle.newInstance(locale, sequence);
         castleStore.create(castle);
         return castle.getId();
     }
@@ -49,23 +49,6 @@ public class CastleServiceLogic implements CastleService {
     public List<Castle> findCastles() {
         //
         return castleStore.retrieveAll();
-    }
-
-
-    @Override
-    public void modifyCastellanDisplayName(String castleId, String name) {
-        //
-        Castle castle = castleStore.retrieve(castleId);
-        castle.setCastellanDisplayName(name);
-        castleStore.update(castle);
-    }
-
-    @Override
-    public void modifyCastellanPhoto(String castleId, String photoId) {
-        //
-        Castle castle = castleStore.retrieve(castleId);
-        castle.setCastellanPhotoId(photoId);
-        castleStore.update(castle);
     }
 
 }

@@ -1,4 +1,4 @@
-package namoo.nara.castle.domain.entity.account;
+package namoo.nara.castle.domain.entity;
 
 public enum LoginIdType {
     //

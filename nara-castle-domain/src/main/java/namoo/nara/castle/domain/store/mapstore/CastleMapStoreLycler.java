@@ -1,13 +1,13 @@
 package namoo.nara.castle.domain.store.mapstore;
 
-import namoo.nara.castle.domain.store.*;
+import namoo.nara.castle.domain.store.CastellanStore;
+import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.store.CastleStoreLycler;
 
 public class CastleMapStoreLycler implements CastleStoreLycler {
     //
     private CastleStore castleStore = new CastleMapStore();
-    private AccountBookStore accountBookStore = new AccountBookMapStore();
-    private EmailBookStore emailBookStore = new EmailBookMapStore();
-    private MetroBookStore metroBookStore = new MetroBookMapStore();
+    private CastellanStore castellanStore = new CastellanMapStore();
 
     @Override
     public CastleStore requestCastleStore() {
@@ -16,20 +16,8 @@ public class CastleMapStoreLycler implements CastleStoreLycler {
     }
 
     @Override
-    public MetroBookStore requestMetroBookStore() {
+    public CastellanStore requestCastellanStore() {
         //
-        return metroBookStore;
-    }
-
-    @Override
-    public EmailBookStore requestEmailBookStore() {
-        //
-        return emailBookStore;
-    }
-
-    @Override
-    public AccountBookStore requestAccountBookStore() {
-        //
-        return accountBookStore;
+        return castellanStore;
     }
 }

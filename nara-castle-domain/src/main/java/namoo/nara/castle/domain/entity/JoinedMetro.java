@@ -1,4 +1,4 @@
-package namoo.nara.castle.domain.entity.metro;
+package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
 
