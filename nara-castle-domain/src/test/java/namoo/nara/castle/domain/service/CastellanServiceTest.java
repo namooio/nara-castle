@@ -38,7 +38,7 @@ public class CastellanServiceTest {
     public void accountTest() {
         //
         Castellan castellan = this.castellanService.findCastellan(kchuhCastleId);
-        Assert.assertEquals(0, castellan.getLoginAccounts().size());
+        Assert.assertEquals(0, castellan.getAccounts().size());
 
         this.castellanService.modifyPasswordCredential(kchuhCastleId, "4321");
         castellan = this.castellanService.findCastellan(kchuhCastleId);
@@ -48,20 +48,20 @@ public class CastellanServiceTest {
         this.castellanService.addAccount(kchuhCastleId, "kchuh@nextree.co.kr", LoginIdType.Email);
 
         castellan = this.castellanService.findCastellan(kchuhCastleId);
-        Assert.assertEquals(2, castellan.getLoginAccounts().size());
+        Assert.assertEquals(2, castellan.getAccounts().size());
 
         castellan = this.castellanService.findCastellan("kchuh", LoginIdType.Username);
-        Assert.assertEquals(2, castellan.getLoginAccounts().size());
+        Assert.assertEquals(2, castellan.getAccounts().size());
 
         castellan = this.castellanService.findCastellan("kchuh@nextree.co.kr", LoginIdType.Email);
-        Assert.assertEquals(2, castellan.getLoginAccounts().size());
+        Assert.assertEquals(2, castellan.getAccounts().size());
 
         castellan = this.castellanService.findCastellan("kchuh", LoginIdType.Email);
         Assert.assertNull(castellan);
 
         this.castellanService.removeAccount(kchuhCastleId, "kchuh", LoginIdType.Username);
         castellan = this.castellanService.findCastellan(kchuhCastleId);
-        Assert.assertEquals(1, castellan.getLoginAccounts().size());
+        Assert.assertEquals(1, castellan.getAccounts().size());
     }
 
     @Test
@@ -79,6 +79,7 @@ public class CastellanServiceTest {
         this.castellanService.verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
         castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertEquals(true, castellan.findEmail("kchuh@nextree.co.kr").isVerified());
+        Assert.assertEquals(1, castellan.getAccounts().size());
     }
 
     @Test
@@ -86,6 +87,14 @@ public class CastellanServiceTest {
         //
         Castellan castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertEquals(0, castellan.getJoinedMetrosCount());
+        this.castellanService.addJoinedMetro(kchuhCastleId, "M01", "1@M01");
+        this.castellanService.addJoinedMetro(kchuhCastleId, "M02", "1@M02");
 
+        castellan = this.castellanService.findCastellan(kchuhCastleId);
+        Assert.assertEquals(2, castellan.getJoinedMetrosCount());
+
+        this.castellanService.removeJoinedMetro(kchuhCastleId, "M02", "1@M02");
+        castellan = this.castellanService.findCastellan(kchuhCastleId);
+        Assert.assertEquals(1, castellan.getJoinedMetrosCount());
     }
 }

@@ -33,7 +33,7 @@ public class CastellanMapStore implements CastellanStore {
         //
         Collection<Castellan> castellens = this.castellanMap.values();
         for(Castellan castellan : castellens) {
-            Set<LoginAccount> accounts = castellan.getLoginAccounts();
+            Set<LoginAccount> accounts = castellan.getAccounts();
             for(LoginAccount account : accounts) {
                 if (loginId.equals(account.getLoginId()) && loginIdType.equals(account.getLoginIdType())) {
                     return castellan;

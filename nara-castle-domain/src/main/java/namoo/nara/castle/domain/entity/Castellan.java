@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 
@@ -14,7 +15,7 @@ public class Castellan extends Entity implements Aggregate {
     private String name;
     private String photoId;         // profile photo id 
 
-    private Set<LoginAccount> loginAccounts;
+    private Set<LoginAccount> accounts;
     private LoginCredential credential;
 
     private Set<CastellanEmail> emails;
@@ -31,7 +32,7 @@ public class Castellan extends Entity implements Aggregate {
         //
         Castellan castellan = new Castellan(castleId);
         castellan.setName(name);
-        castellan.setLoginAccounts(new HashSet<>());
+        castellan.setAccounts(new HashSet<>());
         castellan.setEmails(new HashSet<>());
         castellan.setJoinedMetros(new ArrayList<>());
         castellan.setCreatedTime(ZonedDateTime.now());
@@ -40,36 +41,37 @@ public class Castellan extends Entity implements Aggregate {
 
     public void addAccount(String loginId, LoginIdType loginIdType) {
         //
-        LoginAccount loginAccount = new LoginAccount();
-        loginAccount.setLoginId(loginId);
-        loginAccount.setLoginIdType(loginIdType);
-        loginAccount.setCreatedTime(ZonedDateTime.now());
-        this.loginAccounts.add(loginAccount);
+        if (existAccount(loginId, loginIdType)) return;
+        LoginAccount account = new LoginAccount();
+        account.setLoginId(loginId);
+        account.setLoginIdType(loginIdType);
+        account.setCreatedTime(ZonedDateTime.now());
+        this.accounts.add(account);
     }
 
     public void removeAccount(String loginId, LoginIdType loginIdType) {
         //
-        LoginAccount loginAccount = findAccount(loginId, loginIdType);
-        if (loginAccount != null) {
-            this.loginAccounts.remove(loginAccount);
+        LoginAccount account = findAccount(loginId, loginIdType);
+        if (account != null) {
+            this.accounts.remove(account);
         }
     }
 
     public LoginAccount findAccount(String loginId, LoginIdType loginIdType) {
         //
-        for(LoginAccount loginAccount : this.loginAccounts) {
-            if (loginId.equals(loginAccount.getLoginId()) && loginIdType.equals(loginAccount.getLoginIdType())) {
-                return loginAccount;
+        for(LoginAccount account : this.accounts) {
+            if (loginId.equals(account.getLoginId()) && loginIdType.equals(account.getLoginIdType())) {
+                return account;
             }
         }
         return null;
     }
 
-    public boolean hasAccount(LoginAccount newAccount) {
+    private boolean existAccount(String loginId, LoginIdType loginIdType) {
         //
-        for(LoginAccount account : loginAccounts) {
-            if (newAccount.getLoginId().equals(account.getLoginId())
-                    && newAccount.getLoginIdType().equals(account.getLoginIdType())) {
+        for(LoginAccount account : accounts) {
+            if (loginId.equals(account.getLoginId())
+                    && loginIdType.equals(account.getLoginIdType())) {
                 return true;
             }
         }
@@ -80,8 +82,10 @@ public class Castellan extends Entity implements Aggregate {
         //
         this.credential = new LoginCredential(password);
     }
+
     public void addEmail(String address) {
         //
+        CastleContext.getEmailValidator().validate(address);
         CastellanEmail castellanEmail = new CastellanEmail(address);
         castellanEmail.setCreatedTime(ZonedDateTime.now());
         this.emails.add(castellanEmail);
@@ -91,12 +95,20 @@ public class Castellan extends Entity implements Aggregate {
         //
         CastellanEmail email = findEmail(address);
         this.emails.remove(email);
+
+        LoginAccount account = findAccount(address, LoginIdType.Email);
+        if (account != null) {
+            this.accounts.remove(account);
+        }
     }
 
     public void verifyEmail(String address) {
         //
         CastellanEmail email = findEmail(address);
         email.verifyEmail();
+
+        // Add verified email as login account.
+        addAccount(address, LoginIdType.Email);
     }
 
     public CastellanEmail findEmail(String address) {
@@ -160,12 +172,12 @@ public class Castellan extends Entity implements Aggregate {
         this.photoId = photoId;
     }
 
-    public Set<LoginAccount> getLoginAccounts() {
-        return loginAccounts;
+    public Set<LoginAccount> getAccounts() {
+        return accounts;
     }
 
-    public void setLoginAccounts(Set<LoginAccount> loginAccounts) {
-        this.loginAccounts = loginAccounts;
+    public void setAccounts(Set<LoginAccount> accounts) {
+        this.accounts = accounts;
     }
 
     public LoginCredential getCredential() {
@@ -223,7 +235,7 @@ public class Castellan extends Entity implements Aggregate {
         return "Castellan{" +
                 "name='" + name + '\'' +
                 ", photoId='" + photoId + '\'' +
-                ", loginAccounts=" + loginAccounts +
+                ", accounts=" + accounts +
                 ", credential=" + credential +
                 ", emails=" + emails +
                 ", joinedMetros=" + joinedMetros +

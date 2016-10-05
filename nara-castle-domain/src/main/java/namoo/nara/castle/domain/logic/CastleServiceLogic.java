@@ -28,6 +28,9 @@ public class CastleServiceLogic implements CastleService {
         long sequence = castleStore.retrieveNextSequence();
         Castle castle = Castle.newInstance(locale, sequence);
         castleStore.create(castle);
+
+        // TODO Castellan creation event!!
+
         return castle.getId();
     }
 

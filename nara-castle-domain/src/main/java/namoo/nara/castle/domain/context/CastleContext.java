@@ -4,6 +4,8 @@ public class CastleContext {
 
     private static CastleIdBuilder castleIdBuilder;
 
+    private static CastleEmailValidator emailValidator;
+
     public static CastleIdBuilder getCastleIdBuilder() {
         //
         if (castleIdBuilder == null) {
@@ -11,6 +13,15 @@ public class CastleContext {
         }
 
         return castleIdBuilder;
+    }
+
+    public static CastleEmailValidator getEmailValidator() {
+        //
+        if (emailValidator == null) {
+            emailValidator = new CastleEmailValidator();
+        }
+
+        return emailValidator;
     }
 
 }
