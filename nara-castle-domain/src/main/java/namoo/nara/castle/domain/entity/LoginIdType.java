@@ -4,7 +4,8 @@ public enum LoginIdType {
     //
     Username,
     Email,
-    OAuth_Facebook,
-    OAuth_Google,
-    OAuth_GitHub,
+
+    Facebook,
+    Google,
+    GitHub,
 }
