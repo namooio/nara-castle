@@ -3,7 +3,7 @@ package namoo.nara.castle.domain.store;
 public interface CastleStoreLycler {
     //
     CastleStore requestCastleStore();
-    CastellanStore requestCastellanStore();
-    ContactBundleStore requestContactBundleStore();
-    HistoryBundleStore requestHistoryBundleStore();
+    MetroBookStore requestMetroBookStore();
+    EmailBookStore requestEmailBookStore();
+    AccountBookStore requestAccountBookStore();
 }

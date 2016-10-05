@@ -1,8 +1,5 @@
 package namoo.nara.castle.da.mongo.document.history;
 
-import namoo.nara.castle.domain.entity.history.AccountBook;
-import namoo.nara.castle.domain.entity.history.LoginAccount;
-
 import java.util.ArrayList;
 import java.util.List;
 

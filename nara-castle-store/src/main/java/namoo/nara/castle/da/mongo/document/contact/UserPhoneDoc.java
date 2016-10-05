@@ -1,7 +1,5 @@
 package namoo.nara.castle.da.mongo.document.contact;
 
-import namoo.nara.castle.domain.entity.contact.UserPhone;
-
 public class UserPhoneDoc {
     //
     private String phoneNumber;     //+82-10-9202-9989

@@ -1,64 +1,86 @@
 package namoo.nara.castle.domain.entity.contact;
 
-import namoo.nara.share.exception.NaraException;
+import namoo.nara.share.domain.Aggregate;
+import namoo.nara.share.domain.Entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-public class EmailBook {
+public class EmailBook extends Entity implements Aggregate {
     //
-    private List<UserEmail> emailList = new ArrayList<>();
+    private Set<CastellanEmail> emails;
 
-    public EmailBook() {
-        //
+    public EmailBook(String id) {
+        super(id);
     }
 
-    public void clear() {
+    public static EmailBook newInstance(String id) {
         //
-        emailList.clear();
+        EmailBook emailBook = new EmailBook(id);
+        emailBook.setEmails(new HashSet<>());
+        return emailBook;
     }
 
-    public void addEmail(UserEmail email) {
+    public void addEmail(String address) {
         //
-        for(UserEmail userEmail : emailList) {
-            if (email.getEmail().equals(userEmail.getEmail())) throw new NaraException(String.format("Email[%s] already exists.", email));
-        }
-        emailList.add(email);
+        CastellanEmail castellanEmail = new CastellanEmail(address);
+        castellanEmail.setRegisteredTime(ZonedDateTime.now());
+        this.emails.add(castellanEmail);
     }
 
-    public boolean existEmail(String email) {
+    public void removeEmail(String address) {
         //
-        return findEmail(email) != null;
+        CastellanEmail email = findEmail(address);
+        this.emails.remove(email);
     }
 
-    public void removeEmail(String email) {
+    public void verifyEmail(String address) {
         //
-        UserEmail userEmail = findEmail(email);
-        if (userEmail == null) throw  new NaraException(String.format("Email[%s] not found to remove.", email));
-        this.emailList.remove(userEmail);
+        CastellanEmail email = findEmail(address);
+        email.verifyEmail();
     }
 
-    public UserEmail findEmail(String email) {
+    public CastellanEmail findEmail(String address) {
         //
-        for(UserEmail userEmail : emailList) {
-            //
-            if (userEmail.getEmail().equals(email)) {
-                return userEmail;
+        for(CastellanEmail castellanEmail : this.emails) {
+            if (address.equals(castellanEmail.getAddress())) {
+                return castellanEmail;
             }
         }
-
         return null;
     }
 
-    public List<UserEmail> findAll() {
-        //
-        return emailList;
+    public Set<CastellanEmail> getEmails() {
+        return emails;
     }
 
-    public void verifyEmail(String email) {
-        //
-        UserEmail userEmail = findEmail(email);
-        if (userEmail == null) throw  new NaraException(String.format("Email[%s] not found for verification.", email));
-        userEmail.verify();
+    public void setEmails(Set<CastellanEmail> emails) {
+        this.emails = emails;
     }
+
+    @Override
+    public String toString() {
+        return "EmailBook{" +
+                "emails=" + emails +
+                '}';
+    }
+
+    public static EmailBook getSample() {
+        //
+        EmailBook emailBook = EmailBook.newInstance("1");
+        emailBook.addEmail("kchuh@nextree.co.kr");
+        emailBook.addEmail("michael7557@gmail.com");
+        emailBook.addEmail("michael7557@naver.com");
+
+        emailBook.verifyEmail("kchuh@nextree.co.kr");
+        return emailBook;
+    }
+
+    public static void main(String[] args) {
+        //
+        EmailBook sample = EmailBook.getSample();
+        System.out.println(sample);
+    }
+
 }

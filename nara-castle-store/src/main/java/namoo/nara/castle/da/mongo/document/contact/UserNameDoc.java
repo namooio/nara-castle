@@ -1,7 +1,5 @@
 package namoo.nara.castle.da.mongo.document.contact;
 
-import namoo.nara.castle.domain.entity.contact.UserName;
-
 public class UserNameDoc {
     //
     private String familyName;

@@ -3,10 +3,8 @@ package namoo.nara.castle.da.mongo.document;
 import namoo.nara.castle.da.mongo.document.history.AccountBookDoc;
 import namoo.nara.castle.da.mongo.document.history.CastleStateBookDoc;
 import namoo.nara.castle.da.mongo.document.history.MetroBookDoc;
-import namoo.nara.castle.domain.entity.history.AccountBook;
 import namoo.nara.castle.domain.entity.history.CastleStateBook;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
-import namoo.nara.castle.domain.entity.history.MetroBook;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

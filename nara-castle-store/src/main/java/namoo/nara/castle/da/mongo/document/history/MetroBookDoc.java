@@ -1,8 +1,5 @@
 package namoo.nara.castle.da.mongo.document.history;
 
-import namoo.nara.castle.domain.entity.history.MetroBook;
-import namoo.nara.castle.domain.entity.history.ParticipantMetro;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package namoo.nara.castle.rep.logic;
 
 import namoo.nara.castle.domain.service.*;
+import namoo.nara.castle.domain.service.data.CastleCdo;
 import namoo.nara.castle.rep.CastleRepService;
 import namoo.nara.castle.rep.dto.CastleBuildDto;
 import namoo.nara.castle.rep.dto.CastleFindDto;

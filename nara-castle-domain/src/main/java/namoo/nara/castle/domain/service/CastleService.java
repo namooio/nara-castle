@@ -1,18 +1,18 @@
 package namoo.nara.castle.domain.service;
 
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.service.data.CastleCdo;
 
 import java.util.List;
 import java.util.Locale;
 
 public interface CastleService {
     //
-    void buildCastle(CastleCdo castleCdo);
-    void suspendCastle(String id, String remarks);
-    void reopenCastle(String id, String remarks);
-    void modifyName(String id, String name);
-    void modifyLocale(String id, Locale locale);
-    Castle findCastle(String id);
-    List<Castle> findAllCastles();
+    String buildCastle(CastleCdo castleCdo);
+    void modifyLocale(String castleId, Locale locale);
+    Castle findCastle(String castleId);
+    List<Castle> findCastles();
 
+    void modifyCastellanDisplayName(String castleId, String name);
+    void modifyCastellanPhoto(String castleId, String photoId);
 }

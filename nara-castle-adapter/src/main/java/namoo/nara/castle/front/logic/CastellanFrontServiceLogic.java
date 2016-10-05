@@ -4,7 +4,6 @@ import namoo.nara.castle.front.dto.CastellanFindDto;
 import namoo.nara.castle.front.dto.util.DomainConversionUtil;
 import namoo.nara.castle.front.CastellanFrontService;
 import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.service.CastellanService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 
 /**

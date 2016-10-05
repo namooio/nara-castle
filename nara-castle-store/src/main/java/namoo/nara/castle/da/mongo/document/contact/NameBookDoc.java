@@ -1,8 +1,5 @@
 package namoo.nara.castle.da.mongo.document.contact;
 
-import namoo.nara.castle.domain.entity.contact.NameBook;
-import namoo.nara.castle.domain.entity.contact.UserName;
-
 import java.util.ArrayList;
 import java.util.List;
 

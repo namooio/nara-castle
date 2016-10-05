@@ -1,71 +1,46 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.share.domain.util.Identifiable;
+import namoo.nara.castle.domain.context.CastleContext;
+import namoo.nara.castle.domain.context.CastleIdBuilder;
+import namoo.nara.share.domain.Aggregate;
+import namoo.nara.share.domain.Entity;
 
+import java.time.ZonedDateTime;
 import java.util.Locale;
 
-/**
- * Information repository for an individual </br>
- * Castle.usid is specified in Bureau service.
- */
-public class Castle implements Identifiable {
+public class Castle extends Entity implements Aggregate {
     //
-    private String usid;
-    private String name;                // Castellan's display name
     private Locale locale;
-    private OpenState state;
-    private long buildTime;
+    private ZonedDateTime builtTime;
 
     private Castellan owner;
-    private InfoBundleBox infoBundleBox;
 
-
-    public Castle() {
+    public Castle(String id) {
         //
+        super(id);
     }
 
-    protected Castle(String usid, String name, Locale locale) {
+    public static Castle newInstance(Locale locale, String displayName, String primaryEmail, long castleSequence) {
         //
-        this.usid = usid;
-        this.name = name;
-        this.locale = locale;
-        this.state = OpenState.Ready;
-        this.buildTime = System.currentTimeMillis();
-        this.infoBundleBox = new InfoBundleBox(usid);
-    }
-
-    public static Castle newInstance(String usid, String name, String email, Locale locale) {
-        //
-        Castle castle = new Castle(usid, name, locale);
-        Castellan castellan = new Castellan(usid, name, email);
+        CastleIdBuilder castleIdBuilder = CastleContext.getCastleIdBuilder();
+        String castleId = castleIdBuilder.makeCastleId(castleSequence);
+        Castle castle = new Castle(castleId);
+        castle.setLocale(locale);
+        castle.setBuiltTime(ZonedDateTime.now());
+        Castellan castellan = new Castellan(displayName, primaryEmail);
         castle.setOwner(castellan);
 
         return castle;
     }
 
-    @Override
-    public String getId() {
-        return usid;
+    public void setCastellanDisplayName(String displayName) {
+        //
+        this.owner.setDisplayName(displayName);
     }
 
-    public void setUsid(String usid) {
-         this.usid = usid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getBuildTime() {
-        return buildTime;
-    }
-
-    public void setBuildTime(long buildTime) {
-        this.buildTime = buildTime;
+    public void setCastellanPhotoId(String photoId) {
+        //
+        this.owner.setPhotoId(photoId);
     }
 
     public Locale getLocale() {
@@ -76,12 +51,12 @@ public class Castle implements Identifiable {
         this.locale = locale;
     }
 
-    public OpenState getState() {
-        return state;
+    public ZonedDateTime getBuiltTime() {
+        return builtTime;
     }
 
-    public void setState(OpenState state) {
-        this.state = state;
+    public void setBuiltTime(ZonedDateTime builtTime) {
+        this.builtTime = builtTime;
     }
 
     public Castellan getOwner() {
@@ -92,12 +67,26 @@ public class Castle implements Identifiable {
         this.owner = owner;
     }
 
-
-    public InfoBundleBox getInfoBundleBox() {
-        return infoBundleBox;
+    @Override
+    public String toString() {
+        return "Castle{" +
+                "locale=" + locale +
+                ", builtTime=" + builtTime +
+                ", owner=" + owner +
+                '}';
     }
 
-    public void setInfoBundleBox(InfoBundleBox infoBundleBox) {
-        this.infoBundleBox = infoBundleBox;
+    public static Castle getSample() {
+        //
+        Castle castle = Castle.newInstance(Locale.KOREA, "Ki Chul", "kchuh@nextree.co.kr", 1);
+        return castle;
     }
+
+    public static void main(String[] args) {
+        //
+        Castle sample = Castle.getSample();
+        System.out.println(sample);
+    }
+
+
 }

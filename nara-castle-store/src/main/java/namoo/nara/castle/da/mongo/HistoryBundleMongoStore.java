@@ -3,7 +3,6 @@ package namoo.nara.castle.da.mongo;
 import namoo.nara.castle.da.mongo.document.HistoryBundleDoc;
 import namoo.nara.castle.da.mongo.springdata.HistoryBundleMongoRepository;
 import namoo.nara.castle.domain.entity.history.HistoryBundle;
-import namoo.nara.castle.domain.store.HistoryBundleStore;
 import namoo.nara.share.exception.store.AlreadyExistsException;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;

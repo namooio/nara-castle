@@ -1,8 +1,6 @@
 package namoo.nara.castle.da.mongo;
 
-import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.history.*;
-import namoo.nara.castle.domain.store.HistoryBundleStore;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.junit.Assert;
 import org.junit.Test;

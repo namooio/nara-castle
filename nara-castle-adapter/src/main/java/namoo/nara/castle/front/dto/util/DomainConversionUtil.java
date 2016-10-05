@@ -2,7 +2,6 @@ package namoo.nara.castle.front.dto.util;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.contact.*;
 import namoo.nara.castle.domain.entity.history.*;
 import namoo.nara.castle.front.dto.CastellanFindDto;

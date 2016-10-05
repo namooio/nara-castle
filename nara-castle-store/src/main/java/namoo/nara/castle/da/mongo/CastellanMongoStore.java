@@ -3,7 +3,6 @@ package namoo.nara.castle.da.mongo;
 import namoo.nara.castle.da.mongo.document.CastellanDoc;
 import namoo.nara.castle.da.mongo.springdata.CastellanMongoRepository;
 import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.share.exception.store.AlreadyExistsException;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;

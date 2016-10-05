@@ -1,7 +1,6 @@
 package namoo.nara.castle.da.mongo.document;
 
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.OpenState;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

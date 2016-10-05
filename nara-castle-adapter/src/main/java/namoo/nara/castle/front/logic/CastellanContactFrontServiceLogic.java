@@ -4,7 +4,6 @@ import namoo.nara.castle.front.dto.contact.*;
 import namoo.nara.castle.front.dto.util.DomainConversionUtil;
 import namoo.nara.castle.front.CastellanContactFrontService;
 import namoo.nara.castle.domain.entity.contact.*;
-import namoo.nara.castle.domain.service.CastellanContactService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 
 /**

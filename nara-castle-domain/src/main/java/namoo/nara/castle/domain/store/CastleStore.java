@@ -11,4 +11,6 @@ public interface CastleStore {
     List<Castle> retrieveAll();
     void update(Castle castle);
     void delete(String id);
+
+    long retrieveNextSequence();
 }

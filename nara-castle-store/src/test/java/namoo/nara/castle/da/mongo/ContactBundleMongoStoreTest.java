@@ -1,7 +1,6 @@
 package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.domain.entity.contact.*;
-import namoo.nara.castle.domain.store.ContactBundleStore;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.junit.Assert;
 import org.junit.Test;

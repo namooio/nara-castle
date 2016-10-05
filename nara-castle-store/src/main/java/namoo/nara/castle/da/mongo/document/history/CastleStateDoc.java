@@ -1,6 +1,5 @@
 package namoo.nara.castle.da.mongo.document.history;
 
-import namoo.nara.castle.domain.entity.OpenState;
 import namoo.nara.castle.domain.entity.history.CastleState;
 
 /**

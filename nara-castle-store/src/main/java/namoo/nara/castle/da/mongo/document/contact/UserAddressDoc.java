@@ -1,7 +1,5 @@
 package namoo.nara.castle.da.mongo.document.contact;
 
-import namoo.nara.castle.domain.entity.contact.UserAddress;
-
 public class UserAddressDoc {
     //
     private String style;                   // Korean or US.

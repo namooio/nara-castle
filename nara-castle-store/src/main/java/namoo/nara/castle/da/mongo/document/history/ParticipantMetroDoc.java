@@ -1,7 +1,5 @@
 package namoo.nara.castle.da.mongo.document.history;
 
-import namoo.nara.castle.domain.entity.history.ParticipantMetro;
-
 /**
  * Created by kchuh@nextree.co.kr on 2016. 4. 7..
  */

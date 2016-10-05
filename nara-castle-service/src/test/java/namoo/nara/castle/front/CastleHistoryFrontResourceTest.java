@@ -1,7 +1,6 @@
 package namoo.nara.castle.front;
 
 import namoo.nara.castle.AbstractCastleApplicationTests;
-import namoo.nara.castle.domain.entity.history.LoginAccount;
 import namoo.nara.castle.front.dto.history.AccountBookDto;
 import namoo.nara.castle.front.dto.history.CastleStateBookDto;
 import namoo.nara.castle.front.dto.history.LoginAccountDto;

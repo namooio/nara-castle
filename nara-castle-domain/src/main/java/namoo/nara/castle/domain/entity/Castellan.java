@@ -1,37 +1,21 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.share.domain.util.Identifiable;
+import namoo.nara.share.domain.ValueObject;
 
-public class Castellan implements Identifiable {
+public class Castellan implements ValueObject {
     //
-    private String usid;            // == castle id
     private String displayName;
     private String photoId;         // profile photo id 
     private String primaryEmail;    // nullable
-    private String primaryPhone;    // nullable, +82-10-9202-9989
 
     public Castellan() {
+
     }
 
-    protected Castellan(String castleId, String displayName, String primaryEmail) {
+    public Castellan(String displayName, String primaryEmail) {
         //
-        this.usid = castleId;
         this.displayName = displayName;
         this.primaryEmail = primaryEmail;
-    }
-
-    public static Castellan newInstance(String usid, String displayName, String primaryEmail) {
-        //
-        return new Castellan(usid, displayName, primaryEmail);
-    }
-
-    @Override
-    public String getId() {
-        return usid;
-    }
-
-    public void setUsid(String usid) {
-        this.usid = usid;
     }
 
     public String getDisplayName() {
@@ -58,11 +42,13 @@ public class Castellan implements Identifiable {
         this.primaryEmail = primaryEmail;
     }
 
-    public String getPrimaryPhone() {
-        return primaryPhone;
+    @Override
+    public String toString() {
+        return "Castellan{" +
+                "displayName='" + displayName + '\'' +
+                ", photoId='" + photoId + '\'' +
+                ", primaryEmail='" + primaryEmail + '\'' +
+                '}';
     }
 
-    public void setPrimaryPhone(String primaryPhone) {
-        this.primaryPhone = primaryPhone;
-    }
 }

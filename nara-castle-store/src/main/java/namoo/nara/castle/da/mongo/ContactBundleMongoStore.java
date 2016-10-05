@@ -2,8 +2,6 @@ package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.da.mongo.document.ContactBundleDoc;
 import namoo.nara.castle.da.mongo.springdata.ContactBundleMongoRepository;
-import namoo.nara.castle.domain.entity.contact.ContactBundle;
-import namoo.nara.castle.domain.store.ContactBundleStore;
 import namoo.nara.share.exception.store.AlreadyExistsException;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
