@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Document(collection = "Castellan")
 @CompoundIndexes({
         @CompoundIndex(name = "idx_castellan_account",
+                sparse = true,
                 unique = true,
                 def = "{'accounts.key' : 1}")
 //                def = "{'accounts.loginId' : 1, 'accounts.loginIdType' : 1}")

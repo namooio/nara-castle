@@ -40,7 +40,8 @@ public class CastellanMongoStore implements CastellanStore {
     public Castellan retrieveByLoginIdAndLoginIdType(String loginId, LoginIdType loginIdType) {
         //
         CastellanDoc castellanDoc = castellanMongoRepository.findByAccountsKey(AccountKeyDoc.newInstance(loginId, loginIdType.name()));
-        if (castellanDoc == null) throw new NonExistenceException(String.format("No castellan document[LoginID:%s (type:%s)] to retrieve.", loginId, loginIdType.name()));
+        if (castellanDoc == null) return null;
+//        if (castellanDoc == null) throw new NonExistenceException(String.format("No castellan document[LoginID:%s (type:%s)] to retrieve.", loginId, loginIdType.name()));
         return castellanDoc.toDomain();
     }
 
