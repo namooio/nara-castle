@@ -103,6 +103,7 @@ public class DtoUtils {
     }
 
     public static LoginCredentialDto toCredentialDto(LoginCredential credential) {
+        //
         if (credential == null) return null;
         LoginCredentialDto credentialDto = new LoginCredentialDto();
         credentialDto.setPassword(credential.getPassword());
