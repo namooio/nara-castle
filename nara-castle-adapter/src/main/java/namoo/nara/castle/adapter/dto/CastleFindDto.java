@@ -5,11 +5,20 @@ import java.util.Locale;
 
 public class CastleFindDto implements Serializable {
     //
+    private String id;
     private Locale locale;
     private long builtTime; // UTC 0
 
     public CastleFindDto() {
         //
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Locale getLocale() {

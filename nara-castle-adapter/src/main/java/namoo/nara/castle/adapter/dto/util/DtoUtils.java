@@ -30,6 +30,7 @@ public class DtoUtils {
         //
         if (castle == null) return null;
         CastleFindDto castleFindDto = new CastleFindDto();
+        castleFindDto.setId(castle.getId());
         castleFindDto.setLocale(castle.getLocale());
         castleFindDto.setBuiltTime(castle.getBuiltTime().toInstant().toEpochMilli());
         return castleFindDto;
@@ -49,6 +50,7 @@ public class DtoUtils {
         //
         if (castellan == null) return null;
         CastellanFindDto castellanFindDto = new CastellanFindDto();
+        castellanFindDto.setId(castellan.getId());
         castellanFindDto.setName(castellan.getName());
         castellanFindDto.setPhotoId(castellan.getPhotoId());
         castellanFindDto.setAccounts(toAccountDto(castellan.getAccounts()));

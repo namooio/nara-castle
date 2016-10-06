@@ -6,6 +6,7 @@ import java.util.Set;
 
 public class CastellanFindDto implements Serializable {
     //
+    private String id;
     private String name;
     private String photoId;
 
@@ -20,6 +21,14 @@ public class CastellanFindDto implements Serializable {
 
     public CastellanFindDto() {
 
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
