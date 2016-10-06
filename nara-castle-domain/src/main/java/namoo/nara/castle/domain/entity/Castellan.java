@@ -163,6 +163,9 @@ public class Castellan extends Entity implements Aggregate {
 
     public void addJoinedMetro(String metroId, String citizenId) {
         //
+        if (isJoinedMetro(metroId, citizenId)) {
+            throw new NaraException(String.format("Already joined metro[%s] as citizen[%s].", metroId, citizenId));
+        }
         JoinedMetro joinedMetro = new JoinedMetro();
         joinedMetro.setMetroId(metroId);
         joinedMetro.setCitizenId(citizenId);
@@ -184,6 +187,13 @@ public class Castellan extends Entity implements Aggregate {
             }
         }
         return null;
+    }
+
+    public boolean isJoinedMetro(String metroId, String citizenId) {
+        //
+        JoinedMetro joinedMetro = findJoinedMetro(metroId, citizenId);
+        if (joinedMetro != null) return true;
+        return false;
     }
 
     public int getJoinedMetrosCount() {

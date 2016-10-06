@@ -10,9 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by kchuh@nextree.co.kr on 2016. 2. 18..
- */
 @Controller
 public class PlayFrontView {
     //

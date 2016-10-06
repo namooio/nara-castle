@@ -9,6 +9,10 @@ public class CastleCdo {
     private String castellanName;
     private String castellanEmail;
 
+    public CastleCdo() {
+        //
+    }
+
     public CastleCdo(Locale locale, String castellanName, String castellanEmail) {
         //
         this.locale = locale;

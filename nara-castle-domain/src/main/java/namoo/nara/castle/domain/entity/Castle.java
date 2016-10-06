@@ -2,12 +2,13 @@ package namoo.nara.castle.domain.entity;
 
 import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
+import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 
 import java.time.ZonedDateTime;
 import java.util.Locale;
 
-public class Castle extends Entity {
+public class Castle extends Entity implements Aggregate {
     //
     private Locale locale;
     private ZonedDateTime builtTime;
