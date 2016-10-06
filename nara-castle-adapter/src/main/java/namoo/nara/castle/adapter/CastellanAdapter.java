@@ -13,7 +13,8 @@ public interface CastellanAdapter {
 
     void addAccount(String castleId, LoginAccountDto accountDto);
     void removeAccount(String castleId, LoginAccountDto accountDto);
-    void modifyPasswordCredential(String castleId, String password);
+    void modifyPassword(String castleId, String password);
+    String findPassword(String castleId);
 
     void addEmail(String castleId, String email);
     void verifyEmail(String castleId, String email);

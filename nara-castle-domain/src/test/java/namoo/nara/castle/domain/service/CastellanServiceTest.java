@@ -43,7 +43,7 @@ public class CastellanServiceTest {
         Castellan castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertEquals(0, castellan.getAccounts().size());
 
-        this.castellanService.modifyPasswordCredential(kchuhCastleId, "4321");
+        this.castellanService.modifyPassword(kchuhCastleId, "4321");
         castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertEquals("4321", castellan.getCredential().getPassword());
 

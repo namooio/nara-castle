@@ -86,12 +86,20 @@ public class CastellanResource extends CastellanAdatperLogic {
     }
 
     @Override
-    @RequestMapping(value="castellans/{id}/password-credential", method= RequestMethod.PUT)
-    public void modifyPasswordCredential(
+    @RequestMapping(value="castellans/{id}/password", method= RequestMethod.GET)
+    public String findPassword(
+            @PathVariable("id") String castleId
+    ) {
+        return super.findPassword(castleId);
+    }
+
+    @Override
+    @RequestMapping(value="castellans/{id}/password", method= RequestMethod.PUT)
+    public void modifyPassword(
             @PathVariable("id") String castleId,
             @RequestBody String password
     ) {
-        super.modifyPasswordCredential(castleId, password);
+        super.modifyPassword(castleId, password);
     }
 
     @Override

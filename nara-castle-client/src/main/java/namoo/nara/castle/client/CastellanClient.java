@@ -94,10 +94,20 @@ public class CastellanClient implements CastellanAdapter {
     }
 
     @Override
-    public void modifyPasswordCredential(String castleId, String password) {
+    public String findPassword(String castleId) {
+        //
+        return naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_PASSWORD_FIND)
+                .addPathParam("id", castleId)
+                .setResponseType(String.class)
+        );
+    }
+
+    @Override
+    public void modifyPassword(String castleId, String password) {
         //
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_PASSWORD_CREDENTIAL_MODIFY)
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_PASSWORD_MODIFY)
                 .addPathParam("id", castleId)
                 .setRequestDto(password)
         );

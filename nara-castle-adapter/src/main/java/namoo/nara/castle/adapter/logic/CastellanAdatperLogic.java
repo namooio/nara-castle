@@ -75,9 +75,15 @@ public class CastellanAdatperLogic implements CastellanAdapter {
     }
 
     @Override
-    public void modifyPasswordCredential(String castleId, String password) {
+    public String findPassword(String castleId) {
         //
-        this.castellanService.modifyPasswordCredential(castleId, password);
+        return castellanService.findPassword(castleId);
+    }
+
+    @Override
+    public void modifyPassword(String castleId, String password) {
+        //
+        this.castellanService.modifyPassword(castleId, password);
     }
 
     @Override

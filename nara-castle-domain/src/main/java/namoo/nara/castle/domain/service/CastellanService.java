@@ -15,7 +15,8 @@ public interface CastellanService {
 
     void addAccount(String castleId, String loginId, LoginIdType loginIdType);
     void removeAccount(String castleId, String loginId, LoginIdType loginIdType);
-    void modifyPasswordCredential(String castleId, String password);
+    String findPassword(String castleId);
+    void modifyPassword(String castleId, String password);
 
     void addEmail(String castleId, String email);
     void verifyEmail(String castleId, String email);
@@ -24,5 +25,6 @@ public interface CastellanService {
 
     void addJoinedMetro(String castleId, String metroId, String citizenId);
     void removeJoinedMetro(String castleId, String metroId, String citizenId);
+
 
 }

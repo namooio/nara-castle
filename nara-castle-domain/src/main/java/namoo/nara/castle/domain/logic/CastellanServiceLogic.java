@@ -1,6 +1,7 @@
 package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.LoginCredential;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.service.CastellanService;
 import namoo.nara.castle.domain.service.data.CastellanUdo;
@@ -74,7 +75,16 @@ public class CastellanServiceLogic implements CastellanService {
     }
 
     @Override
-    public void modifyPasswordCredential(String castleId, String password) {
+    public String findPassword(String castleId) {
+        //
+        Castellan castellan = this.castellanStore.retrieve(castleId);
+        LoginCredential credential = castellan.getCredential();
+        if (credential == null) return null;
+        return credential.getPassword();
+    }
+
+    @Override
+    public void modifyPassword(String castleId, String password) {
         //
         Castellan castellan = this.castellanStore.retrieve(castleId);
         castellan.setPasswordCredential(password);

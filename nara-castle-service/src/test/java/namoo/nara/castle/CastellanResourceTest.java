@@ -34,7 +34,7 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
         CastellanFindDto castellan = getCastellanClient().findCastellan(kchuhCastleId);
         Assert.assertEquals(0, castellan.getAccounts().size());
 
-        getCastellanClient().modifyPasswordCredential(kchuhCastleId, "4321");
+        getCastellanClient().modifyPassword(kchuhCastleId, "4321");
         castellan = getCastellanClient().findCastellan(kchuhCastleId);
         Assert.assertEquals("4321", castellan.getCredential().getPassword());
 
