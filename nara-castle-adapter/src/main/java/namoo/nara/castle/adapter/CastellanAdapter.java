@@ -1,15 +1,15 @@
-package namoo.nara.castle.domain.service;
+package namoo.nara.castle.adapter;
 
-import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.adapter.dto.CastellanCreationDto;
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.domain.entity.LoginIdType;
-import namoo.nara.castle.domain.service.data.CastellanUdo;
 
-public interface CastellanService {
+public interface CastellanAdapter {
     //
-    void createCastellan(String castleId, String name);
-    Castellan findCastellan(String castleId);
-    Castellan findCastellan(String loginId, LoginIdType loginIdType);
-    void modifyCastellan(String castleId, CastellanUdo castellanUdo);
+    void createCastellan(String castleId, CastellanCreationDto castellanCreationDto);
+    CastellanFindDto findCastellan(String castleId);
+    CastellanFindDto findCastellan(String loginId, String loginIdType);
+    void modifyCastellanName(String castleId, String name);
     void modifyCastellanPhoto(String castleId, String photoId);
     void removeCastellan(String castleId);
 
@@ -24,5 +24,4 @@ public interface CastellanService {
 
     void addJoinedMetro(String castleId, String metroId, String citizenId);
     void removeJoinedMetro(String castleId, String metroId, String citizenId);
-
 }

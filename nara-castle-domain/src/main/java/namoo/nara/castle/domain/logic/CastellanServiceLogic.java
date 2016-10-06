@@ -3,6 +3,7 @@ package namoo.nara.castle.domain.logic;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.service.CastellanService;
+import namoo.nara.castle.domain.service.data.CastellanUdo;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 
@@ -35,10 +36,10 @@ public class CastellanServiceLogic implements CastellanService {
     }
 
     @Override
-    public void modifyCastellanName(String castleId, String name) {
+    public void modifyCastellan(String castleId, CastellanUdo castellanUdo) {
         //
         Castellan castellan = this.castellanStore.retrieve(castleId);
-        castellan.setName(name);
+        castellan.setName(castellanUdo.getName());
         this.castellanStore.update(castellan);
     }
 
@@ -93,6 +94,14 @@ public class CastellanServiceLogic implements CastellanService {
         //
         Castellan castellan = this.castellanStore.retrieve(castleId);
         castellan.verifyEmail(email);
+        this.castellanStore.update(castellan);
+    }
+
+    @Override
+    public void setPrimaryEmail(String castleId, String email) {
+        //
+        Castellan castellan = this.castellanStore.retrieve(castleId);
+        castellan.setPrimaryEmail(email);
         this.castellanStore.update(castellan);
     }
 

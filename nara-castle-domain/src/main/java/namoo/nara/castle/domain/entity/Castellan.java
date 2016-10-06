@@ -3,6 +3,7 @@ package namoo.nara.castle.domain.entity;
 import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
+import namoo.nara.share.exception.NaraException;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -124,6 +125,40 @@ public class Castellan extends Entity implements Aggregate {
     public int getEmailsCount() {
         //
         return this.emails.size();
+    }
+
+    public void setPrimaryEmail(String address) {
+        //
+        CastellanEmail email = findEmail(address);
+        if (email == null) throw new NaraException("No email[%s] found to set as primary.");
+        for(CastellanEmail castellanEmail : this.emails) {
+            castellanEmail.setPrimary(false);
+        }
+        email.setPrimary(true);
+    }
+
+    public CastellanEmail findPrimaryEmail() {
+        //
+        for(CastellanEmail castellanEmail : this.emails) {
+            if (castellanEmail.isPrimary()) {
+                return castellanEmail;
+            }
+        }
+        return null;
+    }
+
+    public boolean hasPrimaryEmail() {
+        //
+        CastellanEmail primaryEmail = findPrimaryEmail();
+        if (primaryEmail != null) return true;
+        return false;
+    }
+
+    public String findPrimaryEmailAddress() {
+        //
+        CastellanEmail primaryEmail = findPrimaryEmail();
+        if (primaryEmail != null) primaryEmail.getAddress();
+        return null;
     }
 
     public void addJoinedMetro(String metroId, String citizenId) {

@@ -80,6 +80,12 @@ public class CastellanServiceTest {
         castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertEquals(true, castellan.findEmail("kchuh@nextree.co.kr").isVerified());
         Assert.assertEquals(1, castellan.getAccounts().size());
+
+        Assert.assertEquals(false, castellan.hasPrimaryEmail());
+        this.castellanService.setPrimaryEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+
+        castellan = this.castellanService.findCastellan(kchuhCastleId);
+        Assert.assertEquals("kchuh@nextree.co.kr", castellan.findPrimaryEmail().getAddress());
     }
 
     @Test
