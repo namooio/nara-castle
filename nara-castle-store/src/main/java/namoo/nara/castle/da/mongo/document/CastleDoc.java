@@ -4,53 +4,48 @@ import namoo.nara.castle.domain.entity.Castle;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-/**
- * Created by kchuh@nextree.co.kr on 2016. 4. 6..
- */
 @Document(collection = "Castle")
 public class CastleDoc {
     //
     @Id
     private String id;
-    private String name;                // Castellan's display name
     private Locale locale;
-    private String state;
-    private long buildTime;
+    private Instant builtTimeUTC;
+    private String zoneId;
 
     public CastleDoc() {
         //
     }
 
-    public static CastleDoc newInstance(Castle castle) {
+    public static CastleDoc toDocument(Castle castle) {
         //
         CastleDoc castleDoc = new CastleDoc();
         castleDoc.setId(castle.getId());
-        castleDoc.setName(castle.getName());
         castleDoc.setLocale(castle.getLocale());
-        castleDoc.setState(castle.getState().name());
-        castleDoc.setBuildTime(castle.getBuildTime());
+        castleDoc.setBuiltTimeUTC(castle.getBuiltTime().toInstant());
+        castleDoc.setZoneId(castle.getBuiltTime().getZone().getId());
         return castleDoc;
     }
 
     public static List<Castle> toDomains(List<CastleDoc> castleDocuments) {
         //
         return castleDocuments.stream()
-                .map(CastleDoc::toDomain)
+                .map(doc -> doc.toDomain())
                 .collect(Collectors.toList());
     }
 
     public Castle toDomain() {
         //
-        Castle castle = new Castle();
-        castle.setUsid(id);
-        castle.setName(name);
+        Castle castle = new Castle(id);
         castle.setLocale(locale);
-        castle.setBuildTime(buildTime);
-        castle.setState(OpenState.valueOf(state));
+        castle.setBuiltTime(ZonedDateTime.ofInstant(builtTimeUTC, ZoneId.of(zoneId)));
         return castle;
     }
 
@@ -62,14 +57,6 @@ public class CastleDoc {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Locale getLocale() {
         return locale;
     }
@@ -78,20 +65,19 @@ public class CastleDoc {
         this.locale = locale;
     }
 
-    public String getState() {
-        return state;
+    public Instant getBuiltTimeUTC() {
+        return builtTimeUTC;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setBuiltTimeUTC(Instant builtTimeUTC) {
+        this.builtTimeUTC = builtTimeUTC;
     }
 
-    public long getBuildTime() {
-        return buildTime;
+    public String getZoneId() {
+        return zoneId;
     }
 
-    public void setBuildTime(long buildTime) {
-        this.buildTime = buildTime;
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;
     }
-
 }

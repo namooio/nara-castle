@@ -2,52 +2,88 @@ package namoo.nara.castle.da.mongo.document;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Created by kchuh@nextree.co.kr on 2016. 4. 6..
- */
 @Document(collection = "Castellan")
+@CompoundIndexes({
+        @CompoundIndex(name = "idx_castellan_account",
+                unique = true,
+                def = "{'accounts.key' : 1}")
+//                def = "{'accounts.loginId' : 1, 'accounts.loginIdType' : 1}")
+})
 public class CastellanDoc {
     //
     @Id
     private String id;              // == castle id
-    private String displayName;
+    private String name;
     private String photoId;         // profile photo id
-    private String primaryEmail;    // nullable
-    private String primaryPhone;    // nullable
+
+    private Set<LoginAccountDoc> accounts;
+    private LoginCredentialDoc credential;
+
+    private Set<CastellanEmailDoc> emails;
+    private List<JoinedMetroDoc> joinedMetros;
+
+    private Instant createdTimeUTC;
+    private String zoneId;
+
 
     public CastellanDoc() {
         //
     }
 
-    public static CastellanDoc newInstance(Castellan castellan) {
+    public static CastellanDoc toDocument(Castellan castellan) {
         //
         CastellanDoc castellanDoc = new CastellanDoc();
         castellanDoc.setId(castellan.getId());
-        castellanDoc.setDisplayName(castellan.getName());
+        castellanDoc.setName(castellan.getName());
         castellanDoc.setPhotoId(castellan.getPhotoId());
-        castellanDoc.setPrimaryEmail(castellan.getPrimaryEmail());
-        castellanDoc.setPrimaryPhone(castellan.getPrimaryPhone());
-        return castellanDoc;
-    }
 
-    public static List<Castellan> toDomains(List<CastellanDoc> castellanDocuments) {
-        //
-        return castellanDocuments.stream()
-                .map(CastellanDoc::toDomain)
-                .collect(Collectors.toList());
+        castellanDoc.setAccounts(LoginAccountDoc.toDocuments(castellan.getAccounts()));
+        castellanDoc.setCredential(LoginCredentialDoc.toDocument(castellan.getCredential()));
+
+        castellanDoc.setEmails(CastellanEmailDoc.toDocuments(castellan.getEmails()));
+        castellanDoc.setJoinedMetros(JoinedMetroDoc.toDocuments(castellan.getJoinedMetros()));
+
+        castellanDoc.setCreatedTimeUTC(castellan.getCreatedTime().toInstant());
+        castellanDoc.setZoneId(castellan.getCreatedTime().getZone().getId());
+
+        return castellanDoc;
     }
 
     public Castellan toDomain() {
         //
-        Castellan castle = Castellan.newInstance(id, displayName, primaryEmail);
-        castle.setPhotoId(photoId);
-        castle.setPrimaryPhone(primaryPhone);
-        return castle;
+        Castellan castellan = new Castellan(id);
+        castellan.setName(name);
+        castellan.setPhotoId(photoId);
+
+        castellan.setAccounts(LoginAccountDoc.toDomains(accounts));
+        if (credential != null) castellan.setCredential(credential.toDomain());
+
+        castellan.setEmails(CastellanEmailDoc.toDomains(emails));
+        castellan.setJoinedMetros(JoinedMetroDoc.toDomains(joinedMetros));
+
+        castellan.setCreatedTime(ZonedDateTime.ofInstant(createdTimeUTC, ZoneId.of(zoneId)));
+        return castellan;
+    }
+
+    public static List<Castellan> toDomains(List<CastellanDoc> castellanDocuments) {
+        //
+        if (castellanDocuments == null) return null;
+        return castellanDocuments.stream()
+                            .filter(Objects::nonNull)
+                            .map(doc -> doc.toDomain())
+                            .collect(Collectors.toList());
     }
 
     public String getId() {
@@ -58,12 +94,12 @@ public class CastellanDoc {
         this.id = id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getName() {
+        return name;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhotoId() {
@@ -74,19 +110,51 @@ public class CastellanDoc {
         this.photoId = photoId;
     }
 
-    public String getPrimaryEmail() {
-        return primaryEmail;
+    public Set<LoginAccountDoc> getAccounts() {
+        return accounts;
     }
 
-    public void setPrimaryEmail(String primaryEmail) {
-        this.primaryEmail = primaryEmail;
+    public void setAccounts(Set<LoginAccountDoc> accounts) {
+        this.accounts = accounts;
     }
 
-    public String getPrimaryPhone() {
-        return primaryPhone;
+    public LoginCredentialDoc getCredential() {
+        return credential;
     }
 
-    public void setPrimaryPhone(String primaryPhone) {
-        this.primaryPhone = primaryPhone;
+    public void setCredential(LoginCredentialDoc credential) {
+        this.credential = credential;
+    }
+
+    public Set<CastellanEmailDoc> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(Set<CastellanEmailDoc> emails) {
+        this.emails = emails;
+    }
+
+    public List<JoinedMetroDoc> getJoinedMetros() {
+        return joinedMetros;
+    }
+
+    public void setJoinedMetros(List<JoinedMetroDoc> joinedMetros) {
+        this.joinedMetros = joinedMetros;
+    }
+
+    public Instant getCreatedTimeUTC() {
+        return createdTimeUTC;
+    }
+
+    public void setCreatedTimeUTC(Instant createdTimeUTC) {
+        this.createdTimeUTC = createdTimeUTC;
+    }
+
+    public String getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;
     }
 }

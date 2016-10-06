@@ -14,11 +14,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Locale;
-import java.util.UUID;
 
-/**
- * Created by kchuh@nextree.co.kr on 2016. 4. 6..
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CastleMongoStoreTest.class)
 @EnableAutoConfiguration
@@ -31,32 +27,34 @@ public class CastleMongoStoreTest {
 
     @Test
     public void storeCrudTest() {
-        //
-        String id = UUID.randomUUID().toString();
-
         // create test
-        Castle castle = Castle.newInstance(id, "허기철", "kchuh@nextree.co.kr", Locale.US);
-        castle.setBuildTime(System.currentTimeMillis());
+        long castleSequence = castleStore.retrieveNextSequence();
+        Assert.assertEquals(1, castleSequence);
+        castleSequence = castleStore.retrieveNextSequence();
+        Assert.assertEquals(2, castleSequence);
+
+        Castle castle = Castle.newInstance(Locale.US, castleSequence);
+        String id = castle.getId();
+        System.out.println("id : " + id);
         castleStore.create(castle);
 
         // retrieve test
         castle = castleStore.retrieve(id);
-        Assert.assertEquals("허기철", castle.getName());
         Assert.assertEquals(Locale.US, castle.getLocale());
-        Assert.assertEquals(OpenState.Ready, castle.getState());
+        System.out.println(castle);
 
         // update test
         castle.setLocale(Locale.KOREA);
         castleStore.update(castle);
         castle = castleStore.retrieve(id);
-        Assert.assertEquals("허기철", castle.getName());
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
-        Assert.assertEquals(OpenState.Ready, castle.getState());
+        System.out.println(castle);
 
         // delete test
         castleStore.delete(id);
         try {
             castleStore.retrieve(id);
+            Assert.assertTrue(false);
         }
         catch (NonExistenceException e) {
             System.out.println(e.getMessage());
