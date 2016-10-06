@@ -80,13 +80,8 @@ public class CastellanMongoStoreTest {
         System.out.println(castellan);
 
         // retrieve by wrong login Type
-        try {
-            castellanStore.retrieveByLoginIdAndLoginIdType(loginId, LoginIdType.Email);
-            Assert.assertTrue(false);
-        } catch (NonExistenceException e) {
-            System.out.println(e.getMessage());
-            Assert.assertTrue(true);
-        }
+        castellan = castellanStore.retrieveByLoginIdAndLoginIdType(loginId, LoginIdType.Email);
+        Assert.assertNull(castellan);
 
         // Index (Account-Duplication) test
         Castellan newCastellan = Castellan.newInstance("newId", "newName");
