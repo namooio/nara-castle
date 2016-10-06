@@ -23,8 +23,6 @@ public class DtoUtils {
         if (castleBuildDto == null) return null;
         CastleCdo castleCdo = new CastleCdo();
         castleCdo.setLocale(castleBuildDto.getLocale());
-        castleCdo.setCastellanName(castleBuildDto.getCastellanName());
-        castleCdo.setCastellanEmail(castleBuildDto.getCastellanEmail());
         return castleCdo;
     }
 
@@ -33,7 +31,7 @@ public class DtoUtils {
         if (castle == null) return null;
         CastleFindDto castleFindDto = new CastleFindDto();
         castleFindDto.setLocale(castle.getLocale());
-        castleFindDto.setBuiltTime(castle.getBuiltTime());
+        castleFindDto.setBuiltTime(castle.getBuiltTime().toInstant().toEpochMilli());
         return castleFindDto;
     }
 
@@ -57,6 +55,7 @@ public class DtoUtils {
         castellanFindDto.setCredential(toCredentialDto(castellan.getCredential()));
         castellanFindDto.setEmails(toEmailDto(castellan.getEmails()));
         castellanFindDto.setJoinedMetros(toJoinedMetroDto(castellan.getJoinedMetros()));
+        castellanFindDto.setCreatedTime(castellan.getCreatedTime().toInstant().toEpochMilli());
 
         return castellanFindDto;
     }
@@ -77,6 +76,7 @@ public class DtoUtils {
         JoinedMetroDto joinedMetroDto = new JoinedMetroDto();
         joinedMetroDto.setMetroId(joinedMetro.getMetroId());
         joinedMetroDto.setCitizenId(joinedMetro.getCitizenId());
+        joinedMetroDto.setJoinedTime(joinedMetro.getJoinedTime().toInstant().toEpochMilli());
         return joinedMetroDto;
     }
 
@@ -95,9 +95,11 @@ public class DtoUtils {
         if (email == null) return null;
         CastellanEmailDto emailDto = new CastellanEmailDto();
         emailDto.setAddress(email.getAddress());
-        emailDto.setCreatedTime(email.getCreatedTime());
+        emailDto.setCreatedTime(email.getCreatedTime().toInstant().toEpochMilli());
         emailDto.setVerified(email.isVerified());
-        emailDto.setVerifiedTime(email.getVerifiedTime());
+        if (email.getVerifiedTime() != null) {
+            emailDto.setVerifiedTime(email.getVerifiedTime().toInstant().toEpochMilli());
+        }
         emailDto.setPrimary(email.isPrimary());
         return emailDto;
     }

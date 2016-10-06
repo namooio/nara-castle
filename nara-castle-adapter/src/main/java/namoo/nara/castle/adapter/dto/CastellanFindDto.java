@@ -1,7 +1,6 @@
 package namoo.nara.castle.adapter.dto;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +16,7 @@ public class CastellanFindDto implements Serializable {
 
     private List<JoinedMetroDto> joinedMetros;
 
-    private ZonedDateTime createdTime;
+    private long createdTime;
 
     public CastellanFindDto() {
 
@@ -71,11 +70,11 @@ public class CastellanFindDto implements Serializable {
         this.joinedMetros = joinedMetros;
     }
 
-    public ZonedDateTime getCreatedTime() {
+    public long getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(ZonedDateTime createdTime) {
+    public void setCreatedTime(long createdTime) {
         this.createdTime = createdTime;
     }
 }

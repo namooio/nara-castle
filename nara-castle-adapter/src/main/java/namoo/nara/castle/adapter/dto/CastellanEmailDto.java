@@ -1,15 +1,14 @@
 package namoo.nara.castle.adapter.dto;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 
 public class CastellanEmailDto implements Serializable {
     //
     private String address;
-    private ZonedDateTime createdTime;
+    private long createdTime;
 
     private boolean verified;
-    private ZonedDateTime verifiedTime;
+    private long verifiedTime;
 
     private boolean primary;
 
@@ -25,11 +24,11 @@ public class CastellanEmailDto implements Serializable {
         this.address = address;
     }
 
-    public ZonedDateTime getCreatedTime() {
+    public long getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(ZonedDateTime createdTime) {
+    public void setCreatedTime(long createdTime) {
         this.createdTime = createdTime;
     }
 
@@ -41,11 +40,11 @@ public class CastellanEmailDto implements Serializable {
         this.verified = verified;
     }
 
-    public ZonedDateTime getVerifiedTime() {
+    public long getVerifiedTime() {
         return verifiedTime;
     }
 
-    public void setVerifiedTime(ZonedDateTime verifiedTime) {
+    public void setVerifiedTime(long verifiedTime) {
         this.verifiedTime = verifiedTime;
     }
 

@@ -6,11 +6,14 @@ import java.util.Locale;
 public class CastleBuildDto implements Serializable {
     //
     private Locale locale;
-    private String castellanName;
-    private String castellanEmail;
 
     public CastleBuildDto() {
         //
+    }
+
+    public CastleBuildDto(Locale locale) {
+        //
+        this.locale = locale;
     }
 
     public Locale getLocale() {
@@ -21,19 +24,4 @@ public class CastleBuildDto implements Serializable {
         this.locale = locale;
     }
 
-    public String getCastellanName() {
-        return castellanName;
-    }
-
-    public void setCastellanName(String castellanName) {
-        this.castellanName = castellanName;
-    }
-
-    public String getCastellanEmail() {
-        return castellanEmail;
-    }
-
-    public void setCastellanEmail(String castellanEmail) {
-        this.castellanEmail = castellanEmail;
-    }
 }

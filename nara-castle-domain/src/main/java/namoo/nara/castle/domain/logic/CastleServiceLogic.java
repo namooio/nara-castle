@@ -22,8 +22,6 @@ public class CastleServiceLogic implements CastleService {
     public String buildCastle(CastleCdo castleCdo) {
         //
         Locale locale = castleCdo.getLocale();
-        String castellanName = castleCdo.getCastellanName();
-        String castellanEmail = castleCdo.getCastellanEmail();
 
         long sequence = castleStore.retrieveNextSequence();
         Castle castle = Castle.newInstance(locale, sequence);

@@ -7,6 +7,8 @@ public class JoinedMetroDto implements Serializable {
     private String metroId;
     private String citizenId;
 
+    private long joinedTime;
+
     public JoinedMetroDto() {
 
     }
@@ -31,5 +33,13 @@ public class JoinedMetroDto implements Serializable {
 
     public void setCitizenId(String citizenId) {
         this.citizenId = citizenId;
+    }
+
+    public long getJoinedTime() {
+        return joinedTime;
+    }
+
+    public void setJoinedTime(long joinedTime) {
+        this.joinedTime = joinedTime;
     }
 }

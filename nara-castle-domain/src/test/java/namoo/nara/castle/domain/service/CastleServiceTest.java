@@ -21,11 +21,11 @@ public class CastleServiceTest {
         //
         CastleStoreLycler castleStoreLycler = new CastleMapStoreLycler();
         this.castleService = new CastleServiceLogic(castleStoreLycler);
-        kchuhCastleId = this.castleService.buildCastle(new CastleCdo(Locale.KOREA, "kchuh", "kchuh@nextree.co.kr"));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA, "jyjung", "jyjung@nextree.co.kr"));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA, "hkkang", "hkkang@nextree.co.kr"));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA, "tsong", "tsong@nextree.co.kr"));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA, "iylee", "iylee@nextree.co.kr"));
+        kchuhCastleId = this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
     }
 
     @Test
@@ -36,6 +36,7 @@ public class CastleServiceTest {
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
 
         castleService.modifyLocale(kchuhCastleId, Locale.US);
+        castle = castleService.findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.US, castle.getLocale());
     }
 

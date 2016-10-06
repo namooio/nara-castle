@@ -1,13 +1,12 @@
 package namoo.nara.castle.adapter.dto;
 
 import java.io.Serializable;
-import java.time.ZonedDateTime;
 import java.util.Locale;
 
 public class CastleFindDto implements Serializable {
     //
     private Locale locale;
-    private ZonedDateTime builtTime;
+    private long builtTime; // UTC 0
 
     public CastleFindDto() {
         //
@@ -21,11 +20,11 @@ public class CastleFindDto implements Serializable {
         this.locale = locale;
     }
 
-    public ZonedDateTime getBuiltTime() {
+    public long getBuiltTime() {
         return builtTime;
     }
 
-    public void setBuiltTime(ZonedDateTime builtTime) {
+    public void setBuiltTime(long builtTime) {
         this.builtTime = builtTime;
     }
 }

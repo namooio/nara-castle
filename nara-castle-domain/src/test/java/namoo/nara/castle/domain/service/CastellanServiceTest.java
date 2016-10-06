@@ -3,6 +3,7 @@ package namoo.nara.castle.domain.service;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.logic.CastellanServiceLogic;
+import namoo.nara.castle.domain.service.data.CastellanUdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.mapstore.CastleMapStoreLycler;
 import org.junit.Assert;
@@ -25,7 +26,9 @@ public class CastellanServiceTest {
     @Test
     public void basicInfoTest() {
         //
-        this.castellanService.modifyCastellanName(kchuhCastleId, "kchuh");
+        CastellanUdo castellanUdo = new CastellanUdo();
+        castellanUdo.setName("kchuh");
+        this.castellanService.modifyCastellan(kchuhCastleId, castellanUdo);
         Castellan castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertEquals("kchuh", castellan.getName());
 

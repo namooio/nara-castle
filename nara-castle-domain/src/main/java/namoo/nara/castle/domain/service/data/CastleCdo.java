@@ -6,30 +6,13 @@ public class CastleCdo {
     //
     private Locale locale;
 
-    private String castellanName;
-    private String castellanEmail;
-
     public CastleCdo() {
         //
     }
 
-    public CastleCdo(Locale locale, String castellanName, String castellanEmail) {
+    public CastleCdo(Locale locale) {
         //
         this.locale = locale;
-        this.castellanName = castellanName;
-        this.castellanEmail = castellanEmail;
-    }
-
-    public String getCastellanName() {
-        return castellanName;
-    }
-
-    public void setCastellanName(String castellanName) {
-        this.castellanName = castellanName;
-    }
-
-    public String getCastellanEmail() {
-        return castellanEmail;
     }
 
     public Locale getLocale() {
@@ -38,10 +21,6 @@ public class CastleCdo {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    public void setCastellanEmail(String castellanEmail) {
-        this.castellanEmail = castellanEmail;
     }
 
 }
