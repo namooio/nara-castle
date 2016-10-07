@@ -4,7 +4,7 @@ import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.LoginCredential;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.service.CastellanService;
-import namoo.nara.castle.domain.service.data.CastellanUdo;
+import namoo.nara.castle.domain.service.data.CastellanCdo;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 
@@ -18,9 +18,9 @@ public class CastellanServiceLogic implements CastellanService {
     }
 
     @Override
-    public void createCastellan(String castleId, String name) {
+    public void createCastellan(String castleId, CastellanCdo castellanCdo) {
         //
-        Castellan castellan = Castellan.newInstance(castleId, name);
+        Castellan castellan = Castellan.newInstance(castleId, castellanCdo);
         this.castellanStore.create(castellan);
     }
 
@@ -34,22 +34,6 @@ public class CastellanServiceLogic implements CastellanService {
     public Castellan findCastellan(String loginId, LoginIdType loginIdType) {
         //
         return this.castellanStore.retrieveByLoginIdAndLoginIdType(loginId, loginIdType);
-    }
-
-    @Override
-    public void modifyCastellan(String castleId, CastellanUdo castellanUdo) {
-        //
-        Castellan castellan = this.castellanStore.retrieve(castleId);
-        castellan.setName(castellanUdo.getName());
-        this.castellanStore.update(castellan);
-    }
-
-    @Override
-    public void modifyCastellanPhoto(String castleId, String photoId) {
-        //
-        Castellan castellan = this.castellanStore.retrieve(castleId);
-        castellan.setPhotoId(photoId);
-        this.castellanStore.update(castellan);
     }
 
     @Override

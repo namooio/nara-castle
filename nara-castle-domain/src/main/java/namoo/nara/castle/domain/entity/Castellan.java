@@ -1,6 +1,7 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.castle.domain.context.CastleContext;
+import namoo.nara.castle.domain.service.data.CastellanCdo;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.exception.NaraException;
@@ -13,9 +14,6 @@ import java.util.Set;
 
 public class Castellan extends Entity implements Aggregate {
     //
-    private String name;
-    private String photoId;         // profile photo id 
-
     private Set<LoginAccount> accounts;
     private LoginCredential credential;
 
@@ -29,12 +27,19 @@ public class Castellan extends Entity implements Aggregate {
         super(id);
     }
 
-    public static Castellan newInstance(String castleId, String name) {
+    public static Castellan newInstance(String castleId, CastellanCdo castellanCdo) {
         //
         Castellan castellan = new Castellan(castleId);
-        castellan.setName(name);
         castellan.setAccounts(new HashSet<>());
         castellan.setEmails(new HashSet<>());
+
+        String email = castellanCdo.getEmail();
+        castellan.addEmail(email);
+        castellan.setPrimaryEmail(email);
+
+        String password = castellanCdo.getPassword();
+        castellan.setPasswordCredential(password);
+
         castellan.setJoinedMetros(new ArrayList<>());
         castellan.setCreatedTime(ZonedDateTime.now());
         return castellan;
@@ -42,7 +47,7 @@ public class Castellan extends Entity implements Aggregate {
 
     public void addAccount(String loginId, LoginIdType loginIdType) {
         //
-        if (existAccount(loginId, loginIdType)) return;
+        if (existAccount(loginId, loginIdType)) throw new NaraException(String.format("Account[%s:%s] already exist.", loginId, loginIdType));
         LoginAccount account = new LoginAccount();
         account.setLoginId(loginId);
         account.setLoginIdType(loginIdType);
@@ -86,10 +91,16 @@ public class Castellan extends Entity implements Aggregate {
 
     public void addEmail(String address) {
         //
+        if (existEmail(address)) throw new NaraException(String.format("Email[%s] already added.", address));
         CastleContext.getEmailValidator().validate(address);
         CastellanEmail castellanEmail = new CastellanEmail(address);
         castellanEmail.setCreatedTime(ZonedDateTime.now());
         this.emails.add(castellanEmail);
+    }
+
+    private boolean existEmail(String address) {
+        //
+        return findEmail(address) != null;
     }
 
     public void removeEmail(String address) {
@@ -201,22 +212,6 @@ public class Castellan extends Entity implements Aggregate {
         return this.joinedMetros.size();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(String photoId) {
-        this.photoId = photoId;
-    }
-
     public Set<LoginAccount> getAccounts() {
         return accounts;
     }
@@ -259,14 +254,14 @@ public class Castellan extends Entity implements Aggregate {
 
     public static Castellan getSample() {
         //
-        Castellan castellan = Castellan.newInstance("1", "kchuh");
-        castellan.addAccount("kchuh@nextree.co.kr", LoginIdType.Email);
-        castellan.addAccount("kchuh", LoginIdType.Username);
+        CastellanCdo castellanCdo = new CastellanCdo();
+        castellanCdo.setEmail("kchuh@nextree.co.kr");
+        castellanCdo.setPassword("1234");
+        Castellan castellan = Castellan.newInstance("1", castellanCdo);
 
         castellan.addJoinedMetro("M01", "1@M01");
         castellan.addJoinedMetro("M02", "1@M02");
 
-        castellan.addEmail("kchuh@nextree.co.kr");
         castellan.addEmail("michael7557@gmail.com");
         castellan.addEmail("michael7557@naver.com");
 
@@ -278,9 +273,7 @@ public class Castellan extends Entity implements Aggregate {
     @Override
     public String toString() {
         return "Castellan{" +
-                "name='" + name + '\'' +
-                ", photoId='" + photoId + '\'' +
-                ", accounts=" + accounts +
+                "accounts=" + accounts +
                 ", credential=" + credential +
                 ", emails=" + emails +
                 ", joinedMetros=" + joinedMetros +

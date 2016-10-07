@@ -3,7 +3,7 @@ package namoo.nara.castle.domain.service;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.logic.CastellanServiceLogic;
-import namoo.nara.castle.domain.service.data.CastellanUdo;
+import namoo.nara.castle.domain.service.data.CastellanCdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.mapstore.CastleMapStoreLycler;
 import org.junit.Assert;
@@ -20,20 +20,16 @@ public class CastellanServiceTest {
         //
         CastleStoreLycler castleStoreLycler = new CastleMapStoreLycler();
         this.castellanService = new CastellanServiceLogic(castleStoreLycler);
-        this.castellanService.createCastellan(kchuhCastleId, "Ki Chul, Huh");
+
+        CastellanCdo castellanCdo = new CastellanCdo("kchuh@nextree.co.kr", "1234");
+        this.castellanService.createCastellan(kchuhCastleId, castellanCdo);
     }
 
     @Test
     public void basicInfoTest() {
         //
-        CastellanUdo castellanUdo = new CastellanUdo();
-        castellanUdo.setName("kchuh");
-        this.castellanService.modifyCastellan(kchuhCastleId, castellanUdo);
-        Castellan castellan = this.castellanService.findCastellan(kchuhCastleId);
-        Assert.assertEquals("kchuh", castellan.getName());
-
         this.castellanService.removeCastellan(kchuhCastleId);
-        castellan = this.castellanService.findCastellan(kchuhCastleId);
+        Castellan castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertNull(castellan);
     }
 
@@ -71,9 +67,8 @@ public class CastellanServiceTest {
     public void emailTest() {
         //
         Castellan castellan = this.castellanService.findCastellan(kchuhCastleId);
-        Assert.assertEquals(0, castellan.getEmailsCount());
+        Assert.assertEquals(1, castellan.getEmailsCount());
 
-        this.castellanService.addEmail(kchuhCastleId, "kchuh@nextree.co.kr");
         this.castellanService.addEmail(kchuhCastleId, "michael7557@gmail.com");
         castellan = this.castellanService.findCastellan(kchuhCastleId);
         Assert.assertEquals(2, castellan.getEmailsCount());
@@ -84,11 +79,11 @@ public class CastellanServiceTest {
         Assert.assertEquals(true, castellan.findEmail("kchuh@nextree.co.kr").isVerified());
         Assert.assertEquals(1, castellan.getAccounts().size());
 
-        Assert.assertEquals(false, castellan.hasPrimaryEmail());
-        this.castellanService.setPrimaryEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        Assert.assertEquals(true, castellan.hasPrimaryEmail());
+        this.castellanService.setPrimaryEmail(kchuhCastleId, "michael7557@gmail.com");
 
         castellan = this.castellanService.findCastellan(kchuhCastleId);
-        Assert.assertEquals("kchuh@nextree.co.kr", castellan.findPrimaryEmail().getAddress());
+        Assert.assertEquals("michael7557@gmail.com", castellan.findPrimaryEmail().getAddress());
     }
 
     @Test

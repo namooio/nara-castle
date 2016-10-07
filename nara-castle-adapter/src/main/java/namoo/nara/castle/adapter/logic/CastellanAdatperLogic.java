@@ -1,13 +1,16 @@
 package namoo.nara.castle.adapter.logic;
 
 import namoo.nara.castle.adapter.CastellanAdapter;
-import namoo.nara.castle.adapter.dto.*;
+import namoo.nara.castle.adapter.dto.CastellanCreationDto;
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
+import namoo.nara.castle.adapter.dto.JoinedMetroDto;
+import namoo.nara.castle.adapter.dto.LoginAccountDto;
 import namoo.nara.castle.adapter.dto.util.DtoUtils;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.service.CastellanService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
-import namoo.nara.castle.domain.service.data.CastellanUdo;
+import namoo.nara.castle.domain.service.data.CastellanCdo;
 
 public class CastellanAdatperLogic implements CastellanAdapter {
     //
@@ -21,8 +24,8 @@ public class CastellanAdatperLogic implements CastellanAdapter {
     @Override
     public void createCastellan(String castleId, CastellanCreationDto castellanCreationDto) {
         //
-        String castellanName = castellanCreationDto.getName();
-        this.castellanService.createCastellan(castleId, castellanName);
+        CastellanCdo castellanCdo = DtoUtils.toCastellanCdo(castellanCreationDto);
+        this.castellanService.createCastellan(castleId, castellanCdo);
     }
 
     @Override
@@ -37,19 +40,6 @@ public class CastellanAdatperLogic implements CastellanAdapter {
         //
         Castellan castellan = this.castellanService.findCastellan(loginId, LoginIdType.valueOf(loginIdType));
         return DtoUtils.toCastellanFindDto(castellan);
-    }
-
-    @Override
-    public void modifyCastellan(String castleId, CastellanModificationDto castellanModificationDto) {
-        //
-        CastellanUdo castellanUdo = DtoUtils.toCastellanUdo(castellanModificationDto);
-        this.castellanService.modifyCastellan(castleId, castellanUdo);
-    }
-
-    @Override
-    public void modifyCastellanPhoto(String castleId, String photoId) {
-        //
-        this.castellanService.modifyCastellanPhoto(castleId, photoId);
     }
 
     @Override

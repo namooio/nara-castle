@@ -16,8 +16,6 @@ public enum CastleServiceUrl implements NaraServiceUrl {
     URL_CASTELLAN_CREATE                     ("castle-api/castellans/{id}",                     HttpMethod.POST     ),
     URL_CASTELLAN_FIND                       ("castle-api/castellans/{id}",                     HttpMethod.GET      ),
     URL_CASTELLAN_FIND_BY_ACCOUNT            ("castle-api/castellan",                           HttpMethod.GET      ),
-    URL_CASTELLAN_MODIFY                     ("castle-api/castellans/{id}",                     HttpMethod.PUT      ),
-    URL_CASTELLAN_PHOTO_MODIFY               ("castle-api/castellans/{id}/photo",               HttpMethod.PUT      ),
     URL_CASTELLAN_REMOVE                     ("castle-api/castellans/{id}",                     HttpMethod.DELETE   ),
     URL_CASTELLAN_ACCOUNT_ADD                ("castle-api/castellans/{id}/account",             HttpMethod.POST     ),
     URL_CASTELLAN_ACCOUNT_REMOVE             ("castle-api/castellans/{id}/account",             HttpMethod.DELETE   ),

@@ -43,20 +43,20 @@ public abstract class AbstractCastleApplicationTests {
 	public void setUp() {
 		//
 		kchuhCastleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(kchuhCastleId, new CastellanCreationDto("kchuh"));
+		castellanClient.createCastellan(kchuhCastleId, new CastellanCreationDto("kchuh@nextree.co.kr", "1234"));
 
 		String castleId;
 		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("tsong"));
+		castellanClient.createCastellan(castleId, new CastellanCreationDto("tsong@nextree.co.kr", "1234"));
 
 		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("hkkang"));
+		castellanClient.createCastellan(castleId, new CastellanCreationDto("hkkang@nextree.co.kr", "1234"));
 
 		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("jyjung"));
+		castellanClient.createCastellan(castleId, new CastellanCreationDto("jyjung@nextree.co.kr", "1234"));
 
 		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("iylee"));
+		castellanClient.createCastellan(castleId, new CastellanCreationDto("iylee@nextree.co.kr", "1234"));
 	}
 
 }

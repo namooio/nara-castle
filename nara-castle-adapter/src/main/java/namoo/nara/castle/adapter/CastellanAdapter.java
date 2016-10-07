@@ -1,14 +1,15 @@
 package namoo.nara.castle.adapter;
 
-import namoo.nara.castle.adapter.dto.*;
+import namoo.nara.castle.adapter.dto.CastellanCreationDto;
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
+import namoo.nara.castle.adapter.dto.JoinedMetroDto;
+import namoo.nara.castle.adapter.dto.LoginAccountDto;
 
 public interface CastellanAdapter {
     //
     void createCastellan(String castleId, CastellanCreationDto castellanCreationDto);
     CastellanFindDto findCastellan(String castleId);
     CastellanFindDto findCastellan(String loginId, String loginIdType);
-    void modifyCastellan(String castleId, CastellanModificationDto castellanModificationDto);
-    void modifyCastellanPhoto(String castleId, String photoId);
     void removeCastellan(String castleId);
 
     void addAccount(String castleId, LoginAccountDto accountDto);

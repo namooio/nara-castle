@@ -1,7 +1,10 @@
 package namoo.nara.castle.client;
 
 import namoo.nara.castle.adapter.CastellanAdapter;
-import namoo.nara.castle.adapter.dto.*;
+import namoo.nara.castle.adapter.dto.CastellanCreationDto;
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
+import namoo.nara.castle.adapter.dto.JoinedMetroDto;
+import namoo.nara.castle.adapter.dto.LoginAccountDto;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
@@ -41,26 +44,6 @@ public class CastellanClient implements CastellanAdapter {
                 .addQueryParam("loginId", loginId)
                 .addQueryParam("loginIdType", loginIdType)
                 .setResponseType(CastellanFindDto.class)
-        );
-    }
-
-    @Override
-    public void modifyCastellan(String castleId, CastellanModificationDto castellanModificationDto) {
-        //
-        naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_MODIFY)
-                .addPathParam("id", castleId)
-                .setRequestDto(castellanModificationDto)
-        );
-    }
-
-    @Override
-    public void modifyCastellanPhoto(String castleId, String photoId) {
-        //
-        naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_PHOTO_MODIFY)
-                .addPathParam("id", castleId)
-                .setRequestDto(photoId)
         );
     }
 

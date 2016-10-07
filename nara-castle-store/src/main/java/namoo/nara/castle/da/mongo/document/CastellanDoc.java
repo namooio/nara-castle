@@ -26,8 +26,6 @@ public class CastellanDoc {
     //
     @Id
     private String id;              // == castle id
-    private String name;
-    private String photoId;         // profile photo id
 
     private Set<LoginAccountDoc> accounts;
     private LoginCredentialDoc credential;
@@ -47,8 +45,6 @@ public class CastellanDoc {
         //
         CastellanDoc castellanDoc = new CastellanDoc();
         castellanDoc.setId(castellan.getId());
-        castellanDoc.setName(castellan.getName());
-        castellanDoc.setPhotoId(castellan.getPhotoId());
 
         castellanDoc.setAccounts(LoginAccountDoc.toDocuments(castellan.getAccounts()));
         castellanDoc.setCredential(LoginCredentialDoc.toDocument(castellan.getCredential()));
@@ -65,8 +61,6 @@ public class CastellanDoc {
     public Castellan toDomain() {
         //
         Castellan castellan = new Castellan(id);
-        castellan.setName(name);
-        castellan.setPhotoId(photoId);
 
         castellan.setAccounts(LoginAccountDoc.toDomains(accounts));
         if (credential != null) castellan.setCredential(credential.toDomain());
@@ -93,22 +87,6 @@ public class CastellanDoc {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(String photoId) {
-        this.photoId = photoId;
     }
 
     public Set<LoginAccountDoc> getAccounts() {

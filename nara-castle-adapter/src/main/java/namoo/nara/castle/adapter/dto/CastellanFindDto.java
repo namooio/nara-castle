@@ -7,8 +7,6 @@ import java.util.Set;
 public class CastellanFindDto implements Serializable {
     //
     private String id;
-    private String name;
-    private String photoId;
 
     private Set<LoginAccountDto> accounts;
     private LoginCredentialDto credential;
@@ -29,22 +27,6 @@ public class CastellanFindDto implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(String photoId) {
-        this.photoId = photoId;
     }
 
     public Set<LoginAccountDto> getAccounts() {

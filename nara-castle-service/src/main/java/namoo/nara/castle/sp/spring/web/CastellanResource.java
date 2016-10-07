@@ -1,6 +1,9 @@
 package namoo.nara.castle.sp.spring.web;
 
-import namoo.nara.castle.adapter.dto.*;
+import namoo.nara.castle.adapter.dto.CastellanCreationDto;
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
+import namoo.nara.castle.adapter.dto.JoinedMetroDto;
+import namoo.nara.castle.adapter.dto.LoginAccountDto;
 import namoo.nara.castle.adapter.logic.CastellanAdatperLogic;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,24 +42,6 @@ public class CastellanResource extends CastellanAdatperLogic {
             @RequestParam("loginIdType") String loginIdType
     ) {
         return super.findCastellan(loginId, loginIdType);
-    }
-
-    @Override
-    @RequestMapping(value="castellans/{id}", method= RequestMethod.PUT)
-    public void modifyCastellan(
-            @PathVariable("id") String castleId,
-            @RequestBody CastellanModificationDto castellanModificationDto
-    ) {
-        super.modifyCastellan(castleId, castellanModificationDto);
-    }
-
-    @Override
-    @RequestMapping(value="castellans/{id}/photo", method= RequestMethod.PUT)
-    public void modifyCastellanPhoto(
-            @PathVariable("id") String castleId,
-            @RequestBody String photoId
-    ) {
-        super.modifyCastellanPhoto(castleId, photoId);
     }
 
     @Override

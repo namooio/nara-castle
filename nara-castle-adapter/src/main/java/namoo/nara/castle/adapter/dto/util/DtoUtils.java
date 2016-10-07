@@ -2,7 +2,7 @@ package namoo.nara.castle.adapter.dto.util;
 
 import namoo.nara.castle.adapter.dto.*;
 import namoo.nara.castle.domain.entity.*;
-import namoo.nara.castle.domain.service.data.CastellanUdo;
+import namoo.nara.castle.domain.service.data.CastellanCdo;
 import namoo.nara.castle.domain.service.data.CastleCdo;
 
 import java.util.ArrayList;
@@ -26,6 +26,15 @@ public class DtoUtils {
         return castleCdo;
     }
 
+    public static CastellanCdo toCastellanCdo(CastellanCreationDto castellanCreationDto) {
+        //
+        if (castellanCreationDto == null) return null;
+        CastellanCdo castellanCdo = new CastellanCdo();
+        castellanCdo.setEmail(castellanCreationDto.getEmail());
+        castellanCdo.setPassword(castellanCreationDto.getPassword());
+        return castellanCdo;
+    }
+
     public static CastleFindDto toCastleFindDto(Castle castle) {
         //
         if (castle == null) return null;
@@ -40,7 +49,7 @@ public class DtoUtils {
         //
         if (castles == null) return null;
         List<CastleFindDto> castleFindDtos = new ArrayList<>(castles.size());
-        for(Castle castle : castles) {
+        for (Castle castle : castles) {
             castleFindDtos.add(toCastleFindDto(castle));
         }
         return castleFindDtos;
@@ -51,8 +60,6 @@ public class DtoUtils {
         if (castellan == null) return null;
         CastellanFindDto castellanFindDto = new CastellanFindDto();
         castellanFindDto.setId(castellan.getId());
-        castellanFindDto.setName(castellan.getName());
-        castellanFindDto.setPhotoId(castellan.getPhotoId());
         castellanFindDto.setAccounts(toAccountDto(castellan.getAccounts()));
         castellanFindDto.setCredential(toCredentialDto(castellan.getCredential()));
         castellanFindDto.setEmails(toEmailDto(castellan.getEmails()));
@@ -66,7 +73,7 @@ public class DtoUtils {
         //
         if (joinedMetros == null) return null;
         List<JoinedMetroDto> joinedMetroDtos = new ArrayList<>(joinedMetros.size());
-        for(JoinedMetro joinedMetro : joinedMetros) {
+        for (JoinedMetro joinedMetro : joinedMetros) {
             joinedMetroDtos.add(toJoinedMetroDto(joinedMetro));
         }
         return joinedMetroDtos;
@@ -86,7 +93,7 @@ public class DtoUtils {
         //
         if (emails == null) return null;
         Set<CastellanEmailDto> emailDtos = new HashSet<>(emails.size());
-        for(CastellanEmail email : emails) {
+        for (CastellanEmail email : emails) {
             emailDtos.add(toEmailDto(email));
         }
         return emailDtos;
@@ -118,7 +125,7 @@ public class DtoUtils {
         //
         if (accounts == null) return null;
         Set<LoginAccountDto> accountDtos = new HashSet<>(accounts.size());
-        for(LoginAccount account : accounts) {
+        for (LoginAccount account : accounts) {
             accountDtos.add(toAccountDto(account));
         }
         return accountDtos;
@@ -133,12 +140,4 @@ public class DtoUtils {
         return loginAccountDto;
     }
 
-
-    public static CastellanUdo toCastellanUdo(CastellanModificationDto castellanModificationDto) {
-        //
-        if (castellanModificationDto == null) return null;
-        CastellanUdo castellanUdo = new CastellanUdo();
-        castellanUdo.setName(castellanModificationDto.getName());
-        return castellanUdo;
-    }
 }

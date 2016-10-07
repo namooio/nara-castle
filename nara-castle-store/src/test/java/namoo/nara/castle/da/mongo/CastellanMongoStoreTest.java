@@ -2,6 +2,7 @@ package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.LoginIdType;
+import namoo.nara.castle.domain.service.data.CastellanCdo;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.junit.Assert;
@@ -31,25 +32,15 @@ public class CastellanMongoStoreTest {
     public void storeCrudTest() {
         //
         String id = UUID.randomUUID().toString();
-        String name = "정지용";
-        String photoId = "photoGood";
-        String loginId = "jiyong84444";
-        LoginIdType loginIdType = LoginIdType.Username;
         String password = "Non-encryption";
         String email = "jyjung@nextree.co.kr";
 
         // create test
-        Castellan castellan = Castellan.newInstance(id, name);
-        castellan.setPhotoId(photoId);
-        castellan.addAccount(loginId, loginIdType);
-        castellan.setPasswordCredential(password);
-        castellan.addEmail(email);
+        Castellan castellan = Castellan.newInstance(id, new CastellanCdo(email, password));
         castellanStore.create(castellan);
 
         // retrieve test
         castellan = castellanStore.retrieve(id);
-        Assert.assertEquals(name, castellan.getName());
-        Assert.assertEquals(photoId, castellan.getPhotoId());
         Assert.assertEquals(password, castellan.getCredential().getPassword());
         Assert.assertEquals(1, castellan.getEmailsCount());
         System.out.println(castellan);
@@ -58,34 +49,28 @@ public class CastellanMongoStoreTest {
         Assert.assertEquals(1, castellanStore.retrieveAll().size());
 
         // update test
-        String changedName = "jiyong";
         String metroId = "metro1";
         String citizenId = "metro1-citizen";
-        castellan.setName(changedName);
         castellan.verifyEmail(email);
         castellan.addJoinedMetro(metroId, citizenId);
+        castellan.addAccount("jyjung", LoginIdType.Username);
         castellanStore.update(castellan);
 
         // retrieve by loginId & Type
-        castellan = castellanStore.retrieveByLoginIdAndLoginIdType(loginId, loginIdType);
-        Assert.assertEquals(changedName, castellan.getName());
+        castellan = castellanStore.retrieveByLoginIdAndLoginIdType(email, LoginIdType.Email);
         Assert.assertEquals(2, castellan.getAccounts().size());
         Assert.assertEquals(1, castellan.getJoinedMetrosCount());
-
-        castellan = castellanStore.retrieveByLoginIdAndLoginIdType(email, LoginIdType.Email);
-        Assert.assertEquals(changedName, castellan.getName());
-        Assert.assertEquals(2, castellan.getAccounts().size());
         Assert.assertEquals(metroId, castellan.getJoinedMetros().get(0).getMetroId());
         Assert.assertEquals(citizenId, castellan.getJoinedMetros().get(0).getCitizenId());
         System.out.println(castellan);
 
         // retrieve by wrong login Type
-        castellan = castellanStore.retrieveByLoginIdAndLoginIdType(loginId, LoginIdType.Email);
+        castellan = castellanStore.retrieveByLoginIdAndLoginIdType("jyjung", LoginIdType.Email);
         Assert.assertNull(castellan);
 
         // Index (Account-Duplication) test
-        Castellan newCastellan = Castellan.newInstance("newId", "newName");
-        newCastellan.addAccount(loginId, loginIdType);
+        Castellan newCastellan = Castellan.newInstance("newId", new CastellanCdo("jyjung@nextree.co.kr", "1234"));
+        newCastellan.verifyEmail("jyjung@nextree.co.kr");
         try {
             castellanStore.create(newCastellan);
             castellanStore.retrieveAll().stream().forEach(System.out::println);

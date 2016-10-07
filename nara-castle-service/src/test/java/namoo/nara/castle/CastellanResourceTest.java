@@ -1,6 +1,9 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.dto.*;
+import namoo.nara.castle.adapter.dto.CastellanEmailDto;
+import namoo.nara.castle.adapter.dto.CastellanFindDto;
+import namoo.nara.castle.adapter.dto.JoinedMetroDto;
+import namoo.nara.castle.adapter.dto.LoginAccountDto;
 import namoo.nara.castle.adapter.dto.util.DtoUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,13 +16,6 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void basicInfoTest() {
         //
-        CastellanModificationDto castellanModificationDto = new CastellanModificationDto();
-        castellanModificationDto.setName("Kichul Huh");
-        getCastellanClient().modifyCastellan(kchuhCastleId, castellanModificationDto);
-
-        CastellanFindDto castellan = getCastellanClient().findCastellan(kchuhCastleId);
-        Assert.assertEquals("Kichul Huh", castellan.getName());
-
         getCastellanClient().removeCastellan(kchuhCastleId);
         try {
             getCastellanClient().findCastellan(kchuhCastleId);
@@ -39,16 +35,19 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
         Assert.assertEquals("4321", castellan.getCredential().getPassword());
 
         getCastellanClient().addAccount(kchuhCastleId, new LoginAccountDto("kchuh", DtoUtils.LOGIN_ID_TYPE_USERNAME));
-        getCastellanClient().addAccount(kchuhCastleId, new LoginAccountDto("kchuh@nextree.co.kr", DtoUtils.LOGIN_ID_TYPE_EMAIL));
 
         castellan = getCastellanClient().findCastellan(kchuhCastleId);
-        Assert.assertEquals(2, castellan.getAccounts().size());
+        Assert.assertEquals(1, castellan.getAccounts().size());
 
         castellan = getCastellanClient().findCastellan("kchuh", DtoUtils.LOGIN_ID_TYPE_USERNAME);
-        Assert.assertEquals(2, castellan.getAccounts().size());
+        Assert.assertEquals(1, castellan.getAccounts().size());
 
         castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", DtoUtils.LOGIN_ID_TYPE_EMAIL);
-        Assert.assertEquals(2, castellan.getAccounts().size());
+        Assert.assertNull(castellan);
+
+        getCastellanClient().verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", DtoUtils.LOGIN_ID_TYPE_EMAIL);
+        Assert.assertNotNull(castellan);
 
         castellan = getCastellanClient().findCastellan("kchuh", DtoUtils.LOGIN_ID_TYPE_EMAIL);
         Assert.assertNull(castellan);
@@ -62,9 +61,14 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
     public void emailTest() {
         //
         CastellanFindDto castellan = getCastellanClient().findCastellan(kchuhCastleId);
-        Assert.assertEquals(0, castellan.getEmails().size());
+        Assert.assertEquals(1, castellan.getEmails().size());
 
-        getCastellanClient().addEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        try {
+            getCastellanClient().addEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
+
         getCastellanClient().addEmail(kchuhCastleId, "michael7557@gmail.com");
         castellan = getCastellanClient().findCastellan(kchuhCastleId);
         Assert.assertEquals(2, castellan.getEmails().size());
@@ -89,7 +93,6 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
             else {
                 Assert.assertEquals(false, emailDto.isVerified());
             }
-            Assert.assertEquals(false, emailDto.isPrimary());
         }
         Assert.assertEquals(1, castellan.getAccounts().size());
 
