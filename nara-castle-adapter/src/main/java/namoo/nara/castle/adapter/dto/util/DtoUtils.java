@@ -12,12 +12,6 @@ import java.util.Set;
 
 public class DtoUtils {
     //
-    public static final String LOGIN_ID_TYPE_USERNAME = "Username";
-    public static final String LOGIN_ID_TYPE_EMAIL = "Email";
-    public static final String LOGIN_ID_TYPE_FACEBOOK = "Facebook";
-    public static final String LOGIN_ID_TYPE_GOOGLE = "Google";
-    public static final String LOGIN_ID_TYPE_GITHUB = "GitHub";
-
     public static CastleCdo toCastleCdo(CastleBuildDto castleBuildDto) {
         //
         if (castleBuildDto == null) return null;

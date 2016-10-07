@@ -4,7 +4,7 @@ import namoo.nara.castle.adapter.dto.CastellanEmailDto;
 import namoo.nara.castle.adapter.dto.CastellanFindDto;
 import namoo.nara.castle.adapter.dto.JoinedMetroDto;
 import namoo.nara.castle.adapter.dto.LoginAccountDto;
-import namoo.nara.castle.adapter.dto.util.DtoUtils;
+import namoo.nara.castle.adapter.dto.util.CastleConst;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,25 +34,25 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
         castellan = getCastellanClient().findCastellan(kchuhCastleId);
         Assert.assertEquals("4321", castellan.getCredential().getPassword());
 
-        getCastellanClient().addAccount(kchuhCastleId, new LoginAccountDto("kchuh", DtoUtils.LOGIN_ID_TYPE_USERNAME));
+        getCastellanClient().addAccount(kchuhCastleId, new LoginAccountDto("kchuh", CastleConst.LOGIN_ID_TYPE_USERNAME));
 
         castellan = getCastellanClient().findCastellan(kchuhCastleId);
         Assert.assertEquals(1, castellan.getAccounts().size());
 
-        castellan = getCastellanClient().findCastellan("kchuh", DtoUtils.LOGIN_ID_TYPE_USERNAME);
+        castellan = getCastellanClient().findCastellan("kchuh", CastleConst.LOGIN_ID_TYPE_USERNAME);
         Assert.assertEquals(1, castellan.getAccounts().size());
 
-        castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", DtoUtils.LOGIN_ID_TYPE_EMAIL);
+        castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", CastleConst.LOGIN_ID_TYPE_EMAIL);
         Assert.assertNull(castellan);
 
         getCastellanClient().verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
-        castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", DtoUtils.LOGIN_ID_TYPE_EMAIL);
+        castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", CastleConst.LOGIN_ID_TYPE_EMAIL);
         Assert.assertNotNull(castellan);
 
-        castellan = getCastellanClient().findCastellan("kchuh", DtoUtils.LOGIN_ID_TYPE_EMAIL);
+        castellan = getCastellanClient().findCastellan("kchuh", CastleConst.LOGIN_ID_TYPE_EMAIL);
         Assert.assertNull(castellan);
 
-        getCastellanClient().removeAccount(kchuhCastleId, new LoginAccountDto("kchuh", DtoUtils.LOGIN_ID_TYPE_USERNAME));
+        getCastellanClient().removeAccount(kchuhCastleId, new LoginAccountDto("kchuh", CastleConst.LOGIN_ID_TYPE_USERNAME));
         castellan = getCastellanClient().findCastellan(kchuhCastleId);
         Assert.assertEquals(1, castellan.getAccounts().size());
     }
