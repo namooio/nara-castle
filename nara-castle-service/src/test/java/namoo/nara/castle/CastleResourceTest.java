@@ -1,6 +1,6 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.dto.CastleFindDto;
+import namoo.nara.castle.protocol.sdo.CastleFindSdo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,12 +11,12 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void castleTest() {
         //
-        Assert.assertEquals(5, getCastleClient().findCastles().size());
-        CastleFindDto castle = getCastleClient().findCastle(kchuhCastleId);
+        Assert.assertEquals(5, getCastleRestAdapter().findCastles().size());
+        CastleFindSdo castle = getCastleRestAdapter().findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
 
-        getCastleClient().modifyLocale(kchuhCastleId, Locale.US);
-        castle = getCastleClient().findCastle(kchuhCastleId);
+        getCastleRestAdapter().modifyLocale(kchuhCastleId, Locale.US);
+        castle = getCastleRestAdapter().findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.US, castle.getLocale());
     }
 }

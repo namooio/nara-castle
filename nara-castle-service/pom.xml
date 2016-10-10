@@ -24,7 +24,7 @@
 		</dependency>
 		<dependency>
 			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-adapter</artifactId>
+			<artifactId>nara-castle-protocol</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -56,11 +56,10 @@
 			<version>3.3.6</version>
 		</dependency>
 
-
 		<!-- test -->
 		<dependency>
 			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-client</artifactId>
+			<artifactId>nara-castle-adapter</artifactId>
 			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>

@@ -1,8 +1,8 @@
-package namoo.nara.castle.adapter.dto;
+package namoo.nara.castle.protocol.sdo;
 
 import java.io.Serializable;
 
-public class CastellanEmailDto implements Serializable {
+public class CastellanEmailSdo implements Serializable {
     //
     private String address;
     private long createdTime;
@@ -12,7 +12,7 @@ public class CastellanEmailDto implements Serializable {
 
     private boolean primary;
 
-    public CastellanEmailDto() {
+    public CastellanEmailSdo() {
         //
     }
 

@@ -1,17 +1,17 @@
-package namoo.nara.castle.adapter.dto;
+package namoo.nara.castle.protocol.sdo;
 
 import java.io.Serializable;
 
-public class CastellanCreationDto implements Serializable {
+public class CastellanCreationSdo implements Serializable {
     //
     private String email;
     private String password;
 
-    public CastellanCreationDto() {
+    public CastellanCreationSdo() {
         //
     }
 
-    public CastellanCreationDto(String email, String password) {
+    public CastellanCreationSdo(String email, String password) {
         //
         this.email = email;
         this.password = password;

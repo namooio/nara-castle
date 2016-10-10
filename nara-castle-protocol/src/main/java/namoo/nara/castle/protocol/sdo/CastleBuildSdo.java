@@ -1,17 +1,17 @@
-package namoo.nara.castle.adapter.dto;
+package namoo.nara.castle.protocol.sdo;
 
 import java.io.Serializable;
 import java.util.Locale;
 
-public class CastleBuildDto implements Serializable {
+public class CastleBuildSdo implements Serializable {
     //
     private Locale locale;
 
-    public CastleBuildDto() {
+    public CastleBuildSdo() {
         //
     }
 
-    public CastleBuildDto(Locale locale) {
+    public CastleBuildSdo(Locale locale) {
         //
         this.locale = locale;
     }

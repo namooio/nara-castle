@@ -1,6 +1,6 @@
-package namoo.nara.castle.adapter.dto.util;
+package namoo.nara.castle.adapter;
 
-public interface CastleConst {
+public interface CastleConstant {
     //
     String LOGIN_ID_TYPE_USERNAME = "Username";
     String LOGIN_ID_TYPE_EMAIL = "Email";

@@ -1,16 +1,16 @@
-package namoo.nara.castle.adapter.dto;
+package namoo.nara.castle.protocol.sdo;
 
 import java.io.Serializable;
 
-public class LoginCredentialDto implements Serializable {
+public class LoginCredentialSdo implements Serializable {
     //
     private String password;
 
-    public LoginCredentialDto() {
+    public LoginCredentialSdo() {
         //
     }
 
-    public LoginCredentialDto(String password) {
+    public LoginCredentialSdo(String password) {
         this.password = password;
     }
 

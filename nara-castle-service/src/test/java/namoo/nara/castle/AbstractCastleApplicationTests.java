@@ -1,13 +1,14 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.CastellanAdapter;
-import namoo.nara.castle.adapter.CastleAdapter;
-import namoo.nara.castle.adapter.dto.CastellanCreationDto;
-import namoo.nara.castle.adapter.dto.CastleBuildDto;
+import namoo.nara.castle.adapter.rest.CastellanRestAdapter;
+import namoo.nara.castle.adapter.rest.CastleRestAdapter;
+import namoo.nara.castle.protocol.CastellanProtocol;
+import namoo.nara.castle.protocol.CastleProtocol;
+import namoo.nara.castle.protocol.sdo.CastellanCreationSdo;
+import namoo.nara.castle.protocol.sdo.CastleBuildSdo;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.annotation.DirtiesContext;
@@ -22,19 +23,17 @@ import java.util.Locale;
 public abstract class AbstractCastleApplicationTests {
 	//
 	@Autowired
-	@Qualifier("CastleClient")
-	private CastleAdapter castleClient;
+	private CastleRestAdapter castleRestAdapter;
 
 	@Autowired
-	@Qualifier("CastellanClient")
-	private CastellanAdapter castellanClient;
+	private CastellanRestAdapter castellanRestAdapter;
 
-	public CastleAdapter getCastleClient() {
-		return castleClient;
+	public CastleProtocol getCastleRestAdapter() {
+		return castleRestAdapter;
 	}
 
-	public CastellanAdapter getCastellanClient() {
-		return castellanClient;
+	public CastellanProtocol getCastellanRestAdapter() {
+		return castellanRestAdapter;
 	}
 
 	protected String kchuhCastleId;
@@ -42,21 +41,21 @@ public abstract class AbstractCastleApplicationTests {
 	@Before
 	public void setUp() {
 		//
-		kchuhCastleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(kchuhCastleId, new CastellanCreationDto("kchuh@nextree.co.kr", "1234"));
+		kchuhCastleId = castleRestAdapter.buildCastle(new CastleBuildSdo(Locale.KOREA));
+		castellanRestAdapter.createCastellan(kchuhCastleId, new CastellanCreationSdo("kchuh@nextree.co.kr", "1234"));
 
 		String castleId;
-		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("tsong@nextree.co.kr", "1234"));
+		castleId = castleRestAdapter.buildCastle(new CastleBuildSdo(Locale.KOREA));
+		castellanRestAdapter.createCastellan(castleId, new CastellanCreationSdo("tsong@nextree.co.kr", "1234"));
 
-		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("hkkang@nextree.co.kr", "1234"));
+		castleId = castleRestAdapter.buildCastle(new CastleBuildSdo(Locale.KOREA));
+		castellanRestAdapter.createCastellan(castleId, new CastellanCreationSdo("hkkang@nextree.co.kr", "1234"));
 
-		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("jyjung@nextree.co.kr", "1234"));
+		castleId = castleRestAdapter.buildCastle(new CastleBuildSdo(Locale.KOREA));
+		castellanRestAdapter.createCastellan(castleId, new CastellanCreationSdo("jyjung@nextree.co.kr", "1234"));
 
-		castleId = castleClient.buildCastle(new CastleBuildDto(Locale.KOREA));
-		castellanClient.createCastellan(castleId, new CastellanCreationDto("iylee@nextree.co.kr", "1234"));
+		castleId = castleRestAdapter.buildCastle(new CastleBuildSdo(Locale.KOREA));
+		castellanRestAdapter.createCastellan(castleId, new CastellanCreationSdo("iylee@nextree.co.kr", "1234"));
 	}
 
 }

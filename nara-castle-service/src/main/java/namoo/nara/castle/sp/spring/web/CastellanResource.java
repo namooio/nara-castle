@@ -1,11 +1,17 @@
 package namoo.nara.castle.sp.spring.web;
 
-import namoo.nara.castle.adapter.dto.CastellanCreationDto;
-import namoo.nara.castle.adapter.dto.CastellanFindDto;
-import namoo.nara.castle.adapter.dto.JoinedMetroDto;
-import namoo.nara.castle.adapter.dto.LoginAccountDto;
-import namoo.nara.castle.adapter.logic.CastellanAdatperLogic;
-import namoo.nara.castle.domain.service.CastleServiceLycler;
+import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.JoinedMetro;
+import namoo.nara.castle.domain.entity.LoginAccount;
+import namoo.nara.castle.domain.entity.LoginIdType;
+import namoo.nara.castle.domain.service.CastellanService;
+import namoo.nara.castle.domain.service.data.CastellanCdo;
+import namoo.nara.castle.protocol.CastellanProtocol;
+import namoo.nara.castle.protocol.sdo.CastellanCreationSdo;
+import namoo.nara.castle.protocol.sdo.CastellanFindSdo;
+import namoo.nara.castle.protocol.sdo.JoinedMetroSdo;
+import namoo.nara.castle.protocol.sdo.LoginAccountSdo;
+import namoo.nara.castle.sp.util.SdoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,37 +20,41 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("castle-api")
-public class CastellanResource extends CastellanAdatperLogic {
+public class CastellanResource implements CastellanProtocol {
     //
     @Autowired
-    public CastellanResource(CastleServiceLycler serviceLycler) {
-        super(serviceLycler);
-    }
+    private CastellanService castellanService;
 
     @Override
     @RequestMapping(value="castellans/{id}", method= RequestMethod.POST)
     public void createCastellan(
             @PathVariable("id") String castleId,
-            @RequestBody CastellanCreationDto castellanCreationDto
+            @RequestBody CastellanCreationSdo castellanCreationSdo
     ) {
-        super.createCastellan(castleId, castellanCreationDto);
+        //
+        CastellanCdo castellanCdo = SdoUtils.toCastellanCdo(castellanCreationSdo);
+        this.castellanService.createCastellan(castleId, castellanCdo);
     }
 
     @Override
     @RequestMapping(value="castellans/{id}", method= RequestMethod.GET)
-    public CastellanFindDto findCastellan(
+    public CastellanFindSdo findCastellan(
             @PathVariable("id") String castleId
     ) {
-        return super.findCastellan(castleId);
+        //
+        Castellan castellan = this.castellanService.findCastellan(castleId);
+        return SdoUtils.toCastellanFindSdo(castellan);
     }
 
     @Override
     @RequestMapping(value = "castellan", method= RequestMethod.GET)
-    public CastellanFindDto findCastellan(
+    public CastellanFindSdo findCastellan(
             @RequestParam("loginId") String loginId,
             @RequestParam("loginIdType") String loginIdType
     ) {
-        return super.findCastellan(loginId, loginIdType);
+        //
+        Castellan castellan = this.castellanService.findCastellan(loginId, LoginIdType.valueOf(loginIdType));
+        return SdoUtils.toCastellanFindSdo(castellan);
     }
 
     @Override
@@ -52,33 +62,42 @@ public class CastellanResource extends CastellanAdatperLogic {
     public void removeCastellan(
             @PathVariable("id") String castleId
     ) {
-        super.removeCastellan(castleId);
+        //
+        this.castellanService.removeCastellan(castleId);
     }
 
     @Override
     @RequestMapping(value="castellans/{id}/account", method= RequestMethod.POST)
     public void addAccount(
             @PathVariable("id") String castleId,
-            @RequestBody LoginAccountDto accountDto
+            @RequestBody LoginAccountSdo accountDto
     ) {
-        super.addAccount(castleId, accountDto);
+        //
+        String loginId = accountDto.getLoginId();
+        String loginIdType = accountDto.getLoginIdType();
+        this.castellanService.addAccount(castleId, loginId, LoginIdType.valueOf(loginIdType));
     }
 
     @Override
     @RequestMapping(value = "castellans/{id}/accounts", method = RequestMethod.GET)
-    public List<LoginAccountDto> findAccounts(
+    public List<LoginAccountSdo> findAccounts(
             @PathVariable("id") String castleId
     ) {
-        return super.findAccounts(castleId);
+        //
+        Set<LoginAccount> accounts = this.castellanService.findAccounts(castleId);
+        return SdoUtils.toAccountSdo(accounts);
     }
 
     @Override
     @RequestMapping(value="castellans/{id}/account", method= RequestMethod.DELETE)
     public void removeAccount(
             @PathVariable("id") String castleId,
-            @RequestBody LoginAccountDto accountDto
+            @RequestBody LoginAccountSdo accountDto
     ) {
-        super.removeAccount(castleId, accountDto);
+        //
+        String loginId = accountDto.getLoginId();
+        String loginIdType = accountDto.getLoginIdType();
+        this.castellanService.removeAccount(castleId, loginId, LoginIdType.valueOf(loginIdType));
     }
 
     @Override
@@ -86,7 +105,8 @@ public class CastellanResource extends CastellanAdatperLogic {
     public String findPassword(
             @PathVariable("id") String castleId
     ) {
-        return super.findPassword(castleId);
+        //
+        return castellanService.findPassword(castleId);
     }
 
     @Override
@@ -95,7 +115,8 @@ public class CastellanResource extends CastellanAdatperLogic {
             @PathVariable("id") String castleId,
             @RequestBody String password
     ) {
-        super.modifyPassword(castleId, password);
+        //
+        this.castellanService.modifyPassword(castleId, password);
     }
 
     @Override
@@ -104,7 +125,8 @@ public class CastellanResource extends CastellanAdatperLogic {
             @PathVariable("id") String castleId,
             @RequestBody String email
     ) {
-        super.addEmail(castleId, email);
+        //
+        this.castellanService.addEmail(castleId, email);
     }
 
     @Override
@@ -113,7 +135,8 @@ public class CastellanResource extends CastellanAdatperLogic {
             @PathVariable("id") String castleId,
             @RequestBody String email
     ) {
-        super.verifyEmail(castleId, email);
+        //
+        this.castellanService.verifyEmail(castleId, email);
     }
 
     @Override
@@ -122,7 +145,8 @@ public class CastellanResource extends CastellanAdatperLogic {
             @PathVariable("id") String castleId,
             @RequestBody String email
     ) {
-        super.setPrimaryEmail(castleId, email);
+        //
+        this.castellanService.setPrimaryEmail(castleId, email);
     }
 
     @Override
@@ -131,32 +155,41 @@ public class CastellanResource extends CastellanAdatperLogic {
             @PathVariable("id") String castleId,
             @RequestBody String email
     ) {
-        super.removeEmail(castleId, email);
+        //
+        this.castellanService.removeEmail(castleId, email);
     }
 
     @Override
     @RequestMapping(value="castellans/{id}/joined-metro", method= RequestMethod.POST)
     public void addJoinedMetro(
             @PathVariable("id") String castleId,
-            @RequestBody JoinedMetroDto joinedMetroDto
+            @RequestBody JoinedMetroSdo joinedMetroSdo
     ) {
-        super.addJoinedMetro(castleId, joinedMetroDto);
+        //
+        String metroId = joinedMetroSdo.getMetroId();
+        String citizenId = joinedMetroSdo.getCitizenId();
+        this.castellanService.addJoinedMetro(castleId, metroId, citizenId);
     }
 
     @Override
     @RequestMapping(value="castellans/{id}/joined-metros", method= RequestMethod.GET)
-    public List<JoinedMetroDto> findJoinedMetros(
+    public List<JoinedMetroSdo> findJoinedMetros(
             @PathVariable("id") String castleId
     ) {
-        return super.findJoinedMetros(castleId);
+        //
+        List<JoinedMetro> joinedMetros = castellanService.findJoinedMetros(castleId);
+        return SdoUtils.toJoinedMetroSdo(joinedMetros);
     }
 
     @Override
     @RequestMapping(value="castellans/{id}/joined-metro", method= RequestMethod.DELETE)
     public void removeJoinedMetro(
             @PathVariable("id") String castleId,
-            @RequestBody JoinedMetroDto joinedMetroDto
+            @RequestBody JoinedMetroSdo joinedMetroSdo
     ) {
-        super.removeJoinedMetro(castleId, joinedMetroDto);
+        //
+        String metroId = joinedMetroSdo.getMetroId();
+        String citizenId = joinedMetroSdo.getCitizenId();
+        this.castellanService.removeJoinedMetro(castleId, metroId, citizenId);
     }
 }

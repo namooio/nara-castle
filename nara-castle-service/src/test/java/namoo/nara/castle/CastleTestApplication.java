@@ -1,8 +1,7 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.CastleAdapter;
-import namoo.nara.castle.client.CastellanClient;
-import namoo.nara.castle.client.CastleClient;
+import namoo.nara.castle.adapter.rest.CastellanRestAdapter;
+import namoo.nara.castle.adapter.rest.CastleRestAdapter;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.springweb.SpringWebRestClient;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,15 +24,15 @@ public class CastleTestApplication {
         return new SpringWebRestClient("http://127.0.0.1:19030");
     }
 
-    @Bean(name = "CastleClient")
-    public CastleAdapter createCastleClient() {
+    @Bean
+    public CastleRestAdapter createCastleRestAdapter() {
         //
-        return new CastleClient(createNaraRestClient());
+        return new CastleRestAdapter(createNaraRestClient());
     }
 
-    @Bean(name = "CastellanClient")
-    public CastellanClient createCastellanClient() {
+    @Bean
+    public CastellanRestAdapter createCastellanRestAdapter() {
         //
-        return new CastellanClient(createNaraRestClient());
+        return new CastellanRestAdapter(createNaraRestClient());
     }
 }

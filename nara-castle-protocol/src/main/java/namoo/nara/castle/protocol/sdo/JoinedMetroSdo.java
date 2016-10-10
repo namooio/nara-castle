@@ -1,19 +1,19 @@
-package namoo.nara.castle.adapter.dto;
+package namoo.nara.castle.protocol.sdo;
 
 import java.io.Serializable;
 
-public class JoinedMetroDto implements Serializable {
+public class JoinedMetroSdo implements Serializable {
     //
     private String metroId;
     private String citizenId;
 
     private long joinedTime;
 
-    public JoinedMetroDto() {
+    public JoinedMetroSdo() {
 
     }
 
-    public JoinedMetroDto(String metroId, String citizenId) {
+    public JoinedMetroSdo(String metroId, String citizenId) {
         //
         this.metroId = metroId;
         this.citizenId = citizenId;

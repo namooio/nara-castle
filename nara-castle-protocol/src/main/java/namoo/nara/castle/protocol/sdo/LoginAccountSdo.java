@@ -1,17 +1,17 @@
-package namoo.nara.castle.adapter.dto;
+package namoo.nara.castle.protocol.sdo;
 
 import java.io.Serializable;
 
-public class LoginAccountDto implements Serializable {
+public class LoginAccountSdo implements Serializable {
     //
     private String loginId;
     private String loginIdType;
 
-    public LoginAccountDto() {
+    public LoginAccountSdo() {
 
     }
 
-    public LoginAccountDto(String loginId, String loginIdType) {
+    public LoginAccountSdo(String loginId, String loginIdType) {
         //
         this.loginId = loginId;
         this.loginIdType = loginIdType;

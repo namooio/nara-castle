@@ -1,10 +1,10 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.adapter.dto.CastellanEmailDto;
-import namoo.nara.castle.adapter.dto.CastellanFindDto;
-import namoo.nara.castle.adapter.dto.JoinedMetroDto;
-import namoo.nara.castle.adapter.dto.LoginAccountDto;
-import namoo.nara.castle.adapter.dto.util.CastleConst;
+import namoo.nara.castle.protocol.sdo.CastellanEmailSdo;
+import namoo.nara.castle.protocol.sdo.CastellanFindSdo;
+import namoo.nara.castle.protocol.sdo.JoinedMetroSdo;
+import namoo.nara.castle.protocol.sdo.LoginAccountSdo;
+import namoo.nara.castle.adapter.CastleConstant;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,9 +16,9 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void basicInfoTest() {
         //
-        getCastellanClient().removeCastellan(kchuhCastleId);
+        getCastellanRestAdapter().removeCastellan(kchuhCastleId);
         try {
-            getCastellanClient().findCastellan(kchuhCastleId);
+            getCastellanRestAdapter().findCastellan(kchuhCastleId);
         } catch (Exception e) {
             Assert.assertTrue(true);
         }
@@ -27,66 +27,66 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void accountTest() {
         //
-        CastellanFindDto castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        CastellanFindSdo castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(0, castellan.getAccounts().size());
 
-        getCastellanClient().modifyPassword(kchuhCastleId, "4321");
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        getCastellanRestAdapter().modifyPassword(kchuhCastleId, "4321");
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals("4321", castellan.getCredential().getPassword());
 
-        getCastellanClient().addAccount(kchuhCastleId, new LoginAccountDto("kchuh", CastleConst.LOGIN_ID_TYPE_USERNAME));
+        getCastellanRestAdapter().addAccount(kchuhCastleId, new LoginAccountSdo("kchuh", CastleConstant.LOGIN_ID_TYPE_USERNAME));
 
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(1, castellan.getAccounts().size());
 
-        castellan = getCastellanClient().findCastellan("kchuh", CastleConst.LOGIN_ID_TYPE_USERNAME);
+        castellan = getCastellanRestAdapter().findCastellan("kchuh", CastleConstant.LOGIN_ID_TYPE_USERNAME);
         Assert.assertEquals(1, castellan.getAccounts().size());
 
-        castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", CastleConst.LOGIN_ID_TYPE_EMAIL);
+        castellan = getCastellanRestAdapter().findCastellan("kchuh@nextree.co.kr", CastleConstant.LOGIN_ID_TYPE_EMAIL);
         Assert.assertNull(castellan);
 
-        getCastellanClient().verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
-        castellan = getCastellanClient().findCastellan("kchuh@nextree.co.kr", CastleConst.LOGIN_ID_TYPE_EMAIL);
+        getCastellanRestAdapter().verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        castellan = getCastellanRestAdapter().findCastellan("kchuh@nextree.co.kr", CastleConstant.LOGIN_ID_TYPE_EMAIL);
         Assert.assertNotNull(castellan);
 
-        castellan = getCastellanClient().findCastellan("kchuh", CastleConst.LOGIN_ID_TYPE_EMAIL);
+        castellan = getCastellanRestAdapter().findCastellan("kchuh", CastleConstant.LOGIN_ID_TYPE_EMAIL);
         Assert.assertNull(castellan);
 
-        getCastellanClient().removeAccount(kchuhCastleId, new LoginAccountDto("kchuh", CastleConst.LOGIN_ID_TYPE_USERNAME));
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        getCastellanRestAdapter().removeAccount(kchuhCastleId, new LoginAccountSdo("kchuh", CastleConstant.LOGIN_ID_TYPE_USERNAME));
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(1, castellan.getAccounts().size());
     }
 
     @Test
     public void emailTest() {
         //
-        CastellanFindDto castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        CastellanFindSdo castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(1, castellan.getEmails().size());
 
         try {
-            getCastellanClient().addEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+            getCastellanRestAdapter().addEmail(kchuhCastleId, "kchuh@nextree.co.kr");
         } catch (Exception e) {
             Assert.assertTrue(true);
         }
 
-        getCastellanClient().addEmail(kchuhCastleId, "michael7557@gmail.com");
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        getCastellanRestAdapter().addEmail(kchuhCastleId, "michael7557@gmail.com");
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(2, castellan.getEmails().size());
 
-        List<CastellanEmailDto> emails = castellan.getEmails();
-        Iterator<CastellanEmailDto> iterator = emails.iterator();
+        List<CastellanEmailSdo> emails = castellan.getEmails();
+        Iterator<CastellanEmailSdo> iterator = emails.iterator();
         while(iterator.hasNext()) {
-            CastellanEmailDto emailDto = iterator.next();
+            CastellanEmailSdo emailDto = iterator.next();
             Assert.assertEquals(false, emailDto.isVerified());
         }
 
-        getCastellanClient().verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        getCastellanRestAdapter().verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
 
         emails = castellan.getEmails();
         iterator = emails.iterator();
         while(iterator.hasNext()) {
-            CastellanEmailDto emailDto = iterator.next();
+            CastellanEmailSdo emailDto = iterator.next();
             if ("kchuh@nextree.co.kr".equals(emailDto.getAddress())) {
                 Assert.assertEquals(true, emailDto.isVerified());
             }
@@ -97,12 +97,12 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
         Assert.assertEquals(1, castellan.getAccounts().size());
 
 
-        getCastellanClient().setPrimaryEmail(kchuhCastleId, "kchuh@nextree.co.kr");
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        getCastellanRestAdapter().setPrimaryEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         emails = castellan.getEmails();
         iterator = emails.iterator();
         while(iterator.hasNext()) {
-            CastellanEmailDto emailDto = iterator.next();
+            CastellanEmailSdo emailDto = iterator.next();
             if ("kchuh@nextree.co.kr".equals(emailDto.getAddress())) {
                 Assert.assertEquals(true, emailDto.isPrimary());
             }
@@ -111,12 +111,12 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
             }
         }
 
-        getCastellanClient().setPrimaryEmail(kchuhCastleId, "michael7557@gmail.com");
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        getCastellanRestAdapter().setPrimaryEmail(kchuhCastleId, "michael7557@gmail.com");
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         emails = castellan.getEmails();
         iterator = emails.iterator();
         while(iterator.hasNext()) {
-            CastellanEmailDto emailDto = iterator.next();
+            CastellanEmailSdo emailDto = iterator.next();
             if ("michael7557@gmail.com".equals(emailDto.getAddress())) {
                 Assert.assertEquals(true, emailDto.isPrimary());
             }
@@ -129,16 +129,16 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void joinedMetroTest() {
         //
-        CastellanFindDto castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        CastellanFindSdo castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(0, castellan.getJoinedMetros().size());
-        getCastellanClient().addJoinedMetro(kchuhCastleId, new JoinedMetroDto("M01", "1@M01"));
-        getCastellanClient().addJoinedMetro(kchuhCastleId, new JoinedMetroDto("M02", "1@M02"));
+        getCastellanRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroSdo("M01", "1@M01"));
+        getCastellanRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroSdo("M02", "1@M02"));
 
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(2, castellan.getJoinedMetros().size());
 
-        getCastellanClient().removeJoinedMetro(kchuhCastleId, new JoinedMetroDto("M02", "1@M02"));
-        castellan = getCastellanClient().findCastellan(kchuhCastleId);
+        getCastellanRestAdapter().removeJoinedMetro(kchuhCastleId, new JoinedMetroSdo("M02", "1@M02"));
+        castellan = getCastellanRestAdapter().findCastellan(kchuhCastleId);
         Assert.assertEquals(1, castellan.getJoinedMetros().size());
     }
 }
