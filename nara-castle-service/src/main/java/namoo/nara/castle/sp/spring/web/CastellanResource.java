@@ -9,6 +9,9 @@ import namoo.nara.castle.domain.service.CastleServiceLycler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 @RestController
 @RequestMapping("castle-api")
 public class CastellanResource extends CastellanAdatperLogic {
@@ -59,6 +62,14 @@ public class CastellanResource extends CastellanAdatperLogic {
             @RequestBody LoginAccountDto accountDto
     ) {
         super.addAccount(castleId, accountDto);
+    }
+
+    @Override
+    @RequestMapping(value = "castellans/{id}/accounts", method = RequestMethod.GET)
+    public List<LoginAccountDto> findAccounts(
+            @PathVariable("id") String castleId
+    ) {
+        return super.findAccounts(castleId);
     }
 
     @Override
@@ -130,6 +141,14 @@ public class CastellanResource extends CastellanAdatperLogic {
             @RequestBody JoinedMetroDto joinedMetroDto
     ) {
         super.addJoinedMetro(castleId, joinedMetroDto);
+    }
+
+    @Override
+    @RequestMapping(value="castellans/{id}/joined-metros", method= RequestMethod.GET)
+    public List<JoinedMetroDto> findJoinedMetros(
+            @PathVariable("id") String castleId
+    ) {
+        return super.findJoinedMetros(castleId);
     }
 
     @Override

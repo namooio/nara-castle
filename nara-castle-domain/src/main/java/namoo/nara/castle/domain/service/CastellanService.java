@@ -1,8 +1,13 @@
 package namoo.nara.castle.domain.service;
 
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.JoinedMetro;
+import namoo.nara.castle.domain.entity.LoginAccount;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.service.data.CastellanCdo;
+
+import java.util.List;
+import java.util.Set;
 
 public interface CastellanService {
     //
@@ -12,7 +17,9 @@ public interface CastellanService {
     void removeCastellan(String castleId);
 
     void addAccount(String castleId, String loginId, LoginIdType loginIdType);
+    Set<LoginAccount> findAccounts(String castleId);
     void removeAccount(String castleId, String loginId, LoginIdType loginIdType);
+
     String findPassword(String castleId);
     void modifyPassword(String castleId, String password);
 
@@ -22,7 +29,6 @@ public interface CastellanService {
     void removeEmail(String castleId, String email);
 
     void addJoinedMetro(String castleId, String metroId, String citizenId);
+    List<JoinedMetro> findJoinedMetros(String castleId);
     void removeJoinedMetro(String castleId, String metroId, String citizenId);
-
-
 }

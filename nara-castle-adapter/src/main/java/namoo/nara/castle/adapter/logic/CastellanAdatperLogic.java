@@ -7,10 +7,15 @@ import namoo.nara.castle.adapter.dto.JoinedMetroDto;
 import namoo.nara.castle.adapter.dto.LoginAccountDto;
 import namoo.nara.castle.adapter.dto.util.DtoUtils;
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.JoinedMetro;
+import namoo.nara.castle.domain.entity.LoginAccount;
 import namoo.nara.castle.domain.entity.LoginIdType;
 import namoo.nara.castle.domain.service.CastellanService;
 import namoo.nara.castle.domain.service.CastleServiceLycler;
 import namoo.nara.castle.domain.service.data.CastellanCdo;
+
+import java.util.List;
+import java.util.Set;
 
 public class CastellanAdatperLogic implements CastellanAdapter {
     //
@@ -54,6 +59,13 @@ public class CastellanAdatperLogic implements CastellanAdapter {
         String loginId = accountDto.getLoginId();
         String loginIdType = accountDto.getLoginIdType();
         this.castellanService.addAccount(castleId, loginId, LoginIdType.valueOf(loginIdType));
+    }
+
+    @Override
+    public List<LoginAccountDto> findAccounts(String castleId) {
+        //
+        Set<LoginAccount> accounts = this.castellanService.findAccounts(castleId);
+        return DtoUtils.toAccountDto(accounts);
     }
 
     @Override
@@ -106,6 +118,13 @@ public class CastellanAdatperLogic implements CastellanAdapter {
         String metroId = joinedMetroDto.getMetroId();
         String citizenId = joinedMetroDto.getCitizenId();
         this.castellanService.addJoinedMetro(castleId, metroId, citizenId);
+    }
+
+    @Override
+    public List<JoinedMetroDto> findJoinedMetros(String castleId) {
+        //
+        List<JoinedMetro> joinedMetros = castellanService.findJoinedMetros(castleId);
+        return DtoUtils.toJoinedMetroDto(joinedMetros);
     }
 
     @Override

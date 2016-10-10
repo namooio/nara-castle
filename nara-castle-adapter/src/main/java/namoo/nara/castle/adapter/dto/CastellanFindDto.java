@@ -2,16 +2,15 @@ package namoo.nara.castle.adapter.dto;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 public class CastellanFindDto implements Serializable {
     //
     private String id;
 
-    private Set<LoginAccountDto> accounts;
+    private List<LoginAccountDto> accounts;
     private LoginCredentialDto credential;
 
-    private Set<CastellanEmailDto> emails;
+    private List<CastellanEmailDto> emails;
 
     private List<JoinedMetroDto> joinedMetros;
 
@@ -29,11 +28,11 @@ public class CastellanFindDto implements Serializable {
         this.id = id;
     }
 
-    public Set<LoginAccountDto> getAccounts() {
+    public List<LoginAccountDto> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Set<LoginAccountDto> accounts) {
+    public void setAccounts(List<LoginAccountDto> accounts) {
         this.accounts = accounts;
     }
 
@@ -45,20 +44,21 @@ public class CastellanFindDto implements Serializable {
         this.credential = credential;
     }
 
-    public Set<CastellanEmailDto> getEmails() {
-        return emails;
-    }
-
-    public void setEmails(Set<CastellanEmailDto> emails) {
-        this.emails = emails;
-    }
-
     public List<JoinedMetroDto> getJoinedMetros() {
         return joinedMetros;
     }
 
     public void setJoinedMetros(List<JoinedMetroDto> joinedMetros) {
         this.joinedMetros = joinedMetros;
+    }
+
+
+    public List<CastellanEmailDto> getEmails() {
+        return emails;
+    }
+
+    public void setEmails(List<CastellanEmailDto> emails) {
+        this.emails = emails;
     }
 
     public long getCreatedTime() {

@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 public class CastellanResourceTest extends AbstractCastleApplicationTests {
     //
@@ -73,7 +73,7 @@ public class CastellanResourceTest extends AbstractCastleApplicationTests {
         castellan = getCastellanClient().findCastellan(kchuhCastleId);
         Assert.assertEquals(2, castellan.getEmails().size());
 
-        Set<CastellanEmailDto> emails = castellan.getEmails();
+        List<CastellanEmailDto> emails = castellan.getEmails();
         Iterator<CastellanEmailDto> iterator = emails.iterator();
         while(iterator.hasNext()) {
             CastellanEmailDto emailDto = iterator.next();

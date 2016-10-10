@@ -1,12 +1,13 @@
 package namoo.nara.castle.domain.logic;
 
-import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.entity.LoginCredential;
-import namoo.nara.castle.domain.entity.LoginIdType;
+import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.service.CastellanService;
 import namoo.nara.castle.domain.service.data.CastellanCdo;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
+
+import java.util.List;
+import java.util.Set;
 
 public class CastellanServiceLogic implements CastellanService {
     //
@@ -49,6 +50,14 @@ public class CastellanServiceLogic implements CastellanService {
         castellan.addAccount(loginId, loginIdType);
         this.castellanStore.update(castellan);
     }
+
+    @Override
+    public Set<LoginAccount> findAccounts(String castleId) {
+        //
+        Castellan castellan = this.castellanStore.retrieve(castleId);
+        return castellan.getAccounts();
+    }
+
 
     @Override
     public void removeAccount(String castleId, String loginId, LoginIdType loginIdType) {
@@ -113,6 +122,13 @@ public class CastellanServiceLogic implements CastellanService {
         Castellan castellan = this.castellanStore.retrieve(castleId);
         castellan.addJoinedMetro(metroId, citizenId);
         this.castellanStore.update(castellan);
+    }
+
+    @Override
+    public List<JoinedMetro> findJoinedMetros(String castleId) {
+        //
+        Castellan castellan = this.castellanStore.retrieve(castleId);
+        return castellan.getJoinedMetros();
     }
 
     @Override

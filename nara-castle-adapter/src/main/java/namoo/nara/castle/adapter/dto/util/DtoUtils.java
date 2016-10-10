@@ -6,7 +6,6 @@ import namoo.nara.castle.domain.service.data.CastellanCdo;
 import namoo.nara.castle.domain.service.data.CastleCdo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -83,10 +82,10 @@ public class DtoUtils {
         return joinedMetroDto;
     }
 
-    public static Set<CastellanEmailDto> toEmailDto(Set<CastellanEmail> emails) {
+    public static List<CastellanEmailDto> toEmailDto(Set<CastellanEmail> emails) {
         //
         if (emails == null) return null;
-        Set<CastellanEmailDto> emailDtos = new HashSet<>(emails.size());
+        List<CastellanEmailDto> emailDtos = new ArrayList<>(emails.size());
         for (CastellanEmail email : emails) {
             emailDtos.add(toEmailDto(email));
         }
@@ -115,10 +114,10 @@ public class DtoUtils {
         return credentialDto;
     }
 
-    public static Set<LoginAccountDto> toAccountDto(Set<LoginAccount> accounts) {
+    public static List<LoginAccountDto> toAccountDto(Set<LoginAccount> accounts) {
         //
         if (accounts == null) return null;
-        Set<LoginAccountDto> accountDtos = new HashSet<>(accounts.size());
+        List<LoginAccountDto> accountDtos = new ArrayList<>(accounts.size());
         for (LoginAccount account : accounts) {
             accountDtos.add(toAccountDto(account));
         }

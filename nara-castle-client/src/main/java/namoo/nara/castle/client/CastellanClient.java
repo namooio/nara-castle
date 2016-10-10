@@ -8,6 +8,9 @@ import namoo.nara.castle.adapter.dto.LoginAccountDto;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CastellanClient implements CastellanAdapter {
     //
     private NaraRestClient naraRestClient;
@@ -64,6 +67,18 @@ public class CastellanClient implements CastellanAdapter {
                 .addPathParam("id", castleId)
                 .setRequestDto(accountDto)
         );
+    }
+
+    @Override
+    public List<LoginAccountDto> findAccounts(String castleId) {
+        //
+        LoginAccountDto[] accounts = naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_ACCOUNTS_FIND)
+                .addPathParam("id", castleId)
+                .setResponseType(LoginAccountDto[].class)
+        );
+        if (accounts == null) return null;
+        return Arrays.asList(accounts);
     }
 
     @Override
@@ -144,6 +159,18 @@ public class CastellanClient implements CastellanAdapter {
                 .addPathParam("id", castleId)
                 .setRequestDto(joinedMetroDto)
         );
+    }
+
+    @Override
+    public List<JoinedMetroDto> findJoinedMetros(String castleId) {
+        //
+        JoinedMetroDto[] joinedMetros = naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleServiceUrl.URL_CASTELLAN_JOINED_METROS_FIND)
+                .addPathParam("id", castleId)
+                .setResponseType(JoinedMetroDto[].class)
+        );
+        if (joinedMetros == null) return null;
+        return Arrays.asList(joinedMetros);
     }
 
     @Override
