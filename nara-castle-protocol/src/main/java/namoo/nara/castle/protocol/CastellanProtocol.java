@@ -14,7 +14,7 @@ public interface CastellanProtocol {
     CastellanFindSdo findCastellan(String loginId, String loginIdType);
     void removeCastellan(String castleId);
 
-    void addAccount(String castleId, LoginAccountSdo accountDto);
+    void addAccount(String castleId, LoginAccountSdo accountSdo);
     List<LoginAccountSdo> findAccounts(String castleId);
     void removeAccount(String castleId, LoginAccountSdo accountDto);
     void modifyPassword(String castleId, String password);

@@ -60,12 +60,12 @@ public class CastellanRestAdapter implements CastellanProtocol {
     }
 
     @Override
-    public void addAccount(String castleId, LoginAccountSdo accountDto) {
+    public void addAccount(String castleId, LoginAccountSdo accountSdo) {
         //
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_ACCOUNT_ADD)
                 .addPathParam("id", castleId)
-                .setRequestBody(accountDto)
+                .setRequestBody(accountSdo)
         );
     }
 

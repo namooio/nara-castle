@@ -70,11 +70,11 @@ public class CastellanResource implements CastellanProtocol {
     @RequestMapping(value="castellans/{id}/account", method= RequestMethod.POST)
     public void addAccount(
             @PathVariable("id") String castleId,
-            @RequestBody LoginAccountSdo accountDto
+            @RequestBody LoginAccountSdo accountSdo
     ) {
         //
-        String loginId = accountDto.getLoginId();
-        String loginIdType = accountDto.getLoginIdType();
+        String loginId = accountSdo.getLoginId();
+        String loginIdType = accountSdo.getLoginIdType();
         this.castellanService.addAccount(castleId, loginId, LoginIdType.valueOf(loginIdType));
     }
 
