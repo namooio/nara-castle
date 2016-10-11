@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class PlayFrontView {
+public class CastlePlayResource {
     //
     @RequestMapping(value = "castle-play", method = RequestMethod.GET)
     public ModelAndView play(@RequestParam("pavilionId") String pavilionId, @RequestParam("castingId") String castingId, @RequestParam("playerId") String playerId) {
