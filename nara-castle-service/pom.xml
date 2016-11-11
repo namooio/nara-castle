@@ -28,12 +28,6 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>namoo.nara.stage</groupId>
-			<artifactId>nara-stage-support</artifactId>
-			<version>${nara.stage.version}</version>
-		</dependency>
-
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
