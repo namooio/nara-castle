@@ -10,8 +10,6 @@ public class CastellanEmailSdo implements Serializable {
     private boolean verified;
     private long verifiedTime;
 
-    private boolean primary;
-
     public CastellanEmailSdo() {
         //
     }
@@ -48,11 +46,4 @@ public class CastellanEmailSdo implements Serializable {
         this.verifiedTime = verifiedTime;
     }
 
-    public boolean isPrimary() {
-        return primary;
-    }
-
-    public void setPrimary(boolean primary) {
-        this.primary = primary;
-    }
 }

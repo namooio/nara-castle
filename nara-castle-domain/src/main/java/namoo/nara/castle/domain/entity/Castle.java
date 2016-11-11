@@ -10,6 +10,8 @@ import java.util.Locale;
 
 public class Castle extends Entity implements Aggregate {
     //
+    private Castellan castellan;
+
     private Locale locale; // optional
     private ZonedDateTime builtTime;
 
@@ -38,7 +40,9 @@ public class Castle extends Entity implements Aggregate {
         CastleIdBuilder castleIdBuilder = CastleContext.getCastleIdBuilder();
         String castleId = castleIdBuilder.makeCastleId(castleSequence);
         Castle castle = new Castle(castleId);
+        castle.setCastellan(Castellan.newInstance());
         castle.setBuiltTime(ZonedDateTime.now());
+
         return castle;
     }
 
@@ -47,6 +51,14 @@ public class Castle extends Entity implements Aggregate {
         Castle castle = newInstance(castleSequence);
         castle.setLocale(locale);
         return castle;
+    }
+
+    public Castellan getCastellan() {
+        return castellan;
+    }
+
+    public void setCastellan(Castellan castellan) {
+        this.castellan = castellan;
     }
 
     public Locale getLocale() {

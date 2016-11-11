@@ -16,6 +16,9 @@ public class CastleDoc {
     //
     @Id
     private String id;
+
+    private CastellanDoc castellan;
+
     private Locale locale;
     private Instant builtTimeUTC;
     private String zoneId;
@@ -28,6 +31,7 @@ public class CastleDoc {
         //
         CastleDoc castleDoc = new CastleDoc();
         castleDoc.setId(castle.getId());
+        castleDoc.setCastellan(CastellanDoc.toDocument(castle.getCastellan()));
         castleDoc.setLocale(castle.getLocale());
         castleDoc.setBuiltTimeUTC(castle.getBuiltTime().toInstant());
         castleDoc.setZoneId(castle.getBuiltTime().getZone().getId());
@@ -44,6 +48,7 @@ public class CastleDoc {
     public Castle toDomain() {
         //
         Castle castle = new Castle(id);
+        castle.setCastellan(castellan.toDomain());
         castle.setLocale(locale);
         castle.setBuiltTime(ZonedDateTime.ofInstant(builtTimeUTC, ZoneId.of(zoneId)));
         return castle;
@@ -55,6 +60,14 @@ public class CastleDoc {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public CastellanDoc getCastellan() {
+        return castellan;
+    }
+
+    public void setCastellan(CastellanDoc castellan) {
+        this.castellan = castellan;
     }
 
     public Locale getLocale() {

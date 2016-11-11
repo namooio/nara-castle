@@ -2,7 +2,9 @@ package namoo.nara.castle.adapter.rest;
 
 import namoo.nara.castle.protocol.CastleProtocol;
 import namoo.nara.castle.protocol.sdo.CastleBuildSdo;
-import namoo.nara.castle.protocol.sdo.CastleFindSdo;
+import namoo.nara.castle.protocol.sdo.CastleSdo;
+import namoo.nara.castle.protocol.sdo.JoinedMetroAddSdo;
+import namoo.nara.castle.protocol.sdo.JoinedMetroSdo;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
@@ -40,23 +42,85 @@ public class CastleRestAdapter implements CastleProtocol {
     }
 
     @Override
-    public CastleFindSdo findCastle(String castleId) {
+    public CastleSdo findCastle(String castleId) {
         //
         return naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND)
                 .addPathParam("id", castleId)
-                .setResponseType(CastleFindSdo.class)
+                .setResponseType(CastleSdo.class)
         );
     }
 
     @Override
-    public List<CastleFindSdo> findCastles() {
+    public List<CastleSdo> findCastles() {
         //
-        CastleFindSdo[] castleFindSdos = naraRestClient.sendAndRecieve(
+        CastleSdo[] castleSdos = naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_ALL)
-                .setResponseType(CastleFindSdo[].class)
+                .setResponseType(CastleSdo[].class)
         );
-        if (castleFindSdos == null) return null;
-        return Arrays.asList(castleFindSdos);
+        if (castleSdos == null) return null;
+        return Arrays.asList(castleSdos);
+    }
+
+    @Override
+    public void addEmail(String castleId, String email) {
+        //
+        naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_EMAIL_ADD)
+                        .addPathParam("id", castleId)
+                        .setRequestBody(email)
+        );
+    }
+
+    @Override
+    public void verifyEmail(String castleId, String email) {
+        //
+        naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_EMAIL_VERIFY)
+                        .addPathParam("id", castleId)
+                        .setRequestBody(email)
+        );
+    }
+
+    @Override
+    public void removeEmail(String castleId, String email) {
+        //
+        naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_EMAIL_REMOVE)
+                        .addPathParam("id", castleId)
+                        .setRequestBody(email)
+        );
+    }
+
+    @Override
+    public void addJoinedMetro(String castleId, JoinedMetroAddSdo joinedMetroAddSdo) {
+        //
+        naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METRO_ADD)
+                        .addPathParam("id", castleId)
+                        .setRequestBody(joinedMetroAddSdo)
+        );
+    }
+
+    @Override
+    public List<JoinedMetroSdo> findJoinedMetros(String castleId) {
+        //
+        JoinedMetroSdo[] joinedMetros = naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METROS_FIND)
+                        .addPathParam("id", castleId)
+                        .setResponseType(JoinedMetroSdo[].class)
+        );
+        if (joinedMetros == null) return null;
+        return Arrays.asList(joinedMetros);
+    }
+
+    @Override
+    public void removeJoinedMetro(String castleId, String metroId) {
+        //
+        naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METRO_REMOVE)
+                        .addPathParam("id", castleId)
+                        .addPathParam("metroId", metroId)
+        );
     }
 }

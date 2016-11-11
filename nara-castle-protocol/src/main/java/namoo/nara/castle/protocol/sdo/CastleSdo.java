@@ -3,13 +3,15 @@ package namoo.nara.castle.protocol.sdo;
 import java.io.Serializable;
 import java.util.Locale;
 
-public class CastleFindSdo implements Serializable {
+public class CastleSdo implements Serializable {
     //
     private String id;
+
+    private CastellanSdo castellanSdo;
     private Locale locale;
     private long builtTime; // UTC 0
 
-    public CastleFindSdo() {
+    public CastleSdo() {
         //
     }
 
@@ -19,6 +21,14 @@ public class CastleFindSdo implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public CastellanSdo getCastellanSdo() {
+        return castellanSdo;
+    }
+
+    public void setCastellanSdo(CastellanSdo castellanSdo) {
+        this.castellanSdo = castellanSdo;
     }
 
     public Locale getLocale() {

@@ -19,8 +19,6 @@ public class CastellanEmailDoc {
     private Instant verifiedTimeUTC;
     private String verifiedTimeZoneId;
 
-    private boolean primary;
-
     public CastellanEmailDoc() {
         //
     }
@@ -37,7 +35,6 @@ public class CastellanEmailDoc {
             doc.setVerifiedTimeUTC(domain.getVerifiedTime().toInstant());
             doc.setVerifiedTimeZoneId(domain.getVerifiedTime().getZone().getId());
         }
-        doc.setPrimary(domain.isPrimary());
         return doc;
     }
 
@@ -56,7 +53,6 @@ public class CastellanEmailDoc {
         domain.setCreatedTime(ZonedDateTime.ofInstant(createdTimeUTC, ZoneId.of(createdTimeZoneId)));
         domain.setVerified(verified);
         if (verified) domain.setVerifiedTime(ZonedDateTime.ofInstant(verifiedTimeUTC, ZoneId.of(verifiedTimeZoneId)));
-        domain.setPrimary(primary);
         return domain;
     }
 
@@ -117,11 +113,4 @@ public class CastellanEmailDoc {
         this.verifiedTimeZoneId = verifiedTimeZoneId;
     }
 
-    public boolean isPrimary() {
-        return primary;
-    }
-
-    public void setPrimary(boolean primary) {
-        this.primary = primary;
-    }
 }

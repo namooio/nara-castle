@@ -12,8 +12,6 @@ public class CastellanEmail implements ValueObject {
     private boolean verified;
     private ZonedDateTime verifiedTime;
 
-    private boolean primary;
-
     public CastellanEmail(String address) {
         this.address = address;
     }
@@ -56,14 +54,6 @@ public class CastellanEmail implements ValueObject {
         this.verifiedTime = verifiedTime;
     }
 
-    public boolean isPrimary() {
-        return primary;
-    }
-
-    public void setPrimary(boolean primary) {
-        this.primary = primary;
-    }
-
     @Override
     public String toString() {
         return "CastellanEmail{" +
@@ -71,7 +61,6 @@ public class CastellanEmail implements ValueObject {
                 ", createdTime=" + createdTime +
                 ", verified=" + verified +
                 ", verifiedTime=" + verifiedTime +
-                ", primary=" + primary +
                 '}';
     }
 }
