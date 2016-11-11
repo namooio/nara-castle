@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public class Castle extends Entity implements Aggregate {
     //
-    private Locale locale;
+    private Locale locale; // optional
     private ZonedDateTime builtTime;
 
     public Castle(String id) {
@@ -18,13 +18,34 @@ public class Castle extends Entity implements Aggregate {
         super(id);
     }
 
-    public static Castle newInstance(Locale locale, long castleSequence) {
+    @Override
+    public String toString() {
+        return "Castle{" +
+                "locale=" + locale +
+                ", builtTime=" + builtTime +
+                '}';
+    }
+
+    public static Castle getSample() {
+        //
+        Castle castle = Castle.newInstance(1, Locale.KOREA);
+        return castle;
+    }
+
+
+    public static Castle newInstance(long castleSequence) {
         //
         CastleIdBuilder castleIdBuilder = CastleContext.getCastleIdBuilder();
         String castleId = castleIdBuilder.makeCastleId(castleSequence);
         Castle castle = new Castle(castleId);
-        castle.setLocale(locale);
         castle.setBuiltTime(ZonedDateTime.now());
+        return castle;
+    }
+
+    public static Castle newInstance(long castleSequence, Locale locale) {
+        //
+        Castle castle = newInstance(castleSequence);
+        castle.setLocale(locale);
         return castle;
     }
 
@@ -44,24 +65,9 @@ public class Castle extends Entity implements Aggregate {
         this.builtTime = builtTime;
     }
 
-    @Override
-    public String toString() {
-        return "Castle{" +
-                "locale=" + locale +
-                ", builtTime=" + builtTime +
-                '}';
-    }
-
-    public static Castle getSample() {
-        //
-        Castle castle = Castle.newInstance(Locale.KOREA, 1);
-        return castle;
-    }
-
     public static void main(String[] args) {
         //
-        Castle sample = Castle.getSample();
-        System.out.println(sample);
+        System.out.println(Castle.getSample());
     }
 
 }

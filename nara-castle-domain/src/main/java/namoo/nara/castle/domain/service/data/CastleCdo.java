@@ -4,7 +4,7 @@ import java.util.Locale;
 
 public class CastleCdo {
     //
-    private Locale locale;
+    private Locale locale; // optional
 
     public CastleCdo() {
         //

@@ -21,13 +21,9 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public String buildCastle(CastleCdo castleCdo) {
         //
-        Locale locale = castleCdo.getLocale();
-
         long sequence = castleStore.retrieveNextSequence();
-        Castle castle = Castle.newInstance(locale, sequence);
+        Castle castle = Castle.newInstance(sequence, castleCdo.getLocale());
         castleStore.create(castle);
-
-        // TODO Castellan creation event!!
 
         return castle.getId();
     }

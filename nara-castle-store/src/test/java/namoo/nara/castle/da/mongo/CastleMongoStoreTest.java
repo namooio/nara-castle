@@ -33,7 +33,7 @@ public class CastleMongoStoreTest {
         castleSequence = castleStore.retrieveNextSequence();
         Assert.assertEquals(2, castleSequence);
 
-        Castle castle = Castle.newInstance(Locale.US, castleSequence);
+        Castle castle = Castle.newInstance(castleSequence, Locale.US);
         String id = castle.getId();
         System.out.println("id : " + id);
         castleStore.create(castle);
