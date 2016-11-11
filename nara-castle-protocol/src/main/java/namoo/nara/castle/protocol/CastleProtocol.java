@@ -13,10 +13,10 @@ public interface CastleProtocol {
     String buildCastle(CastleBuildSdo castleBuildSdo);
     void modifyLocale(String castleId, Locale locale);
     CastleSdo findCastle(String castleId);
+    CastleSdo findCastleByEmail(String email);
     List<CastleSdo> findCastles();
 
     void addEmail(String castleId, String email);
-    void verifyEmail(String castleId, String email);
     void removeEmail(String castleId, String email);
 
     void addJoinedMetro(String castleId, JoinedMetroAddSdo joinedMetroAddSdo);

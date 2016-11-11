@@ -12,10 +12,10 @@ public interface CastleService {
     String buildCastle(CastleCdo castleCdo);
     void modifyLocale(String castleId, Locale locale);
     Castle findCastle(String castleId);
+    Castle findCastleByEmail(String email);
     List<Castle> findCastles();
 
     void addEmail(String castleId, String email);
-    void verifyEmail(String castleId, String email);
     void removeEmail(String castleId, String email);
 
     void addJoinedMetro(String castleId, String metroId, String citizenId);

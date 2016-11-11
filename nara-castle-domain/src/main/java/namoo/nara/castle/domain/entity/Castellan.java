@@ -23,41 +23,41 @@ public class Castellan implements ValueObject {
         return castellan;
     }
 
-    public void addEmail(String address) {
+    public void addEmail(String email) {
         //
-        if (existEmail(address)) throw new NaraException(String.format("Email[%s] already added.", address));
-        CastleContext.getEmailValidator().validate(address);
-        CastellanEmail castellanEmail = new CastellanEmail(address);
+        if (existEmail(email)) throw new NaraException(String.format("Email[%s] already added.", email));
+        CastleContext.getEmailValidator().validate(email);
+        CastellanEmail castellanEmail = new CastellanEmail(email);
         castellanEmail.setCreatedTime(ZonedDateTime.now());
         this.emails.add(castellanEmail);
     }
 
-    private boolean existEmail(String address) {
+    private boolean existEmail(String email) {
         //
-        return findEmail(address) != null;
+        return findEmail(email) != null;
     }
 
-    public void removeEmail(String address) {
+    public void removeEmail(String email) {
         //
-        CastellanEmail email = findEmail(address);
-        this.emails.remove(email);
+        CastellanEmail castellanEmail = findEmail(email);
+        this.emails.remove(castellanEmail);
     }
 
-    public void verifyEmail(String address) {
-        //
-        CastellanEmail email = findEmail(address);
-        email.verifyEmail();
-    }
-
-    public CastellanEmail findEmail(String address) {
+    public CastellanEmail findEmail(String email) {
         //
         for(CastellanEmail castellanEmail : this.emails) {
-            if (address.equals(castellanEmail.getAddress())) {
+            if (email.equals(castellanEmail.getAddress())) {
                 return castellanEmail;
             }
         }
         return null;
     }
+
+    public boolean hasEmail(String email) {
+        //
+        return findEmail(email) != null;
+    }
+
 
     public int getEmailsCount() {
         //
@@ -130,17 +130,16 @@ public class Castellan implements ValueObject {
         castellan.addEmail("michael7557@gmail.com");
         castellan.addEmail("michael7557@naver.com");
 
-        castellan.verifyEmail("kchuh@nextree.co.kr");
-
         return castellan;
     }
 
     @Override
     public String toString() {
-        return "Castellan{" +
-                ", emails=" + emails +
-                ", joinedMetros=" + joinedMetros +
-                '}';
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("emails:").append(emails);
+        sb.append(", joinedMetros:").append(joinedMetros);
+        sb.append('}');
+        return sb.toString();
     }
 
     public static void main(String[] args) {
@@ -148,4 +147,5 @@ public class Castellan implements ValueObject {
         Castellan castellan = Castellan.getSample();
         System.out.println(castellan);
     }
+
 }

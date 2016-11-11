@@ -44,6 +44,20 @@ public class CastleMongoStore implements CastleStore {
     }
 
     @Override
+    public Castle retrieveByEmail(String email) {
+        //
+        CastleDoc castleDoc = castleMongoRepository.findByCastellanEmailsAddress(email);
+        if (castleDoc == null) return null;
+        return castleDoc.toDomain();
+    }
+
+    @Override
+    public List<Castle> retrieveAll() {
+        //
+        return CastleDoc.toDomains(castleMongoRepository.findAll());
+    }
+
+    @Override
     public void update(Castle castle) {
         //
         String id = castle.getId();
@@ -57,12 +71,6 @@ public class CastleMongoStore implements CastleStore {
         //
         if (!castleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castle document[ID:%s] to delete.", id));
         castleMongoRepository.delete(id);
-    }
-
-    @Override
-    public List<Castle> retrieveAll() {
-        //
-        return CastleDoc.toDomains(castleMongoRepository.findAll());
     }
 
     @Override

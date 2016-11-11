@@ -30,7 +30,7 @@ public class Castle extends Entity implements Aggregate {
 
     public static Castle getSample() {
         //
-        Castle castle = Castle.newInstance(1, Locale.KOREA);
+        Castle castle = Castle.newInstance(1, "kchuh@nextree.co.kr", Locale.KOREA);
         return castle;
     }
 
@@ -46,9 +46,17 @@ public class Castle extends Entity implements Aggregate {
         return castle;
     }
 
-    public static Castle newInstance(long castleSequence, Locale locale) {
+    public static Castle newInstance(long castleSequence, String castellanEmail) {
         //
         Castle castle = newInstance(castleSequence);
+        Castellan castellan = castle.getCastellan();
+        castellan.addEmail(castellanEmail);
+        return castle;
+    }
+
+    public static Castle newInstance(long castleSequence, String castellanEmail, Locale locale) {
+        //
+        Castle castle = newInstance(castleSequence, castellanEmail);
         castle.setLocale(locale);
         return castle;
     }

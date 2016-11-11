@@ -3,10 +3,7 @@ package namoo.nara.castle.domain.store.mapstore;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.store.CastleStore;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CastleMapStore implements CastleStore {
     //
@@ -29,6 +26,18 @@ public class CastleMapStore implements CastleStore {
     public Castle retrieve(String id) {
         //
         return this.castleMap.get(id);
+    }
+
+    @Override
+    public Castle retrieveByEmail(String email) {
+        //
+        Collection<Castle> allCastles = castleMap.values();
+        for(Castle castle : allCastles) {
+            if (castle.getCastellan().hasEmail(email)) {
+                return castle;
+            }
+        }
+        return null;
     }
 
     @Override

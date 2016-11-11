@@ -54,6 +54,16 @@ public class CastleResource implements CastleProtocol {
     }
 
     @Override
+    @RequestMapping(value="castle", method = RequestMethod.GET)
+    public CastleSdo findCastleByEmail(
+            @RequestParam("email") String email
+    ) {
+        //
+        Castle castle = this.castleService.findCastleByEmail(email);
+        return SdoUtils.toCastleSdo(castle);
+    }
+
+    @Override
     @RequestMapping(value="castles", method= RequestMethod.GET)
     public List<CastleSdo> findCastles() {
         //
@@ -69,16 +79,6 @@ public class CastleResource implements CastleProtocol {
     ) {
         //
         this.castleService.addEmail(castleId, email);
-    }
-
-    @Override
-    @RequestMapping(value="castellans/{id}/email-verification", method= RequestMethod.PUT)
-    public void verifyEmail(
-            @PathVariable("id") String castleId,
-            @RequestBody String email
-    ) {
-        //
-        this.castleService.verifyEmail(castleId, email);
     }
 
     @Override

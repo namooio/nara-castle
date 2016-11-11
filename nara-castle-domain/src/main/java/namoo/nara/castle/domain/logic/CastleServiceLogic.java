@@ -24,7 +24,7 @@ public class CastleServiceLogic implements CastleService {
     public String buildCastle(CastleCdo castleCdo) {
         //
         long sequence = castleStore.retrieveNextSequence();
-        Castle castle = Castle.newInstance(sequence, castleCdo.getLocale());
+        Castle castle = Castle.newInstance(sequence, castleCdo.getCastellanEmail(), castleCdo.getLocale());
         castleStore.create(castle);
 
         return castle.getId();
@@ -45,6 +45,12 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
+    public Castle findCastleByEmail(String email) {
+        //
+        return castleStore.retrieveByEmail(email);
+    }
+
+    @Override
     public List<Castle> findCastles() {
         //
         return castleStore.retrieveAll();
@@ -56,15 +62,6 @@ public class CastleServiceLogic implements CastleService {
         Castle castle = castleStore.retrieve(castleId);
         Castellan castellan = castle.getCastellan();
         castellan.addEmail(email);
-        castleStore.update(castle);
-    }
-
-    @Override
-    public void verifyEmail(String castleId, String email) {
-        //
-        Castle castle = castleStore.retrieve(castleId);
-        Castellan castellan = castle.getCastellan();
-        castellan.verifyEmail(email);
         castleStore.update(castle);
     }
 

@@ -5,15 +5,25 @@ import java.util.Locale;
 
 public class CastleBuildSdo implements Serializable {
     //
+    private String castellanEmail;
     private Locale locale;
 
     public CastleBuildSdo() {
         //
     }
 
-    public CastleBuildSdo(Locale locale) {
+    public CastleBuildSdo(String castellanEmail, Locale locale) {
         //
+        this.castellanEmail = castellanEmail;
         this.locale = locale;
+    }
+
+    public String getCastellanEmail() {
+        return castellanEmail;
+    }
+
+    public void setCastellanEmail(String castellanEmail) {
+        this.castellanEmail = castellanEmail;
     }
 
     public Locale getLocale() {

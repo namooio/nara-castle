@@ -1,14 +1,11 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.protocol.sdo.CastellanEmailSdo;
 import namoo.nara.castle.protocol.sdo.CastellanSdo;
 import namoo.nara.castle.protocol.sdo.CastleSdo;
 import namoo.nara.castle.protocol.sdo.JoinedMetroAddSdo;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 public class CastleResourceTest extends AbstractCastleApplicationTests {
@@ -23,39 +20,23 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
         getCastleRestAdapter().modifyLocale(kchuhCastleId, Locale.US);
         castle = getCastleRestAdapter().findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.US, castle.getLocale());
+
+        castle = getCastleRestAdapter().findCastleByEmail("kchuh@nextree.co.kr");
+        Assert.assertNotNull(castle);
+
+        castle = getCastleRestAdapter().findCastleByEmail("michael7557@gmail.com");
+        Assert.assertNull(castle);
     }
 
     @Test
     public void emailTest() {
         //
         CastellanSdo castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
-        Assert.assertEquals(0, castellan.getEmails().size());
-
-        getCastleRestAdapter().addEmail(kchuhCastleId, "kchuh@nextree.co.kr");
-        castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
         Assert.assertEquals(1, castellan.getEmails().size());
 
-        List<CastellanEmailSdo> emails = castellan.getEmails();
-        Iterator<CastellanEmailSdo> iterator = emails.iterator();
-        while(iterator.hasNext()) {
-            CastellanEmailSdo emailDto = iterator.next();
-            Assert.assertEquals(false, emailDto.isVerified());
-        }
-
-        getCastleRestAdapter().verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        getCastleRestAdapter().addEmail(kchuhCastleId, "michael7557@gmail.com");
         castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
-
-        emails = castellan.getEmails();
-        iterator = emails.iterator();
-        while(iterator.hasNext()) {
-            CastellanEmailSdo emailDto = iterator.next();
-            if ("kchuh@nextree.co.kr".equals(emailDto.getAddress())) {
-                Assert.assertEquals(true, emailDto.isVerified());
-            }
-            else {
-                Assert.assertEquals(false, emailDto.isVerified());
-            }
-        }
+        Assert.assertEquals(2, castellan.getEmails().size());
     }
 
     @Test

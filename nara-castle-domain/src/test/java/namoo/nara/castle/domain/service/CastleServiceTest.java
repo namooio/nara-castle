@@ -22,11 +22,11 @@ public class CastleServiceTest {
         //
         CastleStoreLycler castleStoreLycler = new CastleMapStoreLycler();
         this.castleService = new CastleServiceLogic(castleStoreLycler);
-        kchuhCastleId = this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo(Locale.KOREA));
+        kchuhCastleId = this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("tsong@nextree.co.kr", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("hkkang@nextree.co.kr", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("jyjung@nextree.co.kr", Locale.KOREA));
     }
 
     @Test
@@ -46,20 +46,13 @@ public class CastleServiceTest {
         //
         Castle castle = this.castleService.findCastle(kchuhCastleId);
         Castellan castellan = castle.getCastellan();
-        Assert.assertEquals(0, castellan.getEmailsCount());
-
-        this.castleService.addEmail(kchuhCastleId, "kchuh@nextree.co.kr");
-
-        castle = this.castleService.findCastle(kchuhCastleId);
-        castellan = castle.getCastellan();
         Assert.assertEquals(1, castellan.getEmailsCount());
-        Assert.assertEquals(false, castellan.findEmail("kchuh@nextree.co.kr").isVerified());
 
-        this.castleService.verifyEmail(kchuhCastleId, "kchuh@nextree.co.kr");
+        this.castleService.addEmail(kchuhCastleId, "michael7557@gmail.com");
+
         castle = this.castleService.findCastle(kchuhCastleId);
         castellan = castle.getCastellan();
-        Assert.assertEquals(true, castellan.findEmail("kchuh@nextree.co.kr").isVerified());
-
+        Assert.assertEquals(2, castellan.getEmailsCount());
     }
 
     @Test

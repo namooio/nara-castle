@@ -52,6 +52,16 @@ public class CastleRestAdapter implements CastleProtocol {
     }
 
     @Override
+    public CastleSdo findCastleByEmail(String email) {
+        //
+        return naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_CONDITION)
+                .addQueryParam("email", email)
+                .setResponseType(CastleSdo.class)
+        );
+    }
+
+    @Override
     public List<CastleSdo> findCastles() {
         //
         CastleSdo[] castleSdos = naraRestClient.sendAndRecieve(
@@ -67,16 +77,6 @@ public class CastleRestAdapter implements CastleProtocol {
         //
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_EMAIL_ADD)
-                        .addPathParam("id", castleId)
-                        .setRequestBody(email)
-        );
-    }
-
-    @Override
-    public void verifyEmail(String castleId, String email) {
-        //
-        naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_EMAIL_VERIFY)
                         .addPathParam("id", castleId)
                         .setRequestBody(email)
         );

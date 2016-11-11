@@ -4,15 +4,28 @@ import java.util.Locale;
 
 public class CastleCdo {
     //
+    private String castellanEmail; // required
     private Locale locale; // optional
 
     public CastleCdo() {
         //
     }
 
-    public CastleCdo(Locale locale) {
-        //
+    public CastleCdo(String castellanEmail) {
+        this.castellanEmail = castellanEmail;
+    }
+
+    public CastleCdo(String castellanEmail, Locale locale) {
+        this.castellanEmail = castellanEmail;
         this.locale = locale;
+    }
+
+    public String getCastellanEmail() {
+        return castellanEmail;
+    }
+
+    public void setCastellanEmail(String castellanEmail) {
+        this.castellanEmail = castellanEmail;
     }
 
     public Locale getLocale() {

@@ -7,9 +7,6 @@ public class CastellanEmailSdo implements Serializable {
     private String address;
     private long createdTime;
 
-    private boolean verified;
-    private long verifiedTime;
-
     public CastellanEmailSdo() {
         //
     }
@@ -28,22 +25,6 @@ public class CastellanEmailSdo implements Serializable {
 
     public void setCreatedTime(long createdTime) {
         this.createdTime = createdTime;
-    }
-
-    public boolean isVerified() {
-        return verified;
-    }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified;
-    }
-
-    public long getVerifiedTime() {
-        return verifiedTime;
-    }
-
-    public void setVerifiedTime(long verifiedTime) {
-        this.verifiedTime = verifiedTime;
     }
 
 }

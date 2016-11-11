@@ -33,21 +33,27 @@ public class CastleMongoStoreTest {
         castleSequence = castleStore.retrieveNextSequence();
         Assert.assertEquals(2, castleSequence);
 
-        Castle castle = Castle.newInstance(castleSequence, Locale.US);
+        Castle castle = Castle.getSample();
         String id = castle.getId();
         System.out.println("id : " + id);
         castleStore.create(castle);
 
         // retrieve test
+        castle = castleStore.retrieveByEmail("kchuh@nextree.co.kr");
+        Assert.assertNotNull(castle);
+
+        castle = castleStore.retrieveByEmail("michael7557@gmail.com");
+        Assert.assertNull(castle);
+
         castle = castleStore.retrieve(id);
-        Assert.assertEquals(Locale.US, castle.getLocale());
+        Assert.assertEquals(Locale.KOREA, castle.getLocale());
         System.out.println(castle);
 
         // update test
-        castle.setLocale(Locale.KOREA);
+        castle.setLocale(Locale.US);
         castleStore.update(castle);
         castle = castleStore.retrieve(id);
-        Assert.assertEquals(Locale.KOREA, castle.getLocale());
+        Assert.assertEquals(Locale.US, castle.getLocale());
         System.out.println(castle);
 
         // delete test

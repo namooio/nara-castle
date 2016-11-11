@@ -17,6 +17,7 @@ public class SdoUtils {
         //
         if (castleBuildSdo == null) return null;
         CastleCdo castleCdo = new CastleCdo();
+        castleCdo.setCastellanEmail(castleBuildSdo.getCastellanEmail());
         castleCdo.setLocale(castleBuildSdo.getLocale());
         return castleCdo;
     }
@@ -88,10 +89,6 @@ public class SdoUtils {
         CastellanEmailSdo emailDto = new CastellanEmailSdo();
         emailDto.setAddress(email.getAddress());
         emailDto.setCreatedTime(email.getCreatedTime().toInstant().toEpochMilli());
-        emailDto.setVerified(email.isVerified());
-        if (email.getVerifiedTime() != null) {
-            emailDto.setVerifiedTime(email.getVerifiedTime().toInstant().toEpochMilli());
-        }
         return emailDto;
     }
 
