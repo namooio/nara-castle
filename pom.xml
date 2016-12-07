@@ -12,8 +12,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
 
-        <nara.share.version>0.2.7</nara.share.version>
-        <nara.stage.version>0.5.6</nara.stage.version>
+        <nara.share.version>0.2.16-SNAPSHOT</nara.share.version>
     </properties>
 
     <dependencies>
@@ -42,14 +41,13 @@
         <module>nara-castle-protocol</module>
         <module>nara-castle-store</module>
         <module>nara-castle-adapter</module>
-        <module>nara-castle-boot</module>
     </modules>
 
     <scm>
         <connection>scm:git:https://github.com/namooio/nara-castle.git</connection>
         <url>scm:git:https://github.com/namooio/nara-castle.git</url>
         <developerConnection>scm:git:https://github.com/namooio/nara-castle.git</developerConnection>
-        <tag>nara-castle-pom-0.3.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>

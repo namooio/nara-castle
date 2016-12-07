@@ -38,18 +38,6 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
-		<!-- web -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>3.3.6</version>
-		</dependency>
-
 		<!-- test -->
 		<dependency>
 			<groupId>namoo.nara.castle</groupId>
@@ -73,9 +61,23 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
