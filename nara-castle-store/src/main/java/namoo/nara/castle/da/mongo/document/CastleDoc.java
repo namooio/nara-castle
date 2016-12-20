@@ -2,6 +2,7 @@ package namoo.nara.castle.da.mongo.document;
 
 import namoo.nara.castle.domain.entity.Castle;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
@@ -23,6 +24,9 @@ public class CastleDoc {
     private Instant builtTimeUTC;
     private String zoneId;
 
+    @Version
+    private Long version;
+
     public CastleDoc() {
         //
     }
@@ -35,6 +39,7 @@ public class CastleDoc {
         castleDoc.setLocale(castle.getLocale());
         castleDoc.setBuiltTimeUTC(castle.getBuiltTime().toInstant());
         castleDoc.setZoneId(castle.getBuiltTime().getZone().getId());
+        castleDoc.setVersion(castle.getVersion());
         return castleDoc;
     }
 
@@ -51,6 +56,7 @@ public class CastleDoc {
         castle.setCastellan(castellan.toDomain());
         castle.setLocale(locale);
         castle.setBuiltTime(ZonedDateTime.ofInstant(builtTimeUTC, ZoneId.of(zoneId)));
+        castle.setVersion(version);
         return castle;
     }
 
@@ -92,5 +98,13 @@ public class CastleDoc {
 
     public void setZoneId(String zoneId) {
         this.zoneId = zoneId;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

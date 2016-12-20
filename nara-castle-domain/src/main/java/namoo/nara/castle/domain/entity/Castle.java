@@ -15,6 +15,8 @@ public class Castle extends Entity implements Aggregate {
     private Locale locale; // optional
     private ZonedDateTime builtTime;
 
+    private Long version;
+
     public Castle(String id) {
         //
         super(id);
@@ -83,6 +85,14 @@ public class Castle extends Entity implements Aggregate {
 
     public void setBuiltTime(ZonedDateTime builtTime) {
         this.builtTime = builtTime;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     public static void main(String[] args) {
