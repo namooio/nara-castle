@@ -1,8 +1,11 @@
 package namoo.nara.castle.domain.context;
 
+import namoo.nara.castle.domain.service.CastleServiceLycler;
+
 public class CastleContext {
 
     private static CastleIdBuilder castleIdBuilder;
+    private static CastleServiceLycler serviceLycler;
 
     private static CastleEmailValidator emailValidator;
 
@@ -24,4 +27,11 @@ public class CastleContext {
         return emailValidator;
     }
 
+    public static CastleServiceLycler getServiceLycler() {
+        return serviceLycler;
+    }
+
+    public static void setServiceLycler(CastleServiceLycler serviceLycler) {
+        CastleContext.serviceLycler = serviceLycler;
+    }
 }
