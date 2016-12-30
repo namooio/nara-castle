@@ -3,10 +3,13 @@ package namoo.nara.castle.domain.logic;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.JoinedMetro;
+import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.service.data.CastleCdo;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.event.CastleBuiltEvent;
+import namoo.nara.share.event.NaraEventProxy;
 
 import java.util.List;
 import java.util.Locale;
@@ -14,10 +17,12 @@ import java.util.Locale;
 public class CastleServiceLogic implements CastleService {
     //
     private CastleStore castleStore;
+    private NaraEventProxy eventProxy;
 
-    public CastleServiceLogic(CastleStoreLycler storeLycler) {
+    public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
+        this.eventProxy = proxyLycler.requestNaraEventProxy();
     }
 
     @Override
@@ -27,6 +32,7 @@ public class CastleServiceLogic implements CastleService {
         Castle castle = Castle.newInstance(sequence, castleCdo.getCastellanEmail(), castleCdo.getLocale());
         castleStore.create(castle);
 
+        eventProxy.create(new CastleBuiltEvent(castle.getId(), castleCdo.getCastellanEmail()));
         return castle.getId();
     }
 

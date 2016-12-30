@@ -41,6 +41,8 @@
         <module>nara-castle-protocol</module>
         <module>nara-castle-store</module>
         <module>nara-castle-adapter</module>
+        <module>nara-castle-proxy</module>
+        <module>nara-castle-event</module>
     </modules>
 
     <scm>

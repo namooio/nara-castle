@@ -3,6 +3,8 @@ package namoo.nara.castle.domain.service;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.logic.CastleServiceLogic;
+import namoo.nara.castle.domain.proxy.CastleProxyLycler;
+import namoo.nara.castle.domain.proxy.mockproxy.CastleMockProxyLycler;
 import namoo.nara.castle.domain.service.data.CastleCdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.mapstore.CastleMapStoreLycler;
@@ -21,7 +23,8 @@ public class CastleServiceTest {
     public void setUp() {
         //
         CastleStoreLycler castleStoreLycler = new CastleMapStoreLycler();
-        this.castleService = new CastleServiceLogic(castleStoreLycler);
+        CastleProxyLycler castleProxyLycler = new CastleMockProxyLycler();
+        this.castleService = new CastleServiceLogic(castleStoreLycler, castleProxyLycler);
         kchuhCastleId = this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", Locale.KOREA));
         this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", Locale.KOREA));
         this.castleService.buildCastle(new CastleCdo("tsong@nextree.co.kr", Locale.KOREA));
