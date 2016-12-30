@@ -8,15 +8,17 @@ public class CastleBuiltEvent implements RabbitEvent {
 
     private String castleId;
     private String castellanEmail;
+    private String originMetroId;
 
     public CastleBuiltEvent() {
         //
     }
 
-    public CastleBuiltEvent(String castleId, String castellanEmail) {
+    public CastleBuiltEvent(String castleId, String castellanEmail, String originMetroId) {
         //
         this.castleId = castleId;
         this.castellanEmail = castellanEmail;
+        this.originMetroId = originMetroId;
     }
 
     @Override
@@ -43,5 +45,13 @@ public class CastleBuiltEvent implements RabbitEvent {
 
     public void setCastellanEmail(String castellanEmail) {
         this.castellanEmail = castellanEmail;
+    }
+
+    public String getOriginMetroId() {
+        return originMetroId;
+    }
+
+    public void setOriginMetroId(String originMetroId) {
+        this.originMetroId = originMetroId;
     }
 }

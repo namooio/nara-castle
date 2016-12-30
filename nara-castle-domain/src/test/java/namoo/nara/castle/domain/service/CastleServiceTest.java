@@ -25,11 +25,11 @@ public class CastleServiceTest {
         CastleStoreLycler castleStoreLycler = new CastleMapStoreLycler();
         CastleProxyLycler castleProxyLycler = new CastleMockProxyLycler();
         this.castleService = new CastleServiceLogic(castleStoreLycler, castleProxyLycler);
-        kchuhCastleId = this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo("tsong@nextree.co.kr", Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo("hkkang@nextree.co.kr", Locale.KOREA));
-        this.castleService.buildCastle(new CastleCdo("jyjung@nextree.co.kr", Locale.KOREA));
+        kchuhCastleId = this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", "1", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("kchuh@nextree.co.kr", "1", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("tsong@nextree.co.kr", "1", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("hkkang@nextree.co.kr", "1", Locale.KOREA));
+        this.castleService.buildCastle(new CastleCdo("jyjung@nextree.co.kr", "1", Locale.KOREA));
     }
 
     @Test

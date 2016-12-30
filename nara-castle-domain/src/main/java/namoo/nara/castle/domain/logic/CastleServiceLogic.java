@@ -28,11 +28,13 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public String buildCastle(CastleCdo castleCdo) {
         //
+        String castellanEmail = castleCdo.getCastellanEmail();
+        String originMetroId = castleCdo.getOriginMetroId();
         long sequence = castleStore.retrieveNextSequence();
-        Castle castle = Castle.newInstance(sequence, castleCdo.getCastellanEmail(), castleCdo.getLocale());
+        Castle castle = Castle.newInstance(sequence, castellanEmail, originMetroId, castleCdo.getLocale());
         castleStore.create(castle);
 
-        eventProxy.create(new CastleBuiltEvent(castle.getId(), castleCdo.getCastellanEmail()));
+        eventProxy.create(new CastleBuiltEvent(castle.getId(), castellanEmail, originMetroId));
         return castle.getId();
     }
 

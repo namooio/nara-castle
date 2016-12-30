@@ -24,6 +24,8 @@ public class CastleDoc {
     private Instant builtTimeUTC;
     private String zoneId;
 
+    private String originMetroId;
+
     @Version
     private Long version;
 
@@ -39,6 +41,7 @@ public class CastleDoc {
         castleDoc.setLocale(castle.getLocale());
         castleDoc.setBuiltTimeUTC(castle.getBuiltTime().toInstant());
         castleDoc.setZoneId(castle.getBuiltTime().getZone().getId());
+        castleDoc.setOriginMetroId(castle.getOriginMetroId());
         castleDoc.setVersion(castle.getVersion());
         return castleDoc;
     }
@@ -56,6 +59,7 @@ public class CastleDoc {
         castle.setCastellan(castellan.toDomain());
         castle.setLocale(locale);
         castle.setBuiltTime(ZonedDateTime.ofInstant(builtTimeUTC, ZoneId.of(zoneId)));
+        castle.setOriginMetroId(originMetroId);
         castle.setVersion(version);
         return castle;
     }
@@ -98,6 +102,14 @@ public class CastleDoc {
 
     public void setZoneId(String zoneId) {
         this.zoneId = zoneId;
+    }
+
+    public String getOriginMetroId() {
+        return originMetroId;
+    }
+
+    public void setOriginMetroId(String originMetroId) {
+        this.originMetroId = originMetroId;
     }
 
     public Long getVersion() {
