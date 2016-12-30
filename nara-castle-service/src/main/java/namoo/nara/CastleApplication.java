@@ -1,7 +1,7 @@
 package namoo.nara;
 
 import namoo.nara.castle.es.handler.external.CitizenRegisteredEventHandler;
-import namoo.nara.castle.es.listener.rabbit.CitizenRegisteredEventRabbitListener;
+import namoo.nara.castle.es.listener.rabbit.external.CitizenRegisteredEventRabbitListener;
 import namoo.nara.castle.sa.rbmp.RabbitEventProxy;
 import namoo.nara.share.event.NaraEventProxy;
 import namoo.nara.town.event.CitizenRegisteredEvent;

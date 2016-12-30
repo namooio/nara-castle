@@ -1,4 +1,4 @@
-package namoo.nara.castle.es.listener.rabbit;
+package namoo.nara.castle.es.listener.rabbit.external;
 
 import namoo.nara.share.event.NaraEventListener;
 import namoo.nara.town.event.CitizenRegisteredEvent;
