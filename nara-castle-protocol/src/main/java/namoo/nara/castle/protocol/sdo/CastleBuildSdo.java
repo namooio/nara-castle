@@ -7,16 +7,18 @@ public class CastleBuildSdo implements Serializable {
     //
     private String castellanEmail;
     private String originMetroId;
+    private String originCitizenId;
     private Locale locale;
 
     public CastleBuildSdo() {
         //
     }
 
-    public CastleBuildSdo(String castellanEmail, String originMetroId, Locale locale) {
+    public CastleBuildSdo(String castellanEmail, String originMetroId, String originCitizenId, Locale locale) {
         //
         this.castellanEmail = castellanEmail;
         this.originMetroId = originMetroId;
+        this.originCitizenId = originCitizenId;
         this.locale = locale;
     }
 
@@ -34,6 +36,14 @@ public class CastleBuildSdo implements Serializable {
 
     public void setOriginMetroId(String originMetroId) {
         this.originMetroId = originMetroId;
+    }
+
+    public String getOriginCitizenId() {
+        return originCitizenId;
+    }
+
+    public void setOriginCitizenId(String originCitizenId) {
+        this.originCitizenId = originCitizenId;
     }
 
     public Locale getLocale() {

@@ -19,6 +19,7 @@ public class SdoUtils {
         CastleCdo castleCdo = new CastleCdo();
         castleCdo.setCastellanEmail(castleBuildSdo.getCastellanEmail());
         castleCdo.setOriginMetroId(castleBuildSdo.getOriginMetroId());
+        castleCdo.setOriginCitizenId(castleBuildSdo.getOriginCitizenId());
         castleCdo.setLocale(castleBuildSdo.getLocale());
         return castleCdo;
     }

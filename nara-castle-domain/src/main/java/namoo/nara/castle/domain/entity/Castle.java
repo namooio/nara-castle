@@ -16,6 +16,7 @@ public class Castle extends Entity implements Aggregate {
     private ZonedDateTime builtTime;
 
     private String originMetroId;
+    private String originCitizenId;
 
     private Long version;
 
@@ -31,18 +32,19 @@ public class Castle extends Entity implements Aggregate {
                 ", locale=" + locale +
                 ", builtTime=" + builtTime +
                 ", originMetroId='" + originMetroId + '\'' +
+                ", originCitizenId='" + originCitizenId + '\'' +
                 ", version=" + version +
                 '}';
     }
 
     public static Castle getSample() {
         //
-        Castle castle = Castle.newInstance(1, "kchuh@nextree.co.kr", "1", Locale.KOREA);
+        Castle castle = Castle.newInstance(1, "kchuh@nextree.co.kr", "1", "1@1", Locale.KOREA);
         return castle;
     }
 
 
-    public static Castle newInstance(long castleSequence, String originMetroId) {
+    public static Castle newInstance(long castleSequence, String originMetroId, String originCitizenId) {
         //
         CastleIdBuilder castleIdBuilder = CastleContext.getCastleIdBuilder();
         String castleId = castleIdBuilder.makeCastleId(castleSequence);
@@ -50,21 +52,22 @@ public class Castle extends Entity implements Aggregate {
         castle.setCastellan(Castellan.newInstance());
         castle.setBuiltTime(ZonedDateTime.now());
         castle.setOriginMetroId(originMetroId);
+        castle.setOriginCitizenId(originCitizenId);
 
         return castle;
     }
 
-    public static Castle newInstance(long castleSequence, String castellanEmail, String originMetroId) {
+    public static Castle newInstance(long castleSequence, String castellanEmail, String originMetroId, String originCitizenId) {
         //
-        Castle castle = newInstance(castleSequence, originMetroId);
+        Castle castle = newInstance(castleSequence, originMetroId, originCitizenId);
         Castellan castellan = castle.getCastellan();
         castellan.addEmail(castellanEmail);
         return castle;
     }
 
-    public static Castle newInstance(long castleSequence, String castellanEmail, String originMetroId, Locale locale) {
+    public static Castle newInstance(long castleSequence, String castellanEmail, String originMetroId, String originCitizenId, Locale locale) {
         //
-        Castle castle = newInstance(castleSequence, castellanEmail, originMetroId);
+        Castle castle = newInstance(castleSequence, castellanEmail, originMetroId, originCitizenId);
         castle.setLocale(locale);
         return castle;
     }
@@ -99,6 +102,14 @@ public class Castle extends Entity implements Aggregate {
 
     public void setOriginMetroId(String originMetroId) {
         this.originMetroId = originMetroId;
+    }
+
+    public String getOriginCitizenId() {
+        return originCitizenId;
+    }
+
+    public void setOriginCitizenId(String originCitizenId) {
+        this.originCitizenId = originCitizenId;
     }
 
     public Long getVersion() {

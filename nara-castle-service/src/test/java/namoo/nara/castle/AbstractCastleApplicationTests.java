@@ -31,12 +31,12 @@ public abstract class AbstractCastleApplicationTests {
 	@Before
 	public void setUp() {
 		//
-		kchuhCastleId = castleRestAdapter.buildCastle(new CastleBuildSdo("kchuh@nextree.co.kr", "1", Locale.KOREA));
+		kchuhCastleId = castleRestAdapter.buildCastle(new CastleBuildSdo("kchuh@nextree.co.kr", "1", "1@1", Locale.KOREA));
 
-		castleRestAdapter.buildCastle(new CastleBuildSdo("tsong@nextree.co.kr", "1", Locale.KOREA));
-		castleRestAdapter.buildCastle(new CastleBuildSdo("hkkang@nextree.co.kr", "1", Locale.KOREA));
-		castleRestAdapter.buildCastle(new CastleBuildSdo("jyjung@nextree.co.kr", "1", Locale.KOREA));
-		castleRestAdapter.buildCastle(new CastleBuildSdo("iylee@nextree.co.kr", "1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleBuildSdo("tsong@nextree.co.kr", "1", "2@1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleBuildSdo("hkkang@nextree.co.kr", "1", "3@1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleBuildSdo("jyjung@nextree.co.kr", "1", "4@1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleBuildSdo("iylee@nextree.co.kr", "1", "5@1", Locale.KOREA));
 	}
 
 }
