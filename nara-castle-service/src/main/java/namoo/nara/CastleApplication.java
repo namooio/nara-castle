@@ -1,5 +1,6 @@
 package namoo.nara;
 
+import namoo.nara.castle.cp.spring.CastleInitializer;
 import namoo.nara.castle.es.handler.internal.CastleBuiltEventHandler;
 import namoo.nara.castle.es.listener.internal.CastleBuiltEventRabbitListener;
 import namoo.nara.castle.event.CastleBuiltEvent;
@@ -25,6 +26,12 @@ public class CastleApplication {
 	public NaraEventProxy eventProxy() {
 		//
 		return new RabbitEventProxy();
+	}
+
+	@Bean
+	public CastleInitializer castleTestInitializer() {
+		//
+		return new CastleInitializer();
 	}
 
 	/************************************************************************************/

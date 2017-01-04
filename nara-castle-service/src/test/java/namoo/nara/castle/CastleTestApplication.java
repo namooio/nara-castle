@@ -1,6 +1,7 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.rest.CastleRestAdapter;
+import namoo.nara.castle.cp.spring.CastleTestInitializer;
 import namoo.nara.share.event.NaraEventProxy;
 import namoo.nara.share.event.memory.InMemoryEventQueueProxy;
 import namoo.nara.share.restclient.NaraRestClient;
@@ -14,6 +15,12 @@ public class CastleTestApplication {
     @Bean
     public NaraRestClient naraRestClient() {
         return new SpringWebRestClient("http://127.0.0.1:19030");
+    }
+
+    @Bean
+    public CastleTestInitializer castleTestInitializer() {
+        //
+        return new CastleTestInitializer();
     }
 
     @Bean
