@@ -70,6 +70,8 @@ public class CastleServiceLogic implements CastleService {
         //
         Castle castle = castleStore.retrieve(castleId);
         Castellan castellan = castle.getCastellan();
+
+        if (castellan.hasEmail(email)) return;
         castellan.addEmail(email);
         castleStore.update(castle);
     }
@@ -88,6 +90,8 @@ public class CastleServiceLogic implements CastleService {
         //
         Castle castle = castleStore.retrieve(castleId);
         Castellan castellan = castle.getCastellan();
+
+        if (castellan.isJoinedMetro(metroId)) return;
         castellan.addJoinedMetro(metroId, citizenId);
         castleStore.update(castle);
     }
