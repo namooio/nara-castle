@@ -8,6 +8,7 @@ import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.domain.service.data.CastleCdo;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.event.CastleBuiltEvent;
 import namoo.nara.share.event.NaraEventProxy;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class CastleServiceLogic implements CastleService {
         Castle castle = Castle.newInstance(sequence, castellanEmail, originMetroId, originCitizenId, castleCdo.getLocale());
         castleStore.create(castle);
 
+        eventProxy.create(new CastleBuiltEvent(castle.getId(), castellanEmail, originMetroId, originCitizenId));
         return castle.getId();
     }
 
