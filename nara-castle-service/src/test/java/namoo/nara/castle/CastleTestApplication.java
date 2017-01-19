@@ -1,8 +1,10 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.rest.CastleRestAdapter;
-import namoo.nara.castle.cp.spring.CastleTestInitializer;
+import namoo.nara.castle.es.handler.internal.CastleBuiltEventHandler;
 import namoo.nara.share.event.NaraEventProxy;
+import namoo.nara.share.event.memory.InMemoryEventQueue;
+import namoo.nara.share.event.memory.InMemoryEventQueueListener;
 import namoo.nara.share.event.memory.InMemoryEventQueueProxy;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.springweb.SpringWebRestClient;
@@ -18,15 +20,27 @@ public class CastleTestApplication {
     }
 
     @Bean
-    public CastleTestInitializer castleTestInitializer() {
-        //
-        return new CastleTestInitializer();
-    }
-
-    @Bean
     public CastleRestAdapter castleAdapter() {
         //
         return new CastleRestAdapter(naraRestClient());
+    }
+
+    @Bean
+    public InMemoryEventQueue castleBuiltEventQueue() {
+        return new InMemoryEventQueue(10);
+    }
+
+    @Bean
+    public CastleBuiltEventHandler castleBuiltEventHandler() {
+        return new CastleBuiltEventHandler();
+    }
+
+    @Bean
+    public InMemoryEventQueueListener castleBuiltEventListener() {
+        InMemoryEventQueueListener listener = new InMemoryEventQueueListener(castleBuiltEventQueue());
+        listener.addHandler(castleBuiltEventHandler());
+        new Thread(listener).start();
+        return listener;
     }
 
     @Bean
