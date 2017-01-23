@@ -9,7 +9,7 @@ public class CastleBuiltEventRabbitListener extends NaraEventListener<CastleBuil
     @Override
     @RabbitListener(queues = "CASTLE.CASTLE_BUILT_EVENT_QUEUE")
     public void listen(CastleBuiltEvent event) {
-        getHandlers().forEach(handler -> handler.handle(event));
+        super.listen(event);
     }
 
 }
