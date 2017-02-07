@@ -1,23 +1,28 @@
-package namoo.nara.castle.domain.service.data;
+package namoo.nara.castle.spec.sdo;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-public class CastleCdo {
+public class CastleCdo implements Serializable {
     //
-    private String castellanEmail; // required
-    private String originMetroId;  // required
-    private String originCitizenId; // required
-    private Locale locale; // optional
+    private String castellanEmail;
+    private String originMetroId;
+    private String originCitizenId;
+    private Locale locale;
 
     public CastleCdo() {
         //
     }
 
-    public CastleCdo(String castellanEmail) {
+    public CastleCdo(String castellanEmail, String originMetroId, String originCitizenId) {
+        //
         this.castellanEmail = castellanEmail;
+        this.originMetroId = originMetroId;
+        this.originCitizenId = originCitizenId;
     }
 
     public CastleCdo(String castellanEmail, String originMetroId, String originCitizenId, Locale locale) {
+        //
         this.castellanEmail = castellanEmail;
         this.originMetroId = originMetroId;
         this.originCitizenId = originCitizenId;

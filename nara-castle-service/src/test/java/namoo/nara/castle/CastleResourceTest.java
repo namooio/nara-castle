@@ -1,8 +1,8 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.protocol.sdo.CastellanSdo;
-import namoo.nara.castle.protocol.sdo.CastleSdo;
-import namoo.nara.castle.protocol.sdo.JoinedMetroAddSdo;
+import namoo.nara.castle.spec.sdo.CastellanSdo;
+import namoo.nara.castle.spec.sdo.CastleSdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,8 +44,8 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
         //
         CastellanSdo castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
         Assert.assertEquals(0, castellan.getJoinedMetros().size());
-        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroAddSdo("M01", "1@M01"));
-        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroAddSdo("M02", "1@M02"));
+        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroCdo("M01", "1@M01"));
+        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroCdo("M02", "1@M02"));
 
         castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
         Assert.assertEquals(2, castellan.getJoinedMetros().size());

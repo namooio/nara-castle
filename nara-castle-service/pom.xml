@@ -29,7 +29,7 @@
 		</dependency>
 		<dependency>
 			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-protocol</artifactId>
+			<artifactId>nara-castle-spec</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

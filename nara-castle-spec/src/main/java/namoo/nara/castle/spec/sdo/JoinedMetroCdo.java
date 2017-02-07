@@ -1,15 +1,15 @@
-package namoo.nara.castle.protocol.sdo;
+package namoo.nara.castle.spec.sdo;
 
-public class JoinedMetroAddSdo {
+public class JoinedMetroCdo {
     //
     private String metroId;
     private String citizenId;
 
-    public JoinedMetroAddSdo() {
+    public JoinedMetroCdo() {
         //
     }
 
-    public JoinedMetroAddSdo(String metroId, String citizenId) {
+    public JoinedMetroCdo(String metroId, String citizenId) {
         //
         this.metroId = metroId;
         this.citizenId = citizenId;

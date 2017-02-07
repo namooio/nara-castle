@@ -38,7 +38,7 @@
     <modules>
         <module>nara-castle-domain</module>
         <module>nara-castle-service</module>
-        <module>nara-castle-protocol</module>
+        <module>nara-castle-spec</module>
         <module>nara-castle-store</module>
         <module>nara-castle-adapter</module>
         <module>nara-castle-proxy</module>

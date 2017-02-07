@@ -1,16 +1,16 @@
-package namoo.nara.castle.protocol;
+package namoo.nara.castle.spec;
 
-import namoo.nara.castle.protocol.sdo.CastleBuildSdo;
-import namoo.nara.castle.protocol.sdo.CastleSdo;
-import namoo.nara.castle.protocol.sdo.JoinedMetroAddSdo;
-import namoo.nara.castle.protocol.sdo.JoinedMetroSdo;
+import namoo.nara.castle.spec.sdo.CastleCdo;
+import namoo.nara.castle.spec.sdo.CastleSdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
 
 import java.util.List;
 import java.util.Locale;
 
-public interface CastleProtocol {
+public interface CastleService {
     //
-    String buildCastle(CastleBuildSdo castleBuildSdo);
+    String buildCastle(CastleCdo castleCdo);
     void modifyLocale(String castleId, Locale locale);
     CastleSdo findCastle(String castleId);
     CastleSdo findCastleByEmail(String email);
@@ -19,7 +19,8 @@ public interface CastleProtocol {
     void addEmail(String castleId, String email);
     void removeEmail(String castleId, String email);
 
-    void addJoinedMetro(String castleId, JoinedMetroAddSdo joinedMetroAddSdo);
+    void addJoinedMetro(String castleId, JoinedMetroCdo joinedMetroCdo);
     List<JoinedMetroSdo> findJoinedMetros(String castleId);
     void removeJoinedMetro(String castleId, String metroId);
+    boolean isJoinedMetro(String castleId, String metroId);
 }

@@ -1,10 +1,10 @@
 package namoo.nara.castle.adapter.rest;
 
-import namoo.nara.castle.protocol.CastleProtocol;
-import namoo.nara.castle.protocol.sdo.CastleBuildSdo;
-import namoo.nara.castle.protocol.sdo.CastleSdo;
-import namoo.nara.castle.protocol.sdo.JoinedMetroAddSdo;
-import namoo.nara.castle.protocol.sdo.JoinedMetroSdo;
+import namoo.nara.castle.spec.CastleService;
+import namoo.nara.castle.spec.sdo.CastleCdo;
+import namoo.nara.castle.spec.sdo.CastleSdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
@@ -12,28 +12,25 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class CastleRestAdapter implements CastleProtocol {
-    //
+public class CastleRestAdapter implements CastleService {
+
     private NaraRestClient naraRestClient;
 
     public CastleRestAdapter(NaraRestClient naraRestClient) {
-        //
         this.naraRestClient = naraRestClient;
     }
 
     @Override
-    public String buildCastle(CastleBuildSdo castleBuildSdo) {
-        //
+    public String buildCastle(CastleCdo castleCdo) {
         return naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_BUILD)
-                .setRequestBody(castleBuildSdo)
+                .setRequestBody(castleCdo)
                 .setResponseType(String.class)
         );
     }
 
     @Override
     public void modifyLocale(String castleId, Locale locale) {
-        //
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_LOCALE_MODIFY)
                 .addPathParam("id", castleId)
@@ -43,7 +40,6 @@ public class CastleRestAdapter implements CastleProtocol {
 
     @Override
     public CastleSdo findCastle(String castleId) {
-        //
         return naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND)
                 .addPathParam("id", castleId)
@@ -53,7 +49,6 @@ public class CastleRestAdapter implements CastleProtocol {
 
     @Override
     public CastleSdo findCastleByEmail(String email) {
-        //
         return naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_CONDITION)
                 .addQueryParam("email", email)
@@ -63,7 +58,6 @@ public class CastleRestAdapter implements CastleProtocol {
 
     @Override
     public List<CastleSdo> findCastles() {
-        //
         CastleSdo[] castleSdos = naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_ALL)
                 .setResponseType(CastleSdo[].class)
@@ -74,7 +68,6 @@ public class CastleRestAdapter implements CastleProtocol {
 
     @Override
     public void addEmail(String castleId, String email) {
-        //
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_EMAIL_ADD)
                         .addPathParam("id", castleId)
@@ -84,7 +77,6 @@ public class CastleRestAdapter implements CastleProtocol {
 
     @Override
     public void removeEmail(String castleId, String email) {
-        //
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_EMAIL_REMOVE)
                         .addPathParam("id", castleId)
@@ -93,18 +85,16 @@ public class CastleRestAdapter implements CastleProtocol {
     }
 
     @Override
-    public void addJoinedMetro(String castleId, JoinedMetroAddSdo joinedMetroAddSdo) {
-        //
+    public void addJoinedMetro(String castleId, JoinedMetroCdo joinedMetroCdo) {
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METRO_ADD)
                         .addPathParam("id", castleId)
-                        .setRequestBody(joinedMetroAddSdo)
+                        .setRequestBody(joinedMetroCdo)
         );
     }
 
     @Override
     public List<JoinedMetroSdo> findJoinedMetros(String castleId) {
-        //
         JoinedMetroSdo[] joinedMetros = naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METROS_FIND)
                         .addPathParam("id", castleId)
@@ -116,11 +106,20 @@ public class CastleRestAdapter implements CastleProtocol {
 
     @Override
     public void removeJoinedMetro(String castleId, String metroId) {
-        //
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METRO_REMOVE)
                         .addPathParam("id", castleId)
                         .addPathParam("metroId", metroId)
+        );
+    }
+
+    @Override
+    public boolean isJoinedMetro(String castleId, String metroId) {
+        return naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METRO_EXISTS)
+                        .addPathParam("id", castleId)
+                        .addPathParam("metroId", metroId)
+                        .setResponseType(boolean.class)
         );
     }
 }

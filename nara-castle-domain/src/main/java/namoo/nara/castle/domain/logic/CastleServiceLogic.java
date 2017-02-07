@@ -2,13 +2,16 @@ package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
-import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.service.data.CastleCdo;
+import namoo.nara.castle.domain.share.SdoUtils;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.event.CastleBuiltEvent;
+import namoo.nara.castle.spec.CastleService;
+import namoo.nara.castle.spec.sdo.CastleCdo;
+import namoo.nara.castle.spec.sdo.CastleSdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
 import namoo.nara.share.event.NaraEventProxy;
 
 import java.util.List;
@@ -48,21 +51,21 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public Castle findCastle(String id) {
+    public CastleSdo findCastle(String id) {
         //
-        return castleStore.retrieve(id);
+        return SdoUtils.toCastleSdo(castleStore.retrieve(id));
     }
 
     @Override
-    public Castle findCastleByEmail(String email) {
+    public CastleSdo findCastleByEmail(String email) {
         //
-        return castleStore.retrieveByEmail(email);
+        return SdoUtils.toCastleSdo(castleStore.retrieveByEmail(email));
     }
 
     @Override
-    public List<Castle> findCastles() {
+    public List<CastleSdo> findCastles() {
         //
-        return castleStore.retrieveAll();
+        return SdoUtils.toCastleSdo(castleStore.retrieveAll());
     }
 
     @Override
@@ -86,10 +89,13 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void addJoinedMetro(String castleId, String metroId, String citizenId) {
+    public void addJoinedMetro(String castleId, JoinedMetroCdo joinedMetroCdo) {
         //
         Castle castle = castleStore.retrieve(castleId);
         Castellan castellan = castle.getCastellan();
+
+        String metroId = joinedMetroCdo.getMetroId();
+        String citizenId = joinedMetroCdo.getCitizenId();
 
         if (castellan.isJoinedMetro(metroId)) return;
         castellan.addJoinedMetro(metroId, citizenId);
@@ -97,11 +103,11 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public List<JoinedMetro> findJoinedMetros(String castleId) {
+    public List<JoinedMetroSdo> findJoinedMetros(String castleId) {
         //
         Castle castle = castleStore.retrieve(castleId);
         Castellan castellan = castle.getCastellan();
-        return castellan.getJoinedMetros();
+        return SdoUtils.toJoinedMetroSdo(castellan.getJoinedMetros());
     }
 
     @Override
@@ -111,5 +117,12 @@ public class CastleServiceLogic implements CastleService {
         Castellan castellan = castle.getCastellan();
         castellan.removeJoinedMetro(metroId);
         castleStore.update(castle);
+    }
+
+    @Override
+    public boolean isJoinedMetro(String castleId, String metroId) {
+        //
+        Castle castle = castleStore.retrieve(castleId);
+        return castle.getCastellan().isJoinedMetro(metroId);
     }
 }

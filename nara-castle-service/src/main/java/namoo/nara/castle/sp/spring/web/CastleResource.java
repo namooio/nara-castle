@@ -1,16 +1,12 @@
 package namoo.nara.castle.sp.spring.web;
 
-import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.JoinedMetro;
-import namoo.nara.castle.domain.service.CastleService;
-import namoo.nara.castle.domain.service.data.CastleCdo;
-import namoo.nara.castle.protocol.CastleProtocol;
-import namoo.nara.castle.protocol.sdo.CastleBuildSdo;
-import namoo.nara.castle.protocol.sdo.CastleSdo;
-import namoo.nara.castle.protocol.sdo.JoinedMetroAddSdo;
-import namoo.nara.castle.protocol.sdo.JoinedMetroSdo;
-import namoo.nara.castle.sp.util.SdoUtils;
+import namoo.nara.castle.spec.CastleService;
+import namoo.nara.castle.spec.sdo.CastleCdo;
+import namoo.nara.castle.spec.sdo.CastleSdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,18 +14,17 @@ import java.util.Locale;
 
 @RestController
 @RequestMapping("castle-api")
-public class CastleResource implements CastleProtocol {
+public class CastleResource implements CastleService {
     //
     @Autowired
+    @Qualifier("castleServiceLogic")
     private CastleService castleService;
 
     @Override
-    @RequestMapping(value="castle", method= RequestMethod.POST)
+    @RequestMapping(value="castle", method = RequestMethod.POST)
     public String buildCastle(
-            @RequestBody CastleBuildSdo castleBuildSdo
+            @RequestBody CastleCdo castleCdo
     ) {
-        //
-        CastleCdo castleCdo = SdoUtils.toCastleCdo(castleBuildSdo);
         return this.castleService.buildCastle(castleCdo);
     }
 
@@ -39,18 +34,15 @@ public class CastleResource implements CastleProtocol {
             @PathVariable("id") String castleId,
             @RequestBody Locale locale
     ) {
-        //
         this.castleService.modifyLocale(castleId, locale);
     }
 
     @Override
-    @RequestMapping(value="castles/{id}", method= RequestMethod.GET)
+    @RequestMapping(value="castles/{id}", method = RequestMethod.GET)
     public CastleSdo findCastle(
             @PathVariable("id") String castleId
     ) {
-        //
-        Castle castle = this.castleService.findCastle(castleId);
-        return SdoUtils.toCastleSdo(castle);
+        return this.castleService.findCastle(castleId);
     }
 
     @Override
@@ -58,26 +50,21 @@ public class CastleResource implements CastleProtocol {
     public CastleSdo findCastleByEmail(
             @RequestParam("email") String email
     ) {
-        //
-        Castle castle = this.castleService.findCastleByEmail(email);
-        return SdoUtils.toCastleSdo(castle);
+        return this.castleService.findCastleByEmail(email);
     }
 
     @Override
-    @RequestMapping(value="castles", method= RequestMethod.GET)
+    @RequestMapping(value="castles", method = RequestMethod.GET)
     public List<CastleSdo> findCastles() {
-        //
-        List<Castle> castles = this.castleService.findCastles();
-        return SdoUtils.toCastleSdo(castles);
+        return this.castleService.findCastles();
     }
 
     @Override
-    @RequestMapping(value="castellans/{id}/email", method= RequestMethod.POST)
+    @RequestMapping(value="castellans/{id}/email", method = RequestMethod.POST)
     public void addEmail(
             @PathVariable("id") String castleId,
             @RequestBody String email
     ) {
-        //
         this.castleService.addEmail(castleId, email);
     }
 
@@ -87,39 +74,41 @@ public class CastleResource implements CastleProtocol {
             @PathVariable("id") String castleId,
             @RequestBody String email
     ) {
-        //
         this.castleService.removeEmail(castleId, email);
     }
 
     @Override
-    @RequestMapping(value="castellans/{id}/joined-metro", method= RequestMethod.POST)
+    @RequestMapping(value="castellans/{id}/joined-metro", method = RequestMethod.POST)
     public void addJoinedMetro(
             @PathVariable("id") String castleId,
-            @RequestBody JoinedMetroAddSdo joinedMetroAddSdo
+            @RequestBody JoinedMetroCdo joinedMetroCdo
     ) {
-        //
-        String metroId = joinedMetroAddSdo.getMetroId();
-        String citizenId = joinedMetroAddSdo.getCitizenId();
-        this.castleService.addJoinedMetro(castleId, metroId, citizenId);
+        this.castleService.addJoinedMetro(castleId, joinedMetroCdo);
     }
 
     @Override
-    @RequestMapping(value="castellans/{id}/joined-metros", method= RequestMethod.GET)
+    @RequestMapping(value="castellans/{id}/joined-metros", method = RequestMethod.GET)
     public List<JoinedMetroSdo> findJoinedMetros(
             @PathVariable("id") String castleId
     ) {
-        //
-        List<JoinedMetro> joinedMetros = castleService.findJoinedMetros(castleId);
-        return SdoUtils.toJoinedMetroSdo(joinedMetros);
+        return castleService.findJoinedMetros(castleId);
     }
 
     @Override
-    @RequestMapping(value="castellans/{id}/joined-metros/{metroId}", method= RequestMethod.DELETE)
+    @RequestMapping(value="castellans/{id}/joined-metros/{metroId}", method = RequestMethod.DELETE)
     public void removeJoinedMetro(
             @PathVariable("id") String castleId,
             @PathVariable("metroId") String metroId
     ) {
-        //
         this.castleService.removeJoinedMetro(castleId, metroId);
+    }
+
+    @Override
+    @RequestMapping(value = "castellans/{id}/joined-metros/{metroId}/exists", method = RequestMethod.GET)
+    public boolean isJoinedMetro(
+            @PathVariable("id") String castleId,
+            @PathVariable("metroId") String metroId
+    ) {
+        return castleService.isJoinedMetro(castleId, metroId);
     }
 }

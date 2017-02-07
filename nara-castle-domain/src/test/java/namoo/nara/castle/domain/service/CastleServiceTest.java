@@ -1,13 +1,15 @@
 package namoo.nara.castle.domain.service;
 
-import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.logic.CastleServiceLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.proxy.mockproxy.CastleMockProxyLycler;
-import namoo.nara.castle.domain.service.data.CastleCdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.mapstore.CastleMapStoreLycler;
+import namoo.nara.castle.spec.CastleService;
+import namoo.nara.castle.spec.sdo.CastellanSdo;
+import namoo.nara.castle.spec.sdo.CastleCdo;
+import namoo.nara.castle.spec.sdo.CastleSdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +38,7 @@ public class CastleServiceTest {
     public void castleTest() {
         //
         Assert.assertEquals(5, castleService.findCastles().size());
-        Castle castle = castleService.findCastle(kchuhCastleId);
+        CastleSdo castle = castleService.findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
 
         castleService.modifyLocale(kchuhCastleId, Locale.US);
@@ -47,33 +49,33 @@ public class CastleServiceTest {
     @Test
     public void emailTest() {
         //
-        Castle castle = this.castleService.findCastle(kchuhCastleId);
-        Castellan castellan = castle.getCastellan();
-        Assert.assertEquals(1, castellan.getEmailsCount());
+        CastleSdo castle = this.castleService.findCastle(kchuhCastleId);
+        CastellanSdo castellan = castle.getCastellanSdo();
+        Assert.assertEquals(1, castellan.getEmails().size());
 
         this.castleService.addEmail(kchuhCastleId, "michael7557@gmail.com");
 
         castle = this.castleService.findCastle(kchuhCastleId);
-        castellan = castle.getCastellan();
-        Assert.assertEquals(2, castellan.getEmailsCount());
+        castellan = castle.getCastellanSdo();
+        Assert.assertEquals(2, castellan.getEmails().size());
     }
 
     @Test
     public void joinedMetroTest() {
         //
-        Castle castle = this.castleService.findCastle(kchuhCastleId);
-        Castellan castellan = castle.getCastellan();
-        Assert.assertEquals(0, castellan.getJoinedMetrosCount());
-        this.castleService.addJoinedMetro(kchuhCastleId, "M01", "1@M01");
-        this.castleService.addJoinedMetro(kchuhCastleId, "M02", "1@M02");
+        CastleSdo castle = this.castleService.findCastle(kchuhCastleId);
+        CastellanSdo castellan = castle.getCastellanSdo();
+        Assert.assertEquals(0, castellan.getJoinedMetros().size());
+        this.castleService.addJoinedMetro(kchuhCastleId, new JoinedMetroCdo("M01", "1@M01"));
+        this.castleService.addJoinedMetro(kchuhCastleId, new JoinedMetroCdo("M02", "1@M02"));
 
         castle = this.castleService.findCastle(kchuhCastleId);
-        castellan = castle.getCastellan();
-        Assert.assertEquals(2, castellan.getJoinedMetrosCount());
+        castellan = castle.getCastellanSdo();
+        Assert.assertEquals(2, castellan.getJoinedMetros().size());
 
         this.castleService.removeJoinedMetro(kchuhCastleId, "M02");
         castle = this.castleService.findCastle(kchuhCastleId);
-        castellan = castle.getCastellan();
-        Assert.assertEquals(1, castellan.getJoinedMetrosCount());
+        castellan = castle.getCastellanSdo();
+        Assert.assertEquals(1, castellan.getJoinedMetros().size());
     }
 }

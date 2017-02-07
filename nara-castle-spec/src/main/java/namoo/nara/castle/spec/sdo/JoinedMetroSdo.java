@@ -1,4 +1,4 @@
-package namoo.nara.castle.protocol.sdo;
+package namoo.nara.castle.spec.sdo;
 
 import java.io.Serializable;
 

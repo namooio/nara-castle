@@ -18,6 +18,7 @@ public enum CastleRestUrl implements NaraRestUrl {
     URL_CASTELLAN_JOINED_METRO_ADD           ("castle-api/castellans/{id}/joined-metro",                   HttpMethod.POST      ),
     URL_CASTELLAN_JOINED_METROS_FIND         ("castle-api/castellans/{id}/joined-metros",                  HttpMethod.GET       ),
     URL_CASTELLAN_JOINED_METRO_REMOVE        ("castle-api/castellans/{id}/joined-metros/{metroId}",        HttpMethod.DELETE    ),
+    URL_CASTELLAN_JOINED_METRO_EXISTS        ("castle-api/castellans/{id}/joined-metros/{metroId}/exists", HttpMethod.GET       ),
     ;
 
     private String restUrl;

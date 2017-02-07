@@ -1,11 +1,13 @@
-package namoo.nara.castle.sp.util;
+package namoo.nara.castle.domain.share;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.CastellanEmail;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.JoinedMetro;
-import namoo.nara.castle.domain.service.data.CastleCdo;
-import namoo.nara.castle.protocol.sdo.*;
+import namoo.nara.castle.spec.sdo.CastellanEmailSdo;
+import namoo.nara.castle.spec.sdo.CastellanSdo;
+import namoo.nara.castle.spec.sdo.CastleSdo;
+import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,17 +15,6 @@ import java.util.Set;
 
 public class SdoUtils {
     //
-    public static CastleCdo toCastleCdo(CastleBuildSdo castleBuildSdo) {
-        //
-        if (castleBuildSdo == null) return null;
-        CastleCdo castleCdo = new CastleCdo();
-        castleCdo.setCastellanEmail(castleBuildSdo.getCastellanEmail());
-        castleCdo.setOriginMetroId(castleBuildSdo.getOriginMetroId());
-        castleCdo.setOriginCitizenId(castleBuildSdo.getOriginCitizenId());
-        castleCdo.setLocale(castleBuildSdo.getLocale());
-        return castleCdo;
-    }
-
     public static CastleSdo toCastleSdo(Castle castle) {
         //
         if (castle == null) return null;

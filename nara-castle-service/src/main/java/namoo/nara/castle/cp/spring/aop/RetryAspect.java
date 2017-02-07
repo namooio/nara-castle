@@ -23,7 +23,7 @@ public class RetryAspect {
         retryTemplate.setRetryPolicy(new SimpleRetryPolicy(5, Collections.<Class<? extends Throwable>, Boolean> singletonMap(OptimisticLockingFailureException.class, true)));
     }
 
-    @Pointcut("execution(* namoo.nara.castle.domain.service.*.*(..))")
+    @Pointcut("execution(* namoo.nara.castle.domain.logic.*.*(..))")
     public void serviceMethods() {
         //
     }

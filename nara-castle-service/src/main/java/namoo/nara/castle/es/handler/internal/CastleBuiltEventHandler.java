@@ -1,14 +1,16 @@
 package namoo.nara.castle.es.handler.internal;
 
-import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.service.CastleService;
 import namoo.nara.castle.event.CastleBuiltEvent;
+import namoo.nara.castle.spec.CastleService;
+import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
 import namoo.nara.share.event.NaraEventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class CastleBuiltEventHandler implements NaraEventHandler<CastleBuiltEvent> {
     //
     @Autowired
+    @Qualifier("castleServiceLogic")
     private CastleService castleService;
 
     @Override
@@ -18,8 +20,7 @@ public class CastleBuiltEventHandler implements NaraEventHandler<CastleBuiltEven
         String metroId = castleBuiltEvent.getOriginMetroId();
         String citizenId = castleBuiltEvent.getOriginCitizenId();
 
-        Castle castle = castleService.findCastle(castleId);
-        if (castle.getCastellan().isJoinedMetro(metroId)) return;
-        castleService.addJoinedMetro(castleId, metroId, citizenId);
+        if (castleService.isJoinedMetro(castleId, metroId)) return;
+        castleService.addJoinedMetro(castleId, new JoinedMetroCdo(metroId, citizenId));
     }
 }

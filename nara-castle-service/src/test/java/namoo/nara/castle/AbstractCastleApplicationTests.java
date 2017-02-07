@@ -1,8 +1,8 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.rest.CastleRestAdapter;
-import namoo.nara.castle.protocol.CastleProtocol;
-import namoo.nara.castle.protocol.sdo.CastleBuildSdo;
+import namoo.nara.castle.spec.CastleService;
+import namoo.nara.castle.spec.sdo.CastleCdo;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public abstract class AbstractCastleApplicationTests {
 	@Autowired
 	private CastleRestAdapter castleRestAdapter;
 
-	public CastleProtocol getCastleRestAdapter() {
+	public CastleService getCastleRestAdapter() {
 		return castleRestAdapter;
 	}
 
@@ -31,12 +31,12 @@ public abstract class AbstractCastleApplicationTests {
 	@Before
 	public void setUp() {
 		//
-		kchuhCastleId = castleRestAdapter.buildCastle(new CastleBuildSdo("kchuh@nextree.co.kr", "1", "1@1", Locale.KOREA));
+		kchuhCastleId = castleRestAdapter.buildCastle(new CastleCdo("kchuh@nextree.co.kr", "1", "1@1", Locale.KOREA));
 
-		castleRestAdapter.buildCastle(new CastleBuildSdo("tsong@nextree.co.kr", "1", "2@1", Locale.KOREA));
-		castleRestAdapter.buildCastle(new CastleBuildSdo("hkkang@nextree.co.kr", "1", "3@1", Locale.KOREA));
-		castleRestAdapter.buildCastle(new CastleBuildSdo("jyjung@nextree.co.kr", "1", "4@1", Locale.KOREA));
-		castleRestAdapter.buildCastle(new CastleBuildSdo("iylee@nextree.co.kr", "1", "5@1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleCdo("tsong@nextree.co.kr", "1", "2@1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleCdo("hkkang@nextree.co.kr", "1", "3@1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleCdo("jyjung@nextree.co.kr", "1", "4@1", Locale.KOREA));
+		castleRestAdapter.buildCastle(new CastleCdo("iylee@nextree.co.kr", "1", "5@1", Locale.KOREA));
 	}
 
 }
