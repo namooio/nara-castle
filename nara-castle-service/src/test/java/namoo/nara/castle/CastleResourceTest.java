@@ -4,12 +4,10 @@ import namoo.nara.castle.spec.sdo.CastellanSdo;
 import namoo.nara.castle.spec.sdo.CastleSdo;
 import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Locale;
 
-@Ignore
 public class CastleResourceTest extends AbstractCastleApplicationTests {
     //
     @Test
