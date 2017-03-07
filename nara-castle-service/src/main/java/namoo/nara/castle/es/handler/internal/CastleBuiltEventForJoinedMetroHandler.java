@@ -6,8 +6,10 @@ import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
 import namoo.nara.share.event.NaraEventHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-public class CastleBuiltEventHandler implements NaraEventHandler<CastleBuiltEvent> {
+@Component
+public class CastleBuiltEventForJoinedMetroHandler implements NaraEventHandler<CastleBuiltEvent> {
     //
     @Autowired
     @Qualifier("castleServiceLogic")

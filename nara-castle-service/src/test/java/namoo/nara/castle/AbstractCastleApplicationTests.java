@@ -18,7 +18,7 @@ import java.util.Locale;
 @WebIntegrationTest
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class AbstractCastleApplicationTests {
-	//
+
 	@Autowired
 	private CastleRestAdapter castleRestAdapter;
 

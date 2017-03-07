@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Configuration
 public class CastleProxySpringLycler implements CastleProxyLycler {
-    //
+
     @Autowired
     private NaraEventProxy eventProxy;
 

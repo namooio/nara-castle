@@ -13,11 +13,11 @@ import java.util.Collections;
 
 @Aspect
 @Component
-public class RetryAspect {
+public class CastleRetryAspect {
     //
     private RetryTemplate retryTemplate;
 
-    public RetryAspect() {
+    public CastleRetryAspect() {
         //
         retryTemplate = new RetryTemplate();
         retryTemplate.setRetryPolicy(new SimpleRetryPolicy(5, Collections.<Class<? extends Throwable>, Boolean> singletonMap(OptimisticLockingFailureException.class, true)));

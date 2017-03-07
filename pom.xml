@@ -43,6 +43,7 @@
         <module>nara-castle-adapter</module>
         <module>nara-castle-proxy</module>
         <module>nara-castle-event</module>
+        <module>nara-castle-boot</module>
     </modules>
 
     <scm>
