@@ -1,5 +1,6 @@
 package namoo.nara.castle.da.mongo;
 
+import namoo.nara.castle.da.CastleStoreTestApplication;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.share.exception.store.NonExistenceException;
@@ -7,18 +8,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Locale;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = CastleMongoStoreTest.class)
-@EnableAutoConfiguration
-@ComponentScan(basePackages = "namoo.nara.castle.da.mongo")
+@SpringBootTest(classes = CastleStoreTestApplication.class)
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CastleMongoStoreTest {
 
