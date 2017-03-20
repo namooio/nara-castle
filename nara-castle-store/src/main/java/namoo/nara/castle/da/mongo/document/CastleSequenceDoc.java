@@ -3,7 +3,7 @@ package namoo.nara.castle.da.mongo.document;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "CastleSequence")
+@Document(collection = "CA_CASTLE_SEQ")
 public class CastleSequenceDoc {
 
     public static final String NARA_ID = "NARA";

@@ -1,15 +1,12 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.es.config.rabbit.CastleRabbitEventSpringConfig;
 import namoo.nara.castle.sa.rbmp.RabbitEventProxy;
 import namoo.nara.share.event.NaraEventProxy;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-@Import(value = { CastleRabbitEventSpringConfig.class })
 public class CastleApplication {
 
 	public static void main(String[] args) {

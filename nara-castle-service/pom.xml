@@ -27,11 +27,6 @@
 			<artifactId>nara-castle-proxy</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-spec</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 		<!-- test -->
 		<dependency>
@@ -73,6 +68,10 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 	</dependencies>
 

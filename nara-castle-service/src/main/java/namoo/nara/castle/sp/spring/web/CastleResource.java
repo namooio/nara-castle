@@ -1,10 +1,9 @@
 package namoo.nara.castle.sp.spring.web;
 
-import namoo.nara.castle.spec.CastleService;
-import namoo.nara.castle.spec.sdo.CastleCdo;
-import namoo.nara.castle.spec.sdo.CastleSdo;
-import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
-import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
+import namoo.nara.castle.domain.entity.JoinedMetro;
+import namoo.nara.castle.domain.spec.CastleService;
+import namoo.nara.castle.domain.spec.sdo.CastleCdo;
+import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,7 @@ public class CastleResource implements CastleService {
 
     @Override
     @RequestMapping(value="castles/{id}", method = RequestMethod.GET)
-    public CastleSdo findCastle(
+    public CastleRdo findCastle(
             @PathVariable("id") String castleId
     ) {
         return this.castleService.findCastle(castleId);
@@ -47,7 +46,7 @@ public class CastleResource implements CastleService {
 
     @Override
     @RequestMapping(value="castle", method = RequestMethod.GET)
-    public CastleSdo findCastleByEmail(
+    public CastleRdo findCastleByEmail(
             @RequestParam("email") String email
     ) {
         return this.castleService.findCastleByEmail(email);
@@ -55,7 +54,7 @@ public class CastleResource implements CastleService {
 
     @Override
     @RequestMapping(value="castles", method = RequestMethod.GET)
-    public List<CastleSdo> findCastles() {
+    public List<CastleRdo> findCastles() {
         return this.castleService.findCastles();
     }
 
@@ -81,14 +80,14 @@ public class CastleResource implements CastleService {
     @RequestMapping(value="castellans/{id}/joined-metro", method = RequestMethod.POST)
     public void addJoinedMetro(
             @PathVariable("id") String castleId,
-            @RequestBody JoinedMetroCdo joinedMetroCdo
+            @RequestBody JoinedMetro joinedMetroCdo
     ) {
         this.castleService.addJoinedMetro(castleId, joinedMetroCdo);
     }
 
     @Override
     @RequestMapping(value="castellans/{id}/joined-metros", method = RequestMethod.GET)
-    public List<JoinedMetroSdo> findJoinedMetros(
+    public List<JoinedMetro> findJoinedMetros(
             @PathVariable("id") String castleId
     ) {
         return castleService.findJoinedMetros(castleId);

@@ -1,10 +1,9 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.rest.CastleRestAdapter;
-import namoo.nara.castle.spec.CastleService;
-import namoo.nara.castle.spec.sdo.CastleCdo;
+import namoo.nara.castle.domain.spec.CastleService;
+import namoo.nara.castle.domain.spec.sdo.CastleCdo;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

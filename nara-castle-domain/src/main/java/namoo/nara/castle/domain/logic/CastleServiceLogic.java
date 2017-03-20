@@ -1,19 +1,19 @@
 package namoo.nara.castle.domain.logic;
 
+import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
-import namoo.nara.castle.domain.share.SdoUtils;
+import namoo.nara.castle.domain.spec.CastleService;
+import namoo.nara.castle.domain.spec.sdo.CastleCdo;
+import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.event.CastleBuiltEvent;
-import namoo.nara.castle.spec.CastleService;
-import namoo.nara.castle.spec.sdo.CastleCdo;
-import namoo.nara.castle.spec.sdo.CastleSdo;
-import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
-import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
 import namoo.nara.share.event.NaraEventProxy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,7 +25,7 @@ public class CastleServiceLogic implements CastleService {
     public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
-        this.eventProxy = proxyLycler.requestNaraEventProxy();
+        this.eventProxy = proxyLycler.eventProxy();
     }
 
     @Override
@@ -35,9 +35,16 @@ public class CastleServiceLogic implements CastleService {
         String originMetroId = castleCdo.getOriginMetroId();
         String originCitizenId = castleCdo.getOriginCitizenId();
         long sequence = castleStore.retrieveNextSequence();
-        Castle castle = Castle.newInstance(sequence, castellanEmail, originMetroId, originCitizenId, castleCdo.getLocale());
-        castleStore.create(castle);
 
+        Castellan castellan = new Castellan();
+        castellan.addJoinedMetro(originMetroId, originCitizenId);
+        castellan.addEmail(castellanEmail);
+
+        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(sequence);
+        Castle castle = new Castle(castleId, castellan, originMetroId, originCitizenId);
+        castle.setLocale(castleCdo.getLocale());
+
+        castleStore.create(castle);
         eventProxy.create(new CastleBuiltEvent(castle.getId(), castellanEmail, originMetroId, originCitizenId));
         return castle.getId();
     }
@@ -51,21 +58,27 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public CastleSdo findCastle(String id) {
+    public CastleRdo findCastle(String id) {
         //
-        return SdoUtils.toCastleSdo(castleStore.retrieve(id));
+        Castle castle = castleStore.retrieve(id);
+        return new CastleRdo(castle);
     }
 
     @Override
-    public CastleSdo findCastleByEmail(String email) {
+    public CastleRdo findCastleByEmail(String email) {
         //
-        return SdoUtils.toCastleSdo(castleStore.retrieveByEmail(email));
+        Castle castle = castleStore.retrieveByEmail(email);
+        if (castle == null) return null;
+        return new CastleRdo(castle);
     }
 
     @Override
-    public List<CastleSdo> findCastles() {
+    public List<CastleRdo> findCastles() {
         //
-        return SdoUtils.toCastleSdo(castleStore.retrieveAll());
+        List<Castle> castles = castleStore.retrieveAll();
+        List<CastleRdo> castleRdos = new ArrayList<>(castles.size());
+        castles.forEach(castle -> castleRdos.add(new CastleRdo(castle)));
+        return castleRdos;
     }
 
     @Override
@@ -89,13 +102,13 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void addJoinedMetro(String castleId, JoinedMetroCdo joinedMetroCdo) {
+    public void addJoinedMetro(String castleId, JoinedMetro joinedMetro) {
         //
         Castle castle = castleStore.retrieve(castleId);
         Castellan castellan = castle.getCastellan();
 
-        String metroId = joinedMetroCdo.getMetroId();
-        String citizenId = joinedMetroCdo.getCitizenId();
+        String metroId = joinedMetro.getMetroId();
+        String citizenId = joinedMetro.getCitizenId();
 
         if (castellan.isJoinedMetro(metroId)) return;
         castellan.addJoinedMetro(metroId, citizenId);
@@ -103,11 +116,11 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public List<JoinedMetroSdo> findJoinedMetros(String castleId) {
+    public List<JoinedMetro> findJoinedMetros(String castleId) {
         //
         Castle castle = castleStore.retrieve(castleId);
         Castellan castellan = castle.getCastellan();
-        return SdoUtils.toJoinedMetroSdo(castellan.getJoinedMetros());
+        return castellan.getJoinedMetros();
     }
 
     @Override

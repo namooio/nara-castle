@@ -1,83 +1,74 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.castle.domain.context.CastleContext;
-import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Locale;
 
 public class Castle extends Entity implements Aggregate {
     //
-    private Castellan castellan;
+    private final Castellan castellan;
+    private final Instant builtTime;
+    private final String originMetroId;
+    private final String originCitizenId;
 
-    private Locale locale; // optional
-    private ZonedDateTime builtTime;
+    private Locale locale;
 
-    private String originMetroId;
-    private String originCitizenId;
-
-    private Long version;
-
-    public Castle(String id) {
+    public Castle(String id, Castellan castellan, String originMetroId, String originCitizenId) {
         //
         super(id);
+        this.castellan = castellan;
+        this.builtTime = Instant.now();
+        this.originMetroId = originMetroId;
+        this.originCitizenId = originCitizenId;
+    }
+
+    public Castle(String id, Castellan castellan, String originMetroId, String originCitizenId, Instant builtTime) {
+        //
+        super(id);
+        this.castellan = castellan;
+        this.builtTime = builtTime;
+        this.originMetroId = originMetroId;
+        this.originCitizenId = originCitizenId;
     }
 
     @Override
     public String toString() {
-        return "Castle{" +
-                "castellan=" + castellan +
-                ", locale=" + locale +
-                ", builtTime=" + builtTime +
-                ", originMetroId='" + originMetroId + '\'' +
-                ", originCitizenId='" + originCitizenId + '\'' +
-                ", version=" + version +
-                '}';
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("castellan:").append(castellan);
+        sb.append(", locale:").append(locale);
+        sb.append(", builtTime:").append(builtTime);
+        sb.append(", originMetroId:'").append(originMetroId).append('\'');
+        sb.append(", originCitizenId:'").append(originCitizenId).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
     public static Castle getSample() {
         //
-        Castle castle = Castle.newInstance(1, "kchuh@nextree.co.kr", "1", "1@1", Locale.KOREA);
+        Castellan castellan = new Castellan();
+        castellan.addEmail("kchuh@nextree.co.kr");
+        castellan.addJoinedMetro("1", "1@1");
+        Castle castle = new Castle("1", castellan, "1", "1@1");
+        castle.setLocale(Locale.KOREA);
         return castle;
     }
 
-
-    public static Castle newInstance(long castleSequence, String originMetroId, String originCitizenId) {
-        //
-        CastleIdBuilder castleIdBuilder = CastleContext.getCastleIdBuilder();
-        String castleId = castleIdBuilder.makeCastleId(castleSequence);
-        Castle castle = new Castle(castleId);
-        castle.setCastellan(Castellan.newInstance());
-        castle.setBuiltTime(ZonedDateTime.now());
-        castle.setOriginMetroId(originMetroId);
-        castle.setOriginCitizenId(originCitizenId);
-
-        return castle;
+    public Instant getBuiltTime() {
+        return builtTime;
     }
 
-    public static Castle newInstance(long castleSequence, String castellanEmail, String originMetroId, String originCitizenId) {
-        //
-        Castle castle = newInstance(castleSequence, originMetroId, originCitizenId);
-        Castellan castellan = castle.getCastellan();
-        castellan.addEmail(castellanEmail);
-        return castle;
+    public String getOriginMetroId() {
+        return originMetroId;
     }
 
-    public static Castle newInstance(long castleSequence, String castellanEmail, String originMetroId, String originCitizenId, Locale locale) {
-        //
-        Castle castle = newInstance(castleSequence, castellanEmail, originMetroId, originCitizenId);
-        castle.setLocale(locale);
-        return castle;
+    public String getOriginCitizenId() {
+        return originCitizenId;
     }
 
     public Castellan getCastellan() {
         return castellan;
-    }
-
-    public void setCastellan(Castellan castellan) {
-        this.castellan = castellan;
     }
 
     public Locale getLocale() {
@@ -86,38 +77,6 @@ public class Castle extends Entity implements Aggregate {
 
     public void setLocale(Locale locale) {
         this.locale = locale;
-    }
-
-    public ZonedDateTime getBuiltTime() {
-        return builtTime;
-    }
-
-    public void setBuiltTime(ZonedDateTime builtTime) {
-        this.builtTime = builtTime;
-    }
-
-    public String getOriginMetroId() {
-        return originMetroId;
-    }
-
-    public void setOriginMetroId(String originMetroId) {
-        this.originMetroId = originMetroId;
-    }
-
-    public String getOriginCitizenId() {
-        return originCitizenId;
-    }
-
-    public void setOriginCitizenId(String originCitizenId) {
-        this.originCitizenId = originCitizenId;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
     }
 
     public static void main(String[] args) {

@@ -4,5 +4,5 @@ import namoo.nara.share.event.NaraEventProxy;
 
 public interface CastleProxyLycler {
     //
-    NaraEventProxy requestNaraEventProxy();
+    NaraEventProxy eventProxy();
 }

@@ -1,8 +1,8 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.spec.sdo.CastellanSdo;
-import namoo.nara.castle.spec.sdo.CastleSdo;
-import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
+import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.JoinedMetro;
+import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     public void castleTest() {
         //
         Assert.assertEquals(5, getCastleRestAdapter().findCastles().size());
-        CastleSdo castle = getCastleRestAdapter().findCastle(kchuhCastleId);
+        CastleRdo castle = getCastleRestAdapter().findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
 
         getCastleRestAdapter().modifyLocale(kchuhCastleId, Locale.US);
@@ -31,27 +31,27 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void emailTest() {
         //
-        CastellanSdo castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
+        Castellan castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellan();
         Assert.assertEquals(1, castellan.getEmails().size());
 
         getCastleRestAdapter().addEmail(kchuhCastleId, "michael7557@gmail.com");
-        castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
+        castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellan();
         Assert.assertEquals(2, castellan.getEmails().size());
     }
 
     @Test
     public void joinedMetroTest() {
         //
-        CastellanSdo castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
-        Assert.assertEquals(0, castellan.getJoinedMetros().size());
-        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroCdo("M01", "1@M01"));
-        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetroCdo("M02", "1@M02"));
+        Castellan castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellan();
+        Assert.assertEquals(1, castellan.getJoinedMetros().size());
+        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetro("M01", "1@M01"));
+        getCastleRestAdapter().addJoinedMetro(kchuhCastleId, new JoinedMetro("M02", "1@M02"));
 
-        castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
-        Assert.assertEquals(2, castellan.getJoinedMetros().size());
+        castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellan();
+        Assert.assertEquals(3, castellan.getJoinedMetros().size());
 
         getCastleRestAdapter().removeJoinedMetro(kchuhCastleId, "M02");
-        castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellanSdo();
-        Assert.assertEquals(1, castellan.getJoinedMetros().size());
+        castellan = getCastleRestAdapter().findCastle(kchuhCastleId).getCastellan();
+        Assert.assertEquals(2, castellan.getJoinedMetros().size());
     }
 }

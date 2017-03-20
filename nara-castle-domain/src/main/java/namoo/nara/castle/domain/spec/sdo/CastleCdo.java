@@ -1,4 +1,4 @@
-package namoo.nara.castle.spec.sdo;
+package namoo.nara.castle.domain.spec.sdo;
 
 import java.io.Serializable;
 import java.util.Locale;

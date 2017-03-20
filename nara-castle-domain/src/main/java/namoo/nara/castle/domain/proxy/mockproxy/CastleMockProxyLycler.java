@@ -9,7 +9,7 @@ public class CastleMockProxyLycler implements CastleProxyLycler {
     private NaraEventProxy eventProxy = new NaraEventMockProxy();
 
     @Override
-    public NaraEventProxy requestNaraEventProxy() {
+    public NaraEventProxy eventProxy() {
         return eventProxy;
     }
 }

@@ -1,10 +1,9 @@
 package namoo.nara.castle.adapter.rest;
 
-import namoo.nara.castle.spec.CastleService;
-import namoo.nara.castle.spec.sdo.CastleCdo;
-import namoo.nara.castle.spec.sdo.CastleSdo;
-import namoo.nara.castle.spec.sdo.JoinedMetroCdo;
-import namoo.nara.castle.spec.sdo.JoinedMetroSdo;
+import namoo.nara.castle.domain.entity.JoinedMetro;
+import namoo.nara.castle.domain.spec.CastleService;
+import namoo.nara.castle.domain.spec.sdo.CastleCdo;
+import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
@@ -39,31 +38,31 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CastleSdo findCastle(String castleId) {
+    public CastleRdo findCastle(String castleId) {
         return naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND)
                 .addPathParam("id", castleId)
-                .setResponseType(CastleSdo.class)
+                .setResponseType(CastleRdo.class)
         );
     }
 
     @Override
-    public CastleSdo findCastleByEmail(String email) {
+    public CastleRdo findCastleByEmail(String email) {
         return naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_CONDITION)
                 .addQueryParam("email", email)
-                .setResponseType(CastleSdo.class)
+                .setResponseType(CastleRdo.class)
         );
     }
 
     @Override
-    public List<CastleSdo> findCastles() {
-        CastleSdo[] castleSdos = naraRestClient.sendAndRecieve(
+    public List<CastleRdo> findCastles() {
+        CastleRdo[] castleRdos = naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_ALL)
-                .setResponseType(CastleSdo[].class)
+                .setResponseType(CastleRdo[].class)
         );
-        if (castleSdos == null) return null;
-        return Arrays.asList(castleSdos);
+        if (castleRdos == null) return null;
+        return Arrays.asList(castleRdos);
     }
 
     @Override
@@ -85,7 +84,7 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public void addJoinedMetro(String castleId, JoinedMetroCdo joinedMetroCdo) {
+    public void addJoinedMetro(String castleId, JoinedMetro joinedMetroCdo) {
         naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METRO_ADD)
                         .addPathParam("id", castleId)
@@ -94,11 +93,11 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public List<JoinedMetroSdo> findJoinedMetros(String castleId) {
-        JoinedMetroSdo[] joinedMetros = naraRestClient.sendAndRecieve(
+    public List<JoinedMetro> findJoinedMetros(String castleId) {
+        JoinedMetro[] joinedMetros = naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_JOINED_METROS_FIND)
                         .addPathParam("id", castleId)
-                        .setResponseType(JoinedMetroSdo[].class)
+                        .setResponseType(JoinedMetro[].class)
         );
         if (joinedMetros == null) return null;
         return Arrays.asList(joinedMetros);

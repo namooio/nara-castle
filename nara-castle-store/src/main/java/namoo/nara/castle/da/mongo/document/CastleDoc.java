@@ -1,34 +1,32 @@
 package namoo.nara.castle.da.mongo.document;
 
+import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-@Document(collection = "Castle")
+@Document(collection = "CA_CASTLE")
 public class CastleDoc {
     //
     @Id
     private String id;
 
-    private CastellanDoc castellan;
+    private Castellan castellan;
 
     private Locale locale;
-    private Instant builtTimeUTC;
-    private String zoneId;
+    private Instant builtTime;
 
     private String originMetroId;
     private String originCitizenId;
 
     @Version
-    private Long version;
+    private Long entityVersion;
 
     public CastleDoc() {
         //
@@ -38,13 +36,12 @@ public class CastleDoc {
         //
         CastleDoc castleDoc = new CastleDoc();
         castleDoc.setId(castle.getId());
-        castleDoc.setCastellan(CastellanDoc.toDocument(castle.getCastellan()));
+        castleDoc.setCastellan(castle.getCastellan());
+        castleDoc.setBuiltTime(castle.getBuiltTime());
         castleDoc.setLocale(castle.getLocale());
-        castleDoc.setBuiltTimeUTC(castle.getBuiltTime().toInstant());
-        castleDoc.setZoneId(castle.getBuiltTime().getZone().getId());
         castleDoc.setOriginMetroId(castle.getOriginMetroId());
         castleDoc.setOriginCitizenId(castle.getOriginCitizenId());
-        castleDoc.setVersion(castle.getVersion());
+        castleDoc.setEntityVersion(castle.getEntityVersion());
         return castleDoc;
     }
 
@@ -57,13 +54,9 @@ public class CastleDoc {
 
     public Castle toDomain() {
         //
-        Castle castle = new Castle(id);
-        castle.setCastellan(castellan.toDomain());
+        Castle castle = new Castle(id, castellan, originMetroId, originCitizenId, builtTime);
         castle.setLocale(locale);
-        castle.setBuiltTime(ZonedDateTime.ofInstant(builtTimeUTC, ZoneId.of(zoneId)));
-        castle.setOriginMetroId(originMetroId);
-        castle.setOriginCitizenId(originCitizenId);
-        castle.setVersion(version);
+        castle.setEntityVersion(entityVersion);
         return castle;
     }
 
@@ -75,11 +68,11 @@ public class CastleDoc {
         this.id = id;
     }
 
-    public CastellanDoc getCastellan() {
+    public Castellan getCastellan() {
         return castellan;
     }
 
-    public void setCastellan(CastellanDoc castellan) {
+    public void setCastellan(Castellan castellan) {
         this.castellan = castellan;
     }
 
@@ -91,20 +84,12 @@ public class CastleDoc {
         this.locale = locale;
     }
 
-    public Instant getBuiltTimeUTC() {
-        return builtTimeUTC;
+    public Instant getBuiltTime() {
+        return builtTime;
     }
 
-    public void setBuiltTimeUTC(Instant builtTimeUTC) {
-        this.builtTimeUTC = builtTimeUTC;
-    }
-
-    public String getZoneId() {
-        return zoneId;
-    }
-
-    public void setZoneId(String zoneId) {
-        this.zoneId = zoneId;
+    public void setBuiltTime(Instant builtTime) {
+        this.builtTime = builtTime;
     }
 
     public String getOriginMetroId() {
@@ -123,11 +108,11 @@ public class CastleDoc {
         this.originCitizenId = originCitizenId;
     }
 
-    public Long getVersion() {
-        return version;
+    public Long getEntityVersion() {
+        return entityVersion;
     }
 
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setEntityVersion(Long entityVersion) {
+        this.entityVersion = entityVersion;
     }
 }

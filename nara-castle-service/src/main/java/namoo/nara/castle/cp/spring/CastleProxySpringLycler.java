@@ -14,7 +14,7 @@ public class CastleProxySpringLycler implements CastleProxyLycler {
     private NaraEventProxy eventProxy;
 
     @Override
-    public NaraEventProxy requestNaraEventProxy() {
+    public NaraEventProxy eventProxy() {
         return eventProxy;
     }
 }

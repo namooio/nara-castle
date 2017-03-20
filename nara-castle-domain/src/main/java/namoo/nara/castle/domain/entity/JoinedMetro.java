@@ -2,17 +2,33 @@ package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 
 public class JoinedMetro implements ValueObject {
     //
     private String metroId;
     private String citizenId;
 
-    private ZonedDateTime joinedTime;
+    private Instant joinedTime;
 
     public JoinedMetro() {
+        joinedTime = Instant.now();
+    }
 
+    public JoinedMetro(String metroId, String citizenId) {
+        this();
+        this.metroId = metroId;
+        this.citizenId = citizenId;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("metroId:'").append(metroId).append('\'');
+        sb.append(", citizenId:'").append(citizenId).append('\'');
+        sb.append(", joinedTime:").append(joinedTime);
+        sb.append('}');
+        return sb.toString();
     }
 
     public String getMetroId() {
@@ -31,20 +47,12 @@ public class JoinedMetro implements ValueObject {
         this.citizenId = citizenId;
     }
 
-    public ZonedDateTime getJoinedTime() {
+    public Instant getJoinedTime() {
         return joinedTime;
     }
 
-    public void setJoinedTime(ZonedDateTime joinedTime) {
+    public void setJoinedTime(Instant joinedTime) {
         this.joinedTime = joinedTime;
     }
 
-    @Override
-    public String toString() {
-        return "JoinedMetro{" +
-                "metroId='" + metroId + '\'' +
-                ", citizenId='" + citizenId + '\'' +
-                ", joinedTime=" + joinedTime +
-                '}';
-    }
 }

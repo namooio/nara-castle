@@ -4,9 +4,9 @@ import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.ValueObject;
 import namoo.nara.share.exception.NaraException;
 
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,21 +15,16 @@ public class Castellan implements ValueObject {
     private Set<CastellanEmail> emails;
     private List<JoinedMetro> joinedMetros;
 
-    public static Castellan newInstance() {
-        //
-        Castellan castellan = new Castellan();
-        castellan.setEmails(new HashSet<>());
-        castellan.setJoinedMetros(new ArrayList<>());
-        return castellan;
+    public Castellan() {
+        emails = new LinkedHashSet<>();
+        joinedMetros = new ArrayList<>();
     }
 
     public void addEmail(String email) {
         //
         if (existEmail(email)) throw new NaraException(String.format("Email[%s] already added.", email));
         CastleContext.getEmailValidator().validate(email);
-        CastellanEmail castellanEmail = new CastellanEmail(email);
-        castellanEmail.setCreatedTime(ZonedDateTime.now());
-        this.emails.add(castellanEmail);
+        this.emails.add(new CastellanEmail(email));
     }
 
     private boolean existEmail(String email) {
@@ -72,7 +67,7 @@ public class Castellan implements ValueObject {
         JoinedMetro joinedMetro = new JoinedMetro();
         joinedMetro.setMetroId(metroId);
         joinedMetro.setCitizenId(citizenId);
-        joinedMetro.setJoinedTime(ZonedDateTime.now());
+        joinedMetro.setJoinedTime(Instant.now());
         this.joinedMetros.add(joinedMetro);
     }
 
@@ -122,7 +117,7 @@ public class Castellan implements ValueObject {
 
     public static Castellan getSample() {
         //
-        Castellan castellan = Castellan.newInstance();
+        Castellan castellan = new Castellan();
 
         castellan.addJoinedMetro("M01", "1@M01");
         castellan.addJoinedMetro("M02", "1@M02");
