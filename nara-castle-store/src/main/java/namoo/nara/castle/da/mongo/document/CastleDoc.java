@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -20,7 +19,7 @@ public class CastleDoc {
     private Castellan castellan;
 
     private Locale locale;
-    private Instant builtTime;
+    private Long builtTime;
 
     private String originMetroId;
     private String originCitizenId;
@@ -84,11 +83,11 @@ public class CastleDoc {
         this.locale = locale;
     }
 
-    public Instant getBuiltTime() {
+    public Long getBuiltTime() {
         return builtTime;
     }
 
-    public void setBuiltTime(Instant builtTime) {
+    public void setBuiltTime(Long builtTime) {
         this.builtTime = builtTime;
     }
 

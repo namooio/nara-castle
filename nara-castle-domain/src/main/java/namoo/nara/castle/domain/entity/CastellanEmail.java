@@ -2,15 +2,13 @@ package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
 
-import java.time.Instant;
-
 public class CastellanEmail implements ValueObject {
     //
     private String address;
-    private Instant createdTime;
+    private Long createdTime;
 
     public CastellanEmail() {
-        this.createdTime = Instant.now();
+        this.createdTime = System.currentTimeMillis();
     }
 
     public CastellanEmail(String address) {
@@ -36,11 +34,11 @@ public class CastellanEmail implements ValueObject {
         this.address = address;
     }
 
-    public Instant getCreatedTime() {
+    public Long getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(Instant createdTime) {
+    public void setCreatedTime(Long createdTime) {
         this.createdTime = createdTime;
     }
 

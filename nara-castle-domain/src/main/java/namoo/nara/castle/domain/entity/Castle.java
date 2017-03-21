@@ -3,13 +3,12 @@ package namoo.nara.castle.domain.entity;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 
-import java.time.Instant;
 import java.util.Locale;
 
 public class Castle extends Entity implements Aggregate {
     //
     private final Castellan castellan;
-    private final Instant builtTime;
+    private final Long builtTime;
     private final String originMetroId;
     private final String originCitizenId;
 
@@ -19,12 +18,12 @@ public class Castle extends Entity implements Aggregate {
         //
         super(id);
         this.castellan = castellan;
-        this.builtTime = Instant.now();
+        this.builtTime = System.currentTimeMillis();
         this.originMetroId = originMetroId;
         this.originCitizenId = originCitizenId;
     }
 
-    public Castle(String id, Castellan castellan, String originMetroId, String originCitizenId, Instant builtTime) {
+    public Castle(String id, Castellan castellan, String originMetroId, String originCitizenId, Long builtTime) {
         //
         super(id);
         this.castellan = castellan;
@@ -55,7 +54,7 @@ public class Castle extends Entity implements Aggregate {
         return castle;
     }
 
-    public Instant getBuiltTime() {
+    public Long getBuiltTime() {
         return builtTime;
     }
 

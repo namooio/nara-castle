@@ -2,17 +2,15 @@ package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
 
-import java.time.Instant;
-
 public class JoinedMetro implements ValueObject {
     //
     private String metroId;
     private String citizenId;
 
-    private Instant joinedTime;
+    private Long joinedTime;
 
     public JoinedMetro() {
-        joinedTime = Instant.now();
+        joinedTime = System.currentTimeMillis();
     }
 
     public JoinedMetro(String metroId, String citizenId) {
@@ -47,11 +45,11 @@ public class JoinedMetro implements ValueObject {
         this.citizenId = citizenId;
     }
 
-    public Instant getJoinedTime() {
+    public Long getJoinedTime() {
         return joinedTime;
     }
 
-    public void setJoinedTime(Instant joinedTime) {
+    public void setJoinedTime(Long joinedTime) {
         this.joinedTime = joinedTime;
     }
 

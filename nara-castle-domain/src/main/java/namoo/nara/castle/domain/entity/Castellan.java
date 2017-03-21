@@ -4,7 +4,6 @@ import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.ValueObject;
 import namoo.nara.share.exception.NaraException;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -67,7 +66,7 @@ public class Castellan implements ValueObject {
         JoinedMetro joinedMetro = new JoinedMetro();
         joinedMetro.setMetroId(metroId);
         joinedMetro.setCitizenId(citizenId);
-        joinedMetro.setJoinedTime(Instant.now());
+        joinedMetro.setJoinedTime(System.currentTimeMillis());
         this.joinedMetros.add(joinedMetro);
     }
 
