@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class CastleServiceLogic implements CastleService {
+public class CastleLogic implements CastleService {
     //
     private CastleStore castleStore;
     private NaraEventProxy eventProxy;
 
-    public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
+    public CastleLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.eventProxy = proxyLycler.eventProxy();

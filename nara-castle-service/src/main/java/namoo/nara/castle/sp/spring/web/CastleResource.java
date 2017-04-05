@@ -16,7 +16,7 @@ import java.util.Locale;
 public class CastleResource implements CastleService {
     //
     @Autowired
-    @Qualifier("castleServiceLogic")
+    @Qualifier("castleLogic")
     private CastleService castleService;
 
     @Override

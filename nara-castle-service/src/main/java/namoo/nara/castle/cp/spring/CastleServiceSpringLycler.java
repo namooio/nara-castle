@@ -1,6 +1,6 @@
 package namoo.nara.castle.cp.spring;
 
-import namoo.nara.castle.domain.logic.CastleServiceLogic;
+import namoo.nara.castle.domain.logic.CastleLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ public class CastleServiceSpringLycler {
     private CastleProxyLycler proxyLycler;
 
     @Bean
-    public CastleServiceLogic castleServiceLogic() {
+    public CastleLogic castleLogic() {
         //
-        return new CastleServiceLogic(storeLycler, proxyLycler);
+        return new CastleLogic(storeLycler, proxyLycler);
     }
 
 }
