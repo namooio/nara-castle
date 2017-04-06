@@ -1,8 +1,8 @@
 package namoo.nara.castle.domain.spec;
 
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
-import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 
 import java.util.List;
 import java.util.Locale;
@@ -11,9 +11,9 @@ public interface CastleService {
     //
     String buildCastle(CastleCdo castleCdo);
     void modifyLocale(String castleId, Locale locale);
-    CastleRdo findCastle(String castleId);
-    CastleRdo findCastleByEmail(String email);
-    List<CastleRdo> findCastles();
+    Castle findCastle(String castleId);
+    Castle findCastleByEmail(String email);
+    List<Castle> findCastles();
 
     void addEmail(String castleId, String email);
     void removeEmail(String castleId, String email);

@@ -1,13 +1,13 @@
 package namoo.nara.castle.domain.service;
 
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.logic.CastleLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.proxy.mockproxy.CastleMockProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
-import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.mapstore.CastleMapStoreLycler;
 import org.junit.Assert;
@@ -38,7 +38,7 @@ public class CastleServiceTest {
     public void castleTest() {
         //
         Assert.assertEquals(5, castleService.findCastles().size());
-        CastleRdo castle = castleService.findCastle(kchuhCastleId);
+        Castle castle = castleService.findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
 
         castleService.modifyLocale(kchuhCastleId, Locale.US);
@@ -49,7 +49,7 @@ public class CastleServiceTest {
     @Test
     public void emailTest() {
         //
-        CastleRdo castle = this.castleService.findCastle(kchuhCastleId);
+        Castle castle = this.castleService.findCastle(kchuhCastleId);
         Castellan castellan = castle.getCastellan();
         Assert.assertEquals(1, castellan.getEmails().size());
 
@@ -63,7 +63,7 @@ public class CastleServiceTest {
     @Test
     public void joinedMetroTest() {
         //
-        CastleRdo castle = this.castleService.findCastle(kchuhCastleId);
+        Castle castle = this.castleService.findCastle(kchuhCastleId);
         Castellan castellan = castle.getCastellan();
         Assert.assertEquals(1, castellan.getJoinedMetros().size());
         this.castleService.addJoinedMetro(kchuhCastleId, new JoinedMetro("M01", "1@M01"));

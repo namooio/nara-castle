@@ -70,6 +70,15 @@ public class Castellan implements ValueObject {
         this.joinedMetros.add(joinedMetro);
     }
 
+    public void addJoinedMetro(JoinedMetro joinedMetro) {
+        //
+        if (isJoinedMetro(joinedMetro.getMetroId())) {
+            throw new NaraException(String.format("Already joined metro[%s].", joinedMetro.getMetroId()));
+        }
+        joinedMetro.setJoinedTime(System.currentTimeMillis());
+        this.joinedMetros.add(joinedMetro);
+    }
+
     public void removeJoinedMetro(String metroId) {
         //
         JoinedMetro joinedMetro = findJoinedMetro(metroId);

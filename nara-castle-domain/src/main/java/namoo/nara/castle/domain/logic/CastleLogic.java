@@ -7,13 +7,11 @@ import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
-import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.event.CastleBuiltEvent;
 import namoo.nara.share.event.NaraEventProxy;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,27 +56,21 @@ public class CastleLogic implements CastleService {
     }
 
     @Override
-    public CastleRdo findCastle(String id) {
+    public Castle findCastle(String id) {
         //
-        Castle castle = castleStore.retrieve(id);
-        return new CastleRdo(castle);
+        return castleStore.retrieve(id);
     }
 
     @Override
-    public CastleRdo findCastleByEmail(String email) {
+    public Castle findCastleByEmail(String email) {
         //
-        Castle castle = castleStore.retrieveByEmail(email);
-        if (castle == null) return null;
-        return new CastleRdo(castle);
+        return castleStore.retrieveByEmail(email);
     }
 
     @Override
-    public List<CastleRdo> findCastles() {
+    public List<Castle> findCastles() {
         //
-        List<Castle> castles = castleStore.retrieveAll();
-        List<CastleRdo> castleRdos = new ArrayList<>(castles.size());
-        castles.forEach(castle -> castleRdos.add(new CastleRdo(castle)));
-        return castleRdos;
+        return castleStore.retrieveAll();
     }
 
     @Override
@@ -108,10 +100,8 @@ public class CastleLogic implements CastleService {
         Castellan castellan = castle.getCastellan();
 
         String metroId = joinedMetro.getMetroId();
-        String citizenId = joinedMetro.getCitizenId();
-
         if (castellan.isJoinedMetro(metroId)) return;
-        castellan.addJoinedMetro(metroId, citizenId);
+        castellan.addJoinedMetro(joinedMetro);
         castleStore.update(castle);
     }
 

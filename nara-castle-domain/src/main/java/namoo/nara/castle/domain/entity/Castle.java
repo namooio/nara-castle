@@ -7,12 +7,20 @@ import java.util.Locale;
 
 public class Castle extends Entity implements Aggregate {
     //
-    private final Castellan castellan;
-    private final Long builtTime;
-    private final String originMetroId;
-    private final String originCitizenId;
+    private Castellan castellan;
+    private Long builtTime;
+    private String originMetroId;
+    private String originCitizenId;
 
     private Locale locale;
+
+    public Castle() {
+        //
+    }
+
+    public Castle(String id) {
+        super(id);
+    }
 
     public Castle(String id, Castellan castellan, String originMetroId, String originCitizenId) {
         //
@@ -54,20 +62,36 @@ public class Castle extends Entity implements Aggregate {
         return castle;
     }
 
+    public Castellan getCastellan() {
+        return castellan;
+    }
+
+    public void setCastellan(Castellan castellan) {
+        this.castellan = castellan;
+    }
+
     public Long getBuiltTime() {
         return builtTime;
+    }
+
+    public void setBuiltTime(Long builtTime) {
+        this.builtTime = builtTime;
     }
 
     public String getOriginMetroId() {
         return originMetroId;
     }
 
+    public void setOriginMetroId(String originMetroId) {
+        this.originMetroId = originMetroId;
+    }
+
     public String getOriginCitizenId() {
         return originCitizenId;
     }
 
-    public Castellan getCastellan() {
-        return castellan;
+    public void setOriginCitizenId(String originCitizenId) {
+        this.originCitizenId = originCitizenId;
     }
 
     public Locale getLocale() {

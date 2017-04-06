@@ -1,8 +1,8 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.JoinedMetro;
-import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,7 +14,7 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     public void castleTest() {
         //
         Assert.assertEquals(5, getCastleRestAdapter().findCastles().size());
-        CastleRdo castle = getCastleRestAdapter().findCastle(kchuhCastleId);
+        Castle castle = getCastleRestAdapter().findCastle(kchuhCastleId);
         Assert.assertEquals(Locale.KOREA, castle.getLocale());
 
         getCastleRestAdapter().modifyLocale(kchuhCastleId, Locale.US);

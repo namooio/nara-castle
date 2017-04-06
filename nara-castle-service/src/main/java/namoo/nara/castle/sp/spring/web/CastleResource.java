@@ -1,9 +1,9 @@
 package namoo.nara.castle.sp.spring.web;
 
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
-import namoo.nara.castle.domain.spec.sdo.CastleRdo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,7 @@ public class CastleResource implements CastleService {
 
     @Override
     @RequestMapping(value="castles/{id}", method = RequestMethod.GET)
-    public CastleRdo findCastle(
+    public Castle findCastle(
             @PathVariable("id") String castleId
     ) {
         return this.castleService.findCastle(castleId);
@@ -46,7 +46,7 @@ public class CastleResource implements CastleService {
 
     @Override
     @RequestMapping(value="castle", method = RequestMethod.GET)
-    public CastleRdo findCastleByEmail(
+    public Castle findCastleByEmail(
             @RequestParam("email") String email
     ) {
         return this.castleService.findCastleByEmail(email);
@@ -54,7 +54,7 @@ public class CastleResource implements CastleService {
 
     @Override
     @RequestMapping(value="castles", method = RequestMethod.GET)
-    public List<CastleRdo> findCastles() {
+    public List<Castle> findCastles() {
         return this.castleService.findCastles();
     }
 
