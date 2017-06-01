@@ -5,7 +5,7 @@ import namoo.nara.castle.domain.entity.Castle;
 import java.util.List;
 
 public interface CastleStore {
-    //
+
     void create(Castle castle);
     Castle retrieve(String id);
     Castle retrieveByEmail(String email);

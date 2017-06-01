@@ -2,42 +2,32 @@ package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
+import namoo.nara.share.domain.NameValueList;
+import namoo.nara.share.util.locale.LocaleUtil;
 
 import java.util.Locale;
 
 public class Castle extends Entity implements Aggregate {
-    //
+
     private Castellan castellan;
-    private Long builtTime;
+
     private String originMetroId;
     private String originCitizenId;
+    private Long builtTime;
 
     private Locale locale;
 
     public Castle() {
-        //
+
     }
 
-    public Castle(String id) {
+    public Castle(String id, String originMetroId, String originCivilianId) {
         super(id);
-    }
-
-    public Castle(String id, Castellan castellan, String originMetroId, String originCitizenId) {
-        //
-        super(id);
-        this.castellan = castellan;
+        this.originMetroId = originMetroId;
+        this.originCitizenId = originCivilianId;
         this.builtTime = System.currentTimeMillis();
-        this.originMetroId = originMetroId;
-        this.originCitizenId = originCitizenId;
-    }
-
-    public Castle(String id, Castellan castellan, String originMetroId, String originCitizenId, Long builtTime) {
-        //
-        super(id);
-        this.castellan = castellan;
-        this.builtTime = builtTime;
-        this.originMetroId = originMetroId;
-        this.originCitizenId = originCitizenId;
+        this.castellan = new Castellan();
+        this.castellan.addJoinedMetro(originMetroId, originCivilianId);
     }
 
     @Override
@@ -53,14 +43,26 @@ public class Castle extends Entity implements Aggregate {
     }
 
     public static Castle getSample() {
-        //
+
+        String originMetroId = "P0P";
+        String originCivilianId = "5YC1R@P0P";
         Castellan castellan = new Castellan();
         castellan.addEmail("kchuh@nextree.co.kr");
-        castellan.addJoinedMetro("1", "1@1");
-        Castle castle = new Castle("1", castellan, "1", "1@1");
+
+        Castle castle = new Castle("1", originMetroId, originCivilianId);
+        // TODO
         castle.setLocale(Locale.KOREA);
         return castle;
     }
+
+    public void setValues(NameValueList nameValues) {
+
+        nameValues.getList().forEach(nameValue -> {
+            if ("castellan".equals(nameValue.getName())) this.setCastellan(Castellan.fromJson(nameValue.getValue()));
+            else if ("locale".equals(nameValue.getName())) this.setLocale(LocaleUtil.toLocale(nameValue.getValue()));
+        });
+    }
+
 
     public Castellan getCastellan() {
         return castellan;
@@ -103,7 +105,6 @@ public class Castle extends Entity implements Aggregate {
     }
 
     public static void main(String[] args) {
-        //
         System.out.println(Castle.getSample());
     }
 

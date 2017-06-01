@@ -16,19 +16,18 @@ import java.util.List;
 import java.util.Locale;
 
 public class CastleLogic implements CastleService {
-    //
+
     private CastleStore castleStore;
     private NaraEventProxy eventProxy;
 
     public CastleLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
-        //
         this.castleStore = storeLycler.requestCastleStore();
         this.eventProxy = proxyLycler.eventProxy();
     }
 
     @Override
     public String buildCastle(CastleCdo castleCdo) {
-        //
+
         String castellanEmail = castleCdo.getCastellanEmail();
         String originMetroId = castleCdo.getOriginMetroId();
         String originCitizenId = castleCdo.getOriginCitizenId();

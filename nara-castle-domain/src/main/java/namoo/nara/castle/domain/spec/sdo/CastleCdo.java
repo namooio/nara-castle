@@ -1,10 +1,11 @@
 package namoo.nara.castle.domain.spec.sdo;
 
-import java.io.Serializable;
+import namoo.nara.share.domain.CommonCdo;
+
 import java.util.Locale;
 
-public class CastleCdo implements Serializable {
-    //
+public class CastleCdo extends CommonCdo {
+
     private String castellanEmail;
     private String originMetroId;
     private String originCitizenId;

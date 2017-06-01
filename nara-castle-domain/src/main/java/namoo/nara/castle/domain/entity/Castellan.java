@@ -3,115 +3,114 @@ package namoo.nara.castle.domain.entity;
 import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.ValueObject;
 import namoo.nara.share.exception.NaraException;
+import namoo.nara.share.util.json.JsonUtil;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Castellan implements ValueObject {
-    //
-    private Set<CastellanEmail> emails;
+
+    private List<CastellanEmail> emails;
     private List<JoinedMetro> joinedMetros;
 
     public Castellan() {
-        emails = new LinkedHashSet<>();
+
+        emails = new ArrayList<>();
         joinedMetros = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("emails:").append(emails);
+        sb.append(", joinedMetros:").append(joinedMetros);
+        sb.append('}');
+        return sb.toString();
+    }
+
     public void addEmail(String email) {
-        //
+
         if (existEmail(email)) throw new NaraException(String.format("Email[%s] already added.", email));
         CastleContext.getEmailValidator().validate(email);
-        this.emails.add(new CastellanEmail(email));
+        emails.add(new CastellanEmail(email));
     }
 
     private boolean existEmail(String email) {
-        //
+
         return findEmail(email) != null;
     }
 
     public void removeEmail(String email) {
-        //
+
         CastellanEmail castellanEmail = findEmail(email);
         this.emails.remove(castellanEmail);
     }
 
     public CastellanEmail findEmail(String email) {
-        //
-        for(CastellanEmail castellanEmail : this.emails) {
-            if (email.equals(castellanEmail.getAddress())) {
-                return castellanEmail;
-            }
-        }
-        return null;
+
+        return emails
+                .stream()
+                .filter(castellanEmail -> email.equals(castellanEmail.getAddress()))
+                .findFirst()
+                .orElse(null);
     }
 
-    public boolean hasEmail(String email) {
-        //
-        return findEmail(email) != null;
+    public int getEmailCount() {
+
+        return emails.size();
     }
 
+    public void addJoinedMetro(String metroId, String civilianId) {
 
-    public int getEmailsCount() {
-        //
-        return this.emails.size();
-    }
-
-    public void addJoinedMetro(String metroId, String citizenId) {
-        //
-        if (isJoinedMetro(metroId)) {
-            throw new NaraException(String.format("Already joined metro[%s].", metroId));
-        }
-        JoinedMetro joinedMetro = new JoinedMetro();
-        joinedMetro.setMetroId(metroId);
-        joinedMetro.setCitizenId(citizenId);
-        joinedMetro.setJoinedTime(System.currentTimeMillis());
+        if (isJoinedMetro(metroId)) throw new NaraException(String.format("Already joined metro[%s].", metroId));
+        JoinedMetro joinedMetro = new JoinedMetro(metroId, civilianId);
         this.joinedMetros.add(joinedMetro);
     }
 
     public void addJoinedMetro(JoinedMetro joinedMetro) {
-        //
-        if (isJoinedMetro(joinedMetro.getMetroId())) {
-            throw new NaraException(String.format("Already joined metro[%s].", joinedMetro.getMetroId()));
-        }
+
+        if (isJoinedMetro(joinedMetro.getMetroId())) throw new NaraException(String.format("Already joined metro[%s].", joinedMetro.getMetroId()));
         joinedMetro.setJoinedTime(System.currentTimeMillis());
         this.joinedMetros.add(joinedMetro);
     }
 
     public void removeJoinedMetro(String metroId) {
-        //
+
         JoinedMetro joinedMetro = findJoinedMetro(metroId);
         this.joinedMetros.remove(joinedMetro);
     }
 
     public JoinedMetro findJoinedMetro(String metroId) {
-        //
-        for(JoinedMetro joinedMetro : this.joinedMetros) {
-            if (metroId.equals(joinedMetro.getMetroId())) {
-                return joinedMetro;
-            }
-        }
-        return null;
+
+        return this.joinedMetros
+                .stream()
+                .filter(joinedMetro -> metroId.equals(joinedMetro.getMetroId()))
+                .findFirst()
+                .orElse(null);
     }
 
     public boolean isJoinedMetro(String metroId) {
-        //
-        JoinedMetro joinedMetro = findJoinedMetro(metroId);
-        if (joinedMetro != null) return true;
-        return false;
+
+        return findJoinedMetro(metroId) != null;
     }
 
-    public int getJoinedMetrosCount() {
-        //
+    public int getJoinedMetroCount() {
         return this.joinedMetros.size();
     }
 
-    public Set<CastellanEmail> getEmails() {
+    public String toJson() {
+        return JsonUtil.toJson(this);
+    }
+
+    public static Castellan fromJson(String json) {
+        return JsonUtil.fromJson(json, Castellan.class);
+    }
+
+    public List<CastellanEmail> getEmails() {
         return emails;
     }
 
-    public void setEmails(Set<CastellanEmail> emails) {
+    public void setEmails(List<CastellanEmail> emails) {
         this.emails = emails;
     }
 
@@ -124,7 +123,7 @@ public class Castellan implements ValueObject {
     }
 
     public static Castellan getSample() {
-        //
+
         Castellan castellan = new Castellan();
 
         castellan.addJoinedMetro("M01", "1@M01");
@@ -136,17 +135,9 @@ public class Castellan implements ValueObject {
         return castellan;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("emails:").append(emails);
-        sb.append(", joinedMetros:").append(joinedMetros);
-        sb.append('}');
-        return sb.toString();
-    }
 
     public static void main(String[] args) {
-        //
+
         Castellan castellan = Castellan.getSample();
         System.out.println(castellan);
     }

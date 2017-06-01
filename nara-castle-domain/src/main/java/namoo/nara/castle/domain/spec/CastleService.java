@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 public interface CastleService {
-    //
+
     String buildCastle(CastleCdo castleCdo);
     void modifyLocale(String castleId, Locale locale);
     Castle findCastle(String castleId);

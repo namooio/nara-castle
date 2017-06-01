@@ -3,16 +3,16 @@ package namoo.nara.castle.domain.entity;
 import namoo.nara.share.domain.ValueObject;
 
 public class CastellanEmail implements ValueObject {
-    //
+
     private String address;
     private Long createdTime;
 
     public CastellanEmail() {
-        this.createdTime = System.currentTimeMillis();
+
     }
 
     public CastellanEmail(String address) {
-        this();
+        this.createdTime = System.currentTimeMillis();
         this.address = address;
     }
 
