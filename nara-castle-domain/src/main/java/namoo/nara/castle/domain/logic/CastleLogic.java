@@ -28,14 +28,17 @@ public class CastleLogic implements CastleService {
         String nationId = castleCdo.getNationId();
         String originMetroId = castleCdo.getOriginMetroId();
         String originCivilianId = castleCdo.getOriginCivilianId();
-        NameValueList nameValues = castleCdo.getNameValues();
-
 
         long sequence = castleStore.retrieveNextSequence(nationId);
 
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, sequence);
         Castle castle = new Castle(castleId, nationId, originMetroId, originCivilianId);
-        castle.setValues(nameValues);
+
+        if (castleCdo.hasNameValues()) {
+            castle.setValues(castleCdo.getNameValues());
+        }
+
+        castle.getCastellan().addJoinedMetro(originMetroId, originCivilianId);
 
         castleStore.create(castle);
         return castle.getId();

@@ -58,7 +58,7 @@ public class CastleRestAdapter implements CastleService {
     @Override
     public void modifyCastle(String castleId, NameValueList nameValues) {
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_BUILD)
+                RequestBuilder.create(CastleRestUrl.URL_CASTLE_MODIFY)
                         .addPathParam("castleId", castleId)
                         .setRequestBody(nameValues)
                         .setResponseType(String.class)
@@ -68,7 +68,7 @@ public class CastleRestAdapter implements CastleService {
     @Override
     public void removeCastle(String castleId) {
         naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_BUILD)
+                RequestBuilder.create(CastleRestUrl.URL_CASTLE_REMOVE)
                         .addPathParam("castleId", castleId)
         );
     }

@@ -16,7 +16,6 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
 
     private String nationId = "P";
     private String metroId = "P0P";
-    private String civilianId = "5YC1R@P0P";
 
     @Test
     public void test() {
