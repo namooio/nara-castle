@@ -38,8 +38,10 @@ public class CastleMongoStoreTest {
 
         long castleSequence = castleStore.retrieveNextSequence(nationId);
         Assert.assertEquals(1, castleSequence);
+
         castleSequence = castleStore.retrieveNextSequence(nationId);
         Assert.assertEquals(2, castleSequence);
+
         castleSequence = castleStore.retrieveNextSequence(nationId);
         Assert.assertEquals(3, castleSequence);
 
