@@ -35,12 +35,11 @@ public class CastleResource implements CastleService {
     }
 
     @Override
-    @RequestMapping(value="nations/{nationId}/castles/emails/{email:.+}", method = RequestMethod.GET)
-    public Castle findCastleByNationIdAndEmail(
-            @PathVariable("nationId") String nationId,
+    @RequestMapping(value="castles/emails/{email:.+}", method = RequestMethod.GET)
+    public Castle findCastleByEmail(
             @PathVariable("email") String email
     ) {
-        return this.castleService.findCastleByNationIdAndEmail(nationId, email);
+        return this.castleService.findCastleByEmail(email);
     }
 
     @Override

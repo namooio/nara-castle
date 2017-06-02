@@ -40,9 +40,9 @@ public class CastleMongoStore implements CastleStore {
     }
 
     @Override
-    public Castle retrieveByEmail(String nationId, String email) {
+    public Castle retrieveByEmail(String email) {
 
-        CastleDoc castleDoc = castleMongoRepository.findByNationIdAndCastellanEmailsEmailsEmail(nationId, email);
+        CastleDoc castleDoc = castleMongoRepository.findByCastellanEmailsEmailsEmail( email);
         if (castleDoc == null) return null;
         return castleDoc.toDomain();
     }

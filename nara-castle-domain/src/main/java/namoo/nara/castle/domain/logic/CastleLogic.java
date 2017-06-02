@@ -51,9 +51,9 @@ public class CastleLogic implements CastleService {
     }
 
     @Override
-    public Castle findCastleByNationIdAndEmail(String nationId, String email) {
+    public Castle findCastleByEmail(String email) {
 
-        return castleStore.retrieveByEmail(nationId, email);
+        return castleStore.retrieveByEmail(email);
     }
 
     @Override
@@ -67,6 +67,10 @@ public class CastleLogic implements CastleService {
 
         Castle castle = castleStore.retrieve(castleId);
         castle.setValues(nameValues);
+
+        if (!castle.getCastellan().hasEmails()) {
+            throw new NaraException("Castellan must have email.");
+        }
         castleStore.update(castle);
     }
 

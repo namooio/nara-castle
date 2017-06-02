@@ -22,35 +22,35 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     public void test() {
 
         getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("kchuh@nextree.co.kr") , new JoinedMetro(metroId, "5YC1R@P0P")).toJson()))
+                new NameValueList("castellan", new Castellan(new Email("kchuh@nextree.co.kr") , new JoinedMetro(nationId, metroId, "5YC1R@P0P")).toJson()))
         );
 
         getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("hkkang@nextree.co.kr"), new JoinedMetro(metroId, "5YC1S@P0P")).toJson()))
+                new NameValueList("castellan", new Castellan(new Email("hkkang@nextree.co.kr"), new JoinedMetro(nationId, metroId, "5YC1S@P0P")).toJson()))
         );
 
         getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("iylee@nextree.co.kr") , new JoinedMetro(metroId, "5YC1T@P0P")).toJson()))
+                new NameValueList("castellan", new Castellan(new Email("iylee@nextree.co.kr") , new JoinedMetro(nationId, metroId, "5YC1T@P0P")).toJson()))
         );
 
         getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("tsong@nextree.co.kr") , new JoinedMetro(metroId, "5YC1U@P0P")).toJson()))
+                new NameValueList("castellan", new Castellan(new Email("tsong@nextree.co.kr") , new JoinedMetro(nationId, metroId, "5YC1U@P0P")).toJson()))
         );
 
         Assert.assertEquals(4, getCastleRestAdapter().findCastlesOf(nationId).size());
 
-        Castle castle = getCastleRestAdapter().findCastleByNationIdAndEmail(nationId, "kchuh@nextree.co.kr");
+        Castle castle = getCastleRestAdapter().findCastleByEmail("kchuh@nextree.co.kr");
         String castleId = castle.getId();
 
         Assert.assertNotNull(castle);
 
         logger.debug("{}", castle);
 
-        castle = getCastleRestAdapter().findCastleByNationIdAndEmail(nationId, "kchuh@nextree.co.kr");
+        castle = getCastleRestAdapter().findCastleByEmail("kchuh@nextree.co.kr");
         Assert.assertNotNull(castle);
 
         Castellan castellan = castle.getCastellan();
-        castellan.addJoinedMetro("Q0P", "1A@Q0P");
+        castellan.addJoinedMetro("P", "Q0P", "1A@Q0P");
         getCastleRestAdapter().modifyCastle(castle.getId(), new NameValueList("castellan", castellan.toJson()));
 
         castle = getCastleRestAdapter().findCastle(castleId);

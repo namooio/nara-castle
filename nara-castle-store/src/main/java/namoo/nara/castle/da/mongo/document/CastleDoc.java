@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @CompoundIndexes({
         @CompoundIndex(name = "idx_castellan_email",
                 unique = true,
-                def = "{'nationId' : 1, 'castellan.emails.emails.email' : 1}")
+                def = "{'castellan.emails.emails.email' : 1}")
 })
 public class CastleDoc {
 

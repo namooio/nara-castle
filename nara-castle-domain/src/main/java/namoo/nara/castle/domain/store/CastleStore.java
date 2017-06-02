@@ -8,7 +8,7 @@ public interface CastleStore {
 
     void create(Castle castle);
     Castle retrieve(String id);
-    Castle retrieveByEmail(String nationId, String email);
+    Castle retrieveByEmail(String email);
     List<Castle> retrieveByNationId(String nationId);
     void update(Castle castle);
     void delete(Castle castle);

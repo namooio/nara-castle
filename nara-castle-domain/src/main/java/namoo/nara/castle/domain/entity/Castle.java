@@ -8,8 +8,13 @@ import namoo.nara.share.domain.granule.Email;
 
 public class Castle extends Entity implements Aggregate {
 
+    /**
+     * Nation where castle is built
+     */
     private String nationId;
+
     private Castellan castellan;
+
     private Long builtTime;
 
     public Castle() {
@@ -41,13 +46,15 @@ public class Castle extends Entity implements Aggregate {
     public static Castle getSample() {
 
         String nationId = "P";
+        String metroId = "P0P";
+        String civilianId = "5YC1R@P0P";
 
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, 0);
         Castle castle = new Castle(nationId, castleId);
 
         NameValueList nameValues = new NameValueList();
         nameValues.add("castellan",
-                new Castellan(new Email("kchuh@nextree.co.kr"), new JoinedMetro("P0P", "5YC1R@P0P")).toJson()
+                new Castellan(new Email("kchuh@nextree.co.kr"), new JoinedMetro(nationId, metroId, civilianId)).toJson()
         );
 
         castle.setValues(nameValues);

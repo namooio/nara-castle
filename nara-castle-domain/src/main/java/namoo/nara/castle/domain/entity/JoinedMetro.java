@@ -4,6 +4,7 @@ import namoo.nara.share.domain.ValueObject;
 
 public class JoinedMetro implements ValueObject {
 
+    private String nationId;
     private String metroId;
     private String civilianId;
 
@@ -13,7 +14,8 @@ public class JoinedMetro implements ValueObject {
 
     }
 
-    public JoinedMetro(String metroId, String civilianId) {
+    public JoinedMetro(String nationId, String metroId, String civilianId) {
+        this.nationId = nationId;
         this.metroId = metroId;
         this.civilianId = civilianId;
         this.joinedTime = System.currentTimeMillis();
@@ -22,11 +24,20 @@ public class JoinedMetro implements ValueObject {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("metroId:'").append(metroId).append('\'');
+        sb.append("nationId:'").append(nationId).append('\'');
+        sb.append(", metroId:'").append(metroId).append('\'');
         sb.append(", civilianId:'").append(civilianId).append('\'');
         sb.append(", joinedTime:").append(joinedTime);
         sb.append('}');
         return sb.toString();
+    }
+
+    public String getNationId() {
+        return nationId;
+    }
+
+    public void setNationId(String nationId) {
+        this.nationId = nationId;
     }
 
     public String getMetroId() {

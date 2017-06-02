@@ -45,20 +45,20 @@ public class CastleMongoStoreTest {
 
         castleStore.create(castle);
 
-        Assert.assertNull(castleStore.retrieveByEmail(nationId, "michael7557@gmail.com"));
+        Assert.assertNull(castleStore.retrieveByEmail("michael7557@gmail.com"));
 
         castle = castleStore.retrieve(castleId);
         logger.debug("{}", castle);
 
         castellan = castle.getCastellan();
         castellan.getEmails().add(new Email("michael7557@gmail.com"));
-        castellan.addJoinedMetro(metroId, civilianId);
+        castellan.addJoinedMetro(nationId, metroId, civilianId);
 
         castle.setValues(new NameValueList("castellan", castellan.toJson()));
         castleStore.update(castle);
 
-        Assert.assertNotNull(castleStore.retrieveByEmail(nationId,"kchuh@nextree.co.kr"));
-        Assert.assertNotNull(castleStore.retrieveByEmail(nationId,"michael7557@gmail.com"));
+        Assert.assertNotNull(castleStore.retrieveByEmail("kchuh@nextree.co.kr"));
+        Assert.assertNotNull(castleStore.retrieveByEmail("michael7557@gmail.com"));
 
         castleStore.delete(castle);
         try {

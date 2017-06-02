@@ -8,5 +8,5 @@ import java.util.List;
 public interface CastleMongoRepository extends MongoRepository<CastleDoc, String> {
 
     List<CastleDoc> findByNationId(String nationId);
-    CastleDoc findByNationIdAndCastellanEmailsEmailsEmail(String nationId, String email);
+    CastleDoc findByCastellanEmailsEmailsEmail(String email);
 }

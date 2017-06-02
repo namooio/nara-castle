@@ -37,10 +37,9 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public Castle findCastleByNationIdAndEmail(String nationId, String email) {
+    public Castle findCastleByEmail(String email) {
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_NATION_AND_EMAIL)
-                .addPathParam("nationId", nationId)
+                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_EMAIL)
                 .addPathParam("email", email)
                 .setResponseType(Castle.class)
         );
@@ -49,7 +48,7 @@ public class CastleRestAdapter implements CastleService {
     @Override
     public List<Castle> findCastlesOf(String nationId) {
         return Arrays.asList(naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_ALL)
+                RequestBuilder.create(CastleRestUrl.URL_CASTLES_FIND_BY_NATION)
                 .addPathParam("nationId", nationId)
                 .setResponseType(Castle[].class)
         ));
