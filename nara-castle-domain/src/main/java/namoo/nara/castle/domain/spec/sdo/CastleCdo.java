@@ -1,9 +1,9 @@
 package namoo.nara.castle.domain.spec.sdo;
 
-import namoo.nara.share.domain.CommonCdo;
+import namoo.nara.share.domain.Cdo;
 import namoo.nara.share.domain.NameValueList;
 
-public class CastleCdo extends CommonCdo {
+public class CastleCdo extends Cdo {
 
     private String nationId;
     private String originMetroId;
