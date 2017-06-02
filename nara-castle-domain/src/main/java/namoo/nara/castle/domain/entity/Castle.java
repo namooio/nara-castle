@@ -4,18 +4,24 @@ import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
+import namoo.nara.share.domain.granule.Email;
 
 public class Castle extends Entity implements Aggregate {
 
-    private String nationId;
     private Castellan castellan;
 
+    private String nationId;
     private String originMetroId;
     private String originCivilianId;
+
     private Long builtTime;
 
     public Castle() {
 
+    }
+
+    public Castle(String id) {
+        super(id);
     }
 
     public Castle(String castleId, String nationId, String originMetroId, String originCivilianId) {
@@ -33,8 +39,8 @@ public class Castle extends Entity implements Aggregate {
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
         sb.append("id:'").append(getId()).append('\'');
-        sb.append(", nationId:'").append(nationId).append('\'');
         sb.append(", castellan:").append(castellan);
+        sb.append(", nationId:'").append(nationId).append('\'');
         sb.append(", originMetroId:'").append(originMetroId).append('\'');
         sb.append(", originCivilianId:'").append(originCivilianId).append('\'');
         sb.append(", builtTime:").append(builtTime);
@@ -52,7 +58,7 @@ public class Castle extends Entity implements Aggregate {
         Castle castle = new Castle(castleId, nationId, originMetroId, originCivilianId);
 
         Castellan castellan = castle.getCastellan();
-        castellan.addEmail("kchuh@nextree.co.kr");
+        castellan.getEmails().add(new Email("kchuh@nextree.co.kr"));
         castellan.addJoinedMetro("P0Q", "2@P0Q");
 
         NameValueList nameValues = new NameValueList();

@@ -1,6 +1,7 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
+import namoo.nara.share.domain.granule.EmailList;
 import namoo.nara.share.exception.NaraException;
 import namoo.nara.share.util.json.JsonUtil;
 
@@ -9,12 +10,12 @@ import java.util.List;
 
 public class Castellan implements ValueObject {
 
-    private List<CastellanEmail> emails;
+    private EmailList emails;
     private List<JoinedMetro> joinedMetros;
 
     public Castellan() {
 
-        emails = new ArrayList<>();
+        emails = new EmailList();
         joinedMetros = new ArrayList<>();
     }
 
@@ -25,37 +26,6 @@ public class Castellan implements ValueObject {
         sb.append(", joinedMetros:").append(joinedMetros);
         sb.append('}');
         return sb.toString();
-    }
-
-    public void addEmail(String email) {
-
-        if (existEmail(email)) throw new NaraException(String.format("Email[%s] already added.", email));
-        emails.add(new CastellanEmail(email));
-    }
-
-    private boolean existEmail(String email) {
-
-        return findEmail(email) != null;
-    }
-
-    public void removeEmail(String email) {
-
-        CastellanEmail castellanEmail = findEmail(email);
-        this.emails.remove(castellanEmail);
-    }
-
-    public CastellanEmail findEmail(String email) {
-
-        return emails
-                .stream()
-                .filter(castellanEmail -> email.equals(castellanEmail.getAddress()))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public int getEmailCount() {
-
-        return emails.size();
     }
 
     public void addJoinedMetro(String metroId, String civilianId) {
@@ -104,11 +74,11 @@ public class Castellan implements ValueObject {
         return JsonUtil.fromJson(json, Castellan.class);
     }
 
-    public List<CastellanEmail> getEmails() {
+    public EmailList getEmails() {
         return emails;
     }
 
-    public void setEmails(List<CastellanEmail> emails) {
+    public void setEmails(EmailList emails) {
         this.emails = emails;
     }
 

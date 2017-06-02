@@ -6,22 +6,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "CA_CASTLE_SEQ")
 public class CastleSequenceDoc {
 
-    public static final String NARA_ID = "NARA";
-
     @Id
-    private String naraId;
+    private String nationId;
     private long castleSequence;
 
     public CastleSequenceDoc() {
-        //
+
     }
 
-    public String getNaraId() {
-        return naraId;
+    public String getNationId() {
+        return nationId;
     }
 
-    public void setNaraId(String naraId) {
-        this.naraId = naraId;
+    public void setNationId(String nationId) {
+        this.nationId = nationId;
     }
 
     public long getCastleSequence() {

@@ -10,7 +10,7 @@ public interface CastleService {
 
     String buildCastle(CastleCdo castleCdo);
     Castle findCastle(String castleId);
-    Castle findCastleByEmail(String email);
+    Castle findCastleByEmail(String nationId, String email);
     List<Castle> findCastles();
     void modifyCastle(String castleId, NameValueList nameValues);
     void removeCastle(String castleId);

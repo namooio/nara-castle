@@ -8,11 +8,11 @@ public interface CastleStore {
 
     void create(Castle castle);
     Castle retrieve(String id);
-    Castle retrieveByEmail(String email);
+    Castle retrieveByEmail(String nationId, String email);
     List<Castle> retrieveAll();
     void update(Castle castle);
     void delete(Castle castle);
     void delete(String id);
 
-    long retrieveNextSequence();
+    long retrieveNextSequence(String nationId);
 }

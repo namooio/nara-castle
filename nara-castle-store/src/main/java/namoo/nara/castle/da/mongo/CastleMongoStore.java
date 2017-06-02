@@ -19,7 +19,7 @@ import java.util.List;
 
 @Repository
 public class CastleMongoStore implements CastleStore {
-    //
+
     @Autowired
     private CastleMongoRepository castleMongoRepository;
 
@@ -28,7 +28,7 @@ public class CastleMongoStore implements CastleStore {
 
     @Override
     public void create(Castle castle) {
-        //
+
         String id = castle.getId();
         if (castleMongoRepository.exists(id)) throw new AlreadyExistsException(String.format("Castle document[ID:%s] already exist.", id));
         CastleDoc castleDoc = CastleDoc.toDocument(castle);
@@ -37,29 +37,29 @@ public class CastleMongoStore implements CastleStore {
 
     @Override
     public Castle retrieve(String id) {
-        //
+
         CastleDoc castleDoc = castleMongoRepository.findOne(id);
         if (castleDoc == null) throw new NonExistenceException(String.format("No castle document[ID:%s] to retrieve.", id));
         return castleDoc.toDomain();
     }
 
     @Override
-    public Castle retrieveByEmail(String email) {
-        //
-        CastleDoc castleDoc = castleMongoRepository.findByCastellanEmailsAddress(email);
+    public Castle retrieveByEmail(String nationId, String email) {
+
+        CastleDoc castleDoc = castleMongoRepository.findByNationIdAndCastellanEmailsEmailsEmail(nationId, email);
         if (castleDoc == null) return null;
         return castleDoc.toDomain();
     }
 
     @Override
     public List<Castle> retrieveAll() {
-        //
+
         return CastleDoc.toDomains(castleMongoRepository.findAll());
     }
 
     @Override
     public void update(Castle castle) {
-        //
+
         String id = castle.getId();
         if (!castleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castle document[ID:%s] to update.", id));
         CastleDoc castleDoc = CastleDoc.toDocument(castle);
@@ -68,15 +68,20 @@ public class CastleMongoStore implements CastleStore {
 
     @Override
     public void delete(String id) {
-        //
-        if (!castleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castle document[ID:%s] to delete.", id));
+
         castleMongoRepository.delete(id);
     }
 
     @Override
-    public long retrieveNextSequence() {
-        //
-        Query query = new Query(Criteria.where("naraId").is(CastleSequenceDoc.NARA_ID));
+    public void delete(Castle castle) {
+
+        castleMongoRepository.delete(castle.getId());
+    }
+
+    @Override
+    public long retrieveNextSequence(String nationId) {
+
+        Query query = new Query(Criteria.where("nationId").is(nationId));
         Update update = new Update();
         update.inc("castleSequence", 1);
 
