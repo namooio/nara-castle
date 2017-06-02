@@ -39,7 +39,7 @@ public class CastleDoc {
         castleDoc.setBuiltTime(castle.getBuiltTime());
         castleDoc.setLocale(castle.getLocale());
         castleDoc.setOriginMetroId(castle.getOriginMetroId());
-        castleDoc.setOriginCitizenId(castle.getOriginCitizenId());
+        castleDoc.setOriginCitizenId(castle.getOriginCivilianId());
         castleDoc.setEntityVersion(castle.getEntityVersion());
         return castleDoc;
     }

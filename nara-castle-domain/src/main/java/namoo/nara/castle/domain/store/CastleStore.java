@@ -11,6 +11,7 @@ public interface CastleStore {
     Castle retrieveByEmail(String email);
     List<Castle> retrieveAll();
     void update(Castle castle);
+    void delete(Castle castle);
     void delete(String id);
 
     long retrieveNextSequence();

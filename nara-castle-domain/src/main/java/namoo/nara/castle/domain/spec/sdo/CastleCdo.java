@@ -1,41 +1,37 @@
 package namoo.nara.castle.domain.spec.sdo;
 
 import namoo.nara.share.domain.CommonCdo;
-
-import java.util.Locale;
+import namoo.nara.share.domain.NameValueList;
 
 public class CastleCdo extends CommonCdo {
 
-    private String castellanEmail;
+    private String nationId;
     private String originMetroId;
-    private String originCitizenId;
-    private Locale locale;
+    private String originCivilianId;
 
     public CastleCdo() {
-        //
+
     }
 
-    public CastleCdo(String castellanEmail, String originMetroId, String originCitizenId) {
-        //
-        this.castellanEmail = castellanEmail;
+    public CastleCdo(String nationId, String originMetroId, String originCivilianId) {
+        this.nationId = nationId;
         this.originMetroId = originMetroId;
-        this.originCitizenId = originCitizenId;
+        this.originCivilianId = originCivilianId;
     }
 
-    public CastleCdo(String castellanEmail, String originMetroId, String originCitizenId, Locale locale) {
-        //
-        this.castellanEmail = castellanEmail;
+    public CastleCdo(String nationId, String originMetroId, String originCivilianId, NameValueList nameValues) {
+        super(nameValues);
+        this.nationId = nationId;
         this.originMetroId = originMetroId;
-        this.originCitizenId = originCitizenId;
-        this.locale = locale;
+        this.originCivilianId = originCivilianId;
     }
 
-    public String getCastellanEmail() {
-        return castellanEmail;
+    public String getNationId() {
+        return nationId;
     }
 
-    public void setCastellanEmail(String castellanEmail) {
-        this.castellanEmail = castellanEmail;
+    public void setNationId(String nationId) {
+        this.nationId = nationId;
     }
 
     public String getOriginMetroId() {
@@ -46,20 +42,11 @@ public class CastleCdo extends CommonCdo {
         this.originMetroId = originMetroId;
     }
 
-    public String getOriginCitizenId() {
-        return originCitizenId;
+    public String getOriginCivilianId() {
+        return originCivilianId;
     }
 
-    public void setOriginCitizenId(String originCitizenId) {
-        this.originCitizenId = originCitizenId;
+    public void setOriginCivilianId(String originCivilianId) {
+        this.originCivilianId = originCivilianId;
     }
-
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
-    }
-
 }

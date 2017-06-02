@@ -1,6 +1,5 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.ValueObject;
 import namoo.nara.share.exception.NaraException;
 import namoo.nara.share.util.json.JsonUtil;
@@ -31,7 +30,6 @@ public class Castellan implements ValueObject {
     public void addEmail(String email) {
 
         if (existEmail(email)) throw new NaraException(String.format("Email[%s] already added.", email));
-        CastleContext.getEmailValidator().validate(email);
         emails.add(new CastellanEmail(email));
     }
 
@@ -120,26 +118,6 @@ public class Castellan implements ValueObject {
 
     public void setJoinedMetros(List<JoinedMetro> joinedMetros) {
         this.joinedMetros = joinedMetros;
-    }
-
-    public static Castellan getSample() {
-
-        Castellan castellan = new Castellan();
-
-        castellan.addJoinedMetro("M01", "1@M01");
-        castellan.addJoinedMetro("M02", "1@M02");
-
-        castellan.addEmail("michael7557@gmail.com");
-        castellan.addEmail("michael7557@naver.com");
-
-        return castellan;
-    }
-
-
-    public static void main(String[] args) {
-
-        Castellan castellan = Castellan.getSample();
-        System.out.println(castellan);
     }
 
 }

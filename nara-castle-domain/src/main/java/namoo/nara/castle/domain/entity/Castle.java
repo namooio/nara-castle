@@ -1,30 +1,29 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.util.locale.LocaleUtil;
-
-import java.util.Locale;
 
 public class Castle extends Entity implements Aggregate {
 
+    private String nationId;
     private Castellan castellan;
 
     private String originMetroId;
-    private String originCitizenId;
+    private String originCivilianId;
     private Long builtTime;
-
-    private Locale locale;
 
     public Castle() {
 
     }
 
-    public Castle(String id, String originMetroId, String originCivilianId) {
-        super(id);
+    public Castle(String castleId, String nationId, String originMetroId, String originCivilianId) {
+
+        super(castleId);
+        this.nationId = nationId;
         this.originMetroId = originMetroId;
-        this.originCitizenId = originCivilianId;
+        this.originCivilianId = originCivilianId;
         this.builtTime = System.currentTimeMillis();
         this.castellan = new Castellan();
         this.castellan.addJoinedMetro(originMetroId, originCivilianId);
@@ -33,25 +32,33 @@ public class Castle extends Entity implements Aggregate {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("castellan:").append(castellan);
-        sb.append(", locale:").append(locale);
-        sb.append(", builtTime:").append(builtTime);
+        sb.append("id:'").append(getId()).append('\'');
+        sb.append(", nationId:'").append(nationId).append('\'');
+        sb.append(", castellan:").append(castellan);
         sb.append(", originMetroId:'").append(originMetroId).append('\'');
-        sb.append(", originCitizenId:'").append(originCitizenId).append('\'');
+        sb.append(", originCivilianId:'").append(originCivilianId).append('\'');
+        sb.append(", builtTime:").append(builtTime);
         sb.append('}');
         return sb.toString();
     }
 
     public static Castle getSample() {
 
+        String nationId = "P";
         String originMetroId = "P0P";
         String originCivilianId = "5YC1R@P0P";
-        Castellan castellan = new Castellan();
-        castellan.addEmail("kchuh@nextree.co.kr");
 
-        Castle castle = new Castle("1", originMetroId, originCivilianId);
-        // TODO
-        castle.setLocale(Locale.KOREA);
+        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, 0);
+        Castle castle = new Castle(castleId, nationId, originMetroId, originCivilianId);
+
+        Castellan castellan = castle.getCastellan();
+        castellan.addEmail("kchuh@nextree.co.kr");
+        castellan.addJoinedMetro("P0Q", "2@P0Q");
+
+        NameValueList nameValues = new NameValueList();
+        nameValues.add("castellan", castellan.toJson());
+
+        castle.setValues(nameValues);
         return castle;
     }
 
@@ -59,10 +66,16 @@ public class Castle extends Entity implements Aggregate {
 
         nameValues.getList().forEach(nameValue -> {
             if ("castellan".equals(nameValue.getName())) this.setCastellan(Castellan.fromJson(nameValue.getValue()));
-            else if ("locale".equals(nameValue.getName())) this.setLocale(LocaleUtil.toLocale(nameValue.getValue()));
         });
     }
 
+    public String getNationId() {
+        return nationId;
+    }
+
+    public void setNationId(String nationId) {
+        this.nationId = nationId;
+    }
 
     public Castellan getCastellan() {
         return castellan;
@@ -88,20 +101,12 @@ public class Castle extends Entity implements Aggregate {
         this.originMetroId = originMetroId;
     }
 
-    public String getOriginCitizenId() {
-        return originCitizenId;
+    public String getOriginCivilianId() {
+        return originCivilianId;
     }
 
-    public void setOriginCitizenId(String originCitizenId) {
-        this.originCitizenId = originCitizenId;
-    }
-
-    public Locale getLocale() {
-        return locale;
-    }
-
-    public void setLocale(Locale locale) {
-        this.locale = locale;
+    public void setOriginCivilianId(String originCivilianId) {
+        this.originCivilianId = originCivilianId;
     }
 
     public static void main(String[] args) {
