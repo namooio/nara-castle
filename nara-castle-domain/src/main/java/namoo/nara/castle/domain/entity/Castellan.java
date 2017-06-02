@@ -1,6 +1,7 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
+import namoo.nara.share.domain.granule.Email;
 import namoo.nara.share.domain.granule.EmailList;
 import namoo.nara.share.exception.NaraException;
 import namoo.nara.share.util.json.JsonUtil;
@@ -17,6 +18,12 @@ public class Castellan implements ValueObject {
 
         emails = new EmailList();
         joinedMetros = new ArrayList<>();
+    }
+
+    public Castellan(Email email) {
+
+        this();
+        emails.add(email);
     }
 
     @Override

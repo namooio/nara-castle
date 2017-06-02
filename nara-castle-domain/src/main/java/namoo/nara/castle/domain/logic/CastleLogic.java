@@ -30,6 +30,7 @@ public class CastleLogic implements CastleService {
         String originCivilianId = castleCdo.getOriginCivilianId();
         NameValueList nameValues = castleCdo.getNameValues();
 
+
         long sequence = castleStore.retrieveNextSequence(nationId);
 
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, sequence);
@@ -47,15 +48,15 @@ public class CastleLogic implements CastleService {
     }
 
     @Override
-    public Castle findCastleByEmail(String nationId, String email) {
+    public Castle findCastleByNationIdAndEmail(String nationId, String email) {
 
         return castleStore.retrieveByEmail(nationId, email);
     }
 
     @Override
-    public List<Castle> findCastles() {
+    public List<Castle> findCastlesOf(String nationId) {
 
-        return castleStore.retrieveAll();
+        return castleStore.retrieveByNationId(nationId);
     }
 
     @Override

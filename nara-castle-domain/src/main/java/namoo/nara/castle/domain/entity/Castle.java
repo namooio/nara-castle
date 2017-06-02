@@ -27,12 +27,11 @@ public class Castle extends Entity implements Aggregate {
     public Castle(String castleId, String nationId, String originMetroId, String originCivilianId) {
 
         super(castleId);
+        this.castellan = new Castellan();
         this.nationId = nationId;
         this.originMetroId = originMetroId;
         this.originCivilianId = originCivilianId;
         this.builtTime = System.currentTimeMillis();
-        this.castellan = new Castellan();
-        this.castellan.addJoinedMetro(originMetroId, originCivilianId);
     }
 
     @Override

@@ -52,9 +52,9 @@ public class CastleMongoStore implements CastleStore {
     }
 
     @Override
-    public List<Castle> retrieveAll() {
+    public List<Castle> retrieveByNationId(String nationId) {
 
-        return CastleDoc.toDomains(castleMongoRepository.findAll());
+        return CastleDoc.toDomains(castleMongoRepository.findByNationId(nationId));
     }
 
     @Override
