@@ -6,24 +6,18 @@ import namoo.nara.share.domain.NameValueList;
 public class CastleCdo extends Cdo {
 
     private String nationId;
-    private String originMetroId;
-    private String originCivilianId;
 
     public CastleCdo() {
 
     }
 
-    public CastleCdo(String nationId, String originMetroId, String originCivilianId) {
+    public CastleCdo(String nationId) {
         this.nationId = nationId;
-        this.originMetroId = originMetroId;
-        this.originCivilianId = originCivilianId;
     }
 
-    public CastleCdo(String nationId, String originMetroId, String originCivilianId, NameValueList nameValues) {
+    public CastleCdo(String nationId, NameValueList nameValues) {
         super(nameValues);
         this.nationId = nationId;
-        this.originMetroId = originMetroId;
-        this.originCivilianId = originCivilianId;
     }
 
     public String getNationId() {
@@ -34,19 +28,4 @@ public class CastleCdo extends Cdo {
         this.nationId = nationId;
     }
 
-    public String getOriginMetroId() {
-        return originMetroId;
-    }
-
-    public void setOriginMetroId(String originMetroId) {
-        this.originMetroId = originMetroId;
-    }
-
-    public String getOriginCivilianId() {
-        return originCivilianId;
-    }
-
-    public void setOriginCivilianId(String originCivilianId) {
-        this.originCivilianId = originCivilianId;
-    }
 }

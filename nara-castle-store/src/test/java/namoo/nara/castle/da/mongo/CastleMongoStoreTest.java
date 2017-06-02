@@ -30,52 +30,39 @@ public class CastleMongoStoreTest {
 
     private String nationId = "P";
 
-    private String originMetroId = "P0P";
-    private String originCivilianId = "5YC1R@P0P";
+    private String metroId = "P0P";
+    private String civilianId = "5YC1R@P0P";
 
     @Test
     public void test() {
 
         long castleSequence = castleStore.retrieveNextSequence(nationId);
-        Assert.assertEquals(1, castleSequence);
-
-        castleSequence = castleStore.retrieveNextSequence(nationId);
-        Assert.assertEquals(2, castleSequence);
-
-        castleSequence = castleStore.retrieveNextSequence(nationId);
-        Assert.assertEquals(3, castleSequence);
-
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, castleSequence);
 
-        Castle castle = new Castle(castleId, nationId, originMetroId, originCivilianId);
-        castle.getCastellan().getEmails().add(new Email("kchuh@nextree.co.kr"));
+        Castle castle = new Castle(nationId, castleId);
+        Castellan castellan = new Castellan(new Email("kchuh@nextree.co.kr"));
+        castle.setCastellan(castellan);
+
         castleStore.create(castle);
 
-        castle = castleStore.retrieveByEmail(nationId,"michael7557@gmail.com");
-        Assert.assertNull(castle);
+        Assert.assertNull(castleStore.retrieveByEmail(nationId, "michael7557@gmail.com"));
 
         castle = castleStore.retrieve(castleId);
-        Assert.assertNotNull(castle);
-
-        castle = castleStore.retrieveByEmail(nationId, "kchuh@nextree.co.kr");
-        Assert.assertNotNull(castle);
-
         logger.debug("{}", castle);
 
-        Castellan castellan = castle.getCastellan();
+        castellan = castle.getCastellan();
         castellan.getEmails().add(new Email("michael7557@gmail.com"));
-        NameValueList nameValues = new NameValueList();
-        nameValues.add("castellan", castellan.toJson());
-        castle.setValues(nameValues);
+        castellan.addJoinedMetro(metroId, civilianId);
+
+        castle.setValues(new NameValueList("castellan", castellan.toJson()));
         castleStore.update(castle);
 
-        castle = castleStore.retrieveByEmail(nationId,"michael7557@gmail.com");
-        Assert.assertNotNull(castle);
+        Assert.assertNotNull(castleStore.retrieveByEmail(nationId,"kchuh@nextree.co.kr"));
+        Assert.assertNotNull(castleStore.retrieveByEmail(nationId,"michael7557@gmail.com"));
 
         castleStore.delete(castle);
         try {
             castleStore.retrieve(castleId);
-            Assert.assertTrue(false);
         }
         catch (NonExistenceException e) {
             Assert.assertTrue(true);

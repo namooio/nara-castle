@@ -51,9 +51,7 @@ public class CastleDoc {
 
     public static List<Castle> toDomains(List<CastleDoc> castleDocuments) {
 
-        return castleDocuments.stream()
-                .map(doc -> doc.toDomain())
-                .collect(Collectors.toList());
+        return castleDocuments.stream().map(doc -> doc.toDomain()).collect(Collectors.toList());
     }
 
     public Castle toDomain() {

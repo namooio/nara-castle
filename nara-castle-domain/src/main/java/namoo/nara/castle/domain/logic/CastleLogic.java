@@ -9,6 +9,7 @@ import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.event.NaraEventProxy;
+import namoo.nara.share.exception.NaraException;
 
 import java.util.List;
 
@@ -26,20 +27,19 @@ public class CastleLogic implements CastleService {
     public String buildCastle(CastleCdo castleCdo) {
 
         String nationId = castleCdo.getNationId();
-        String originMetroId = castleCdo.getOriginMetroId();
-        String originCivilianId = castleCdo.getOriginCivilianId();
 
         long sequence = castleStore.retrieveNextSequence(nationId);
 
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, sequence);
-        Castle castle = new Castle(castleId, nationId, originMetroId, originCivilianId);
+        Castle castle = new Castle(nationId, castleId);
 
         if (castleCdo.hasNameValues()) {
             castle.setValues(castleCdo.getNameValues());
         }
 
-        castle.getCastellan().addJoinedMetro(originMetroId, originCivilianId);
-
+        if (!castle.getCastellan().hasEmails()) {
+            throw new NaraException("Castellan must have email.");
+        }
         castleStore.create(castle);
         return castle.getId();
     }

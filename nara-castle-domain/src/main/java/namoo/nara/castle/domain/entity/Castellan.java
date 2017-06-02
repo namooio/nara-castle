@@ -26,6 +26,19 @@ public class Castellan implements ValueObject {
         emails.add(email);
     }
 
+    public Castellan(JoinedMetro joinedMetro) {
+
+        this();
+        joinedMetros.add(joinedMetro);
+    }
+
+    public Castellan(Email email, JoinedMetro joinedMetro) {
+
+        this();
+        emails.add(email);
+        joinedMetros.add(joinedMetro);
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
@@ -67,6 +80,10 @@ public class Castellan implements ValueObject {
     public boolean isJoinedMetro(String metroId) {
 
         return findJoinedMetro(metroId) != null;
+    }
+
+    public boolean hasEmails() {
+        return emails.size() > 0;
     }
 
     public int getJoinedMetroCount() {

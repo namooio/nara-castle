@@ -5,7 +5,6 @@ import namoo.nara.castle.da.mongo.document.CastleSequenceDoc;
 import namoo.nara.castle.da.mongo.springdata.CastleMongoRepository;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.store.CastleStore;
-import namoo.nara.share.exception.store.AlreadyExistsException;
 import namoo.nara.share.exception.store.NonExistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -29,17 +28,14 @@ public class CastleMongoStore implements CastleStore {
     @Override
     public void create(Castle castle) {
 
-        String id = castle.getId();
-        if (castleMongoRepository.exists(id)) throw new AlreadyExistsException(String.format("Castle document[ID:%s] already exist.", id));
-        CastleDoc castleDoc = CastleDoc.toDocument(castle);
-        castleMongoRepository.save(castleDoc);
+        castleMongoRepository.insert(CastleDoc.toDocument(castle));
     }
 
     @Override
     public Castle retrieve(String id) {
 
         CastleDoc castleDoc = castleMongoRepository.findOne(id);
-        if (castleDoc == null) throw new NonExistenceException(String.format("No castle document[ID:%s] to retrieve.", id));
+        if (castleDoc == null) throw new NonExistenceException(String.format("No castle document[%s] found.", id));
         return castleDoc.toDomain();
     }
 
@@ -61,7 +57,7 @@ public class CastleMongoStore implements CastleStore {
     public void update(Castle castle) {
 
         String id = castle.getId();
-        if (!castleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castle document[ID:%s] to update.", id));
+        if (!castleMongoRepository.exists(id)) throw new NonExistenceException(String.format("No castle document[%s] found.", id));
         CastleDoc castleDoc = CastleDoc.toDocument(castle);
         castleMongoRepository.save(castleDoc);
     }

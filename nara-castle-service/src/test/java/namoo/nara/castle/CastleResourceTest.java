@@ -2,6 +2,7 @@ package namoo.nara.castle;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.Email;
@@ -20,10 +21,21 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void test() {
 
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1R@P0P", new NameValueList("castellan", new Castellan(new Email("kchuh@nextree.co.kr")).toJson())));
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1S@P0P", new NameValueList("castellan", new Castellan(new Email("hkkang@nextree.co.kr")).toJson())));
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1T@P0P", new NameValueList("castellan", new Castellan(new Email("iylee@nextree.co.kr")).toJson())));
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1U@P0P", new NameValueList("castellan", new Castellan(new Email("tsong@nextree.co.kr")).toJson())));
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
+                new NameValueList("castellan", new Castellan(new Email("kchuh@nextree.co.kr") , new JoinedMetro(metroId, "5YC1R@P0P")).toJson()))
+        );
+
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
+                new NameValueList("castellan", new Castellan(new Email("hkkang@nextree.co.kr"), new JoinedMetro(metroId, "5YC1S@P0P")).toJson()))
+        );
+
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
+                new NameValueList("castellan", new Castellan(new Email("iylee@nextree.co.kr") , new JoinedMetro(metroId, "5YC1T@P0P")).toJson()))
+        );
+
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
+                new NameValueList("castellan", new Castellan(new Email("tsong@nextree.co.kr") , new JoinedMetro(metroId, "5YC1U@P0P")).toJson()))
+        );
 
         Assert.assertEquals(4, getCastleRestAdapter().findCastlesOf(nationId).size());
 
