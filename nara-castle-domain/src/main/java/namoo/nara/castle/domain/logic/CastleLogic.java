@@ -14,7 +14,7 @@ import namoo.nara.share.exception.NaraException;
 import java.util.List;
 
 public class CastleLogic implements CastleService {
-
+    //
     private CastleStore castleStore;
     private NaraEventProxy eventProxy;
 
@@ -25,17 +25,16 @@ public class CastleLogic implements CastleService {
 
     @Override
     public String buildCastle(CastleCdo castleCdo) {
-
+        //
         String nationId = castleCdo.getNationId();
+        String metroId = castleCdo.getMetroId();
+        String civilianId = castleCdo.getCivilianId();
+        String email = castleCdo.getEmail();
 
         long sequence = castleStore.retrieveNextSequence(nationId);
 
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, sequence);
-        Castle castle = new Castle(nationId, castleId);
-
-        if (castleCdo.hasNameValues()) {
-            castle.setValues(castleCdo.getNameValues());
-        }
+        Castle castle = new Castle(castleId, nationId, metroId, civilianId, email);
 
         if (!castle.getCastellan().hasEmails()) {
             throw new NaraException("Castellan must have email.");
@@ -46,25 +45,25 @@ public class CastleLogic implements CastleService {
 
     @Override
     public Castle findCastle(String id) {
-
+        //
         return castleStore.retrieve(id);
     }
 
     @Override
     public Castle findCastleByEmail(String email) {
-
+        //
         return castleStore.retrieveByEmail(email);
     }
 
     @Override
     public List<Castle> findCastlesOf(String nationId) {
-
+        //
         return castleStore.retrieveByNationId(nationId);
     }
 
     @Override
     public void modifyCastle(String castleId, NameValueList nameValues) {
-
+        //
         Castle castle = castleStore.retrieve(castleId);
         castle.setValues(nameValues);
 
@@ -76,7 +75,7 @@ public class CastleLogic implements CastleService {
 
     @Override
     public void removeCastle(String castleId) {
-
+        //
         castleStore.delete(castleId);
     }
 }

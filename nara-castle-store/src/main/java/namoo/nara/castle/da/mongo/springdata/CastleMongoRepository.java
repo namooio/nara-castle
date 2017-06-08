@@ -9,4 +9,5 @@ public interface CastleMongoRepository extends MongoRepository<CastleDoc, String
 
     List<CastleDoc> findByNationId(String nationId);
     CastleDoc findByCastellanEmailsEmailsEmail(String email);
+    CastleDoc findByCastellanJoinedMetrosNationIdAndCastellanJoinedMetrosMetroIdAndCastellanJoinedMetrosCivilianId(String nationId, String metroId, String civilianId);
 }

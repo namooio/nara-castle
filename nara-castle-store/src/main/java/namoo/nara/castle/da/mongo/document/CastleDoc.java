@@ -28,8 +28,6 @@ public class CastleDoc {
 
     @Indexed
     private String nationId;
-    private String originMetroId;
-    private String originCivilianId;
 
     private Long builtTime;
 
@@ -84,22 +82,6 @@ public class CastleDoc {
 
     public void setNationId(String nationId) {
         this.nationId = nationId;
-    }
-
-    public String getOriginMetroId() {
-        return originMetroId;
-    }
-
-    public void setOriginMetroId(String originMetroId) {
-        this.originMetroId = originMetroId;
-    }
-
-    public String getOriginCivilianId() {
-        return originCivilianId;
-    }
-
-    public void setOriginCivilianId(String originCivilianId) {
-        this.originCivilianId = originCivilianId;
     }
 
     public Long getBuiltTime() {

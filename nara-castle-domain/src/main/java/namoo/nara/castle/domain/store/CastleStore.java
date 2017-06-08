@@ -9,6 +9,7 @@ public interface CastleStore {
     void create(Castle castle);
     Castle retrieve(String id);
     Castle retrieveByEmail(String email);
+    Castle retrieveByJoinedMetro(String nationId, String metroId, String civilianId);
     List<Castle> retrieveByNationId(String nationId);
     void update(Castle castle);
     void delete(Castle castle);

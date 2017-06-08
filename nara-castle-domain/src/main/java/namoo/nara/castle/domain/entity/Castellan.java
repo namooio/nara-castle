@@ -10,34 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Castellan implements ValueObject {
-
+    //
     /**
      * Emails are globally unique.
      */
     private EmailList emails;
-
     private List<JoinedMetro> joinedMetros;
 
     public Castellan() {
-
+        //
         emails = new EmailList();
         joinedMetros = new ArrayList<>();
     }
 
     public Castellan(Email email) {
-
+        //
         this();
         emails.add(email);
     }
 
     public Castellan(JoinedMetro joinedMetro) {
-
+        //
         this();
         joinedMetros.add(joinedMetro);
     }
 
     public Castellan(Email email, JoinedMetro joinedMetro) {
-
+        //
         this();
         emails.add(email);
         joinedMetros.add(joinedMetro);
@@ -53,26 +52,26 @@ public class Castellan implements ValueObject {
     }
 
     public void addJoinedMetro(String nationId, String metroId, String civilianId) {
-
+        //
         JoinedMetro joinedMetro = new JoinedMetro(nationId, metroId, civilianId);
         addJoinedMetro(joinedMetro);
     }
 
     public void addJoinedMetro(JoinedMetro joinedMetro) {
-
+        //
         if (isJoinedMetro(joinedMetro.getNationId(), joinedMetro.getMetroId())) throw new NaraException(String.format("Already joined metro[%s].", joinedMetro.getMetroId()));
         joinedMetro.setJoinedTime(System.currentTimeMillis());
         this.joinedMetros.add(joinedMetro);
     }
 
     public void removeJoinedMetro(String nationId, String metroId) {
-
+        //
         JoinedMetro joinedMetro = findJoinedMetro(nationId, metroId);
         this.joinedMetros.remove(joinedMetro);
     }
 
     public JoinedMetro findJoinedMetro(String nationId, String metroId) {
-
+        //
         return this.joinedMetros
                 .stream()
                 .filter(joinedMetro -> nationId.equals(joinedMetro.getNationId()) && metroId.equals(joinedMetro.getMetroId()))
@@ -81,7 +80,7 @@ public class Castellan implements ValueObject {
     }
 
     public boolean isJoinedMetro(String nationId, String metroId) {
-
+        //
         return findJoinedMetro(nationId, metroId) != null;
     }
 

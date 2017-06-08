@@ -7,7 +7,7 @@ import namoo.nara.share.domain.NameValueList;
 import java.util.List;
 
 public interface CastleService {
-
+    //
     String buildCastle(CastleCdo castleCdo);
     Castle findCastle(String castleId);
     Castle findCastleByEmail(String email);

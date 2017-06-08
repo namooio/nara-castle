@@ -39,10 +39,7 @@ public class CastleMongoStoreTest {
         long castleSequence = castleStore.retrieveNextSequence(nationId);
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, castleSequence);
 
-        Castle castle = new Castle(nationId, castleId);
-        Castellan castellan = new Castellan(new Email("kchuh@nextree.co.kr"));
-        castle.setCastellan(castellan);
-
+        Castle castle = new Castle(castleId, nationId, metroId, civilianId, "kchuh@nextree.co.kr");
         castleStore.create(castle);
 
         Assert.assertNull(castleStore.retrieveByEmail("michael7557@gmail.com"));
@@ -50,9 +47,8 @@ public class CastleMongoStoreTest {
         castle = castleStore.retrieve(castleId);
         logger.debug("{}", castle);
 
-        castellan = castle.getCastellan();
+        Castellan castellan = castle.getCastellan();
         castellan.getEmails().add(new Email("michael7557@gmail.com"));
-        castellan.addJoinedMetro(nationId, metroId, civilianId);
 
         castle.setValues(new NameValueList("castellan", castellan.toJson()));
         castleStore.update(castle);

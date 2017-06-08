@@ -2,10 +2,8 @@ package namoo.nara.castle;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.JoinedMetro;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
 import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.granule.Email;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -21,21 +19,10 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void test() {
 
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("kchuh@nextree.co.kr") , new JoinedMetro(nationId, metroId, "5YC1R@P0P")).toJson()))
-        );
-
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("hkkang@nextree.co.kr"), new JoinedMetro(nationId, metroId, "5YC1S@P0P")).toJson()))
-        );
-
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("iylee@nextree.co.kr") , new JoinedMetro(nationId, metroId, "5YC1T@P0P")).toJson()))
-        );
-
-        getCastleRestAdapter().buildCastle(new CastleCdo(nationId,
-                new NameValueList("castellan", new Castellan(new Email("tsong@nextree.co.kr") , new JoinedMetro(nationId, metroId, "5YC1U@P0P")).toJson()))
-        );
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1R@P0P", "kchuh@nextree.co.kr"));
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1S@P0P", "hkkang@nextree.co.kr"));
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1T@P0P", "iylee@nextree.co.kr"));
+        getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1U@P0P", "tsong@nextree.co.kr"));
 
         Assert.assertEquals(4, getCastleRestAdapter().findCastlesOf(nationId).size());
 

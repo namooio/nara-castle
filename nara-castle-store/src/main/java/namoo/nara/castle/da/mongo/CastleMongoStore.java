@@ -48,6 +48,14 @@ public class CastleMongoStore implements CastleStore {
     }
 
     @Override
+    public Castle retrieveByJoinedMetro(String nationId, String metroId, String civilianId) {
+
+        CastleDoc castleDoc = castleMongoRepository.findByCastellanJoinedMetrosNationIdAndCastellanJoinedMetrosMetroIdAndCastellanJoinedMetrosCivilianId(nationId, metroId, civilianId);
+        if (castleDoc == null) return null;
+        return castleDoc.toDomain();
+    }
+
+    @Override
     public List<Castle> retrieveByNationId(String nationId) {
 
         return CastleDoc.toDomains(castleMongoRepository.findByNationId(nationId));
