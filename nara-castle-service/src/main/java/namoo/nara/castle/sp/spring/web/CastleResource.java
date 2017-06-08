@@ -19,7 +19,7 @@ public class CastleResource implements CastleService {
     private CastleService castleService;
 
     @Override
-    @RequestMapping(value="castles", method = RequestMethod.POST)
+    @PostMapping(value="castles")
     public String buildCastle(
             @RequestBody CastleCdo castleCdo
     ) {
@@ -27,7 +27,7 @@ public class CastleResource implements CastleService {
     }
 
     @Override
-    @RequestMapping(value="castles/{id}", method = RequestMethod.GET)
+    @GetMapping(value="castles/{id}")
     public Castle findCastle(
             @PathVariable("id") String castleId
     ) {
@@ -35,7 +35,7 @@ public class CastleResource implements CastleService {
     }
 
     @Override
-    @RequestMapping(value="castles/emails/{email:.+}", method = RequestMethod.GET)
+    @GetMapping(value="castles/emails/{email:.+}")
     public Castle findCastleByEmail(
             @PathVariable("email") String email
     ) {
@@ -43,7 +43,17 @@ public class CastleResource implements CastleService {
     }
 
     @Override
-    @RequestMapping(value="nations/{nationId}/castles", method = RequestMethod.GET)
+    @GetMapping(value="nations/{nationId}/metros/{metroId}/civilians/{civilianId}")
+    public Castle findCastleByJoinedMetro(
+            @PathVariable("nationId") String nationId,
+            @PathVariable("metroId") String metroId,
+            @PathVariable("civilianId") String civilianId
+    ) {
+        return this.castleService.findCastleByJoinedMetro(nationId, metroId, civilianId);
+    }
+
+    @Override
+    @GetMapping(value="nations/{nationId}/castles")
     public List<Castle> findCastlesOf(
             @PathVariable("nationId") String nationId
     ) {
@@ -51,7 +61,7 @@ public class CastleResource implements CastleService {
     }
 
     @Override
-    @RequestMapping(value="castles/{id}", method = RequestMethod.PUT)
+    @PutMapping(value="castles/{id}")
     public void modifyCastle(
             @PathVariable("id") String castleId,
             @RequestBody NameValueList nameValues
@@ -60,7 +70,7 @@ public class CastleResource implements CastleService {
     }
 
     @Override
-    @RequestMapping(value="castles/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value="castles/{id}")
     public void removeCastle(
             @PathVariable("id") String castleId
     ) {

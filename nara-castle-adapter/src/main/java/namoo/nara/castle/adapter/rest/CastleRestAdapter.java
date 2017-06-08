@@ -46,6 +46,17 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
+    public Castle findCastleByJoinedMetro(String nationId, String metroId, String civilianId) {
+        return naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_JOINED_METRO)
+                        .addPathParam("nationId", nationId)
+                        .addPathParam("metroId", metroId)
+                        .addPathParam("civilianId", civilianId)
+                        .setResponseType(Castle.class)
+        );
+    }
+
+    @Override
     public List<Castle> findCastlesOf(String nationId) {
         return Arrays.asList(naraRestClient.sendAndRecieve(
                 RequestBuilder.create(CastleRestUrl.URL_CASTLES_FIND_BY_NATION)

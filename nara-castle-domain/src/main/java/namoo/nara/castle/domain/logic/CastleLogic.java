@@ -7,7 +7,9 @@ import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.event.CastleEvent;
 import namoo.nara.share.domain.NameValueList;
+import namoo.nara.share.event.LycleType;
 import namoo.nara.share.event.NaraEventProxy;
 import namoo.nara.share.exception.NaraException;
 
@@ -40,6 +42,8 @@ public class CastleLogic implements CastleService {
             throw new NaraException("Castellan must have email.");
         }
         castleStore.create(castle);
+
+        eventProxy.create(new CastleEvent(LycleType.Created, castleId));
         return castle.getId();
     }
 
@@ -53,6 +57,12 @@ public class CastleLogic implements CastleService {
     public Castle findCastleByEmail(String email) {
         //
         return castleStore.retrieveByEmail(email);
+    }
+
+    @Override
+    public Castle findCastleByJoinedMetro(String nationId, String metroId, String civilianId) {
+        //
+        return castleStore.retrieveByJoinedMetro(nationId, metroId, civilianId);
     }
 
     @Override
