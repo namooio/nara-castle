@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class CastleApplication {
-
+	//
 	public static void main(String[] args) {
 		SpringApplication.run(CastleApplication.class, args);
 	}
@@ -20,6 +20,7 @@ public class CastleApplication {
 
 	@Bean
 	public NaraEventProxy eventProxy() {
+		//
 		return new RabbitEventProxy(rabbitTemplate);
 	}
 

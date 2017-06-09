@@ -5,7 +5,6 @@ import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
 import namoo.nara.share.domain.NameValueList;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +12,8 @@ import java.util.List;
 @RestController
 @RequestMapping("castle-api")
 public class CastleResource implements CastleService {
-
+    //
     @Autowired
-    @Qualifier("castleLogic")
     private CastleService castleService;
 
     @Override
@@ -23,6 +21,7 @@ public class CastleResource implements CastleService {
     public String buildCastle(
             @RequestBody CastleCdo castleCdo
     ) {
+        //
         return this.castleService.buildCastle(castleCdo);
     }
 
@@ -31,6 +30,7 @@ public class CastleResource implements CastleService {
     public Castle findCastle(
             @PathVariable("id") String castleId
     ) {
+        //
         return this.castleService.findCastle(castleId);
     }
 
@@ -39,24 +39,27 @@ public class CastleResource implements CastleService {
     public Castle findCastleByEmail(
             @PathVariable("email") String email
     ) {
+        //
         return this.castleService.findCastleByEmail(email);
     }
 
     @Override
-    @GetMapping(value="nations/{nationId}/metros/{metroId}/civilians/{civilianId}")
+    @GetMapping(value="castle")
     public Castle findCastleByJoinedMetro(
-            @PathVariable("nationId") String nationId,
-            @PathVariable("metroId") String metroId,
-            @PathVariable("civilianId") String civilianId
+            @RequestParam("nationId") String nationId,
+            @RequestParam("metroId") String metroId,
+            @RequestParam("civilianId") String civilianId
     ) {
+        //
         return this.castleService.findCastleByJoinedMetro(nationId, metroId, civilianId);
     }
 
     @Override
-    @GetMapping(value="nations/{nationId}/castles")
+    @GetMapping(value="castles")
     public List<Castle> findCastlesOf(
-            @PathVariable("nationId") String nationId
+            @RequestParam("nationId") String nationId
     ) {
+        //
         return this.castleService.findCastlesOf(nationId);
     }
 
@@ -66,6 +69,7 @@ public class CastleResource implements CastleService {
             @PathVariable("id") String castleId,
             @RequestBody NameValueList nameValues
     ) {
+        //
         this.castleService.modifyCastle(castleId, nameValues);
     }
 
@@ -74,6 +78,7 @@ public class CastleResource implements CastleService {
     public void removeCastle(
             @PathVariable("id") String castleId
     ) {
+        //
         this.castleService.removeCastle(castleId);
     }
 }

@@ -13,6 +13,7 @@ public class CastleStoreSpringLycler implements CastleStoreLycler {
 
     @Override
     public CastleStore requestCastleStore() {
+        //
         return castleStore;
     }
 

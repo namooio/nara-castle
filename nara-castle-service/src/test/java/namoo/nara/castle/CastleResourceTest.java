@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CastleResourceTest extends AbstractCastleApplicationTests {
-
+    //
     Logger logger = LoggerFactory.getLogger(getClass());
 
     private String nationId = "P";
@@ -18,7 +18,7 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
 
     @Test
     public void test() {
-
+        //
         getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1R@P0P", "kchuh@nextree.co.kr"));
         getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1S@P0P", "hkkang@nextree.co.kr"));
         getCastleRestAdapter().buildCastle(new CastleCdo(nationId, metroId, "5YC1T@P0P", "iylee@nextree.co.kr"));
