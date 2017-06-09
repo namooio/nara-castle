@@ -37,7 +37,6 @@
         <module>nara-castle-service</module>
         <module>nara-castle-store</module>
         <module>nara-castle-adapter</module>
-        <module>nara-castle-proxy</module>
         <module>nara-castle-event</module>
         <module>nara-castle-boot</module>
     </modules>

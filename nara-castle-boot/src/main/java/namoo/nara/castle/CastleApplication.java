@@ -1,7 +1,9 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.sa.rbmp.RabbitEventProxy;
 import namoo.nara.share.event.NaraEventProxy;
+import namoo.nara.share.event.rbmq.RabbitEventProxy;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,9 +15,12 @@ public class CastleApplication {
 		SpringApplication.run(CastleApplication.class, args);
 	}
 
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
+
 	@Bean
 	public NaraEventProxy eventProxy() {
-		return new RabbitEventProxy();
+		return new RabbitEventProxy(rabbitTemplate);
 	}
 
 }
