@@ -8,9 +8,6 @@ import namoo.nara.share.domain.granule.Email;
 
 public class Castle extends Entity implements Aggregate {
     //
-    /**
-     * Nation where castle is built
-     */
     private String nationId;
     private Castellan castellan;
     private Long builtTime;

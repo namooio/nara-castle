@@ -11,9 +11,6 @@ import java.util.List;
 
 public class Castellan implements ValueObject {
     //
-    /**
-     * Emails are globally unique.
-     */
     private EmailList emails;
     private List<JoinedMetro> joinedMetros;
 

@@ -1,4 +1,4 @@
-package namoo.nara.castle.event;
+package namoo.nara.castle.domain.event;
 
 import namoo.nara.share.event.LycleEvent;
 import namoo.nara.share.event.LycleType;

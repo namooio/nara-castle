@@ -1,9 +1,10 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.ValueObject;
+import namoo.nara.share.util.json.JsonUtil;
 
 public class JoinedMetro implements ValueObject {
-
+    //
     private String nationId;
     private String metroId;
     private String civilianId;
@@ -11,10 +12,11 @@ public class JoinedMetro implements ValueObject {
     private Long joinedTime;
 
     public JoinedMetro() {
-
+        //
     }
 
     public JoinedMetro(String nationId, String metroId, String civilianId) {
+        //
         this.nationId = nationId;
         this.metroId = metroId;
         this.civilianId = civilianId;
@@ -30,6 +32,27 @@ public class JoinedMetro implements ValueObject {
         sb.append(", joinedTime:").append(joinedTime);
         sb.append('}');
         return sb.toString();
+    }
+
+    public static JoinedMetro getSample() {
+        //
+        String nationId = "P";
+        String metroId = "POP";
+        String civilianId = "12@POP";
+
+        JoinedMetro sample = new JoinedMetro(nationId, metroId, civilianId);
+
+        return sample;
+    }
+
+    public String toJson() {
+        //
+        return JsonUtil.toJson(this);
+    }
+
+    public JoinedMetro fromJson(String json) {
+        //
+        return JsonUtil.fromJson(json, JoinedMetro.class);
     }
 
     public String getNationId() {
@@ -64,4 +87,8 @@ public class JoinedMetro implements ValueObject {
         this.joinedTime = joinedTime;
     }
 
+    public static void main(String[] args) {
+        //
+        System.out.println(getSample());
+    }
 }

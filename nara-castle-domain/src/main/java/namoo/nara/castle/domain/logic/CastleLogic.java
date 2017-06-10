@@ -2,12 +2,13 @@ package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.CastleBook;
+import namoo.nara.castle.domain.event.CastleEvent;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.CastleCdo;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.castle.event.CastleEvent;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.event.LycleType;
 import namoo.nara.share.event.NaraEventProxy;
@@ -33,7 +34,7 @@ public class CastleLogic implements CastleService {
         String civilianId = castleCdo.getCivilianId();
         String email = castleCdo.getEmail();
 
-        long sequence = castleStore.retrieveNextSequence(nationId);
+        long sequence = nextCastleSequence();
 
         String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, sequence);
         Castle castle = new Castle(castleId, nationId, metroId, civilianId, email);
@@ -87,5 +88,21 @@ public class CastleLogic implements CastleService {
     public void removeCastle(String castleId) {
         //
         castleStore.delete(castleId);
+    }
+
+    private long nextCastleSequence() {
+        //
+        long nextSequence = 0L;
+
+        CastleBook castleBook = castleStore.retrieveBook(CastleBook.class.getSimpleName());
+        if(castleBook == null) {
+            castleBook = new CastleBook();
+            castleStore.createBook(new CastleBook());
+        }
+
+        nextSequence = castleBook.nextSequence();
+        castleStore.updateBook(castleBook);
+
+        return nextSequence;
     }
 }

@@ -4,7 +4,7 @@ import namoo.nara.share.domain.util.numeral36.Numeral36;
 import namoo.nara.share.domain.util.numeral36.Numeral36Util;
 
 public class CastleIdBuilder {
-
+    //
     private Numeral36 numeral36;
 
     public CastleIdBuilder() {
@@ -12,7 +12,7 @@ public class CastleIdBuilder {
     }
 
     public String makeCastleId(String nationId, long castleSequence) {
-
-        return String.format("%s@%s", Numeral36Util.getStr36(castleSequence), nationId);
+        //
+        return String.format("%s", Numeral36Util.getStr36(castleSequence), nationId);
     }
 }
