@@ -4,13 +4,20 @@ import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.granule.Email;
+import namoo.nara.share.util.json.JsonUtil;
+
+import java.util.List;
 
 public class Castle extends Entity implements Aggregate {
     //
-    private String nationId;
-    private Castellan castellan;
+    private String startNationId;
+    private String name;
+    private String primaryEmail;
     private Long builtTime;
+
+    transient private Castellan castellan;
+    transient List<MetroEnrollment> enrollments;
+    transient IdentityPlate identityPlate;
 
     public Castle() {
         //
@@ -21,50 +28,54 @@ public class Castle extends Entity implements Aggregate {
         super(id);
     }
 
-    public Castle(String castleId, String nationId, String metroId, String civilianId, String email) {
+    public Castle(String castleId, MetroEnrollment metroEnrollment) {
         //
         super(castleId);
-        this.nationId = nationId;
-        this.castellan = new Castellan(new Email(email), new JoinedMetro(nationId, metroId, civilianId));
+        this.startNationId = metroEnrollment.getNationId();
+        this.name = metroEnrollment.getName().getDisplayName();
+        this.primaryEmail = metroEnrollment.getEmail();
+        this.castellan = new Castellan(metroEnrollment);
         this.builtTime = System.currentTimeMillis();
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("id:'").append(getId()).append('\'');
-        sb.append(", castellan:").append(castellan);
-        sb.append(", nationId:'").append(nationId).append('\'');
-        sb.append(", builtTime:").append(builtTime);
+        final StringBuilder sb = new StringBuilder("Castle{");
+        sb.append("startNationId='").append(startNationId).append('\'');
+        sb.append(", castellan=").append(castellan);
+        sb.append(", builtTime=").append(builtTime);
+        sb.append(", identityPlate=").append(identityPlate);
         sb.append('}');
         return sb.toString();
     }
 
     public static Castle getSample() {
         //
-        String nationId = "P";
-        String metroId = "P0P";
-        String civilianId = "5YC1R@P0P";
+        MetroEnrollment metroEnrollment = MetroEnrollment.getSample();
+        long sequence = CastleBook.getSample().nextSequence();
+        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(sequence);
 
-        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, 0);
-        Castle castle = new Castle(castleId, nationId, metroId, civilianId, "kchuh@nextree.co.kr");
+        Castle castle = new Castle(castleId, metroEnrollment);
 
         return castle;
+    }
+
+    public String toJson() {
+        //
+        return JsonUtil.toJson(this);
+    }
+
+    public static Castle fromJson(String json) {
+        //
+        return JsonUtil.fromJson(json, Castle.class);
     }
 
     public void setValues(NameValueList nameValues) {
         //
         nameValues.getList().forEach(nameValue -> {
-            if ("castellan".equals(nameValue.getName())) this.setCastellan(Castellan.fromJson(nameValue.getValue()));
+            if ("name".equals(nameValue.getName())) this.setName(nameValue.getValue());
+            else if ("primaryEmail".equals(nameValue.getName())) this.setPrimaryEmail(nameValue.getValue());
         });
-    }
-
-    public String getNationId() {
-        return nationId;
-    }
-
-    public void setNationId(String nationId) {
-        this.nationId = nationId;
     }
 
     public Castellan getCastellan() {
@@ -83,7 +94,48 @@ public class Castle extends Entity implements Aggregate {
         this.builtTime = builtTime;
     }
 
+    public String getStartNationId() {
+        return startNationId;
+    }
+
+    public void setStartNationId(String startNationId) {
+        this.startNationId = startNationId;
+    }
+
+    public IdentityPlate getIdentityPlate() {
+        return identityPlate;
+    }
+
+    public void setIdentityPlate(IdentityPlate identityPlate) {
+        this.identityPlate = identityPlate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPrimaryEmail() {
+        return primaryEmail;
+    }
+
+    public void setPrimaryEmail(String primaryEmail) {
+        this.primaryEmail = primaryEmail;
+    }
+
+    public List<MetroEnrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<MetroEnrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
     public static void main(String[] args) {
+        //
         System.out.println(Castle.getSample());
     }
 

@@ -1,10 +1,9 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.util.json.JsonUtil;
 
-public class CastleBook extends Entity implements Aggregate {
+public class CastleBook extends Entity {
     //
     private long sequence;
 

@@ -7,4 +7,5 @@ public class CastleContext {
     public static CastleIdBuilder getCastleIdBuilder() {
         return castleIdBuilder;
     }
+
 }

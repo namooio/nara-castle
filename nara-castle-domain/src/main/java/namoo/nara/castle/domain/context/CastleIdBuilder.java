@@ -11,8 +11,8 @@ public class CastleIdBuilder {
         this.numeral36 = Numeral36.getInstance();
     }
 
-    public String makeCastleId(String nationId, long castleSequence) {
+    public String makeCastleId(long castleSequence) {
         //
-        return String.format("%s", Numeral36Util.getStr36(castleSequence), nationId);
+        return String.format("%s", Numeral36Util.getStr36(castleSequence));
     }
 }

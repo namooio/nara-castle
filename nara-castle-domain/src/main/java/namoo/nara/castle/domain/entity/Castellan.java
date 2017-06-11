@@ -1,92 +1,56 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.share.domain.ValueObject;
-import namoo.nara.share.domain.granule.Email;
-import namoo.nara.share.domain.granule.EmailList;
-import namoo.nara.share.exception.NaraException;
+import namoo.nara.share.domain.Entity;
+import namoo.nara.share.domain.NameValue;
+import namoo.nara.share.domain.NameValueList;
+import namoo.nara.share.domain.granule.*;
 import namoo.nara.share.util.json.JsonUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Castellan implements ValueObject {
+public class Castellan extends Entity {
     //
+    private NameList names;
+    private PhoneList phones;
     private EmailList emails;
-    private List<JoinedMetro> joinedMetros;
+    private AddressList addresses;
+    private NameValueList attrNameValues;           // additional attributes
 
     public Castellan() {
         //
-        emails = new EmailList();
-        joinedMetros = new ArrayList<>();
     }
 
-    public Castellan(Email email) {
+    public Castellan(String id) {
         //
-        this();
-        emails.add(email);
+        super(id);
     }
 
-    public Castellan(JoinedMetro joinedMetro) {
+    public Castellan(MetroEnrollment metroEnrollment) {
         //
-        this();
-        joinedMetros.add(joinedMetro);
-    }
-
-    public Castellan(Email email, JoinedMetro joinedMetro) {
-        //
-        this();
-        emails.add(email);
-        joinedMetros.add(joinedMetro);
+        super(metroEnrollment.getCastleId());       // castleId == castellanId
+        this.names = new NameList(metroEnrollment.getName());
+        this.emails = new EmailList(new Email(metroEnrollment.getEmail()));
+        this.addresses = new AddressList();
+        this.attrNameValues = new NameValueList();
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("emails:").append(emails);
-        sb.append(", joinedMetros:").append(joinedMetros);
+        final StringBuilder sb = new StringBuilder("Castellan{");
+        sb.append("names=").append(names);
+        sb.append(", phones=").append(phones);
+        sb.append(", emails=").append(emails);
+        sb.append(", addresses=").append(addresses);
+        sb.append(", attrNameValues=").append(attrNameValues);
         sb.append('}');
         return sb.toString();
     }
 
-    public void addJoinedMetro(String nationId, String metroId, String civilianId) {
+    public static Castellan getSample() {
         //
-        JoinedMetro joinedMetro = new JoinedMetro(nationId, metroId, civilianId);
-        addJoinedMetro(joinedMetro);
-    }
+        MetroEnrollment enrollment = MetroEnrollment.getSample();
 
-    public void addJoinedMetro(JoinedMetro joinedMetro) {
-        //
-        if (isJoinedMetro(joinedMetro.getNationId(), joinedMetro.getMetroId())) throw new NaraException(String.format("Already joined metro[%s].", joinedMetro.getMetroId()));
-        joinedMetro.setJoinedTime(System.currentTimeMillis());
-        this.joinedMetros.add(joinedMetro);
-    }
+        Castellan sample = new Castellan(enrollment);
 
-    public void removeJoinedMetro(String nationId, String metroId) {
-        //
-        JoinedMetro joinedMetro = findJoinedMetro(nationId, metroId);
-        this.joinedMetros.remove(joinedMetro);
-    }
-
-    public JoinedMetro findJoinedMetro(String nationId, String metroId) {
-        //
-        return this.joinedMetros
-                .stream()
-                .filter(joinedMetro -> nationId.equals(joinedMetro.getNationId()) && metroId.equals(joinedMetro.getMetroId()))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public boolean isJoinedMetro(String nationId, String metroId) {
-        //
-        return findJoinedMetro(nationId, metroId) != null;
-    }
-
-    public boolean hasEmails() {
-        return emails.size() > 0;
-    }
-
-    public int getJoinedMetroCount() {
-        return this.joinedMetros.size();
+        return sample;
     }
 
     public String toJson() {
@@ -97,6 +61,36 @@ public class Castellan implements ValueObject {
         return JsonUtil.fromJson(json, Castellan.class);
     }
 
+    public void setValues(NameValueList nameValues) {
+        //
+        for(NameValue nameValue : nameValues.getList()) {
+            String name = nameValue.getName();
+            String value = nameValue.getValue();
+            switch (name) {
+                case "names":   this.names = NameList.fromJson(value); break;
+                case "phones":   this.phones = PhoneList.fromJson(value); break;
+                case "emails":   this.emails = EmailList.fromJson(value); break;
+                case "attrNameValues":   this.attrNameValues = NameValueList.fromJson(value); break;
+            }
+        }
+    }
+
+    public NameList getNames() {
+        return names;
+    }
+
+    public void setNames(NameList names) {
+        this.names = names;
+    }
+
+    public PhoneList getPhones() {
+        return phones;
+    }
+
+    public void setPhones(PhoneList phones) {
+        this.phones = phones;
+    }
+
     public EmailList getEmails() {
         return emails;
     }
@@ -105,12 +99,24 @@ public class Castellan implements ValueObject {
         this.emails = emails;
     }
 
-    public List<JoinedMetro> getJoinedMetros() {
-        return joinedMetros;
+    public AddressList getAddresses() {
+        return addresses;
     }
 
-    public void setJoinedMetros(List<JoinedMetro> joinedMetros) {
-        this.joinedMetros = joinedMetros;
+    public void setAddresses(AddressList addresses) {
+        this.addresses = addresses;
     }
 
+    public NameValueList getAttrNameValues() {
+        return attrNameValues;
+    }
+
+    public void setAttrNameValues(NameValueList attrNameValues) {
+        this.attrNameValues = attrNameValues;
+    }
+
+    public static void main(String[] args) {
+        //
+        System.out.println(getSample());
+    }
 }

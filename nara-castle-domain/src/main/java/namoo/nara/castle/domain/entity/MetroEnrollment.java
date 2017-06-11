@@ -1,0 +1,152 @@
+package namoo.nara.castle.domain.entity;
+
+import namoo.nara.share.domain.Entity;
+import namoo.nara.share.domain.granule.Name;
+import namoo.nara.share.util.json.JsonUtil;
+
+public class MetroEnrollment extends Entity {
+    //
+    private String metroId;
+    private String civilianId;
+    private Name name;
+    private String email;
+    private boolean withdrawn;          // 탈퇴한
+    private Long enrollingTime;
+    private Long withdrawnTime;
+
+    private String castleId;
+
+    public MetroEnrollment() {
+        //
+    }
+
+    public MetroEnrollment(String metroId, String civilianId, Name name, String email) {
+        //
+        super();
+        this.metroId = metroId;
+        this.civilianId = civilianId;
+        this.name = name;
+        this.email = email;
+        this.withdrawn = false;
+        this.enrollingTime = System.currentTimeMillis();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("MetroEnrollment{");
+        sb.append("metroId='").append(metroId).append('\'');
+        sb.append(", civilianId='").append(civilianId).append('\'');
+        sb.append(", name=").append(name);
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", withdrawn=").append(withdrawn);
+        sb.append(", enrollingTime=").append(enrollingTime);
+        sb.append(", withdrawnTime=").append(withdrawnTime);
+        sb.append(", castleId='").append(castleId).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public static MetroEnrollment getSample() {
+        //
+        String metroId = "POP";
+        String civilianId = "12@POP";
+        Name name = Name.getSample();
+        String email = "hong@gmail.com";
+
+        MetroEnrollment sample = new MetroEnrollment(metroId, civilianId, name, email);
+        sample.setCastleId(Castle.getSample().getId());
+
+        return sample;
+    }
+
+    public String toJson() {
+        //
+        return JsonUtil.toJson(this);
+    }
+
+    public MetroEnrollment fromJson(String json) {
+        //
+        return JsonUtil.fromJson(json, MetroEnrollment.class);
+    }
+
+    public void withdraw() {
+        //
+        this.withdrawn = true;
+        this.withdrawnTime = System.currentTimeMillis();
+    }
+
+    public String getNationId() {
+        //
+        return metroId.substring(0,1);
+    }
+
+    public String getMetroId() {
+        return metroId;
+    }
+
+    public void setMetroId(String metroId) {
+        this.metroId = metroId;
+    }
+
+    public String getCivilianId() {
+        return civilianId;
+    }
+
+    public void setCivilianId(String civilianId) {
+        this.civilianId = civilianId;
+    }
+
+    public boolean isWithdrawn() {
+        return withdrawn;
+    }
+
+    public void setWithdrawn(boolean withdrawn) {
+        this.withdrawn = withdrawn;
+    }
+
+    public Long getEnrollingTime() {
+        return enrollingTime;
+    }
+
+    public void setEnrollingTime(Long enrollingTime) {
+        this.enrollingTime = enrollingTime;
+    }
+
+    public Long getWithdrawnTime() {
+        return withdrawnTime;
+    }
+
+    public void setWithdrawnTime(Long withdrawnTime) {
+        this.withdrawnTime = withdrawnTime;
+    }
+
+    public String getCastleId() {
+        return castleId;
+    }
+
+    public void setCastleId(String castleId) {
+        this.castleId = castleId;
+    }
+
+    public Name getName() {
+        return name;
+    }
+
+    public void setName(Name name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public static void main(String[] args) {
+        //
+        System.out.println(getSample());
+        System.out.println(getSample().getNationId());
+    }
+}

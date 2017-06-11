@@ -36,7 +36,7 @@ public class CastleLogic implements CastleService {
 
         long sequence = nextCastleSequence();
 
-        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, sequence);
+        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(sequence);
         Castle castle = new Castle(castleId, nationId, metroId, civilianId, email);
 
         if (!castle.getCastellan().hasEmails()) {
