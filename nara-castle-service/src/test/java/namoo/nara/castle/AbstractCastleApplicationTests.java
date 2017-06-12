@@ -1,7 +1,7 @@
 package namoo.nara.castle;
 
 import namoo.nara.castle.adapter.rest.CastleRestAdapter;
-import namoo.nara.castle.domain.spec.CastleService;
+import namoo.nara.castle.domain.spec.drama.CastleProvider;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public abstract class AbstractCastleApplicationTests {
 	@Autowired
 	private CastleRestAdapter castleRestAdapter;
 
-	public CastleService getCastleRestAdapter() {
+	public CastleProvider getCastleRestAdapter() {
 		return castleRestAdapter;
 	}
 

@@ -1,12 +1,12 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.Phone;
 import namoo.nara.share.util.json.JsonUtil;
 
-public class IdentityPlate extends Entity {
+public class IdentityPlate {
     //
+    private String castleId;
     private String primaryEmail;
     private String secondaryEmail;
     private String mobilePhone;         // mobile -> carrier+frontNumber+backNumber only, 01091152020
@@ -18,14 +18,9 @@ public class IdentityPlate extends Entity {
     private String familyNameInEng;     // Song
     private String displayNameInEng;    // Taegook Song
 
-    public IdentityPlate(String id) {
-        //
-        super(id);
-    }
-
     public IdentityPlate(Castellan castellan) {
         //
-        super(castellan.getId());               // castleId == castellanId
+        this.castleId = castellan.getId();
         this.setPrimaryEmail(castellan);
         this.setSecondaryEmail(castellan);
         this.setMobilePhone(castellan);
@@ -37,7 +32,8 @@ public class IdentityPlate extends Entity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("IdentityPlate{");
-        sb.append("primaryEmail='").append(primaryEmail).append('\'');
+        sb.append("castleId='").append(castleId).append('\'');
+        sb.append(", primaryEmail='").append(primaryEmail).append('\'');
         sb.append(", secondaryEmail='").append(secondaryEmail).append('\'');
         sb.append(", mobilePhone='").append(mobilePhone).append('\'');
         sb.append(", officePhone='").append(officePhone).append('\'');
@@ -207,6 +203,14 @@ public class IdentityPlate extends Entity {
 
     public void setDisplayNameInEng(String displayNameInEng) {
         this.displayNameInEng = displayNameInEng;
+    }
+
+    public String getCastleId() {
+        return castleId;
+    }
+
+    public void setCastleId(String castleId) {
+        this.castleId = castleId;
     }
 
     public static void main(String[] args) {

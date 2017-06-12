@@ -16,9 +16,9 @@ public interface CastleStore {
     void delete(Castle castle);
     void delete(String id);
 
-    void createBook(CastleBook castleBook);
-    CastleBook retrieveBook(String id);
-    void updateBook(CastleBook castleBook);
+    void createCastleBook(CastleBook castleBook);
+    CastleBook retrieveCastleBook();
+    void updateCastleBook(CastleBook castleBook);
 
     @Deprecated
     long retrieveNextSequence(String nationId);

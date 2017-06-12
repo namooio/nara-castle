@@ -1,6 +1,7 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.share.domain.Entity;
+import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.util.json.JsonUtil;
 
@@ -18,6 +19,11 @@ public class MetroEnrollment extends Entity {
 
     public MetroEnrollment() {
         //
+    }
+
+    public MetroEnrollment(String id) {
+        //
+        super(id);
     }
 
     public MetroEnrollment(String metroId, String civilianId, Name name, String email) {
@@ -73,6 +79,11 @@ public class MetroEnrollment extends Entity {
         //
         this.withdrawn = true;
         this.withdrawnTime = System.currentTimeMillis();
+    }
+
+    public void setValues(NameValueList nameValues) {
+        //
+        // Don't update any attributes except for "withdraw()"
     }
 
     public String getNationId() {

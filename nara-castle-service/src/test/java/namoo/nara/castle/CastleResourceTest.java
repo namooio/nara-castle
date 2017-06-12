@@ -2,7 +2,6 @@ package namoo.nara.castle;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.spec.sdo.CastleCdo;
 import namoo.nara.share.domain.NameValueList;
 import org.junit.Assert;
 import org.junit.Test;

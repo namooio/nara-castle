@@ -16,8 +16,8 @@ public class Castle extends Entity implements Aggregate {
     private Long builtTime;
 
     transient private Castellan castellan;
-    transient List<MetroEnrollment> enrollments;
-    transient IdentityPlate identityPlate;
+    transient private List<MetroEnrollment> enrollments;
+    transient private IdentityPlate identityPlate;
 
     public Castle() {
         //

@@ -75,6 +75,25 @@ public class Castellan extends Entity {
         }
     }
 
+    public UnitPlateList requestUnitPlates() {
+        //
+        UnitPlateList unitPlates = new UnitPlateList();
+
+        for(Name name: names.getNames()) {
+            unitPlates.add(new UnitPlate(getId(), name));
+        }
+
+        for(Phone phone: phones.getPhones()) {
+            unitPlates.add(new UnitPlate(getId(), phone));
+        }
+
+        for(Email email : emails.getEmails()) {
+            unitPlates.add(new UnitPlate(getId(), email));
+        }
+
+        return unitPlates;
+    }
+
     public NameList getNames() {
         return names;
     }
