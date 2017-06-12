@@ -1,9 +1,9 @@
-package namoo.nara.castle.domain.logic.drama;
+package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
-import namoo.nara.castle.domain.spec.drama.CastleProvider;
+import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.castle.domain.store.*;
 import namoo.nara.share.domain.NameValueList;
@@ -12,7 +12,7 @@ import namoo.nara.share.event.NaraEventProxy;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class CastleProviderLogic implements CastleProvider {
+public class CastleServiceLogic implements CastleService {
     //
     private CastleStore castleStore;
     private CastellanStore castellanStore;
@@ -21,7 +21,7 @@ public class CastleProviderLogic implements CastleProvider {
 
     private NaraEventProxy eventProxy;
 
-    public CastleProviderLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
+    public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.castellanStore = storeLycler.requestCastellanStore();
@@ -184,6 +184,16 @@ public class CastleProviderLogic implements CastleProvider {
 
         unitPlateStore.delete(asisPlates);
         unitPlateStore.create(modifiedPlates.getUnitPlates());
+    }
+
+    @Override
+    public IdentityPlate findIdentityPlate(String castleId) {
+        //
+        Castellan castellan = findCastellan(castleId);
+
+        IdentityPlate identityPlate = new IdentityPlate(castellan);
+
+        return identityPlate;
     }
 
     private long nextCastleSequence() {

@@ -1,7 +1,7 @@
 package namoo.nara.castle.adapter.rest;
 
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.spec.drama.CastleProvider;
+import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
@@ -9,7 +9,7 @@ import namoo.nara.share.restclient.RequestBuilder;
 import java.util.Arrays;
 import java.util.List;
 
-public class CastleRestAdapter implements CastleProvider {
+public class CastleRestAdapter implements CastleService {
     //
     private NaraRestClient naraRestClient;
 

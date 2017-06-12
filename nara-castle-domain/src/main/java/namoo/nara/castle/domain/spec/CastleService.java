@@ -1,11 +1,12 @@
-package namoo.nara.castle.domain.spec.drama;
+package namoo.nara.castle.domain.spec;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.share.domain.NameValueList;
 
-public interface CastleProvider {
+public interface CastleService {
     //
     String addMetroEnrollment(MetroEnrollmentCdo metroEnrollmentCdo);
     String addMetroEnrollment(String castleId, MetroEnrollmentCdo metroEnrollmentCdo);
@@ -20,4 +21,5 @@ public interface CastleProvider {
 
     Castellan findCastellan(String castleId);
     void modifyCastellan(String castleId, NameValueList nameValues);
+    IdentityPlate findIdentityPlate(String castleId);
 }

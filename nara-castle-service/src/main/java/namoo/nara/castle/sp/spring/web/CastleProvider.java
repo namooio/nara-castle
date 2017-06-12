@@ -1,7 +1,6 @@
 package namoo.nara.castle.sp.spring.web;
 
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.spec.drama.CastleProvider;
 import namoo.nara.share.domain.NameValueList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
