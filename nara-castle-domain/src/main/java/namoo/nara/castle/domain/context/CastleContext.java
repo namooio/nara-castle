@@ -25,7 +25,7 @@ public class CastleContext {
         return localEventService;
     }
 
-    public static void initializeContext(CastleServiceLycler serviceLycler) {
+    public static void initialize(CastleServiceLycler serviceLycler) {
         //
         // Create event queue
         LocalEventQueue eventQueue = new LocalEventQueue();
