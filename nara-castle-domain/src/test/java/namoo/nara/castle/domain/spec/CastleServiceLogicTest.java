@@ -37,7 +37,7 @@ public class CastleServiceLogicTest {
     }
 
     @Test
-    public void test() throws InterruptedException {
+    public void addMetroEnrollmentTest() throws InterruptedException {
         //
         MetroEnrollmentCdo metroEnrollmentCdo = MetroEnrollmentCdo.getSample();
         String castleId = castleService.addMetroEnrollment(metroEnrollmentCdo);
