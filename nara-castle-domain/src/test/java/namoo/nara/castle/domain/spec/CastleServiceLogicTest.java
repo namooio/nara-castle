@@ -42,7 +42,7 @@ public class CastleServiceLogicTest {
         MetroEnrollmentCdo metroEnrollmentCdo = MetroEnrollmentCdo.getSample();
         String castleId = castleService.addMetroEnrollment(metroEnrollmentCdo);
 
-        // Wait until castellan is created.
+        // Wait event processing until castellan is created.
         while(!castleService.existsCastellan(castleId)) {
             Thread.sleep(100);
         }
