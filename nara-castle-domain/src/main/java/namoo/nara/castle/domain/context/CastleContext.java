@@ -38,7 +38,7 @@ public class CastleContext {
 
         CastleEventProcessLogic eventProcessLogic = serviceLycler.castleEventProcessLogic();
 
-        // Create event handlers and add to router
+        // Create local event handlers and add to router
         eventRouter.addHandler(new CastleBuiltEventHandlerForCastellan(eventProcessLogic));
         eventRouter.addHandler(new CastleBuiltEventHandlerForEnrollment(eventProcessLogic));
         eventRouter.addHandler(new CastellanCreatedEventHandler(eventProcessLogic));
