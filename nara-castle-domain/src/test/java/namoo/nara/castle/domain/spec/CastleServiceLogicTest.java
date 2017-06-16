@@ -29,7 +29,9 @@ public class CastleServiceLogicTest {
         CastleServiceLycler castleServiceLycler = new CastleTestServiceLycler(storeLycler, proxyLycler);
         this.castleService = castleServiceLycler.castleService();
 
-        CastleContext.initialize(castleServiceLycler);
+        // Context initialize
+        CastleContext.setServiceLycler(castleServiceLycler);
+        CastleContext.initialize();
 
         castleService = new CastleServiceLogic(storeLycler, proxyLycler);
     }
