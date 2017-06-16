@@ -2,12 +2,13 @@ package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.*;
+import namoo.nara.castle.domain.event.local.CastleBuiltEvent;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.castle.domain.store.*;
 import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.event.NaraEventProxy;
+import namoo.nara.share.event.local.LocalEventService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,7 +20,7 @@ public class CastleServiceLogic implements CastleService {
     private EnrollmentStore enrollmentStore;
     private UnitPlateStore unitPlateStore;
 
-    private NaraEventProxy eventProxy;
+    private LocalEventService localEventService;
 
     public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
@@ -28,7 +29,7 @@ public class CastleServiceLogic implements CastleService {
         this.enrollmentStore = storeLycler.requestEnrollmentStore();
         this.unitPlateStore = storeLycler.requestUnitPlateStore();
 
-        this.eventProxy = proxyLycler.eventProxy();
+        this.localEventService = proxyLycler.requestLocalEventService();
     }
 
     @Override
@@ -48,13 +49,13 @@ public class CastleServiceLogic implements CastleService {
                     metroEnrollmentCdo.getCivilianId(),
                     metroEnrollmentCdo.getName(),
                     metroEnrollmentCdo.getEmail());
+
+            enrollment.setCastleId(castleId);
+
             castle = new Castle(castleId, enrollment);
             castleStore.create(castle);
 
-            Castellan castellan = new Castellan(enrollment);
-            castellanStore.create(castellan);
-            enrollmentStore.create(enrollment);
-            unitPlateStore.create(castellan.requestUnitPlates().getUnitPlates());
+            localEventService.produce(new CastleBuiltEvent(castle, enrollment));
         }
 
         return castle.getId();
@@ -143,7 +144,8 @@ public class CastleServiceLogic implements CastleService {
         //
         MetroEnrollment enrollment = enrollmentStore.retrieve(metroId, civilianId);
         if(enrollment == null) {
-            throw new NoSuchElementException(String.format("metroId:%s, civilianId:%s", metroId, civilianId));
+            return null;
+//            throw new NoSuchElementException(String.format("metroId:%s, civilianId:%s", metroId, civilianId));
         }
 
         String castleId = enrollment.getCastleId();
@@ -173,6 +175,12 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
+    public boolean existsCastellan(String castleId) {
+        //
+        return castellanStore.exists(castleId);
+    }
+
+    @Override
     public void modifyCastellan(String castleId, NameValueList nameValues) {
         //
         Castellan castellan = findCastellan(castleId);
@@ -198,10 +206,7 @@ public class CastleServiceLogic implements CastleService {
 
     private long nextCastleSequence() {
         //
-        CastleBook book = castleStore.retrieveCastleBook();
-        long nextCastleSequence = book.nextSequence();
-        castleStore.updateCastleBook(book);
-
-        return nextCastleSequence;
+        CastleBook book = castleStore.retrieveCastleBookWithNextCastleSequence();
+        return book.getSequence();
     }
 }

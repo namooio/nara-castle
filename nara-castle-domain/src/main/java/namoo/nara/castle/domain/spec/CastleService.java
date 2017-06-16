@@ -20,6 +20,7 @@ public interface CastleService {
     void modifyCastle(String castleId, NameValueList nameValues);
 
     Castellan findCastellan(String castleId);
+    boolean existsCastellan(String castleId);
     void modifyCastellan(String castleId, NameValueList nameValues);
     IdentityPlate findIdentityPlate(String castleId);
 }

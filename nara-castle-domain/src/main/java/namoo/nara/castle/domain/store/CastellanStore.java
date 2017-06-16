@@ -8,4 +8,6 @@ public interface CastellanStore {
     Castellan retrieve(String id);
     void update(Castellan castellan);
     void delete(Castellan castellan);
+
+    boolean exists(String id);
 }

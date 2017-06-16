@@ -27,6 +27,7 @@ public class Castellan extends Entity {
         //
         super(metroEnrollment.getCastleId());       // castleId == castellanId
         this.names = new NameList(metroEnrollment.getName());
+        this.phones = new PhoneList();
         this.emails = new EmailList(new Email(metroEnrollment.getEmail()));
         this.addresses = new AddressList();
         this.attrNameValues = new NameValueList();
