@@ -33,7 +33,7 @@ public class CastleServiceLogicTest {
         CastleEventProcessLogic castleEventProcessLogic = new CastleEventProcessLogic(storeLycler, proxyLycler);
 
         CastleEventConfig castleEventConfig = new CastleEventConfig(eventQueue, castleEventProcessLogic);
-        castleEventConfig.startRouter();
+        castleEventConfig.startEventRouter();
     }
 
     @Test
