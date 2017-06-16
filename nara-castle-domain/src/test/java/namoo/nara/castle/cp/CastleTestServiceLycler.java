@@ -3,6 +3,7 @@ package namoo.nara.castle.cp;
 import namoo.nara.castle.domain.logic.CastleEventProcessLogic;
 import namoo.nara.castle.domain.logic.CastleServiceLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
+import namoo.nara.castle.domain.spec.CastleEventProcess;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.CastleServiceLycler;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
@@ -10,12 +11,12 @@ import namoo.nara.castle.domain.store.CastleStoreLycler;
 public class CastleTestServiceLycler implements CastleServiceLycler {
     //
     private CastleService castleService;
-    private CastleEventProcessLogic castleEventProcessLogic;
+    private CastleEventProcess castleEventProcess;
 
     public CastleTestServiceLycler(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleService = new CastleServiceLogic(storeLycler, proxyLycler);
-        this.castleEventProcessLogic = new CastleEventProcessLogic(storeLycler, proxyLycler);
+        this.castleEventProcess = new CastleEventProcessLogic(storeLycler, proxyLycler);
     }
 
     @Override
@@ -25,8 +26,8 @@ public class CastleTestServiceLycler implements CastleServiceLycler {
     }
 
     @Override
-    public CastleEventProcessLogic castleEventProcessLogic() {
+    public CastleEventProcess castleEventProcess() {
         //
-        return castleEventProcessLogic;
+        return castleEventProcess;
     }
 }

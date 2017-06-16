@@ -1,21 +1,21 @@
 package namoo.nara.castle.domain.event.local.handler;
 
 import namoo.nara.castle.domain.event.local.CastleBuiltEvent;
-import namoo.nara.castle.domain.logic.CastleEventProcessLogic;
+import namoo.nara.castle.domain.spec.CastleEventProcess;
 import namoo.nara.share.event.NaraEventHandler;
 
 public class CastleBuiltEventHandlerForCastellan implements NaraEventHandler<CastleBuiltEvent> {
     //
-    private CastleEventProcessLogic castleEventProcessLogic;
+    private CastleEventProcess castleEventProcess;
 
-    public CastleBuiltEventHandlerForCastellan(CastleEventProcessLogic castleEventProcessLogic) {
+    public CastleBuiltEventHandlerForCastellan(CastleEventProcess castleEventProcess) {
         //
-        this.castleEventProcessLogic = castleEventProcessLogic;
+        this.castleEventProcess = castleEventProcess;
     }
 
     @Override
     public void handle(CastleBuiltEvent event) {
         //
-        castleEventProcessLogic.createCastellan(event);
+        castleEventProcess.createCastellan(event);
     }
 }

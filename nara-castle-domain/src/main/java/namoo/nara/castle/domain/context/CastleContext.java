@@ -4,6 +4,7 @@ import namoo.nara.castle.domain.event.local.handler.CastellanCreatedEventHandler
 import namoo.nara.castle.domain.event.local.handler.CastleBuiltEventHandlerForCastellan;
 import namoo.nara.castle.domain.event.local.handler.CastleBuiltEventHandlerForEnrollment;
 import namoo.nara.castle.domain.logic.CastleEventProcessLogic;
+import namoo.nara.castle.domain.spec.CastleEventProcess;
 import namoo.nara.castle.domain.spec.CastleServiceLycler;
 import namoo.nara.share.event.NaraEventRouter;
 import namoo.nara.share.event.local.LocalEventQueue;
@@ -36,12 +37,12 @@ public class CastleContext {
         // Create local event service
         localEventService = new LocalEventService(eventQueue);
 
-        CastleEventProcessLogic eventProcessLogic = serviceLycler.castleEventProcessLogic();
+        CastleEventProcess castleEventProcess = serviceLycler.castleEventProcess();
 
         // Create local event handlers and add to router
-        eventRouter.addHandler(new CastleBuiltEventHandlerForCastellan(eventProcessLogic));
-        eventRouter.addHandler(new CastleBuiltEventHandlerForEnrollment(eventProcessLogic));
-        eventRouter.addHandler(new CastellanCreatedEventHandler(eventProcessLogic));
+        eventRouter.addHandler(new CastleBuiltEventHandlerForCastellan(castleEventProcess));
+        eventRouter.addHandler(new CastleBuiltEventHandlerForEnrollment(castleEventProcess));
+        eventRouter.addHandler(new CastellanCreatedEventHandler(castleEventProcess));
 
         // Start event router thread
         new Thread(eventRouter).start();
