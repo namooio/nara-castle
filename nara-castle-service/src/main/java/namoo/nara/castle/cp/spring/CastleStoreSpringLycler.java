@@ -1,7 +1,6 @@
 package namoo.nara.castle.cp.spring;
 
-import namoo.nara.castle.domain.store.CastleStore;
-import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.domain.store.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,4 +16,18 @@ public class CastleStoreSpringLycler implements CastleStoreLycler {
         return castleStore;
     }
 
+    @Override
+    public CastellanStore requestCastellanStore() {
+        return null;
+    }
+
+    @Override
+    public EnrollmentStore requestEnrollmentStore() {
+        return null;
+    }
+
+    @Override
+    public UnitPlateStore requestUnitPlateStore() {
+        return null;
+    }
 }

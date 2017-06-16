@@ -1,6 +1,9 @@
 package namoo.nara.castle.cp.spring;
 
+import namoo.nara.castle.domain.logic.CastleEventProcessLogic;
+import namoo.nara.castle.domain.logic.CastleServiceLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
+import namoo.nara.castle.domain.spec.CastleEventProcess;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.CastleServiceLycler;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
@@ -22,7 +25,12 @@ public class CastleServiceSpringLycler implements CastleServiceLycler {
     @Bean
     public CastleService castleService() {
         //
-        return new CastleLogic(storeLycler, proxyLycler);
+        return new CastleServiceLogic(storeLycler, proxyLycler);
     }
 
+    @Override
+    public CastleEventProcess castleEventProcess() {
+        //
+        return new CastleEventProcessLogic(storeLycler, proxyLycler);
+    }
 }
