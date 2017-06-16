@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.logic;
 
+import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.event.local.CastleBuiltEvent;
@@ -8,7 +9,6 @@ import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.castle.domain.store.*;
 import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.event.local.LocalEventService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,16 +20,12 @@ public class CastleServiceLogic implements CastleService {
     private EnrollmentStore enrollmentStore;
     private UnitPlateStore unitPlateStore;
 
-    private LocalEventService localEventService;
-
     public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.castellanStore = storeLycler.requestCastellanStore();
         this.enrollmentStore = storeLycler.requestEnrollmentStore();
         this.unitPlateStore = storeLycler.requestUnitPlateStore();
-
-        this.localEventService = proxyLycler.requestLocalEventService();
     }
 
     @Override
@@ -55,7 +51,7 @@ public class CastleServiceLogic implements CastleService {
             castle = new Castle(castleId, enrollment);
             castleStore.create(castle);
 
-            localEventService.produce(new CastleBuiltEvent(castle, enrollment));
+            CastleContext.getLocalEventService().produce(new CastleBuiltEvent(castle, enrollment));
         }
 
         return castle.getId();

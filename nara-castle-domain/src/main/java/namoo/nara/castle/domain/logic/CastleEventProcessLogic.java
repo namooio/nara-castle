@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.logic;
 
+import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.entity.UnitPlate;
@@ -10,7 +11,6 @@ import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.domain.store.EnrollmentStore;
 import namoo.nara.castle.domain.store.UnitPlateStore;
-import namoo.nara.share.event.local.LocalEventService;
 
 import java.util.List;
 
@@ -20,15 +20,11 @@ public class CastleEventProcessLogic {
     private EnrollmentStore enrollmentStore;
     private UnitPlateStore unitPlateStore;
 
-    private LocalEventService localEventService;
-
     public CastleEventProcessLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         castellanStore = storeLycler.requestCastellanStore();
         enrollmentStore = storeLycler.requestEnrollmentStore();
         unitPlateStore = storeLycler.requestUnitPlateStore();
-
-        localEventService = proxyLycler.requestLocalEventService();
     }
 
     public void createCastellan(CastleBuiltEvent castleBuiltEvent) {
@@ -37,7 +33,7 @@ public class CastleEventProcessLogic {
         Castellan castellan = new Castellan(enrollment);
         castellanStore.create(castellan);
 
-        localEventService.produce(new CastellanCreatedEvent(castellan));
+        CastleContext.getLocalEventService().produce(new CastellanCreatedEvent(castellan));
     }
 
     public void createEnrollment(CastleBuiltEvent castleBuiltEvent) {

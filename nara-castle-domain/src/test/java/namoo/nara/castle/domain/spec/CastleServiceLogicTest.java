@@ -1,15 +1,14 @@
 package namoo.nara.castle.domain.spec;
 
+import namoo.nara.castle.cp.CastleTestServiceLycler;
 import namoo.nara.castle.da.mapstore.CastleMapStoreLycler;
+import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.event.CastleEventConfig;
-import namoo.nara.castle.domain.logic.CastleEventProcessLogic;
 import namoo.nara.castle.domain.logic.CastleServiceLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.castle.sa.CastleTestProxyLycler;
-import namoo.nara.share.event.local.LocalEventQueue;
+import namoo.nara.castle.sa.CastleMockProxyLycler;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -24,16 +23,15 @@ public class CastleServiceLogicTest {
     @Before
     public void setUp() throws Exception {
         //
-        LocalEventQueue eventQueue = new LocalEventQueue();
-
         CastleStoreLycler storeLycler = new CastleMapStoreLycler();
-        CastleProxyLycler proxyLycler = new CastleTestProxyLycler(eventQueue);
+        CastleProxyLycler proxyLycler = new CastleMockProxyLycler();
+
+        CastleServiceLycler castleServiceLycler = new CastleTestServiceLycler(storeLycler, proxyLycler);
+        this.castleService = castleServiceLycler.castleService();
+
+        CastleContext.initializeContext(castleServiceLycler);
 
         castleService = new CastleServiceLogic(storeLycler, proxyLycler);
-        CastleEventProcessLogic castleEventProcessLogic = new CastleEventProcessLogic(storeLycler, proxyLycler);
-
-        CastleEventConfig castleEventConfig = new CastleEventConfig(eventQueue, castleEventProcessLogic);
-        castleEventConfig.startEventRouter();
     }
 
     @Test
