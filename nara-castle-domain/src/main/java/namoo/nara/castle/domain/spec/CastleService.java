@@ -8,8 +8,7 @@ import namoo.nara.share.domain.NameValueList;
 
 public interface CastleService {
     //
-    String addMetroEnrollment(MetroEnrollmentCdo metroEnrollmentCdo);
-    String addMetroEnrollment(String castleId, MetroEnrollmentCdo metroEnrollmentCdo);
+    String enrollMetro(MetroEnrollmentCdo metroEnrollmentCdo);
     void withdrawMetro(String castleId, String metroId, String civilianId);
 
     Castle findCastle(String castleId);

@@ -3,7 +3,6 @@ package namoo.nara.castle.cp.spring;
 import namoo.nara.castle.domain.logic.CastleEventProcessLogic;
 import namoo.nara.castle.domain.logic.CastleServiceLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
-import namoo.nara.castle.domain.spec.CastleEventProcess;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.CastleServiceLycler;
 import namoo.nara.castle.domain.store.CastleStoreLycler;

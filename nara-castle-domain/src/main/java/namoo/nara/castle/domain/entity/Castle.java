@@ -15,9 +15,7 @@ public class Castle extends Entity implements Aggregate {
     private String primaryEmail;
     private Long builtTime;
 
-    transient private Castellan castellan;
-    transient private List<MetroEnrollment> enrollments;
-    transient private IdentityPlate identityPlate;
+    transient  private List<MetroEnrollment> enrollments;       // weak association
 
     public Castle() {
         //
@@ -34,7 +32,6 @@ public class Castle extends Entity implements Aggregate {
         this.startNationId = metroEnrollment.getNationId();
         this.name = metroEnrollment.getName().getDisplayName();
         this.primaryEmail = metroEnrollment.getEmail();
-        this.castellan = new Castellan(metroEnrollment);
         this.builtTime = System.currentTimeMillis();
     }
 
@@ -42,9 +39,10 @@ public class Castle extends Entity implements Aggregate {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Castle{");
         sb.append("startNationId='").append(startNationId).append('\'');
-        sb.append(", castellan=").append(castellan);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", primaryEmail='").append(primaryEmail).append('\'');
         sb.append(", builtTime=").append(builtTime);
-        sb.append(", identityPlate=").append(identityPlate);
+        sb.append(", enrollments=").append(enrollments);
         sb.append('}');
         return sb.toString();
     }
@@ -53,7 +51,7 @@ public class Castle extends Entity implements Aggregate {
         //
         MetroEnrollment metroEnrollment = MetroEnrollment.getSample();
         long sequence = CastleBook.getSample().nextSequence();
-        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(sequence);
+        String castleId = CastleContext.getInstance().getCastleIdBuilder().makeCastleId(sequence);
 
         Castle castle = new Castle(castleId, metroEnrollment);
 
@@ -78,14 +76,6 @@ public class Castle extends Entity implements Aggregate {
         });
     }
 
-    public Castellan getCastellan() {
-        return castellan;
-    }
-
-    public void setCastellan(Castellan castellan) {
-        this.castellan = castellan;
-    }
-
     public Long getBuiltTime() {
         return builtTime;
     }
@@ -100,14 +90,6 @@ public class Castle extends Entity implements Aggregate {
 
     public void setStartNationId(String startNationId) {
         this.startNationId = startNationId;
-    }
-
-    public IdentityPlate getIdentityPlate() {
-        return identityPlate;
-    }
-
-    public void setIdentityPlate(IdentityPlate identityPlate) {
-        this.identityPlate = identityPlate;
     }
 
     public String getName() {
@@ -138,5 +120,4 @@ public class Castle extends Entity implements Aggregate {
         //
         System.out.println(Castle.getSample());
     }
-
 }

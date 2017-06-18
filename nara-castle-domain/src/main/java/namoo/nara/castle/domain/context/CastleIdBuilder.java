@@ -8,6 +8,7 @@ public class CastleIdBuilder {
     private Numeral36 numeral36;
 
     public CastleIdBuilder() {
+        //
         this.numeral36 = Numeral36.getInstance();
     }
 

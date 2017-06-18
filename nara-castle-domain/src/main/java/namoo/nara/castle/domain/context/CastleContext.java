@@ -1,57 +1,78 @@
 package namoo.nara.castle.domain.context;
 
-import namoo.nara.castle.domain.event.local.handler.CastellanCreatedEventHandler;
-import namoo.nara.castle.domain.event.local.handler.CastleBuiltEventHandlerForCastellan;
-import namoo.nara.castle.domain.event.local.handler.CastleBuiltEventHandlerForEnrollment;
-import namoo.nara.castle.domain.spec.CastleEventProcess;
-import namoo.nara.castle.domain.spec.CastleServiceLycler;
-import namoo.nara.share.event.NaraEventRouter;
-import namoo.nara.share.event.local.LocalEventQueue;
-import namoo.nara.share.event.local.LocalEventService;
+import namoo.nara.castle.domain.event.local.handler.CastleCreatedWorker;
+import namoo.nara.castle.domain.event.local.handler.EnrollmentAddedWorker;
+import namoo.nara.castle.domain.proxy.CastleProxyLycler;
+import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.share.event.worker.ContextEventService;
+import namoo.nara.share.event.worker.EventService;
+
+import java.util.NoSuchElementException;
 
 public class CastleContext {
     //
-    private static CastleIdBuilder castleIdBuilder = new CastleIdBuilder();
-    private static LocalEventService localEventService;
+    private static CastleContext singletonContext;
 
-    private static CastleServiceLycler serviceLycler;
+    private CastleProxyLycler proxyLycler;
+    private CastleStoreLycler storeLycler;
 
-    public static CastleIdBuilder getCastleIdBuilder() {
+    private CastleIdBuilder castleIdBuilder;
+    private ContextEventService eventService;
+
+    private CastleContext(CastleProxyLycler proxyLycler, CastleStoreLycler storeLycler) {
+        //
+        this.castleIdBuilder = new CastleIdBuilder();
+        this.proxyLycler = proxyLycler;
+        this.storeLycler = storeLycler;
+        this.eventService = new ContextEventService(proxyLycler.getGlobalEventProxy());
+        this.initEventWorkers();
+    }
+
+    private void initEventWorkers() {
+        //
+        eventService.addEventHandler(new CastleCreatedWorker(storeLycler));
+        eventService.addEventHandler(new EnrollmentAddedWorker(storeLycler));
+    }
+
+    public static CastleContext getInstance() {
+        //
+        if(singletonContext == null) {
+            throw new NoSuchElementException(CastleContext.class.getSimpleName());
+        }
+
+        return singletonContext;
+    }
+
+    public static CastleContext newInstance(
+            CastleProxyLycler proxyLycler,
+            CastleStoreLycler storeLycler) {
+        //
+        if(singletonContext == null) {
+            synchronized (CastleContext.class) {
+                if (singletonContext == null) {
+                    singletonContext = new CastleContext(proxyLycler, storeLycler);
+                }
+            }
+        }
+
+        return singletonContext;
+    }
+
+    public CastleIdBuilder getCastleIdBuilder() {
         //
         return castleIdBuilder;
     }
 
-    public static LocalEventService getLocalEventService() {
+    public EventService getEventService() {
         //
-        return localEventService;
+        return eventService;
     }
 
-    public static void setServiceLycler(CastleServiceLycler serviceLycler) {
-        //
-        CastleContext.serviceLycler = serviceLycler;
+    public CastleProxyLycler getProxyLycler() {
+        return proxyLycler;
     }
 
-    public static void initialize() {
-        //
-        // Create event queue
-        LocalEventQueue eventQueue = new LocalEventQueue();
-
-        // Create event router
-        NaraEventRouter eventRouter = new NaraEventRouter(eventQueue);
-
-        // Create local event service
-        localEventService = new LocalEventService(eventQueue);
-
-        CastleEventProcess castleEventProcess = serviceLycler.castleEventProcess();
-
-        // Create local event handlers and add to router
-        eventRouter.addHandler(new CastleBuiltEventHandlerForCastellan(castleEventProcess));
-        eventRouter.addHandler(new CastleBuiltEventHandlerForEnrollment(castleEventProcess));
-        eventRouter.addHandler(new CastellanCreatedEventHandler(castleEventProcess));
-
-        // Start event router thread
-        new Thread(eventRouter).start();
+    public CastleStoreLycler getStoreLycler() {
+        return storeLycler;
     }
-
-
 }

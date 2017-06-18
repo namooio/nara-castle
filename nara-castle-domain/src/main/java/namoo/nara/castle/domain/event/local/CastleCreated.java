@@ -2,19 +2,17 @@ package namoo.nara.castle.domain.event.local;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.share.event.NaraEvent;
+import namoo.nara.share.event.type.LocalEvent;
 
-public class CastleBuiltEvent implements NaraEvent {
+public class CastleCreated extends LocalEvent {
     //
     private Castle castle;
     private MetroEnrollment enrollment;
 
-    public CastleBuiltEvent() {
+    public CastleCreated(Castle castle, MetroEnrollment enrollment) {
         //
-    }
+        super(CastleCreated.class.getName());
 
-    public CastleBuiltEvent(Castle castle, MetroEnrollment enrollment) {
-        //
         this.castle = castle;
         this.enrollment = enrollment;
     }

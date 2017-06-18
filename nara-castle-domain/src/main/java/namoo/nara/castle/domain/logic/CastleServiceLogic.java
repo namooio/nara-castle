@@ -3,64 +3,37 @@ package namoo.nara.castle.domain.logic;
 import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.*;
-import namoo.nara.castle.domain.event.local.CastleBuiltEvent;
-import namoo.nara.castle.domain.proxy.CastleProxyLycler;
+import namoo.nara.castle.domain.event.local.CastleCreated;
+import namoo.nara.castle.domain.event.local.EnrollmentAdded;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
-import namoo.nara.castle.domain.store.*;
+import namoo.nara.castle.domain.store.CastellanStore;
+import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.share.domain.NameValueList;
+import namoo.nara.share.event.worker.EventService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class CastleServiceLogic implements CastleService {
     //
+    private EventService eventService;
     private CastleStore castleStore;
     private CastellanStore castellanStore;
-    private EnrollmentStore enrollmentStore;
-    private UnitPlateStore unitPlateStore;
 
-    public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
+    public CastleServiceLogic() {
         //
-        this.castleStore = storeLycler.requestCastleStore();
-        this.castellanStore = storeLycler.requestCastellanStore();
-        this.enrollmentStore = storeLycler.requestEnrollmentStore();
-        this.unitPlateStore = storeLycler.requestUnitPlateStore();
+        CastleContext context = CastleContext.getInstance();
+        this.eventService = context.getEventService();
+        this.castleStore = context.getStoreLycler().requestCastleStore();
+        this.castellanStore = context.getStoreLycler().requestCastellanStore();
     }
 
     @Override
-    public String addMetroEnrollment(MetroEnrollmentCdo metroEnrollmentCdo) {
+    public String enrollMetro(MetroEnrollmentCdo metroEnrollmentCdo) {
         //
         String metroId = metroEnrollmentCdo.getMetroId();
         String civilianId = metroEnrollmentCdo.getCivilianId();
-
-        Castle castle = findCastleByEnrolledMetro(metroId, civilianId);
-        if (castle != null) {
-            addMetroEnrollment(castle.getId(), metroEnrollmentCdo);
-        } else {
-            long castleSequence = nextCastleSequence();
-            String castleId = new CastleIdBuilder().makeCastleId(castleSequence);
-            MetroEnrollment enrollment = new MetroEnrollment(
-                    metroEnrollmentCdo.getMetroId(),
-                    metroEnrollmentCdo.getCivilianId(),
-                    metroEnrollmentCdo.getName(),
-                    metroEnrollmentCdo.getEmail());
-
-            enrollment.setCastleId(castleId);
-
-            castle = new Castle(castleId, enrollment);
-            castleStore.create(castle);
-
-            CastleContext.getLocalEventService().produce(new CastleBuiltEvent(castle, enrollment));
-        }
-
-        return castle.getId();
-    }
-
-    @Override
-    public String addMetroEnrollment(String castleId, MetroEnrollmentCdo metroEnrollmentCdo) {
-        //
-        Castle castle = findCastle(castleId);
 
         MetroEnrollment enrollment = new MetroEnrollment(
                 metroEnrollmentCdo.getMetroId(),
@@ -68,9 +41,22 @@ public class CastleServiceLogic implements CastleService {
                 metroEnrollmentCdo.getName(),
                 metroEnrollmentCdo.getEmail());
 
-        enrollmentStore.create(enrollment);
+        Castle castle = findCastleByEnrolledMetro(metroId, civilianId);
 
-        return  castleId;
+        if (castle == null) {
+            long castleSequence = nextCastleSequence();
+            String castleId = new CastleIdBuilder().makeCastleId(castleSequence);
+            enrollment.setCastleId(castleId);
+            castle = new Castle(castleId, enrollment);
+            castleStore.create(castle, enrollment);
+            eventService.produce(new CastleCreated(castle, enrollment));
+        } else {
+            enrollment.setCastleId(castle.getId());
+            castleStore.createEnrollment(enrollment);
+            eventService.produce(new EnrollmentAdded(enrollment));
+        }
+
+        return castle.getId();
     }
 
     @Override
@@ -78,14 +64,14 @@ public class CastleServiceLogic implements CastleService {
         //
         Castle castle = findCastle(castleId);
 
-        MetroEnrollment enrollment = enrollmentStore.retrieve(metroId, civilianId);
+        MetroEnrollment enrollment = castleStore.retrieveEnrollment(metroId, civilianId);
         if(enrollment == null) {
             return;
         }
 
         enrollment.withdraw();
 
-        enrollmentStore.update(enrollment);
+        castleStore.updateEnrollment(enrollment);
     }
 
     @Override
@@ -102,7 +88,7 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public Castle findCastleByEmail(String email) {
         //
-        List<UnitPlate> unitPlates = unitPlateStore.retrieve(email, KeyAttr.Email);
+        List<UnitPlate> unitPlates = castellanStore.retrieveUnitPlate(email, KeyAttr.Email);
         if(unitPlates.size() == 0) {
             throw new NoSuchElementException("email: "+ email);
         }
@@ -120,7 +106,7 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public Castle findCastleByPhone(String phone) {
         //
-        List<UnitPlate> unitPlates = unitPlateStore.retrieve(phone, KeyAttr.Phone);
+        List<UnitPlate> unitPlates = castellanStore.retrieveUnitPlate(phone, KeyAttr.Phone);
         if(unitPlates.size() == 0) {
             throw new NoSuchElementException("phone: "+ phone);
         }
@@ -138,7 +124,7 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public Castle findCastleByEnrolledMetro(String metroId, String civilianId) {
         //
-        MetroEnrollment enrollment = enrollmentStore.retrieve(metroId, civilianId);
+        MetroEnrollment enrollment = castleStore.retrieveEnrollment(metroId, civilianId);
         if(enrollment == null) {
             return null;
 //            throw new NoSuchElementException(String.format("metroId:%s, civilianId:%s", metroId, civilianId));
@@ -181,13 +167,8 @@ public class CastleServiceLogic implements CastleService {
         //
         Castellan castellan = findCastellan(castleId);
         castellan.setValues(nameValues);
+
         castellanStore.update(castellan);
-
-        List<UnitPlate> asisPlates = unitPlateStore.retrieveByCastleId(castleId);
-        UnitPlateList modifiedPlates = castellan.requestUnitPlates();
-
-        unitPlateStore.delete(asisPlates);
-        unitPlateStore.create(modifiedPlates.getUnitPlates());
     }
 
     @Override

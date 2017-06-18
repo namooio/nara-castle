@@ -2,7 +2,6 @@ package namoo.nara.castle.da.mapstore;
 
 import namoo.nara.castle.domain.entity.KeyAttr;
 import namoo.nara.castle.domain.entity.UnitPlate;
-import namoo.nara.castle.domain.store.UnitPlateStore;
 
 import java.util.HashMap;
 import java.util.List;

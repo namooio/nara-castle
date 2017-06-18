@@ -1,18 +1,21 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValue;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.*;
 import namoo.nara.share.util.json.JsonUtil;
 
-public class Castellan extends Entity {
+public class Castellan extends Entity implements Aggregate {
     //
     private NameList names;
     private PhoneList phones;
     private EmailList emails;
     private AddressList addresses;
     private NameValueList attrNameValues;           // additional attributes
+
+    private UnitPlateList unitPlates;               // strong association
 
     public Castellan() {
         //
@@ -31,6 +34,7 @@ public class Castellan extends Entity {
         this.emails = new EmailList(new Email(metroEnrollment.getEmail()));
         this.addresses = new AddressList();
         this.attrNameValues = new NameValueList();
+        this.initUnitPlates();
     }
 
     @Override
@@ -41,6 +45,7 @@ public class Castellan extends Entity {
         sb.append(", emails=").append(emails);
         sb.append(", addresses=").append(addresses);
         sb.append(", attrNameValues=").append(attrNameValues);
+        sb.append(", unitPlates=").append(unitPlates);
         sb.append('}');
         return sb.toString();
     }
@@ -74,11 +79,13 @@ public class Castellan extends Entity {
                 case "attrNameValues":   this.attrNameValues = NameValueList.fromJson(value); break;
             }
         }
+
+        this.initUnitPlates();
     }
 
-    public UnitPlateList requestUnitPlates() {
+    public void initUnitPlates() {
         //
-        UnitPlateList unitPlates = new UnitPlateList();
+        this.unitPlates = new UnitPlateList();
 
         for(Name name: names.getNames()) {
             unitPlates.add(new UnitPlate(getId(), name));
@@ -91,8 +98,26 @@ public class Castellan extends Entity {
         for(Email email : emails.getEmails()) {
             unitPlates.add(new UnitPlate(getId(), email));
         }
+    }
 
-        return unitPlates;
+    public boolean checkName(Name name) {
+        //
+        if (!names.contains(name.getFirstName(), name.getFamilyName())) {
+            names.add(name);
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean checkEmail(String email) {
+        //
+        if(!emails.contains(email)) {
+            emails.add(new Email(email));
+            return true;
+        }
+
+        return false;
     }
 
     public NameList getNames() {
@@ -133,6 +158,14 @@ public class Castellan extends Entity {
 
     public void setAttrNameValues(NameValueList attrNameValues) {
         this.attrNameValues = attrNameValues;
+    }
+
+    public UnitPlateList getUnitPlates() {
+        return unitPlates;
+    }
+
+    public void setUnitPlates(UnitPlateList unitPlates) {
+        this.unitPlates = unitPlates;
     }
 
     public static void main(String[] args) {

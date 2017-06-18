@@ -4,14 +4,10 @@ import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.entity.UnitPlate;
-import namoo.nara.castle.domain.event.local.CastellanCreatedEvent;
-import namoo.nara.castle.domain.event.local.CastleBuiltEvent;
+import namoo.nara.castle.domain.event.local.CastleCreated;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
-import namoo.nara.castle.domain.spec.CastleEventProcess;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.castle.domain.store.EnrollmentStore;
-import namoo.nara.castle.domain.store.UnitPlateStore;
 
 import java.util.List;
 
@@ -29,7 +25,7 @@ public class CastleEventProcessLogic implements CastleEventProcess {
     }
 
     @Override
-    public void createCastellan(CastleBuiltEvent castleBuiltEvent) {
+    public void createCastellan(CastleCreated castleBuiltEvent) {
         //
         MetroEnrollment enrollment = castleBuiltEvent.getEnrollment();
         Castellan castellan = new Castellan(enrollment);
@@ -39,7 +35,7 @@ public class CastleEventProcessLogic implements CastleEventProcess {
     }
 
     @Override
-    public void createEnrollment(CastleBuiltEvent castleBuiltEvent) {
+    public void createEnrollment(CastleCreated castleBuiltEvent) {
         //
         MetroEnrollment enrollment = castleBuiltEvent.getEnrollment();
         enrollmentStore.create(enrollment);

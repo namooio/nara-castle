@@ -1,7 +1,6 @@
 package namoo.nara.castle.da.mapstore;
 
 import namoo.nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.castle.domain.store.EnrollmentStore;
 
 import java.util.HashMap;
 import java.util.List;
