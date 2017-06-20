@@ -1,9 +1,12 @@
 package namoo.nara.castle.da.mapstore;
 
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.KeyAttr;
+import namoo.nara.castle.domain.entity.UnitPlate;
 import namoo.nara.castle.domain.store.CastellanStore;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CastellanMapStore implements CastellanStore {
@@ -20,6 +23,12 @@ public class CastellanMapStore implements CastellanStore {
     public Castellan retrieve(String id) {
         //
         return this.castellanMap.get(id);
+    }
+
+    @Override
+    public List<UnitPlate> retrieveUnitPlate(String key, KeyAttr attr) {
+        //
+        return null;
     }
 
     @Override

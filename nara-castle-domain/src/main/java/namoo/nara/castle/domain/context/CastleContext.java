@@ -13,17 +13,17 @@ public class CastleContext {
     //
     private static CastleContext singletonContext;
 
-    private CastleProxyLycler proxyLycler;
     private CastleStoreLycler storeLycler;
+    private CastleProxyLycler proxyLycler;
 
     private CastleIdBuilder castleIdBuilder;
     private ContextEventService eventService;
 
-    private CastleContext(CastleProxyLycler proxyLycler, CastleStoreLycler storeLycler) {
+    private CastleContext(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleIdBuilder = new CastleIdBuilder();
-        this.proxyLycler = proxyLycler;
         this.storeLycler = storeLycler;
+        this.proxyLycler = proxyLycler;
         this.eventService = new ContextEventService(proxyLycler.getGlobalEventProxy());
         this.initEventWorkers();
     }
@@ -44,13 +44,14 @@ public class CastleContext {
     }
 
     public static CastleContext newInstance(
-            CastleProxyLycler proxyLycler,
-            CastleStoreLycler storeLycler) {
+            CastleStoreLycler storeLycler,
+            CastleProxyLycler proxyLycler
+            ) {
         //
         if(singletonContext == null) {
             synchronized (CastleContext.class) {
                 if (singletonContext == null) {
-                    singletonContext = new CastleContext(proxyLycler, storeLycler);
+                    singletonContext = new CastleContext(storeLycler, proxyLycler);
                 }
             }
         }

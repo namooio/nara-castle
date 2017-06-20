@@ -11,7 +11,7 @@ import namoo.nara.share.event.handle.LocalEventHandler;
 import namoo.nara.share.event.type.Event;
 import namoo.nara.share.event.worker.EventService;
 
-public class EnrollmentAddedWorker extends LocalEventHandler {
+public class EnrollmentAddedWorker extends LocalEventHandler<EnrollmentAdded> {
     //
     private CastellanStore castellanStore;
 
@@ -22,10 +22,9 @@ public class EnrollmentAddedWorker extends LocalEventHandler {
     }
 
     @Override
-    public void process(Event event) {
+    public void process(EnrollmentAdded event) {
         //
-        EnrollmentAdded enrollmentAddedEvent = (EnrollmentAdded)event;
-        MetroEnrollment enrollment = enrollmentAddedEvent.getEnrollment();
+        MetroEnrollment enrollment = event.getEnrollment();
 
         String castleId = enrollment.getCastleId();
         Castellan castellan = castellanStore.retrieve(enrollment.getCastleId());

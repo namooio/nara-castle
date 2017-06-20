@@ -1,6 +1,5 @@
 package namoo.nara.castle.domain.spec;
 
-import namoo.nara.castle.cp.CastleTestServiceLycler;
 import namoo.nara.castle.da.mapstore.CastleMapStoreLycler;
 import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castellan;
@@ -26,21 +25,16 @@ public class CastleServiceLogicTest {
         CastleStoreLycler storeLycler = new CastleMapStoreLycler();
         CastleProxyLycler proxyLycler = new CastleMockProxyLycler();
 
-        CastleServiceLycler castleServiceLycler = new CastleTestServiceLycler(storeLycler, proxyLycler);
-        this.castleService = castleServiceLycler.castleService();
-
         // Context initialize
-        CastleContext.setServiceLycler(castleServiceLycler);
-        CastleContext.initialize();
-
-        castleService = new CastleServiceLogic(storeLycler, proxyLycler);
+        CastleContext.newInstance(storeLycler, proxyLycler);
+        castleService = new CastleServiceLogic();
     }
 
     @Test
-    public void addMetroEnrollmentTest() throws InterruptedException {
+    public void enrollMetroTest() throws InterruptedException {
         //
         MetroEnrollmentCdo metroEnrollmentCdo = MetroEnrollmentCdo.getSample();
-        String castleId = castleService.addMetroEnrollment(metroEnrollmentCdo);
+        String castleId = castleService.enrollMetro(metroEnrollmentCdo);
 
         // Wait event processing until castellan is created.
         while(!castleService.existsCastellan(castleId)) {

@@ -8,10 +8,9 @@ import namoo.nara.castle.domain.event.local.CastleCreated;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.event.handle.LocalEventHandler;
-import namoo.nara.share.event.type.Event;
 import namoo.nara.share.event.worker.EventService;
 
-public class CastleCreatedWorker extends LocalEventHandler {
+public class CastleCreatedWorker extends LocalEventHandler<CastleCreated> {
     //
     private CastellanStore castellanStore;
 
@@ -22,10 +21,9 @@ public class CastleCreatedWorker extends LocalEventHandler {
     }
 
     @Override
-    public void process(Event event) {
+    public void process(CastleCreated event) {
         //
-        CastleCreated castleCreatedEvent = (CastleCreated) event;
-        MetroEnrollment enrollment = castleCreatedEvent.getEnrollment();
+        MetroEnrollment enrollment = event.getEnrollment();
         Castellan castellan = new Castellan(enrollment);
 
         try {
