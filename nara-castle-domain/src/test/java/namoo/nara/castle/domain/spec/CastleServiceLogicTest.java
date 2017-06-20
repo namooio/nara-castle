@@ -27,6 +27,8 @@ public class CastleServiceLogicTest {
 
         // Context initialize
         CastleContext.newInstance(storeLycler, proxyLycler);
+        CastleContext.getInstance().startEventService();
+
         castleService = new CastleServiceLogic();
     }
 

@@ -25,13 +25,18 @@ public class CastleContext {
         this.storeLycler = storeLycler;
         this.proxyLycler = proxyLycler;
         this.eventService = new ContextEventService(proxyLycler.getGlobalEventProxy());
-        this.initEventWorkers();
     }
 
     private void initEventWorkers() {
         //
         eventService.addEventHandler(new CastleCreatedWorker(storeLycler));
         eventService.addEventHandler(new EnrollmentAddedWorker(storeLycler));
+    }
+
+    public void startEventService() {
+        //
+        initEventWorkers();
+        eventService.start();
     }
 
     public static CastleContext getInstance() {
