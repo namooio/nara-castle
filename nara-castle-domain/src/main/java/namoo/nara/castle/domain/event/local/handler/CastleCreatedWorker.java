@@ -7,7 +7,7 @@ import namoo.nara.castle.domain.event.global.CastellanFailEvent;
 import namoo.nara.castle.domain.event.local.CastleCreated;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.share.event.handle.LocalEventHandler;
+import namoo.nara.share.event.handler.LocalEventHandler;
 import namoo.nara.share.event.worker.EventService;
 
 public class CastleCreatedWorker extends LocalEventHandler<CastleCreated> {
