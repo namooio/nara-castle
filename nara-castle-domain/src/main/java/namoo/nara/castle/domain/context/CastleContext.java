@@ -1,10 +1,9 @@
 package namoo.nara.castle.domain.context;
 
-import namoo.nara.castle.domain.event.local.handler.CastleCreatedWorker;
-import namoo.nara.castle.domain.event.local.handler.EnrollmentAddedWorker;
+import namoo.nara.castle.domain.event.handler.CastleCreatedWorker;
+import namoo.nara.castle.domain.event.handler.EnrollmentAddedWorker;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.share.event.worker.ContextEventService;
 import namoo.nara.share.event.worker.EventService;
 
 import java.util.NoSuchElementException;
@@ -16,27 +15,21 @@ public class CastleContext {
     private CastleStoreLycler storeLycler;
     private CastleProxyLycler proxyLycler;
 
-    private CastleIdBuilder castleIdBuilder;
-    private ContextEventService eventService;
+    private EventService eventService;
 
     private CastleContext(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
-        this.castleIdBuilder = new CastleIdBuilder();
         this.storeLycler = storeLycler;
         this.proxyLycler = proxyLycler;
-        this.eventService = new ContextEventService(proxyLycler.getGlobalEventProxy());
+
+        this.eventService = proxyLycler.requestEventService();
+        initEventWorkers();
     }
 
     private void initEventWorkers() {
         //
-        eventService.addEventHandler(new CastleCreatedWorker(storeLycler));
-        eventService.addEventHandler(new EnrollmentAddedWorker(storeLycler));
-    }
-
-    public void startEventService() {
-        //
-        initEventWorkers();
-        eventService.start();
+        eventService.addEventHandler(new CastleCreatedWorker(storeLycler, proxyLycler));
+        eventService.addEventHandler(new EnrollmentAddedWorker(storeLycler, proxyLycler));
     }
 
     public static CastleContext getInstance() {
@@ -64,21 +57,4 @@ public class CastleContext {
         return singletonContext;
     }
 
-    public CastleIdBuilder getCastleIdBuilder() {
-        //
-        return castleIdBuilder;
-    }
-
-    public EventService getEventService() {
-        //
-        return eventService;
-    }
-
-    public CastleProxyLycler getProxyLycler() {
-        return proxyLycler;
-    }
-
-    public CastleStoreLycler getStoreLycler() {
-        return storeLycler;
-    }
 }

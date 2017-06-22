@@ -1,24 +1,25 @@
-package namoo.nara.castle.domain.event.local.handler;
+package namoo.nara.castle.domain.event.handler;
 
-import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.castle.domain.event.global.CastellanFailEvent;
-import namoo.nara.castle.domain.event.local.EnrollmentAdded;
+import namoo.nara.castle.domain.event.CastellanFailEvent;
+import namoo.nara.castle.domain.event.EnrollmentAdded;
+import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.share.event.handle.LocalEventHandler;
-import namoo.nara.share.event.type.Event;
+import namoo.nara.share.event.handler.LocalEventHandler;
 import namoo.nara.share.event.worker.EventService;
 
 public class EnrollmentAddedWorker extends LocalEventHandler<EnrollmentAdded> {
     //
     private CastellanStore castellanStore;
+    private EventService eventService;
 
-    public EnrollmentAddedWorker(CastleStoreLycler storeLycler) {
+    public EnrollmentAddedWorker(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         super(EnrollmentAdded.class.getName());
         this.castellanStore = storeLycler.requestCastellanStore();
+        this.eventService = proxyLycler.requestEventService();
     }
 
     @Override
@@ -50,7 +51,6 @@ public class EnrollmentAddedWorker extends LocalEventHandler<EnrollmentAdded> {
 
     private void produceGlobalEvent(String castleId, Event sourceEvent) {
         //
-        EventService eventService = CastleContext.getInstance().getEventService();
         String workerName = EnrollmentAddedWorker.class.getName();
         CastellanFailEvent event = new CastellanFailEvent(castleId, workerName);
         event.setSourceEvent(sourceEvent);

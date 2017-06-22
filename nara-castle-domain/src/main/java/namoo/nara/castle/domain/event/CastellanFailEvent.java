@@ -1,4 +1,4 @@
-package namoo.nara.castle.domain.event.global;
+package namoo.nara.castle.domain.event;
 
 import namoo.nara.share.event.type.Event;
 import namoo.nara.share.event.type.NaraEvent;

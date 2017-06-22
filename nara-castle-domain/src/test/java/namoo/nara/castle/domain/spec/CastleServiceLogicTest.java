@@ -7,7 +7,7 @@ import namoo.nara.castle.domain.logic.CastleServiceLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
-import namoo.nara.castle.sa.CastleMockProxyLycler;
+import namoo.nara.castle.sa.CastleTestProxyLycler;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -23,13 +23,12 @@ public class CastleServiceLogicTest {
     public void setUp() throws Exception {
         //
         CastleStoreLycler storeLycler = new CastleMapStoreLycler();
-        CastleProxyLycler proxyLycler = new CastleMockProxyLycler();
+        CastleProxyLycler proxyLycler = new CastleTestProxyLycler();
+
+        castleService = new CastleServiceLogic(storeLycler, proxyLycler);
 
         // Context initialize
         CastleContext.newInstance(storeLycler, proxyLycler);
-        CastleContext.getInstance().startEventService();
-
-        castleService = new CastleServiceLogic();
     }
 
     @Test

@@ -1,6 +1,6 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.castle.domain.context.CastleContext;
+import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
@@ -51,7 +51,7 @@ public class Castle extends Entity implements Aggregate {
         //
         MetroEnrollment metroEnrollment = MetroEnrollment.getSample();
         long sequence = CastleBook.getSample().nextSequence();
-        String castleId = CastleContext.getInstance().getCastleIdBuilder().makeCastleId(sequence);
+        String castleId = CastleIdBuilder.makeCastleId(sequence);
 
         Castle castle = new Castle(castleId, metroEnrollment);
 
