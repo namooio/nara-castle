@@ -1,8 +1,8 @@
 package namoo.nara.castle.domain.proxy;
 
-import namoo.nara.share.event.proxy.GlobalEventProxy;
+import namoo.nara.share.event.worker.EventService;
 
 public interface CastleProxyLycler {
     //
-    GlobalEventProxy getGlobalEventProxy();
+    EventService requestEventService();
 }

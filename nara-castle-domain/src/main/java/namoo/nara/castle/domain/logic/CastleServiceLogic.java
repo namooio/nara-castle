@@ -1,14 +1,15 @@
 package namoo.nara.castle.domain.logic;
 
-import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.*;
-import namoo.nara.castle.domain.event.local.CastleCreated;
-import namoo.nara.castle.domain.event.local.EnrollmentAdded;
+import namoo.nara.castle.domain.event.CastleCreated;
+import namoo.nara.castle.domain.event.EnrollmentAdded;
+import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.event.worker.EventService;
 
@@ -17,16 +18,17 @@ import java.util.NoSuchElementException;
 
 public class CastleServiceLogic implements CastleService {
     //
-    private EventService eventService;
     private CastleStore castleStore;
     private CastellanStore castellanStore;
 
-    public CastleServiceLogic() {
+    private EventService eventService;
+
+    public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
-        CastleContext context = CastleContext.getInstance();
-        this.eventService = context.getEventService();
-        this.castleStore = context.getStoreLycler().requestCastleStore();
-        this.castellanStore = context.getStoreLycler().requestCastellanStore();
+        this.castleStore = storeLycler.requestCastleStore();
+        this.castellanStore = storeLycler.requestCastellanStore();
+
+        this.eventService = proxyLycler.requestEventService();
     }
 
     @Override

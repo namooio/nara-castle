@@ -1,4 +1,4 @@
-package namoo.nara.castle.domain.event.local;
+package namoo.nara.castle.domain.event;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
