@@ -30,13 +30,13 @@ public class EnrollmentAddedWorker extends LocalEventHandler<EnrollmentAdded> {
         Castellan castellan = castellanStore.retrieve(enrollment.getCastleId());
 
         if (castellan == null) {
-            produceGlobalEvent(castleId);
+            produceGlobalEvent(castleId, event);
         }
 
-        boolean updated = castellan.checkName(enrollment.getName());
-        updated = castellan.checkEmail(enrollment.getEmail());
+        boolean nameUpdated = castellan.checkName(enrollment.getName());
+        boolean emailUpdated = castellan.checkEmail(enrollment.getEmail());
 
-        if(!updated) {
+        if(!nameUpdated && !emailUpdated) {
             return;
         }
 
@@ -44,14 +44,16 @@ public class EnrollmentAddedWorker extends LocalEventHandler<EnrollmentAdded> {
             castellan.initUnitPlates();
             castellanStore.update(castellan);
         } catch (Exception e) {
-            produceGlobalEvent(castleId);
+            produceGlobalEvent(castleId, event);
         }
     }
 
-    private void produceGlobalEvent(String castleId) {
+    private void produceGlobalEvent(String castleId, Event sourceEvent) {
         //
         EventService eventService = CastleContext.getInstance().getEventService();
         String workerName = EnrollmentAddedWorker.class.getName();
-        eventService.produce(new CastellanFailEvent(castleId, workerName));
+        CastellanFailEvent event = new CastellanFailEvent(castleId, workerName);
+        event.setSourceEvent(sourceEvent);
+        eventService.produce(event);
     }
 }
