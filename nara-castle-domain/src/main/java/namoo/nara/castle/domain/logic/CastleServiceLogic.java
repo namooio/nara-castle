@@ -41,7 +41,8 @@ public class CastleServiceLogic implements CastleService {
                 metroEnrollmentCdo.getMetroId(),
                 metroEnrollmentCdo.getCivilianId(),
                 metroEnrollmentCdo.getName(),
-                metroEnrollmentCdo.getEmail());
+                metroEnrollmentCdo.getEmail(),
+                metroEnrollmentCdo.getZone());
 
         Castle castle = findCastleByEnrolledMetro(metroId, civilianId);
 
@@ -49,6 +50,7 @@ public class CastleServiceLogic implements CastleService {
             long castleSequence = nextCastleSequence();
             String castleId = CastleIdBuilder.makeCastleId(castleSequence);
             enrollment.setCastleId(castleId);
+
             castle = new Castle(castleId, enrollment);
             castleStore.create(castle, enrollment);
             eventService.produce(new CastleCreated(castle, enrollment));

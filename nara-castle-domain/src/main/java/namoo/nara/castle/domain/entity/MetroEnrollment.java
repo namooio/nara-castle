@@ -1,8 +1,10 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.Name;
+import namoo.nara.share.domain.granule.NaraZone;
 import namoo.nara.share.util.json.JsonUtil;
 
 public class MetroEnrollment extends Entity {
@@ -12,6 +14,7 @@ public class MetroEnrollment extends Entity {
     private Name name;
     private String email;
     private boolean withdrawn;          // 탈퇴한
+    private NaraZone zone;
     private Long enrollingTime;
     private Long withdrawnTime;
 
@@ -26,13 +29,14 @@ public class MetroEnrollment extends Entity {
         super(id);
     }
 
-    public MetroEnrollment(String metroId, String civilianId, Name name, String email) {
+    public MetroEnrollment(String metroId, String civilianId, Name name, String email, NaraZone zone) {
         //
         super();
         this.metroId = metroId;
         this.civilianId = civilianId;
         this.name = name;
         this.email = email;
+        this.zone = zone;
         this.withdrawn = false;
         this.enrollingTime = System.currentTimeMillis();
     }
@@ -45,6 +49,7 @@ public class MetroEnrollment extends Entity {
         sb.append(", name=").append(name);
         sb.append(", email='").append(email).append('\'');
         sb.append(", withdrawn=").append(withdrawn);
+        sb.append(", zone=").append(zone);
         sb.append(", enrollingTime=").append(enrollingTime);
         sb.append(", withdrawnTime=").append(withdrawnTime);
         sb.append(", castleId='").append(castleId).append('\'');
@@ -58,9 +63,10 @@ public class MetroEnrollment extends Entity {
         String civilianId = "12@POP";
         Name name = Name.getSample();
         String email = "hong@gmail.com";
+        NaraZone zone = NaraZone.getSample();
 
-        MetroEnrollment sample = new MetroEnrollment(metroId, civilianId, name, email);
-        sample.setCastleId(Castle.getSample().getId());
+        MetroEnrollment sample = new MetroEnrollment(metroId, civilianId, name, email, zone);
+        sample.setCastleId(CastleIdBuilder.makeCastleId(1L));
 
         return sample;
     }
@@ -153,6 +159,14 @@ public class MetroEnrollment extends Entity {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public NaraZone getZone() {
+        return zone;
+    }
+
+    public void setZone(NaraZone zone) {
+        this.zone = zone;
     }
 
     public static void main(String[] args) {
