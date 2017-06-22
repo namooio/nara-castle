@@ -1,8 +1,8 @@
-package namoo.nara.castle.domain.event.handler;
+package namoo.nara.castle.domain.event.handler.local;
 
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.castle.domain.event.CastellanFailEvent;
+import namoo.nara.castle.domain.event.CastellanFail;
 import namoo.nara.castle.domain.event.EnrollmentAdded;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.store.CastellanStore;
@@ -52,6 +52,6 @@ public class EnrollmentAddedWorker extends LocalEventHandler<EnrollmentAdded> {
     private void produceGlobalEvent(String castleId) {
         //
         String workerName = EnrollmentAddedWorker.class.getName();
-        eventService.produce(new CastellanFailEvent(castleId, workerName));
+        eventService.produce(new CastellanFail(castleId, workerName));
     }
 }

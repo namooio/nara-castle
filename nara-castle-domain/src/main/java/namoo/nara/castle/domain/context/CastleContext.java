@@ -1,7 +1,7 @@
 package namoo.nara.castle.domain.context;
 
-import namoo.nara.castle.domain.event.handler.CastleCreatedWorker;
-import namoo.nara.castle.domain.event.handler.EnrollmentAddedWorker;
+import namoo.nara.castle.domain.event.handler.local.CastleCreatedWorker;
+import namoo.nara.castle.domain.event.handler.local.EnrollmentAddedWorker;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.event.worker.EventService;
@@ -28,8 +28,12 @@ public class CastleContext {
 
     private void initEventWorkers() {
         //
+        // local
         eventService.addEventHandler(new CastleCreatedWorker(storeLycler, proxyLycler));
         eventService.addEventHandler(new EnrollmentAddedWorker(storeLycler, proxyLycler));
+
+        // global
+//        eventService.addEventHandler(new );
     }
 
     public static CastleContext getInstance() {
