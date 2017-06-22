@@ -1,19 +1,17 @@
 package namoo.nara.castle.domain.context;
 
 import namoo.nara.share.domain.util.numeral36.Numeral36;
-import namoo.nara.share.domain.util.numeral36.Numeral36Util;
 
-public class CastleIdBuilder {
+public final class CastleIdBuilder {
     //
-    private Numeral36 numeral36;
+    private static Numeral36 numeral36 = Numeral36.getInstance();
 
-    public CastleIdBuilder() {
+    private CastleIdBuilder() {
         //
-        this.numeral36 = Numeral36.getInstance();
     }
 
-    public String makeCastleId(long castleSequence) {
+    public static String makeCastleId(long castleSequence) {
         //
-        return String.format("%s", Numeral36Util.getStr36(castleSequence));
+        return String.format("%s", numeral36.getStr36(castleSequence));
     }
 }

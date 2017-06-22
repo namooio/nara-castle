@@ -47,7 +47,7 @@ public class CastleServiceLogic implements CastleService {
 
         if (castle == null) {
             long castleSequence = nextCastleSequence();
-            String castleId = new CastleIdBuilder().makeCastleId(castleSequence);
+            String castleId = CastleIdBuilder.makeCastleId(castleSequence);
             enrollment.setCastleId(castleId);
             castle = new Castle(castleId, enrollment);
             castleStore.create(castle, enrollment);

@@ -15,12 +15,10 @@ public class CastleContext {
     private CastleStoreLycler storeLycler;
     private CastleProxyLycler proxyLycler;
 
-    private CastleIdBuilder castleIdBuilder;
     private EventService eventService;
 
     private CastleContext(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
-        this.castleIdBuilder = new CastleIdBuilder();
         this.storeLycler = storeLycler;
         this.proxyLycler = proxyLycler;
 
@@ -57,11 +55,6 @@ public class CastleContext {
         }
 
         return singletonContext;
-    }
-
-    public CastleIdBuilder getCastleIdBuilder() {
-        //
-        return castleIdBuilder;
     }
 
 }
