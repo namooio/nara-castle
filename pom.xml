@@ -38,6 +38,7 @@
         <module>nara-castle-store</module>
         <module>nara-castle-adapter</module>
         <module>nara-castle-boot</module>
+        <module>nara-castle-akka</module>
     </modules>
 
     <scm>
