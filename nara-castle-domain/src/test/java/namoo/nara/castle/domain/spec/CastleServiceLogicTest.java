@@ -5,6 +5,7 @@ import namoo.nara.castle.domain.context.CastleContext;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.logic.CastleServiceLogic;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
+import namoo.nara.castle.domain.spec.command.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.castle.sa.CastleTestProxyLycler;
@@ -34,7 +35,7 @@ public class CastleServiceLogicTest {
     @Test
     public void enrollMetroTest() throws InterruptedException {
         //
-        MetroEnrollmentCdo metroEnrollmentCdo = MetroEnrollmentCdo.getSample();
+        EnrollMetroCommand metroEnrollmentCdo = EnrollMetroCommand.getSample();
         String castleId = castleService.enrollMetro(metroEnrollmentCdo);
 
         // Wait event processing until castellan is created.

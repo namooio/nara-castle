@@ -1,10 +1,15 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.util.json.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CastleBook extends Entity {
     //
+    Logger logger = LoggerFactory.getLogger(getId());
+
     private long sequence;
 
     public CastleBook(String id) {
@@ -15,7 +20,7 @@ public class CastleBook extends Entity {
     public CastleBook() {
         //
         super(CastleBook.class.getSimpleName());    // singleton
-        this.sequence = 1L;
+        this.sequence = 0L;
     }
 
     @Override
@@ -30,7 +35,6 @@ public class CastleBook extends Entity {
     public static CastleBook getSample() {
         //
         CastleBook sample = new CastleBook();
-
         return sample;
     }
 
@@ -42,6 +46,12 @@ public class CastleBook extends Entity {
     public static CastleBook fromJson(String json) {
         //
         return JsonUtil.fromJson(json, CastleBook.class);
+    }
+
+    public void apply(SequenceIncreased event) {
+        //
+        sequence = event.getIncreasedSequence();
+        logger.debug("Apply result[{}]", toString());
     }
 
     public long nextSequence() {
@@ -61,4 +71,5 @@ public class CastleBook extends Entity {
         //
         System.out.println(getSample());
     }
+
 }

@@ -19,7 +19,7 @@ public class CastleCreatedWorker extends LocalEventHandler<CastleCreated> {
         //
         super(CastleCreated.class.getName());
         this.castellanStore = storeLycler.requestCastellanStore();
-        this.eventService = proxyLycler.requestEventService();
+//        this.eventService = proxyLycler.requestEventService();
     }
 
     @Override

@@ -2,11 +2,9 @@ package namoo.nara.castle.domain.logic;
 
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.*;
-import namoo.nara.castle.domain.event.CastleCreated;
-import namoo.nara.castle.domain.event.EnrollmentAdded;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
-import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
+import namoo.nara.castle.domain.spec.command.EnrollMetroCommand;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
@@ -21,28 +19,28 @@ public class CastleServiceLogic implements CastleService {
     private CastleStore castleStore;
     private CastellanStore castellanStore;
 
-//    private EventService eventService;
+    private EventService eventService;
 
     public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.castellanStore = storeLycler.requestCastellanStore();
 
-//        this.eventService = proxyLycler.requestEventService();
+        this.eventService = proxyLycler.requestEventService();
     }
 
     @Override
-    public String enrollMetro(MetroEnrollmentCdo metroEnrollmentCdo) {
+    public String enrollMetro(EnrollMetroCommand enrollMetroCommand) {
         //
-        String metroId = metroEnrollmentCdo.getMetroId();
-        String civilianId = metroEnrollmentCdo.getCivilianId();
+        String metroId = enrollMetroCommand.getMetroId();
+        String civilianId = enrollMetroCommand.getCivilianId();
 
         MetroEnrollment enrollment = new MetroEnrollment(
-                metroEnrollmentCdo.getMetroId(),
-                metroEnrollmentCdo.getCivilianId(),
-                metroEnrollmentCdo.getName(),
-                metroEnrollmentCdo.getEmail(),
-                metroEnrollmentCdo.getZone());
+                enrollMetroCommand.getMetroId(),
+                enrollMetroCommand.getCivilianId(),
+                enrollMetroCommand.getName(),
+                enrollMetroCommand.getEmail(),
+                enrollMetroCommand.getZone());
 
         Castle castle = findCastleByEnrolledMetro(metroId, civilianId);
 

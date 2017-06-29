@@ -43,7 +43,7 @@ public class MetroEnrollment extends Entity {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("MetroEnrollment{");
+        final StringBuilder sb = new StringBuilder("EnrollMetroCommand{");
         sb.append("metroId='").append(metroId).append('\'');
         sb.append(", civilianId='").append(civilianId).append('\'');
         sb.append(", name=").append(name);
