@@ -1,4 +1,4 @@
-package namoo.nara.castle.akka.actor;
+package namoo.nara.castle.cp.akka.actor;
 
 import akka.actor.AbstractActor;
 import namoo.nara.castle.domain.spec.CastleService;
