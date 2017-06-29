@@ -21,14 +21,14 @@ public class CastleServiceLogic implements CastleService {
     private CastleStore castleStore;
     private CastellanStore castellanStore;
 
-    private EventService eventService;
+//    private EventService eventService;
 
     public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.castellanStore = storeLycler.requestCastellanStore();
 
-        this.eventService = proxyLycler.requestEventService();
+//        this.eventService = proxyLycler.requestEventService();
     }
 
     @Override
@@ -53,11 +53,11 @@ public class CastleServiceLogic implements CastleService {
 
             castle = new Castle(castleId, enrollment);
             castleStore.create(castle, enrollment);
-            eventService.produce(new CastleCreated(castle, enrollment));
+//            eventService.produce(new CastleCreated(castle, enrollment));
         } else {
             enrollment.setCastleId(castle.getId());
             castleStore.createEnrollment(enrollment);
-            eventService.produce(new EnrollmentAdded(enrollment));
+//            eventService.produce(new EnrollmentAdded(enrollment));
         }
 
         return castle.getId();
