@@ -4,7 +4,7 @@ import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
-import namoo.nara.castle.domain.spec.command.EnrollMetroCommand;
+import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;

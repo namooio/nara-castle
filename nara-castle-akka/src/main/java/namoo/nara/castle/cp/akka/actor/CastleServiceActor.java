@@ -3,9 +3,7 @@ package namoo.nara.castle.cp.akka.actor;
 import akka.actor.AbstractActor;
 import akka.actor.Props;
 import namoo.nara.castle.domain.spec.CastleService;
-import namoo.nara.share.domain.event.NaraEvent;
-import namoo.nara.share.domain.protocol.NaraCommand;
-import namoo.nara.share.domain.protocol.NaraQuery;
+import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,46 +27,24 @@ public class CastleServiceActor extends AbstractActor {
     public Receive createReceive() {
         //
         return receiveBuilder()
-                .match(NaraCommand.class, this::handleCommand)
-                .match(NaraQuery.class, this::handleQuery)
+                // command
+                .match(EnrollMetroCommand.class, this::handleEnrollMetroCommand)
+
+                // query
+//                .match(NaraQuery.class, this::handleQuery)
                 .build();
     }
 
-    private void handleCommand(NaraCommand command) {
+    private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
         logger.debug("Handle command start  {}{}", command.getClass().getSimpleName(), command);
 
-//        if (command instanceof AccountOwnerRegister) handleAccountOwnerRegister((AccountOwnerRegister) command);
-//        else if (command instanceof AccountOwnerModify) handleAccountOwnerModify((AccountOwnerModify) command);
-//        else if (command instanceof AccountOwnerRemove) handleAccountOwnerRemove((AccountOwnerRemove) command);
-//        else {
-//            logger.debug("No command handler found {}", command.getClass().getSimpleName());
-//        }
+//        long nextSequence = castleBook.getSequence() + 1;
+//
+//        persist(new SequenceIncreased(nextSequence), this::handleSequenceIncreasedEvent);
+//        getSender().tell(nextSequence, getSelf());
 
         logger.debug("Handle command finish {}{}", command.getClass().getSimpleName(), command);
     }
 
-    private void handleQuery(NaraQuery query) {
-        //
-        logger.debug("Handle query start  {}{}", query.getClass().getSimpleName(), query);
-
-//        if (query instanceof AccountOwnerFind) handleAccountOwnerFind((AccountOwnerFind) query);
-//        else if (query instanceof AccountOwnerFindByUsername) handleAccountOwnerFindByUsername((AccountOwnerFindByUsername) query);
-//        else if (query instanceof AccountOwnerFindByEmail) handleAccountOwnerFindByEmail((AccountOwnerFindByEmail) query);
-//        else if (query instanceof ExistsAccountOwner) handleExistsAccountOwner((ExistsAccountOwner) query);
-//        else if (query instanceof ExistsUsernameAccount) handleExistsUsernameAccount((ExistsUsernameAccount) query);
-//        else if (query instanceof ExistsEmailAccount) handleExistsEmailAccount((ExistsEmailAccount) query);
-//        else {
-//            logger.debug("No query handler found {}", query);
-//        }
-
-        logger.debug("Handle query finish {}{}", query.getClass().getSimpleName(), query);
-    }
-
-    private void handleEvent(NaraEvent event) {
-        //
-        logger.debug("Handle event start  {}{}", event.getClass().getSimpleName(), event);
-//        throw new NaraException("boom");
-        logger.debug("Handle event finish {}{}", event.getClass().getSimpleName(), event);
-    }
 }

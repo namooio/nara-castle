@@ -1,4 +1,4 @@
-package namoo.nara.castle.domain.spec.command;
+package namoo.nara.castle.domain.spec.command.castle;
 
 import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.share.domain.granule.Name;

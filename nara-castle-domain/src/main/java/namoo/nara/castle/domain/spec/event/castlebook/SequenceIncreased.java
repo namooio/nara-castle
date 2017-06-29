@@ -4,6 +4,8 @@ import namoo.nara.share.domain.event.NaraEvent;
 
 public class SequenceIncreased implements NaraEvent {
     //
+    private static final long serialVersionUID = 1L;
+
     private long increasedSequence;
 
     public SequenceIncreased(long increasedSequence) {

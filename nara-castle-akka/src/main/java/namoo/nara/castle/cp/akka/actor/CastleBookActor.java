@@ -53,6 +53,7 @@ public class CastleBookActor extends AbstractPersistentActor {
 
                 // query
                 .match(FindCastleBookQuery.class, this::handleFindCastleBookQuery)
+
                 .build();
     }
 

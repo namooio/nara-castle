@@ -3,7 +3,7 @@ package namoo.nara.castle.domain.spec;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.IdentityPlate;
-import namoo.nara.castle.domain.spec.command.EnrollMetroCommand;
+import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.share.domain.NameValueList;
 
 public interface CastleService {
