@@ -3,6 +3,7 @@ package namoo.nara.castle.cp.akka.actor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.testkit.javadsl.TestKit;
+import namoo.nara.castle.cp.akka.actor.domain.CastleBookActor;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;

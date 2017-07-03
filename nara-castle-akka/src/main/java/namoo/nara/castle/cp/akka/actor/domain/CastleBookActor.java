@@ -1,4 +1,4 @@
-package namoo.nara.castle.cp.akka.actor;
+package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
@@ -60,33 +60,21 @@ public class CastleBookActor extends AbstractPersistentActor {
 
     private void handleNextSequenceCommand(NextSequenceCommand command) {
         //
-        logger.debug("Handle command start  {}[{}]", command.getClass().getSimpleName(), command);
-
         long nextSequence = castleBook.getSequence() + 1;
 
         persist(new SequenceIncreased(nextSequence), this::handleSequenceIncreasedEvent);
         getSender().tell(nextSequence, getSelf());
-
-        logger.debug("Handle command finish {}[{}]", command.getClass().getSimpleName(), command);
     }
 
 
     private void handleFindCastleBookQuery(FindCastleBookQuery query) {
         //
-        logger.debug("Handle query start  {}[{}]", query.getClass().getSimpleName(), query);
-
         getSender().tell(castleBook, getSelf());
-
-        logger.debug("Handle query finish {}[{}]", query.getClass().getSimpleName(), query);
     }
 
     private void handleSequenceIncreasedEvent(SequenceIncreased event) {
         //
-        logger.debug("Handle event start  {}[{}]", event.getClass().getSimpleName(), event);
-
         castleBook.apply(event);
-
-        logger.debug("Handle event start  {}[{}]", event.getClass().getSimpleName(), event);
     }
 
 

@@ -1,13 +1,13 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.castle.domain.context.CastleIdBuilder;
-import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
+import namoo.nara.share.domain.ValueObject;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.NaraZone;
 import namoo.nara.share.util.json.JsonUtil;
 
-public class MetroEnrollment extends Entity {
+public class MetroEnrollment implements ValueObject {
     //
     private String metroId;
     private String civilianId;
@@ -24,14 +24,8 @@ public class MetroEnrollment extends Entity {
         //
     }
 
-    public MetroEnrollment(String id) {
-        //
-        super(id);
-    }
-
     public MetroEnrollment(String metroId, String civilianId, Name name, String email, NaraZone zone) {
         //
-        super();
         this.metroId = metroId;
         this.civilianId = civilianId;
         this.name = name;

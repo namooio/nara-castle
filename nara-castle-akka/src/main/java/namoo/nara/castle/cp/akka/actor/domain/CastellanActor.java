@@ -1,4 +1,4 @@
-package namoo.nara.castle.cp.akka.actor;
+package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.persistence.AbstractPersistentActor;
 import namoo.nara.castle.domain.entity.Castellan;

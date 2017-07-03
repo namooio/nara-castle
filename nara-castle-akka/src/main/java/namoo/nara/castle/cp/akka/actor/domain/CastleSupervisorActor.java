@@ -1,8 +1,11 @@
-package namoo.nara.castle.cp.akka.actor;
+package namoo.nara.castle.cp.akka.actor.domain;
 
-import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.persistence.AbstractPersistentActor;
+import namoo.nara.castle.cp.akka.actor.store.command.CreateCastleCommand;
+import namoo.nara.castle.cp.akka.actor.store.query.FindCastleByEnrolledMetroQuery;
+import namoo.nara.castle.cp.akka.actor.util.ActorNameUtil;
 import namoo.nara.castle.cp.akka.actor.util.AwaitableActorExecutor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.Castle;
@@ -10,28 +13,40 @@ import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
+import namoo.nara.castle.domain.spec.event.castle.CastleCreated;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-/**
- * Aggregate
- */
-public class CastleServiceActor extends AbstractActor {
+public class CastleSupervisorActor extends AbstractPersistentActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-//    private CastleService castleService;
+    private ActorRef castleStoreActor;
 
-    static public Props props() {
+    static public Props props(ActorRef castleStoreActor) {
         //
-        return Props.create(CastleServiceActor.class, () -> new CastleServiceActor());
+        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(castleStoreActor));
     }
 
-    public CastleServiceActor() {
+    public CastleSupervisorActor(ActorRef castleStoreActor) {
         //
+        this.castleStoreActor = castleStoreActor;
+    }
+
+    @Override
+    public String persistenceId() {
+        //
+        return "castle-supervisor";
+    }
+
+    @Override
+    public Receive createReceiveRecover() {
+        //
+        return receiveBuilder()
+                .build();
     }
 
     @Override
@@ -49,15 +64,21 @@ public class CastleServiceActor extends AbstractActor {
 
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
-        logger.debug("Handle command start  {}[{}]", command.getClass().getSimpleName(), command);
+        String metroId = command.getMetroId();
+        String civilianId = command.getCivilianId();
 
-        ActorRef castleBookActor = lookupOrCreateCastleBookActor();
+        Castle castle = new AwaitableActorExecutor<Castle>().execute(castleStoreActor, new FindCastleByEnrolledMetroQuery(metroId, civilianId));
 
-        Long nextCastleSequence = new AwaitableActorExecutor<Long>().execute(castleBookActor, new NextSequenceCommand());
-        String castleId = CastleIdBuilder.makeCastleId(nextCastleSequence);
+        if (castle != null) {
+            ActorRef castleActor = lookupCastleActor(castle.getId());
+            castleActor.tell(command, getSelf());
+        }
+        else {
+            ActorRef castleBookActor = lookupOrCreateCastleBookActor();
 
-        ActorRef castleActor = lookupCastleActor(castleId);
-        if (castleActor == null) {
+            Long nextCastleSequence = new AwaitableActorExecutor<Long>().execute(castleBookActor, new NextSequenceCommand());
+            String castleId = CastleIdBuilder.makeCastleId(nextCastleSequence);
+
             MetroEnrollment enrollment = new MetroEnrollment(
                     command.getMetroId(),
                     command.getCivilianId(),
@@ -65,63 +86,56 @@ public class CastleServiceActor extends AbstractActor {
                     command.getEmail(),
                     command.getZone());
 
-            Castle castle = new Castle(castleId, enrollment);
-            castleActor = createCastleActor(castle);
+            castle = new Castle(castleId, enrollment);
+            createCastleActor(castle);
+
+            persist(new CastleCreated(castle), this::handleCastleCreatedEvent);
         }
-
-        Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, new FindCastleQuery(castleId));
-        getSender().tell(castle, getSelf());
-
-        logger.debug("Handle command finish {}[{}]", command.getClass().getSimpleName(), command);
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
         //
-        logger.debug("Handle command start  {}[{}]", command.getClass().getSimpleName(), command);
-
         ActorRef castleActor = lookupCastleActor(command.getCastleId());
         castleActor.tell(command, getSelf());
-
-        logger.debug("Handle command finish {}[{}]", command.getClass().getSimpleName(), command);
     }
 
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
-        logger.debug("Handle query start  {}[{}]", query.getClass().getSimpleName(), query);
-
         ActorRef castleActor = lookupCastleActor(query.getCastleId());
 
         Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, query);
         getSender().tell(castle, getSelf());
+    }
 
-        logger.debug("Handle query finish {}[{}]", query.getClass().getSimpleName(), query);
+    private void handleCastleCreatedEvent(CastleCreated event) {
+        //
+        castleStoreActor.tell(new CreateCastleCommand(event.getCastle()), getSelf());
     }
 
     private ActorRef lookupOrCreateCastleBookActor() {
         //
         String castleBookId = CastleIdBuilder.makeCastleBookId();
-        String name = getEntityActorName(castleBookId, CastleBookActor.class);
+        String name = ActorNameUtil.getEntityActorName(castleBookId, CastleBookActor.class);
 
         Optional<ActorRef> child = getContext().findChild(name);
-        if (child.isPresent()) return child.get();
+        if (child.isPresent()) {
+            return child.get();
+        }
         else {
-            logger.info("Creating new {} castle book actor to handle a request for id {}", CastleBookActor.class.getSimpleName(), castleBookId);
             return getContext().actorOf(CastleBookActor.props(), name);
         }
     }
 
     private ActorRef lookupCastleActor(String castleId) {
         //
-        String name = getEntityActorName(castleId, Castle.class);
+        String name = ActorNameUtil.getEntityActorName(castleId, Castle.class);
         return getContext().findChild(name).orElse(null);
     }
 
     private ActorRef createCastleActor(Castle castle) {
         //
-        String name = getEntityActorName(castle.getId(), Castle.class);
-
-        logger.info("Creating new {} castle actor to handle a request for id {}", Castle.class.getSimpleName(), castle.getId());
-        return getContext().actorOf(CastleActor.props(castle), name);
+        String name = ActorNameUtil.getEntityActorName(castle.getId(), Castle.class);
+        return getContext().actorOf(CastleActor.props(castle, castleStoreActor), name);
     }
 
 //    private void fowardCommand(String id, Class entityClass, NaraCommand command) {
@@ -129,15 +143,5 @@ public class CastleServiceActor extends AbstractActor {
 //        ActorRef entity = lookupOrCreateChild(id, entityClass);
 //        entity.forward(command, context());
 //    }
-
-    private String getEntityActorName(String id, Class entityClass) {
-        //
-        return String.format("%s-%s", getEntityName(entityClass).toLowerCase(), id);
-    }
-
-    private String getEntityName(Class entityClass) {
-        //
-        return entityClass.getSimpleName();
-    }
 
 }

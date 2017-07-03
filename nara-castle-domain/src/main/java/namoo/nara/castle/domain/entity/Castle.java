@@ -1,12 +1,15 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.castle.domain.context.CastleIdBuilder;
+import namoo.nara.castle.domain.spec.event.castle.CastleModified;
+import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.NaraZone;
 import namoo.nara.share.util.json.JsonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Castle extends Entity implements Aggregate {
@@ -36,6 +39,9 @@ public class Castle extends Entity implements Aggregate {
         this.primaryEmail = metroEnrollment.getEmail();
         this.zone = metroEnrollment.getZone();
         this.builtTime = System.currentTimeMillis();
+
+        this.enrollments = new ArrayList<>();
+        this.enrollments.add(metroEnrollment);
     }
 
     @Override
@@ -79,6 +85,16 @@ public class Castle extends Entity implements Aggregate {
             if ("name".equals(nameValue.getName())) this.setName(nameValue.getValue());
             else if ("primaryEmail".equals(nameValue.getName())) this.setPrimaryEmail(nameValue.getValue());
         });
+    }
+
+    public void apply(CastleModified event) {
+        //
+        setValues(event.getNameValues());
+    }
+
+    public void apply(MetroEnrolled event) {
+        //
+        enrollments.add(event.getMetroEnrollment());
     }
 
     public Long getBuiltTime() {
@@ -133,4 +149,5 @@ public class Castle extends Entity implements Aggregate {
         //
         System.out.println(Castle.getSample());
     }
+
 }

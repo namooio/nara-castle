@@ -3,6 +3,7 @@ package namoo.nara.castle.cp.akka.actor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.testkit.javadsl.TestKit;
+import namoo.nara.castle.cp.akka.actor.domain.CastleSupervisorActor;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
@@ -19,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Locale;
 
-public class CastleServiceActorTest {
+public class CastleSupervisorActorTest {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -41,8 +42,11 @@ public class CastleServiceActorTest {
     @Test
     public void testCastleServiceActor() {
         //
+        final TestKit storeMock = new TestKit(system);
+        ActorRef castleStoreMockActor = storeMock.getTestActor();
+
         final TestKit testProbe = new TestKit(system);
-        final ActorRef castleServiceActor = system.actorOf(CastleServiceActor.props(), "castleservice");
+        final ActorRef castleServiceActor = system.actorOf(CastleSupervisorActor.props(castleStoreMockActor), "castle-supervisor");
 
         MetroEnrollment sample = MetroEnrollment.getSample();
         String metroId = sample.getMetroId();
