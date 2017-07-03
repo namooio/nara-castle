@@ -1,7 +1,9 @@
 package namoo.nara.castle.cp.akka.actor.domain;
 
+import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
+import namoo.nara.castle.cp.akka.actor.store.command.castlebook.UpdateCastleBookCommand;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
@@ -15,15 +17,17 @@ public class CastleBookActor extends AbstractPersistentActor {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     private CastleBook castleBook;
+    private ActorRef castleStoreActor;
 
-    static public Props props() {
+    static public Props props(ActorRef castleStoreActor) {
         //
-        return Props.create(CastleBookActor.class, () -> new CastleBookActor());
+        return Props.create(CastleBookActor.class, () -> new CastleBookActor(castleStoreActor));
     }
 
-    public CastleBookActor() {
+    public CastleBookActor(ActorRef castleStoreActor) {
         //
         this.castleBook = new CastleBook();
+        this.castleStoreActor = castleStoreActor;
     }
 
     @Override
@@ -60,9 +64,9 @@ public class CastleBookActor extends AbstractPersistentActor {
 
     private void handleNextSequenceCommand(NextSequenceCommand command) {
         //
-        long nextSequence = castleBook.getSequence() + 1;
+        long nextSequence = castleBook.nextSequence();
 
-        persist(new SequenceIncreased(nextSequence), this::handleSequenceIncreasedEvent);
+        persist(new SequenceIncreased(castleBook), this::handleSequenceIncreasedEvent);
         getSender().tell(nextSequence, getSelf());
     }
 
@@ -75,6 +79,7 @@ public class CastleBookActor extends AbstractPersistentActor {
     private void handleSequenceIncreasedEvent(SequenceIncreased event) {
         //
         castleBook.apply(event);
+        castleStoreActor.tell(new UpdateCastleBookCommand(event.getCastleBook()), getSelf());
     }
 
 

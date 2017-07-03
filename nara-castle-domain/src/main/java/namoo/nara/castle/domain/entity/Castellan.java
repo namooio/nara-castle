@@ -26,9 +26,10 @@ public class Castellan extends Entity implements Aggregate {
         super(id);
     }
 
-    public Castellan(MetroEnrollment metroEnrollment) {
+    public Castellan(Castle castle) {
         //
-        super(metroEnrollment.getCastleId());       // castleId == castellanId
+        super(castle.getId());       // castleId == castellanId
+        MetroEnrollment metroEnrollment = castle.getEnrollments().get(0);
         this.names = new NameList(metroEnrollment.getName());
         this.phones = new PhoneList();
         this.emails = new EmailList(new Email(metroEnrollment.getEmail()));
@@ -52,9 +53,10 @@ public class Castellan extends Entity implements Aggregate {
 
     public static Castellan getSample() {
         //
+        Castle castle = Castle.getSample();
         MetroEnrollment enrollment = MetroEnrollment.getSample();
 
-        Castellan sample = new Castellan(enrollment);
+        Castellan sample = new Castellan(castle.getId(), enrollment);
 
         return sample;
     }

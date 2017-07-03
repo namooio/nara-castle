@@ -28,26 +28,26 @@ public class EnrollmentAddedWorker extends LocalEventHandler<EnrollmentAdded> {
         //
         MetroEnrollment enrollment = event.getEnrollment();
 
-        String castleId = enrollment.getCastleId();
-        Castellan castellan = castellanStore.retrieve(enrollment.getCastleId());
+//        String castleId = enrollment.getCastleId();
+//        Castellan castellan = castellanStore.retrieve(enrollment.getCastleId());
 
-        if (castellan == null) {
-            produceGlobalEvent(castleId, event);
-        }
-
-        boolean nameUpdated = castellan.checkName(enrollment.getName());
-        boolean emailUpdated = castellan.checkEmail(enrollment.getEmail());
-
-        if(!nameUpdated && !emailUpdated) {
-            return;
-        }
-
-        try {
-            castellan.initUnitPlates();
-            castellanStore.update(castellan);
-        } catch (Exception e) {
-            produceGlobalEvent(castleId, event);
-        }
+//        if (castellan == null) {
+//            produceGlobalEvent(castleId, event);
+//        }
+//
+//        boolean nameUpdated = castellan.checkName(enrollment.getName());
+//        boolean emailUpdated = castellan.checkEmail(enrollment.getEmail());
+//
+//        if(!nameUpdated && !emailUpdated) {
+//            return;
+//        }
+//
+//        try {
+//            castellan.initUnitPlates();
+//            castellanStore.update(castellan);
+//        } catch (Exception e) {
+//            produceGlobalEvent(castleId, event);
+//        }
     }
 
     private void produceGlobalEvent(String castleId, Event sourceEvent) {

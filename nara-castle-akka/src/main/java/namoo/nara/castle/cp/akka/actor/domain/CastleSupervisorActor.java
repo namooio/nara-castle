@@ -3,16 +3,18 @@ package namoo.nara.castle.cp.akka.actor.domain;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
-import namoo.nara.castle.cp.akka.actor.store.command.CreateCastleCommand;
-import namoo.nara.castle.cp.akka.actor.store.query.FindCastleByEnrolledMetroQuery;
+import namoo.nara.castle.cp.akka.actor.store.command.castellan.CreateCastellanCommand;
+import namoo.nara.castle.cp.akka.actor.store.command.castle.CreateCastleCommand;
 import namoo.nara.castle.cp.akka.actor.util.ActorNameUtil;
 import namoo.nara.castle.cp.akka.actor.util.AwaitableActorExecutor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
+import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
+import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castle.CastleCreated;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import org.slf4j.Logger;
@@ -67,7 +69,9 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
         String metroId = command.getMetroId();
         String civilianId = command.getCivilianId();
 
-        Castle castle = new AwaitableActorExecutor<Castle>().execute(castleStoreActor, new FindCastleByEnrolledMetroQuery(metroId, civilianId));
+        // TODO
+//        Castle castle = new AwaitableActorExecutor<Castle>().execute(castleStoreActor, new FindCastleByEnrolledMetroQuery(metroId, civilianId));
+        Castle castle = null;
 
         if (castle != null) {
             ActorRef castleActor = lookupCastleActor(castle.getId());
@@ -91,6 +95,8 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
 
             persist(new CastleCreated(castle), this::handleCastleCreatedEvent);
         }
+
+        getSender().tell(castle, getSelf());
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
@@ -110,6 +116,17 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
     private void handleCastleCreatedEvent(CastleCreated event) {
         //
         castleStoreActor.tell(new CreateCastleCommand(event.getCastle()), getSelf());
+
+        Castle castle = event.getCastle();
+        Castellan castellan = new Castellan(castle);
+
+        createCastellanActor(castellan);
+        persist(new CastellanCreated(castellan), this::handleCastellanCreatedEvent);
+    }
+
+    private void handleCastellanCreatedEvent(CastellanCreated event) {
+        //
+        castleStoreActor.tell(new CreateCastellanCommand(event.getCastellan()), getSelf());
     }
 
     private ActorRef lookupOrCreateCastleBookActor() {
@@ -122,7 +139,7 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
             return child.get();
         }
         else {
-            return getContext().actorOf(CastleBookActor.props(), name);
+            return getContext().actorOf(CastleBookActor.props(castleStoreActor), name);
         }
     }
 
@@ -136,6 +153,18 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
         //
         String name = ActorNameUtil.getEntityActorName(castle.getId(), Castle.class);
         return getContext().actorOf(CastleActor.props(castle, castleStoreActor), name);
+    }
+
+    private ActorRef lookupCastellanActor(String castleId) {
+        //
+        String name = ActorNameUtil.getEntityActorName(castleId, Castellan.class);
+        return getContext().findChild(name).orElse(null);
+    }
+
+    private ActorRef createCastellanActor(Castellan castellan) {
+        //
+        String name = ActorNameUtil.getEntityActorName(castellan.getId(), Castellan.class);
+        return getContext().actorOf(CastellanActor.props(castellan, castleStoreActor), name);
     }
 
 //    private void fowardCommand(String id, Class entityClass, NaraCommand command) {

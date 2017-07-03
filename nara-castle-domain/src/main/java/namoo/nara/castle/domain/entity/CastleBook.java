@@ -51,7 +51,7 @@ public class CastleBook extends Entity {
 
     public void apply(SequenceIncreased event) {
         //
-        sequence = event.getIncreasedSequence();
+        sequence = event.getCastleBook().getSequence();
         logger.debug("Apply result[{}]", toString());
     }
 

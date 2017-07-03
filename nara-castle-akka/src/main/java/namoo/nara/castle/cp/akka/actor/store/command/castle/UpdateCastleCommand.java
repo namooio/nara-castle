@@ -1,4 +1,4 @@
-package namoo.nara.castle.cp.akka.actor.store.command;
+package namoo.nara.castle.cp.akka.actor.store.command.castle;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.share.domain.protocol.NaraCommand;

@@ -1,4 +1,4 @@
-package namoo.nara.castle.cp.akka.actor;
+package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -40,7 +40,7 @@ public class CastleSupervisorActorTest {
     }
 
     @Test
-    public void testCastleServiceActor() {
+    public void testCastleSupervisorActor() {
         //
         final TestKit storeMock = new TestKit(system);
         ActorRef castleStoreMockActor = storeMock.getTestActor();
@@ -58,16 +58,6 @@ public class CastleSupervisorActorTest {
         EnrollMetroCommand enrollMetroCommand = new EnrollMetroCommand(metroId, civilianId, name, email, zone);
         castleServiceActor.tell(enrollMetroCommand, testProbe.getRef());
         Castle castle = testProbe.expectMsgClass(Castle.class);
-        logger.debug("{}", castle);
-
-        enrollMetroCommand = new EnrollMetroCommand(metroId, civilianId, name, email, zone);
-        castleServiceActor.tell(enrollMetroCommand, testProbe.getRef());
-        castle = testProbe.expectMsgClass(Castle.class);
-        logger.debug("{}", castle);
-
-        enrollMetroCommand = new EnrollMetroCommand(metroId, civilianId, name, email, zone);
-        castleServiceActor.tell(enrollMetroCommand, testProbe.getRef());
-        castle = testProbe.expectMsgClass(Castle.class);
         logger.debug("{}", castle);
 
         String castleId = castle.getId();

@@ -1,6 +1,5 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.ValueObject;
 import namoo.nara.share.domain.granule.Name;
@@ -17,8 +16,6 @@ public class MetroEnrollment implements ValueObject {
     private NaraZone zone;
     private Long enrollingTime;
     private Long withdrawnTime;
-
-    private String castleId;
 
     public MetroEnrollment() {
         //
@@ -46,7 +43,6 @@ public class MetroEnrollment implements ValueObject {
         sb.append(", zone=").append(zone);
         sb.append(", enrollingTime=").append(enrollingTime);
         sb.append(", withdrawnTime=").append(withdrawnTime);
-        sb.append(", castleId='").append(castleId).append('\'');
         sb.append('}');
         return sb.toString();
     }
@@ -60,7 +56,6 @@ public class MetroEnrollment implements ValueObject {
         NaraZone zone = NaraZone.getSample();
 
         MetroEnrollment sample = new MetroEnrollment(metroId, civilianId, name, email, zone);
-        sample.setCastleId(CastleIdBuilder.makeCastleId(1L));
 
         return sample;
     }
@@ -129,14 +124,6 @@ public class MetroEnrollment implements ValueObject {
 
     public void setWithdrawnTime(Long withdrawnTime) {
         this.withdrawnTime = withdrawnTime;
-    }
-
-    public String getCastleId() {
-        return castleId;
-    }
-
-    public void setCastleId(String castleId) {
-        this.castleId = castleId;
     }
 
     public Name getName() {

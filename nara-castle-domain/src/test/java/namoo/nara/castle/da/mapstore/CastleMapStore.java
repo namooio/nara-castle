@@ -20,13 +20,13 @@ public class CastleMapStore implements CastleStore {
     public void create(Castle castle, MetroEnrollment enrollment) {
         //
         this.castleMap.put(castle.getId(), castle);
-        this.enrollmentMap.put(enrollment.getId(), enrollment);
+//        this.enrollmentMap.put(enrollment.getId(), enrollment);
     }
 
     @Override
     public void createEnrollment(MetroEnrollment enrollment) {
         //
-        this.enrollmentMap.put(enrollment.getId(), enrollment);
+//        this.enrollmentMap.put(enrollment.getId(), enrollment);
     }
 
     @Override
@@ -56,10 +56,11 @@ public class CastleMapStore implements CastleStore {
     @Override
     public List<MetroEnrollment> retrieveEnrollmentsOfCastle(String castleId) {
         //
-        return this.enrollmentMap.values()
-                .stream()
-                .filter(enrollment -> enrollment.getCastleId().equals(castleId))
-                .collect(Collectors.toList());
+//        return this.enrollmentMap.values()
+//                .stream()
+//                .filter(enrollment -> enrollment.getCastleId().equals(castleId))
+//                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class CastleMapStore implements CastleStore {
     @Override
     public void updateEnrollment(MetroEnrollment enrollment) {
         //
-        this.enrollmentMap.put(enrollment.getId(), enrollment);
+//        this.enrollmentMap.put(enrollment.getId(), enrollment);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class CastleMapStore implements CastleStore {
     @Override
     public void deleteEnrollment(MetroEnrollment enrollment) {
         //
-        this.enrollmentMap.remove(enrollment.getId());
+//        this.enrollmentMap.remove(enrollment.getId());
     }
 
     @Override

@@ -3,7 +3,7 @@ package namoo.nara.castle.cp.akka.actor.domain;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
-import namoo.nara.castle.cp.akka.actor.store.command.UpdateCastleCommand;
+import namoo.nara.castle.cp.akka.actor.store.command.castle.UpdateCastleCommand;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
@@ -97,4 +97,5 @@ public class CastleActor extends AbstractPersistentActor {
         castle.apply(event);
         castleStoreActor.tell(new UpdateCastleCommand(castle), getSelf());
     }
+
 }
