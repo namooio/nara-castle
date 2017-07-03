@@ -3,8 +3,9 @@ package namoo.nara.castle.cp.akka.actor;
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
-import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
+import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
+import namoo.nara.castle.domain.spec.event.castle.CastleModified;
+import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,11 +49,37 @@ public class CastleActor extends AbstractPersistentActor {
         //
         return receiveBuilder()
                 // command
-//                .match(NextSequenceCommand.class, this::handleNextSequenceCommand)
+                .match(ModifyCastleCommand.class, this::handleModifyCastleCommand)
 
                 // query
-//                .match(FindCastleBookQuery.class, this::handleFindCastleBookQuery)
+                .match(FindCastleQuery.class, this::handleFindCastleQuery)
 
                 .build();
+    }
+
+    private void handleModifyCastleCommand(ModifyCastleCommand command) {
+        //
+        logger.debug("Handle command start  {}[{}]", command.getClass().getSimpleName(), command);
+
+        castle.setValues(command.getNameValues());
+        persist(new CastleModified(command), this::handleCastleModified);
+
+        logger.debug("Handle command finish {}[{}]", command.getClass().getSimpleName(), command);
+    }
+
+    private void handleFindCastleQuery(FindCastleQuery query) {
+        //
+        logger.debug("Handle query start  {}[{}]", query.getClass().getSimpleName(), query);
+
+        getSender().tell(castle, getSelf());
+
+        logger.debug("Handle query finish {}[{}]", query.getClass().getSimpleName(), query);
+    }
+
+    private void handleCastleModified(CastleModified event) {
+        //
+        logger.debug("Handle event start  {}[{}]", event.getClass().getSimpleName(), event);
+
+        logger.debug("Handle event start  {}[{}]", event.getClass().getSimpleName(), event);
     }
 }

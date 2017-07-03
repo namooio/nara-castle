@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.context;
 
+import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.share.domain.util.numeral36.Numeral36;
 
 public final class CastleIdBuilder {
@@ -8,6 +9,11 @@ public final class CastleIdBuilder {
 
     private CastleIdBuilder() {
         //
+    }
+
+    public static String makeCastleBookId() {
+        //
+        return CastleBook.class.getSimpleName();
     }
 
     public static String makeCastleId(long castleSequence) {

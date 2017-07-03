@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.util.json.JsonUtil;
@@ -19,7 +20,7 @@ public class CastleBook extends Entity {
 
     public CastleBook() {
         //
-        super(CastleBook.class.getSimpleName());    // singleton
+        super(CastleIdBuilder.makeCastleBookId());    // singleton
         this.sequence = 0L;
     }
 

@@ -2,6 +2,7 @@ package namoo.nara.castle.cp.akka.actor;
 
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
+import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
@@ -28,7 +29,7 @@ public class CastleBookActor extends AbstractPersistentActor {
     @Override
     public String persistenceId() {
         //
-        return castleBook.getId();
+        return CastleIdBuilder.makeCastleBookId();
     }
 
     @Override
@@ -59,33 +60,33 @@ public class CastleBookActor extends AbstractPersistentActor {
 
     private void handleNextSequenceCommand(NextSequenceCommand command) {
         //
-        logger.debug("Handle command start  {}{}", command.getClass().getSimpleName(), command);
+        logger.debug("Handle command start  {}[{}]", command.getClass().getSimpleName(), command);
 
         long nextSequence = castleBook.getSequence() + 1;
 
         persist(new SequenceIncreased(nextSequence), this::handleSequenceIncreasedEvent);
         getSender().tell(nextSequence, getSelf());
 
-        logger.debug("Handle command finish {}{}", command.getClass().getSimpleName(), command);
+        logger.debug("Handle command finish {}[{}]", command.getClass().getSimpleName(), command);
     }
 
 
     private void handleFindCastleBookQuery(FindCastleBookQuery query) {
         //
-        logger.debug("Handle query start  {}{}", query.getClass().getSimpleName(), query);
+        logger.debug("Handle query start  {}[{}]", query.getClass().getSimpleName(), query);
 
         getSender().tell(castleBook, getSelf());
 
-        logger.debug("Handle query finish {}{}", query.getClass().getSimpleName(), query);
+        logger.debug("Handle query finish {}[{}]", query.getClass().getSimpleName(), query);
     }
 
     private void handleSequenceIncreasedEvent(SequenceIncreased event) {
         //
-        logger.debug("Handle event start  {}{}", event.getClass().getSimpleName(), event);
+        logger.debug("Handle event start  {}[{}]", event.getClass().getSimpleName(), event);
 
         castleBook.apply(event);
 
-        logger.debug("Handle event start  {}{}", event.getClass().getSimpleName(), event);
+        logger.debug("Handle event start  {}[{}]", event.getClass().getSimpleName(), event);
     }
 
 

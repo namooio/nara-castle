@@ -5,11 +5,12 @@ import namoo.nara.castle.domain.entity.*;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
+import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
+import namoo.nara.castle.domain.spec.command.castle.WithdrawMetroCommand;
 import namoo.nara.castle.domain.store.CastellanStore;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.event.worker.EventService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -19,14 +20,14 @@ public class CastleServiceLogic implements CastleService {
     private CastleStore castleStore;
     private CastellanStore castellanStore;
 
-    private EventService eventService;
+//    private EventService eventService;
 
     public CastleServiceLogic(CastleStoreLycler storeLycler, CastleProxyLycler proxyLycler) {
         //
         this.castleStore = storeLycler.requestCastleStore();
         this.castellanStore = storeLycler.requestCastellanStore();
 
-        this.eventService = proxyLycler.requestEventService();
+//        this.eventService = proxyLycler.requestEventService();
     }
 
     @Override
@@ -62,8 +63,12 @@ public class CastleServiceLogic implements CastleService {
     }
 
     @Override
-    public void withdrawMetro(String castleId, String metroId, String civilianId) {
+    public void withdrawMetro(WithdrawMetroCommand withdrawMetroCommand) {
         //
+        String castleId = withdrawMetroCommand.getCastleId();
+        String metroId = withdrawMetroCommand.getMetroId();
+        String civilianId = withdrawMetroCommand.getCivilianId();
+
         Castle castle = findCastle(castleId);
 
         MetroEnrollment enrollment = castleStore.retrieveEnrollment(metroId, civilianId);
@@ -75,6 +80,20 @@ public class CastleServiceLogic implements CastleService {
 
         castleStore.updateEnrollment(enrollment);
     }
+
+    @Override
+    public void modifyCastle(ModifyCastleCommand modifyCastleCommand) {
+        //
+        String castleId = modifyCastleCommand.getCastleId();
+        NameValueList nameValues = modifyCastleCommand.getNameValues();
+
+        Castle castle = findCastle(castleId);
+        castle.setValues(nameValues);
+
+        castleStore.update(castle);
+    }
+
+
 
     @Override
     public Castle findCastle(String castleId) {
@@ -136,15 +155,6 @@ public class CastleServiceLogic implements CastleService {
         Castle castle = castleStore.retrieve(castleId);
 
         return castle;
-    }
-
-    @Override
-    public void modifyCastle(String castleId, NameValueList nameValues) {
-        //
-        Castle castle = findCastle(castleId);
-        castle.setValues(nameValues);
-
-        castleStore.update(castle);
     }
 
     @Override

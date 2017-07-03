@@ -4,14 +4,16 @@ import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
+import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
+import namoo.nara.castle.domain.spec.command.castle.WithdrawMetroCommand;
 import namoo.nara.share.domain.NameValueList;
 
 public interface CastleService {
     //
     // command
     String enrollMetro(EnrollMetroCommand enrollMetroCommand);
-    void withdrawMetro(String castleId, String metroId, String civilianId);
-    void modifyCastle(String castleId, NameValueList nameValues);
+    void withdrawMetro(WithdrawMetroCommand withdrawMetroCommand);
+    void modifyCastle(ModifyCastleCommand modifyCastleCommand);
 
     // query
     Castle findCastle(String castleId);

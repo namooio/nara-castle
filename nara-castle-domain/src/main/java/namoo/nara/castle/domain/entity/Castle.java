@@ -17,7 +17,7 @@ public class Castle extends Entity implements Aggregate {
     private NaraZone zone;
     private Long builtTime;
 
-    transient  private List<MetroEnrollment> enrollments;       // weak association
+    transient private List<MetroEnrollment> enrollments;       // weak association
 
     public Castle() {
         //
@@ -41,7 +41,8 @@ public class Castle extends Entity implements Aggregate {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Castle{");
-        sb.append("startNationId='").append(startNationId).append('\'');
+        sb.append(super.toString());
+        sb.append(", startNationId='").append(startNationId).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", primaryEmail='").append(primaryEmail).append('\'');
         sb.append(", zone=").append(zone);
