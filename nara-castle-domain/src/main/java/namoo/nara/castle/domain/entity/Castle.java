@@ -3,10 +3,12 @@ package namoo.nara.castle.domain.entity;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
+import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.NaraZone;
+import namoo.nara.share.exception.NaraException;
 import namoo.nara.share.util.json.JsonUtil;
 
 import java.util.ArrayList;
@@ -95,6 +97,20 @@ public class Castle extends Entity implements Aggregate {
     public void apply(MetroEnrolled event) {
         //
         enrollments.add(event.getMetroEnrollment());
+    }
+
+    public void apply(MetroWithdrawn event) {
+        //
+        String metroId = event.getMetroId();
+        String civilianId = event.getCivilianId();
+        MetroEnrollment metroEnrollment = enrollments
+                .stream()
+                .filter(enrollment -> enrollment.getMetroId().equals(metroId) && enrollment.getCivilianId().equals(civilianId))
+                .findFirst()
+                .orElse(null);
+
+        if (metroEnrollment == null) throw new NaraException(String.format("Metro enrollment for %s not found.", event));
+        metroEnrollment.withdraw();
     }
 
     public Long getBuiltTime() {

@@ -12,9 +12,11 @@ import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
+import namoo.nara.castle.domain.spec.command.castle.WithdrawMetroCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
+import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +67,7 @@ public class CastleActor extends AbstractPersistentActor {
         return receiveBuilder()
                 // command
                 .match(EnrollMetroCommand.class, this::handleEnrollMetroCommand)
+                .match(WithdrawMetroCommand.class, this::handleWithdrawMetroCommand)
                 .match(ModifyCastleCommand.class, this::handleModifyCastleCommand)
                 .match(RegisterCastellanCommand.class, this::handleRegisterCastellanCommand)
 
@@ -75,6 +78,7 @@ public class CastleActor extends AbstractPersistentActor {
     }
 
     /*********************** Command ***********************/
+
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
         MetroEnrollment enrollment = new MetroEnrollment(
@@ -85,6 +89,13 @@ public class CastleActor extends AbstractPersistentActor {
                 command.getZone());
 
         persist(new MetroEnrolled(enrollment), this::handleMetroEnrolledEvent);
+    }
+
+    private void handleWithdrawMetroCommand(WithdrawMetroCommand command) {
+        //
+        String metroId = command.getMetroId();
+        String civilianId = command.getCivilianId();
+        persist(new MetroWithdrawn(metroId, civilianId), this::handleMetroWithdrawn);
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
@@ -99,17 +110,27 @@ public class CastleActor extends AbstractPersistentActor {
 
         persist(new CastellanCreated(castellan), this::handleCastellanCreatedEvent);
     }
+
     /*********************** Command ***********************/
 
     /*********************** Query ***********************/
+
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
         getSender().tell(castle, getSelf());
     }
+
     /*********************** Query ***********************/
 
     /*********************** Event ***********************/
+
     private void handleMetroEnrolledEvent(MetroEnrolled event) {
+        //
+        castle.apply(event);
+        castleStoreActor.tell(new UpdateCastleCommand(castle), getSelf());
+    }
+
+    private void handleMetroWithdrawn(MetroWithdrawn event) {
         //
         castle.apply(event);
         castleStoreActor.tell(new UpdateCastleCommand(castle), getSelf());
@@ -125,6 +146,7 @@ public class CastleActor extends AbstractPersistentActor {
         //
         castellanStoreActor.tell(new CreateCastellanCommand(event.getCastellan()), getSelf());
     }
+
     /*********************** Event ***********************/
 
     private ActorRef lookupCastellanActor(String castleId) {
