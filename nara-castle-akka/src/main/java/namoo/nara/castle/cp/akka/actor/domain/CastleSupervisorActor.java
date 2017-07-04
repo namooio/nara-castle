@@ -3,18 +3,16 @@ package namoo.nara.castle.cp.akka.actor.domain;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
-import namoo.nara.castle.cp.akka.actor.store.command.castellan.CreateCastellanCommand;
 import namoo.nara.castle.cp.akka.actor.store.command.castle.CreateCastleCommand;
 import namoo.nara.castle.cp.akka.actor.util.ActorNameUtil;
 import namoo.nara.castle.cp.akka.actor.util.AwaitableActorExecutor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
-import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
+import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
-import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castle.CastleCreated;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import org.slf4j.Logger;
@@ -48,6 +46,11 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
     public Receive createReceiveRecover() {
         //
         return receiveBuilder()
+                .match(CastleCreated.class, this::handleCastleCreatedEvent)
+//              .match(SnapshotOffer.class, ss -> {
+//                  logger.debug("offered state = {}", ss);
+//                  Object snapshot = ss.snapshot();
+//              })
                 .build();
     }
 
@@ -64,6 +67,7 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
                 .build();
     }
 
+    /*********************** Command ***********************/
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
         String metroId = command.getMetroId();
@@ -103,8 +107,11 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
         //
         ActorRef castleActor = lookupCastleActor(command.getCastleId());
         castleActor.tell(command, getSelf());
-    }
 
+    }
+    /*********************** Command ***********************/
+
+    /*********************** Query ***********************/
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
         ActorRef castleActor = lookupCastleActor(query.getCastleId());
@@ -112,22 +119,18 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
         Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, query);
         getSender().tell(castle, getSelf());
     }
+    /*********************** Query ***********************/
 
+    /*********************** Event ***********************/
     private void handleCastleCreatedEvent(CastleCreated event) {
         //
         castleStoreActor.tell(new CreateCastleCommand(event.getCastle()), getSelf());
 
         Castle castle = event.getCastle();
-        Castellan castellan = new Castellan(castle);
-
-        createCastellanActor(castellan);
-        persist(new CastellanCreated(castellan), this::handleCastellanCreatedEvent);
+        ActorRef castleActor = lookupCastleActor(castle.getId());
+        castleActor.tell(new RegisterCastellanCommand(castle), getSelf());
     }
-
-    private void handleCastellanCreatedEvent(CastellanCreated event) {
-        //
-        castleStoreActor.tell(new CreateCastellanCommand(event.getCastellan()), getSelf());
-    }
+    /*********************** Event ***********************/
 
     private ActorRef lookupOrCreateCastleBookActor() {
         //
@@ -155,17 +158,6 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
         return getContext().actorOf(CastleActor.props(castle, castleStoreActor), name);
     }
 
-    private ActorRef lookupCastellanActor(String castleId) {
-        //
-        String name = ActorNameUtil.getEntityActorName(castleId, Castellan.class);
-        return getContext().findChild(name).orElse(null);
-    }
-
-    private ActorRef createCastellanActor(Castellan castellan) {
-        //
-        String name = ActorNameUtil.getEntityActorName(castellan.getId(), Castellan.class);
-        return getContext().actorOf(CastellanActor.props(castellan, castleStoreActor), name);
-    }
 
 //    private void fowardCommand(String id, Class entityClass, NaraCommand command) {
 //        //

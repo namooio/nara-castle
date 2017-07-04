@@ -2,12 +2,13 @@ package namoo.nara.castle.domain.entity;
 
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
+import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.util.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CastleBook extends Entity {
+public class CastleBook extends Entity implements Aggregate {
     //
     Logger logger = LoggerFactory.getLogger(getId());
 

@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValue;
@@ -54,9 +55,7 @@ public class Castellan extends Entity implements Aggregate {
     public static Castellan getSample() {
         //
         Castle castle = Castle.getSample();
-        MetroEnrollment enrollment = MetroEnrollment.getSample();
-
-        Castellan sample = new Castellan(castle.getId(), enrollment);
+        Castellan sample = new Castellan(castle.getId());
 
         return sample;
     }
@@ -67,6 +66,11 @@ public class Castellan extends Entity implements Aggregate {
 
     public static Castellan fromJson(String json) {
         return JsonUtil.fromJson(json, Castellan.class);
+    }
+
+    public void apply(CastellanModified event) {
+        //
+        setValues(event.getNameValues());
     }
 
     public void setValues(NameValueList nameValues) {
@@ -174,4 +178,5 @@ public class Castellan extends Entity implements Aggregate {
         //
         System.out.println(getSample());
     }
+
 }

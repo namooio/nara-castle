@@ -1,6 +1,5 @@
 package namoo.nara.castle.domain.spec.command.castle;
 
-import namoo.nara.castle.domain.spec.sdo.MetroEnrollmentCdo;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.NaraZone;
 import namoo.nara.share.domain.protocol.NaraCommand;
@@ -57,9 +56,9 @@ public class EnrollMetroCommand implements NaraCommand {
         return JsonUtil.toJson(this);
     }
 
-    public MetroEnrollmentCdo fromJson(String json) {
+    public EnrollMetroCommand fromJson(String json) {
         //
-        return JsonUtil.fromJson(json, MetroEnrollmentCdo.class);
+        return JsonUtil.fromJson(json, EnrollMetroCommand.class);
     }
 
     public String getMetroId() {

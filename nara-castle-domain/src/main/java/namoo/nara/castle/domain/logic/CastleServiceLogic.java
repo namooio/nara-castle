@@ -1,6 +1,8 @@
 package namoo.nara.castle.domain.logic;
 
-import namoo.nara.castle.domain.entity.*;
+import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.proxy.CastleProxyLycler;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
@@ -11,7 +13,6 @@ import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.domain.NameValueList;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 public class CastleServiceLogic implements CastleService {
@@ -65,20 +66,20 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public void withdrawMetro(WithdrawMetroCommand withdrawMetroCommand) {
         //
-        String castleId = withdrawMetroCommand.getCastleId();
-        String metroId = withdrawMetroCommand.getMetroId();
-        String civilianId = withdrawMetroCommand.getCivilianId();
-
-        Castle castle = findCastle(castleId);
-
-        MetroEnrollment enrollment = castleStore.retrieveEnrollment(metroId, civilianId);
-        if(enrollment == null) {
-            return;
-        }
-
-        enrollment.withdraw();
-
-        castleStore.updateEnrollment(enrollment);
+//        String castleId = withdrawMetroCommand.getCastleId();
+//        String metroId = withdrawMetroCommand.getMetroId();
+//        String civilianId = withdrawMetroCommand.getCivilianId();
+//
+//        Castle castle = findCastle(castleId);
+//
+//        MetroEnrollment enrollment = castleStore.retrieveEnrollment(metroId, civilianId);
+//        if(enrollment == null) {
+//            return;
+//        }
+//
+//        enrollment.withdraw();
+//
+//        castleStore.updateEnrollment(enrollment);
     }
 
     @Override
@@ -109,47 +110,49 @@ public class CastleServiceLogic implements CastleService {
     @Override
     public Castle findCastleByEmail(String email) {
         //
-        List<UnitPlate> unitPlates = castellanStore.retrieveUnitPlate(email, KeyAttr.Email);
-        if(unitPlates.size() == 0) {
-            throw new NoSuchElementException("email: "+ email);
-        }
-
-        if(unitPlates.size() > 1) {
-            throw new IllegalArgumentException("Email dupulication: " + unitPlates.toString());
-        }
-
-        String castleId = unitPlates.get(0).getCastleId();
-        Castle castle = findCastle(castleId);
-
-        return castle;
+//        List<UnitPlate> unitPlates = castellanStore.retrieveUnitPlate(email, KeyAttr.Email);
+//        if(unitPlates.size() == 0) {
+//            throw new NoSuchElementException("email: "+ email);
+//        }
+//
+//        if(unitPlates.size() > 1) {
+//            throw new IllegalArgumentException("Email dupulication: " + unitPlates.toString());
+//        }
+//
+//        String castleId = unitPlates.get(0).getCastleId();
+//        Castle castle = findCastle(castleId);
+//
+//        return castle;
+        return null;
     }
 
     @Override
     public Castle findCastleByPhone(String phone) {
         //
-        List<UnitPlate> unitPlates = castellanStore.retrieveUnitPlate(phone, KeyAttr.Phone);
-        if(unitPlates.size() == 0) {
-            throw new NoSuchElementException("phone: "+ phone);
-        }
-
-        if(unitPlates.size() > 1) {
-            throw new IllegalArgumentException("Phone dupulication: " + unitPlates.toString());
-        }
-
-        String castleId = unitPlates.get(0).getCastleId();
-        Castle castle = findCastle(castleId);
-
-        return castle;
+//        List<UnitPlate> unitPlates = castellanStore.retrieveUnitPlate(phone, KeyAttr.Phone);
+//        if(unitPlates.size() == 0) {
+//            throw new NoSuchElementException("phone: "+ phone);
+//        }
+//
+//        if(unitPlates.size() > 1) {
+//            throw new IllegalArgumentException("Phone dupulication: " + unitPlates.toString());
+//        }
+//
+//        String castleId = unitPlates.get(0).getCastleId();
+//        Castle castle = findCastle(castleId);
+//
+//        return castle;
+        return null;
     }
 
     @Override
     public Castle findCastleByEnrolledMetro(String metroId, String civilianId) {
         //
-        MetroEnrollment enrollment = castleStore.retrieveEnrollment(metroId, civilianId);
-        if(enrollment == null) {
-            return null;
+//        MetroEnrollment enrollment = castleStore.retrieveEnrollment(metroId, civilianId);
+//        if(enrollment == null) {
+//            return null;
 //            throw new NoSuchElementException(String.format("metroId:%s, civilianId:%s", metroId, civilianId));
-        }
+//        }
 
 //        String castleId = enrollment.getCastleId();
 //        Castle castle = castleStore.retrieve(castleId);
@@ -193,9 +196,9 @@ public class CastleServiceLogic implements CastleService {
         return identityPlate;
     }
 
-    private long nextCastleSequence() {
-        //
-        CastleBook book = castleStore.retrieveCastleBookWithNextCastleSequence();
-        return book.getSequence();
-    }
+//    private long nextCastleSequence() {
+//        //
+//        CastleBook book = castleStore.retrieveCastleBookWithNextCastleSequence();
+//        return book.getSequence();
+//    }
 }

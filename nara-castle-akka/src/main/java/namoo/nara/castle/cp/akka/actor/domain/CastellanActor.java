@@ -3,24 +3,25 @@ package namoo.nara.castle.cp.akka.actor.domain;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.persistence.AbstractPersistentActor;
+import namoo.nara.castle.cp.akka.actor.store.command.castellan.UpdateCastellanCommand;
 import namoo.nara.castle.domain.entity.Castellan;
-import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
-import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
+import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
+import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 
 public class CastellanActor extends AbstractPersistentActor {
     //
     private Castellan castellan;
-    private ActorRef castleStoreActor;
+    private ActorRef castellanStore;
 
-    static public Props props(Castellan castellan, ActorRef castleStoreActor) {
+    static public Props props(Castellan castellan, ActorRef castellanStore) {
         //
-        return Props.create(CastellanActor.class, () -> new CastellanActor(castellan, castleStoreActor));
+        return Props.create(CastellanActor.class, () -> new CastellanActor(castellan, castellanStore));
     }
 
-    public CastellanActor(Castellan castellan, ActorRef castleStoreActor) {
+    public CastellanActor(Castellan castellan, ActorRef castellanStore) {
         //
         this.castellan = castellan;
-        this.castleStoreActor = castleStoreActor;
+        this.castellanStore = castellanStore;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class CastellanActor extends AbstractPersistentActor {
     public Receive createReceiveRecover() {
         //
         return receiveBuilder()
-//                .match(CastleModified.class, this::handleCastleModifiedEvent)
+                .match(CastellanModified.class, this::handleCastellanModifiedEvent)
 //                .match(SnapshotOffer.class, ss -> {
 //                    logger.debug("offered state = {}", ss);
 //                    Object snapshot = ss.snapshot();
@@ -46,8 +47,7 @@ public class CastellanActor extends AbstractPersistentActor {
         //
         return receiveBuilder()
                 // command
-//                .match(RegisterCastellanCommand.class, this::handleRegisterCastellanCommand)
-//                .match(ModifyCastleCommand.class, this::handleModifyCastleCommand)
+                .match(ModifyCastellanCommand.class, this::handleModifyCastellanCommand)
 
                 // query
 //                .match(FindCastleQuery.class, this::handleFindCastleQuery)
@@ -55,4 +55,18 @@ public class CastellanActor extends AbstractPersistentActor {
                 .build();
     }
 
+    /*********************** Command ***********************/
+    private void handleModifyCastellanCommand(ModifyCastellanCommand command) {
+        //
+        persist(new CastellanModified(command), this::handleCastellanModifiedEvent);
+    }
+    /*********************** Command ***********************/
+
+    /*********************** Event ***********************/
+    private void handleCastellanModifiedEvent(CastellanModified event) {
+        //
+        castellan.apply(event);
+        castellanStore.tell(new UpdateCastellanCommand(castellan), getSelf());
+    }
+    /*********************** Event ***********************/
 }
