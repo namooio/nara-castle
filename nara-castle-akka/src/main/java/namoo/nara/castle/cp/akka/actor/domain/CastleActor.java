@@ -52,6 +52,7 @@ public class CastleActor extends AbstractPersistentActor {
         //
         return receiveBuilder()
                 .match(MetroEnrolled.class, this::handleMetroEnrolledEvent)
+                .match(MetroWithdrawn.class, this::handleMetroWithdrawn)
                 .match(CastleModified.class, this::handleCastleModifiedEvent)
                 .match(CastellanCreated.class, this::handleCastellanCreatedEvent)
 //                .match(SnapshotOffer.class, ss -> {
