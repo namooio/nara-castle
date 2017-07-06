@@ -1,9 +1,9 @@
-package namoo.nara.castle.cp.akka.actor.domain;
+package namoo.nara.castle.akka.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.testkit.javadsl.TestKit;
-import namoo.nara.castle.cp.akka.actor.domain.CastleSupervisorActor;
+import namoo.nara.castle.akka.actor.CastleSupervisorActor;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
