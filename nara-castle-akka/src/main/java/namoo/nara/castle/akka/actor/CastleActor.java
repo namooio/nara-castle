@@ -43,7 +43,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
             handleMetroEnrolledEvent((MetroEnrolled) event);
         }
         else if (event instanceof MetroWithdrawn) {
-            handleMetroWithdrawn((MetroWithdrawn) event);
+            handleMetroWithdrawnEvent((MetroWithdrawn) event);
         }
         else if (event instanceof CastleModified) {
             handleCastleModifiedEvent((CastleModified) event);
@@ -96,7 +96,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         //
         String metroId = command.getMetroId();
         String civilianId = command.getCivilianId();
-        persist(new MetroWithdrawn(metroId, civilianId), this::handleMetroWithdrawn);
+        persist(new MetroWithdrawn(metroId, civilianId), this::handleMetroWithdrawnEvent);
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
@@ -130,7 +130,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         getState().apply(event);
     }
 
-    private void handleMetroWithdrawn(MetroWithdrawn event) {
+    private void handleMetroWithdrawnEvent(MetroWithdrawn event) {
         //
         getState().apply(event);
     }

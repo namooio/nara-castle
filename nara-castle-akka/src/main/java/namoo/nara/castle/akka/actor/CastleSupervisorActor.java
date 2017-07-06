@@ -2,6 +2,7 @@ package namoo.nara.castle.akka.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import namoo.nara.castle.akka.projection.CastleViewProjector;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
@@ -38,6 +39,8 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         //
         super("castle-supervisor");
         this.castleStore = castleStore;
+
+        getViewProjectorMap().put(CastleCreated.class.getName(), new CastleViewProjector(castleStore));
     }
 
     @Override

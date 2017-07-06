@@ -22,12 +22,6 @@ public class CastellanCreated implements NaraEvent {
         return sb.toString();
     }
 
-    @Override
-    public String getName() {
-        //
-        return getClass().getName();
-    }
-
     public Castellan getCastellan() {
         return castellan;
     }

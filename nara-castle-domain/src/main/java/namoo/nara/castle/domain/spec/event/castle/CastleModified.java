@@ -26,12 +26,6 @@ public class CastleModified implements NaraEvent {
         return sb.toString();
     }
 
-    @Override
-    public String getName() {
-        //
-        return getClass().getName();
-    }
-
     public String getCastleId() {
         return castleId;
     }

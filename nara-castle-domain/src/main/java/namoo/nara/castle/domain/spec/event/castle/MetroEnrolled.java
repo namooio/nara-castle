@@ -22,12 +22,6 @@ public class MetroEnrolled implements NaraEvent {
         return sb.toString();
     }
 
-    @Override
-    public String getName() {
-        //
-        return getClass().getName();
-    }
-
     public MetroEnrollment getMetroEnrollment() {
         return metroEnrollment;
     }

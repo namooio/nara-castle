@@ -22,12 +22,6 @@ public class SequenceIncreased implements NaraEvent {
         return sb.toString();
     }
 
-    @Override
-    public String getName() {
-        //
-        return getClass().getName();
-    }
-
     public CastleBook getCastleBook() {
         return castleBook;
     }
