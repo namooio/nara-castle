@@ -5,6 +5,7 @@ import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
 import namoo.nara.share.domain.NameValue;
 import namoo.nara.share.domain.NameValueList;
+import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.granule.*;
 import namoo.nara.share.util.json.JsonUtil;
 
@@ -68,9 +69,12 @@ public class Castellan extends Entity implements Aggregate {
         return JsonUtil.fromJson(json, Castellan.class);
     }
 
-    public void apply(CastellanModified event) {
+    public void apply(NaraEvent event) {
         //
-        setValues(event.getNameValues());
+        if (event instanceof CastellanModified) {
+            CastellanModified castellanModified = (CastellanModified) event;
+            setValues(castellanModified.getNameValues());
+        }
     }
 
     public void setValues(NameValueList nameValues) {

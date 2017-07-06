@@ -22,11 +22,9 @@ import namoo.nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CastleActor extends NaraPersistentActor {
+public class CastleActor extends NaraPersistentActor<Castle> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
-
-    private Castle castle;
 
     static public Props props(Castle castle) {
         //
@@ -35,8 +33,7 @@ public class CastleActor extends NaraPersistentActor {
 
     public CastleActor(Castle castle) {
         //
-        super(castle.getId());
-        this.castle = castle;
+        super(castle, castle.getId());
     }
 
     @Override
@@ -121,7 +118,7 @@ public class CastleActor extends NaraPersistentActor {
 
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
-        getSender().tell(castle, getSelf());
+        getSender().tell(getState(), getSelf());
     }
 
     /*********************** Query ***********************/
@@ -130,17 +127,17 @@ public class CastleActor extends NaraPersistentActor {
 
     private void handleMetroEnrolledEvent(MetroEnrolled event) {
         //
-        castle.apply(event);
+        getState().apply(event);
     }
 
     private void handleMetroWithdrawn(MetroWithdrawn event) {
         //
-        castle.apply(event);
+        getState().apply(event);
     }
 
     private void handleCastleModifiedEvent(CastleModified event) {
         //
-        castle.apply(event);
+        getState().apply(event);
     }
 
     private void handleCastellanCreatedEvent(CastellanCreated event) {

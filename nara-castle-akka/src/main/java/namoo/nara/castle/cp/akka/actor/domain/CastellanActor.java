@@ -11,10 +11,8 @@ import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
 
-public class CastellanActor extends NaraPersistentActor {
+public class CastellanActor extends NaraPersistentActor<Castellan> {
     //
-    private Castellan castellan;
-
     static public Props props(Castellan castellan) {
         //
         return Props.create(CastellanActor.class, () -> new CastellanActor(castellan));
@@ -22,8 +20,7 @@ public class CastellanActor extends NaraPersistentActor {
 
     public CastellanActor(Castellan castellan) {
         //
-        super(castellan.getId());
-        this.castellan = castellan;
+        super(castellan, castellan.getId());
     }
 
     @Override
@@ -63,7 +60,7 @@ public class CastellanActor extends NaraPersistentActor {
 
     private void handleFindIdentityPlateQuery(FindIdentityPlateQuery query) {
         //
-        IdentityPlate identityPlate = new IdentityPlate(castellan);
+        IdentityPlate identityPlate = new IdentityPlate(getState());
         getSender().tell(identityPlate, getSelf());
     }
 
@@ -73,7 +70,7 @@ public class CastellanActor extends NaraPersistentActor {
 
     private void handleCastellanModifiedEvent(CastellanModified event) {
         //
-        castellan.apply(event);
+        getState().apply(event);
     }
 
     /*********************** Event ***********************/

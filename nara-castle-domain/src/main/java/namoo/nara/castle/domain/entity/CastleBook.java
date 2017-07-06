@@ -4,6 +4,7 @@ import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
+import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.util.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,10 +51,13 @@ public class CastleBook extends Entity implements Aggregate {
         return JsonUtil.fromJson(json, CastleBook.class);
     }
 
-    public void apply(SequenceIncreased event) {
+    @Override
+    public void apply(NaraEvent event) {
         //
-        sequence = event.getCastleBook().getSequence();
-        logger.debug("Apply result[{}]", toString());
+        if (event instanceof SequenceIncreased) {
+            SequenceIncreased sequenceIncreased = (SequenceIncreased) event;
+            sequence = sequenceIncreased.getCastleBook().getSequence();
+        }
     }
 
     public long nextSequence() {

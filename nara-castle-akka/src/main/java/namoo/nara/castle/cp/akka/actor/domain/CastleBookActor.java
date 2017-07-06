@@ -13,11 +13,9 @@ import namoo.nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CastleBookActor extends NaraPersistentActor {
+public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
-
-    private CastleBook castleBook;
 
     static public Props props() {
         //
@@ -26,8 +24,7 @@ public class CastleBookActor extends NaraPersistentActor {
 
     public CastleBookActor() {
         //
-        super(CastleIdBuilder.makeCastleBookId());
-        this.castleBook = new CastleBook();
+        super(new CastleBook(), CastleIdBuilder.makeCastleBookId());
     }
 
     @Override
@@ -58,9 +55,9 @@ public class CastleBookActor extends NaraPersistentActor {
 
     private void handleNextSequenceCommand(NextSequenceCommand command) {
         //
-        long nextSequence = castleBook.nextSequence();
+        long nextSequence = getState().nextSequence();
 
-        persist(new SequenceIncreased(castleBook), this::handleSequenceIncreasedEvent);
+        persist(new SequenceIncreased(getState()), this::handleSequenceIncreasedEvent);
         getSender().tell(nextSequence, getSelf());
     }
 
@@ -70,7 +67,7 @@ public class CastleBookActor extends NaraPersistentActor {
 
     private void handleFindCastleBookQuery(FindCastleBookQuery query) {
         //
-        getSender().tell(castleBook, getSelf());
+        getSender().tell(getState(), getSelf());
     }
 
     /*********************** Query ***********************/
@@ -80,7 +77,7 @@ public class CastleBookActor extends NaraPersistentActor {
 
     private void handleSequenceIncreasedEvent(SequenceIncreased event) {
         //
-        castleBook.apply(event);
+        getState().apply(event);
     }
 
     /*********************** Event ***********************/
