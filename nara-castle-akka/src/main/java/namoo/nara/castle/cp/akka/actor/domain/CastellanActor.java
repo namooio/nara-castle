@@ -24,7 +24,7 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     }
 
     @Override
-    public void handleEvent(NaraEvent event) {
+    public void onEventOccured(NaraEvent event) {
         //
         if (event instanceof CastellanModified) {
             handleCastellanModifiedEvent((CastellanModified) event);
@@ -32,7 +32,7 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     }
 
     @Override
-    public void handleCommand(NaraCommand command) {
+    public void onReceiveCommand(NaraCommand command) {
         //
         if (command instanceof ModifyCastellanCommand) {
             handleModifyCastellanCommand((ModifyCastellanCommand) command);
@@ -40,7 +40,7 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     }
 
     @Override
-    public void handleQuery(NaraQuery query) {
+    public void onReceiveQuery(NaraQuery query) {
         //
         if (query instanceof FindIdentityPlateQuery) {
             handleFindIdentityPlateQuery((FindIdentityPlateQuery) query);

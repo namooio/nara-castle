@@ -40,7 +40,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     @Override
-    public void handleEvent(NaraEvent event) {
+    public void onEventOccured(NaraEvent event) {
         //
         if (event instanceof CastleCreated) {
             handleCastleCreatedEvent((CastleCreated) event);
@@ -48,7 +48,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     @Override
-    public void handleCommand(NaraCommand command) {
+    public void onReceiveCommand(NaraCommand command) {
         //
         if (command instanceof EnrollMetroCommand) {
             handleEnrollMetroCommand((EnrollMetroCommand) command);
@@ -59,7 +59,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     @Override
-    public void handleQuery(NaraQuery query) {
+    public void onReceiveQuery(NaraQuery query) {
         //
         if (query instanceof FindCastleQuery) {
             handleFindCastleQuery((FindCastleQuery) query);
@@ -67,6 +67,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     /*********************** Command ***********************/
+
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
         String metroId = command.getMetroId();
@@ -111,6 +112,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     /*********************** Command ***********************/
 
     /*********************** Query ***********************/
+
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
         ActorRef castleActor = lookupCastleActor(query.getCastleId());
@@ -118,15 +120,18 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, query);
         getSender().tell(castle, getSelf());
     }
+
     /*********************** Query ***********************/
 
     /*********************** Event ***********************/
+
     private void handleCastleCreatedEvent(CastleCreated event) {
         //
         Castle castle = event.getCastle();
         ActorRef castleActor = lookupCastleActor(castle.getId());
         castleActor.tell(new RegisterCastellanCommand(castle), getSelf());
     }
+
     /*********************** Event ***********************/
 
     private ActorRef lookupOrCreateCastleBookActor() {

@@ -37,7 +37,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     @Override
-    public void handleEvent(NaraEvent event) {
+    public void onEventOccured(NaraEvent event) {
         //
         if (event instanceof MetroEnrolled) {
             handleMetroEnrolledEvent((MetroEnrolled) event);
@@ -54,7 +54,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     @Override
-    public void handleCommand(NaraCommand command) {
+    public void onReceiveCommand(NaraCommand command) {
         //
         if (command instanceof EnrollMetroCommand) {
             handleEnrollMetroCommand((EnrollMetroCommand) command);
@@ -71,7 +71,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     @Override
-    public void handleQuery(NaraQuery query) {
+    public void onReceiveQuery(NaraQuery query) {
         //
         if (query instanceof FindCastleQuery) {
             handleFindCastleQuery((FindCastleQuery) query);
