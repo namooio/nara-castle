@@ -16,6 +16,9 @@ import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
+import namoo.nara.share.domain.event.NaraEvent;
+import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,34 +40,45 @@ public class CastleActor extends NaraPersistentActor {
     }
 
     @Override
-    public Receive createReceiveRecover() {
+    public void handleEvent(NaraEvent event) {
         //
-        return receiveBuilder()
-                .match(MetroEnrolled.class, this::handleMetroEnrolledEvent)
-                .match(MetroWithdrawn.class, this::handleMetroWithdrawn)
-                .match(CastleModified.class, this::handleCastleModifiedEvent)
-                .match(CastellanCreated.class, this::handleCastellanCreatedEvent)
-//                .match(SnapshotOffer.class, ss -> {
-//                    logger.debug("offered state = {}", ss);
-//                    Object snapshot = ss.snapshot();
-//                })
-                .build();
+        if (event instanceof MetroEnrolled) {
+            handleMetroEnrolledEvent((MetroEnrolled) event);
+        }
+        else if (event instanceof MetroWithdrawn) {
+            handleMetroWithdrawn((MetroWithdrawn) event);
+        }
+        else if (event instanceof CastleModified) {
+            handleCastleModifiedEvent((CastleModified) event);
+        }
+        else if (event instanceof CastellanCreated) {
+            handleCastellanCreatedEvent((CastellanCreated) event);
+        }
     }
 
     @Override
-    public Receive createReceive() {
+    public void handleCommand(NaraCommand command) {
         //
-        return receiveBuilder()
-                // command
-                .match(EnrollMetroCommand.class, this::handleEnrollMetroCommand)
-                .match(WithdrawMetroCommand.class, this::handleWithdrawMetroCommand)
-                .match(ModifyCastleCommand.class, this::handleModifyCastleCommand)
-                .match(RegisterCastellanCommand.class, this::handleRegisterCastellanCommand)
+        if (command instanceof EnrollMetroCommand) {
+            handleEnrollMetroCommand((EnrollMetroCommand) command);
+        }
+        else if (command instanceof WithdrawMetroCommand) {
+            handleWithdrawMetroCommand((WithdrawMetroCommand) command);
+        }
+        else if (command instanceof ModifyCastleCommand) {
+            handleModifyCastleCommand((ModifyCastleCommand) command);
+        }
+        else if (command instanceof RegisterCastellanCommand) {
+            handleRegisterCastellanCommand((RegisterCastellanCommand) command);
+        }
+    }
 
-                // query
-                .match(FindCastleQuery.class, this::handleFindCastleQuery)
-
-                .build();
+    @Override
+    public void handleQuery(NaraQuery query) {
+        //
+        if (query instanceof FindCastleQuery) {
+            handleFindCastleQuery((FindCastleQuery) query);
+        }
     }
 
     /*********************** Command ***********************/
@@ -137,13 +151,13 @@ public class CastleActor extends NaraPersistentActor {
 
     private ActorRef lookupCastellanActor(String castleId) {
         //
-        String name = ActorNameUtil.getEntityActorName(castleId, Castellan.class);
+        String name = ActorNameUtil.requestPersistentActorName(castleId, Castellan.class);
         return getContext().findChild(name).orElse(null);
     }
 
     private ActorRef createCastellanActor(Castellan castellan) {
         //
-        String name = ActorNameUtil.getEntityActorName(castellan.getId(), Castellan.class);
+        String name = ActorNameUtil.requestPersistentActorName(castellan.getId(), Castellan.class);
         return getContext().actorOf(CastellanActor.props(castellan), name);
     }
 }

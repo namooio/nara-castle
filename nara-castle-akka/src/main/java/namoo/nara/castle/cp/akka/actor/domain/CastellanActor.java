@@ -7,6 +7,9 @@ import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 import namoo.nara.castle.domain.spec.query.castellan.FindIdentityPlateQuery;
+import namoo.nara.share.domain.event.NaraEvent;
+import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.protocol.NaraQuery;
 
 public class CastellanActor extends NaraPersistentActor {
     //
@@ -24,28 +27,27 @@ public class CastellanActor extends NaraPersistentActor {
     }
 
     @Override
-    public Receive createReceiveRecover() {
+    public void handleEvent(NaraEvent event) {
         //
-        return receiveBuilder()
-                .match(CastellanModified.class, this::handleCastellanModifiedEvent)
-//                .match(SnapshotOffer.class, ss -> {
-//                    logger.debug("offered state = {}", ss);
-//                    Object snapshot = ss.snapshot();
-//                })
-                .build();
+        if (event instanceof CastellanModified) {
+            handleCastellanModifiedEvent((CastellanModified) event);
+        }
     }
 
     @Override
-    public Receive createReceive() {
+    public void handleCommand(NaraCommand command) {
         //
-        return receiveBuilder()
-                // command
-                .match(ModifyCastellanCommand.class, this::handleModifyCastellanCommand)
+        if (command instanceof ModifyCastellanCommand) {
+            handleModifyCastellanCommand((ModifyCastellanCommand) command);
+        }
+    }
 
-                // query
-                .match(FindIdentityPlateQuery.class, this::handleFindIdentityPlateQuery)
-
-                .build();
+    @Override
+    public void handleQuery(NaraQuery query) {
+        //
+        if (query instanceof FindIdentityPlateQuery) {
+            handleFindIdentityPlateQuery((FindIdentityPlateQuery) query);
+        }
     }
 
     /*********************** Command ***********************/

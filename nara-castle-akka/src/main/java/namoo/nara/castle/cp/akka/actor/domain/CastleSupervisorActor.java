@@ -14,6 +14,9 @@ import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castle.CastleCreated;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
+import namoo.nara.share.domain.event.NaraEvent;
+import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,28 +40,30 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     @Override
-    public Receive createReceiveRecover() {
+    public void handleEvent(NaraEvent event) {
         //
-        return receiveBuilder()
-                .match(CastleCreated.class, this::handleCastleCreatedEvent)
-//              .match(SnapshotOffer.class, ss -> {
-//                  logger.debug("offered state = {}", ss);
-//                  Object snapshot = ss.snapshot();
-//              })
-                .build();
+        if (event instanceof CastleCreated) {
+            handleCastleCreatedEvent((CastleCreated) event);
+        }
     }
 
     @Override
-    public Receive createReceive() {
+    public void handleCommand(NaraCommand command) {
         //
-        return receiveBuilder()
-                // command
-                .match(EnrollMetroCommand.class, this::handleEnrollMetroCommand)
-                .match(ModifyCastleCommand.class, this::handleModifyCastleCommand)
+        if (command instanceof EnrollMetroCommand) {
+            handleEnrollMetroCommand((EnrollMetroCommand) command);
+        }
+        else if (command instanceof ModifyCastleCommand) {
+            handleModifyCastleCommand((ModifyCastleCommand) command);
+        }
+    }
 
-                // query
-                .match(FindCastleQuery.class, this::handleFindCastleQuery)
-                .build();
+    @Override
+    public void handleQuery(NaraQuery query) {
+        //
+        if (query instanceof FindCastleQuery) {
+            handleFindCastleQuery((FindCastleQuery) query);
+        }
     }
 
     /*********************** Command ***********************/
@@ -127,7 +132,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     private ActorRef lookupOrCreateCastleBookActor() {
         //
         String castleBookId = CastleIdBuilder.makeCastleBookId();
-        String name = ActorNameUtil.getEntityActorName(castleBookId, CastleBookActor.class);
+        String name = ActorNameUtil.requestPersistentActorName(castleBookId, CastleBookActor.class);
 
         Optional<ActorRef> child = getContext().findChild(name);
         if (child.isPresent()) {
@@ -140,13 +145,13 @@ public class CastleSupervisorActor extends NaraPersistentActor {
 
     private ActorRef lookupCastleActor(String castleId) {
         //
-        String name = ActorNameUtil.getEntityActorName(castleId, Castle.class);
+        String name = ActorNameUtil.requestPersistentActorName(castleId, Castle.class);
         return getContext().findChild(name).orElse(null);
     }
 
     private ActorRef createCastleActor(Castle castle) {
         //
-        String name = ActorNameUtil.getEntityActorName(castle.getId(), Castle.class);
+        String name = ActorNameUtil.requestPersistentActorName(castle.getId(), Castle.class);
         return getContext().actorOf(CastleActor.props(castle), name);
     }
 

@@ -13,6 +13,9 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import akka.util.Timeout;
+import namoo.nara.share.domain.event.NaraEvent;
+import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,6 +49,31 @@ public abstract class NaraPersistentActor extends AbstractPersistentActor {
         //
         return persistentId;
     }
+
+    @Override
+    public Receive createReceiveRecover() {
+        //
+        return receiveBuilder()
+                .match(NaraEvent.class, this::handleEvent)
+//                .match(SnapshotOffer.class, ss -> {
+//                    logger.debug("offered state = {}", ss);
+//                    Object snapshot = ss.snapshot();
+//                })
+                .build();
+    }
+
+    @Override
+    public Receive createReceive() {
+        //
+        return receiveBuilder()
+                .match(NaraCommand.class, this::handleCommand)
+                .match(NaraQuery.class, this::handleQuery)
+                .build();
+    }
+
+    public abstract void handleEvent(NaraEvent event);
+    public abstract void handleCommand(NaraCommand command);
+    public abstract void handleQuery(NaraQuery query);
 
     private void startStoreBuilder() throws ExecutionException, InterruptedException {
         //

@@ -7,6 +7,9 @@ import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
 import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
+import namoo.nara.share.domain.event.NaraEvent;
+import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,29 +31,27 @@ public class CastleBookActor extends NaraPersistentActor {
     }
 
     @Override
-    public Receive createReceiveRecover() {
+    public void handleEvent(NaraEvent event) {
         //
-        return receiveBuilder()
-                .match(SequenceIncreased.class, this::handleSequenceIncreasedEvent)
-//                .match(SnapshotOffer.class, ss -> {
-//                    logger.debug("offered state = {}", ss);
-//                    Object snapshot = ss.snapshot();
-//                })
-
-                .build();
+        if (event instanceof SequenceIncreased) {
+            handleSequenceIncreasedEvent((SequenceIncreased) event);
+        }
     }
 
     @Override
-    public Receive createReceive() {
+    public void handleCommand(NaraCommand command) {
         //
-        return receiveBuilder()
-                // command
-                .match(NextSequenceCommand.class, this::handleNextSequenceCommand)
+        if (command instanceof NextSequenceCommand) {
+            handleNextSequenceCommand((NextSequenceCommand) command);
+        }
+    }
 
-                // query
-                .match(FindCastleBookQuery.class, this::handleFindCastleBookQuery)
-
-                .build();
+    @Override
+    public void handleQuery(NaraQuery query) {
+        //
+        if (query instanceof FindCastleBookQuery) {
+            handleFindCastleBookQuery((FindCastleBookQuery) query);
+        }
     }
 
     /*********************** Command ***********************/
