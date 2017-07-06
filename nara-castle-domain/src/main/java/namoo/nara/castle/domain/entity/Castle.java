@@ -90,6 +90,15 @@ public class Castle extends Entity implements Aggregate {
         });
     }
 
+    public boolean isEnrolledMetro(String metroId, String civilianId) {
+        //
+        return enrollments
+                .stream()
+                .filter(enrollment -> metroId.equals(enrollment.getMetroId()) && civilianId.equals(enrollment.getCivilianId()))
+                .findFirst()
+                .isPresent();
+    }
+
     @Override
     public void apply(NaraEvent event) {
         //

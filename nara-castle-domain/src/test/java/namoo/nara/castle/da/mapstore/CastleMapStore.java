@@ -36,7 +36,11 @@ public class CastleMapStore implements CastleStore {
     @Override
     public Castle retrieveByEnrolledMetro(String metroId, String civilianId) {
         //
-        return null;
+        return this.castleMap.values()
+                .stream()
+                .filter(castle -> castle.isEnrolledMetro(metroId, civilianId))
+                .findFirst()
+                .orElse(null);
     }
 
     //    @Override
