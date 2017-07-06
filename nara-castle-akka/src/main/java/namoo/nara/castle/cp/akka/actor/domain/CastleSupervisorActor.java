@@ -40,7 +40,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     @Override
-    public void onEventOccured(NaraEvent event) {
+    public void handleEvent(NaraEvent event) {
         //
         if (event instanceof CastleCreated) {
             handleCastleCreatedEvent((CastleCreated) event);

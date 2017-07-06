@@ -37,7 +37,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     @Override
-    public void onEventOccured(NaraEvent event) {
+    public void handleEvent(NaraEvent event) {
         //
         if (event instanceof MetroEnrolled) {
             handleMetroEnrolledEvent((MetroEnrolled) event);

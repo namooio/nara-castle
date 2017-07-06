@@ -28,7 +28,7 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     }
 
     @Override
-    public void onEventOccured(NaraEvent event) {
+    public void handleEvent(NaraEvent event) {
         //
         if (event instanceof SequenceIncreased) {
             handleSequenceIncreasedEvent((SequenceIncreased) event);

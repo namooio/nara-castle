@@ -24,7 +24,7 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     }
 
     @Override
-    public void onEventOccured(NaraEvent event) {
+    public void handleEvent(NaraEvent event) {
         //
         if (event instanceof CastellanModified) {
             handleCastellanModifiedEvent((CastellanModified) event);
