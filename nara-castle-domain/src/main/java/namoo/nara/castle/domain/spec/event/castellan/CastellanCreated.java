@@ -14,6 +14,20 @@ public class CastellanCreated implements NaraEvent {
         this.castellan = castellan;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("castellan:").append(castellan);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @Override
+    public String getName() {
+        //
+        return getClass().getName();
+    }
+
     public Castellan getCastellan() {
         return castellan;
     }

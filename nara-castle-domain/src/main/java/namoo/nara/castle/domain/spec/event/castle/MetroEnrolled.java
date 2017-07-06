@@ -14,6 +14,20 @@ public class MetroEnrolled implements NaraEvent {
         this.metroEnrollment = metroEnrollment;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("metroEnrollment:").append(metroEnrollment);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @Override
+    public String getName() {
+        //
+        return getClass().getName();
+    }
+
     public MetroEnrollment getMetroEnrollment() {
         return metroEnrollment;
     }

@@ -14,6 +14,20 @@ public class SequenceIncreased implements NaraEvent {
         this.castleBook = castleBook;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("castleBook:").append(castleBook);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    @Override
+    public String getName() {
+        //
+        return getClass().getName();
+    }
+
     public CastleBook getCastleBook() {
         return castleBook;
     }
