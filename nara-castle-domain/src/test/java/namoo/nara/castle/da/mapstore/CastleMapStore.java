@@ -6,9 +6,7 @@ import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.store.CastleStore;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CastleMapStore implements CastleStore {
     //
@@ -35,7 +33,13 @@ public class CastleMapStore implements CastleStore {
         return this.castleMap.get(castleId);
     }
 
-//    @Override
+    @Override
+    public Castle retrieveByEnrolledMetro(String metroId, String civilianId) {
+        //
+        return null;
+    }
+
+    //    @Override
 //    public Castle retrieveEager(String castleId) {
 //        //
 //        Castle castle = this.retrieve(castleId);

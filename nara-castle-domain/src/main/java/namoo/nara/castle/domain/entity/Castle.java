@@ -23,7 +23,7 @@ public class Castle extends Entity implements Aggregate {
     private NaraZone zone;
     private Long builtTime;
 
-    transient private List<MetroEnrollment> enrollments;       // weak association
+    private List<MetroEnrollment> enrollments;       // weak association
 
     public Castle() {
         //

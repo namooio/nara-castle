@@ -11,6 +11,7 @@ import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castle.CastleCreated;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
+import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.akka.support.util.ActorNameUtil;
 import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
@@ -26,17 +27,17 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ActorRef castleStoreActor;
+    private CastleStore castleStore;
 
-    static public Props props(ActorRef castleStoreActor) {
+    static public Props props(CastleStore castleStore) {
         //
-        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(castleStoreActor));
+        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(castleStore));
     }
 
-    public CastleSupervisorActor(ActorRef castleStoreActor) {
+    public CastleSupervisorActor(CastleStore castleStore) {
         //
         super("castle-supervisor");
-        this.castleStoreActor = castleStoreActor;
+        this.castleStore = castleStore;
     }
 
     @Override
@@ -73,9 +74,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         String metroId = command.getMetroId();
         String civilianId = command.getCivilianId();
 
-        // TODO
-//        Castle castle = new AwaitableActorExecutor<Castle>().execute(castleStoreActor, new FindCastleByEnrolledMetroQuery(metroId, civilianId));
-        Castle castle = null;
+        Castle castle = castleStore.retrieveByEnrolledMetro(metroId, civilianId);
 
         if (castle != null) {
             ActorRef castleActor = lookupCastleActor(castle.getId());
