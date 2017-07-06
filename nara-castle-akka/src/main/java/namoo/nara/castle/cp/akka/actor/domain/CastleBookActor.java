@@ -1,12 +1,12 @@
 package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.actor.Props;
-import namoo.nara.castle.cp.akka.actor.share.NaraPersistentActor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
 import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
+import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;

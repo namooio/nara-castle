@@ -2,8 +2,6 @@ package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import namoo.nara.castle.cp.akka.actor.share.NaraPersistentActor;
-import namoo.nara.castle.cp.akka.actor.util.ActorNameUtil;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
@@ -16,6 +14,8 @@ import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
+import namoo.nara.share.akka.support.actor.NaraPersistentActor;
+import namoo.nara.share.akka.support.util.ActorNameUtil;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;

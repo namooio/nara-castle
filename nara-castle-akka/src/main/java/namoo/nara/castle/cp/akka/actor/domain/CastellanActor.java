@@ -1,12 +1,12 @@
 package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.actor.Props;
-import namoo.nara.castle.cp.akka.actor.share.NaraPersistentActor;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 import namoo.nara.castle.domain.spec.query.castellan.FindIdentityPlateQuery;
+import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
