@@ -2,9 +2,7 @@ package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.persistence.AbstractPersistentActor;
-import namoo.nara.castle.cp.akka.actor.store.command.castellan.CreateCastellanCommand;
-import namoo.nara.castle.cp.akka.actor.store.command.castle.UpdateCastleCommand;
+import namoo.nara.castle.cp.akka.actor.share.NaraPersistentActor;
 import namoo.nara.castle.cp.akka.actor.util.ActorNameUtil;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
@@ -21,30 +19,21 @@ import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CastleActor extends AbstractPersistentActor {
+public class CastleActor extends NaraPersistentActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
     private Castle castle;
 
-    private ActorRef castleStoreActor;
-    private ActorRef castellanStoreActor;
-
-    static public Props props(Castle castle, ActorRef castleStoreActor) {
+    static public Props props(Castle castle) {
         //
-        return Props.create(CastleActor.class, () -> new CastleActor(castle, castleStoreActor));
+        return Props.create(CastleActor.class, () -> new CastleActor(castle));
     }
 
-    public CastleActor(Castle castle, ActorRef castleStoreActor) {
+    public CastleActor(Castle castle) {
         //
+        super(castle.getId());
         this.castle = castle;
-        this.castleStoreActor = castleStoreActor;
-    }
-
-    @Override
-    public String persistenceId() {
-        //
-        return castle.getId();
     }
 
     @Override
@@ -128,24 +117,20 @@ public class CastleActor extends AbstractPersistentActor {
     private void handleMetroEnrolledEvent(MetroEnrolled event) {
         //
         castle.apply(event);
-        castleStoreActor.tell(new UpdateCastleCommand(castle), getSelf());
     }
 
     private void handleMetroWithdrawn(MetroWithdrawn event) {
         //
         castle.apply(event);
-        castleStoreActor.tell(new UpdateCastleCommand(castle), getSelf());
     }
 
     private void handleCastleModifiedEvent(CastleModified event) {
         //
         castle.apply(event);
-        castleStoreActor.tell(new UpdateCastleCommand(castle), getSelf());
     }
 
     private void handleCastellanCreatedEvent(CastellanCreated event) {
         //
-        castellanStoreActor.tell(new CreateCastellanCommand(event.getCastellan()), getSelf());
     }
 
     /*********************** Event ***********************/
@@ -159,6 +144,6 @@ public class CastleActor extends AbstractPersistentActor {
     private ActorRef createCastellanActor(Castellan castellan) {
         //
         String name = ActorNameUtil.getEntityActorName(castellan.getId(), Castellan.class);
-        return getContext().actorOf(CastellanActor.props(castellan, castleStoreActor), name);
+        return getContext().actorOf(CastellanActor.props(castellan), name);
     }
 }

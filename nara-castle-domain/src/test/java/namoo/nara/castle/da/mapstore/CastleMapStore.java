@@ -17,17 +17,17 @@ public class CastleMapStore implements CastleStore {
     private CastleBook castleBook = new CastleBook();
 
     @Override
-    public void create(Castle castle, MetroEnrollment enrollment) {
+    public void create(Castle castle) {
         //
         this.castleMap.put(castle.getId(), castle);
 //        this.enrollmentMap.put(enrollment.getId(), enrollment);
     }
 
-    @Override
-    public void createEnrollment(MetroEnrollment enrollment) {
-        //
-//        this.enrollmentMap.put(enrollment.getId(), enrollment);
-    }
+//    @Override
+//    public void createEnrollment(MetroEnrollment enrollment) {
+//        //
+////        this.enrollmentMap.put(enrollment.getId(), enrollment);
+//    }
 
     @Override
     public Castle retrieve(String castleId) {
@@ -35,33 +35,33 @@ public class CastleMapStore implements CastleStore {
         return this.castleMap.get(castleId);
     }
 
-    @Override
-    public Castle retrieveEager(String castleId) {
-        //
-        Castle castle = this.retrieve(castleId);
-        castle.setEnrollments(this.retrieveEnrollmentsOfCastle(castleId));
-        return castle;
-    }
-
-    @Override
-    public MetroEnrollment retrieveEnrollment(String metroId, String civilianId) {
-        //
-        return this.enrollmentMap.values()
-                .stream()
-                .filter(enrollment -> enrollment.getMetroId().equals(metroId) && enrollment.getCivilianId().equals(civilianId))
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public List<MetroEnrollment> retrieveEnrollmentsOfCastle(String castleId) {
-        //
+//    @Override
+//    public Castle retrieveEager(String castleId) {
+//        //
+//        Castle castle = this.retrieve(castleId);
+//        castle.setEnrollments(this.retrieveEnrollmentsOfCastle(castleId));
+//        return castle;
+//    }
+//
+//    @Override
+//    public MetroEnrollment retrieveEnrollment(String metroId, String civilianId) {
+//        //
 //        return this.enrollmentMap.values()
 //                .stream()
-//                .filter(enrollment -> enrollment.getCastleId().equals(castleId))
-//                .collect(Collectors.toList());
-        return null;
-    }
+//                .filter(enrollment -> enrollment.getMetroId().equals(metroId) && enrollment.getCivilianId().equals(civilianId))
+//                .findFirst()
+//                .orElse(null);
+//    }
+
+//    @Override
+//    public List<MetroEnrollment> retrieveEnrollmentsOfCastle(String castleId) {
+//        //
+////        return this.enrollmentMap.values()
+////                .stream()
+////                .filter(enrollment -> enrollment.getCastleId().equals(castleId))
+////                .collect(Collectors.toList());
+//        return null;
+//    }
 
     @Override
     public void update(Castle castle) {
@@ -69,11 +69,11 @@ public class CastleMapStore implements CastleStore {
         this.castleMap.put(castle.getId(), castle);
     }
 
-    @Override
-    public void updateEnrollment(MetroEnrollment enrollment) {
-        //
-//        this.enrollmentMap.put(enrollment.getId(), enrollment);
-    }
+//    @Override
+//    public void updateEnrollment(MetroEnrollment enrollment) {
+//        //
+////        this.enrollmentMap.put(enrollment.getId(), enrollment);
+//    }
 
     @Override
     public void delete(Castle castle) {
@@ -81,23 +81,23 @@ public class CastleMapStore implements CastleStore {
         this.castleMap.remove(castle.getId());
     }
 
-    @Override
-    public void deleteEnrollment(MetroEnrollment enrollment) {
-        //
-//        this.enrollmentMap.remove(enrollment.getId());
-    }
+//    @Override
+//    public void deleteEnrollment(MetroEnrollment enrollment) {
+//        //
+////        this.enrollmentMap.remove(enrollment.getId());
+//    }
 
-    @Override
-    public CastleBook retrieveCastleBook() {
-        //
-        return this.castleBook;
-    }
+//    @Override
+//    public CastleBook retrieveCastleBook() {
+//        //
+//        return this.castleBook;
+//    }
 
-    @Override
-    public CastleBook retrieveCastleBookWithNextCastleSequence() {
-        //
-        this.castleBook.nextSequence();
-        return this.castleBook;
-    }
+//    @Override
+//    public CastleBook retrieveCastleBookWithNextCastleSequence() {
+//        //
+//        this.castleBook.nextSequence();
+//        return this.castleBook;
+//    }
 
 }

@@ -2,8 +2,7 @@ package namoo.nara.castle.cp.akka.actor.domain;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.persistence.AbstractPersistentActor;
-import namoo.nara.castle.cp.akka.actor.store.command.castle.CreateCastleCommand;
+import namoo.nara.castle.cp.akka.actor.share.NaraPersistentActor;
 import namoo.nara.castle.cp.akka.actor.util.ActorNameUtil;
 import namoo.nara.castle.cp.akka.actor.util.AwaitableActorExecutor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
@@ -20,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
-public class CastleSupervisorActor extends AbstractPersistentActor {
+public class CastleSupervisorActor extends NaraPersistentActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -33,13 +32,8 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
 
     public CastleSupervisorActor(ActorRef castleStoreActor) {
         //
+        super("castle-supervisor");
         this.castleStoreActor = castleStoreActor;
-    }
-
-    @Override
-    public String persistenceId() {
-        //
-        return "castle-supervisor";
     }
 
     @Override
@@ -124,8 +118,6 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
     /*********************** Event ***********************/
     private void handleCastleCreatedEvent(CastleCreated event) {
         //
-        castleStoreActor.tell(new CreateCastleCommand(event.getCastle()), getSelf());
-
         Castle castle = event.getCastle();
         ActorRef castleActor = lookupCastleActor(castle.getId());
         castleActor.tell(new RegisterCastellanCommand(castle), getSelf());
@@ -142,7 +134,7 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
             return child.get();
         }
         else {
-            return getContext().actorOf(CastleBookActor.props(castleStoreActor), name);
+            return getContext().actorOf(CastleBookActor.props(), name);
         }
     }
 
@@ -155,7 +147,7 @@ public class CastleSupervisorActor extends AbstractPersistentActor {
     private ActorRef createCastleActor(Castle castle) {
         //
         String name = ActorNameUtil.getEntityActorName(castle.getId(), Castle.class);
-        return getContext().actorOf(CastleActor.props(castle, castleStoreActor), name);
+        return getContext().actorOf(CastleActor.props(castle), name);
     }
 
 

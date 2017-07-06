@@ -1,9 +1,7 @@
 package namoo.nara.castle.cp.akka.actor.domain;
 
-import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.persistence.AbstractPersistentActor;
-import namoo.nara.castle.cp.akka.actor.store.command.castlebook.UpdateCastleBookCommand;
+import namoo.nara.castle.cp.akka.actor.share.NaraPersistentActor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
@@ -12,28 +10,21 @@ import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CastleBookActor extends AbstractPersistentActor {
+public class CastleBookActor extends NaraPersistentActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
     private CastleBook castleBook;
-    private ActorRef castleStoreActor;
 
-    static public Props props(ActorRef castleStoreActor) {
+    static public Props props() {
         //
-        return Props.create(CastleBookActor.class, () -> new CastleBookActor(castleStoreActor));
+        return Props.create(CastleBookActor.class, () -> new CastleBookActor());
     }
 
-    public CastleBookActor(ActorRef castleStoreActor) {
+    public CastleBookActor() {
         //
+        super(CastleIdBuilder.makeCastleBookId());
         this.castleBook = new CastleBook();
-        this.castleStoreActor = castleStoreActor;
-    }
-
-    @Override
-    public String persistenceId() {
-        //
-        return CastleIdBuilder.makeCastleBookId();
     }
 
     @Override
@@ -62,6 +53,8 @@ public class CastleBookActor extends AbstractPersistentActor {
                 .build();
     }
 
+    /*********************** Command ***********************/
+
     private void handleNextSequenceCommand(NextSequenceCommand command) {
         //
         long nextSequence = castleBook.nextSequence();
@@ -70,17 +63,25 @@ public class CastleBookActor extends AbstractPersistentActor {
         getSender().tell(nextSequence, getSelf());
     }
 
+    /*********************** Command ***********************/
+
+    /*********************** Query ***********************/
 
     private void handleFindCastleBookQuery(FindCastleBookQuery query) {
         //
         getSender().tell(castleBook, getSelf());
     }
 
+    /*********************** Query ***********************/
+
+
+    /*********************** Event ***********************/
+
     private void handleSequenceIncreasedEvent(SequenceIncreased event) {
         //
         castleBook.apply(event);
-        castleStoreActor.tell(new UpdateCastleBookCommand(event.getCastleBook()), getSelf());
     }
 
+    /*********************** Event ***********************/
 
 }

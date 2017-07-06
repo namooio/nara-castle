@@ -25,11 +25,11 @@ public class CastellanMapStore implements CastellanStore {
         return this.castellanMap.get(id);
     }
 
-    @Override
-    public List<UnitPlate> retrieveUnitPlate(String key, KeyAttr attr) {
-        //
-        return null;
-    }
+//    @Override
+//    public List<UnitPlate> retrieveUnitPlate(String key, KeyAttr attr) {
+//        //
+//        return null;
+//    }
 
     @Override
     public void update(Castellan castellan) {

@@ -1,35 +1,26 @@
 package namoo.nara.castle.cp.akka.actor.domain;
 
-import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.persistence.AbstractPersistentActor;
-import namoo.nara.castle.cp.akka.actor.store.command.castellan.UpdateCastellanCommand;
+import namoo.nara.castle.cp.akka.actor.share.NaraPersistentActor;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 import namoo.nara.castle.domain.spec.query.castellan.FindIdentityPlateQuery;
 
-public class CastellanActor extends AbstractPersistentActor {
+public class CastellanActor extends NaraPersistentActor {
     //
     private Castellan castellan;
-    private ActorRef castellanStore;
 
-    static public Props props(Castellan castellan, ActorRef castellanStore) {
+    static public Props props(Castellan castellan) {
         //
-        return Props.create(CastellanActor.class, () -> new CastellanActor(castellan, castellanStore));
+        return Props.create(CastellanActor.class, () -> new CastellanActor(castellan));
     }
 
-    public CastellanActor(Castellan castellan, ActorRef castellanStore) {
+    public CastellanActor(Castellan castellan) {
         //
+        super(castellan.getId());
         this.castellan = castellan;
-        this.castellanStore = castellanStore;
-    }
-
-    @Override
-    public String persistenceId() {
-        //
-        return castellan.getId();
     }
 
     @Override
@@ -81,7 +72,6 @@ public class CastellanActor extends AbstractPersistentActor {
     private void handleCastellanModifiedEvent(CastellanModified event) {
         //
         castellan.apply(event);
-        castellanStore.tell(new UpdateCastellanCommand(castellan), getSelf());
     }
 
     /*********************** Event ***********************/

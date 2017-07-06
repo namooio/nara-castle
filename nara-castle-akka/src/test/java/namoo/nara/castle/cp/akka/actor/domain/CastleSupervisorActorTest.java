@@ -29,7 +29,7 @@ public class CastleSupervisorActorTest {
     @BeforeClass
     public static void setup() {
         //
-        system = ActorSystem.create();
+        system = ActorSystem.create("nara");
     }
 
     @AfterClass
