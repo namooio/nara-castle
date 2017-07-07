@@ -113,6 +113,8 @@ public class CastleSupervisorActor extends NaraPersistentActor {
 
         ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId));
         castleActor.tell(new RegisterCastellanCommand(castleId), getSelf());
+
+        getSender().tell(castleId, getSelf());
     }
 
     /*********************** Event ***********************/

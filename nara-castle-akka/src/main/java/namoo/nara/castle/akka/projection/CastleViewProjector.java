@@ -20,7 +20,13 @@ public class CastleViewProjector implements ViewProjector<CastleCreated> {
     @Override
     public void makeProjection(CastleCreated event) {
         //
-        logger.debug("make projection for castle {}", event);
-//        this.castleStore.create(event.getCastle());
+        try {
+            logger.debug("make projection for castle {}", event);
+            this.castleStore.create(event.getCastle());
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
+
     }
 }

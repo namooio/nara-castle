@@ -7,10 +7,7 @@ import namoo.nara.castle.CastleAkkaTestApplication;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
-import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
-import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import namoo.nara.castle.domain.store.CastleStore;
-import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.NaraZone;
 import org.junit.AfterClass;
@@ -23,8 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.Locale;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = CastleAkkaTestApplication.class)
@@ -67,6 +62,8 @@ public class CastleSupervisorActorTest {
         EnrollMetroCommand enrollMetroCommand = new EnrollMetroCommand(metroId, civilianId, name, email, zone);
         castleSupervisorActor.tell(enrollMetroCommand, testProbe.getRef());
 
+        String castleId = testProbe.expectMsgClass(String.class);
+
 //        String castleId = castle.getId();
 //        castleSupervisorActor.tell(new FindCastleQuery(castleId), testProbe.getRef());
 //        castle = testProbe.expectMsgClass(Castle.class);
@@ -83,10 +80,14 @@ public class CastleSupervisorActorTest {
 //        castle = testProbe.expectMsgClass(Castle.class);
 //        logger.debug("{}", castle);
 
+
+
         try {
-            Thread.sleep(1000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Castle castle = castleStore.retrieve(castleId);
+        logger.debug("{}", castle);
     }
 }
