@@ -1,13 +1,12 @@
 package namoo.nara.castle.da.mongo.document;
 
-import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.MetroEnrollment;
+import namoo.nara.share.domain.granule.NaraZone;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Version;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -15,27 +14,27 @@ import java.util.stream.Collectors;
 
 @Document(collection = "CA_CASTLE")
 @CompoundIndexes({
-        @CompoundIndex(name = "idx_castellan_email",
+        @CompoundIndex(name = "idx_enrollments",
                 unique = true,
-                def = "{'castellan.emails.emails.email' : 1}")
+                def = "{'enrollments.metroId' : 1, 'enrollments.civilianId' : 1}")
 })
 public class CastleDoc {
-
+    //
     @Id
     private String id;
 
-    private Castellan castellan;
-
-    @Indexed
-    private String nationId;
-
+    private String startNationId;
+    private String name;
+    private String primaryEmail;
+    private NaraZone zone;
     private Long builtTime;
 
-    @Version
+    private List<MetroEnrollment> enrollments;       // weak association
+
     private Long entityVersion;
 
     public CastleDoc() {
-
+        //
     }
 
     public static CastleDoc toDocument(Castle castle) {
@@ -68,20 +67,36 @@ public class CastleDoc {
         this.id = id;
     }
 
-    public Castellan getCastellan() {
-        return castellan;
+    public String getStartNationId() {
+        return startNationId;
     }
 
-    public void setCastellan(Castellan castellan) {
-        this.castellan = castellan;
+    public void setStartNationId(String startNationId) {
+        this.startNationId = startNationId;
     }
 
-    public String getNationId() {
-        return nationId;
+    public String getName() {
+        return name;
     }
 
-    public void setNationId(String nationId) {
-        this.nationId = nationId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPrimaryEmail() {
+        return primaryEmail;
+    }
+
+    public void setPrimaryEmail(String primaryEmail) {
+        this.primaryEmail = primaryEmail;
+    }
+
+    public NaraZone getZone() {
+        return zone;
+    }
+
+    public void setZone(NaraZone zone) {
+        this.zone = zone;
     }
 
     public Long getBuiltTime() {
@@ -90,6 +105,14 @@ public class CastleDoc {
 
     public void setBuiltTime(Long builtTime) {
         this.builtTime = builtTime;
+    }
+
+    public List<MetroEnrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(List<MetroEnrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 
     public Long getEntityVersion() {

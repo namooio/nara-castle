@@ -118,8 +118,8 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
         ActorRef castleActor = lookupCastleActor(query.getCastleId());
-
         Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, query);
+//        Castle castle = castleStore.retrieve(query.getCastleId());
         getSender().tell(castle, getSelf());
     }
 

@@ -18,6 +18,12 @@
             <artifactId>nara-castle-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>namoo.nara.castle</groupId>
+            <artifactId>nara-castle-store</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>namoo.nara.share</groupId>
@@ -26,11 +32,22 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <version>2.0.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
 </project>

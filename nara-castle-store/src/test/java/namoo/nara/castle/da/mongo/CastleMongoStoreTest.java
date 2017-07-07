@@ -1,6 +1,8 @@
 package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.da.CastleStoreTestApplication;
+import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.store.CastleStore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,50 +13,32 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Optional;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = CastleStoreTestApplication.class)
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class CastleMongoStoreTest {
-
+    //
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private CastleStore castleStore;
 
-    private String nationId = "P";
-
-    private String metroId = "P0P";
-    private String civilianId = "5YC1R@P0P";
-
     @Test
     public void test() {
+        //
+        Castle castle = Castle.getSample();
+        castleStore.create(castle);
 
-//        long castleSequence = castleStore.retrieveNextSequence(nationId);
-//        String castleId = CastleContext.getCastleIdBuilder().makeCastleId(nationId, castleSequence);
-//
-//        Castle castle = new Castle(castleId, nationId, metroId, civilianId, "kchuh@nextree.co.kr");
-//        castleStore.create(castle);
-//
-//        Assert.assertNull(castleStore.retrieveByEmail("michael7557@gmail.com"));
-//
-//        castle = castleStore.retrieve(castleId);
-//        logger.debug("{}", castle);
-//
-//        Castellan castellan = castle.getCastellan();
-//        castellan.getEmails().add(new Email("michael7557@gmail.com"));
-//
-//        castle.setValues(new NameValueList("castellan", castellan.toJson()));
-//        castleStore.update(castle);
-//
-//        Assert.assertNotNull(castleStore.retrieveByEmail("kchuh@nextree.co.kr"));
-//        Assert.assertNotNull(castleStore.retrieveByEmail("michael7557@gmail.com"));
-//
-//        castleStore.delete(castle);
-//        try {
-//            castleStore.retrieve(castleId);
-//        }
-//        catch (NonExistenceException e) {
-//            Assert.assertTrue(true);
-//        }
+        castle = castleStore.retrieve(castle.getId());
+        logger.debug("{}", castle);
+
+        Optional<MetroEnrollment> enrollment = castle.getEnrollments().stream().findFirst();
+        if (enrollment.isPresent()) {
+            castle = castleStore.retrieveByEnrolledMetro(enrollment.get().getMetroId(), enrollment.get().getCivilianId());
+            logger.debug("{}", castle);
+        }
+
     }
 }

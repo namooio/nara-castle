@@ -1,8 +1,8 @@
 package namoo.nara.castle.domain.spec.query.castle;
 
-import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.protocol.NaraQuery;
 
-public class FindCastleQuery implements NaraCommand {
+public class FindCastleQuery implements NaraQuery {
     //
     private String castleId;
 
