@@ -25,5 +25,5 @@ public class CastleCreated implements NaraEvent {
     public Castle getCastle() {
         return castle;
     }
-
 }
+

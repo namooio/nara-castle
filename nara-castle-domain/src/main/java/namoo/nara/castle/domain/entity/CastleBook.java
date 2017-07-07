@@ -22,7 +22,7 @@ public class CastleBook extends Entity implements Aggregate {
 
     public CastleBook() {
         //
-        super(CastleIdBuilder.makeCastleBookId());    // singleton
+        super(CastleIdBuilder.requestCastleBookId());    // singleton
         this.sequence = 0L;
     }
 

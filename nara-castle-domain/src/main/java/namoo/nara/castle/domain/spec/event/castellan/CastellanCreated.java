@@ -1,28 +1,27 @@
 package namoo.nara.castle.domain.spec.event.castellan;
 
-import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.share.domain.event.NaraEvent;
 
 public class CastellanCreated implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
-    private Castellan castellan;
+    private String castellanId;
 
-    public CastellanCreated(Castellan castellan) {
+    public CastellanCreated(String castellanId) {
         //
-        this.castellan = castellan;
+        this.castellanId = castellanId;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("castellan:").append(castellan);
+        sb.append("castellanId:'").append(castellanId).append('\'');
         sb.append('}');
         return sb.toString();
     }
 
-    public Castellan getCastellan() {
-        return castellan;
+    public String getCastellanId() {
+        return castellanId;
     }
 }

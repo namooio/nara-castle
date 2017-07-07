@@ -2,6 +2,7 @@ package namoo.nara.castle.akka.actor;
 
 import akka.actor.Props;
 import namoo.nara.castle.domain.entity.Castellan;
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
@@ -13,14 +14,14 @@ import namoo.nara.share.domain.protocol.NaraQuery;
 
 public class CastellanActor extends NaraPersistentActor<Castellan> {
     //
-    static public Props props(Castellan castellan) {
+    static public Props props(Castle castle) {
         //
-        return Props.create(CastellanActor.class, () -> new CastellanActor(castellan));
+        return Props.create(CastellanActor.class, () -> new CastellanActor(castle));
     }
 
-    public CastellanActor(Castellan castellan) {
+    public CastellanActor(Castle castle) {
         //
-        super(castellan, castellan.getId());
+        super(new Castellan(castle));
     }
 
     @Override

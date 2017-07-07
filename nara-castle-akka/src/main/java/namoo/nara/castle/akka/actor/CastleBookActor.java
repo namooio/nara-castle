@@ -2,7 +2,6 @@ package namoo.nara.castle.akka.actor;
 
 import akka.actor.Props;
 import namoo.nara.castle.akka.projection.CastleBookViewProjector;
-import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
@@ -25,8 +24,7 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
 
     public CastleBookActor() {
         //
-        super(new CastleBook(), CastleIdBuilder.makeCastleBookId());
-
+        super(new CastleBook());
         getViewProjectorMap().put(SequenceIncreased.class.getName(), new CastleBookViewProjector());
     }
 

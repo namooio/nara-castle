@@ -31,13 +31,11 @@ public class Castellan extends Entity implements Aggregate {
     public Castellan(Castle castle) {
         //
         super(castle.getId());       // castleId == castellanId
-        MetroEnrollment metroEnrollment = castle.getEnrollments().get(0);
-        this.names = new NameList(metroEnrollment.getName());
+        this.names = new NameList();
         this.phones = new PhoneList();
-        this.emails = new EmailList(new Email(metroEnrollment.getEmail()));
+        this.emails = new EmailList();
         this.addresses = new AddressList();
         this.attrNameValues = new NameValueList();
-        this.initUnitPlates();
     }
 
     @Override

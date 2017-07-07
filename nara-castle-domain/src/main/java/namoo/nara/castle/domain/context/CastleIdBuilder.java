@@ -11,12 +11,12 @@ public final class CastleIdBuilder {
         //
     }
 
-    public static String makeCastleBookId() {
+    public static String requestCastleBookId() {
         //
         return CastleBook.class.getSimpleName();
     }
 
-    public static String makeCastleId(long castleSequence) {
+    public static String requestCastleId(long castleSequence) {
         //
         return String.format("%s", numeral36.getStr36(castleSequence));
     }

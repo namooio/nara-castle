@@ -21,6 +21,6 @@ public class CastleViewProjector implements ViewProjector<CastleCreated> {
     public void makeProjection(CastleCreated event) {
         //
         logger.debug("make projection for castle {}", event);
-        this.castleStore.create(event.getCastle());
+//        this.castleStore.create(event.getCastle());
     }
 }

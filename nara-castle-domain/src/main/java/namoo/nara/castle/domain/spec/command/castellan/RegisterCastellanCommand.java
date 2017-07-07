@@ -1,19 +1,17 @@
 package namoo.nara.castle.domain.spec.command.castellan;
 
-import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.share.domain.protocol.NaraCommand;
 
 public class RegisterCastellanCommand implements NaraCommand {
     //
-    private Castle castle;
+    private String castleId;
 
-    public RegisterCastellanCommand(Castle castle) {
+    public RegisterCastellanCommand(String castleId) {
         //
-        this.castle = castle;
+        this.castleId = castleId;
     }
 
-    public Castle getCastle() {
-        //
-        return castle;
+    public String getCastleId() {
+        return castleId;
     }
 }

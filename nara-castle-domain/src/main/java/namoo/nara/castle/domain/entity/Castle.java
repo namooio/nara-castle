@@ -32,6 +32,8 @@ public class Castle extends Entity implements Aggregate {
     public Castle(String id) {
         //
         super(id);
+        this.enrollments = new ArrayList<>();
+        this.builtTime = System.currentTimeMillis();
     }
 
     public Castle(String castleId, MetroEnrollment metroEnrollment) {
@@ -42,8 +44,6 @@ public class Castle extends Entity implements Aggregate {
         this.primaryEmail = metroEnrollment.getEmail();
         this.zone = metroEnrollment.getZone();
         this.builtTime = System.currentTimeMillis();
-
-        this.enrollments = new ArrayList<>();
         this.enrollments.add(metroEnrollment);
     }
 
@@ -65,7 +65,7 @@ public class Castle extends Entity implements Aggregate {
         //
         MetroEnrollment metroEnrollment = MetroEnrollment.getSample();
         long sequence = CastleBook.getSample().getSequence();
-        String castleId = CastleIdBuilder.makeCastleId(sequence);
+        String castleId = CastleIdBuilder.requestCastleId(sequence);
 
         Castle sample = new Castle(castleId, metroEnrollment);
 

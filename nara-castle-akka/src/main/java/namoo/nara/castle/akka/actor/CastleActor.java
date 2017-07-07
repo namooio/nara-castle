@@ -1,6 +1,5 @@
 package namoo.nara.castle.akka.actor;
 
-import akka.actor.ActorRef;
 import akka.actor.Props;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
@@ -15,7 +14,6 @@ import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
-import namoo.nara.share.akka.support.util.ActorNameUtil;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
@@ -26,14 +24,24 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
+    static public Props props(String castleId) {
+        //
+        return Props.create(CastleActor.class, () -> new CastleActor(castleId));
+    }
+
     static public Props props(Castle castle) {
         //
         return Props.create(CastleActor.class, () -> new CastleActor(castle));
     }
 
+    public CastleActor(String castleId) {
+        //
+        super(new Castle(castleId));
+    }
+
     public CastleActor(Castle castle) {
         //
-        super(castle, castle.getId());
+        super(castle);
     }
 
     @Override
@@ -106,10 +114,11 @@ public class CastleActor extends NaraPersistentActor<Castle> {
 
     private void handleRegisterCastellanCommand(RegisterCastellanCommand command) {
         //
-        Castellan castellan = new Castellan(command.getCastle());
-        createCastellanActor(castellan);
+        Castle castle = getState();
+        String castellanId = castle.getId();
 
-        persist(new CastellanCreated(castellan), this::handleCastellanCreatedEvent);
+        lookupOrCreateChildPersistentActor(castellanId, Castellan.class, CastellanActor.props(castle));
+        persist(new CastellanCreated(castellanId), this::handleCastellanCreatedEvent);
     }
 
     /*********************** Command ***********************/
@@ -145,16 +154,4 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     /*********************** Event ***********************/
-
-    private ActorRef lookupCastellanActor(String castleId) {
-        //
-        String name = ActorNameUtil.requestPersistentActorName(castleId, Castellan.class);
-        return getContext().findChild(name).orElse(null);
-    }
-
-    private ActorRef createCastellanActor(Castellan castellan) {
-        //
-        String name = ActorNameUtil.requestPersistentActorName(castellan.getId(), Castellan.class);
-        return getContext().actorOf(CastellanActor.props(castellan), name);
-    }
 }
