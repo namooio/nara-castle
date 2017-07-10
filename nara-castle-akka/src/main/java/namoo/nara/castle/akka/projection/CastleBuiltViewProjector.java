@@ -1,5 +1,6 @@
 package namoo.nara.castle.akka.projection;
 
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.share.akka.support.projection.ViewProjector;
@@ -22,7 +23,9 @@ public class CastleBuiltViewProjector implements ViewProjector<CastleBuilt> {
         //
         try {
             logger.debug("make projection for built castle {}", event);
-//            this.castleStore.create(event.getCastle());
+            Castle castle = new Castle(event.getCastleId());
+            castle.apply(event);
+            this.castleStore.create(castle);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
