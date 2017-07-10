@@ -1,6 +1,7 @@
 package namoo.nara.castle.akka.actor;
 
 import akka.actor.Props;
+import namoo.nara.castle.akka.projection.MetroEnrolledViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
@@ -12,6 +13,7 @@ import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
+import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
@@ -23,24 +25,25 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    static public Props props(String castleId) {
+    static public Props props(String castleId, CastleStore castleStore) {
         //
-        return Props.create(CastleActor.class, () -> new CastleActor(castleId));
+        return Props.create(CastleActor.class, () -> new CastleActor(castleId, castleStore));
     }
 
-    static public Props props(Castle castle) {
+    static public Props props(Castle castle, CastleStore castleStore) {
         //
-        return Props.create(CastleActor.class, () -> new CastleActor(castle));
+        return Props.create(CastleActor.class, () -> new CastleActor(castle, castleStore));
     }
 
-    public CastleActor(String castleId) {
+    public CastleActor(String castleId, CastleStore castleStore) {
         //
-        super(new Castle(castleId));
+        this(new Castle(castleId), castleStore);
     }
 
-    public CastleActor(Castle castle) {
+    public CastleActor(Castle castle, CastleStore castleStore) {
         //
         super(castle);
+        getViewProjectorMap().put(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(castleStore));
     }
 
     @Override

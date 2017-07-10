@@ -34,16 +34,16 @@ public class Castle extends Entity implements Aggregate {
         super(id);
     }
 
-    public Castle(String castleId, MetroEnrollment metroEnrollment) {
+    public Castle(String castleId, MetroEnrollment enrollment) {
         //
         super(castleId);
-        this.startNationId = metroEnrollment.getNationId();
-        this.name = metroEnrollment.getName().getDisplayName();
-        this.primaryEmail = metroEnrollment.getEmail();
-        this.zone = metroEnrollment.getZone();
+        this.startNationId = enrollment.getNationId();
+        this.name = enrollment.getName().getDisplayName();
+        this.primaryEmail = enrollment.getEmail();
+        this.zone = enrollment.getZone();
         this.builtTime = System.currentTimeMillis();
         this.enrollments = new ArrayList<>();
-        this.enrollments.add(metroEnrollment);
+        this.enrollments.add(enrollment);
     }
 
     @Override

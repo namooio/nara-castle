@@ -6,13 +6,13 @@ import namoo.nara.share.akka.support.projection.ViewProjector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CastleViewProjector implements ViewProjector<CastleCreated> {
+public class CastleCreatedViewProjector implements ViewProjector<CastleCreated> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
     private CastleStore castleStore;
 
-    public CastleViewProjector(CastleStore castleStore) {
+    public CastleCreatedViewProjector(CastleStore castleStore) {
         //
         this.castleStore = castleStore;
     }
