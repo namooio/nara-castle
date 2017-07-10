@@ -111,9 +111,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
         String castleId = query.getCastleId();
-        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId, storeLycler));
-        Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, query);
-        getSender().tell(castle, getSelf());
+        fowardQuery(castleId, Castle.class, CastleActor.props(castleId, storeLycler), query);
     }
 
     // Fixme ReadModel 조회는 분리?
