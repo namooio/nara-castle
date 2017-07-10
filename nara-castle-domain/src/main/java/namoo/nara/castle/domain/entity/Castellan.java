@@ -27,9 +27,16 @@ public class Castellan extends Entity implements Aggregate {
     public Castellan(String id) {
         //
         super(id);
-        this.names = new NameList();
+    }
+
+    public Castellan(Castle castle) {
+        //
+        super(castle.getId());
+
+        MetroEnrollment enrollment = castle.getEnrollments().get(0);
+        this.names = new NameList(enrollment.getName());
         this.phones = new PhoneList();
-        this.emails = new EmailList();
+        this.emails = new EmailList(new Email(enrollment.getEmail()));
         this.addresses = new AddressList();
         this.attrNameValues = new NameValueList();
     }
@@ -67,10 +74,13 @@ public class Castellan extends Entity implements Aggregate {
         //
         if (event instanceof CastellanCreated) {
             CastellanCreated castellanCreated = (CastellanCreated) event;
-            MetroEnrollment enrollment = castellanCreated.getEnrollment();
 
-            this.names.add(enrollment.getName());
-            this.emails.add(new Email(enrollment.getEmail()));
+            Castellan castellan = castellanCreated.getCastellan();
+
+            this.names = castellan.getNames();
+            this.phones = castellan.getPhones();
+            this.emails = castellan.getEmails();
+            this.attrNameValues = castellan.getAttrNameValues();
         }
         else if (event instanceof CastellanModified) {
             CastellanModified castellanModified = (CastellanModified) event;

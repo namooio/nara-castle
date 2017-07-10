@@ -11,8 +11,10 @@ import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
+import namoo.nara.castle.domain.spec.query.castellan.FindAllCastellansQuery;
 import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
+import namoo.nara.castle.domain.view.CastellanView;
 import namoo.nara.castle.domain.view.CastleView;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
@@ -72,6 +74,9 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         else if (query instanceof FindAllCastlesQuery) {
             handleFindAllCastlesQuery((FindAllCastlesQuery) query);
         }
+        else if (query instanceof FindAllCastellansQuery) {
+            handleFindAllCastellansQuery((FindAllCastellansQuery) query);
+        }
     }
 
     /*********************** Command ***********************/
@@ -111,10 +116,18 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         getSender().tell(castle, getSelf());
     }
 
+    // Fixme ReadModel 조회는 분리?
     private void handleFindAllCastlesQuery(FindAllCastlesQuery query) {
         //
         List<CastleView> castleViews = storeLycler.requestCastleViewStore().retrieveAll();
         getSender().tell(castleViews, getSelf());
+    }
+
+    // Fixme ReadModel 조회는 분리?
+    private void handleFindAllCastellansQuery(FindAllCastellansQuery query) {
+        //
+        List<CastellanView> castellanViews = storeLycler.requestCastellanViewStore().retrieveAll();
+        getSender().tell(castellanViews, getSelf());
     }
 
     /*********************** Query ***********************/

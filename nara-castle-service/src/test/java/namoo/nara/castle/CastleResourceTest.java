@@ -1,9 +1,10 @@
 package namoo.nara.castle;
 
-import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
+import namoo.nara.castle.domain.view.CastellanView;
+import namoo.nara.castle.domain.view.CastleView;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.NaraZone;
 import org.junit.Test;
@@ -26,8 +27,11 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
 
         Thread.sleep(3000);
 
-        List<Castle> castles = getCastleRestAdapter().findCastles();
-        logger.debug("{}", castles);
+        List<CastleView> castleViews = getCastleRestAdapter().findCastles();
+        logger.debug("{}", castleViews);
+
+        List<CastellanView> castellanViews = getCastleRestAdapter().findCastellans();
+        logger.debug("{}", castellanViews);
     }
 
 }

@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.view;
 
+import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.share.domain.NameValueList;
 import namoo.nara.share.domain.granule.AddressList;
 import namoo.nara.share.domain.granule.EmailList;
@@ -18,11 +19,29 @@ public class CastellanView {
 
     public CastellanView() {
         //
-        this.names = new NameList();
-        this.phones = new PhoneList();
-        this.emails = new EmailList();
-        this.addresses = new AddressList();
-        this.attrNameValues = new NameValueList();
+    }
+
+    public CastellanView(Castellan castellan) {
+        //
+        this.id = castellan.getId();
+        this.names = castellan.getNames();
+        this.phones = castellan.getPhones();
+        this.emails = castellan.getEmails();
+        this.addresses = castellan.getAddresses();
+        this.attrNameValues = castellan.getAttrNameValues();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("id:'").append(id).append('\'');
+        sb.append(", names:").append(names);
+        sb.append(", phones:").append(phones);
+        sb.append(", emails:").append(emails);
+        sb.append(", addresses:").append(addresses);
+        sb.append(", attrNameValues:").append(attrNameValues);
+        sb.append('}');
+        return sb.toString();
     }
 
     public String getId() {

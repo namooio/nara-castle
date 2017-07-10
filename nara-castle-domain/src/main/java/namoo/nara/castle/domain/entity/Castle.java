@@ -37,6 +37,16 @@ public class Castle extends Entity implements Aggregate {
         this.enrollments = new ArrayList<>();
     }
 
+    public Castle(String id, MetroEnrollment enrollment) {
+        //
+        this(id);
+        startNationId = enrollment.getNationId();
+        name = enrollment.getName().getDisplayName();
+        primaryEmail = enrollment.getEmail();
+        zone = enrollment.getZone();
+        enrollments.add(enrollment);
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Castle{");
@@ -94,12 +104,12 @@ public class Castle extends Entity implements Aggregate {
         //
         if (event instanceof CastleBuilt) {
             CastleBuilt castleBuilt = (CastleBuilt) event;
-            MetroEnrollment enrollment = castleBuilt.getEnrollment();
-            startNationId = enrollment.getNationId();
-            name = enrollment.getName().getDisplayName();
-            primaryEmail = enrollment.getEmail();
-            zone = enrollment.getZone();
-            enrollments.add(enrollment);
+            Castle castle = castleBuilt.getCastle();
+            startNationId = castle.getStartNationId();
+            name = castle.getName();
+            primaryEmail = castle.getPrimaryEmail();
+            zone = castle.getZone();
+            enrollments = castle.getEnrollments();
         }
         else if (event instanceof CastleModified) {
             CastleModified castleModified = (CastleModified) event;

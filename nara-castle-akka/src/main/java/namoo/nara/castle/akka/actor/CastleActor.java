@@ -99,7 +99,8 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         //
         String castleId = getState().getId();
         MetroEnrollment enrollment = command.getEnrollment();
-        persist(new CastleBuilt(castleId, enrollment), this::handleCastleBuiltEvent);
+        Castle castle = new Castle(castleId, enrollment);
+        persist(new CastleBuilt(castle), this::handleCastleBuiltEvent);
     }
 
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
@@ -138,7 +139,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         String castleId = getState().getId();
 
         ActorRef castellanActor = lookupOrCreateChildPersistentActor(castleId, Castellan.class, CastellanActor.props(castleId, storeLycler));
-        new AwaitableActorExecutor<String>().execute(castellanActor, new RegisterCastellanCommand(event.getEnrollment()));
+        new AwaitableActorExecutor<String>().execute(castellanActor, new RegisterCastellanCommand(event.getCastle()));
 
         getSender().tell(castleId, getSelf());
     }

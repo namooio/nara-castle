@@ -1,9 +1,9 @@
 package namoo.nara.castle.domain.view;
 
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.share.domain.granule.NaraZone;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CastleView {
@@ -20,7 +20,31 @@ public class CastleView {
 
     public CastleView() {
         //
-        this.enrollments = new ArrayList<>();
+    }
+
+    public CastleView(Castle castle) {
+        //
+        this.id = castle.getId();
+        this.startNationId = castle.getStartNationId();
+        this.name = castle.getName();
+        this.primaryEmail = castle.getPrimaryEmail();
+        this.zone = castle.getZone();
+        this.builtTime = castle.getBuiltTime();
+        this.enrollments = castle.getEnrollments();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("id:'").append(id).append('\'');
+        sb.append(", startNationId:'").append(startNationId).append('\'');
+        sb.append(", name:'").append(name).append('\'');
+        sb.append(", primaryEmail:'").append(primaryEmail).append('\'');
+        sb.append(", zone:").append(zone);
+        sb.append(", builtTime:").append(builtTime);
+        sb.append(", enrollments:").append(enrollments);
+        sb.append('}');
+        return sb.toString();
     }
 
     public String getId() {

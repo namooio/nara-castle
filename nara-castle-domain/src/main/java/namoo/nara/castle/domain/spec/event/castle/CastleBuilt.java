@@ -1,43 +1,30 @@
 package namoo.nara.castle.domain.spec.event.castle;
 
-import namoo.nara.castle.domain.entity.MetroEnrollment;
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.share.domain.event.NaraEvent;
 
 public class CastleBuilt implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
-    private String castleId;
-    private MetroEnrollment enrollment;
-    private Long builtTime;
+    private Castle castle;
 
-    public CastleBuilt(String castleId, MetroEnrollment enrollment) {
+    public CastleBuilt(Castle castle) {
         //
-        this.castleId = castleId;
-        this.enrollment = enrollment;
-        this.builtTime = System.currentTimeMillis();
+        this.castle = castle;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("castleId:'").append(castleId).append('\'');
-        sb.append(", enrollment:").append(enrollment);
-        sb.append(", builtTime:").append(builtTime);
+        sb.append("castle:").append(castle);
         sb.append('}');
         return sb.toString();
     }
 
-    public String getCastleId() {
-        return castleId;
+    public Castle getCastle() {
+        return castle;
     }
 
-    public MetroEnrollment getEnrollment() {
-        return enrollment;
-    }
-
-    public Long getBuiltTime() {
-        return builtTime;
-    }
 }
 

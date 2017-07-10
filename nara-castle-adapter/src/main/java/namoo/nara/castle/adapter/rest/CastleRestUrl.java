@@ -8,6 +8,7 @@ public enum CastleRestUrl implements NaraRestUrl {
     URL_CASTLE_BUILD      ("castle-api/castles",                            HttpMethod.POST),
     URL_ENROLL_METRO      ("castle-api/castles/{castleId}/enrollments",     HttpMethod.POST),
     URL_CASTLES_FIND      ("castle-api/castles",                            HttpMethod.GET),
+    URL_CASTELLANS_FIND   ("castle-api/castellans",                         HttpMethod.GET),
     ;
 
     private String restUrl;

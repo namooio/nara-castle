@@ -1,26 +1,26 @@
 package namoo.nara.castle.domain.spec.command.castellan;
 
-import namoo.nara.castle.domain.entity.MetroEnrollment;
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.share.domain.protocol.NaraCommand;
 
 public class RegisterCastellanCommand implements NaraCommand {
     //
-    private MetroEnrollment enrollment;
+    private Castle castle;
 
     public RegisterCastellanCommand() {
         //
     }
 
-    public RegisterCastellanCommand(MetroEnrollment enrollment) {
+    public RegisterCastellanCommand(Castle castle) {
         //
-        this.enrollment = enrollment;
+        this.castle = castle;
     }
 
-    public MetroEnrollment getEnrollment() {
-        return enrollment;
+    public Castle getCastle() {
+        return castle;
     }
 
-    public void setEnrollment(MetroEnrollment enrollment) {
-        this.enrollment = enrollment;
+    public void setCastle(Castle castle) {
+        this.castle = castle;
     }
 }
