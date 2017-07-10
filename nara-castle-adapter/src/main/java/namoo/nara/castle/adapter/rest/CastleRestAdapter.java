@@ -2,7 +2,7 @@ package namoo.nara.castle.adapter.rest;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.spec.CastleService;
-import namoo.nara.share.domain.NameValueList;
+import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
 
@@ -19,74 +19,22 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public String buildCastle(CastleCdo castleCdo) {
+    public String enrollMetro(EnrollMetroCommand command) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_BUILD)
-                .setRequestBody(castleCdo)
+                RequestBuilder.create(CastleRestUrl.URL_ENROLL_METRO)
+                .setRequestBody(command)
                 .setResponseType(String.class)
         );
     }
 
     @Override
-    public Castle findCastle(String castleId) {
-        //
-        return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND)
-                .addPathParam("castleId", castleId)
-                .setResponseType(Castle.class)
-        );
-    }
-
-    @Override
-    public Castle findCastleByEmail(String email) {
-        //
-        return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_EMAIL)
-                .addPathParam("email", email)
-                .setResponseType(Castle.class)
-        );
-    }
-
-    @Override
-    public Castle findCastleByJoinedMetro(String nationId, String metroId, String civilianId) {
-        //
-        return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_BY_JOINED_METRO)
-                        .addQueryParam("nationId", nationId)
-                        .addQueryParam("metroId", metroId)
-                        .addQueryParam("civilianId", civilianId)
-                        .setResponseType(Castle.class)
-        );
-    }
-
-    @Override
-    public List<Castle> findCastlesOf(String nationId) {
+    public List<Castle> findCastles() {
         //
         return Arrays.asList(naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLES_FIND_BY_NATION)
-                .addQueryParam("nationId", nationId)
+                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_ALL)
                 .setResponseType(Castle[].class)
         ));
     }
 
-    @Override
-    public void modifyCastle(String castleId, NameValueList nameValues) {
-        //
-        naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_MODIFY)
-                        .addPathParam("castleId", castleId)
-                        .setRequestBody(nameValues)
-                        .setResponseType(String.class)
-        );
-    }
-
-    @Override
-    public void removeCastle(String castleId) {
-        //
-        naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_REMOVE)
-                        .addPathParam("castleId", castleId)
-        );
-    }
 }

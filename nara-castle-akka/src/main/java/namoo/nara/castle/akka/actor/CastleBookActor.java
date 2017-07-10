@@ -37,7 +37,7 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     }
 
     @Override
-    public void onReceiveCommand(NaraCommand command) {
+    public void handleCommand(NaraCommand command) {
         //
         if (command instanceof NextSequenceCommand) {
             handleNextSequenceCommand((NextSequenceCommand) command);
@@ -45,7 +45,7 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     }
 
     @Override
-    public void onReceiveQuery(NaraQuery query) {
+    public void handleQuery(NaraQuery query) {
         //
         if (query instanceof FindCastleBookQuery) {
             handleFindCastleBookQuery((FindCastleBookQuery) query);

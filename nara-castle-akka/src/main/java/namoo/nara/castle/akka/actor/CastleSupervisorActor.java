@@ -49,7 +49,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     @Override
-    public void onReceiveCommand(NaraCommand command) {
+    public void handleCommand(NaraCommand command) {
         //
         if (command instanceof EnrollMetroCommand) {
             handleEnrollMetroCommand((EnrollMetroCommand) command);
@@ -60,7 +60,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     }
 
     @Override
-    public void onReceiveQuery(NaraQuery query) {
+    public void handleQuery(NaraQuery query) {
         //
         if (query instanceof FindCastleQuery) {
             handleFindCastleQuery((FindCastleQuery) query);
@@ -87,7 +87,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
         //
         String castleId = command.getCastleId();
-        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(new Castle(castleId)));
+        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId));
         castleActor.tell(command, getSelf());
 
     }

@@ -14,17 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-domain</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-store</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>namoo.nara.castle</groupId>
-			<artifactId>nara-castle-proxy</artifactId>
+			<artifactId>nara-castle-akka</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -52,27 +42,27 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-aop</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.retry</groupId>
-			<artifactId>spring-retry</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-aop</artifactId>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.retry</groupId>-->
+			<!--<artifactId>spring-retry</artifactId>-->
+		<!--</dependency>-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-amqp</artifactId>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
+			<!--<artifactId>jackson-datatype-jsr310</artifactId>-->
+		<!--</dependency>-->
 	</dependencies>
 
 </project>

@@ -33,7 +33,7 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     }
 
     @Override
-    public void onReceiveCommand(NaraCommand command) {
+    public void handleCommand(NaraCommand command) {
         //
         if (command instanceof ModifyCastellanCommand) {
             handleModifyCastellanCommand((ModifyCastellanCommand) command);
@@ -41,7 +41,7 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     }
 
     @Override
-    public void onReceiveQuery(NaraQuery query) {
+    public void handleQuery(NaraQuery query) {
         //
         if (query instanceof FindIdentityPlateQuery) {
             handleFindIdentityPlateQuery((FindIdentityPlateQuery) query);

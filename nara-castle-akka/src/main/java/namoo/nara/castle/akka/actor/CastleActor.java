@@ -62,7 +62,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     @Override
-    public void onReceiveCommand(NaraCommand command) {
+    public void handleCommand(NaraCommand command) {
         //
         if (command instanceof EnrollMetroCommand) {
             handleEnrollMetroCommand((EnrollMetroCommand) command);
@@ -79,7 +79,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     @Override
-    public void onReceiveQuery(NaraQuery query) {
+    public void handleQuery(NaraQuery query) {
         //
         if (query instanceof FindCastleQuery) {
             handleFindCastleQuery((FindCastleQuery) query);

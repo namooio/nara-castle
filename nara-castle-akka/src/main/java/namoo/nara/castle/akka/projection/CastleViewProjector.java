@@ -27,6 +27,5 @@ public class CastleViewProjector implements ViewProjector<CastleCreated> {
             logger.error(e.getMessage(), e);
         }
 
-
     }
 }
