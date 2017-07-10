@@ -22,7 +22,6 @@
             <groupId>namoo.nara.castle</groupId>
             <artifactId>nara-castle-store</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

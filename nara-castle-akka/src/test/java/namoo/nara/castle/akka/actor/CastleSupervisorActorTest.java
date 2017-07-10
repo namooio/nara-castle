@@ -8,8 +8,6 @@ import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.store.CastleStore;
-import namoo.nara.share.domain.granule.Name;
-import namoo.nara.share.domain.granule.NaraZone;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,13 +51,7 @@ public class CastleSupervisorActorTest {
         final ActorRef castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(castleStore), "castle-supervisor");
 
         MetroEnrollment sample = MetroEnrollment.getSample();
-        String metroId = sample.getMetroId();
-        String civilianId = sample.getCivilianId();
-        Name name = sample.getName();
-        String email = sample.getEmail();
-        NaraZone zone = sample.getZone();
-
-        EnrollMetroCommand enrollMetroCommand = new EnrollMetroCommand(metroId, civilianId, name, email, zone);
+        EnrollMetroCommand enrollMetroCommand = new EnrollMetroCommand(sample);
         castleSupervisorActor.tell(enrollMetroCommand, testProbe.getRef());
 
         String castleId = testProbe.expectMsgClass(String.class);

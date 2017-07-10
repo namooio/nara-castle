@@ -5,7 +5,7 @@ import namoo.nara.castle.cp.spring.CastleActorLycler;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.spec.CastleService;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
-import namoo.nara.castle.domain.spec.command.castle.FindAllCastlesCommand;
+import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
 import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,7 @@ public class CastleResource implements CastleService {
     @GetMapping("castles")
     public List<Castle> findCastles() {
         //
-        FindAllCastlesCommand command = new FindAllCastlesCommand();
+        FindAllCastlesQuery command = new FindAllCastlesQuery();
         return new AwaitableActorExecutor<List<Castle>>().execute(castleSupervisorActor, command);
     }
 }

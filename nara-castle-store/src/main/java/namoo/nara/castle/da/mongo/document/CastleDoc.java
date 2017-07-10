@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Document(collection = "CA_CASTLE")
 @CompoundIndexes({
         @CompoundIndex(name = "idx_enrollments",
-                unique = true,
+//                unique = true,
                 def = "{'enrollments.metroId' : 1, 'enrollments.civilianId' : 1}")
 })
 public class CastleDoc {

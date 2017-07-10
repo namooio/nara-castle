@@ -3,7 +3,6 @@ package namoo.nara.castle.akka.actor;
 import akka.actor.Props;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
-import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
@@ -90,14 +89,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
 
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
-        MetroEnrollment enrollment = new MetroEnrollment(
-                command.getMetroId(),
-                command.getCivilianId(),
-                command.getName(),
-                command.getEmail(),
-                command.getZone());
-
-        persist(new MetroEnrolled(enrollment), this::handleMetroEnrolledEvent);
+        persist(new MetroEnrolled(getState().getId(), command.getEnrollment()), this::handleMetroEnrolledEvent);
     }
 
     private void handleWithdrawMetroCommand(WithdrawMetroCommand command) {

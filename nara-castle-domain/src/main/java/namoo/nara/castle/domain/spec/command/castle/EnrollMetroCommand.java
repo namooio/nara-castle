@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.spec.command.castle;
 
+import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.NaraZone;
 import namoo.nara.share.domain.protocol.NaraCommand;
@@ -7,33 +8,21 @@ import namoo.nara.share.util.json.JsonUtil;
 
 public class EnrollMetroCommand implements NaraCommand {
     //
-    private String metroId;
-    private String civilianId;
-    private Name name;
-    private String email;
-    private NaraZone zone;          // zone for civilian
+    private MetroEnrollment enrollment;
 
     public EnrollMetroCommand() {
         //
     }
 
-    public EnrollMetroCommand(String metroId, String civilianId, Name name, String email, NaraZone zone) {
+    public EnrollMetroCommand(MetroEnrollment enrollment) {
         //
-        this.metroId = metroId;
-        this.civilianId = civilianId;
-        this.name = name;
-        this.email = email;
-        this.zone = zone;
+        this.enrollment = enrollment;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("EnrollMetroCommand{");
-        sb.append("metroId='").append(metroId).append('\'');
-        sb.append(", civilianId='").append(civilianId).append('\'');
-        sb.append(", name=").append(name);
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", zone=").append(zone);
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("enrollment:").append(enrollment);
         sb.append('}');
         return sb.toString();
     }
@@ -46,7 +35,8 @@ public class EnrollMetroCommand implements NaraCommand {
         String email = "hong@gmail.com";
         NaraZone zone = NaraZone.getSample();
 
-        EnrollMetroCommand sample = new EnrollMetroCommand(metroId, civilianId, name, email, zone);
+        MetroEnrollment enrollment = new MetroEnrollment(metroId, civilianId, name, email, zone);
+        EnrollMetroCommand sample = new EnrollMetroCommand(enrollment);
 
         return sample;
     }
@@ -61,44 +51,12 @@ public class EnrollMetroCommand implements NaraCommand {
         return JsonUtil.fromJson(json, EnrollMetroCommand.class);
     }
 
-    public String getMetroId() {
-        return metroId;
+    public MetroEnrollment getEnrollment() {
+        return enrollment;
     }
 
-    public void setMetroId(String metroId) {
-        this.metroId = metroId;
-    }
-
-    public String getCivilianId() {
-        return civilianId;
-    }
-
-    public void setCivilianId(String civilianId) {
-        this.civilianId = civilianId;
-    }
-
-    public Name getName() {
-        return name;
-    }
-
-    public void setName(Name name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public NaraZone getZone() {
-        return zone;
-    }
-
-    public void setZone(NaraZone zone) {
-        this.zone = zone;
+    public void setEnrollment(MetroEnrollment enrollment) {
+        this.enrollment = enrollment;
     }
 
     public static void main(String[] args) {

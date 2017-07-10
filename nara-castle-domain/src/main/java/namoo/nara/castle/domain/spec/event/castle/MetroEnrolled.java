@@ -7,22 +7,29 @@ public class MetroEnrolled implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
-    private MetroEnrollment metroEnrollment;
+    private String castleId;
+    private MetroEnrollment enrollment;
 
-    public MetroEnrolled(MetroEnrollment metroEnrollment) {
+    public MetroEnrolled(String castleId, MetroEnrollment enrollment) {
         //
-        this.metroEnrollment = metroEnrollment;
+        this.castleId = castleId;
+        this.enrollment = enrollment;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("metroEnrollment:").append(metroEnrollment);
+        sb.append("castleId:'").append(castleId).append('\'');
+        sb.append(", enrollment:").append(enrollment);
         sb.append('}');
         return sb.toString();
     }
 
-    public MetroEnrollment getMetroEnrollment() {
-        return metroEnrollment;
+    public String getCastleId() {
+        return castleId;
+    }
+
+    public MetroEnrollment getEnrollment() {
+        return enrollment;
     }
 }

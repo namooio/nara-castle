@@ -11,6 +11,7 @@ import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.event.castle.CastleCreated;
+import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import namoo.nara.castle.domain.store.CastleStore;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
@@ -20,6 +21,8 @@ import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class CastleSupervisorActor extends NaraPersistentActor {
     //
@@ -65,6 +68,9 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         if (query instanceof FindCastleQuery) {
             handleFindCastleQuery((FindCastleQuery) query);
         }
+        else if (query instanceof FindAllCastlesQuery) {
+            handleFindAllCastlesQuery((FindAllCastlesQuery) query);
+        }
     }
 
     /*********************** Command ***********************/
@@ -77,7 +83,7 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         Long nextCastleSequence = new AwaitableActorExecutor<Long>().execute(castleBookActor, new NextSequenceCommand());
         String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
 
-        Castle castle = new Castle(castleId);
+        Castle castle = new Castle(castleId, command.getEnrollment());
         ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castle));
         castleActor.tell(command, getSelf());
 
@@ -101,6 +107,12 @@ public class CastleSupervisorActor extends NaraPersistentActor {
         ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId));
         Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, query);
         getSender().tell(castle, getSelf());
+    }
+
+    private void handleFindAllCastlesQuery(FindAllCastlesQuery query) {
+        //
+        List<Castle> castles = castleStore.retrieveAll();
+        getSender().tell(castles, getSelf());
     }
 
     /*********************** Query ***********************/

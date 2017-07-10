@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class CastleMongoStore implements CastleStore {
 
@@ -38,6 +40,13 @@ public class CastleMongoStore implements CastleStore {
         CastleDoc castleDoc = castleMongoRepository.findByEnrollmentsMetroIdAndEnrollmentsCivilianId(metroId, civilianId);
         if (castleDoc == null) return null;
         return castleDoc.toDomain();
+    }
+
+    @Override
+    public List<Castle> retrieveAll() {
+        //
+        List<CastleDoc> castles = castleMongoRepository.findAll();
+        return CastleDoc.toDomains(castles);
     }
 
     @Override
