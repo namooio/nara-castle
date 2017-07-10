@@ -1,4 +1,4 @@
-package namoo.nara.castle.domain.store;
+package namoo.nara.castle.domain.view.store;
 
 import namoo.nara.castle.domain.entity.KeyAttr;
 import namoo.nara.castle.domain.entity.UnitPlate;

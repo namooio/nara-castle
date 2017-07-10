@@ -1,6 +1,7 @@
 package namoo.nara.castle.akka.actor;
 
 import akka.actor.Props;
+import namoo.nara.castle.akka.projection.CastellanCreatedViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
@@ -8,7 +9,7 @@ import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 import namoo.nara.castle.domain.spec.query.castellan.FindIdentityPlateQuery;
-import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
@@ -16,17 +17,16 @@ import namoo.nara.share.domain.protocol.NaraQuery;
 
 public class CastellanActor extends NaraPersistentActor<Castellan> {
     //
-    static public Props props(String castellanId, CastleStoreLycler storeLycler) {
+    static public Props props(String castellanId, CastleViewStoreLycler storeLycler) {
         //
         return Props.create(CastellanActor.class, () -> new CastellanActor(castellanId, storeLycler));
     }
 
-    public CastellanActor(String castellanId, CastleStoreLycler storeLycler) {
+    public CastellanActor(String castellanId, CastleViewStoreLycler storeLycler) {
         //
         super(new Castellan(castellanId));
 
-//        getViewProjectorMap().put(CastleBuilt.class.getName(), new CastleBuiltViewProjector(castleStore));
-//        getViewProjectorMap().put(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(castleStore));
+        addViewProjector(CastellanCreated.class.getName(), new CastellanCreatedViewProjector(storeLycler.requestCastellanViewStore()));
     }
 
     @Override
@@ -63,7 +63,8 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
 
     private void handleRegisterCastellanCommand(RegisterCastellanCommand command) {
         //
-        persist(new CastellanCreated(command.getEnrollment()), this::handleCastellanCreatedEvent);
+        String castellanId = getState().getId();
+        persist(new CastellanCreated(castellanId, command.getEnrollment()), this::handleCastellanCreatedEvent);
     }
 
     private void handleModifyCastellanCommand(ModifyCastellanCommand command) {

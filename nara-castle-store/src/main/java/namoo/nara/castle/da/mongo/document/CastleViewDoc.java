@@ -1,7 +1,7 @@
 package namoo.nara.castle.da.mongo.document;
 
-import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
+import namoo.nara.castle.domain.view.CastleView;
 import namoo.nara.share.domain.granule.NaraZone;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 //                unique = true,
                 def = "{'enrollments.metroId' : 1, 'enrollments.civilianId' : 1}")
 })
-public class CastleDoc {
+public class CastleViewDoc {
     //
     @Id
     private String id;
@@ -31,32 +31,27 @@ public class CastleDoc {
 
     private List<MetroEnrollment> enrollments;       // weak association
 
-    private Long entityVersion;
-
-    public CastleDoc() {
+    public CastleViewDoc() {
         //
     }
 
-    public static CastleDoc toDocument(Castle castle) {
-
-        CastleDoc castleDoc = new CastleDoc();
-        castleDoc.setId(castle.getId());
-        castleDoc.setEntityVersion(castle.getEntityVersion());
-        BeanUtils.copyProperties(castle, castleDoc);
-        return castleDoc;
+    public static CastleViewDoc toDocument(CastleView castleView) {
+        //
+        CastleViewDoc castleViewDoc = new CastleViewDoc();
+        BeanUtils.copyProperties(castleView, castleViewDoc);
+        return castleViewDoc;
     }
 
-    public static List<Castle> toDomains(List<CastleDoc> castleDocuments) {
-
-        return castleDocuments.stream().map(doc -> doc.toDomain()).collect(Collectors.toList());
+    public static List<CastleView> toDomains(List<CastleViewDoc> castleViewDocuments) {
+        //
+        return castleViewDocuments.stream().map(doc -> doc.toDomain()).collect(Collectors.toList());
     }
 
-    public Castle toDomain() {
-
-        Castle castle = new Castle(id);
-        castle.setEntityVersion(entityVersion);
-        BeanUtils.copyProperties(this, castle);
-        return castle;
+    public CastleView toDomain() {
+        //
+        CastleView castleView = new CastleView();
+        BeanUtils.copyProperties(this, castleView);
+        return castleView;
     }
 
     public String getId() {
@@ -115,11 +110,4 @@ public class CastleDoc {
         this.enrollments = enrollments;
     }
 
-    public Long getEntityVersion() {
-        return entityVersion;
-    }
-
-    public void setEntityVersion(Long entityVersion) {
-        this.entityVersion = entityVersion;
-    }
 }

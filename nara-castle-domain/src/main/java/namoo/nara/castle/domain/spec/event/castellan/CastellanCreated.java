@@ -7,19 +7,26 @@ public class CastellanCreated implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
+    private String castellanId;
     private MetroEnrollment enrollment;
 
-    public CastellanCreated(MetroEnrollment enrollment) {
+    public CastellanCreated(String castellanId, MetroEnrollment enrollment) {
         //
+        this.castellanId = castellanId;
         this.enrollment = enrollment;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("enrollment:").append(enrollment);
+        sb.append("castellanId:'").append(castellanId).append('\'');
+        sb.append(", enrollment:").append(enrollment);
         sb.append('}');
         return sb.toString();
+    }
+
+    public String getCastellanId() {
+        return castellanId;
     }
 
     public MetroEnrollment getEnrollment() {

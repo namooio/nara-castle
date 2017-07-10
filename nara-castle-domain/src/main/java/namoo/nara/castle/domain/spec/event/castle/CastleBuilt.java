@@ -9,11 +9,13 @@ public class CastleBuilt implements NaraEvent {
 
     private String castleId;
     private MetroEnrollment enrollment;
+    private Long builtTime;
 
     public CastleBuilt(String castleId, MetroEnrollment enrollment) {
         //
         this.castleId = castleId;
         this.enrollment = enrollment;
+        this.builtTime = System.currentTimeMillis();
     }
 
     @Override
@@ -21,6 +23,7 @@ public class CastleBuilt implements NaraEvent {
         final StringBuilder sb = new StringBuilder("{");
         sb.append("castleId:'").append(castleId).append('\'');
         sb.append(", enrollment:").append(enrollment);
+        sb.append(", builtTime:").append(builtTime);
         sb.append('}');
         return sb.toString();
     }
@@ -31,6 +34,10 @@ public class CastleBuilt implements NaraEvent {
 
     public MetroEnrollment getEnrollment() {
         return enrollment;
+    }
+
+    public Long getBuiltTime() {
+        return builtTime;
     }
 }
 

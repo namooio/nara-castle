@@ -18,7 +18,7 @@ import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
-import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
 import namoo.nara.share.domain.event.NaraEvent;
@@ -31,20 +31,21 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CastleStoreLycler storeLycler;
+    private CastleViewStoreLycler storeLycler;
 
-    static public Props props(String castleId, CastleStoreLycler storeLycler) {
+    static public Props props(String castleId, CastleViewStoreLycler storeLycler) {
         //
         return Props.create(CastleActor.class, () -> new CastleActor(castleId, storeLycler));
     }
 
-    public CastleActor(String castleId, CastleStoreLycler storeLycler) {
+    public CastleActor(String castleId, CastleViewStoreLycler storeLycler) {
         //
         super(new Castle(castleId));
 
         this.storeLycler = storeLycler;
-        getViewProjectorMap().put(CastleBuilt.class.getName(), new CastleBuiltViewProjector(storeLycler.requestCastleStore()));
-        getViewProjectorMap().put(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(storeLycler.requestCastleStore()));
+
+        addViewProjector(CastleBuilt.class.getName(), new CastleBuiltViewProjector(storeLycler.requestCastleViewStore()));
+        addViewProjector(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(storeLycler.requestCastleViewStore()));
     }
 
     @Override

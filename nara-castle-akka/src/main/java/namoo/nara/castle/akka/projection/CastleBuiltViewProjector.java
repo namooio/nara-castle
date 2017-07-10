@@ -1,8 +1,9 @@
 package namoo.nara.castle.akka.projection;
 
-import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
-import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.view.CastleView;
+import namoo.nara.castle.domain.view.store.CastleViewStore;
 import namoo.nara.share.akka.support.projection.ViewProjector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,24 +12,28 @@ public class CastleBuiltViewProjector implements ViewProjector<CastleBuilt> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CastleStore castleStore;
+    private CastleViewStore castleViewStore;
 
-    public CastleBuiltViewProjector(CastleStore castleStore) {
+    public CastleBuiltViewProjector(CastleViewStore castleViewStore) {
         //
-        this.castleStore = castleStore;
+        this.castleViewStore = castleViewStore;
     }
 
     @Override
     public void makeProjection(CastleBuilt event) {
         //
-        try {
-            logger.debug("make projection for built castle {}", event);
-            Castle castle = new Castle(event.getCastleId());
-            castle.apply(event);
-            this.castleStore.create(castle);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
+        logger.debug("make projection for built castleView {}", event);
 
+        CastleView castleView = new CastleView();
+        MetroEnrollment enrollment = event.getEnrollment();
+        castleView.setId(event.getCastleId());
+        castleView.setStartNationId(enrollment.getNationId());
+        castleView.setName(enrollment.getName().getDisplayName());
+        castleView.setPrimaryEmail(enrollment.getEmail());
+        castleView.setZone(enrollment.getZone());
+        castleView.setBuiltTime(event.getBuiltTime());
+        castleView.getEnrollments().add(enrollment);
+
+        this.castleViewStore.create(castleView);
     }
 }

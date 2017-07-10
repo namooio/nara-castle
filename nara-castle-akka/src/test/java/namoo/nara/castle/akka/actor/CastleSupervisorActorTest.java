@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.testkit.javadsl.TestKit;
 import namoo.nara.castle.CastleAkkaTestApplication;
-import namoo.nara.castle.domain.store.CastleStoreLycler;
+import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class CastleSupervisorActorTest {
     Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private CastleStoreLycler storeLycler;
+    private CastleViewStoreLycler storeLycler;
 
     static ActorSystem system;
 

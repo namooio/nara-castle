@@ -67,7 +67,10 @@ public class Castellan extends Entity implements Aggregate {
         //
         if (event instanceof CastellanCreated) {
             CastellanCreated castellanCreated = (CastellanCreated) event;
+            MetroEnrollment enrollment = castellanCreated.getEnrollment();
 
+            this.names.add(enrollment.getName());
+            this.emails.add(new Email(enrollment.getEmail()));
         }
         else if (event instanceof CastellanModified) {
             CastellanModified castellanModified = (CastellanModified) event;
