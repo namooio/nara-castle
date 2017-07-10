@@ -2,6 +2,7 @@ package namoo.nara.castle.adapter.rest;
 
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.spec.CastleService;
+import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.share.restclient.NaraRestClient;
 import namoo.nara.share.restclient.RequestBuilder;
@@ -19,12 +20,22 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public String enrollMetro(EnrollMetroCommand command) {
+    public String buildCastle(BuildCastleCommand command) {
         //
         return naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_ENROLL_METRO)
+                RequestBuilder.create(CastleRestUrl.URL_CASTLE_BUILD)
                 .setRequestBody(command)
                 .setResponseType(String.class)
+        );
+    }
+
+    @Override
+    public void enrollMetro(String castleId, EnrollMetroCommand command) {
+        //
+        naraRestClient.sendAndRecieve(
+                RequestBuilder.create(CastleRestUrl.URL_ENROLL_METRO)
+                        .addPathParam("castleId", castleId)
+                        .setRequestBody(command)
         );
     }
 
@@ -32,7 +43,7 @@ public class CastleRestAdapter implements CastleService {
     public List<Castle> findCastles() {
         //
         return Arrays.asList(naraRestClient.sendAndRecieve(
-                RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND_ALL)
+                RequestBuilder.create(CastleRestUrl.URL_CASTLES_FIND)
                 .setResponseType(Castle[].class)
         ));
     }

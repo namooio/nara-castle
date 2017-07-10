@@ -8,6 +8,10 @@ public class ModifyCastleCommand implements NaraCommand {
     private String castleId;
     private NameValueList nameValues;
 
+    public ModifyCastleCommand() {
+        //
+    }
+
     public ModifyCastleCommand(String castleId, NameValueList nameValues) {
         //
         this.castleId = castleId;
@@ -18,7 +22,15 @@ public class ModifyCastleCommand implements NaraCommand {
         return castleId;
     }
 
+    public void setCastleId(String castleId) {
+        this.castleId = castleId;
+    }
+
     public NameValueList getNameValues() {
         return nameValues;
+    }
+
+    public void setNameValues(NameValueList nameValues) {
+        this.nameValues = nameValues;
     }
 }

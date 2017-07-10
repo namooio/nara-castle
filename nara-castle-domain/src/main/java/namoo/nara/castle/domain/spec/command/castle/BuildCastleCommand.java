@@ -1,17 +1,17 @@
-package namoo.nara.castle.domain.spec.command.castellan;
+package namoo.nara.castle.domain.spec.command.castle;
 
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.share.domain.protocol.NaraCommand;
 
-public class RegisterCastellanCommand implements NaraCommand {
+public class BuildCastleCommand implements NaraCommand {
     //
     private MetroEnrollment enrollment;
 
-    public RegisterCastellanCommand() {
+    public BuildCastleCommand() {
         //
     }
 
-    public RegisterCastellanCommand(MetroEnrollment enrollment) {
+    public BuildCastleCommand(MetroEnrollment enrollment) {
         //
         this.enrollment = enrollment;
     }

@@ -16,14 +16,14 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    static public Props props() {
+    static public Props props(String castleBookId) {
         //
-        return Props.create(CastleBookActor.class, () -> new CastleBookActor());
+        return Props.create(CastleBookActor.class, () -> new CastleBookActor(castleBookId));
     }
 
-    public CastleBookActor() {
+    public CastleBookActor(String castleBookId) {
         //
-        super(new CastleBook());
+        super(new CastleBook(castleBookId));
     }
 
     @Override

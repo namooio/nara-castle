@@ -1,20 +1,26 @@
 package namoo.nara.castle.akka.actor;
 
+import akka.actor.ActorRef;
 import akka.actor.Props;
+import namoo.nara.castle.akka.projection.CastleBuiltViewProjector;
 import namoo.nara.castle.akka.projection.MetroEnrolledViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
+import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.WithdrawMetroCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
+import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
 import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
-import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
+import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
@@ -25,31 +31,29 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    static public Props props(String castleId, CastleStore castleStore) {
+    private CastleStoreLycler storeLycler;
+
+    static public Props props(String castleId, CastleStoreLycler storeLycler) {
         //
-        return Props.create(CastleActor.class, () -> new CastleActor(castleId, castleStore));
+        return Props.create(CastleActor.class, () -> new CastleActor(castleId, storeLycler));
     }
 
-    static public Props props(Castle castle, CastleStore castleStore) {
+    public CastleActor(String castleId, CastleStoreLycler storeLycler) {
         //
-        return Props.create(CastleActor.class, () -> new CastleActor(castle, castleStore));
-    }
+        super(new Castle(castleId));
 
-    public CastleActor(String castleId, CastleStore castleStore) {
-        //
-        this(new Castle(castleId), castleStore);
-    }
-
-    public CastleActor(Castle castle, CastleStore castleStore) {
-        //
-        super(castle);
-        getViewProjectorMap().put(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(castleStore));
+        this.storeLycler = storeLycler;
+        getViewProjectorMap().put(CastleBuilt.class.getName(), new CastleBuiltViewProjector(storeLycler.requestCastleStore()));
+        getViewProjectorMap().put(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(storeLycler.requestCastleStore()));
     }
 
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        if (event instanceof MetroEnrolled) {
+        if (event instanceof CastleBuilt) {
+            handleCastleBuiltEvent((CastleBuilt) event);
+        }
+        else if (event instanceof MetroEnrolled) {
             handleMetroEnrolledEvent((MetroEnrolled) event);
         }
         else if (event instanceof MetroWithdrawn) {
@@ -66,7 +70,10 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        if (command instanceof EnrollMetroCommand) {
+        if (command instanceof BuildCastleCommand) {
+            handleBuildCastleCommand((BuildCastleCommand) command);
+        }
+        else if (command instanceof EnrollMetroCommand) {
             handleEnrollMetroCommand((EnrollMetroCommand) command);
         }
         else if (command instanceof WithdrawMetroCommand) {
@@ -74,9 +81,6 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         }
         else if (command instanceof ModifyCastleCommand) {
             handleModifyCastleCommand((ModifyCastleCommand) command);
-        }
-        else if (command instanceof RegisterCastellanCommand) {
-            handleRegisterCastellanCommand((RegisterCastellanCommand) command);
         }
     }
 
@@ -89,6 +93,13 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     }
 
     /*********************** Command ***********************/
+
+    private void handleBuildCastleCommand(BuildCastleCommand command) {
+        //
+        String castleId = getState().getId();
+        MetroEnrollment enrollment = command.getEnrollment();
+        persist(new CastleBuilt(castleId, enrollment), this::handleCastleBuiltEvent);
+    }
 
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
@@ -107,15 +118,6 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         persist(new CastleModified(command), this::handleCastleModifiedEvent);
     }
 
-    private void handleRegisterCastellanCommand(RegisterCastellanCommand command) {
-        //
-        Castle castle = getState();
-        String castellanId = castle.getId();
-
-        lookupOrCreateChildPersistentActor(castellanId, Castellan.class, CastellanActor.props(castle));
-        persist(new CastellanCreated(castellanId), this::handleCastellanCreatedEvent);
-    }
-
     /*********************** Command ***********************/
 
     /*********************** Query ***********************/
@@ -128,6 +130,17 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     /*********************** Query ***********************/
 
     /*********************** Event ***********************/
+
+    private void handleCastleBuiltEvent(CastleBuilt event) {
+        //
+        getState().apply(event);
+        String castleId = getState().getId();
+
+        ActorRef castellanActor = lookupOrCreateChildPersistentActor(castleId, Castellan.class, CastellanActor.props(castleId, storeLycler));
+        new AwaitableActorExecutor<String>().execute(castellanActor, new RegisterCastellanCommand(event.getEnrollment()));
+
+        getSender().tell(castleId, getSelf());
+    }
 
     private void handleMetroEnrolledEvent(MetroEnrolled event) {
         //

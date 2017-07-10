@@ -1,6 +1,5 @@
 package namoo.nara.castle.domain.entity;
 
-import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.spec.event.castlebook.SequenceIncreased;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
@@ -15,14 +14,13 @@ public class CastleBook extends Entity implements Aggregate {
 
     private long sequence;
 
+    public CastleBook() {
+        //
+    }
+
     public CastleBook(String id) {
         //
         super(id);
-    }
-
-    public CastleBook() {
-        //
-        super(CastleIdBuilder.requestCastleBookId());    // singleton
         this.sequence = 0L;
     }
 

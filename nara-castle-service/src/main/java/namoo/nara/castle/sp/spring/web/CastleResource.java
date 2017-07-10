@@ -1,9 +1,10 @@
 package namoo.nara.castle.sp.spring.web;
 
 import akka.actor.ActorRef;
-import namoo.nara.castle.cp.spring.CastleActorLycler;
+import namoo.nara.castle.cp.spring.CastleAkkaActorSpringLycler;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.spec.CastleService;
+import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
 import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
@@ -19,15 +20,26 @@ public class CastleResource implements CastleService {
     private ActorRef castleSupervisorActor;
 
     @Autowired
-    public CastleResource(CastleActorLycler actorLycler) {
+    public CastleResource(CastleAkkaActorSpringLycler actorLycler) {
         //
         this.castleSupervisorActor = actorLycler.requestCastleSupervisorActor();
     }
 
-    @PostMapping("castles/enrollments")
-    public String enrollMetro(@RequestBody EnrollMetroCommand command) {
+    @PostMapping("castles")
+    public String buildCastle(
+            @RequestBody BuildCastleCommand command
+    ) {
         //
         return new AwaitableActorExecutor<String>().execute(castleSupervisorActor, command);
+    }
+
+    @PostMapping("castles/{castleId}/enrollments")
+    public void enrollMetro(
+            @PathVariable("castleId") String castleId,
+            @RequestBody EnrollMetroCommand command
+    ) {
+        //
+        this.castleSupervisorActor.tell(command, ActorRef.noSender());
     }
 
     @GetMapping("castles")

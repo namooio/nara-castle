@@ -1,18 +1,16 @@
-package namoo.nara.castle.domain.spec.command.castle;
+package namoo.nara.castle.domain.spec.event.castle;
 
 import namoo.nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.event.NaraEvent;
 
-public class EnrollMetroCommand implements NaraCommand {
+public class CastleBuilt implements NaraEvent {
     //
+    private static final long serialVersionUID = 1L;
+
     private String castleId;
     private MetroEnrollment enrollment;
 
-    public EnrollMetroCommand() {
-        //
-    }
-
-    public EnrollMetroCommand(String castleId, MetroEnrollment enrollment) {
+    public CastleBuilt(String castleId, MetroEnrollment enrollment) {
         //
         this.castleId = castleId;
         this.enrollment = enrollment;
@@ -31,16 +29,8 @@ public class EnrollMetroCommand implements NaraCommand {
         return castleId;
     }
 
-    public void setCastleId(String castleId) {
-        this.castleId = castleId;
-    }
-
     public MetroEnrollment getEnrollment() {
         return enrollment;
     }
-
-    public void setEnrollment(MetroEnrollment enrollment) {
-        this.enrollment = enrollment;
-    }
-
 }
+

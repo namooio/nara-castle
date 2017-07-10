@@ -5,9 +5,9 @@ import namoo.nara.share.restclient.NaraRestUrl;
 
 public enum CastleRestUrl implements NaraRestUrl {
     //
-    // Castle
-    URL_ENROLL_METRO      ("castle-api/castles/enrollments",           HttpMethod.POST      ),
-    URL_CASTLE_FIND_ALL   ("castle-api/castles",                       HttpMethod.GET       ),
+    URL_CASTLE_BUILD      ("castle-api/castles",                            HttpMethod.POST),
+    URL_ENROLL_METRO      ("castle-api/castles/{castleId}/enrollments",     HttpMethod.POST),
+    URL_CASTLES_FIND      ("castle-api/castles",                            HttpMethod.GET),
     ;
 
     private String restUrl;

@@ -2,18 +2,18 @@ package namoo.nara.castle.akka.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import namoo.nara.castle.akka.projection.CastleCreatedViewProjector;
+import namoo.nara.castle.akka.projection.CastleBuiltViewProjector;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.CastleBook;
-import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
+import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
-import namoo.nara.castle.domain.spec.event.castle.CastleCreated;
+import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
 import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
-import namoo.nara.castle.domain.store.CastleStore;
+import namoo.nara.castle.domain.store.CastleStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
 import namoo.nara.share.domain.event.NaraEvent;
@@ -28,33 +28,33 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CastleStore castleStore;
+    private CastleStoreLycler storeLycler;
 
-    static public Props props(CastleStore castleStore) {
+    static public Props props(CastleStoreLycler storeLycler) {
         //
-        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(castleStore));
+        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(storeLycler));
     }
 
-    public CastleSupervisorActor(CastleStore castleStore) {
+    public CastleSupervisorActor(CastleStoreLycler storeLycler) {
         //
         super("castle-supervisor");
-        this.castleStore = castleStore;
+        this.storeLycler = storeLycler;
 
-        getViewProjectorMap().put(CastleCreated.class.getName(), new CastleCreatedViewProjector(castleStore));
+        getViewProjectorMap().put(CastleBuilt.class.getName(), new CastleBuiltViewProjector(storeLycler.requestCastleStore()));
     }
 
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        if (event instanceof CastleCreated) {
-            handleCastleCreatedEvent((CastleCreated) event);
-        }
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        if (command instanceof EnrollMetroCommand) {
+        if (command instanceof BuildCastleCommand) {
+            handleBuildCastleCommand((BuildCastleCommand) command);
+        }
+        else if (command instanceof EnrollMetroCommand) {
             handleEnrollMetroCommand((EnrollMetroCommand) command);
         }
         else if (command instanceof ModifyCastleCommand) {
@@ -75,26 +75,30 @@ public class CastleSupervisorActor extends NaraPersistentActor {
 
     /*********************** Command ***********************/
 
-    private void handleEnrollMetroCommand(EnrollMetroCommand command) {
+    private void handleBuildCastleCommand(BuildCastleCommand command) {
         //
         String castleBookId = CastleIdBuilder.requestCastleBookId();
-        ActorRef castleBookActor = lookupOrCreateChildPersistentActor(castleBookId, CastleBook.class, CastleBookActor.props());
+        ActorRef castleBookActor = lookupOrCreateChildPersistentActor(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
 
         Long nextCastleSequence = new AwaitableActorExecutor<Long>().execute(castleBookActor, new NextSequenceCommand());
         String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
 
-        Castle castle = new Castle(castleId);
-        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castle, castleStore));
-        castleActor.tell(command, getSelf());
+        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId, storeLycler));
+        castleActor.forward(command, getContext());
+    }
 
-        persist(new CastleCreated(castle), this::handleCastleCreatedEvent);
+    private void handleEnrollMetroCommand(EnrollMetroCommand command) {
+        //
+        String castleId = command.getCastleId();
+        ActorRef castleActor = lookupOrCreateChildPersistentActor(command.getCastleId(), Castle.class, CastleActor.props(castleId, storeLycler));
+        castleActor.forward(command, getContext());
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
         //
         String castleId = command.getCastleId();
-        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId, castleStore));
-        castleActor.tell(command, getSelf());
+        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId, storeLycler));
+        castleActor.forward(command, getContext());
 
     }
     /*********************** Command ***********************/
@@ -104,14 +108,14 @@ public class CastleSupervisorActor extends NaraPersistentActor {
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
         String castleId = query.getCastleId();
-        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId, castleStore));
+        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId, storeLycler));
         Castle castle = new AwaitableActorExecutor<Castle>().execute(castleActor, query);
         getSender().tell(castle, getSelf());
     }
 
     private void handleFindAllCastlesQuery(FindAllCastlesQuery query) {
         //
-        List<Castle> castles = castleStore.retrieveAll();
+        List<Castle> castles = storeLycler.requestCastleStore().retrieveAll();
         getSender().tell(castles, getSelf());
     }
 
@@ -119,16 +123,6 @@ public class CastleSupervisorActor extends NaraPersistentActor {
 
     /*********************** Event ***********************/
 
-    private void handleCastleCreatedEvent(CastleCreated event) {
-        //
-        String castleId = event.getCastle().getId();
-
-        ActorRef castleActor = lookupOrCreateChildPersistentActor(castleId, Castle.class, CastleActor.props(castleId, castleStore));
-        castleActor.tell(new RegisterCastellanCommand(castleId), getSelf());
-
-        getSender().tell(castleId, getSelf());
-    }
 
     /*********************** Event ***********************/
-
 }

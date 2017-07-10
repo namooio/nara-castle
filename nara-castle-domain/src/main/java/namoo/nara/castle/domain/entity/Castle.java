@@ -1,6 +1,7 @@
 package namoo.nara.castle.domain.entity;
 
 import namoo.nara.castle.domain.context.CastleIdBuilder;
+import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
 import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
@@ -32,18 +33,8 @@ public class Castle extends Entity implements Aggregate {
     public Castle(String id) {
         //
         super(id);
-    }
-
-    public Castle(String castleId, MetroEnrollment enrollment) {
-        //
-        super(castleId);
-        this.startNationId = enrollment.getNationId();
-        this.name = enrollment.getName().getDisplayName();
-        this.primaryEmail = enrollment.getEmail();
-        this.zone = enrollment.getZone();
         this.builtTime = System.currentTimeMillis();
         this.enrollments = new ArrayList<>();
-        this.enrollments.add(enrollment);
     }
 
     @Override
@@ -66,7 +57,7 @@ public class Castle extends Entity implements Aggregate {
         long sequence = CastleBook.getSample().getSequence();
         String castleId = CastleIdBuilder.requestCastleId(sequence);
 
-        Castle sample = new Castle(castleId, metroEnrollment);
+        Castle sample = new Castle(castleId);
 
         return sample;
     }
@@ -101,7 +92,16 @@ public class Castle extends Entity implements Aggregate {
     @Override
     public void apply(NaraEvent event) {
         //
-        if (event instanceof CastleModified) {
+        if (event instanceof CastleBuilt) {
+            CastleBuilt castleBuilt = (CastleBuilt) event;
+            MetroEnrollment enrollment = castleBuilt.getEnrollment();
+            startNationId = enrollment.getNationId();
+            name = enrollment.getName().getDisplayName();
+            primaryEmail = enrollment.getEmail();
+            zone = enrollment.getZone();
+            enrollments.add(enrollment);
+        }
+        else if (event instanceof CastleModified) {
             CastleModified castleModified = (CastleModified) event;
             setValues(castleModified.getNameValues());
         }

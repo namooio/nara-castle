@@ -1,5 +1,6 @@
 package namoo.nara.castle.domain.entity;
 
+import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 import namoo.nara.share.domain.Aggregate;
 import namoo.nara.share.domain.Entity;
@@ -26,11 +27,6 @@ public class Castellan extends Entity implements Aggregate {
     public Castellan(String id) {
         //
         super(id);
-    }
-
-    public Castellan(Castle castle) {
-        //
-        super(castle.getId());       // castleId == castellanId
         this.names = new NameList();
         this.phones = new PhoneList();
         this.emails = new EmailList();
@@ -69,7 +65,11 @@ public class Castellan extends Entity implements Aggregate {
 
     public void apply(NaraEvent event) {
         //
-        if (event instanceof CastellanModified) {
+        if (event instanceof CastellanCreated) {
+            CastellanCreated castellanCreated = (CastellanCreated) event;
+
+        }
+        else if (event instanceof CastellanModified) {
             CastellanModified castellanModified = (CastellanModified) event;
             setValues(castellanModified.getNameValues());
         }

@@ -3,7 +3,7 @@ package namoo.nara.castle.akka.actor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.testkit.javadsl.TestKit;
-import namoo.nara.castle.akka.actor.CastleBookActor;
+import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
@@ -63,7 +63,8 @@ public class CastleBookActorTest {
         //
         final TestKit testProbe = new TestKit(system);
 
-        final ActorRef castleBookActor = system.actorOf(CastleBookActor.props());
+        String castleBookId = CastleIdBuilder.requestCastleBookId();
+        final ActorRef castleBookActor = system.actorOf(CastleBookActor.props(castleBookId));
 
         castleBookActor.tell(new NextSequenceCommand(), testProbe.getRef());
         testProbe.expectMsgClass(Long.class);
