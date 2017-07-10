@@ -34,15 +34,15 @@ public class MetroEnrollment implements ValueObject {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("EnrollMetroCommand{");
-        sb.append("metroId='").append(metroId).append('\'');
-        sb.append(", civilianId='").append(civilianId).append('\'');
-        sb.append(", name=").append(name);
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", withdrawn=").append(withdrawn);
-        sb.append(", zone=").append(zone);
-        sb.append(", enrollingTime=").append(enrollingTime);
-        sb.append(", withdrawnTime=").append(withdrawnTime);
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("metroId:'").append(metroId).append('\'');
+        sb.append(", civilianId:'").append(civilianId).append('\'');
+        sb.append(", name:").append(name);
+        sb.append(", email:'").append(email).append('\'');
+        sb.append(", withdrawn:").append(withdrawn);
+        sb.append(", zone:").append(zone);
+        sb.append(", enrollingTime:").append(enrollingTime);
+        sb.append(", withdrawnTime:").append(withdrawnTime);
         sb.append('}');
         return sb.toString();
     }
