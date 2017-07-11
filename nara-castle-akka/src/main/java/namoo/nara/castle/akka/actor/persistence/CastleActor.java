@@ -2,8 +2,8 @@ package namoo.nara.castle.akka.actor.persistence;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import namoo.nara.castle.akka.projection.CastleBuiltViewProjector;
-import namoo.nara.castle.akka.projection.MetroEnrolledViewProjector;
+import namoo.nara.castle.akka.projection.castle.CastleBuiltViewProjector;
+import namoo.nara.castle.akka.projection.castle.MetroEnrolledViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;

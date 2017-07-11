@@ -1,4 +1,4 @@
-package namoo.nara.castle.akka.projection;
+package namoo.nara.castle.akka.projection.castellan;
 
 import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.view.CastellanView;

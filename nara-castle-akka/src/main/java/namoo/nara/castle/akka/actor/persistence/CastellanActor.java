@@ -1,7 +1,7 @@
 package namoo.nara.castle.akka.actor.persistence;
 
 import akka.actor.Props;
-import namoo.nara.castle.akka.projection.CastellanCreatedViewProjector;
+import namoo.nara.castle.akka.projection.castellan.CastellanCreatedViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;

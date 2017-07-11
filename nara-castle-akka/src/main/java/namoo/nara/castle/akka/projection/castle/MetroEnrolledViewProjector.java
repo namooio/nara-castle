@@ -1,4 +1,4 @@
-package namoo.nara.castle.akka.projection;
+package namoo.nara.castle.akka.projection.castle;
 
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.view.CastleView;
