@@ -1,4 +1,4 @@
-package namoo.nara.castle.akka.actor;
+package namoo.nara.castle.akka.actor.persistence;
 
 import akka.actor.Props;
 import namoo.nara.castle.akka.projection.CastellanCreatedViewProjector;

@@ -2,6 +2,8 @@ package namoo.nara.castle.akka.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import namoo.nara.castle.akka.actor.persistence.CastleActor;
+import namoo.nara.castle.akka.actor.persistence.CastleBookActor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.CastleBook;
