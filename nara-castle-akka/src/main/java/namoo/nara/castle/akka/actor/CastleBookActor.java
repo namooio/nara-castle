@@ -54,6 +54,7 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
 
     private void handleNextSequenceCommand(NextSequenceCommand command) {
         //
+        getState().nextSequence();
         persistAndHandleEvent(new SequenceIncreased(getState()));
     }
 
