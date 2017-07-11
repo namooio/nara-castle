@@ -63,4 +63,10 @@ public class CastleViewMongoStore implements CastleViewStore {
         //
         repository.delete(id);
     }
+
+    @Override
+    public boolean existsByEnrolledMetro(String metroId, String civilianId) {
+        //
+        return retrieveByEnrolledMetro(metroId, civilianId) != null;
+    }
 }

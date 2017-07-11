@@ -16,6 +16,14 @@ public class BuildCastleCommand implements NaraCommand {
         this.enrollment = enrollment;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("enrollment:").append(enrollment);
+        sb.append('}');
+        return sb.toString();
+    }
+
     public MetroEnrollment getEnrollment() {
         return enrollment;
     }
