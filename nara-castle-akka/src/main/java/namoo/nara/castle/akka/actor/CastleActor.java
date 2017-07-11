@@ -96,24 +96,25 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         String castleId = getState().getId();
         MetroEnrollment enrollment = command.getEnrollment();
         Castle castle = new Castle(castleId, enrollment);
-        persist(new CastleBuilt(castle), super::handleEventWork);
+
+        persistAndHandleEvent(new CastleBuilt(castle));
     }
 
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
-        persist(new MetroEnrolled(getState().getId(), command.getEnrollment()), super::handleEventWork);
+        persistAndHandleEvent(new MetroEnrolled(getState().getId(), command.getEnrollment()));
     }
 
     private void handleWithdrawMetroCommand(WithdrawMetroCommand command) {
         //
         String metroId = command.getMetroId();
         String civilianId = command.getCivilianId();
-        persist(new MetroWithdrawn(metroId, civilianId), super::handleEventWork);
+        persistAndHandleEvent(new MetroWithdrawn(metroId, civilianId));
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
         //
-        persist(new CastleModified(command), super::handleEventWork);
+        persistAndHandleEvent(new CastleModified(command));
     }
 
     /*********************** Command ***********************/
