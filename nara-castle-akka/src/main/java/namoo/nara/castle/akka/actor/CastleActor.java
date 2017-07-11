@@ -12,7 +12,6 @@ import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.command.castle.ModifyCastleCommand;
 import namoo.nara.castle.domain.spec.command.castle.WithdrawMetroCommand;
-import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
 import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
@@ -62,9 +61,6 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         }
         else if (event instanceof CastleModified) {
             handleCastleModifiedEvent((CastleModified) event);
-        }
-        else if (event instanceof CastellanCreated) {
-            handleCastellanCreatedEvent((CastellanCreated) event);
         }
     }
 
@@ -157,10 +153,6 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     private void handleCastleModifiedEvent(CastleModified event) {
         //
         getState().apply(event);
-    }
-
-    private void handleCastellanCreatedEvent(CastellanCreated event) {
-        //
     }
 
     /*********************** Event ***********************/
