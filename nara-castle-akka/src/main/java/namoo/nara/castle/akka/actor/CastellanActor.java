@@ -64,12 +64,12 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     private void handleRegisterCastellanCommand(RegisterCastellanCommand command) {
         //
         Castellan castellan = new Castellan(command.getCastle());
-        persist(new CastellanCreated(castellan), this::handleCastellanCreatedEvent);
+        persist(new CastellanCreated(castellan), super::handleEventWork);
     }
 
     private void handleModifyCastellanCommand(ModifyCastellanCommand command) {
         //
-        persist(new CastellanModified(command), this::handleCastellanModifiedEvent);
+        persist(new CastellanModified(command), super::handleEventWork);
     }
 
     /*********************** Command ***********************/
