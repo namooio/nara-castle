@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <base href="/" />
+  <title>Nara Castle Drama</title>
+
+  <script type="text/javascript">
+    (function() {
+      if (typeof window.DRAMA_CONTEXT !== 'undefined') {
+        console.log("[NaraCastle] Start with pavilion mode");
+        console.debug("[NaraCastle] base-path : " + DRAMA_CONTEXT.basePath);
+      } else {
+        console.log("[NaraCastle] Start with standard alone mode");
+        window.DRAMA_CONTEXT = {
+          basePath: '/',
+          roles: ['admin', 'user'],
+          edition: 'Professional',
+          userId: 'tester',
+          userName: 'tester',
+          contextId: 'testContext',
+          stageId: 'testTown'
+        };
+      }
+    })();
+    console.debug(DRAMA_CONTEXT);
+
+    // ex) standard-alone => "/", pavilion => "/pav-proxy/****/"
+    //     window.document.getElementsByTagName('base')[0].href = DRAMA_CONTEXT.basePath;
+  </script>
+<link href="resources/vendor.0a2a8f82c1f0d0e23095.css" rel="stylesheet"/></head>
+<body>
+
+  <link href="http://ipms.namoo.io/common-asset/naraVendor.css" rel="stylesheet"/>
+
+  <div id="app"></div>
+
+  <script src="http://ipms.namoo.io/common-asset/vendor.js"></script>
+  <script src="http://ipms.namoo.io/common-asset/nara.js"></script>
+
+<script type="text/javascript" src="resources/vendor.0a2a8f82c1f0d0e23095.js"></script><script type="text/javascript" src="resources/app.0a2a8f82c1f0d0e23095.js"></script></body>
+</html>
