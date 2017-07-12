@@ -1,7 +1,6 @@
 package namoo.nara.castle.actor;
 
 import akka.actor.Props;
-import akka.actor.UntypedAbstractActor;
 import akka.actor.UntypedActor;
 
 /**
