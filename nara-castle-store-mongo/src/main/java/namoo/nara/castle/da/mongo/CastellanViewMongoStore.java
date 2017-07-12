@@ -1,35 +1,32 @@
 package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.da.mongo.document.CastellanViewDoc;
-import namoo.nara.castle.da.mongo.springdata.CastellanViewMongoRepository;
 import namoo.nara.castle.domain.view.CastellanView;
 import namoo.nara.castle.domain.view.store.CastellanViewStore;
 import namoo.nara.share.exception.store.NonExistenceException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Repository;
+import org.mongodb.morphia.Datastore;
 
 import java.util.List;
 
-@Repository
 public class CastellanViewMongoStore implements CastellanViewStore {
     //
-    @Autowired
-    private CastellanViewMongoRepository repository;
+    private Datastore datastore;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    public CastellanViewMongoStore(Datastore datastore) {
+        //
+        this.datastore = datastore;
+    }
 
     @Override
     public void create(CastellanView castellanView) {
         //
-        repository.insert(CastellanViewDoc.toDocument(castellanView));
+        datastore.save(CastellanViewDoc.toDocument(castellanView));
     }
 
     @Override
     public CastellanView retrieve(String id) {
         //
-        CastellanViewDoc castellanViewDoc = repository.findOne(id);
+        CastellanViewDoc castellanViewDoc = datastore.createQuery(CastellanViewDoc.class).field("id").equal(id).get();
         if (castellanViewDoc == null) throw new NonExistenceException(String.format("No castellanView document[%s] found.", id));
         return castellanViewDoc.toDomain();
     }
@@ -37,28 +34,26 @@ public class CastellanViewMongoStore implements CastellanViewStore {
     @Override
     public List<CastellanView> retrieveAll() {
         //
-        List<CastellanViewDoc> castellanViewDocs = repository.findAll();
+        List<CastellanViewDoc> castellanViewDocs = datastore.createQuery(CastellanViewDoc.class).asList();
         return CastellanViewDoc.toDomains(castellanViewDocs);
     }
 
     @Override
     public void update(CastellanView castellanView) {
         //
-        String id = castellanView.getId();
-        if (!repository.exists(id)) throw new NonExistenceException(String.format("No castellanView document[%s] found.", id));
-        CastellanViewDoc castellanViewDoc = CastellanViewDoc.toDocument(castellanView);
-        repository.save(castellanViewDoc);
+        if (exists(castellanView.getId())) throw new NonExistenceException(String.format("No castellanView document[%s] found.", castellanView.getId()));
+        datastore.save(CastellanViewDoc.toDocument(castellanView));
     }
 
     @Override
     public void delete(String id) {
         //
-        repository.delete(id);
+        datastore.delete(CastellanViewDoc.class, id);
     }
 
     @Override
     public boolean exists(String id) {
         //
-        return repository.exists(id);
+        return datastore.createQuery(CastellanViewDoc.class).field("id").equal(id).get() != null;
     }
 }

@@ -1,19 +1,25 @@
 package namoo.nara.castle.cp.spring;
 
+import namoo.nara.castle.da.mongo.CastellanViewMongoStore;
+import namoo.nara.castle.da.mongo.CastleViewMongoStore;
 import namoo.nara.castle.domain.view.store.CastellanViewStore;
 import namoo.nara.castle.domain.view.store.CastleViewStore;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
+import org.mongodb.morphia.Datastore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CastleViewStoreSpringLycler implements CastleViewStoreLycler {
     //
-    @Autowired
     private CastleViewStore castleViewStore;
-
-    @Autowired
     private CastellanViewStore castellanViewStore;
+
+    public CastleViewStoreSpringLycler(@Autowired Datastore datastore) {
+        //
+        this.castleViewStore = new CastleViewMongoStore(datastore);
+        this.castellanViewStore = new CastellanViewMongoStore(datastore);
+    }
 
     @Override
     public CastleViewStore requestCastleViewStore() {

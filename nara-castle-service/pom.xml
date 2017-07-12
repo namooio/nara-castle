@@ -27,6 +27,23 @@
 		</dependency>
 
 		<dependency>
+			<groupId>namoo.nara.castle</groupId>
+			<artifactId>nara-castle-store-mongo</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver</artifactId>
+			<version>3.4.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>3.4.2</version>
+		</dependency>
+
+		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
 			<version>2.0.0</version>

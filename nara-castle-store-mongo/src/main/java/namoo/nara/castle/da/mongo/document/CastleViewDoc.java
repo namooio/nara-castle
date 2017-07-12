@@ -3,21 +3,23 @@ package namoo.nara.castle.da.mongo.document;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.view.CastleView;
 import namoo.nara.share.domain.granule.NaraZone;
+import org.mongodb.morphia.annotations.*;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Document(collection = "CA_CASTLE")
-@CompoundIndexes({
-        @CompoundIndex(name = "idx_enrollments",
-//                unique = true,
-                def = "{'enrollments.metroId' : 1, 'enrollments.civilianId' : 1}")
-})
+@Entity("CA_CASTLE")
+@Indexes(
+        @Index(
+                value = "idx_enrollments",
+                fields = {
+                    @Field("enrollments.metroId"),
+                    @Field("enrollments.civilianId")
+                },
+                unique = true
+        )
+)
 public class CastleViewDoc {
     //
     @Id

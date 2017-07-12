@@ -35,7 +35,7 @@
     <modules>
         <module>nara-castle-domain</module>
         <module>nara-castle-service</module>
-        <module>nara-castle-store</module>
+        <module>nara-castle-store-mongo</module>
         <module>nara-castle-adapter</module>
         <module>nara-castle-boot</module>
         <module>nara-castle-akka</module>

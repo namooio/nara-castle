@@ -9,11 +9,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = CastleTestApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @DirtiesContext(classMode= DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public abstract class AbstractCastleApplicationTests {
-
+	//
 	@Autowired
 	private CastleRestAdapter castleRestAdapter;
 
@@ -22,7 +24,8 @@ public abstract class AbstractCastleApplicationTests {
 	}
 
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
+		//
 
 	}
 

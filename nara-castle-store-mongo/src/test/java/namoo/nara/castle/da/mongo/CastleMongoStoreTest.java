@@ -1,4 +1,4 @@
-package namoo.nara.castle;
+package namoo.nara.castle.da.mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -12,38 +12,31 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
-import namoo.nara.castle.adapter.rest.CastleRestAdapter;
-import namoo.nara.share.restclient.NaraRestClient;
-import namoo.nara.share.restclient.springweb.SpringWebRestClient;
+import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.domain.view.CastleView;
+import org.junit.Before;
+import org.junit.Test;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Date;
 
-@SpringBootApplication
-public class CastleTestApplication {
+public class CastleMongoStoreTest {
+    //
+    Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Bean
-    public NaraRestClient naraRestClient() {
-        return new SpringWebRestClient("http://127.0.0.1:19030");
-    }
+    private CastleViewMongoStore castleViewMongoStore;
 
-    @Bean
-    public CastleRestAdapter castleRestAdapter() {
-        return new CastleRestAdapter(naraRestClient());
-    }
-
-    @Bean
-    public Datastore datastore() throws IOException {
+    @Before
+    public void setUp() throws IOException {
         //
         MongodStarter starter = MongodStarter.getDefaultInstance();
 
         String bindIp = "127.0.0.1";
-        int port = 55555;
-
+        int port = 27017;
         IMongodConfig mongodConfig = new MongodConfigBuilder()
                 .version(Version.Main.PRODUCTION)
                 .net(new Net(bindIp, port, Network.localhostIsIPv6()))
@@ -64,13 +57,23 @@ public class CastleTestApplication {
 //                mongodExecutable.stop();
         }
 
-        MongoClient mongoClient = new MongoClient("127.0.0.1", 55555);
+        MongoClient mongoClient = new MongoClient("127.0.0.1", 27017);
 
         Morphia morphia = new Morphia();
         morphia.mapPackage("namoo.nara.castle.da.mongo.document");
         Datastore datastore = morphia.createDatastore(mongoClient, "castle-test");
         datastore.ensureIndexes();
-        return datastore;
+
+        castleViewMongoStore = new CastleViewMongoStore(datastore);
     }
 
+    @Test
+    public void test() {
+        //
+        CastleView castleView = new CastleView(Castle.getSample());
+        castleViewMongoStore.create(castleView);
+
+        castleView = castleViewMongoStore.retrieve(castleView.getId());
+        logger.debug("{}", castleView);
+    }
 }

@@ -67,7 +67,7 @@ public class Castle extends Entity implements Aggregate {
         long sequence = CastleBook.getSample().getSequence();
         String castleId = CastleIdBuilder.requestCastleId(sequence);
 
-        Castle sample = new Castle(castleId);
+        Castle sample = new Castle(castleId, metroEnrollment);
 
         return sample;
     }
@@ -185,6 +185,7 @@ public class Castle extends Entity implements Aggregate {
     public static void main(String[] args) {
         //
         System.out.println(Castle.getSample());
+
     }
 
 }

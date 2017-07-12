@@ -23,8 +23,8 @@ public class CastleResourceTest extends AbstractCastleApplicationTests {
     @Test
     public void test() throws InterruptedException {
         //
-        String castleId = getCastleRestAdapter().buildCastle(new BuildCastleCommand(new MetroEnrollment("P0P", "C1@POP", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, ZoneId.of("Asia/Seoul")))));
-        getCastleRestAdapter().enrollMetro(castleId, new EnrollMetroCommand(castleId, new MetroEnrollment("Q0P", "C1@Q0P", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, ZoneId.of("Asia/Seoul")))));
+        String castleId = getCastleRestAdapter().buildCastle(new BuildCastleCommand(new MetroEnrollment("P0P", "C1@POP", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))));
+        getCastleRestAdapter().enrollMetro(castleId, new EnrollMetroCommand(castleId, new MetroEnrollment("Q0P", "C1@Q0P", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))));
 
         Thread.sleep(3000);
 

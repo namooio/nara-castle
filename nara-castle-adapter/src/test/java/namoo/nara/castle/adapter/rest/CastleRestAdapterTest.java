@@ -22,7 +22,7 @@ public class CastleRestAdapterTest {
                 "C1@POP",
                 new Name(Locale.KOREAN, "기철", "허"),
                 "kchuh@nextree.co.kr",
-                new NaraZone(Locale.KOREA, ZoneId.of("Asia/Seoul"))
+                new NaraZone(Locale.KOREA, "Asia/Seoul")
         );
         castleRestAdapter.buildCastle(new BuildCastleCommand(enrollment));
     }
