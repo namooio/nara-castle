@@ -13,5 +13,6 @@ public interface CastleViewStore {
     void update(CastleView castle);
     void delete(String id);
 
+    boolean exists(String id);
     boolean existsByEnrolledMetro(String metroId, String civilianId);
 }

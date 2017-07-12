@@ -6,14 +6,14 @@ import namoo.nara.share.domain.granule.AddressList;
 import namoo.nara.share.domain.granule.EmailList;
 import namoo.nara.share.domain.granule.NameList;
 import namoo.nara.share.domain.granule.PhoneList;
+import org.mongodb.morphia.annotations.Entity;
+import org.mongodb.morphia.annotations.Id;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Document(collection = "CA_CASTELLAN")
+@Entity("CA_CASTELLAN")
 public class CastellanViewDoc {
     //
     @Id

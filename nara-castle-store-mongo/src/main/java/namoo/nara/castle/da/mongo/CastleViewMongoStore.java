@@ -1,35 +1,33 @@
 package namoo.nara.castle.da.mongo;
 
 import namoo.nara.castle.da.mongo.document.CastleViewDoc;
-import namoo.nara.castle.da.mongo.springdata.CastleViewMongoRepository;
 import namoo.nara.castle.domain.view.CastleView;
 import namoo.nara.castle.domain.view.store.CastleViewStore;
 import namoo.nara.share.exception.store.NonExistenceException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Repository;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
 import java.util.List;
 
-@Repository
 public class CastleViewMongoStore implements CastleViewStore {
     //
-    @Autowired
-    private CastleViewMongoRepository repository;
+    private Datastore datastore;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    public CastleViewMongoStore(Datastore datastore) {
+        //
+        this.datastore = datastore;
+    }
 
     @Override
     public void create(CastleView castleView) {
         //
-        repository.insert(CastleViewDoc.toDocument(castleView));
+        datastore.save(CastleViewDoc.toDocument(castleView));
     }
 
     @Override
     public CastleView retrieve(String id) {
         //
-        CastleViewDoc castleViewDoc = repository.findOne(id);
+        CastleViewDoc castleViewDoc = datastore.createQuery(CastleViewDoc.class).field("id").equal(id).get();
         if (castleViewDoc == null) throw new NonExistenceException(String.format("No castleView document[%s] found.", id));
         return castleViewDoc.toDomain();
     }
@@ -37,7 +35,10 @@ public class CastleViewMongoStore implements CastleViewStore {
     @Override
     public CastleView retrieveByEnrolledMetro(String metroId, String civilianId) {
         //
-        CastleViewDoc castleViewDoc = repository.findByEnrollmentsMetroIdAndEnrollmentsCivilianId(metroId, civilianId);
+        Query<CastleViewDoc> query = datastore.createQuery(CastleViewDoc.class);
+        query.and(query.criteria("enrollments.metroId").equal(metroId), query.criteria("enrollments.civilianId").equal(civilianId));
+
+        CastleViewDoc castleViewDoc = query.get();
         if (castleViewDoc == null) return null;
         return castleViewDoc.toDomain();
     }
@@ -45,23 +46,27 @@ public class CastleViewMongoStore implements CastleViewStore {
     @Override
     public List<CastleView> retrieveAll() {
         //
-        List<CastleViewDoc> castleViewDocs = repository.findAll();
+        List<CastleViewDoc> castleViewDocs = datastore.createQuery(CastleViewDoc.class).asList();
         return CastleViewDoc.toDomains(castleViewDocs);
     }
 
     @Override
     public void update(CastleView castleView) {
         //
-        String id = castleView.getId();
-        if (!repository.exists(id)) throw new NonExistenceException(String.format("No castleView document[%s] found.", id));
-        CastleViewDoc castleViewDoc = CastleViewDoc.toDocument(castleView);
-        repository.save(castleViewDoc);
+        if (!exists(castleView.getId())) throw new NonExistenceException(String.format("No castleView document[%s] found.", castleView.getId()));
+        datastore.save(CastleViewDoc.toDocument(castleView));
     }
 
     @Override
     public void delete(String id) {
         //
-        repository.delete(id);
+        datastore.delete(CastleViewDoc.class, id);
+    }
+
+    @Override
+    public boolean exists(String id) {
+        //
+        return datastore.createQuery(CastleViewDoc.class).field("id").equal(id).get() != null;
     }
 
     @Override

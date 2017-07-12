@@ -18,11 +18,6 @@
             <artifactId>nara-castle-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>namoo.nara.castle</groupId>
-            <artifactId>nara-castle-store</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>namoo.nara.share</groupId>
