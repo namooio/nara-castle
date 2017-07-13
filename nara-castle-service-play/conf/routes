@@ -9,6 +9,8 @@ GET     /                            controllers.Assets.at(path="/public/dist", 
 # Map static resources from the /public folder to the /assets URL path
 GET     /resources/*file             controllers.Assets.at(path="/public/dist", file)
 
-GET     /castles                     namoo.nara.castle.sp.play.CastleResource.findAllCastles()
-GET     /castles/email/:email        namoo.nara.castle.sp.play.CastleResource.findCastleByEmail(email:String)
-GET     /castles/:castleId           namoo.nara.castle.sp.play.CastleResource.findCastle(castleId:String)
+POST    /castle-api/castles                            namoo.nara.castle.sp.play.CastleResource.buildCastle()
+POST    /castle-api/castles/:castleId/enrollments      namoo.nara.castle.sp.play.CastleResource.enrollMetro(castleId:String)
+GET     /castle-api/castles/:castleId                  namoo.nara.castle.sp.play.CastleResource.findCastle(castleId:String)
+GET     /castle-api/castles                            namoo.nara.castle.sp.play.CastleResource.findCastles()
+GET     /castle-api/castellans                         namoo.nara.castle.sp.play.CastleResource.findCastellans()

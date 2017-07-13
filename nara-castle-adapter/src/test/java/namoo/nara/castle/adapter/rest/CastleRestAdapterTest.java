@@ -14,7 +14,7 @@ public class CastleRestAdapterTest {
     //
     public static void main(String[] args) {
         //
-        NaraRestClient naraRestClient = new SpringWebRestClient("http://localhost:9030");
+        NaraRestClient naraRestClient = new SpringWebRestClient("http://localhost:9000");
         CastleRestAdapter castleRestAdapter = new CastleRestAdapter(naraRestClient);
 
         MetroEnrollment enrollment = new MetroEnrollment(
