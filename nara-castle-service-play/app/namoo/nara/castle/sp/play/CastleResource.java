@@ -2,7 +2,7 @@ package namoo.nara.castle.sp.play;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.pattern.Patterns;
+import akka.pattern.PatternsCS;
 import com.fasterxml.jackson.databind.JsonNode;
 import namoo.nara.castle.akka.actor.CastleSupervisorActor;
 import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
@@ -15,7 +15,6 @@ import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.compat.java8.FutureConverters;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,7 +30,6 @@ public class CastleResource extends Controller {
     @Inject
     public CastleResource(ActorSystem system, CastleViewStoreLycler storeLycler) {
         //
-        logger.debug("{}", storeLycler);
         castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(storeLycler));
     }
 
@@ -39,32 +37,32 @@ public class CastleResource extends Controller {
         //
         JsonNode jsonNode = request().body().asJson();
         BuildCastleCommand command = Json.fromJson(jsonNode, BuildCastleCommand.class);
-        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, command, 1000)).thenApply(response -> ok((String) response));
+        return PatternsCS.ask(castleSupervisorActor, command, 1000).thenApply(response -> ok((String) response));
     }
 
     public CompletionStage<Result> enrollMetro(String castleId) {
         //
         JsonNode jsonNode = request().body().asJson();
         EnrollMetroCommand command = Json.fromJson(jsonNode, EnrollMetroCommand.class);
-        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, command, 1000)).thenApply(response -> ok());
+        return PatternsCS.ask(castleSupervisorActor, command, 1000).thenApply(response -> ok());
     }
 
     public CompletionStage<Result> findCastle(String castleId) {
         //
         FindCastleQuery query = new FindCastleQuery(castleId);
-        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, query, 1000)).thenApply(response -> ok(Json.toJson(response)));
+        return PatternsCS.ask(castleSupervisorActor, query, 1000).thenApply(response -> ok(Json.toJson(response)));
     }
 
     public CompletionStage<Result> findCastles() {
         //
         FindAllCastlesQuery query = new FindAllCastlesQuery();
-        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, query, 1000)).thenApply(response -> ok(Json.toJson(response)));
+        return PatternsCS.ask(castleSupervisorActor, query, 1000).thenApply(response -> ok(Json.toJson(response)));
     }
 
     public CompletionStage<Result> findCastellans() {
         //
         FindAllCastellansQuery query = new FindAllCastellansQuery();
-        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, query, 1000)).thenApply(response -> ok(Json.toJson(response)));
+        return PatternsCS.ask(castleSupervisorActor, query, 1000).thenApply(response -> ok(Json.toJson(response)));
     }
 
 }

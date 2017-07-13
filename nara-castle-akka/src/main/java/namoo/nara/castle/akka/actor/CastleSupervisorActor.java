@@ -2,6 +2,8 @@ package namoo.nara.castle.akka.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.pattern.Patterns;
+import akka.util.Timeout;
 import namoo.nara.castle.akka.actor.persistence.CastleActor;
 import namoo.nara.castle.akka.actor.persistence.CastleBookActor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
@@ -21,12 +23,13 @@ import namoo.nara.castle.domain.view.store.CastellanViewStore;
 import namoo.nara.castle.domain.view.store.CastleViewStore;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraActor;
-import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
 import namoo.nara.share.exception.NaraException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.concurrent.Await;
+import scala.concurrent.duration.Duration;
 
 import java.util.List;
 
@@ -91,9 +94,15 @@ public class CastleSupervisorActor extends NaraActor {
         String castleBookId = CastleIdBuilder.requestCastleBookId();
         ActorRef castleBookActor = lookupOrCreateChildPersistentActor(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
 
-        Long nextCastleSequence = new AwaitableActorExecutor<Long>().execute(castleBookActor, new NextSequenceCommand());
-        String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
+        Timeout timeout = new Timeout(Duration.create(1, "seconds"));
+        Long nextCastleSequence = null;
+        try {
+            nextCastleSequence = (Long) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), timeout), timeout.duration());
+        } catch (Exception e) {
+            throw new NaraException(e);
+        }
 
+        String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
         fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
     }
 

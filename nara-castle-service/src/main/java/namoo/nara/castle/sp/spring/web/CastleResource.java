@@ -11,7 +11,6 @@ import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import namoo.nara.castle.domain.view.CastellanView;
 import namoo.nara.castle.domain.view.CastleView;
-import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

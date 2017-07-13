@@ -89,12 +89,13 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     private void handleCastellanCreatedEvent(CastellanCreated event) {
         //
         getState().apply(event);
-        getSender().tell(getState().getId(), getSelf());
+        getSender().tell("todo", getSelf());
     }
 
     private void handleCastellanModifiedEvent(CastellanModified event) {
         //
         getState().apply(event);
+        getSender().tell("todo", getSelf());
     }
 
     /*********************** Event ***********************/

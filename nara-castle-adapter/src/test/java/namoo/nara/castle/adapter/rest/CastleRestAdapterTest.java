@@ -2,6 +2,7 @@ package namoo.nara.castle.adapter.rest;
 
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
+import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.NaraZone;
 import namoo.nara.share.restclient.NaraRestClient;
@@ -24,6 +25,8 @@ public class CastleRestAdapterTest {
                 "kchuh@nextree.co.kr",
                 new NaraZone(Locale.KOREA, "Asia/Seoul")
         );
-        castleRestAdapter.buildCastle(new BuildCastleCommand(enrollment));
+        String castleId = castleRestAdapter.buildCastle(new BuildCastleCommand(enrollment));
+
+        castleRestAdapter.enrollMetro(castleId, new EnrollMetroCommand(castleId, new MetroEnrollment("Q0P", "C1@Q0P", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))));
     }
 }

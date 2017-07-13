@@ -9,7 +9,6 @@ import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
 import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +21,6 @@ public class CastleBookActorTest {
 
     static ActorSystem system;
 
-    @BeforeClass
     public static void setup() throws IOException {
         //
 //        MongodStarter starter = MongodStarter.getDefaultInstance();

@@ -22,7 +22,6 @@ public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
     public CastleViewMongoStoreLycler() {
         //
         Morphia morphia = new Morphia();
-
         morphia.mapPackage("namoo.nara.castle.da.mongo.document");
 
 //        String host = ConfigFactory.load().getString("mongo.host");

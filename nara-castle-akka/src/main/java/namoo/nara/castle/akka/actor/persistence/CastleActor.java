@@ -2,6 +2,7 @@ package namoo.nara.castle.akka.actor.persistence;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.pattern.PatternsCS;
 import namoo.nara.castle.akka.projection.castle.CastleBuiltViewProjector;
 import namoo.nara.castle.akka.projection.castle.MetroEnrolledViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
@@ -19,7 +20,6 @@ import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
-import namoo.nara.share.akka.support.util.AwaitableActorExecutor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
@@ -136,24 +136,30 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         String castleId = getState().getId();
 
         ActorRef castellanActor = lookupOrCreateChildPersistentActor(castleId, Castellan.class, CastellanActor.props(castleId, storeLycler));
-        new AwaitableActorExecutor<String>().execute(castellanActor, new RegisterCastellanCommand(event.getCastle()));
+        ActorRef sender = getSender();
 
-        getSender().tell(castleId, getSelf());
+        NaraCommand command = new RegisterCastellanCommand(event.getCastle());
+        PatternsCS.ask(castellanActor, command, 1000).thenRun(() -> {
+            sender.tell(castleId, getSelf());
+        });
     }
 
     private void handleMetroEnrolledEvent(MetroEnrolled event) {
         //
         getState().apply(event);
+        getSender().tell("todo", getSelf());
     }
 
     private void handleMetroWithdrawnEvent(MetroWithdrawn event) {
         //
         getState().apply(event);
+        getSender().tell("todo", getSelf());
     }
 
     private void handleCastleModifiedEvent(CastleModified event) {
         //
         getState().apply(event);
+        getSender().tell("todo", getSelf());
     }
 
     /*********************** Event ***********************/
