@@ -95,15 +95,21 @@ public class CastleSupervisorActor extends NaraActor {
         ActorRef castleBookActor = lookupOrCreateChildPersistentActor(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
 
         Timeout timeout = new Timeout(Duration.create(1, "seconds"));
-        Long nextCastleSequence = null;
+        Long nextCastleSequence;
         try {
+            // FIXME Async
             nextCastleSequence = (Long) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), timeout), timeout.duration());
+            String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
+            fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
         } catch (Exception e) {
             throw new NaraException(e);
         }
 
-        String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
-        fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
+//        PatternsCS.ask(castleBookActor, new NextSequenceCommand(), 1000).thenAccept(response -> {
+//            Long nextCastleSequence = (Long) response;
+//            String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
+//            fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
+//        });
     }
 
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
