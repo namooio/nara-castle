@@ -41,6 +41,7 @@ public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
         MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoUri));
 
         Datastore datastore = morphia.createDatastore(mongoClient, "nara_castle");
+        datastore.ensureIndexes();
 
         this.castleViewStore = new CastleViewMongoStore(datastore);
         this.castellanViewStore = new CastellanViewMongoStore(datastore);
