@@ -10,6 +10,8 @@ import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
 import namoo.nara.castle.domain.spec.query.castellan.FindAllCastellansQuery;
 import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
+import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -22,12 +24,15 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 public class CastleResource extends Controller {
     //
+    final Logger.ALogger logger = Logger.of(this.getClass());
+
     private ActorRef castleSupervisorActor;
 
     @Inject
-    public CastleResource(ActorSystem system) {
+    public CastleResource(ActorSystem system, CastleViewStoreLycler storeLycler) {
         //
-        castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(null));
+        logger.debug("{}", storeLycler);
+        castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(storeLycler));
     }
 
     public CompletionStage<Result> buildCastle() {
