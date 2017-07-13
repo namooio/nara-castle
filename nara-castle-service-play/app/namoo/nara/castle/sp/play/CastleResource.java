@@ -4,8 +4,12 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.pattern.Patterns;
 import com.fasterxml.jackson.databind.JsonNode;
-import namoo.nara.castle.actor.CastleHelloActor;
-import namoo.nara.castle.domain.entity.Castle;
+import namoo.nara.castle.akka.actor.CastleSupervisorActor;
+import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
+import namoo.nara.castle.domain.spec.command.castle.EnrollMetroCommand;
+import namoo.nara.castle.domain.spec.query.castellan.FindAllCastellansQuery;
+import namoo.nara.castle.domain.spec.query.castle.FindAllCastlesQuery;
+import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,59 +17,49 @@ import scala.compat.java8.FutureConverters;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletionStage;
 
 @Singleton
 public class CastleResource extends Controller {
-
-    final private ActorRef castleActor;
+    //
+    private ActorRef castleSupervisorActor;
 
     @Inject
     public CastleResource(ActorSystem system) {
-        System.out.println(system);
-        castleActor = system.actorOf(CastleHelloActor.props());
-    }
-
-    public Result findAllCastles() {
         //
-        List<Castle> castles = new ArrayList<>();
-        castles.add(getCastle("01"));
-
-        JsonNode castlesJson = Json.toJson(castles);
-        return ok(castlesJson);
+        castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(null));
     }
 
-    public Result findCastle(String castleId) {
+    public CompletionStage<Result> buildCastle() {
         //
-        Castle castle = getCastle(castleId);
-        JsonNode castleJson = Json.toJson(castle);
-        return ok(castleJson);
+        JsonNode jsonNode = request().body().asJson();
+        BuildCastleCommand command = Json.fromJson(jsonNode, BuildCastleCommand.class);
+        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, command, 1000)).thenApply(response -> ok((String) response));
     }
 
-    public CompletionStage<Result> findCastleByEmail(String email) {
-        return test(email);
-    }
-
-
-    public CompletionStage<Result> test(String param) {
+    public CompletionStage<Result> enrollMetro(String castleId) {
         //
-        System.out.println("Start request: " + Thread.currentThread().getName());
-
-        return FutureConverters.toJava(Patterns.ask(castleActor, param, 1000)).thenApply(response -> {
-            System.out.println("Receive response at controller: " + Thread.currentThread().getName());
-            return ok((String) response);
-        });
+        JsonNode jsonNode = request().body().asJson();
+        EnrollMetroCommand command = Json.fromJson(jsonNode, EnrollMetroCommand.class);
+        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, command, 1000)).thenApply(response -> ok());
     }
 
-    private Castle getCastle(String castleId) {
-        Castle castle = new Castle();
-        castle.setPrimaryEmail(castleId + "@namoo.io");
-        castle.setName("Castle name");
-        castle.setBuiltTime(System.currentTimeMillis());
+    public CompletionStage<Result> findCastle(String castleId) {
+        //
+        FindCastleQuery query = new FindCastleQuery(castleId);
+        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, query, 1000)).thenApply(response -> ok(Json.toJson(response)));
+    }
 
-        return castle;
+    public CompletionStage<Result> findCastles() {
+        //
+        FindAllCastlesQuery query = new FindAllCastlesQuery();
+        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, query, 1000)).thenApply(response -> ok(Json.toJson(response)));
+    }
+
+    public CompletionStage<Result> findCastellans() {
+        //
+        FindAllCastellansQuery query = new FindAllCastellansQuery();
+        return FutureConverters.toJava(Patterns.ask(castleSupervisorActor, query, 1000)).thenApply(response -> ok(Json.toJson(response)));
     }
 
 }
