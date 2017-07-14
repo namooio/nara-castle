@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>namoo.nara.castle</groupId>
+    <groupId>nara.castle</groupId>
     <artifactId>nara-castle-pom</artifactId>
     <version>0.3.14-SNAPSHOT</version>
 
@@ -34,10 +34,8 @@
 
     <modules>
         <module>nara-castle-domain</module>
-        <module>nara-castle-service</module>
         <module>nara-castle-store-mongo</module>
         <module>nara-castle-adapter</module>
-        <module>nara-castle-boot</module>
         <module>nara-castle-akka</module>
     </modules>
 
