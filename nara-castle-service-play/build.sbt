@@ -1,4 +1,4 @@
-name := """nara-castle-service-play"""
+name := "nara-castle-service-play"
 
 version := "1.0-SNAPSHOT"
 
