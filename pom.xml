@@ -4,7 +4,7 @@
 
     <groupId>nara.castle</groupId>
     <artifactId>nara-castle-pom</artifactId>
-    <version>0.3.14-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -35,6 +35,7 @@
     <modules>
         <module>nara-castle-domain</module>
         <module>nara-castle-store-mongo</module>
+        <module>nara-castle-service-play</module>
         <module>nara-castle-adapter</module>
         <module>nara-castle-akka</module>
     </modules>

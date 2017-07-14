@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>nara-castle-pom</artifactId>
+        <groupId>nara.castle</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>nara-castle-service-play</artifactId>
+
+    <properties>
+        <play2.version>2.6.0</play2.version>
+        <scala.version>2.12.2</scala.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>nara.castle</groupId>
+            <artifactId>nara-castle-akka</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>nara.castle</groupId>
+            <artifactId>nara-castle-store-mongo</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play_2.12</artifactId>
+            <version>${play2.version}</version>
+        </dependency>
+
+        <!-- default DI framework -->
+        <!-- see https://www.playframework.com/documentation/2.6.x/Migration26#Guice-DI-support-moved-to-separate-module for more info -->
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-guice_2.12</artifactId>
+            <version>${play2.version}</version>
+        </dependency>
+
+        <!-- default SLF4J logging implementation, can be replaced by other -->
+        <!-- see https://www.playframework.com/documentation/2.6.x/SettingsLogger for more info -->
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-logback_2.12</artifactId>
+            <version>${play2.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- default HTTP server -->
+        <!-- see https://www.playframework.com/documentation/2.6.x/AkkaHttpServer -->
+        <!--     https://www.playframework.com/documentation/2.6.x/NettyServer -->
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-akka-http-server_2.12</artifactId>
+            <version>${play2.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>${project.basedir}/app</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/test</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/conf</directory>
+            </resource>
+            <resource>
+                <directory>${project.basedir}/public</directory>
+                <targetPath>public</targetPath>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>com.google.code.play2-maven-plugin</groupId>
+                <artifactId>play2-maven-plugin</artifactId>
+                <version>1.0.0-rc1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <!-- if using controllers without dependency injection; default value is "injected" -->
+                    <routesGenerator>static</routesGenerator>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.code.sbt-compiler-maven-plugin</groupId>
+                <artifactId>sbt-compiler-maven-plugin</artifactId>
+                <version>1.0.0</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -14,3 +14,4 @@ POST    /castle-api/castles/:castleId/enrollments      namoo.nara.castle.sp.play
 GET     /castle-api/castles/:castleId                  namoo.nara.castle.sp.play.CastleResource.findCastle(castleId:String)
 GET     /castle-api/castles                            namoo.nara.castle.sp.play.CastleResource.findCastles()
 GET     /castle-api/castellans                         namoo.nara.castle.sp.play.CastleResource.findCastellans()
+
