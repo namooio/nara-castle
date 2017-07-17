@@ -13,17 +13,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>namoo.nara.share</groupId>
+            <groupId>nara.share</groupId>
             <artifactId>nara-share-domain</artifactId>
             <version>${nara.share.version}</version>
         </dependency>
         <dependency>
-            <groupId>namoo.nara.share</groupId>
+            <groupId>nara.share</groupId>
             <artifactId>nara-share-event</artifactId>
             <version>${nara.share.version}</version>
         </dependency>
         <dependency>
-            <groupId>namoo.nara.share</groupId>
+            <groupId>nara.share</groupId>
             <artifactId>nara-share-util</artifactId>
             <version>${nara.share.version}</version>
         </dependency>

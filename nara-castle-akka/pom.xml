@@ -19,7 +19,7 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>namoo.nara.share</groupId>
+            <groupId>nara.share</groupId>
             <artifactId>nara-share-akka-support</artifactId>
             <version>${nara.share.version}</version>
         </dependency>

@@ -1,7 +1,6 @@
 package namoo.nara.castle.akka.actor.persistence;
 
 import akka.actor.Props;
-import namoo.nara.castle.akka.projection.castellan.CastellanCreatedViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.IdentityPlate;
 import namoo.nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
@@ -9,7 +8,6 @@ import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanModified;
 import namoo.nara.castle.domain.spec.query.castellan.FindIdentityPlateQuery;
-import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
@@ -17,16 +15,14 @@ import namoo.nara.share.domain.protocol.NaraQuery;
 
 public class CastellanActor extends NaraPersistentActor<Castellan> {
     //
-    static public Props props(String castellanId, CastleViewStoreLycler storeLycler) {
+    static public Props props(String castellanId) {
         //
-        return Props.create(CastellanActor.class, () -> new CastellanActor(castellanId, storeLycler));
+        return Props.create(CastellanActor.class, () -> new CastellanActor(castellanId));
     }
 
-    public CastellanActor(String castellanId, CastleViewStoreLycler storeLycler) {
+    public CastellanActor(String castellanId) {
         //
         super(new Castellan(castellanId));
-
-        addViewProjector(CastellanCreated.class.getName(), new CastellanCreatedViewProjector(storeLycler.requestCastellanViewStore()));
     }
 
     @Override

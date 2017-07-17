@@ -1,6 +1,8 @@
 import com.google.inject.AbstractModule;
 import namoo.nara.castle.cp.CastleViewMongoStoreLycler;
+import namoo.nara.castle.cp.CastleViewProjection;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
+import play.Logger;
 
 /**
  * This class is a Guice module that tells Guice how to bind several
@@ -13,6 +15,8 @@ import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
  * configuration file.
  */
 public class Module extends AbstractModule {
+    //
+    final Logger.ALogger logger = Logger.of(this.getClass());
 
     @Override
     public void configure() {
@@ -23,6 +27,10 @@ public class Module extends AbstractModule {
         // application starts.
 
         bind(CastleViewStoreLycler.class).to(CastleViewMongoStoreLycler.class);
+
+        logger.debug("Castle view projection...");
+        bind(CastleViewProjection.class).asEagerSingleton();
+
     }
 
 }

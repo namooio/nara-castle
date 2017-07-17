@@ -37,7 +37,6 @@ public class CastleSupervisorActor extends NaraActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CastleViewStoreLycler viewStoreLycler;
     private CastleViewStore castleViewStore;
     private CastellanViewStore castellanViewStore;
 
@@ -48,7 +47,6 @@ public class CastleSupervisorActor extends NaraActor {
 
     public CastleSupervisorActor(CastleViewStoreLycler viewStoreLycler) {
         //
-        this.viewStoreLycler = viewStoreLycler;
         this.castleViewStore = viewStoreLycler.requestCastleViewStore();
         this.castellanViewStore = viewStoreLycler.requestCastellanViewStore();
     }
@@ -100,7 +98,7 @@ public class CastleSupervisorActor extends NaraActor {
             // FIXME Async
             nextCastleSequence = (Long) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), timeout), timeout.duration());
             String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
-            fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
+            fowardCommand(castleId, Castle.class, CastleActor.props(castleId), command);
         } catch (Exception e) {
             throw new NaraException(e);
         }
@@ -115,13 +113,13 @@ public class CastleSupervisorActor extends NaraActor {
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
         String castleId = command.getCastleId();
-        fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
+        fowardCommand(castleId, Castle.class, CastleActor.props(castleId), command);
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
         //
         String castleId = command.getCastleId();
-        fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
+        fowardCommand(castleId, Castle.class, CastleActor.props(castleId), command);
     }
 
     /*********************** Command ***********************/
@@ -131,7 +129,7 @@ public class CastleSupervisorActor extends NaraActor {
     private void handleFindCastleQuery(FindCastleQuery query) {
         //
         String castleId = query.getCastleId();
-        fowardQuery(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), query);
+        fowardQuery(castleId, Castle.class, CastleActor.props(castleId), query);
     }
 
     // Fixme ReadModel 조회는 분리?

@@ -3,8 +3,6 @@ package namoo.nara.castle.akka.actor.persistence;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.pattern.PatternsCS;
-import namoo.nara.castle.akka.projection.castle.CastleBuiltViewProjector;
-import namoo.nara.castle.akka.projection.castle.MetroEnrolledViewProjector;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
@@ -18,7 +16,6 @@ import namoo.nara.castle.domain.spec.event.castle.CastleModified;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
-import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
@@ -30,21 +27,14 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CastleViewStoreLycler storeLycler;
-
-    static public Props props(String castleId, CastleViewStoreLycler storeLycler) {
+    static public Props props(String castleId) {
         //
-        return Props.create(CastleActor.class, () -> new CastleActor(castleId, storeLycler));
+        return Props.create(CastleActor.class, () -> new CastleActor(castleId));
     }
 
-    public CastleActor(String castleId, CastleViewStoreLycler storeLycler) {
+    public CastleActor(String castleId) {
         //
         super(new Castle(castleId));
-
-        this.storeLycler = storeLycler;
-
-        addViewProjector(CastleBuilt.class.getName(), new CastleBuiltViewProjector(storeLycler.requestCastleViewStore()));
-        addViewProjector(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(storeLycler.requestCastleViewStore()));
     }
 
     @Override
@@ -135,7 +125,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         getState().apply(event);
         String castleId = getState().getId();
 
-        ActorRef castellanActor = lookupOrCreateChildPersistentActor(castleId, Castellan.class, CastellanActor.props(castleId, storeLycler));
+        ActorRef castellanActor = lookupOrCreateChildPersistentActor(castleId, Castellan.class, CastellanActor.props(castleId));
         ActorRef sender = getSender();
 
         NaraCommand command = new RegisterCastellanCommand(event.getCastle());

@@ -2,7 +2,6 @@ package namoo.nara.castle.akka.actor;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.pattern.PatternsCS;
 import akka.testkit.javadsl.TestKit;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -16,6 +15,7 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
+import namoo.nara.castle.akka.projection.CastleProjectionActor;
 import namoo.nara.castle.cp.CastleViewMongoStoreLycler;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
@@ -80,6 +80,7 @@ public class CastleSupervisorActorTest {
         storeLycler = new CastleViewMongoStoreLycler(datastore);
 
         system = ActorSystem.create("nara");
+        system.actorOf(CastleProjectionActor.props(storeLycler));
     }
 
     @AfterClass
@@ -90,7 +91,7 @@ public class CastleSupervisorActorTest {
     }
 
     @Test
-    public void testCastleSupervisorActor() {
+    public void testCastleSupervisorActor() throws InterruptedException {
         //
         final TestKit testProbe = new TestKit(system);
         final ActorRef castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(storeLycler), "castle-supervisor");
@@ -103,6 +104,8 @@ public class CastleSupervisorActorTest {
         String castleId = testProbe.expectMsgClass(String.class);
 
         logger.debug("{}", castleId);
+
+//        Thread.sleep(10000);
 
 //        PatternsCS.ask(castleSupervisorActor, command, 1000).thenApply(response -> {
 //            String castleId = (String) response;
