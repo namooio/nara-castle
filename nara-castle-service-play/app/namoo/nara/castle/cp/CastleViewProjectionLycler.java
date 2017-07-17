@@ -9,12 +9,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class CastleViewProjection {
+public class CastleViewProjectionLycler {
     //
     final Logger.ALogger logger = Logger.of(this.getClass());
 
     @Inject
-    public CastleViewProjection(ActorSystem system, CastleViewStoreLycler storeLycler) {
+    public CastleViewProjectionLycler(ActorSystem system, CastleViewStoreLycler storeLycler) {
         //
         system.actorOf(CastleProjectionActor.props(storeLycler));
         logger.debug("Castle view projection actor started...");

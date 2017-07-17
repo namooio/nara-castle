@@ -1,6 +1,6 @@
 import com.google.inject.AbstractModule;
 import namoo.nara.castle.cp.CastleViewMongoStoreLycler;
-import namoo.nara.castle.cp.CastleViewProjection;
+import namoo.nara.castle.cp.CastleViewProjectionLycler;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import play.Logger;
 
@@ -29,7 +29,7 @@ public class Module extends AbstractModule {
         bind(CastleViewStoreLycler.class).to(CastleViewMongoStoreLycler.class);
 
         logger.debug("Castle view projection...");
-        bind(CastleViewProjection.class).asEagerSingleton();
+        bind(CastleViewProjectionLycler.class).asEagerSingleton();
 
     }
 

@@ -17,9 +17,11 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import namoo.nara.castle.akka.projection.CastleProjectionActor;
 import namoo.nara.castle.cp.CastleViewMongoStoreLycler;
+import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.entity.MetroEnrollment;
 import namoo.nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
+import namoo.nara.share.akka.support.actor.result.ActorResult;
 import namoo.nara.share.domain.granule.Name;
 import namoo.nara.share.domain.granule.NaraZone;
 import namoo.nara.share.domain.protocol.NaraCommand;
@@ -101,9 +103,9 @@ public class CastleSupervisorActorTest {
         );
 
         castleSupervisorActor.tell(command, testProbe.getRef());
-        String castleId = testProbe.expectMsgClass(String.class);
+        ActorResult<Castle> castle = testProbe.expectMsgClass(ActorResult.class);
 
-        logger.debug("{}", castleId);
+        logger.debug("{}", castle.get());
 
 //        Thread.sleep(10000);
 

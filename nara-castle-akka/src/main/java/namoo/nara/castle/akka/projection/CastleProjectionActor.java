@@ -1,17 +1,22 @@
 package namoo.nara.castle.akka.projection;
 
 import akka.actor.Props;
-import namoo.nara.castle.akka.projection.castellan.CastellanCreatedViewProjector;
-import namoo.nara.castle.akka.projection.castle.CastleBuiltViewProjector;
-import namoo.nara.castle.akka.projection.castle.MetroEnrolledViewProjector;
+import namoo.nara.castle.akka.projection.castellan.CastellanViewBuilder;
+import namoo.nara.castle.akka.projection.castle.CastleViewBuilder;
+import namoo.nara.castle.akka.projection.castle.MetroEnrolledViewBuilder;
 import namoo.nara.castle.domain.spec.event.castellan.CastellanCreated;
 import namoo.nara.castle.domain.spec.event.castle.CastleBuilt;
 import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraProjectionActor;
+import namoo.nara.share.akka.support.projection.ViewBuilder;
+
+import java.util.Map;
 
 public class CastleProjectionActor extends NaraProjectionActor {
     //
+    private CastleViewStoreLycler storeLycler;
+
     static public Props props(CastleViewStoreLycler storeLycler) {
         //
         return Props.create(CastleProjectionActor.class, () -> new CastleProjectionActor(storeLycler));
@@ -20,10 +25,14 @@ public class CastleProjectionActor extends NaraProjectionActor {
     public CastleProjectionActor(CastleViewStoreLycler storeLycler) {
         //
         super("castle-event");
+        this.storeLycler = storeLycler;
+    }
 
-        addViewProjector(CastleBuilt.class.getName(), new CastleBuiltViewProjector(storeLycler.requestCastleViewStore()));
-        addViewProjector(MetroEnrolled.class.getName(), new MetroEnrolledViewProjector(storeLycler.requestCastleViewStore()));
-
-        addViewProjector(CastellanCreated.class.getName(), new CastellanCreatedViewProjector(storeLycler.requestCastellanViewStore()));
+    @Override
+    protected void configProjection(Map<String, ViewBuilder> viewBuilderMap) {
+        //
+        viewBuilderMap.put(CastleBuilt.class.getName(), new CastleViewBuilder(storeLycler.requestCastleViewStore()));
+        viewBuilderMap.put(MetroEnrolled.class.getName(), new MetroEnrolledViewBuilder(storeLycler.requestCastleViewStore()));
+        viewBuilderMap.put(CastellanCreated.class.getName(), new CastellanViewBuilder(storeLycler.requestCastellanViewStore()));
     }
 }

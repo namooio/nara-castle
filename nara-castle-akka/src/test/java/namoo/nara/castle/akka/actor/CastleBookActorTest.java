@@ -8,6 +8,7 @@ import namoo.nara.castle.domain.context.CastleIdBuilder;
 import namoo.nara.castle.domain.entity.CastleBook;
 import namoo.nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import namoo.nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
+import namoo.nara.share.akka.support.actor.result.ActorResult;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -68,20 +69,19 @@ public class CastleBookActorTest {
         final ActorRef castleBookActor = system.actorOf(CastleBookActor.props(castleBookId));
 
         castleBookActor.tell(new NextSequenceCommand(), testProbe.getRef());
-        testProbe.expectMsgClass(Long.class);
-//        testProbe.expectMsgEquals(new Long(1));
+        ActorResult<CastleBook> castleBook = testProbe.expectMsgClass(ActorResult.class);
+        logger.debug("{}", castleBook.get());
 
         castleBookActor.tell(new NextSequenceCommand(), testProbe.getRef());
-        testProbe.expectMsgClass(Long.class);
-//        testProbe.expectMsgEquals(new Long(2));
+        testProbe.expectMsgClass(ActorResult.class);
+        logger.debug("{}", castleBook.get());
 
         castleBookActor.tell(new NextSequenceCommand(), testProbe.getRef());
-        testProbe.expectMsgClass(Long.class);
-//        testProbe.expectMsgEquals(new Long(3));
+        testProbe.expectMsgClass(ActorResult.class);
+        logger.debug("{}", castleBook.get());
 
         castleBookActor.tell(new FindCastleBookQuery(), testProbe.getRef());
-        CastleBook castleBook = testProbe.expectMsgClass(CastleBook.class);
-//        Assert.assertEquals(3, castleBook.getSequence());
-        logger.debug("{}", castleBook);
+        castleBook = testProbe.expectMsgClass(ActorResult.class);
+        logger.debug("{}", castleBook.get());
     }
 }

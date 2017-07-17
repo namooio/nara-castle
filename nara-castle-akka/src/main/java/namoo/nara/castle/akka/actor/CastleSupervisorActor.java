@@ -23,6 +23,7 @@ import namoo.nara.castle.domain.view.store.CastellanViewStore;
 import namoo.nara.castle.domain.view.store.CastleViewStore;
 import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
 import namoo.nara.share.akka.support.actor.NaraActor;
+import namoo.nara.share.akka.support.actor.result.ActorResult;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
 import namoo.nara.share.exception.NaraException;
@@ -56,22 +57,40 @@ public class CastleSupervisorActor extends NaraActor {
         //
         match()
             .with(BuildCastleCommand.class, this::handleBuildCastleCommand)
-            .with(EnrollMetroCommand.class, this::handleEnrollMetroCommand)
-            .with(ModifyCastleCommand.class, this::handleModifyCastleCommand)
-        .exec(command);
+            .with(ModifyCastleCommand.class, modifyCastleCommand -> {
+                //
+                String castleId = modifyCastleCommand.getCastleId();
+                foward(castleId, Castle.class, CastleActor.props(castleId), modifyCastleCommand);
+            })
+            .with(EnrollMetroCommand.class, enrollMetroCommand -> {
+                //
+                String castleId = enrollMetroCommand.getCastleId();
+                foward(castleId, Castle.class, CastleActor.props(castleId), enrollMetroCommand);
+            })
+        .onMessage(command);
     }
 
     @Override
     public void handleQuery(NaraQuery query) {
         //
         match()
-            .with(FindCastleQuery.class, this::handleFindCastleQuery)
-            .with(FindAllCastlesQuery.class, this::handleFindAllCastlesQuery)
-            .with(FindAllCastellansQuery.class, this::handleFindAllCastellansQuery)
-        .exec(query);
+            .with(FindCastleQuery.class, findCastleQuery -> {
+                //
+                String castleId = findCastleQuery.getCastleId();
+                foward(castleId, Castle.class, CastleActor.props(castleId), query);
+            })
+            .with(FindAllCastlesQuery.class, findAllCastlesQuery -> {
+                // Fixme ReadModel 조회는 분리?
+                List<CastleView> castleViews = castleViewStore.retrieveAll();
+                responseResult(castleViews);
+            })
+            .with(FindAllCastellansQuery.class, findAllCastellansQuery -> {
+                // Fixme ReadModel 조회는 분리?
+                List<CastellanView> castellanViews = castellanViewStore.retrieveAll();
+                responseResult(castellanViews);
+            })
+        .onMessage(query);
     }
-
-    /*********************** Command ***********************/
 
     private void handleBuildCastleCommand(BuildCastleCommand command) {
         //
@@ -85,58 +104,15 @@ public class CastleSupervisorActor extends NaraActor {
         ActorRef castleBookActor = lookupOrCreateChild(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
 
         Timeout timeout = new Timeout(Duration.create(1, "seconds"));
-        Long nextCastleSequence;
+        CastleBook castleBook;
         try {
-            nextCastleSequence = (Long) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), timeout), timeout.duration());
-            String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
-            fowardCommand(castleId, Castle.class, CastleActor.props(castleId), command);
+            ActorResult<CastleBook> result = (ActorResult) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), timeout), timeout.duration());
+            castleBook = result.get();
+            String castleId = CastleIdBuilder.requestCastleId(castleBook.getSequence());
+            foward(castleId, Castle.class, CastleActor.props(castleId), command);
         } catch (Exception e) {
             throw new NaraException(e);
         }
-
-//        PatternsCS.ask(castleBookActor, new NextSequenceCommand(), 1000).thenAccept(response -> {
-//            Long nextCastleSequence = (Long) response;
-//            String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
-//            fowardCommand(castleId, Castle.class, CastleActor.props(castleId, viewStoreLycler), command);
-//        });
     }
-
-    private void handleEnrollMetroCommand(EnrollMetroCommand command) {
-        //
-        String castleId = command.getCastleId();
-        fowardCommand(castleId, Castle.class, CastleActor.props(castleId), command);
-    }
-
-    private void handleModifyCastleCommand(ModifyCastleCommand command) {
-        //
-        String castleId = command.getCastleId();
-        fowardCommand(castleId, Castle.class, CastleActor.props(castleId), command);
-    }
-
-    /*********************** Command ***********************/
-
-    /*********************** Query ***********************/
-
-    private void handleFindCastleQuery(FindCastleQuery query) {
-        //
-        String castleId = query.getCastleId();
-        fowardQuery(castleId, Castle.class, CastleActor.props(castleId), query);
-    }
-
-    // Fixme ReadModel 조회는 분리?
-    private void handleFindAllCastlesQuery(FindAllCastlesQuery query) {
-        //
-        List<CastleView> castleViews = castleViewStore.retrieveAll();
-        getSender().tell(castleViews, getSelf());
-    }
-
-    // Fixme ReadModel 조회는 분리?
-    private void handleFindAllCastellansQuery(FindAllCastellansQuery query) {
-        //
-        List<CastellanView> castellanViews = castellanViewStore.retrieveAll();
-        getSender().tell(castellanViews, getSelf());
-    }
-
-    /*********************** Query ***********************/
 
 }

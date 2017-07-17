@@ -29,66 +29,37 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     public void handleEvent(NaraEvent event) {
         //
         match()
-            .with(CastellanCreated.class, this::handleCastellanCreatedEvent)
-            .with(CastellanModified.class, this::handleCastellanModifiedEvent)
-            .exec(event);
+            .with(CastellanCreated.class, castellanCreated -> getState().apply(castellanCreated))
+            .with(CastellanModified.class, castellanModified -> getState().apply(castellanModified))
+        .onMessage(event);
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
         match()
-            .with(RegisterCastellanCommand.class, this::handleRegisterCastellanCommand)
-            .with(ModifyCastellanCommand.class, this::handleModifyCastellanCommand)
-            .exec(command);
+            .with(RegisterCastellanCommand.class, registerCastellanCommand -> {
+                //
+                Castellan castellan = new Castellan(registerCastellanCommand.getCastle());
+                persist(new CastellanCreated(castellan), this::handleEventAndRespond);
+            })
+            .with(ModifyCastellanCommand.class, modifyCastellanCommand -> {
+                //
+                persist(new CastellanModified(modifyCastellanCommand), this::handleEventAndRespond);
+            })
+        .onMessage(command);
     }
 
     @Override
     public void handleQuery(NaraQuery query) {
         //
         match()
-            .with(FindIdentityPlateQuery.class, this::handleFindIdentityPlateQuery)
-            .exec(query);
+            .with(FindIdentityPlateQuery.class, findIdentityPlateQuery -> {
+                //
+                IdentityPlate identityPlate = new IdentityPlate(getState());
+                responseResult(identityPlate);
+            })
+        .onMessage(query);
     }
 
-    /*********************** Command ***********************/
-
-    private void handleRegisterCastellanCommand(RegisterCastellanCommand command) {
-        //
-        Castellan castellan = new Castellan(command.getCastle());
-        persistAndHandle(new CastellanCreated(castellan));
-    }
-
-    private void handleModifyCastellanCommand(ModifyCastellanCommand command) {
-        //
-        persistAndHandle(new CastellanModified(command));
-    }
-
-    /*********************** Command ***********************/
-
-    /*********************** Query ***********************/
-
-    private void handleFindIdentityPlateQuery(FindIdentityPlateQuery query) {
-        //
-        IdentityPlate identityPlate = new IdentityPlate(getState());
-        getSender().tell(identityPlate, getSelf());
-    }
-
-    /*********************** Query ***********************/
-
-    /*********************** Event ***********************/
-
-    private void handleCastellanCreatedEvent(CastellanCreated event) {
-        //
-        getState().apply(event);
-        getSender().tell("todo", getSelf());
-    }
-
-    private void handleCastellanModifiedEvent(CastellanModified event) {
-        //
-        getState().apply(event);
-        getSender().tell("todo", getSelf());
-    }
-
-    /*********************** Event ***********************/
 }
