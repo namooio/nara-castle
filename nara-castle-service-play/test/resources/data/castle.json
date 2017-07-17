@@ -1,0 +1,15 @@
+[
+  {
+    "id": "01",
+    "startNationId": "01",
+    "name" : "tester",
+    "primaryEmail" : "tester@testing.co.kr",
+    "zone": {
+      "locale": "ko",
+      "zoneId": "01"
+    },
+    "builtTime" : "1231235345",
+
+    "enrollments": []
+  }
+]
