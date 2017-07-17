@@ -28,31 +28,27 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        if (event instanceof CastellanCreated) {
-            handleCastellanCreatedEvent((CastellanCreated) event);
-        }
-        if (event instanceof CastellanModified) {
-            handleCastellanModifiedEvent((CastellanModified) event);
-        }
+        match()
+            .with(CastellanCreated.class, this::handleCastellanCreatedEvent)
+            .with(CastellanModified.class, this::handleCastellanModifiedEvent)
+            .exec(event);
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        if (command instanceof RegisterCastellanCommand) {
-            handleRegisterCastellanCommand((RegisterCastellanCommand) command);
-        }
-        else if (command instanceof ModifyCastellanCommand) {
-            handleModifyCastellanCommand((ModifyCastellanCommand) command);
-        }
+        match()
+            .with(RegisterCastellanCommand.class, this::handleRegisterCastellanCommand)
+            .with(ModifyCastellanCommand.class, this::handleModifyCastellanCommand)
+            .exec(command);
     }
 
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        if (query instanceof FindIdentityPlateQuery) {
-            handleFindIdentityPlateQuery((FindIdentityPlateQuery) query);
-        }
+        match()
+            .with(FindIdentityPlateQuery.class, this::handleFindIdentityPlateQuery)
+            .exec(query);
     }
 
     /*********************** Command ***********************/
@@ -60,12 +56,12 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     private void handleRegisterCastellanCommand(RegisterCastellanCommand command) {
         //
         Castellan castellan = new Castellan(command.getCastle());
-        persistAndHandleEvent(new CastellanCreated(castellan));
+        persistAndHandle(new CastellanCreated(castellan));
     }
 
     private void handleModifyCastellanCommand(ModifyCastellanCommand command) {
         //
-        persistAndHandleEvent(new CastellanModified(command));
+        persistAndHandle(new CastellanModified(command));
     }
 
     /*********************** Command ***********************/

@@ -29,55 +29,33 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        if (event instanceof SequenceIncreased) {
-            handleSequenceIncreasedEvent((SequenceIncreased) event);
-        }
+        match()
+            .with(SequenceIncreased.class, sequenceIncreased -> {
+                getState().apply(sequenceIncreased);
+                getSender().tell(sequenceIncreased.getCastleBook().getSequence(), getSelf());
+            })
+        .exec(event);
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        if (command instanceof NextSequenceCommand) {
-            handleNextSequenceCommand((NextSequenceCommand) command);
-        }
+        match()
+            .with(NextSequenceCommand.class, nextSequenceCommand -> {
+                getState().nextSequence();
+                persistAndHandle(new SequenceIncreased(getState()));
+            })
+        .exec(command);
     }
 
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        if (query instanceof FindCastleBookQuery) {
-            handleFindCastleBookQuery((FindCastleBookQuery) query);
-        }
+        match()
+            .with(FindCastleBookQuery.class, findCastleBookQuery -> {
+                getSender().tell(getState(), getSelf());
+            })
+        .exec(query);
     }
-
-    /*********************** Command ***********************/
-
-    private void handleNextSequenceCommand(NextSequenceCommand command) {
-        //
-        getState().nextSequence();
-        persistAndHandleEvent(new SequenceIncreased(getState()));
-    }
-
-    /*********************** Command ***********************/
-
-    /*********************** Query ***********************/
-
-    private void handleFindCastleBookQuery(FindCastleBookQuery query) {
-        //
-        getSender().tell(getState(), getSelf());
-    }
-
-    /*********************** Query ***********************/
-
-
-    /*********************** Event ***********************/
-
-    private void handleSequenceIncreasedEvent(SequenceIncreased event) {
-        //
-        getState().apply(event);
-        getSender().tell(event.getCastleBook().getSequence(), getSelf());
-    }
-
-    /*********************** Event ***********************/
 
 }

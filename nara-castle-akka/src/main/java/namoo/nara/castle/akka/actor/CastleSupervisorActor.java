@@ -54,29 +54,21 @@ public class CastleSupervisorActor extends NaraActor {
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        if (command instanceof BuildCastleCommand) {
-            handleBuildCastleCommand((BuildCastleCommand) command);
-        }
-        else if (command instanceof EnrollMetroCommand) {
-            handleEnrollMetroCommand((EnrollMetroCommand) command);
-        }
-        else if (command instanceof ModifyCastleCommand) {
-            handleModifyCastleCommand((ModifyCastleCommand) command);
-        }
+        match()
+            .with(BuildCastleCommand.class, this::handleBuildCastleCommand)
+            .with(EnrollMetroCommand.class, this::handleEnrollMetroCommand)
+            .with(ModifyCastleCommand.class, this::handleModifyCastleCommand)
+        .exec(command);
     }
 
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        if (query instanceof FindCastleQuery) {
-            handleFindCastleQuery((FindCastleQuery) query);
-        }
-        else if (query instanceof FindAllCastlesQuery) {
-            handleFindAllCastlesQuery((FindAllCastlesQuery) query);
-        }
-        else if (query instanceof FindAllCastellansQuery) {
-            handleFindAllCastellansQuery((FindAllCastellansQuery) query);
-        }
+        match()
+            .with(FindCastleQuery.class, this::handleFindCastleQuery)
+            .with(FindAllCastlesQuery.class, this::handleFindAllCastlesQuery)
+            .with(FindAllCastellansQuery.class, this::handleFindAllCastellansQuery)
+        .exec(query);
     }
 
     /*********************** Command ***********************/
@@ -90,12 +82,11 @@ public class CastleSupervisorActor extends NaraActor {
         }
 
         String castleBookId = CastleIdBuilder.requestCastleBookId();
-        ActorRef castleBookActor = lookupOrCreateChildPersistentActor(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
+        ActorRef castleBookActor = lookupOrCreateChild(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
 
         Timeout timeout = new Timeout(Duration.create(1, "seconds"));
         Long nextCastleSequence;
         try {
-            // FIXME Async
             nextCastleSequence = (Long) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), timeout), timeout.duration());
             String castleId = CastleIdBuilder.requestCastleId(nextCastleSequence);
             fowardCommand(castleId, Castle.class, CastleActor.props(castleId), command);

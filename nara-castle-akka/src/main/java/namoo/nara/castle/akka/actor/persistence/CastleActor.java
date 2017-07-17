@@ -40,43 +40,31 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        if (event instanceof CastleBuilt) {
-            handleCastleBuiltEvent((CastleBuilt) event);
-        }
-        else if (event instanceof MetroEnrolled) {
-            handleMetroEnrolledEvent((MetroEnrolled) event);
-        }
-        else if (event instanceof MetroWithdrawn) {
-            handleMetroWithdrawnEvent((MetroWithdrawn) event);
-        }
-        else if (event instanceof CastleModified) {
-            handleCastleModifiedEvent((CastleModified) event);
-        }
+        match()
+            .with(CastleBuilt.class, this::handleCastleBuiltEvent)
+            .with(MetroEnrolled.class, this::handleMetroEnrolledEvent)
+            .with(MetroWithdrawn.class, this::handleMetroWithdrawnEvent)
+            .with(CastleModified.class, this::handleCastleModifiedEvent)
+        .exec(event);
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        if (command instanceof BuildCastleCommand) {
-            handleBuildCastleCommand((BuildCastleCommand) command);
-        }
-        else if (command instanceof EnrollMetroCommand) {
-            handleEnrollMetroCommand((EnrollMetroCommand) command);
-        }
-        else if (command instanceof WithdrawMetroCommand) {
-            handleWithdrawMetroCommand((WithdrawMetroCommand) command);
-        }
-        else if (command instanceof ModifyCastleCommand) {
-            handleModifyCastleCommand((ModifyCastleCommand) command);
-        }
+        match()
+            .with(BuildCastleCommand.class, this::handleBuildCastleCommand)
+            .with(EnrollMetroCommand.class, this::handleEnrollMetroCommand)
+            .with(WithdrawMetroCommand.class, this::handleWithdrawMetroCommand)
+            .with(ModifyCastleCommand.class, this::handleModifyCastleCommand)
+        .exec(command);
     }
 
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        if (query instanceof FindCastleQuery) {
-            handleFindCastleQuery((FindCastleQuery) query);
-        }
+        match()
+            .with(FindCastleQuery.class, this:: handleFindCastleQuery)
+        .exec(query);
     }
 
     /*********************** Command ***********************/
@@ -87,24 +75,24 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         MetroEnrollment enrollment = command.getEnrollment();
         Castle castle = new Castle(castleId, enrollment);
 
-        persistAndHandleEvent(new CastleBuilt(castle));
+        persistAndHandle(new CastleBuilt(castle));
     }
 
     private void handleEnrollMetroCommand(EnrollMetroCommand command) {
         //
-        persistAndHandleEvent(new MetroEnrolled(getState().getId(), command.getEnrollment()));
+        persistAndHandle(new MetroEnrolled(getState().getId(), command.getEnrollment()));
     }
 
     private void handleWithdrawMetroCommand(WithdrawMetroCommand command) {
         //
         String metroId = command.getMetroId();
         String civilianId = command.getCivilianId();
-        persistAndHandleEvent(new MetroWithdrawn(metroId, civilianId));
+        persistAndHandle(new MetroWithdrawn(metroId, civilianId));
     }
 
     private void handleModifyCastleCommand(ModifyCastleCommand command) {
         //
-        persistAndHandleEvent(new CastleModified(command));
+        persistAndHandle(new CastleModified(command));
     }
 
     /*********************** Command ***********************/
@@ -125,7 +113,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
         getState().apply(event);
         String castleId = getState().getId();
 
-        ActorRef castellanActor = lookupOrCreateChildPersistentActor(castleId, Castellan.class, CastellanActor.props(castleId));
+        ActorRef castellanActor = lookupOrCreateChild(castleId, Castellan.class, CastellanActor.props(castleId));
         ActorRef sender = getSender();
 
         NaraCommand command = new RegisterCastellanCommand(event.getCastle());
