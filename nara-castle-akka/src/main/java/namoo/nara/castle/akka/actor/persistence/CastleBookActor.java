@@ -29,19 +29,19 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        match()
-            .with(SequenceIncreased.class, sequenceIncreased -> getState().apply(sequenceIncreased))
+        matcher()
+            .match(SequenceIncreased.class, sequenceIncreased -> getState().apply(sequenceIncreased))
         .onMessage(event);
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        match()
-            .with(NextSequenceCommand.class, nextSequenceCommand -> {
+        matcher()
+            .match(NextSequenceCommand.class, nextSequenceCommand -> {
                 //
                 getState().nextSequence();
-                persist(new SequenceIncreased(getState()), this::handleEventAndRespond);
+                persist(new SequenceIncreased(getState()), this::handleAndRespond);
             })
         .onMessage(command);
     }
@@ -49,8 +49,8 @@ public class CastleBookActor extends NaraPersistentActor<CastleBook> {
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        match()
-            .with(FindCastleBookQuery.class, findCastleBookQuery -> responseStateResult())
+        matcher()
+            .match(FindCastleBookQuery.class, findCastleBookQuery -> responseStateResult())
         .onMessage(query);
     }
 

@@ -28,24 +28,24 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        match()
-            .with(CastellanCreated.class, castellanCreated -> getState().apply(castellanCreated))
-            .with(CastellanModified.class, castellanModified -> getState().apply(castellanModified))
+        matcher()
+            .match(CastellanCreated.class, castellanCreated -> getState().apply(castellanCreated))
+            .match(CastellanModified.class, castellanModified -> getState().apply(castellanModified))
         .onMessage(event);
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        match()
-            .with(RegisterCastellanCommand.class, registerCastellanCommand -> {
+        matcher()
+            .match(RegisterCastellanCommand.class, registerCastellanCommand -> {
                 //
                 Castellan castellan = new Castellan(registerCastellanCommand.getCastle());
-                persist(new CastellanCreated(castellan), this::handleEventAndRespond);
+                persist(new CastellanCreated(castellan), this::handleAndRespond);
             })
-            .with(ModifyCastellanCommand.class, modifyCastellanCommand -> {
+            .match(ModifyCastellanCommand.class, modifyCastellanCommand -> {
                 //
-                persist(new CastellanModified(modifyCastellanCommand), this::handleEventAndRespond);
+                persist(new CastellanModified(modifyCastellanCommand), this::handleAndRespond);
             })
         .onMessage(command);
     }
@@ -53,8 +53,8 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        match()
-            .with(FindIdentityPlateQuery.class, findIdentityPlateQuery -> {
+        matcher()
+            .match(FindIdentityPlateQuery.class, findIdentityPlateQuery -> {
                 //
                 IdentityPlate identityPlate = new IdentityPlate(getState());
                 responseResult(identityPlate);

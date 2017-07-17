@@ -55,14 +55,14 @@ public class CastleSupervisorActor extends NaraActor {
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        match()
-            .with(BuildCastleCommand.class, this::handleBuildCastleCommand)
-            .with(ModifyCastleCommand.class, modifyCastleCommand -> {
+        matcher()
+            .match(BuildCastleCommand.class, this::handleBuildCastleCommand)
+            .match(ModifyCastleCommand.class, modifyCastleCommand -> {
                 //
                 String castleId = modifyCastleCommand.getCastleId();
                 foward(castleId, Castle.class, CastleActor.props(castleId), modifyCastleCommand);
             })
-            .with(EnrollMetroCommand.class, enrollMetroCommand -> {
+            .match(EnrollMetroCommand.class, enrollMetroCommand -> {
                 //
                 String castleId = enrollMetroCommand.getCastleId();
                 foward(castleId, Castle.class, CastleActor.props(castleId), enrollMetroCommand);
@@ -73,18 +73,18 @@ public class CastleSupervisorActor extends NaraActor {
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        match()
-            .with(FindCastleQuery.class, findCastleQuery -> {
+        matcher()
+            .match(FindCastleQuery.class, findCastleQuery -> {
                 //
                 String castleId = findCastleQuery.getCastleId();
                 foward(castleId, Castle.class, CastleActor.props(castleId), query);
             })
-            .with(FindAllCastlesQuery.class, findAllCastlesQuery -> {
+            .match(FindAllCastlesQuery.class, findAllCastlesQuery -> {
                 // Fixme ReadModel 조회는 분리?
                 List<CastleView> castleViews = castleViewStore.retrieveAll();
                 responseResult(castleViews);
             })
-            .with(FindAllCastellansQuery.class, findAllCastellansQuery -> {
+            .match(FindAllCastellansQuery.class, findAllCastellansQuery -> {
                 // Fixme ReadModel 조회는 분리?
                 List<CastellanView> castellanViews = castellanViewStore.retrieveAll();
                 responseResult(castellanViews);

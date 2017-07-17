@@ -38,34 +38,34 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     @Override
     public void handleEvent(NaraEvent event) {
         //
-        match()
-            .with(CastleBuilt.class, this::handleCastleBuiltEvent)
-            .with(CastleModified.class, castleModified -> getState().apply(castleModified))
-            .with(MetroEnrolled.class, metroEnrolled -> getState().apply(metroEnrolled))
-            .with(MetroWithdrawn.class, metroWithdrawn -> getState().apply(metroWithdrawn))
+        matcher()
+            .match(CastleBuilt.class, this::handleCastleBuiltEvent)
+            .match(CastleModified.class, castleModified -> getState().apply(castleModified))
+            .match(MetroEnrolled.class, metroEnrolled -> getState().apply(metroEnrolled))
+            .match(MetroWithdrawn.class, metroWithdrawn -> getState().apply(metroWithdrawn))
         .onMessage(event);
     }
 
     @Override
     public void handleCommand(NaraCommand command) {
         //
-        match()
-            .with(BuildCastleCommand.class, buildCastleCommand -> {
+        matcher()
+            .match(BuildCastleCommand.class, buildCastleCommand -> {
                 //
                 Castle castle = new Castle(getState().getId(), buildCastleCommand.getEnrollment());
-                persist(new CastleBuilt(castle), this::handleEventAndRespond);
+                persist(new CastleBuilt(castle), this::handleAndRespond);
             })
-            .with(EnrollMetroCommand.class, enrollMetroCommand -> {
+            .match(EnrollMetroCommand.class, enrollMetroCommand -> {
                 //
-                persist(new MetroEnrolled(getState().getId(), enrollMetroCommand.getEnrollment()), this::handleEventAndRespond);
+                persist(new MetroEnrolled(getState().getId(), enrollMetroCommand.getEnrollment()), this::handleAndRespond);
             })
-            .with(WithdrawMetroCommand.class, withdrawMetroCommand -> {
+            .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
                 //
-                persist(new MetroWithdrawn(withdrawMetroCommand.getMetroId(), withdrawMetroCommand.getCivilianId()), this::handleEventAndRespond);
+                persist(new MetroWithdrawn(withdrawMetroCommand.getMetroId(), withdrawMetroCommand.getCivilianId()), this::handleAndRespond);
             })
-            .with(ModifyCastleCommand.class, modifyCastleCommand -> {
+            .match(ModifyCastleCommand.class, modifyCastleCommand -> {
                 //
-                persist(new CastleModified(modifyCastleCommand), this::handleEventAndRespond);
+                persist(new CastleModified(modifyCastleCommand), this::handleAndRespond);
             })
         .onMessage(command);
     }
@@ -73,8 +73,8 @@ public class CastleActor extends NaraPersistentActor<Castle> {
     @Override
     public void handleQuery(NaraQuery query) {
         //
-        match()
-            .with(FindCastleQuery.class, findCastleQuery -> responseStateResult())
+        matcher()
+            .match(FindCastleQuery.class, findCastleQuery -> responseStateResult())
         .onMessage(query);
     }
 
