@@ -108,6 +108,7 @@ public class CastleSupervisorActor extends NaraActor {
             String castleId = CastleIdBuilder.requestCastleId(castleBook.getSequence());
             foward(castleId, Castle.class, CastleActor.props(castleId), command);
         } catch (Exception e) {
+            // FIXME fail respond!!
             throw new NaraException(e);
         }
     }
