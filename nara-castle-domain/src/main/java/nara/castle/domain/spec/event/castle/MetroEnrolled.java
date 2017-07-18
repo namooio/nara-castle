@@ -1,7 +1,7 @@
 package nara.castle.domain.spec.event.castle;
 
 import nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.share.domain.event.NaraEvent;
+import nara.share.domain.event.NaraEvent;
 
 public class MetroEnrolled implements NaraEvent {
     //

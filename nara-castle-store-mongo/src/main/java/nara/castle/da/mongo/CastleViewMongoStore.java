@@ -3,7 +3,7 @@ package nara.castle.da.mongo;
 import nara.castle.da.mongo.document.CastleViewDoc;
 import nara.castle.domain.view.CastleView;
 import nara.castle.domain.view.store.CastleViewStore;
-import namoo.nara.share.exception.store.NonExistenceException;
+import nara.share.exception.store.NonExistenceException;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 

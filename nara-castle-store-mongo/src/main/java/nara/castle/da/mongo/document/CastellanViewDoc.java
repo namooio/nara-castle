@@ -1,11 +1,11 @@
 package nara.castle.da.mongo.document;
 
 import nara.castle.domain.view.CastellanView;
-import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.granule.AddressList;
-import namoo.nara.share.domain.granule.EmailList;
-import namoo.nara.share.domain.granule.NameList;
-import namoo.nara.share.domain.granule.PhoneList;
+import nara.share.domain.NameValueList;
+import nara.share.domain.granule.AddressList;
+import nara.share.domain.granule.EmailList;
+import nara.share.domain.granule.NameList;
+import nara.share.domain.granule.PhoneList;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.springframework.beans.BeanUtils;

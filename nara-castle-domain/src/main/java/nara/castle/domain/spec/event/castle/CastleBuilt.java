@@ -1,7 +1,7 @@
 package nara.castle.domain.spec.event.castle;
 
 import nara.castle.domain.entity.Castle;
-import namoo.nara.share.domain.event.NaraEvent;
+import nara.share.domain.event.NaraEvent;
 
 public class CastleBuilt implements NaraEvent {
     //

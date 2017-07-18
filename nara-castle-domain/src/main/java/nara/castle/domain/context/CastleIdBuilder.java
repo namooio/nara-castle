@@ -1,7 +1,7 @@
 package nara.castle.domain.context;
 
 import nara.castle.domain.entity.CastleBook;
-import namoo.nara.share.domain.util.numeral36.Numeral36;
+import nara.share.domain.util.numeral36.Numeral36;
 
 public final class CastleIdBuilder {
     //

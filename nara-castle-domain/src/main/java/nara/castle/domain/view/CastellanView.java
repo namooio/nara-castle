@@ -1,11 +1,11 @@
 package nara.castle.domain.view;
 
 import nara.castle.domain.entity.Castellan;
-import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.granule.AddressList;
-import namoo.nara.share.domain.granule.EmailList;
-import namoo.nara.share.domain.granule.NameList;
-import namoo.nara.share.domain.granule.PhoneList;
+import nara.share.domain.NameValueList;
+import nara.share.domain.granule.AddressList;
+import nara.share.domain.granule.EmailList;
+import nara.share.domain.granule.NameList;
+import nara.share.domain.granule.PhoneList;
 
 public class CastellanView {
     //

@@ -8,7 +8,7 @@ import nara.castle.domain.context.CastleIdBuilder;
 import nara.castle.domain.entity.CastleBook;
 import nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
-import namoo.nara.share.akka.support.actor.result.ActorResult;
+import nara.share.akka.support.actor.result.ActorResult;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

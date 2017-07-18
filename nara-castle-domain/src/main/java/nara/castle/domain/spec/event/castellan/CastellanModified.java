@@ -1,8 +1,8 @@
 package nara.castle.domain.spec.event.castellan;
 
 import nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
-import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.event.NaraEvent;
+import nara.share.domain.NameValueList;
+import nara.share.domain.event.NaraEvent;
 
 public class CastellanModified implements NaraEvent {
     //

@@ -1,9 +1,9 @@
 package nara.castle.adapter.rest;
 
-import namoo.nara.share.domain.granule.Name;
-import namoo.nara.share.domain.granule.NaraZone;
-import namoo.nara.share.restclient.NaraRestClient;
-import namoo.nara.share.restclient.springweb.SpringWebRestClient;
+import nara.share.domain.granule.Name;
+import nara.share.domain.granule.NaraZone;
+import nara.share.restclient.NaraRestClient;
+import nara.share.restclient.springweb.SpringWebRestClient;
 import nara.castle.domain.entity.MetroEnrollment;
 import nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import nara.castle.domain.spec.command.castle.EnrollMetroCommand;

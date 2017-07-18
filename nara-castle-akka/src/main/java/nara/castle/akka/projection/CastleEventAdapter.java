@@ -1,6 +1,6 @@
 package nara.castle.akka.projection;
 
-import namoo.nara.share.akka.support.projection.NaraEventAdapter;
+import nara.share.akka.support.projection.NaraEventAdapter;
 
 public class CastleEventAdapter extends NaraEventAdapter {
     //

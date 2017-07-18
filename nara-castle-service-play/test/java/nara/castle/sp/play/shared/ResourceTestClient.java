@@ -1,7 +1,7 @@
 package nara.castle.sp.play.shared;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import namoo.nara.share.util.json.JsonUtil;
+import nara.share.util.json.JsonUtil;
 import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;

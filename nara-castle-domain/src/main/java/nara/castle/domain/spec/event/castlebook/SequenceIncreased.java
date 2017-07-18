@@ -1,7 +1,7 @@
 package nara.castle.domain.spec.event.castlebook;
 
 import nara.castle.domain.entity.CastleBook;
-import namoo.nara.share.domain.event.NaraEvent;
+import nara.share.domain.event.NaraEvent;
 
 public class SequenceIncreased implements NaraEvent {
     //

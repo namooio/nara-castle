@@ -1,9 +1,9 @@
 package nara.castle.akka.projection;
 
 import akka.actor.Props;
-import namoo.nara.share.akka.support.actor.NaraProjectionActor;
-import namoo.nara.share.akka.support.projection.resume.ResumableProjection;
-import namoo.nara.share.akka.support.projection.ViewBuilder;
+import nara.share.akka.support.actor.NaraProjectionActor;
+import nara.share.akka.support.projection.resume.ResumableProjection;
+import nara.share.akka.support.projection.ViewBuilder;
 import nara.castle.akka.projection.castellan.CastellanViewBuilder;
 import nara.castle.akka.projection.castle.CastleViewBuilder;
 import nara.castle.akka.projection.castle.MetroEnrolledViewBuilder;

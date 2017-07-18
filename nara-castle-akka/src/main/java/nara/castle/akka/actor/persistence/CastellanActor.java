@@ -8,10 +8,10 @@ import nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
 import nara.castle.domain.spec.event.castellan.CastellanCreated;
 import nara.castle.domain.spec.event.castellan.CastellanModified;
 import nara.castle.domain.spec.query.castellan.FindIdentityPlateQuery;
-import namoo.nara.share.akka.support.actor.NaraPersistentActor;
-import namoo.nara.share.domain.event.NaraEvent;
-import namoo.nara.share.domain.protocol.NaraCommand;
-import namoo.nara.share.domain.protocol.NaraQuery;
+import nara.share.akka.support.actor.NaraPersistentActor;
+import nara.share.domain.event.NaraEvent;
+import nara.share.domain.protocol.NaraCommand;
+import nara.share.domain.protocol.NaraQuery;
 
 public class CastellanActor extends NaraPersistentActor<Castellan> {
     //

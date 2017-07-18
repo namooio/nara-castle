@@ -1,7 +1,7 @@
 package nara.castle.adapter.rest;
 
-import namoo.nara.share.restclient.HttpMethod;
-import namoo.nara.share.restclient.NaraRestUrl;
+import nara.share.restclient.HttpMethod;
+import nara.share.restclient.NaraRestUrl;
 
 public enum CastleRestUrl implements NaraRestUrl {
     //

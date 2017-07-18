@@ -1,6 +1,6 @@
 package nara.castle.domain.spec.event.castle;
 
-import namoo.nara.share.domain.event.NaraEvent;
+import nara.share.domain.event.NaraEvent;
 
 public class MetroWithdrawn implements NaraEvent {
     //

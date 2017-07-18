@@ -3,7 +3,7 @@ package nara.castle.akka.projection.castle;
 import nara.castle.domain.spec.event.castle.MetroEnrolled;
 import nara.castle.domain.view.CastleView;
 import nara.castle.domain.view.store.CastleViewStore;
-import namoo.nara.share.akka.support.projection.ViewBuilder;
+import nara.share.akka.support.projection.ViewBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,7 @@
 package nara.castle.domain.spec.command.castle;
 
-import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.protocol.NaraCommand;
+import nara.share.domain.NameValueList;
+import nara.share.domain.protocol.NaraCommand;
 
 public class ModifyCastleCommand implements NaraCommand {
     //

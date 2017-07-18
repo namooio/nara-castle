@@ -2,7 +2,7 @@ package nara.castle.domain.view;
 
 import nara.castle.domain.entity.Castle;
 import nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.share.domain.granule.NaraZone;
+import nara.share.domain.granule.NaraZone;
 
 import java.util.List;
 

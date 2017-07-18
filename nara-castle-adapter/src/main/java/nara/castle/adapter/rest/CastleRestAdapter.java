@@ -1,7 +1,7 @@
 package nara.castle.adapter.rest;
 
-import namoo.nara.share.restclient.NaraRestClient;
-import namoo.nara.share.restclient.RequestBuilder;
+import nara.share.restclient.NaraRestClient;
+import nara.share.restclient.RequestBuilder;
 import nara.castle.domain.entity.Castle;
 import nara.castle.domain.spec.CastleService;
 import nara.castle.domain.spec.command.castle.BuildCastleCommand;

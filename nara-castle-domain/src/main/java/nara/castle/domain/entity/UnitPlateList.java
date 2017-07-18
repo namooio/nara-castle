@@ -1,6 +1,6 @@
 package nara.castle.domain.entity;
 
-import namoo.nara.share.util.json.JsonUtil;
+import nara.share.util.json.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;

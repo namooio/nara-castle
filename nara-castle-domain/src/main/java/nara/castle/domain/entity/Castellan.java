@@ -2,13 +2,14 @@ package nara.castle.domain.entity;
 
 import nara.castle.domain.spec.event.castellan.CastellanCreated;
 import nara.castle.domain.spec.event.castellan.CastellanModified;
-import namoo.nara.share.domain.Aggregate;
-import namoo.nara.share.domain.Entity;
-import namoo.nara.share.domain.NameValue;
-import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.event.NaraEvent;
+import nara.share.domain.Aggregate;
+import nara.share.domain.Entity;
+import nara.share.domain.NameValue;
+import nara.share.domain.NameValueList;
+import nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.granule.*;
-import namoo.nara.share.util.json.JsonUtil;
+import nara.share.util.json.JsonUtil;
+import nara.share.domain.granule.*;
 
 public class Castellan extends Entity implements Aggregate {
     //

@@ -5,10 +5,10 @@ import nara.castle.domain.entity.CastleBook;
 import nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import nara.castle.domain.spec.event.castlebook.SequenceIncreased;
 import nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
-import namoo.nara.share.akka.support.actor.NaraPersistentActor;
-import namoo.nara.share.domain.event.NaraEvent;
-import namoo.nara.share.domain.protocol.NaraCommand;
-import namoo.nara.share.domain.protocol.NaraQuery;
+import nara.share.akka.support.actor.NaraPersistentActor;
+import nara.share.domain.event.NaraEvent;
+import nara.share.domain.protocol.NaraCommand;
+import nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

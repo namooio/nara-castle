@@ -1,10 +1,10 @@
 package nara.castle.domain.entity;
 
-import namoo.nara.share.domain.NameValueList;
-import namoo.nara.share.domain.ValueObject;
-import namoo.nara.share.domain.granule.Name;
-import namoo.nara.share.domain.granule.NaraZone;
-import namoo.nara.share.util.json.JsonUtil;
+import nara.share.domain.NameValueList;
+import nara.share.domain.ValueObject;
+import nara.share.domain.granule.Name;
+import nara.share.domain.granule.NaraZone;
+import nara.share.util.json.JsonUtil;
 
 public class MetroEnrollment implements ValueObject {
     //

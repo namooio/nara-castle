@@ -1,7 +1,7 @@
 package nara.castle.domain.spec.command.castellan;
 
 import nara.castle.domain.entity.Castle;
-import namoo.nara.share.domain.protocol.NaraCommand;
+import nara.share.domain.protocol.NaraCommand;
 
 public class RegisterCastellanCommand implements NaraCommand {
     //

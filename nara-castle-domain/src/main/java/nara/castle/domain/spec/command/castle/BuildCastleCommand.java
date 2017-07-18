@@ -1,7 +1,7 @@
 package nara.castle.domain.spec.command.castle;
 
 import nara.castle.domain.entity.MetroEnrollment;
-import namoo.nara.share.domain.protocol.NaraCommand;
+import nara.share.domain.protocol.NaraCommand;
 
 public class BuildCastleCommand implements NaraCommand {
     //

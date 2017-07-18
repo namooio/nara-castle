@@ -1,7 +1,7 @@
 package nara.castle.domain.spec.event.castellan;
 
 import nara.castle.domain.entity.Castellan;
-import namoo.nara.share.domain.event.NaraEvent;
+import nara.share.domain.event.NaraEvent;
 
 public class CastellanCreated implements NaraEvent {
     //

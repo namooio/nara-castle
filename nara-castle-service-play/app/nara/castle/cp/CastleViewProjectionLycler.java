@@ -2,8 +2,8 @@ package nara.castle.cp;
 
 import akka.actor.ActorSystem;
 import com.typesafe.config.ConfigFactory;
-import namoo.nara.share.akka.support.projection.resume.ResumableProjection;
-import namoo.nara.share.akka.support.projection.resume.mongo.MongoResumableProjection;
+import nara.share.akka.support.projection.resume.ResumableProjection;
+import nara.share.akka.support.projection.resume.mongo.MongoResumableProjection;
 import nara.castle.akka.projection.CastleProjectionActor;
 import nara.castle.domain.view.store.CastleViewStoreLycler;
 import play.Logger;

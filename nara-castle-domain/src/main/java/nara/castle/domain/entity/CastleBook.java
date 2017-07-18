@@ -1,10 +1,10 @@
 package nara.castle.domain.entity;
 
 import nara.castle.domain.spec.event.castlebook.SequenceIncreased;
-import namoo.nara.share.domain.Aggregate;
-import namoo.nara.share.domain.Entity;
-import namoo.nara.share.domain.event.NaraEvent;
-import namoo.nara.share.util.json.JsonUtil;
+import nara.share.domain.Aggregate;
+import nara.share.domain.Entity;
+import nara.share.domain.event.NaraEvent;
+import nara.share.util.json.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

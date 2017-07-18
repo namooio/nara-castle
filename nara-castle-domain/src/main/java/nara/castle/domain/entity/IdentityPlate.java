@@ -1,8 +1,8 @@
 package nara.castle.domain.entity;
 
-import namoo.nara.share.domain.granule.Name;
-import namoo.nara.share.domain.granule.Phone;
-import namoo.nara.share.util.json.JsonUtil;
+import nara.share.domain.granule.Name;
+import nara.share.domain.granule.Phone;
+import nara.share.util.json.JsonUtil;
 
 public class IdentityPlate {
     //

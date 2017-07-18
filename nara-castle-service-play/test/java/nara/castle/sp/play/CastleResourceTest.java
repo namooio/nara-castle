@@ -5,8 +5,8 @@ import nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import nara.castle.domain.view.CastellanView;
 import nara.castle.domain.view.CastleView;
 import nara.castle.sp.play.shared.AbstractCastleApplicationTester;
-import namoo.nara.share.domain.granule.Name;
-import namoo.nara.share.domain.granule.NaraZone;
+import nara.share.domain.granule.Name;
+import nara.share.domain.granule.NaraZone;
 import org.junit.Test;
 
 import java.time.ZoneId;
