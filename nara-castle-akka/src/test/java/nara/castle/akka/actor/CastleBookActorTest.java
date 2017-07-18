@@ -4,7 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.testkit.javadsl.TestKit;
 import nara.castle.akka.actor.persistence.CastleBookActor;
-import nara.castle.domain.context.CastleIdBuilder;
+import nara.castle.domainc.context.CastleIdBuilder;
 import nara.castle.domain.entity.CastleBook;
 import nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
 import nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;

@@ -1,6 +1,6 @@
 package nara.castle.domain.entity;
 
-import nara.castle.domain.context.CastleIdBuilder;
+import nara.castle.domainc.context.CastleIdBuilder;
 import nara.castle.domain.spec.event.castle.CastleBuilt;
 import nara.castle.domain.spec.event.castle.CastleModified;
 import nara.castle.domain.spec.event.castle.MetroEnrolled;

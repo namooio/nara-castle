@@ -11,7 +11,7 @@ import nara.share.domain.protocol.NaraQuery;
 import nara.share.exception.NaraException;
 import nara.castle.akka.actor.persistence.CastleActor;
 import nara.castle.akka.actor.persistence.CastleBookActor;
-import nara.castle.domain.context.CastleIdBuilder;
+import nara.castle.domainc.context.CastleIdBuilder;
 import nara.castle.domain.entity.Castle;
 import nara.castle.domain.entity.CastleBook;
 import nara.castle.domain.entity.MetroEnrollment;

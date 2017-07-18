@@ -1,4 +1,4 @@
-package nara.castle.domain.context;
+package nara.castle.domainc.context;
 
 import nara.castle.domain.entity.CastleBook;
 import nara.share.domain.util.numeral36.Numeral36;
