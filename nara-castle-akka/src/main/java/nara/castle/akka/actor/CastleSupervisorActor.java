@@ -3,6 +3,12 @@ package nara.castle.akka.actor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.pattern.Patterns;
+import namoo.nara.share.akka.support.actor.NaraActorConst;
+import namoo.nara.share.akka.support.actor.NaraActor;
+import namoo.nara.share.akka.support.actor.result.ActorResult;
+import namoo.nara.share.domain.protocol.NaraCommand;
+import namoo.nara.share.domain.protocol.NaraQuery;
+import namoo.nara.share.exception.NaraException;
 import nara.castle.akka.actor.persistence.CastleActor;
 import nara.castle.akka.actor.persistence.CastleBookActor;
 import nara.castle.domain.context.CastleIdBuilder;
@@ -21,11 +27,6 @@ import nara.castle.domain.view.CastleView;
 import nara.castle.domain.view.store.CastellanViewStore;
 import nara.castle.domain.view.store.CastleViewStore;
 import nara.castle.domain.view.store.CastleViewStoreLycler;
-import namoo.nara.share.akka.support.actor.NaraActor;
-import namoo.nara.share.akka.support.actor.result.ActorResult;
-import namoo.nara.share.domain.protocol.NaraCommand;
-import namoo.nara.share.domain.protocol.NaraQuery;
-import namoo.nara.share.exception.NaraException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.Await;
@@ -103,7 +104,7 @@ public class CastleSupervisorActor extends NaraActor {
 
         CastleBook castleBook;
         try {
-            ActorResult<CastleBook> result = (ActorResult) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), getDefaultTimeOut()), getDefaultTimeOut().duration());
+            ActorResult<CastleBook> result = (ActorResult) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), NaraActorConst.DEFAULT_TIMEOUT), NaraActorConst.DEFAULT_TIMEOUT.duration());
             castleBook = result.get();
             String castleId = CastleIdBuilder.requestCastleId(castleBook.getSequence());
 

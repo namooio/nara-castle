@@ -3,6 +3,7 @@ package nara.castle.akka.actor.persistence;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.pattern.PatternsCS;
+import namoo.nara.share.akka.support.actor.NaraActorConst;
 import nara.castle.domain.entity.Castellan;
 import nara.castle.domain.entity.Castle;
 import nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
@@ -87,7 +88,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
 
         ActorRef castellanActor = lookupOrCreateChild(castleId, Castellan.class, CastellanActor.props(castleId));
         NaraCommand command = new RegisterCastellanCommand(event.getCastle());
-        PatternsCS.ask(castellanActor, command, getDefaultTimeOut()).thenAccept(response -> {
+        PatternsCS.ask(castellanActor, command, NaraActorConst.DEFAULT_TIMEOUT).thenAccept(response -> {
             //
             ActorResult<Castellan> result = (ActorResult) response;
             if (!result.isSuccess()) {

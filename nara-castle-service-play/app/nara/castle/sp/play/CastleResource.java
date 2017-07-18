@@ -4,6 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.pattern.PatternsCS;
 import com.fasterxml.jackson.databind.JsonNode;
+import namoo.nara.share.akka.support.actor.NaraActorConst;
 import namoo.nara.share.akka.support.actor.result.ActorResult;
 import nara.castle.akka.actor.CastleSupervisorActor;
 import nara.castle.domain.entity.Castellan;
@@ -48,7 +49,7 @@ public class CastleResource extends Controller implements CastleService {
 
     public CompletionStage<Result> buildCastle(BuildCastleCommand command) {
         //
-        return PatternsCS.ask(castleSupervisorActor, command, 1000).thenApply(response -> {
+        return PatternsCS.ask(castleSupervisorActor, command, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResult<Castle> result = (ActorResult) response;
             return ok(result.get().getId());
         });
@@ -64,13 +65,13 @@ public class CastleResource extends Controller implements CastleService {
 
     public CompletionStage<Result> enrollMetro(String castleId, EnrollMetroCommand command) {
         //
-        return PatternsCS.ask(castleSupervisorActor, command, 1000).thenApply(response -> ok());
+        return PatternsCS.ask(castleSupervisorActor, command, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     public CompletionStage<Result> findCastle(String castleId) {
         //
         FindCastleQuery query = new FindCastleQuery(castleId);
-        return PatternsCS.ask(castleSupervisorActor, query, 1000).thenApply(response -> {
+        return PatternsCS.ask(castleSupervisorActor, query, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResult<Castle> result = (ActorResult) response;
             return ok(Json.toJson(result.get()));
         });
@@ -79,7 +80,7 @@ public class CastleResource extends Controller implements CastleService {
     public CompletionStage<Result> findCastles() {
         //
         FindAllCastlesQuery query = new FindAllCastlesQuery();
-        return PatternsCS.ask(castleSupervisorActor, query, 1000).thenApply(response -> {
+        return PatternsCS.ask(castleSupervisorActor, query, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResult<List<Castle>> result = (ActorResult) response;
             return ok(Json.toJson(result.get()));
         });
@@ -88,7 +89,7 @@ public class CastleResource extends Controller implements CastleService {
     public CompletionStage<Result> findCastellans() {
         //
         FindAllCastellansQuery query = new FindAllCastellansQuery();
-        return PatternsCS.ask(castleSupervisorActor, query, 1000).thenApply(response -> {
+        return PatternsCS.ask(castleSupervisorActor, query, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResult<List<Castellan>> result = (ActorResult) response;
             return ok(Json.toJson(result.get()));
         });
