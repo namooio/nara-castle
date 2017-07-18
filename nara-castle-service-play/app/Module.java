@@ -1,7 +1,7 @@
 import com.google.inject.AbstractModule;
-import namoo.nara.castle.cp.CastleViewMongoStoreLycler;
-import namoo.nara.castle.cp.CastleViewProjectionLycler;
-import namoo.nara.castle.domain.view.store.CastleViewStoreLycler;
+import nara.castle.cp.CastleViewMongoStoreLycler;
+import nara.castle.cp.CastleViewProjectionLycler;
+import nara.castle.domain.view.store.CastleViewStoreLycler;
 import play.Logger;
 
 /**

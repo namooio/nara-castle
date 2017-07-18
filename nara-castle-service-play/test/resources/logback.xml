@@ -17,7 +17,7 @@
   <logger name="play" level="WARN" />
   <logger name="application" level="WARN" />
   <logger name="namoo" level="WARN" />
-  <logger name="namoo.nara.castle.sp.play.shared.AbstractCastleApplicationTester" level="INFO" />
+  <logger name="nara.castle.sp.play.shared.AbstractCastleApplicationTester" level="INFO" />
 
   <!-- Off these ones as they are annoying, and anyway we manage configuration ourselves -->
   <logger name="com.gargoylesoftware.htmlunit.javascript" level="OFF" />

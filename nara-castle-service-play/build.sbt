@@ -7,8 +7,8 @@ lazy val `nara-castle-service-play` = (project in file(".")).enablePlugins(PlayJ
 scalaVersion := "2.12.2"
 
 libraryDependencies += guice
-libraryDependencies += "namoo.nara.castle" % "nara-castle-akka" % "0.3.14-SNAPSHOT"
-libraryDependencies += "namoo.nara.castle" % "nara-castle-store-mongo" % "0.3.14-SNAPSHOT"
+libraryDependencies += "nara.castle" % "nara-castle-akka" % "1.0-SNAPSHOT"
+libraryDependencies += "nara.castle" % "nara-castle-store-mongo" % "1.0-SNAPSHOT"
 
 // Test Database
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"
