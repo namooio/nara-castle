@@ -1,15 +1,35 @@
 [
   {
-    "id": "01",
+    "_id": "1",
     "startNationId": "01",
     "name" : "tester",
     "primaryEmail" : "tester@testing.co.kr",
     "zone": {
-      "locale": "ko",
-      "zoneId": "01"
+      "locale": "ko_KR",
+      "zoneId": "Asia/Seoul"
     },
-    "builtTime" : "1231235345",
+    "builtTime" : "1500285389220",
 
-    "enrollments": []
+    "enrollments": [
+      {
+        "metroId": "POP",
+        "civilianId": "01@POP",
+        "name": {
+          "langLocale": "ko_KR",
+          "firstName": "",
+          "middleName": "",
+          "familyName": "",
+          "displayName": ""
+        },
+        "email": "",
+        "withdrawn": false,
+        "zone": {
+          "locale": "ko_KR",
+          "zoneId": "Asia/Seoul"
+        },
+        "enrollingTime": 1500285389220,
+        "withdrawnTime": 0
+      }
+    ]
   }
 ]

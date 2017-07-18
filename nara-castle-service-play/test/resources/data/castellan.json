@@ -1,0 +1,52 @@
+[
+  {
+    "_id": "1",
+    "names": { "names": [
+      {
+        "langLocale": "ko_KR",
+        "firstName": "",
+        "middleName": "",
+        "familyName": "",
+        "displayName": ""
+      }
+    ]},
+    "phones": { "phones": [
+      {
+        "category": {},
+        "countryCode": "",
+        "carrierCode": "",
+        "frontNumber": "",
+        "backNumber": "",
+        "fullNumber": "",
+        "carrierFullNumber": "",
+        "displayNumber": ""
+      }
+    ]},
+    "emails": { "emails": [
+      {
+        "category": {},
+        "email": "",
+        "registrationTime": 0,
+        "verified": true,
+        "verificationTime": 0
+      }
+    ]},
+    "addresses": { "addresses": [
+      {
+        "langLocale": "ko_KR",
+        "style": {},
+        "tag": "",
+        "category": {},
+        "zipCode": "",
+        "zipAddress": "",
+        "city": "",
+        "state": "",
+        "street": "",
+        "country": "",
+        "phoneNumber": ""
+      }
+    ]},
+    "attrNameValues": { "nameValues": [
+    ]}
+  }
+]
