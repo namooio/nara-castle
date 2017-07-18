@@ -26,11 +26,8 @@ public class Module extends AbstractModule {
         // Ask Guice to create an instance of ApplicationTimer when the
         // application starts.
 
-        bind(CastleViewStoreLycler.class).to(CastleViewMongoStoreLycler.class);
-
-        logger.debug("Castle view projection...");
+        bind(CastleViewStoreLycler.class).to(CastleViewMongoStoreLycler.class).asEagerSingleton();
         bind(CastleViewProjectionLycler.class).asEagerSingleton();
-
     }
 
 }

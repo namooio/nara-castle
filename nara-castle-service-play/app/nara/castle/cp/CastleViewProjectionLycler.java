@@ -1,7 +1,9 @@
 package nara.castle.cp;
 
 import akka.actor.ActorSystem;
-import namoo.nara.share.akka.support.projection.resume.inmem.InMemoryResumableProjection;
+import com.typesafe.config.ConfigFactory;
+import namoo.nara.share.akka.support.projection.resume.ResumableProjection;
+import namoo.nara.share.akka.support.projection.resume.mongo.MongoResumableProjection;
 import nara.castle.akka.projection.CastleProjectionActor;
 import nara.castle.domain.view.store.CastleViewStoreLycler;
 import play.Logger;
@@ -17,8 +19,12 @@ public class CastleViewProjectionLycler {
     @Inject
     public CastleViewProjectionLycler(ActorSystem system, CastleViewStoreLycler storeLycler) {
         //
-        // FIXME
-        system.actorOf(CastleProjectionActor.props(storeLycler, new InMemoryResumableProjection()));
+        String mongoUri = ConfigFactory.load().getString("mongo.uri");
+        String dbName = ConfigFactory.load().getString("mongo.database");
+
+        ResumableProjection resumableProjection = new MongoResumableProjection(mongoUri, dbName);
+
+        system.actorOf(CastleProjectionActor.props(storeLycler, resumableProjection));
         logger.debug("Castle view projection actor started...");
     }
 }

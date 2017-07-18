@@ -33,6 +33,7 @@ public class CastleProjectionActor extends NaraProjectionActor {
     protected void configProjection(Map<String, ViewBuilder> viewBuilderMap) {
         //
         viewBuilderMap.put(CastleBuilt.class.getName(), new CastleViewBuilder(storeLycler.requestCastleViewStore()));
+
         viewBuilderMap.put(MetroEnrolled.class.getName(), new MetroEnrolledViewBuilder(storeLycler.requestCastleViewStore()));
         viewBuilderMap.put(CastellanCreated.class.getName(), new CastellanViewBuilder(storeLycler.requestCastellanViewStore()));
     }
