@@ -1,6 +1,7 @@
 package nara.castle.cp;
 
 import akka.actor.ActorSystem;
+import namoo.nara.share.akka.support.projection.resume.inmem.InMemoryResumableProjection;
 import nara.castle.akka.projection.CastleProjectionActor;
 import nara.castle.domain.view.store.CastleViewStoreLycler;
 import play.Logger;
@@ -16,7 +17,8 @@ public class CastleViewProjectionLycler {
     @Inject
     public CastleViewProjectionLycler(ActorSystem system, CastleViewStoreLycler storeLycler) {
         //
-        system.actorOf(CastleProjectionActor.props(storeLycler));
+        // FIXME
+        system.actorOf(CastleProjectionActor.props(storeLycler, new InMemoryResumableProjection()));
         logger.debug("Castle view projection actor started...");
     }
 }

@@ -15,16 +15,17 @@ import de.flapdoodle.embed.mongo.config.MongodConfigBuilder;
 import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
+import namoo.nara.share.akka.support.actor.result.ActorResult;
+import namoo.nara.share.akka.support.projection.resume.inmem.InMemoryResumableProjection;
+import namoo.nara.share.domain.granule.Name;
+import namoo.nara.share.domain.granule.NaraZone;
+import namoo.nara.share.domain.protocol.NaraCommand;
 import nara.castle.akka.projection.CastleProjectionActor;
 import nara.castle.cp.CastleViewMongoStoreLycler;
 import nara.castle.domain.entity.Castle;
 import nara.castle.domain.entity.MetroEnrollment;
 import nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import nara.castle.domain.view.store.CastleViewStoreLycler;
-import namoo.nara.share.akka.support.actor.result.ActorResult;
-import namoo.nara.share.domain.granule.Name;
-import namoo.nara.share.domain.granule.NaraZone;
-import namoo.nara.share.domain.protocol.NaraCommand;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -82,7 +83,7 @@ public class CastleSupervisorActorTest {
         storeLycler = new CastleViewMongoStoreLycler(datastore);
 
         system = ActorSystem.create("nara");
-        system.actorOf(CastleProjectionActor.props(storeLycler));
+        system.actorOf(CastleProjectionActor.props(storeLycler, new InMemoryResumableProjection()));
     }
 
     @AfterClass

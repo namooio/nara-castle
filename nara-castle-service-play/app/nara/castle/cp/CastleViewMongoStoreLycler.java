@@ -37,9 +37,10 @@ public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
 //        credentials.add(MongoCredential.createCredential(username, database, password.toCharArray()));
 
         String mongoUri = ConfigFactory.load().getString("mongo.uri");
+        String dbName = ConfigFactory.load().getString("mongo.database");
         MongoClient mongoClient = new MongoClient(new MongoClientURI(mongoUri));
 
-        Datastore datastore = morphia.createDatastore(mongoClient, "nara_castle");
+        Datastore datastore = morphia.createDatastore(mongoClient, dbName);
         datastore.ensureIndexes();
 
         this.castleViewStore = new CastleViewMongoStore(datastore);
