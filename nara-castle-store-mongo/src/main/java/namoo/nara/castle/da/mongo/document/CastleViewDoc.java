@@ -31,7 +31,7 @@ public class CastleViewDoc {
     private NaraZone zone;
     private Long builtTime;
 
-    private List<MetroEnrollment> enrollments;       // weak association
+    private List<MetroEnrollment> enrollments;
 
     public CastleViewDoc() {
         //

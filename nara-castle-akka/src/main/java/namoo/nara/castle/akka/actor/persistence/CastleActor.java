@@ -2,6 +2,7 @@ package namoo.nara.castle.akka.actor.persistence;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.pattern.PatternsCS;
 import namoo.nara.castle.domain.entity.Castellan;
 import namoo.nara.castle.domain.entity.Castle;
 import namoo.nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
@@ -15,6 +16,7 @@ import namoo.nara.castle.domain.spec.event.castle.MetroEnrolled;
 import namoo.nara.castle.domain.spec.event.castle.MetroWithdrawn;
 import namoo.nara.castle.domain.spec.query.castle.FindCastleQuery;
 import namoo.nara.share.akka.support.actor.NaraPersistentActor;
+import namoo.nara.share.akka.support.actor.result.ActorResult;
 import namoo.nara.share.domain.event.NaraEvent;
 import namoo.nara.share.domain.protocol.NaraCommand;
 import namoo.nara.share.domain.protocol.NaraQuery;
@@ -85,7 +87,13 @@ public class CastleActor extends NaraPersistentActor<Castle> {
 
         ActorRef castellanActor = lookupOrCreateChild(castleId, Castellan.class, CastellanActor.props(castleId));
         NaraCommand command = new RegisterCastellanCommand(event.getCastle());
-        castellanActor.tell(command, getSelf());
+        PatternsCS.ask(castellanActor, command, getDefaultTimeOut()).thenAccept(response -> {
+            //
+            ActorResult<Castellan> result = (ActorResult) response;
+            if (!result.isSuccess()) {
+                // TODO
+            }
+        });
     }
 
 }

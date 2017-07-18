@@ -3,7 +3,6 @@ package namoo.nara.castle.akka.actor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.pattern.Patterns;
-import akka.util.Timeout;
 import namoo.nara.castle.akka.actor.persistence.CastleActor;
 import namoo.nara.castle.akka.actor.persistence.CastleBookActor;
 import namoo.nara.castle.domain.context.CastleIdBuilder;
@@ -30,7 +29,6 @@ import namoo.nara.share.exception.NaraException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.Await;
-import scala.concurrent.duration.Duration;
 
 import java.util.List;
 
@@ -103,10 +101,9 @@ public class CastleSupervisorActor extends NaraActor {
         String castleBookId = CastleIdBuilder.requestCastleBookId();
         ActorRef castleBookActor = lookupOrCreateChild(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
 
-        Timeout timeout = new Timeout(Duration.create(1, "seconds"));
         CastleBook castleBook;
         try {
-            ActorResult<CastleBook> result = (ActorResult) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), timeout), timeout.duration());
+            ActorResult<CastleBook> result = (ActorResult) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), getDefaultTimeOut()), getDefaultTimeOut().duration());
             castleBook = result.get();
             String castleId = CastleIdBuilder.requestCastleId(castleBook.getSequence());
             foward(castleId, Castle.class, CastleActor.props(castleId), command);
