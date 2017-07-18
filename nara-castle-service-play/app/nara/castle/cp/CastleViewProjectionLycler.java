@@ -25,6 +25,5 @@ public class CastleViewProjectionLycler {
         ResumableProjection resumableProjection = new MongoResumableProjection(mongoUri, dbName);
 
         system.actorOf(CastleProjectionActor.props(storeLycler, resumableProjection));
-        logger.debug("Castle view projection actor started...");
     }
 }
