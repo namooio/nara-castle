@@ -106,6 +106,7 @@ public class CastleSupervisorActor extends NaraActor {
             ActorResult<CastleBook> result = (ActorResult) Await.result(Patterns.ask(castleBookActor, new NextSequenceCommand(), getDefaultTimeOut()), getDefaultTimeOut().duration());
             castleBook = result.get();
             String castleId = CastleIdBuilder.requestCastleId(castleBook.getSequence());
+
             foward(castleId, Castle.class, CastleActor.props(castleId), command);
         } catch (Exception e) {
             // FIXME fail respond!!
