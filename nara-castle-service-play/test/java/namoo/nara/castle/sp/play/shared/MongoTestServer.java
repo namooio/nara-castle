@@ -3,14 +3,28 @@ package namoo.nara.castle.sp.play.shared;
 import com.mongodb.MongoClient;
 import de.flapdoodle.embed.mongo.*;
 import de.flapdoodle.embed.mongo.config.*;
+import de.flapdoodle.embed.mongo.config.RuntimeConfigBuilder;
 import de.flapdoodle.embed.mongo.distribution.Version;
+import de.flapdoodle.embed.process.config.*;
+import de.flapdoodle.embed.process.config.io.ProcessOutput;
+import de.flapdoodle.embed.process.io.Processors;
+import de.flapdoodle.embed.process.io.Slf4jLevel;
+import de.flapdoodle.embed.process.runtime.ICommandLinePostProcessor;
 import de.flapdoodle.embed.process.runtime.Network;
+import play.Logger;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Level;
 
 public class MongoTestServer {
     //
+    static final private org.slf4j.Logger log = play.api.Logger.apply(MongoTestServer.class).underlyingLogger();
+    static final private Logger.ALogger logger = Logger.of(MongoTestServer.class);
+
+    static final private MongodStarter starter;
+    static private IMongodConfig config;
+
     static final private String MONGO_IP = "127.0.0.1";
     static final private int MONGO_PORT = 37016;
     static final private String MONGO_DB_NAME = "nara_castle";
@@ -19,17 +33,40 @@ public class MongoTestServer {
     private MongodExecutable mongodExecutable;
     private MongodProcess mongodProcess;
 
+    static {
+        ProcessOutput processOutput = new ProcessOutput(
+                Processors.logTo(log, Slf4jLevel.INFO),
+                Processors.logTo(log, Slf4jLevel.ERROR),
+                Processors.logTo(log, Slf4jLevel.DEBUG)
+        );
+
+        IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
+                .defaultsWithLogger(Command.MongoD, log)
+                .processOutput(processOutput)
+                .build();
+
+        starter = MongodStarter.getInstance(runtimeConfig);
+
+        IMongoCmdOptions commandOptions = new MongoCmdOptionsBuilder()
+                .useStorageEngine("inMemory")
+                .build();
+
+        try {
+            config = new MongodConfigBuilder()
+                    .version(Version.Main.PRODUCTION)
+                    .net(new Net(MONGO_IP, MONGO_PORT, Network.localhostIsIPv6()))
+//                    .cmdOptions(commandOptions)
+                    .build();
+        }
+        catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+
 
     public void start() throws IOException {
         //
-        IMongodConfig mongodConfig = new MongodConfigBuilder()
-                .version(Version.Main.PRODUCTION)
-                .net(new Net(MONGO_IP, MONGO_PORT, Network.localhostIsIPv6()))
-                .build();
-
-        MongodStarter starter = MongodStarter.getDefaultInstance();
-
-        this.mongodExecutable = starter.prepare(mongodConfig);
+        this.mongodExecutable = starter.prepare(config);
         this.mongodProcess = mongodExecutable.start();
 
         MongoClient mongo = new MongoClient(MONGO_IP, MONGO_PORT);
@@ -50,7 +87,7 @@ public class MongoTestServer {
         */
     }
 
-    public MongoImportProcess initializeData(String jsonFilePath) throws IOException {
+    public MongoImportProcess initializeData(String collectionName, String jsonFilePath) throws IOException {
         //
         jsonFilePath = this.getClass().getResource(jsonFilePath).getFile();
 
@@ -58,7 +95,7 @@ public class MongoTestServer {
                 .version(Version.Main.PRODUCTION)
                 .net(new Net(MONGO_IP, MONGO_PORT, Network.localhostIsIPv6()))
                 .db(MONGO_DB_NAME)
-                .collection(MONGO_COLLECTION)
+                .collection(collectionName)
                 .upsert(false)
                 .dropCollection(true)
                 .jsonArray(true)
