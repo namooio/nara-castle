@@ -1,20 +1,17 @@
 package nara.castle.domain.spec;
 
-import nara.castle.domain.entity.Castle;
 import nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import nara.castle.domain.spec.command.castle.EnrollMetroCommand;
-import nara.castle.domain.view.CastellanView;
-import nara.castle.domain.view.CastleView;
 
-import java.util.List;
+import java.util.concurrent.CompletionStage;
 
 public interface CastleService {
     //
-    String buildCastle(BuildCastleCommand command);
-    void enrollMetro(String castleId, EnrollMetroCommand command);
+    CompletionStage buildCastle(BuildCastleCommand command);
+    CompletionStage enrollMetro(String castleId, EnrollMetroCommand command);
 
-    Castle findCastle(String castleId);
+    CompletionStage findCastle(String castleId);
 
-    List<CastleView> findCastles();
-    List<CastellanView> findCastellans();
+    CompletionStage findCastles();
+    CompletionStage findCastellans();
 }
