@@ -38,6 +38,7 @@ public class CastleResource extends Controller implements CastleService {
         castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(storeLycler));
     }
 
+    // route mapping
     public CompletionStage<Result> buildCastle() {
         //
         JsonNode jsonNode = request().body().asJson();
@@ -53,6 +54,7 @@ public class CastleResource extends Controller implements CastleService {
         });
     }
 
+    // route mapping
     public CompletionStage<Result> enrollMetro(String castleId) {
         //
         JsonNode jsonNode = request().body().asJson();
