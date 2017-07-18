@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.*;
 
 public class CastleResourceTest extends AbstractCastleApplicationTester {
     //
-//    final private ResourceTestClient client = new ResourceTestClient(this.testServer.port());
-
     @Test
     public void testBuildCastle() throws Exception {
         //
@@ -85,4 +83,5 @@ public class CastleResourceTest extends AbstractCastleApplicationTester {
         }
         assertThat(castellans.size()).isGreaterThan(0);
     }
+
 }

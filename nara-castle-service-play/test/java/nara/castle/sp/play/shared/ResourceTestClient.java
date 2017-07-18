@@ -2,7 +2,6 @@ package nara.castle.sp.play.shared;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import namoo.nara.share.util.json.JsonUtil;
-import org.slf4j.Logger;
 import play.libs.Json;
 import play.libs.ws.WSClient;
 import play.libs.ws.WSResponse;
@@ -10,13 +9,11 @@ import play.libs.ws.WSResponse;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.fail;
 import static play.mvc.Http.Status.OK;
 
 public class ResourceTestClient {
     //
-    static final private Logger logger = play.api.Logger.apply(ResourceTestClient.class).underlyingLogger();
-
     private int serverPort;
 
     public ResourceTestClient(int serverPort) {

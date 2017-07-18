@@ -4,12 +4,13 @@ import com.typesafe.config.ConfigFactory;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import play.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import play.test.WithServer;
 
 public abstract class AbstractCastleApplicationTester extends WithServer {
     //
-    static final protected Logger.ALogger logger = Logger.of(AbstractCastleApplicationTester.class);
+    static final protected Logger logger = LoggerFactory.getLogger(AbstractCastleApplicationTester.class);
 
     static private MongoTestServer mongo;
 

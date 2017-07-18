@@ -3,21 +3,20 @@ package nara.castle.sp.play.shared;
 import com.mongodb.MongoClient;
 import de.flapdoodle.embed.mongo.*;
 import de.flapdoodle.embed.mongo.config.*;
-import de.flapdoodle.embed.mongo.config.RuntimeConfigBuilder;
 import de.flapdoodle.embed.mongo.distribution.Version;
-import de.flapdoodle.embed.process.config.*;
+import de.flapdoodle.embed.process.config.IRuntimeConfig;
 import de.flapdoodle.embed.process.config.io.ProcessOutput;
 import de.flapdoodle.embed.process.io.Processors;
 import de.flapdoodle.embed.process.io.Slf4jLevel;
 import de.flapdoodle.embed.process.runtime.Network;
-import play.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class MongoTestServer {
     //
-    static final private org.slf4j.Logger log = play.api.Logger.apply(MongoTestServer.class).underlyingLogger();
-    static final private Logger.ALogger logger = Logger.of(MongoTestServer.class);
+    static final private Logger logger = LoggerFactory.getLogger(MongoTestServer.class);
 
     static final private MongodStarter starter;
     static private IMongodConfig config;
@@ -25,20 +24,19 @@ public class MongoTestServer {
     static final private String MONGO_IP = "127.0.0.1";
     static final private int MONGO_PORT = 37016;
     static final private String MONGO_DB_NAME = "nara_castle";
-    static final private String MONGO_COLLECTION = "CA_CASTLE";
 
     private MongodExecutable mongodExecutable;
     private MongodProcess mongodProcess;
 
     static {
         ProcessOutput processOutput = new ProcessOutput(
-                Processors.logTo(log, Slf4jLevel.INFO),
-                Processors.logTo(log, Slf4jLevel.ERROR),
-                Processors.logTo(log, Slf4jLevel.DEBUG)
+                Processors.logTo(logger, Slf4jLevel.INFO),
+                Processors.logTo(logger, Slf4jLevel.ERROR),
+                Processors.logTo(logger, Slf4jLevel.DEBUG)
         );
 
         IRuntimeConfig runtimeConfig = new RuntimeConfigBuilder()
-                .defaultsWithLogger(Command.MongoD, log)
+                .defaultsWithLogger(Command.MongoD, logger)
                 .processOutput(processOutput)
                 .build();
 
