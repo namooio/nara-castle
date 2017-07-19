@@ -4,9 +4,9 @@ import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.springweb.SpringWebRestClient;
-import nara.castle.domain.entity.MetroEnrollment;
-import nara.castle.domain.spec.command.castle.BuildCastleCommand;
-import nara.castle.domain.spec.command.castle.EnrollMetroCommand;
+import nara.castle.domain.castle.entity.MetroEnrollment;
+import nara.castle.domain.castle.command.BuildCastleCommand;
+import nara.castle.domain.castle.command.EnrollMetroCommand;
 
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;

@@ -1,10 +1,10 @@
 package nara.castle.akka.actor.persistence;
 
 import akka.actor.Props;
-import nara.castle.domain.entity.CastleBook;
-import nara.castle.domain.spec.command.castlebook.NextSequenceCommand;
-import nara.castle.domain.spec.event.castlebook.SequenceIncreased;
-import nara.castle.domain.spec.query.castlebook.FindCastleBookQuery;
+import nara.castle.domain.castlebook.entity.CastleBook;
+import nara.castle.domain.castlebook.command.NextSequenceCommand;
+import nara.castle.domain.castlebook.event.SequenceIncreased;
+import nara.castle.domain.castlequery.query.FindCastleBookQuery;
 import nara.share.akka.support.actor.NaraPersistentActor;
 import nara.share.domain.event.NaraEvent;
 import nara.share.domain.protocol.NaraCommand;

@@ -5,9 +5,9 @@ import com.mongodb.MongoClientURI;
 import com.typesafe.config.ConfigFactory;
 import nara.castle.da.mongo.CastellanViewMongoStore;
 import nara.castle.da.mongo.CastleViewMongoStore;
-import nara.castle.domain.view.store.CastellanViewStore;
-import nara.castle.domain.view.store.CastleViewStore;
-import nara.castle.domain.view.store.CastleViewStoreLycler;
+import nara.castle.domain.castlequery.store.CastellanViewStore;
+import nara.castle.domain.castlequery.store.CastleViewStore;
+import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 

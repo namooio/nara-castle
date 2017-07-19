@@ -7,10 +7,10 @@ import nara.share.akka.support.projection.ViewBuilder;
 import nara.castle.akka.projection.castellan.CastellanViewBuilder;
 import nara.castle.akka.projection.castle.CastleViewBuilder;
 import nara.castle.akka.projection.castle.MetroEnrolledViewBuilder;
-import nara.castle.domain.spec.event.castellan.CastellanCreated;
-import nara.castle.domain.spec.event.castle.CastleBuilt;
-import nara.castle.domain.spec.event.castle.MetroEnrolled;
-import nara.castle.domain.view.store.CastleViewStoreLycler;
+import nara.castle.domain.castle.event.CastellanCreated;
+import nara.castle.domain.castle.event.CastleBuilt;
+import nara.castle.domain.castle.event.MetroEnrolled;
+import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 
 import java.util.Map;
 

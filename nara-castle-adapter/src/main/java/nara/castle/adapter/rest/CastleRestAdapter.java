@@ -2,12 +2,12 @@ package nara.castle.adapter.rest;
 
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.RequestBuilder;
-import nara.castle.domain.entity.Castle;
-import nara.castle.domain.spec.CastleService;
-import nara.castle.domain.spec.command.castle.BuildCastleCommand;
-import nara.castle.domain.spec.command.castle.EnrollMetroCommand;
-import nara.castle.domain.view.CastellanView;
-import nara.castle.domain.view.CastleView;
+import nara.castle.domain.castle.entity.Castle;
+import nara.castle.spec.CastleService;
+import nara.castle.domain.castle.command.BuildCastleCommand;
+import nara.castle.domain.castle.command.EnrollMetroCommand;
+import nara.castle.domain.castlequery.model.CastellanView;
+import nara.castle.domain.castlequery.model.CastleView;
 
 import java.util.Arrays;
 import java.util.List;

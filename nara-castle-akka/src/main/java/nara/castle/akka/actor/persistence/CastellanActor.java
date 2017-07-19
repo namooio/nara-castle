@@ -1,13 +1,13 @@
 package nara.castle.akka.actor.persistence;
 
 import akka.actor.Props;
-import nara.castle.domain.entity.Castellan;
-import nara.castle.domain.entity.IdentityPlate;
-import nara.castle.domain.spec.command.castellan.ModifyCastellanCommand;
-import nara.castle.domain.spec.command.castellan.RegisterCastellanCommand;
-import nara.castle.domain.spec.event.castellan.CastellanCreated;
-import nara.castle.domain.spec.event.castellan.CastellanModified;
-import nara.castle.domain.spec.query.castellan.FindIdentityPlateQuery;
+import nara.castle.domain.castle.entity.Castellan;
+import nara.castle.domain.castlequery.model.IdentityPlate;
+import nara.castle.domain.castle.command.ModifyCastellanCommand;
+import nara.castle.domain.castle.command.RegisterCastellanCommand;
+import nara.castle.domain.castle.event.CastellanCreated;
+import nara.castle.domain.castle.event.CastellanModified;
+import nara.castle.domain.castlequery.query.FindIdentityPlateQuery;
 import nara.share.akka.support.actor.NaraPersistentActor;
 import nara.share.domain.event.NaraEvent;
 import nara.share.domain.protocol.NaraCommand;

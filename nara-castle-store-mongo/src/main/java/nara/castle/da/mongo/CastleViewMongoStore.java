@@ -1,8 +1,8 @@
 package nara.castle.da.mongo;
 
 import nara.castle.da.mongo.document.CastleViewDoc;
-import nara.castle.domain.view.CastleView;
-import nara.castle.domain.view.store.CastleViewStore;
+import nara.castle.domain.castlequery.model.CastleView;
+import nara.castle.domain.castlequery.store.CastleViewStore;
 import nara.share.exception.store.NonExistenceException;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;

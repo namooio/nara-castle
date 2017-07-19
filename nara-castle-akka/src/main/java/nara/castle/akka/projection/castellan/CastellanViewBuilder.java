@@ -1,8 +1,8 @@
 package nara.castle.akka.projection.castellan;
 
-import nara.castle.domain.spec.event.castellan.CastellanCreated;
-import nara.castle.domain.view.CastellanView;
-import nara.castle.domain.view.store.CastellanViewStore;
+import nara.castle.domain.castle.event.CastellanCreated;
+import nara.castle.domain.castlequery.model.CastellanView;
+import nara.castle.domain.castlequery.store.CastellanViewStore;
 import nara.share.akka.support.projection.ViewBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

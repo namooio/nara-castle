@@ -5,7 +5,7 @@ import com.typesafe.config.ConfigFactory;
 import nara.share.akka.support.projection.resume.ResumableProjection;
 import nara.share.akka.support.projection.resume.mongo.MongoResumableProjection;
 import nara.castle.akka.projection.CastleProjectionActor;
-import nara.castle.domain.view.store.CastleViewStoreLycler;
+import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import play.Logger;
 
 import javax.inject.Inject;

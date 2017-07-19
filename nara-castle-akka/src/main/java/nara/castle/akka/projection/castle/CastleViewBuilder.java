@@ -1,8 +1,8 @@
 package nara.castle.akka.projection.castle;
 
-import nara.castle.domain.spec.event.castle.CastleBuilt;
-import nara.castle.domain.view.CastleView;
-import nara.castle.domain.view.store.CastleViewStore;
+import nara.castle.domain.castle.event.CastleBuilt;
+import nara.castle.domain.castlequery.model.CastleView;
+import nara.castle.domain.castlequery.store.CastleViewStore;
 import nara.share.akka.support.projection.ViewBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
