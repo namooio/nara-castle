@@ -11,7 +11,10 @@ import { syncHistoryWithStore } from 'react-router-redux';
 
 import store from './store';
 
-import Base from './common/BaseContainer';
+import Base from './common/container/BaseContainer';
+import Index from './common/container/IndexContainer';
+
+
 
 const history = syncHistoryWithStore(browserHistory, store);
 
@@ -20,7 +23,7 @@ ReactDOM.render(
     <Router history={history}>
       <Route path={DRAMA_CONTEXT.basePath} component={Base} >
 
-
+        <IndexRoute component={Index} />
 
       </Route>
 
