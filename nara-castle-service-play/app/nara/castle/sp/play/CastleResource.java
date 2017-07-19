@@ -47,6 +47,7 @@ public class CastleResource extends Controller implements CastleService {
         return buildCastle(command) ;
     }
 
+    @Override
     public CompletionStage<Result> buildCastle(BuildCastleCommand command) {
         //
         return PatternsCS.ask(castleSupervisorActor, command, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
@@ -63,6 +64,7 @@ public class CastleResource extends Controller implements CastleService {
         return enrollMetro(castleId, command);
     }
 
+    @Override
     public CompletionStage<Result> enrollMetro(String castleId, EnrollMetroCommand command) {
         //
         return PatternsCS.ask(castleSupervisorActor, command, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());

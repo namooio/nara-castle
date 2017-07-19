@@ -1,4 +1,4 @@
-package nara.castle.sp.play.shared;
+package nara.share.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import nara.share.util.json.JsonUtil;

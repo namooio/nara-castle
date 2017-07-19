@@ -4,7 +4,7 @@ import nara.castle.domain.entity.MetroEnrollment;
 import nara.castle.domain.spec.command.castle.BuildCastleCommand;
 import nara.castle.domain.view.CastellanView;
 import nara.castle.domain.view.CastleView;
-import nara.castle.sp.play.shared.AbstractCastleApplicationTester;
+import nara.castle.sp.play.shared.AbstractCastleIntegrationTester;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class CastleResourceTest extends AbstractCastleApplicationTester {
+public class CastleResourceTest extends AbstractCastleIntegrationTester {
     //
     @Test
     public void testBuildCastle() throws Exception {
@@ -32,12 +32,12 @@ public class CastleResourceTest extends AbstractCastleApplicationTester {
         BuildCastleCommand build = new BuildCastleCommand(enrollment);
 
 
-        String castleId = super.client.post(url, build);
+        String castleId = super.getClient().post(url, build);
         logger.info(castleId);
 //        assertThat(result).isEqualTo("1");
 
 
-        CastleView castle = super.client.get(buildUrl("/castles/" + castleId), CastleView.class);
+        CastleView castle = super.getClient().get(buildUrl("/castles/" + castleId), CastleView.class);
 
         logger.info(castle.toString());
         assertThat(castle).isNotNull();
@@ -48,7 +48,8 @@ public class CastleResourceTest extends AbstractCastleApplicationTester {
         //
         final String url = buildUrl("/castles/01");
 
-        CastleView castle = super.client.get(url, CastleView.class);
+
+        CastleView castle = super.getClient().get(url, CastleView.class);
         logger.info(castle.toString());
 
         assertThat(castle).isNotNull();
@@ -62,8 +63,7 @@ public class CastleResourceTest extends AbstractCastleApplicationTester {
         final String url = buildUrl("/castles");
 
 
-        List<CastleView> castles = super.client.getList(url, CastleView.class);
-
+        List<CastleView> castles = super.getClient().getList(url, CastleView.class);
 
         for (CastleView castle : castles) {
             logger.info(castle.toString());
@@ -76,7 +76,8 @@ public class CastleResourceTest extends AbstractCastleApplicationTester {
         //
         final String url = buildUrl("/castellans");
 
-        List<CastellanView> castellans = super.client.getList(url, CastellanView.class);
+
+        List<CastellanView> castellans = super.getClient().getList(url, CastellanView.class);
 
         for (CastellanView castellan : castellans) {
             logger.info(castellan.toString());

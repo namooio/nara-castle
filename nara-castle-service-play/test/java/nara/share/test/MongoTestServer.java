@@ -1,4 +1,4 @@
-package nara.castle.sp.play.shared;
+package nara.share.test;
 
 import com.mongodb.MongoClient;
 import de.flapdoodle.embed.mongo.*;
@@ -18,16 +18,16 @@ public class MongoTestServer {
     //
     static final private Logger logger = LoggerFactory.getLogger(MongoTestServer.class);
 
+    static final private String MONGO_IP = "127.0.0.1";
     static final private MongodStarter starter;
     static private IMongodConfig config;
-
-    static final private String MONGO_IP = "127.0.0.1";
 
     private int port;
     private String dbName;
 
     private MongodExecutable mongodExecutable;
     private MongodProcess mongodProcess;
+
 
     static {
         ProcessOutput processOutput = new ProcessOutput(
