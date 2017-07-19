@@ -19,8 +19,8 @@ public class CastleRestAdapterTest {
         CastleRestAdapter castleRestAdapter = new CastleRestAdapter(naraRestClient);
 
         MetroEnrollment enrollment = new MetroEnrollment(
-                "P0P",
-                "C1@P0P",
+                "P01",
+                "C1@P01",
                 new Name(Locale.KOREAN, "기철", "허"),
                 "kchuh@nextree.co.kr",
                 new NaraZone(Locale.KOREA, "Asia/Seoul")
@@ -28,7 +28,7 @@ public class CastleRestAdapterTest {
 
         castleRestAdapter.buildCastle(new BuildCastleCommand(enrollment)).thenAccept(response -> {
             String castleId = (String) response;
-            castleRestAdapter.enrollMetro(castleId, new EnrollMetroCommand(castleId, new MetroEnrollment("Q0P", "C1@Q0P", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))));
+            castleRestAdapter.enrollMetro(castleId, new EnrollMetroCommand(castleId, new MetroEnrollment("Q02", "C1@Q02", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))));
         }).toCompletableFuture().get();
 
     }
