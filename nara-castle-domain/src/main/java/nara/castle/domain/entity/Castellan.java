@@ -7,9 +7,8 @@ import nara.share.domain.Entity;
 import nara.share.domain.NameValue;
 import nara.share.domain.NameValueList;
 import nara.share.domain.event.NaraEvent;
-import namoo.nara.share.domain.granule.*;
-import nara.share.util.json.JsonUtil;
 import nara.share.domain.granule.*;
+import nara.share.util.json.JsonUtil;
 
 public class Castellan extends Entity implements Aggregate {
     //
