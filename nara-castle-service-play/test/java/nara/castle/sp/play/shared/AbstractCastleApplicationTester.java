@@ -1,5 +1,6 @@
 package nara.castle.sp.play.shared;
 
+import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,23 +17,28 @@ public abstract class AbstractCastleApplicationTester extends WithServer {
 
     protected int serverPort;
     protected String baseUrl;
-
     protected ResourceTestClient client;
+
+    static private Config config = ConfigFactory.load();
 
 
     @BeforeClass
     public static void beforeClass() throws Exception {
         //
-        mongo = new MongoTestServer();
-        mongo.start();
+//        final Config config = ConfigFactory.load();
+        final int port = config.getInt("mongo.port");
+        final String databaseName= config.getString("mongo.database");
 
-        String mongoUri = ConfigFactory.load().getString("mongo.uri");
+        mongo = new MongoTestServer(port, databaseName);
+//        mongo.start();
+
+        String mongoUri = config.getString("mongo.uri");
         logger.info("Mongo test uri is {}", mongoUri);
     }
     @AfterClass
     public static void afterClass() throws Exception {
         //
-        mongo.stop();
+//        mongo.stop();
     }
 
     @Before
@@ -44,6 +50,7 @@ public abstract class AbstractCastleApplicationTester extends WithServer {
         client = new ResourceTestClient(this.serverPort);
         mongo.initializeData("CA_CASTLE", "/data/castle.json");
         mongo.initializeData("CA_CASTELLAN", "/data/castellan.json");
+        mongo.initializeData("N_RESUME_OFFSET", "/data/resume-offset.json");
     }
 
     public String buildUrl(String urlPath) {

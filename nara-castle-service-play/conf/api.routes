@@ -1,0 +1,7 @@
+
+
+POST    /castle-api/castles                            nara.castle.sp.play.CastleResource.buildCastle()
+POST    /castle-api/castles/:castleId/enrollments      nara.castle.sp.play.CastleResource.enrollMetro(castleId:String)
+GET     /castle-api/castles/:castleId                  nara.castle.sp.play.CastleResource.findCastle(castleId:String)
+GET     /castle-api/castles                            nara.castle.sp.play.CastleResource.findCastles()
+GET     /castle-api/castellans                         nara.castle.sp.play.CastleResource.findCastellans()

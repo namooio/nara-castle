@@ -22,8 +22,9 @@ public class MongoTestServer {
     static private IMongodConfig config;
 
     static final private String MONGO_IP = "127.0.0.1";
-    static final private int MONGO_PORT = 37016;
-    static final private String MONGO_DB_NAME = "nara_castle";
+
+    private int port;
+    private String dbName;
 
     private MongodExecutable mongodExecutable;
     private MongodProcess mongodProcess;
@@ -41,30 +42,29 @@ public class MongoTestServer {
                 .build();
 
         starter = MongodStarter.getInstance(runtimeConfig);
-
-        IMongoCmdOptions commandOptions = new MongoCmdOptionsBuilder()
-                .useStorageEngine("inMemory")
-                .build();
-
-        try {
-            config = new MongodConfigBuilder()
-                    .version(Version.Main.PRODUCTION)
-                    .net(new Net(MONGO_IP, MONGO_PORT, Network.localhostIsIPv6()))
-//                    .cmdOptions(commandOptions)
-                    .build();
-        }
-        catch (IOException e) {
-            logger.error(e.getMessage(), e);
-        }
     }
 
 
+    public MongoTestServer(int port, String databaseName) {
+        this.port = port;
+        this.dbName = databaseName;
+    }
+
     public void start() throws IOException {
         //
+        try {
+            config = new MongodConfigBuilder()
+                    .version(Version.Main.V3_4)
+                    .net(new Net(MONGO_IP, port, Network.localhostIsIPv6()))
+                    .build();
+        } catch (IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+
         this.mongodExecutable = starter.prepare(config);
         this.mongodProcess = mongodExecutable.start();
 
-        MongoClient mongo = new MongoClient(MONGO_IP, MONGO_PORT);
+        MongoClient mongo = new MongoClient(MONGO_IP, port);
 
 //        DB db = mongo.getDB(MONGO_DB_NAME);
 //        DBCollection col = db.createCollection("testCol", new BasicDBObject());
@@ -87,9 +87,9 @@ public class MongoTestServer {
         jsonFilePath = this.getClass().getResource(jsonFilePath).getFile();
 
         IMongoImportConfig mongoImportConfig = new MongoImportConfigBuilder()
-                .version(Version.Main.PRODUCTION)
-                .net(new Net(MONGO_IP, MONGO_PORT, Network.localhostIsIPv6()))
-                .db(MONGO_DB_NAME)
+                .version(Version.Main.DEVELOPMENT)
+                .net(new Net(MONGO_IP, port, Network.localhostIsIPv6()))
+                .db(dbName)
                 .collection(collectionName)
                 .upsert(false)
                 .dropCollection(true)
