@@ -4,8 +4,6 @@ import akka.actor.Props;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castlequery.model.IdentityPlate;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
-import nara.castle.domain.castle.command.RegisterCastellanCommand;
-import nara.castle.domain.castle.event.CastellanCreated;
 import nara.castle.domain.castle.event.CastellanModified;
 import nara.castle.domain.castlequery.query.FindIdentityPlateQuery;
 import nara.share.akka.support.actor.NaraPersistentActor;

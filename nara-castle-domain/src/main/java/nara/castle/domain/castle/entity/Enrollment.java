@@ -2,26 +2,27 @@ package nara.castle.domain.castle.entity;
 
 import nara.share.domain.NameValueList;
 import nara.share.domain.ValueObject;
+import nara.share.domain.granule.Email;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
 import nara.share.util.json.JsonUtil;
 
-public class MetroEnrollment implements ValueObject {
+public class Enrollment implements ValueObject {
     //
     private String metroId;
     private String civilianId;
     private Name name;
-    private String email;
-    private boolean withdrawn;          // 탈퇴한
+    private Email email;
+    private boolean withdrawn;          // 탈퇴여부
     private NaraZone zone;
     private Long enrollingTime;
     private Long withdrawnTime;
 
-    public MetroEnrollment() {
+    public Enrollment() {
         //
     }
 
-    public MetroEnrollment(String metroId, String civilianId, Name name, String email, NaraZone zone) {
+    public Enrollment(String metroId, String civilianId, Name name, Email email, NaraZone zone) {
         //
         this.metroId = metroId;
         this.civilianId = civilianId;
@@ -47,15 +48,15 @@ public class MetroEnrollment implements ValueObject {
         return sb.toString();
     }
 
-    public static MetroEnrollment getSample() {
+    public static Enrollment getSample() {
         //
         String metroId = "POP";
         String civilianId = "12@POP";
         Name name = Name.getSample();
-        String email = "hong@gmail.com";
+        Email email = Email.getSample();
         NaraZone zone = NaraZone.getSample();
 
-        MetroEnrollment sample = new MetroEnrollment(metroId, civilianId, name, email, zone);
+        Enrollment sample = new Enrollment(metroId, civilianId, name, email, zone);
 
         return sample;
     }
@@ -65,9 +66,9 @@ public class MetroEnrollment implements ValueObject {
         return JsonUtil.toJson(this);
     }
 
-    public MetroEnrollment fromJson(String json) {
+    public Enrollment fromJson(String json) {
         //
-        return JsonUtil.fromJson(json, MetroEnrollment.class);
+        return JsonUtil.fromJson(json, Enrollment.class);
     }
 
     public void withdraw() {
@@ -134,11 +135,11 @@ public class MetroEnrollment implements ValueObject {
         this.name = name;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 

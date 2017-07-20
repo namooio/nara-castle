@@ -1,7 +1,7 @@
 package nara.castle.domain.castlequery.model;
 
 import nara.castle.domain.castle.entity.Castle;
-import nara.castle.domain.castle.entity.MetroEnrollment;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.share.domain.granule.NaraZone;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class CastleView {
     private NaraZone zone;
     private Long builtTime;
 
-    private List<MetroEnrollment> enrollments;
+    private List<Enrollment> enrollments;
 
     public CastleView() {
         //
@@ -95,11 +95,11 @@ public class CastleView {
         this.builtTime = builtTime;
     }
 
-    public List<MetroEnrollment> getEnrollments() {
+    public List<Enrollment> getEnrollments() {
         return enrollments;
     }
 
-    public void setEnrollments(List<MetroEnrollment> enrollments) {
+    public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
     }
 }

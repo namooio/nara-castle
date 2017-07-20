@@ -1,6 +1,5 @@
 package nara.castle.akka.projection.castellan;
 
-import nara.castle.domain.castle.event.CastellanCreated;
 import nara.castle.domain.castlequery.model.CastellanView;
 import nara.castle.domain.castlequery.store.CastellanViewStore;
 import nara.share.akka.support.projection.ViewBuilder;

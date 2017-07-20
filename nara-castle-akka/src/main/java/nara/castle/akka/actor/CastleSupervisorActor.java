@@ -3,6 +3,7 @@ package nara.castle.akka.actor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.pattern.Patterns;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.share.akka.support.actor.NaraActorConst;
 import nara.share.akka.support.actor.NaraActor;
 import nara.share.akka.support.actor.result.ActorResult;
@@ -14,10 +15,8 @@ import nara.castle.akka.actor.persistence.CastleBookActor;
 import nara.castle.domain.castlebook.entity.CastleIdBuilder;
 import nara.castle.domain.castle.entity.Castle;
 import nara.castle.domain.castlebook.entity.CastleBook;
-import nara.castle.domain.castle.entity.MetroEnrollment;
 import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.command.EnrollMetroCommand;
-import nara.castle.domain.castle.command.ModifyCastleCommand;
 import nara.castle.domain.castlebook.command.NextSequenceCommand;
 import nara.castle.domain.castlequery.query.FindAllCastellansQuery;
 import nara.castle.domain.castlequery.query.FindAllCastlesQuery;
@@ -93,7 +92,7 @@ public class CastleSupervisorActor extends NaraActor {
 
     private void handleBuildCastleCommand(BuildCastleCommand command) {
         //
-        MetroEnrollment enrollment = command.getEnrollment();
+        Enrollment enrollment = command.getEnrollment();
 
         if (castleViewStore.existsByEnrolledMetro(enrollment.getMetroId(), enrollment.getCivilianId())) {
             throw new NaraException(String.format("Castle for enrollment[%s] is already exists", command));

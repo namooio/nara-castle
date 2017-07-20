@@ -1,6 +1,6 @@
 package nara.castle.sp.play;
 
-import nara.castle.domain.castle.entity.MetroEnrollment;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castlequery.model.CastellanView;
 import nara.castle.domain.castlequery.model.CastleView;
@@ -28,7 +28,7 @@ public class CastleResourceTest extends AbstractCastleIntegrationTester {
         final String email = "gildong@testing.co.kr";
         final NaraZone naraZone = new NaraZone(Locale.KOREA, ZoneId.of("Asia/Seoul").getId());
 
-        MetroEnrollment enrollment = new MetroEnrollment(metroId, civilianId, name, email, naraZone);
+        Enrollment enrollment = new Enrollment(metroId, civilianId, name, email, naraZone);
         BuildCastleCommand build = new BuildCastleCommand(enrollment);
 
 

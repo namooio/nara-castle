@@ -1,6 +1,6 @@
 package nara.castle.da.mongo.document;
 
-import nara.castle.domain.castle.entity.MetroEnrollment;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castlequery.model.CastleView;
 import nara.share.domain.granule.NaraZone;
 import org.mongodb.morphia.annotations.*;
@@ -31,7 +31,7 @@ public class CastleViewDoc {
     private NaraZone zone;
     private Long builtTime;
 
-    private List<MetroEnrollment> enrollments;
+    private List<Enrollment> enrollments;
 
     public CastleViewDoc() {
         //
@@ -104,11 +104,11 @@ public class CastleViewDoc {
         this.builtTime = builtTime;
     }
 
-    public List<MetroEnrollment> getEnrollments() {
+    public List<Enrollment> getEnrollments() {
         return enrollments;
     }
 
-    public void setEnrollments(List<MetroEnrollment> enrollments) {
+    public void setEnrollments(List<Enrollment> enrollments) {
         this.enrollments = enrollments;
     }
 

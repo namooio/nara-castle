@@ -1,45 +1,45 @@
 package nara.castle.domain.castle.command;
 
-import nara.castle.domain.castle.entity.MetroEnrollment;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.share.domain.protocol.NaraCommand;
 
 public class EnrollMetroCommand implements NaraCommand {
     //
-    private String castleId;
-    private MetroEnrollment enrollment;
+    private String castellanId;
+    private Enrollment enrollment;
 
     public EnrollMetroCommand() {
         //
     }
 
-    public EnrollMetroCommand(String castleId, MetroEnrollment enrollment) {
+    public EnrollMetroCommand(String castellanId, Enrollment enrollment) {
         //
-        this.castleId = castleId;
+        this.castellanId = castellanId;
         this.enrollment = enrollment;
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("castleId:'").append(castleId).append('\'');
+        sb.append("castellanId:'").append(castellanId).append('\'');
         sb.append(", enrollment:").append(enrollment);
         sb.append('}');
         return sb.toString();
     }
 
-    public String getCastleId() {
-        return castleId;
+    public String getCastellanId() {
+        return castellanId;
     }
 
-    public void setCastleId(String castleId) {
-        this.castleId = castleId;
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
     }
 
-    public MetroEnrollment getEnrollment() {
+    public Enrollment getEnrollment() {
         return enrollment;
     }
 
-    public void setEnrollment(MetroEnrollment enrollment) {
+    public void setEnrollment(Enrollment enrollment) {
         this.enrollment = enrollment;
     }
 

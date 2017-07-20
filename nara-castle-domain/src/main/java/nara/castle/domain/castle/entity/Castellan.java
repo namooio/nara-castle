@@ -1,26 +1,22 @@
 package nara.castle.domain.castle.entity;
 
-import nara.castle.domain.castlequery.model.UnitPlate;
-import nara.castle.domain.castlequery.model.UnitPlateList;
-import nara.castle.domain.castle.event.CastellanCreated;
-import nara.castle.domain.castle.event.CastellanModified;
 import nara.share.domain.Aggregate;
 import nara.share.domain.Entity;
 import nara.share.domain.NameValue;
 import nara.share.domain.NameValueList;
 import nara.share.domain.event.NaraEvent;
-import nara.share.domain.granule.*;
 import nara.share.util.json.JsonUtil;
+
+import java.util.List;
 
 public class Castellan extends Entity implements Aggregate {
     //
-    private NameList names;
-    private PhoneList phones;
-    private EmailList emails;
-    private AddressList addresses;
-    private NameValueList attrNameValues;           // additional attributes
+    private String displayName;
+    private String primaryEmail;
 
-    private UnitPlateList unitPlates;               // strong association
+    private Contact contact;
+    private List<Enrollment> enrollments;
+    private Castle castle;                  // Nominal object
 
     public Castellan() {
         //
@@ -31,35 +27,32 @@ public class Castellan extends Entity implements Aggregate {
         super(id);
     }
 
-    public Castellan(Castle castle) {
+    public Castellan(Enrollment enrollment) {
         //
-        super(castle.getId());
+        super();
+        this.displayName = enrollment.getName().getDisplayName();
+        this.primaryEmail = enrollment.getEmail().getEmail();
+        this.castle = new Castle();
+        this.contact = new Contact(enrollment);
 
-        MetroEnrollment enrollment = castle.getEnrollments().get(0);
-        this.names = new NameList(enrollment.getName());
-        this.phones = new PhoneList();
-        this.emails = new EmailList(new Email(enrollment.getEmail()));
-        this.addresses = new AddressList();
-        this.attrNameValues = new NameValueList();
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Castellan{");
-        sb.append("names=").append(names);
-        sb.append(", phones=").append(phones);
-        sb.append(", emails=").append(emails);
-        sb.append(", addresses=").append(addresses);
-        sb.append(", attrNameValues=").append(attrNameValues);
-        sb.append(", unitPlates=").append(unitPlates);
+        sb.append("displayName='").append(displayName).append('\'');
+        sb.append(", primaryEmail='").append(primaryEmail).append('\'');
+        sb.append(", contact=").append(contact);
+        sb.append(", enrollments=").append(enrollments);
+        sb.append(", castle=").append(castle);
         sb.append('}');
         return sb.toString();
     }
 
     public static Castellan getSample() {
         //
-        Castle castle = Castle.getSample();
-        Castellan sample = new Castellan(castle.getId());
+        Enrollment enrollment = Enrollment.getSample();
+        Castellan sample = new Castellan(enrollment);
 
         return sample;
     }
@@ -74,20 +67,20 @@ public class Castellan extends Entity implements Aggregate {
 
     public void apply(NaraEvent event) {
         //
-        if (event instanceof CastellanCreated) {
-            CastellanCreated castellanCreated = (CastellanCreated) event;
-
-            Castellan castellan = castellanCreated.getCastellan();
-
-            this.names = castellan.getNames();
-            this.phones = castellan.getPhones();
-            this.emails = castellan.getEmails();
-            this.attrNameValues = castellan.getAttrNameValues();
-        }
-        else if (event instanceof CastellanModified) {
-            CastellanModified castellanModified = (CastellanModified) event;
-            setValues(castellanModified.getNameValues());
-        }
+//        if (event instanceof CastellanCreated) {
+//            CastellanCreated castellanCreated = (CastellanCreated) event;
+//
+//            Castellan castellan = castellanCreated.getCastellan();
+//
+//            this.names = castellan.getNames();
+//            this.phones = castellan.getPhones();
+//            this.emails = castellan.getEmails();
+//            this.attrNameValues = castellan.getAttrNameValues();
+//        }
+//        else if (event instanceof CastellanModified) {
+//            CastellanModified castellanModified = (CastellanModified) event;
+//            setValues(castellanModified.getNameValues());
+//        }
     }
 
     public void setValues(NameValueList nameValues) {
@@ -96,104 +89,61 @@ public class Castellan extends Entity implements Aggregate {
             String name = nameValue.getName();
             String value = nameValue.getValue();
             switch (name) {
-                case "names":   this.names = NameList.fromJson(value); break;
-                case "phones":   this.phones = PhoneList.fromJson(value); break;
-                case "emails":   this.emails = EmailList.fromJson(value); break;
-                case "attrNameValues":   this.attrNameValues = NameValueList.fromJson(value); break;
+                case "displayName":     this.displayName = value; break;
+                case "primaryEmail":    this.primaryEmail = value; break;
+                case "contact":         this.contact = Contact.fromJson(value); break;
             }
         }
-
-        this.initUnitPlates();
     }
 
-    public void initUnitPlates() {
+    public void addEnrollment(Enrollment enrollment) {
         //
-        this.unitPlates = new UnitPlateList();
-
-        for(Name name: names.getNames()) {
-            unitPlates.add(new UnitPlate(getId(), name));
-        }
-
-        for(Phone phone: phones.getPhones()) {
-            unitPlates.add(new UnitPlate(getId(), phone));
-        }
-
-        for(Email email : emails.getEmails()) {
-            unitPlates.add(new UnitPlate(getId(), email));
-        }
+        this.enrollments.add(enrollment);
+        this.contact.addFromEnrollment(enrollment);
     }
 
-    public boolean checkName(Name name) {
-        //
-        if (!names.contains(name.getFirstName(), name.getFamilyName())) {
-            names.add(name);
-            return true;
-        }
-
-        return false;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public boolean checkEmail(String email) {
-        //
-        if(!emails.contains(email)) {
-            emails.add(new Email(email));
-            return true;
-        }
-
-        return false;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
-    public NameList getNames() {
-        return names;
+    public String getPrimaryEmail() {
+        return primaryEmail;
     }
 
-    public void setNames(NameList names) {
-        this.names = names;
+    public void setPrimaryEmail(String primaryEmail) {
+        this.primaryEmail = primaryEmail;
     }
 
-    public PhoneList getPhones() {
-        return phones;
+    public Contact getContact() {
+        return contact;
     }
 
-    public void setPhones(PhoneList phones) {
-        this.phones = phones;
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
-    public EmailList getEmails() {
-        return emails;
+    public List<Enrollment> getEnrollments() {
+        return enrollments;
     }
 
-    public void setEmails(EmailList emails) {
-        this.emails = emails;
+    public void setEnrollments(List<Enrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 
-    public AddressList getAddresses() {
-        return addresses;
+    public Castle getCastle() {
+        return castle;
     }
 
-    public void setAddresses(AddressList addresses) {
-        this.addresses = addresses;
-    }
-
-    public NameValueList getAttrNameValues() {
-        return attrNameValues;
-    }
-
-    public void setAttrNameValues(NameValueList attrNameValues) {
-        this.attrNameValues = attrNameValues;
-    }
-
-    public UnitPlateList getUnitPlates() {
-        return unitPlates;
-    }
-
-    public void setUnitPlates(UnitPlateList unitPlates) {
-        this.unitPlates = unitPlates;
+    public void setCastle(Castle castle) {
+        this.castle = castle;
     }
 
     public static void main(String[] args) {
         //
         System.out.println(getSample());
     }
-
 }

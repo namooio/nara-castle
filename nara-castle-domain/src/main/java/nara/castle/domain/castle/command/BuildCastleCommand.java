@@ -1,17 +1,17 @@
 package nara.castle.domain.castle.command;
 
-import nara.castle.domain.castle.entity.MetroEnrollment;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.share.domain.protocol.NaraCommand;
 
 public class BuildCastleCommand implements NaraCommand {
     //
-    private MetroEnrollment enrollment;
+    private Enrollment enrollment;
 
     public BuildCastleCommand() {
         //
     }
 
-    public BuildCastleCommand(MetroEnrollment enrollment) {
+    public BuildCastleCommand(Enrollment enrollment) {
         //
         this.enrollment = enrollment;
     }
@@ -24,11 +24,11 @@ public class BuildCastleCommand implements NaraCommand {
         return sb.toString();
     }
 
-    public MetroEnrollment getEnrollment() {
+    public Enrollment getEnrollment() {
         return enrollment;
     }
 
-    public void setEnrollment(MetroEnrollment enrollment) {
+    public void setEnrollment(Enrollment enrollment) {
         this.enrollment = enrollment;
     }
 }

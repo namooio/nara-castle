@@ -23,7 +23,7 @@ import nara.share.domain.protocol.NaraCommand;
 import nara.castle.akka.projection.CastleProjectionActor;
 import nara.castle.cp.CastleViewMongoStoreLycler;
 import nara.castle.domain.castle.entity.Castle;
-import nara.castle.domain.castle.entity.MetroEnrollment;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import org.junit.AfterClass;
@@ -100,7 +100,7 @@ public class CastleSupervisorActorTest {
         final ActorRef castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(storeLycler), "castle-supervisor");
 
         NaraCommand command = new BuildCastleCommand(
-                new MetroEnrollment("P0P", "C1@POP", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))
+                new Enrollment("P0P", "C1@POP", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))
         );
 
         castleSupervisorActor.tell(command, testProbe.getRef());
@@ -116,7 +116,7 @@ public class CastleSupervisorActorTest {
 //            return castleId;
 //        });
 
-//        MetroEnrollment sample = MetroEnrollment.getSample();
+//        Enrollment sample = Enrollment.getSample();
 //        EnrollMetroCommand enrollMetroCommand = new EnrollMetroCommand(sample);
 //        castleSupervisorActor.tell(enrollMetroCommand, testProbe.getRef());
 //
