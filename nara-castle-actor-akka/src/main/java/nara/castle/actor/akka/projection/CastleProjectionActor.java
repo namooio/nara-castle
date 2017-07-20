@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class CastleProjectionActor extends NaraProjectionActor {
     //
-    private CastleRMStoreLycler storeLycler;
+    private CastleRMStoreLycler rmStoreLycler;
 
     static public Props props(
             CastleRMStoreLycler storeLycler,
@@ -28,17 +28,17 @@ public class CastleProjectionActor extends NaraProjectionActor {
         return Props.create(CastleProjectionActor.class, () -> new CastleProjectionActor(storeLycler, readJournalSource, resumableProjection));
     }
 
-    public CastleProjectionActor(CastleRMStoreLycler storeLycler, ReadJournalSource readJournalSource, ResumableProjection resumableProjection) {
+    public CastleProjectionActor(CastleRMStoreLycler rmStoreLycler, ReadJournalSource readJournalSource, ResumableProjection resumableProjection) {
         //
         super("castle", readJournalSource, resumableProjection);
-        this.storeLycler = storeLycler;
+        this.rmStoreLycler = rmStoreLycler;
     }
 
     @Override
     protected void configProjection(Map<String, ReadModelBuilder> readModelBuilderMap) {
         //
-        readModelBuilderMap.put(CastleBuilt.class.getName(), new CastellanRMBuilder());
-        readModelBuilderMap.put(MetroEnrolled.class.getName(), new EnrollmentRMBuilder());
-        readModelBuilderMap.put(CastellanModified.class.getName(), new UnitPlateRMBuilder());
+        readModelBuilderMap.put(CastleBuilt.class.getName(), new CastellanRMBuilder(rmStoreLycler));
+        readModelBuilderMap.put(MetroEnrolled.class.getName(), new EnrollmentRMBuilder(rmStoreLycler));
+        readModelBuilderMap.put(CastellanModified.class.getName(), new UnitPlateRMBuilder(rmStoreLycler));
     }
 }
