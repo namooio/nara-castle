@@ -3,10 +3,10 @@ package nara.castle.cp;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.typesafe.config.ConfigFactory;
-import nara.castle.da.mongo.CastellanViewMongoStore;
-import nara.castle.da.mongo.CastleViewMongoStore;
 import nara.castle.domain.castlequery.store.CastellanRMStore;
 import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
+import nara.castle.domain.castlequery.store.EnrollmentRMStore;
+import nara.castle.domain.castlequery.store.UnitPlateRMStore;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 
@@ -15,7 +15,7 @@ import javax.inject.Singleton;
 @Singleton
 public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
     //
-    private CastleViewStore castleViewStore;
+//    private CastleViewStore castleViewStore;
     private CastellanRMStore castellanViewStore;
 
     public CastleViewMongoStoreLycler() {
@@ -42,19 +42,34 @@ public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
         Datastore datastore = morphia.createDatastore(mongoClient, dbName);
         datastore.ensureIndexes();
 
-        this.castleViewStore = new CastleViewMongoStore(datastore);
-        this.castellanViewStore = new CastellanViewMongoStore(datastore);
+//        this.castleViewStore = new CastleViewMongoStore(datastore);
+//        this.castellanViewStore = new CastellanViewMongoStore(datastore);
     }
 
     @Override
-    public CastleViewStore requestCastleViewStore() {
-        //
-        return castleViewStore;
+    public CastellanRMStore requestCastellanRMStore() {
+        return null;
     }
 
     @Override
-    public CastellanRMStore requestCastellanViewStore() {
-        //
-        return castellanViewStore;
+    public EnrollmentRMStore requestEnrollmentRMStore() {
+        return null;
     }
+
+    @Override
+    public UnitPlateRMStore requestUnitPlateRMStore() {
+        return null;
+    }
+
+    //    @Override
+//    public CastleViewStore requestCastleViewStore() {
+//        //
+//        return castleViewStore;
+//    }
+//
+//    @Override
+//    public CastellanRMStore requestCastellanViewStore() {
+//        //
+//        return castellanViewStore;
+//    }
 }

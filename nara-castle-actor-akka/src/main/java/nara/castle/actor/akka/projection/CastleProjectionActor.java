@@ -1,12 +1,6 @@
 package nara.castle.actor.akka.projection;
 
 import akka.actor.Props;
-import nara.castle.actor.akka.projection.castellan.CastellanViewBuilder;
-import nara.castle.actor.akka.projection.castle.CastleViewBuilder;
-import nara.castle.actor.akka.projection.castle.MetroEnrolledViewBuilder;
-import nara.castle.domain.castle.event.CastellanCreated;
-import nara.castle.domain.castle.event.CastleBuilt;
-import nara.castle.domain.castle.event.MetroEnrolled;
 import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import nara.share.actor.akka.NaraProjectionActor;
 import nara.share.actor.akka.projection.ViewBuilder;
@@ -37,9 +31,8 @@ public class CastleProjectionActor extends NaraProjectionActor {
     @Override
     protected void configProjection(Map<String, ViewBuilder> viewBuilderMap) {
         //
-        viewBuilderMap.put(CastleBuilt.class.getName(), new CastleViewBuilder(storeLycler.requestCastleViewStore()));
-
-        viewBuilderMap.put(MetroEnrolled.class.getName(), new MetroEnrolledViewBuilder(storeLycler.requestCastleViewStore()));
-        viewBuilderMap.put(CastellanCreated.class.getName(), new CastellanViewBuilder(storeLycler.requestCastellanViewStore()));
+//        viewBuilderMap.put(CastleBuilt.class.getName(), new CastleViewBuilder(storeLycler.requestCastleViewStore()));
+//
+//        viewBuilderMap.put(MetroEnrolled.class.getName(), new MetroEnrolledViewBuilder(storeLycler.requestCastleViewStore()));
     }
 }

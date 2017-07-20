@@ -1,6 +1,5 @@
 package nara.castle.domain.castle.event;
 
-import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.share.domain.NameValueList;
 import nara.share.domain.event.NaraEvent;
 
@@ -11,10 +10,10 @@ public class CastellanModified implements NaraEvent {
     private String castellanId;
     private NameValueList nameValues;
 
-    public CastellanModified(ModifyCastellanCommand command) {
+    public CastellanModified(String castellanId, NameValueList nameValues) {
         //
-        this.castellanId = command.getCastellanId();
-        this.nameValues = command.getNameValues();
+        this.castellanId = castellanId;
+        this.nameValues = nameValues;
     }
 
     @Override

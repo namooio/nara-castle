@@ -39,43 +39,6 @@ public class Castle implements ValueObject {
         return JsonUtil.fromJson(json, Castle.class);
     }
 
-//    public boolean isEnrolledMetro(String metroId, String civilianId) {
-//        //
-//        return enrollments
-//                .stream()
-//                .filter(enrollment -> metroId.equals(enrollment.getMetroId()) && civilianId.equals(enrollment.getCivilianId()))
-//                .findFirst()
-//                .isPresent();
-//    }
-//
-//    @Override
-//    public void apply(NaraEvent event) {
-//        //
-//        if (event instanceof CastleBuilt) {
-//            CastleBuilt castleBuilt = (CastleBuilt) event;
-//            Castle castle = castleBuilt.getCastle();
-//            zone = castle.getZone();
-//            enrollments = castle.getEnrollments();
-//        }
-//        else if (event instanceof MetroEnrolled) {
-//            MetroEnrolled metroEnrolled = (MetroEnrolled) event;
-//            enrollments.add(metroEnrolled.getEnrollment());
-//        }
-//        else if (event instanceof MetroWithdrawn) {
-//            MetroWithdrawn metroWithdrawn = (MetroWithdrawn) event;
-//            String metroId = metroWithdrawn.getMetroId();
-//            String civilianId = metroWithdrawn.getCivilianId();
-//            Enrollment targetEnrollment = enrollments
-//                    .stream()
-//                    .filter(enrollment -> enrollment.getMetroId().equals(metroId) && enrollment.getCivilianId().equals(civilianId))
-//                    .findFirst()
-//                    .orElse(null);
-//
-//            if (targetEnrollment == null) throw new NaraException(String.format("Metro enrollment for %s not found.", event));
-//            targetEnrollment.withdraw();
-//        }
-//    }
-
     public Long getBuiltTime() {
         return builtTime;
     }

@@ -1,10 +1,15 @@
 package nara.castle.domain.castle.entity;
 
+import nara.castle.domain.castle.event.CastellanModified;
+import nara.castle.domain.castle.event.CastleBuilt;
+import nara.castle.domain.castle.event.MetroEnrolled;
+import nara.castle.domain.castle.event.MetroWithdrawn;
 import nara.share.domain.Aggregate;
 import nara.share.domain.Entity;
 import nara.share.domain.NameValue;
 import nara.share.domain.NameValueList;
 import nara.share.domain.event.NaraEvent;
+import nara.share.exception.NaraException;
 import nara.share.util.json.JsonUtil;
 
 import java.util.List;
@@ -34,7 +39,6 @@ public class Castellan extends Entity implements Aggregate {
         this.primaryEmail = enrollment.getEmail().getEmail();
         this.castle = new Castle();
         this.contact = new Contact(enrollment);
-
     }
 
     @Override
@@ -67,20 +71,31 @@ public class Castellan extends Entity implements Aggregate {
 
     public void apply(NaraEvent event) {
         //
-//        if (event instanceof CastellanCreated) {
-//            CastellanCreated castellanCreated = (CastellanCreated) event;
-//
-//            Castellan castellan = castellanCreated.getCastellan();
-//
-//            this.names = castellan.getNames();
-//            this.phones = castellan.getPhones();
-//            this.emails = castellan.getEmails();
-//            this.attrNameValues = castellan.getAttrNameValues();
-//        }
-//        else if (event instanceof CastellanModified) {
-//            CastellanModified castellanModified = (CastellanModified) event;
-//            setValues(castellanModified.getNameValues());
-//        }
+        matcher()
+            .match(CastleBuilt.class, castleBuilt -> {
+                //
+                Castellan initialState = castleBuilt.getInitialState();
+
+                this.displayName = initialState.getDisplayName();
+                this.primaryEmail = initialState.getPrimaryEmail();
+
+                this.contact = initialState.getContact();
+                this.enrollments = initialState.getEnrollments();
+                this.castle = initialState.getCastle();
+            })
+            .match(MetroEnrolled.class, metroEnrolled -> {
+                //
+                this.addEnrollment(metroEnrolled.getEnrollment());
+            })
+            .match(CastellanModified.class, castellanModified -> {
+                //
+                this.setValues(castellanModified.getNameValues());
+            })
+            .match(MetroWithdrawn.class, metroWithdrawn -> {
+                //
+                Enrollment enrollment = this.findEnrollment(metroWithdrawn.getMetroId(), metroWithdrawn.getCivilianId());
+                enrollment.withdraw();
+            });
     }
 
     public void setValues(NameValueList nameValues) {
@@ -100,6 +115,14 @@ public class Castellan extends Entity implements Aggregate {
         //
         this.enrollments.add(enrollment);
         this.contact.addFromEnrollment(enrollment);
+    }
+
+    public Enrollment findEnrollment(String metroId, String civilianId) {
+        //
+        return this.getEnrollments().stream()
+                .filter(enrollment -> metroId.equals(enrollment.getMetroId()) && civilianId.equals(enrollment.getCivilianId()))
+                .findFirst()
+                .orElseThrow(() -> new NaraException(String.format("Enrollment for metro[%s], civilian[%s] not found.", metroId, civilianId)));
     }
 
     public String getDisplayName() {

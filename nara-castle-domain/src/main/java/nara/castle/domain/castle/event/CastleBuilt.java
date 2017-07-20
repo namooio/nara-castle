@@ -7,15 +7,14 @@ public class CastleBuilt implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
-    private Castellan castellan;
+    private Castellan initialState;
 
-    public CastleBuilt(Castellan castellan) {
+    public CastleBuilt(Castellan initialState) {
         //
-        this.castellan = castellan;
+        this.initialState = initialState;
     }
 
-    public Castellan getCastellan() {
-        return castellan;
+    public Castellan getInitialState() {
+        return initialState;
     }
-
 }
