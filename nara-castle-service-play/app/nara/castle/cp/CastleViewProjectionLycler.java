@@ -2,10 +2,11 @@ package nara.castle.cp;
 
 import akka.actor.ActorSystem;
 import com.typesafe.config.ConfigFactory;
-import nara.share.akka.support.projection.resume.ResumableProjection;
-import nara.share.akka.support.projection.resume.mongo.MongoResumableProjection;
 import nara.castle.akka.projection.CastleProjectionActor;
 import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
+import nara.share.akka.support.projection.journal.cassandra.CassandraReadJournalSource;
+import nara.share.akka.support.projection.resume.ResumableProjection;
+import nara.share.akka.support.projection.resume.mongo.MongoResumableProjection;
 import play.Logger;
 
 import javax.inject.Inject;
@@ -22,8 +23,9 @@ public class CastleViewProjectionLycler {
         String mongoUri = ConfigFactory.load().getString("mongo.uri");
         String dbName = ConfigFactory.load().getString("mongo.database");
 
+        CassandraReadJournalSource readJournalSource = new CassandraReadJournalSource(system);
         ResumableProjection resumableProjection = new MongoResumableProjection(mongoUri, dbName);
 
-        system.actorOf(CastleProjectionActor.props(storeLycler, resumableProjection));
+        system.actorOf(CastleProjectionActor.props(storeLycler, readJournalSource, resumableProjection));
     }
 }
