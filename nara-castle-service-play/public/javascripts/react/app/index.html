@@ -6,31 +6,7 @@
   <meta name="description" content="" />
   <meta name="keywords" content="" />
   <base href="/" />
-  <title>Nara Castle Drama</title>
-
-  <script>
-    (function() {
-      if (typeof window.DRAMA_CONTEXT !== 'undefined') {
-        console.log("[NaraCastle] Start with pavilion mode");
-        console.debug("[NaraCastle] base-path : " + DRAMA_CONTEXT.basePath);
-      } else {
-        console.log("[NaraCastle] Start with standard alone mode");
-        window.DRAMA_CONTEXT = {
-          basePath: '/',
-          roles: ['admin', 'user'],
-          edition: 'Professional',
-          userId: 'tester',
-          userName: 'tester',
-          contextId: 'testContext',
-          stageId: 'testTown'
-        };
-      }
-    })();
-    console.debug(DRAMA_CONTEXT);
-
-    // ex) standard-alone => "/", pavilion => "/pav-proxy/****/"
-    //     window.document.getElementsByTagName('base')[0].href = DRAMA_CONTEXT.basePath;
-  </script>
+  <title>Nara Castle</title>
 </head>
 <body>
 
