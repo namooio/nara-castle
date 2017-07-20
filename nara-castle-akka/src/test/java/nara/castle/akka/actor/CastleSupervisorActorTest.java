@@ -117,7 +117,7 @@ public class CastleSupervisorActorTest {
 //        });
 
 //        Enrollment sample = Enrollment.getSample();
-//        EnrollMetroCommand enrollMetroCommand = new EnrollMetroCommand(sample);
+//        EnrollmentCommand enrollMetroCommand = new EnrollmentCommand(sample);
 //        castleSupervisorActor.tell(enrollMetroCommand, testProbe.getRef());
 //
 //        String castleId = testProbe.expectMsgClass(String.class);

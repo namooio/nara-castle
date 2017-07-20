@@ -2,10 +2,9 @@ package nara.castle.akka.actor.persistence;
 
 import akka.actor.Props;
 import nara.castle.domain.castle.entity.Castellan;
-import nara.castle.domain.castlequery.model.IdentityPlate;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.event.CastellanModified;
-import nara.castle.domain.castlequery.query.FindIdentityPlateQuery;
+import nara.castle.domain.castlequery.query.FindUnitPlateQuery;
 import nara.share.akka.support.actor.NaraPersistentActor;
 import nara.share.domain.event.NaraEvent;
 import nara.share.domain.protocol.NaraCommand;
@@ -52,7 +51,7 @@ public class CastellanActor extends NaraPersistentActor<Castellan> {
     public void handleQuery(NaraQuery query) {
         //
         matcher()
-            .match(FindIdentityPlateQuery.class, findIdentityPlateQuery -> {
+            .match(FindUnitPlateQuery.class, findIdentityPlateQuery -> {
                 //
                 IdentityPlate identityPlate = new IdentityPlate(getState());
                 responseResult(identityPlate);

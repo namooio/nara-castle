@@ -1,7 +1,6 @@
 package nara.castle.akka.projection.castellan;
 
-import nara.castle.domain.castlequery.model.CastellanView;
-import nara.castle.domain.castlequery.store.CastellanViewStore;
+import nara.castle.domain.castlequery.store.CastellanRMStore;
 import nara.share.akka.support.projection.ViewBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +9,9 @@ public class CastellanViewBuilder implements ViewBuilder<CastellanCreated> {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private CastellanViewStore castellanViewStore;
+    private CastellanRMStore castellanViewStore;
 
-    public CastellanViewBuilder(CastellanViewStore castellanViewStore) {
+    public CastellanViewBuilder(CastellanRMStore castellanViewStore) {
         //
         this.castellanViewStore = castellanViewStore;
     }

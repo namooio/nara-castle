@@ -4,6 +4,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.pattern.PatternsCS;
 import com.fasterxml.jackson.databind.JsonNode;
+import nara.castle.domain.castle.command.EnrollmentCommand;
 import nara.share.akka.support.actor.NaraActorConst;
 import nara.share.akka.support.actor.result.ActorResult;
 import nara.castle.akka.actor.CastleSupervisorActor;
@@ -11,10 +12,6 @@ import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Castle;
 import nara.castle.spec.CastleService;
 import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.EnrollMetroCommand;
-import nara.castle.domain.castlequery.query.FindAllCastellansQuery;
-import nara.castle.domain.castlequery.query.FindAllCastlesQuery;
-import nara.castle.domain.castlequery.query.FindCastleQuery;
 import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import play.Logger;
 import play.libs.Json;
@@ -60,12 +57,12 @@ public class CastleResource extends Controller implements CastleService {
     public CompletionStage<Result> enrollMetro(String castleId) {
         //
         JsonNode jsonNode = request().body().asJson();
-        EnrollMetroCommand command = Json.fromJson(jsonNode, EnrollMetroCommand.class);
+        EnrollmentCommand command = Json.fromJson(jsonNode, EnrollmentCommand.class);
         return enrollMetro(castleId, command);
     }
 
     @Override
-    public CompletionStage<Result> enrollMetro(String castleId, EnrollMetroCommand command) {
+    public CompletionStage<Result> enrollMetro(String castleId, EnrollmentCommand command) {
         //
         return PatternsCS.ask(castleSupervisorActor, command, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }

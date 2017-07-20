@@ -2,8 +2,6 @@ package nara.castle.sp.play;
 
 import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castlequery.model.CastellanView;
-import nara.castle.domain.castlequery.model.CastleView;
 import nara.castle.sp.play.shared.AbstractCastleIntegrationTester;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;

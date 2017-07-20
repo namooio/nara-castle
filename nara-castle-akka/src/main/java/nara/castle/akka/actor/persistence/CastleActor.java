@@ -7,12 +7,11 @@ import nara.share.akka.support.actor.NaraActorConst;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Castle;
 import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.EnrollMetroCommand;
+import nara.castle.domain.castle.command.EnrollmentCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castle.event.CastleBuilt;
 import nara.castle.domain.castle.event.MetroEnrolled;
 import nara.castle.domain.castle.event.MetroWithdrawn;
-import nara.castle.domain.castlequery.query.FindCastleQuery;
 import nara.share.akka.support.actor.NaraPersistentActor;
 import nara.share.akka.support.actor.result.ActorResult;
 import nara.share.domain.event.NaraEvent;
@@ -55,7 +54,7 @@ public class CastleActor extends NaraPersistentActor<Castle> {
                 Castle castle = new Castle(getState().getId(), buildCastleCommand.getEnrollment());
                 persist(new CastleBuilt(castle), this::handleAndRespond);
             })
-            .match(EnrollMetroCommand.class, enrollMetroCommand -> {
+            .match(EnrollmentCommand.class, enrollMetroCommand -> {
                 //
                 persist(new MetroEnrolled(getState().getId(), enrollMetroCommand.getEnrollment()), this::handleAndRespond);
             })

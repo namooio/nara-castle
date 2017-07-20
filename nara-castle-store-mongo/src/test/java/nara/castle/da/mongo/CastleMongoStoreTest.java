@@ -13,7 +13,6 @@ import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import nara.castle.domain.castle.entity.Castle;
-import nara.castle.domain.castlequery.model.CastleView;
 import org.junit.Before;
 import org.junit.Test;
 import org.mongodb.morphia.Datastore;

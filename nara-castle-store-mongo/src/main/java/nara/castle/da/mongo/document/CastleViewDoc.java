@@ -1,7 +1,6 @@
 package nara.castle.da.mongo.document;
 
 import nara.castle.domain.castle.entity.Enrollment;
-import nara.castle.domain.castlequery.model.CastleView;
 import nara.share.domain.granule.NaraZone;
 import org.mongodb.morphia.annotations.*;
 import org.springframework.beans.BeanUtils;

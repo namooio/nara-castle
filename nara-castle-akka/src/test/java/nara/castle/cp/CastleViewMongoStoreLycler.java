@@ -2,15 +2,14 @@ package nara.castle.cp;
 
 import nara.castle.da.mongo.CastellanViewMongoStore;
 import nara.castle.da.mongo.CastleViewMongoStore;
-import nara.castle.domain.castlequery.store.CastellanViewStore;
-import nara.castle.domain.castlequery.store.CastleViewStore;
+import nara.castle.domain.castlequery.store.CastellanRMStore;
 import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import org.mongodb.morphia.Datastore;
 
 public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
     //
     private CastleViewStore castleViewStore;
-    private CastellanViewStore castellanViewStore;
+    private CastellanRMStore castellanViewStore;
 
     public CastleViewMongoStoreLycler(Datastore datastore) {
         //
@@ -25,7 +24,7 @@ public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
     }
 
     @Override
-    public CastellanViewStore requestCastellanViewStore() {
+    public CastellanRMStore requestCastellanViewStore() {
         //
         return castellanViewStore;
     }
