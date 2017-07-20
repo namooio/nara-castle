@@ -2,11 +2,11 @@ package nara.castle.cp;
 
 import akka.actor.ActorSystem;
 import com.typesafe.config.ConfigFactory;
-import nara.castle.akka.projection.CastleProjectionActor;
+import nara.castle.actor.akka.projection.CastleProjectionActor;
 import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
-import nara.share.akka.support.projection.journal.cassandra.CassandraReadJournalSource;
-import nara.share.akka.support.projection.resume.ResumableProjection;
-import nara.share.akka.support.projection.resume.mongo.MongoResumableProjection;
+import nara.share.actor.akka.projection.journal.cassandra.CassandraReadJournalSource;
+import nara.share.actor.akka.projection.resume.ResumableProjection;
+import nara.share.actor.akka.projection.resume.mongo.MongoResumableProjection;
 import play.Logger;
 
 import javax.inject.Inject;

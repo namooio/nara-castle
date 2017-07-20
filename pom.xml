@@ -42,8 +42,8 @@
         <module>nara-castle-domain</module>
         <module>nara-castle-store-mongo</module>
         <module>nara-castle-service-play</module>
+        <module>nara-castle-actor-akka</module>
         <module>nara-castle-adapter</module>
-        <module>nara-castle-akka</module>
     </modules>
 
     <scm>

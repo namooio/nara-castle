@@ -25,7 +25,7 @@
     <dependencies>
         <dependency>
             <groupId>nara.castle</groupId>
-            <artifactId>nara-castle-akka</artifactId>
+            <artifactId>nara-castle-actor-akka</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
