@@ -8,6 +8,10 @@ public class FindUnitPlateQuery implements NaraQuery {
     private KeyAttr keyAttr;
     private String keyValue;
 
+    public FindUnitPlateQuery() {
+        //
+    }
+
     public FindUnitPlateQuery(KeyAttr keyAttr, String keyValue) {
         //
         this.keyAttr = keyAttr;
@@ -18,7 +22,15 @@ public class FindUnitPlateQuery implements NaraQuery {
         return keyAttr;
     }
 
+    public void setKeyAttr(KeyAttr keyAttr) {
+        this.keyAttr = keyAttr;
+    }
+
     public String getKeyValue() {
         return keyValue;
+    }
+
+    public void setKeyValue(String keyValue) {
+        this.keyValue = keyValue;
     }
 }

@@ -7,6 +7,10 @@ public class EnrolledCheckQuery implements NaraQuery {
     private String castellanId;
     private String metroId;
 
+    public EnrolledCheckQuery() {
+        //
+    }
+
     public EnrolledCheckQuery(String castellanId, String metroId) {
         //
         this.castellanId = castellanId;
@@ -17,7 +21,15 @@ public class EnrolledCheckQuery implements NaraQuery {
         return castellanId;
     }
 
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
+    }
+
     public String getMetroId() {
         return metroId;
+    }
+
+    public void setMetroId(String metroId) {
+        this.metroId = metroId;
     }
 }

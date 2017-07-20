@@ -6,6 +6,10 @@ public class FindCastellanQuery implements NaraQuery {
     //
     private String castellanId;
 
+    public FindCastellanQuery() {
+        //
+    }
+
     public FindCastellanQuery(String castellanId) {
         //
         this.castellanId = castellanId;
@@ -13,5 +17,9 @@ public class FindCastellanQuery implements NaraQuery {
 
     public String getCastellanId() {
         return castellanId;
+    }
+
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
     }
 }

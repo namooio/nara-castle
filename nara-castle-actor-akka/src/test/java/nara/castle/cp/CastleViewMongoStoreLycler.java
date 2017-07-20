@@ -3,10 +3,10 @@
 //import nara.castle.da.mongo.CastellanViewMongoStore;
 //import nara.castle.da.mongo.CastleViewMongoStore;
 //import nara.castle.domain.castlequery.store.CastellanRMStore;
-//import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
+//import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 //import org.mongodb.morphia.Datastore;
 //
-//public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
+//public class CastleViewMongoStoreLycler implements CastleRMStoreLycler {
 //    //
 //    private CastleViewStore castleViewStore;
 //    private CastellanRMStore castellanViewStore;

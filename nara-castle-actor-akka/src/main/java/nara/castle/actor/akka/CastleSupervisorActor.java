@@ -1,5 +1,6 @@
 package nara.castle.actor.akka;
 
+import akka.actor.ActorRef;
 import akka.actor.Props;
 import nara.castle.actor.akka.command.CastleActor;
 import nara.castle.domain.castle.command.AddEnrollmentCommand;
@@ -7,10 +8,8 @@ import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castle.entity.Castellan;
-import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import nara.share.actor.akka.NaraActor;
 import nara.share.domain.protocol.NaraCommand;
-import nara.share.domain.protocol.NaraQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,18 +17,16 @@ public class CastleSupervisorActor extends NaraActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-//    private CastleViewStore castleViewStore;
-//    private CastellanViewStore castellanViewStore;
+    private ActorRef castleQueryActor;
 
-    static public Props props(CastleViewStoreLycler storeLycler) {
+    static public Props props(ActorRef castleQueryActor) {
         //
-        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(storeLycler));
+        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(castleQueryActor));
     }
 
-    public CastleSupervisorActor(CastleViewStoreLycler viewStoreLycler) {
+    public CastleSupervisorActor(ActorRef castleQueryActor) {
         //
-//        this.castleViewStore = viewStoreLycler.requestCastleViewStore();
-//        this.castellanViewStore = viewStoreLycler.requestCastellanViewStore();
+        this.castleQueryActor = castleQueryActor;
     }
 
     @Override
@@ -57,32 +54,6 @@ public class CastleSupervisorActor extends NaraActor {
                 foward(castleId, Castellan.class, CastleActor.props(castleId), withdrawMetroCommand);
             })
         .onMessage(command);
-    }
-
-    @Override
-    public void handleQuery(NaraQuery query) {
-        //
-//        matcher()
-//            .match(FindCastleQuery.class, findCastleQuery -> {
-//                //
-//                String castleId = findCastleQuery.getCastleId();
-//                foward(castleId, Castle.class, CastleActor.props(castleId), query);
-//            })
-//            .match(FindAllCastlesQuery.class, findAllCastlesQuery -> {
-//                // Fixme ReadModel 조회는 분리?
-//                List<CastleView> castleViews = castleViewStore.retrieveAll();
-//                responseResult(castleViews);
-//            })
-//            .match(FindAllCastellansQuery.class, findAllCastellansQuery -> {
-//                // Fixme ReadModel 조회는 분리?
-//                List<CastellanView> castellanViews = castellanViewStore.retrieveAll();
-//                responseResult(castellanViews);
-//            })
-//        .onMessage(query);
-    }
-
-    private void handleBuildCastleCommand(BuildCastleCommand command) {
-        //
     }
 
 }

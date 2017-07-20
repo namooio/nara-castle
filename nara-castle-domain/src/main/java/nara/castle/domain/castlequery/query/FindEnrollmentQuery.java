@@ -6,6 +6,10 @@ public class FindEnrollmentQuery implements NaraQuery {
     //
     private String castellanId;
 
+    public FindEnrollmentQuery() {
+        //
+    }
+
     public FindEnrollmentQuery(String castellanId) {
         //
         this.castellanId = castellanId;
@@ -13,5 +17,9 @@ public class FindEnrollmentQuery implements NaraQuery {
 
     public String getCastellanId() {
         return castellanId;
+    }
+
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
     }
 }

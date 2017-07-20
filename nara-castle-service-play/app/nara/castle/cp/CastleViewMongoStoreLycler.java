@@ -4,7 +4,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.typesafe.config.ConfigFactory;
 import nara.castle.domain.castlequery.store.CastellanRMStore;
-import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
+import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.castle.domain.castlequery.store.EnrollmentRMStore;
 import nara.castle.domain.castlequery.store.UnitPlateRMStore;
 import org.mongodb.morphia.Datastore;
@@ -13,7 +13,7 @@ import org.mongodb.morphia.Morphia;
 import javax.inject.Singleton;
 
 @Singleton
-public class CastleViewMongoStoreLycler implements CastleViewStoreLycler {
+public class CastleViewMongoStoreLycler implements CastleRMStoreLycler {
     //
 //    private CastleViewStore castleViewStore;
     private CastellanRMStore castellanViewStore;

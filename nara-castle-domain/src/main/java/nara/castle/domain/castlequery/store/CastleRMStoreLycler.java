@@ -1,6 +1,6 @@
 package nara.castle.domain.castlequery.store;
 
-public interface CastleViewStoreLycler {
+public interface CastleRMStoreLycler {
     //
     CastellanRMStore requestCastellanRMStore();
     EnrollmentRMStore requestEnrollmentRMStore();

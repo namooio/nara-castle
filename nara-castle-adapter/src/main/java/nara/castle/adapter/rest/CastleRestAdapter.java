@@ -3,6 +3,9 @@ package nara.castle.adapter.rest;
 import nara.castle.domain.castle.command.AddEnrollmentCommand;
 import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
+import nara.castle.domain.castle.command.WithdrawMetroCommand;
+import nara.castle.domain.castlequery.query.EnrolledCheckQuery;
+import nara.castle.domain.castlequery.query.FindUnitPlateQuery;
 import nara.castle.spec.CastleService;
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.RequestBuilder;
@@ -47,7 +50,12 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CompletionStage findCastle(String castleId) {
+    public CompletionStage withdrawMetro(String castellanId, WithdrawMetroCommand withdrawMetroCommand) {
+        return null;
+    }
+
+    @Override
+    public CompletionStage findCastellan(String castleId) {
         //
 //        return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTLE_FIND)
 //                        .addPathParam("castleId", castleId)
@@ -57,20 +65,26 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CompletionStage findCastles() {
-        //
-//        return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTLES_FIND)
-//                        .setResponseType(CastleView[].class)
-//        )));
-        return null;
-    }
-
-    @Override
     public CompletionStage findCastellans() {
         //
 //        return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLANS_FIND)
 //                        .setResponseType(CastellanView[].class)
 //        )));
+        return null;
+    }
+
+    @Override
+    public CompletionStage findEnrollments(String castellanId) {
+        return null;
+    }
+
+    @Override
+    public CompletionStage findUnitPlate(FindUnitPlateQuery findUnitPlateQuery) {
+        return null;
+    }
+
+    @Override
+    public CompletionStage checkEnrolled(EnrolledCheckQuery enrolledCheckQuery) {
         return null;
     }
 }

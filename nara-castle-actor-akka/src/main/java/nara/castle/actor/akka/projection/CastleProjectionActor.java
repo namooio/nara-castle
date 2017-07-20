@@ -1,7 +1,7 @@
 package nara.castle.actor.akka.projection;
 
 import akka.actor.Props;
-import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
+import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.share.actor.akka.NaraProjectionActor;
 import nara.share.actor.akka.projection.ViewBuilder;
 import nara.share.actor.akka.projection.journal.ReadJournalSource;
@@ -11,10 +11,10 @@ import java.util.Map;
 
 public class CastleProjectionActor extends NaraProjectionActor {
     //
-    private CastleViewStoreLycler storeLycler;
+    private CastleRMStoreLycler storeLycler;
 
     static public Props props(
-            CastleViewStoreLycler storeLycler,
+            CastleRMStoreLycler storeLycler,
             ReadJournalSource readJournalSource,
             ResumableProjection resumableProjection
     ) {
@@ -22,7 +22,7 @@ public class CastleProjectionActor extends NaraProjectionActor {
         return Props.create(CastleProjectionActor.class, () -> new CastleProjectionActor(storeLycler, readJournalSource, resumableProjection));
     }
 
-    public CastleProjectionActor(CastleViewStoreLycler storeLycler, ReadJournalSource readJournalSource, ResumableProjection resumableProjection) {
+    public CastleProjectionActor(CastleRMStoreLycler storeLycler, ReadJournalSource readJournalSource, ResumableProjection resumableProjection) {
         //
         super("castle", readJournalSource, resumableProjection);
         this.storeLycler = storeLycler;

@@ -3,7 +3,7 @@ package nara.castle.cp;
 import akka.actor.ActorSystem;
 import com.typesafe.config.ConfigFactory;
 import nara.castle.actor.akka.projection.CastleProjectionActor;
-import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
+import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.share.actor.akka.projection.journal.cassandra.CassandraReadJournalSource;
 import nara.share.actor.akka.projection.resume.ResumableProjection;
 import nara.share.actor.akka.projection.resume.mongo.MongoResumableProjection;
@@ -18,7 +18,7 @@ public class CastleViewProjectionLycler {
     final Logger.ALogger logger = Logger.of(this.getClass());
 
     @Inject
-    public CastleViewProjectionLycler(ActorSystem system, CastleViewStoreLycler storeLycler) {
+    public CastleViewProjectionLycler(ActorSystem system, CastleRMStoreLycler storeLycler) {
         //
         String mongoUri = ConfigFactory.load().getString("mongo.uri");
         String dbName = ConfigFactory.load().getString("mongo.database");

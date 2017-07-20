@@ -17,7 +17,7 @@ import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import nara.castle.actor.akka.CastleSupervisorActor;
 import nara.castle.actor.akka.projection.CastleProjectionActor;
-import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
+import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.share.actor.akka.projection.journal.inmem.InMemoryReadJournalSource;
 import nara.share.actor.akka.projection.resume.inmem.InMemoryResumableProjection;
 import org.junit.AfterClass;
@@ -35,7 +35,7 @@ public class CastleSupervisorActorTest {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static CastleViewStoreLycler storeLycler;
+    private static CastleRMStoreLycler storeLycler;
     private static ActorSystem system;
 
     @BeforeClass
@@ -89,8 +89,8 @@ public class CastleSupervisorActorTest {
     @Test
     public void testCastleSupervisorActor() throws InterruptedException {
         //
-        final TestKit testProbe = new TestKit(system);
-        final ActorRef castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(storeLycler), "castle-supervisor");
+//        final TestKit testProbe = new TestKit(system);
+//        final ActorRef castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(storeLycler), "castle-supervisor");
 
 //        NaraCommand command = new BuildCastleCommand(
 //                new MetroEnrollment("P0P", "C1@POP", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))
