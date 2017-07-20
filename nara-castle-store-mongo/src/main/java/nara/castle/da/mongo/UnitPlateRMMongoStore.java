@@ -1,5 +1,6 @@
 package nara.castle.da.mongo;
 
+import nara.castle.da.mongo.document.UnitPlateRMDoc;
 import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.store.UnitPlateRMStore;
@@ -18,41 +19,55 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
 
     @Override
     public void create(UnitPlateRM unitPlate) {
-
+        //
+        datastore.save(UnitPlateRMDoc.toDocument(unitPlate));
     }
 
     @Override
     public void create(List<UnitPlateRM> unitPlates) {
-
+        //
+        datastore.save(UnitPlateRMDoc.toDocument(unitPlates));
     }
 
     @Override
     public UnitPlateRM retrieve(String id) {
-        return null;
+        //
+        return datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id).get().toModel();
     }
 
     @Override
-    public List<UnitPlateRM> retrieve(String key, KeyAttr attr) {
+    public List<UnitPlateRM> retrieve(KeyAttr keyAttr, String keyValue) {
+        //
+//        return datastore.createQuery(UnitPlateRMDoc.class).field("key").equal(key);
         return null;
     }
 
     @Override
     public List<UnitPlateRM> retrieveByCastellanId(String castellanId) {
-        return null;
+        //
+        return UnitPlateRMDoc.toModel(
+                datastore.createQuery(UnitPlateRMDoc.class).field("castellanId").equal(castellanId).asList()
+        );
     }
 
     @Override
-    public void delete(UnitPlateRM unitPlate) {
-
+    public void delete(String id) {
+        //
+        datastore.delete(
+                datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id).get()
+        );
     }
 
     @Override
     public void deleteByCastellanId(String castellanId) {
-
+        //
+        datastore.delete(
+                datastore.createQuery(UnitPlateRMDoc.class).field("castellanId").equal(castellanId).asList()
+        );
     }
 
     @Override
-    public boolean exist(KeyAttr keyAttr, String keyValue) {
+    public boolean exists(KeyAttr keyAttr, String keyValue) {
         return false;
     }
 }

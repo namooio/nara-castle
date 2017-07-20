@@ -11,8 +11,8 @@ import nara.share.util.json.JsonUtil;
 
 public class UnitPlateRM extends Entity {
     //
-    private String keyValue;
     private KeyAttr keyAttr;
+    private String keyValue;
     private String castellanId;
 
     public UnitPlateRM() {
@@ -39,16 +39,16 @@ public class UnitPlateRM extends Entity {
     public UnitPlateRM(String castellanId, Email email) {
         //
         super();
-        this.keyValue = email.getEmail();
         this.keyAttr = KeyAttr.Email;
+        this.keyValue = email.getEmail();
         this.castellanId = castellanId;
     }
 
     public UnitPlateRM(String castellanId, Phone phone) {
         //
         super();
-        this.keyValue = phone.getCarrierFullNumber();
         this.keyAttr = KeyAttr.Email;
+        this.keyValue = phone.getCarrierFullNumber();
         this.castellanId = castellanId;
     }
 
@@ -74,8 +74,8 @@ public class UnitPlateRM extends Entity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UnitPlateRM{");
-        sb.append("key='").append(keyValue).append('\'');
-        sb.append(", keyAttr=").append(keyAttr);
+        sb.append("keyAttr=").append(keyAttr);
+        sb.append(", keyValue='").append(keyValue).append('\'');
         sb.append(", castellanId='").append(castellanId).append('\'');
         sb.append('}');
         return sb.toString();
@@ -100,20 +100,20 @@ public class UnitPlateRM extends Entity {
         return JsonUtil.fromJson(json, UnitPlateRM.class);
     }
 
-    public String getKeyValue() {
-        return keyValue;
-    }
-
-    public void setKeyValue(String keyValue) {
-        this.keyValue = keyValue;
-    }
-
     public KeyAttr getKeyAttr() {
         return keyAttr;
     }
 
     public void setKeyAttr(KeyAttr keyAttr) {
         this.keyAttr = keyAttr;
+    }
+
+    public String getKeyValue() {
+        return keyValue;
+    }
+
+    public void setKeyValue(String keyValue) {
+        this.keyValue = keyValue;
     }
 
     public String getCastellanId() {

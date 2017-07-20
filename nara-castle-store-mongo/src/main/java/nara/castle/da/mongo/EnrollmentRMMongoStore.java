@@ -31,7 +31,9 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
     @Override
     public List<EnrollmentRM> retrieveByCastellanId(String castellanId) {
         //
-        return EnrollmentRMDoc.toModel(datastore.createQuery(EnrollmentRMDoc.class).asList());
+        return EnrollmentRMDoc.toModel(
+                datastore.createQuery(EnrollmentRMDoc.class).field("castellanId").equal(castellanId).asList()
+        );
     }
 
     @Override

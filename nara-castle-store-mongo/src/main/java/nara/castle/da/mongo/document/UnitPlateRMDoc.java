@@ -2,15 +2,23 @@ package nara.castle.da.mongo.document;
 
 import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.Indexed;
+import org.mongodb.morphia.annotations.*;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity("CA_UNITPLATE")
+@Indexes(
+        @Index(
+                value = "idx_key",
+                fields = {
+                        @Field("keyValue"),
+                        @Field("keyAttr")
+                },
+                unique = false
+        )
+)
 public class UnitPlateRMDoc {
     //
     @Id
@@ -33,9 +41,9 @@ public class UnitPlateRMDoc {
         return unitPlateRMDoc;
     }
 
-    public static List<UnitPlateRM> toModel(List<UnitPlateRMDoc> unitPlateRMDocs) {
+    public static List<UnitPlateRMDoc> toDocument(List<UnitPlateRM> unitPlateRMs) {
         //
-        return unitPlateRMDocs.stream().map(doc -> doc.toModel()).collect(Collectors.toList());
+        return unitPlateRMs.stream().map(unitPlateRM -> toDocument(unitPlateRM)).collect(Collectors.toList());
     }
 
     public UnitPlateRM toModel() {
@@ -43,6 +51,11 @@ public class UnitPlateRMDoc {
         UnitPlateRM unitPlateRM = new UnitPlateRM(id);
         BeanUtils.copyProperties(this, unitPlateRM);
         return unitPlateRM;
+    }
+
+    public static List<UnitPlateRM> toModel(List<UnitPlateRMDoc> unitPlateRMDocs) {
+        //
+        return unitPlateRMDocs.stream().map(unitplateRMDoc -> unitplateRMDoc.toModel()).collect(Collectors.toList());
     }
 
     public String getId() {
@@ -76,4 +89,5 @@ public class UnitPlateRMDoc {
     public void setCastellanId(String castellanId) {
         this.castellanId = castellanId;
     }
+
 }

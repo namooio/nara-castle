@@ -10,6 +10,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity("CA_CASTELLAN")
+//@Indexes(
+//        @Index(
+//                value = "idx_enrollments",
+//                fields = {
+//                        @Field("enrollments.metroId"),
+//                        @Field("enrollments.civilianId")
+//                },
+//                unique = true
+//        )
+//)
 public class CastellanRMDoc {
     //
     @Id

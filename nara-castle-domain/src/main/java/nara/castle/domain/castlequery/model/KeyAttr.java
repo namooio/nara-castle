@@ -5,5 +5,6 @@ public enum KeyAttr {
     Email,
     Phone,
     EngName,
-    LocaleName;
+    LocaleName
+    ;
 }

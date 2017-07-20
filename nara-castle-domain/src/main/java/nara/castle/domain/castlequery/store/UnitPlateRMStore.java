@@ -10,9 +10,9 @@ public interface UnitPlateRMStore {
     void create(UnitPlateRM unitPlate);
     void create(List<UnitPlateRM> unitPlates);
     UnitPlateRM retrieve(String id);
-    List<UnitPlateRM> retrieve(String key, KeyAttr attr);
+    List<UnitPlateRM> retrieve(KeyAttr keyAttr, String keyValue);
     List<UnitPlateRM> retrieveByCastellanId(String castellanId);
-    void delete(UnitPlateRM unitPlate);
+    void delete(String id);
     void deleteByCastellanId(String castellanId);
-    boolean exist(KeyAttr keyAttr, String keyValue);
+    boolean exists(KeyAttr keyAttr, String keyValue);
 }
