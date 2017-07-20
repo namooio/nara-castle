@@ -1,14 +1,13 @@
 package nara.castle.da.mongo;
 
 import nara.castle.da.mongo.document.CastellanViewDoc;
-import nara.castle.domain.castlequery.model.CastellanView;
-import nara.castle.domain.castlequery.store.CastellanViewStore;
+import nara.castle.domain.castlequery.store.CastellanRMStore;
 import nara.share.exception.store.NonExistenceException;
 import org.mongodb.morphia.Datastore;
 
 import java.util.List;
 
-public class CastellanViewMongoStore implements CastellanViewStore {
+public class CastellanViewMongoStore implements CastellanRMStore {
     //
     private Datastore datastore;
 

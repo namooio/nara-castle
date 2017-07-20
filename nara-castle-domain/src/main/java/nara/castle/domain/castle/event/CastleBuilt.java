@@ -1,30 +1,21 @@
 package nara.castle.domain.castle.event;
 
-import nara.castle.domain.castle.entity.Castle;
+import nara.castle.domain.castle.entity.Castellan;
 import nara.share.domain.event.NaraEvent;
 
 public class CastleBuilt implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
-    private Castle castle;
+    private Castellan castellan;
 
-    public CastleBuilt(Castle castle) {
+    public CastleBuilt(Castellan castellan) {
         //
-        this.castle = castle;
+        this.castellan = castellan;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("castle:").append(castle);
-        sb.append('}');
-        return sb.toString();
-    }
-
-    public Castle getCastle() {
-        return castle;
+    public Castellan getCastellan() {
+        return castellan;
     }
 
 }
-

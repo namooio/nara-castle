@@ -1,13 +1,11 @@
 package nara.castle.adapter.rest;
 
+import nara.castle.domain.castle.command.EnrollmentCommand;
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.RequestBuilder;
 import nara.castle.domain.castle.entity.Castle;
 import nara.castle.spec.CastleService;
 import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.EnrollMetroCommand;
-import nara.castle.domain.castlequery.model.CastellanView;
-import nara.castle.domain.castlequery.model.CastleView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +31,7 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CompletionStage enrollMetro(String castleId, EnrollMetroCommand command) {
+    public CompletionStage enrollMetro(String castleId, EnrollmentCommand command) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLL_METRO)
                         .addPathParam("castleId", castleId)

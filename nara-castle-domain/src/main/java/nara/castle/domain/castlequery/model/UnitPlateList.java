@@ -7,19 +7,19 @@ import java.util.List;
 
 public class UnitPlateList {
     //
-    private List<UnitPlate> unitPlates;
+    private List<UnitPlateRM> unitPlates;
 
     public UnitPlateList() {
         //
         this.unitPlates = new ArrayList<>();
     }
 
-    public UnitPlateList(List<UnitPlate> plates) {
+    public UnitPlateList(List<UnitPlateRM> plates) {
         //
         this.unitPlates = plates;
     }
 
-    public UnitPlateList(UnitPlate unitPlate) {
+    public UnitPlateList(UnitPlateRM unitPlate) {
         //
         this();
         this.unitPlates.add(unitPlate);
@@ -36,7 +36,7 @@ public class UnitPlateList {
     public static UnitPlateList getSample() {
         //
         UnitPlateList sample = new UnitPlateList();
-        sample.add(UnitPlate.getSample());
+        sample.add(UnitPlateRM.getSample());
 
         return sample;
     }
@@ -51,24 +51,24 @@ public class UnitPlateList {
         return JsonUtil.fromJson(json, UnitPlateList.class);
     }
 
-    public void add(UnitPlate unitPlate) {
+    public void add(UnitPlateRM unitPlate) {
         // 
         this.unitPlates.add(unitPlate);
     }
 
-    public void remove(UnitPlate unitPlate) {
+    public void remove(UnitPlateRM unitPlate) {
         //
         if (unitPlate != null) {
             unitPlates.remove(unitPlate);
         }
     }
 
-    public void addAll(List<UnitPlate> plates) {
+    public void addAll(List<UnitPlateRM> plates) {
         // 
         this.unitPlates.addAll(plates);
     }
 
-    public List<UnitPlate> getUnitPlates() {
+    public List<UnitPlateRM> getUnitPlates() {
         // 
         return unitPlates;
     }

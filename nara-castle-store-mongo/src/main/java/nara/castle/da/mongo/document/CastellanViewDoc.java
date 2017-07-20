@@ -1,6 +1,5 @@
 package nara.castle.da.mongo.document;
 
-import nara.castle.domain.castlequery.model.CastellanView;
 import nara.share.domain.NameValueList;
 import nara.share.domain.granule.AddressList;
 import nara.share.domain.granule.EmailList;
