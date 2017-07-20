@@ -3,30 +3,29 @@ package nara.castle.akka.actor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.pattern.Patterns;
-import nara.share.akka.support.actor.NaraActorConst;
+import nara.castle.akka.actor.persistence.CastleActor;
+import nara.castle.akka.actor.persistence.CastleBookActor;
+import nara.castle.domain.castle.command.BuildCastleCommand;
+import nara.castle.domain.castle.command.EnrollMetroCommand;
+import nara.castle.domain.castle.command.ModifyCastleCommand;
+import nara.castle.domain.castle.entity.Castle;
+import nara.castle.domain.castlebook.command.NextSequenceCommand;
+import nara.castle.domain.castlebook.entity.CastleBook;
+import nara.castle.domain.castlebook.entity.CastleIdBuilder;
+import nara.castle.domain.castlequery.model.CastellanView;
+import nara.castle.domain.castlequery.model.CastleView;
+import nara.castle.domain.castlequery.query.FindAllCastellansQuery;
+import nara.castle.domain.castlequery.query.FindAllCastlesQuery;
+import nara.castle.domain.castlequery.query.FindCastleQuery;
+import nara.castle.domain.castlequery.store.CastellanViewStore;
+import nara.castle.domain.castlequery.store.CastleViewStore;
+import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import nara.share.akka.support.actor.NaraActor;
+import nara.share.akka.support.actor.NaraActorConst;
 import nara.share.akka.support.actor.result.ActorResult;
 import nara.share.domain.protocol.NaraCommand;
 import nara.share.domain.protocol.NaraQuery;
 import nara.share.exception.NaraException;
-import nara.castle.akka.actor.persistence.CastleActor;
-import nara.castle.akka.actor.persistence.CastleBookActor;
-import nara.castle.domain.castlebook.entity.CastleIdBuilder;
-import nara.castle.domain.castle.entity.Castle;
-import nara.castle.domain.castlebook.entity.CastleBook;
-import nara.castle.domain.castle.entity.MetroEnrollment;
-import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.EnrollMetroCommand;
-import nara.castle.domain.castle.command.ModifyCastleCommand;
-import nara.castle.domain.castlebook.command.NextSequenceCommand;
-import nara.castle.domain.castlequery.query.FindAllCastellansQuery;
-import nara.castle.domain.castlequery.query.FindAllCastlesQuery;
-import nara.castle.domain.castlequery.query.FindCastleQuery;
-import nara.castle.domain.castlequery.model.CastellanView;
-import nara.castle.domain.castlequery.model.CastleView;
-import nara.castle.domain.castlequery.store.CastellanViewStore;
-import nara.castle.domain.castlequery.store.CastleViewStore;
-import nara.castle.domain.castlequery.store.CastleViewStoreLycler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.concurrent.Await;
@@ -93,12 +92,6 @@ public class CastleSupervisorActor extends NaraActor {
 
     private void handleBuildCastleCommand(BuildCastleCommand command) {
         //
-        MetroEnrollment enrollment = command.getEnrollment();
-
-        if (castleViewStore.existsByEnrolledMetro(enrollment.getMetroId(), enrollment.getCivilianId())) {
-            throw new NaraException(String.format("Castle for enrollment[%s] is already exists", command));
-        }
-
         String castleBookId = CastleIdBuilder.requestCastleBookId();
         ActorRef castleBookActor = lookupOrCreateChild(castleBookId, CastleBook.class, CastleBookActor.props(castleBookId));
 

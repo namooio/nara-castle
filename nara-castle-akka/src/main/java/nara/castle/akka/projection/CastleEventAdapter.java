@@ -6,6 +6,6 @@ public class CastleEventAdapter extends NaraEventAdapter {
     //
     public CastleEventAdapter() {
         //
-        super("castle-event");
+        super("castle");
     }
 }

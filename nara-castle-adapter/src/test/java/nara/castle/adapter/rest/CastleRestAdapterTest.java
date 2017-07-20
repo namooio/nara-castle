@@ -18,18 +18,29 @@ public class CastleRestAdapterTest {
         NaraRestClient naraRestClient = new SpringWebRestClient("http://localhost:9000");
         CastleRestAdapter castleRestAdapter = new CastleRestAdapter(naraRestClient);
 
-        MetroEnrollment enrollment = new MetroEnrollment(
-                "P01",
-                "C1@P01",
-                new Name(Locale.KOREAN, "기철", "허"),
-                "kchuh@nextree.co.kr",
-                new NaraZone(Locale.KOREA, "Asia/Seoul")
-        );
+        for (int i = 0 ; i < 100 ; i++) {
+            String seq = "0" + i;
 
-        castleRestAdapter.buildCastle(new BuildCastleCommand(enrollment)).thenAccept(response -> {
-            String castleId = (String) response;
-            castleRestAdapter.enrollMetro(castleId, new EnrollMetroCommand(castleId, new MetroEnrollment("Q02", "C1@Q02", new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))));
-        }).toCompletableFuture().get();
+            String metroId = "P" + seq;
+            String civilianId = "C1" + metroId;
+
+            String metroId2 = "Q" + seq;
+            String civilianId2 = "C1" + metroId2;
+
+            MetroEnrollment enrollment = new MetroEnrollment(
+                    metroId,
+                    civilianId,
+                    new Name(Locale.KOREAN, "기철", "허"),
+                    "kchuh@nextree.co.kr",
+                    new NaraZone(Locale.KOREA, "Asia/Seoul")
+            );
+
+            castleRestAdapter.buildCastle(new BuildCastleCommand(enrollment)).thenAccept(response -> {
+                String castleId = (String) response;
+                castleRestAdapter.enrollMetro(castleId, new EnrollMetroCommand(castleId, new MetroEnrollment(metroId2, civilianId2, new Name(Locale.KOREAN, "기철", "허"), "kchuh@nextree.co.kr", new NaraZone(Locale.KOREA, "Asia/Seoul"))));
+            }).toCompletableFuture().get();
+        }
+
 
     }
 }
