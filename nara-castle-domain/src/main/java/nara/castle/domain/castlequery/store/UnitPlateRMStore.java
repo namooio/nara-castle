@@ -12,7 +12,7 @@ public interface UnitPlateRMStore {
     UnitPlateRM retrieve(String id);
     List<UnitPlateRM> retrieve(String key, KeyAttr attr);
     List<UnitPlateRM> retrieveByCastleId(String castleId);
-    boolean exist(String key, KeyAttr attr);
+    boolean exist(KeyAttr keyAttr, String keyValue);
     void delete(UnitPlateRM unitPlate);
     void deleteByCastellanId(String castellanId);
 }

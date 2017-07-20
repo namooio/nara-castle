@@ -11,8 +11,8 @@ import nara.share.util.json.JsonUtil;
 
 public class UnitPlateRM extends Entity {
     //
-    private String key;
-    private KeyAttr attr;
+    private String keyValue;
+    private KeyAttr keyAttr;
     private String castellanId;
 
     public UnitPlateRM() {
@@ -27,11 +27,11 @@ public class UnitPlateRM extends Entity {
     public UnitPlateRM(String castellanId, Name name) {
         //
         super();
-        this.key = name.getDisplayName();
+        this.keyValue = name.getDisplayName();
         if (name.isEngName()) {
-            this.attr = KeyAttr.EngName;
+            this.keyAttr = KeyAttr.EngName;
         } else {
-            this.attr = KeyAttr.LocaleName;
+            this.keyAttr = KeyAttr.LocaleName;
         }
         this.castellanId = castellanId;
     }
@@ -39,16 +39,16 @@ public class UnitPlateRM extends Entity {
     public UnitPlateRM(String castellanId, Email email) {
         //
         super();
-        this.key = email.getEmail();
-        this.attr = KeyAttr.Email;
+        this.keyValue = email.getEmail();
+        this.keyAttr = KeyAttr.Email;
         this.castellanId = castellanId;
     }
 
     public UnitPlateRM(String castellanId, Phone phone) {
         //
         super();
-        this.key = phone.getCarrierFullNumber();
-        this.attr = KeyAttr.Email;
+        this.keyValue = phone.getCarrierFullNumber();
+        this.keyAttr = KeyAttr.Email;
         this.castellanId = castellanId;
     }
 
@@ -74,8 +74,8 @@ public class UnitPlateRM extends Entity {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("UnitPlateRM{");
-        sb.append("key='").append(key).append('\'');
-        sb.append(", attr=").append(attr);
+        sb.append("key='").append(keyValue).append('\'');
+        sb.append(", keyAttr=").append(keyAttr);
         sb.append(", castellanId='").append(castellanId).append('\'');
         sb.append('}');
         return sb.toString();
@@ -100,20 +100,20 @@ public class UnitPlateRM extends Entity {
         return JsonUtil.fromJson(json, UnitPlateRM.class);
     }
 
-    public String getKey() {
-        return key;
+    public String getKeyValue() {
+        return keyValue;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKeyValue(String keyValue) {
+        this.keyValue = keyValue;
     }
 
-    public KeyAttr getAttr() {
-        return attr;
+    public KeyAttr getKeyAttr() {
+        return keyAttr;
     }
 
-    public void setAttr(KeyAttr attr) {
-        this.attr = attr;
+    public void setKeyAttr(KeyAttr keyAttr) {
+        this.keyAttr = keyAttr;
     }
 
     public String getCastellanId() {

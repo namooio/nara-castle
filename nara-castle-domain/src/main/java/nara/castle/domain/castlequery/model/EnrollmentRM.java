@@ -36,6 +36,8 @@ public class EnrollmentRM extends Entity {
         this.withdrawn = enrollment.isWithdrawn();
         this.enrollingTime = enrollment.getEnrollingTime();
         this.withdrawnTime = enrollment.getWithdrawnTime();
+
+        this.castellanId = castellanId;
     }
 
     @Override

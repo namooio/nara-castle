@@ -3,16 +3,16 @@ package nara.castle.domain.castle.command;
 import nara.castle.domain.castle.entity.Enrollment;
 import nara.share.domain.protocol.NaraCommand;
 
-public class EnrollmentCommand implements NaraCommand {
+public class AddEnrollmentCommand implements NaraCommand {
     //
     private String castellanId;
     private Enrollment enrollment;
 
-    public EnrollmentCommand() {
+    public AddEnrollmentCommand() {
         //
     }
 
-    public EnrollmentCommand(String castellanId, Enrollment enrollment) {
+    public AddEnrollmentCommand(String castellanId, Enrollment enrollment) {
         //
         this.castellanId = castellanId;
         this.enrollment = enrollment;
