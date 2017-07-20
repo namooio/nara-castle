@@ -43,7 +43,7 @@ public class CastleViewMongoStoreLycler implements CastleRMStoreLycler {
         datastore.ensureIndexes();
 
 //        this.castleViewStore = new CastleViewMongoStore(datastore);
-//        this.castellanViewStore = new CastellanViewMongoStore(datastore);
+//        this.castellanViewStore = new CastellanRMMongoStore(datastore);
     }
 
     @Override

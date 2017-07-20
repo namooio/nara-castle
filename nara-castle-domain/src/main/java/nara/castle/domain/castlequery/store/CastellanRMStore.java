@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface CastellanRMStore {
     //
-    void create(CastellanRM castellanView);
+    void create(CastellanRM castellanRM);
     CastellanRM retrieve(String id);
     List<CastellanRM> retrieveAll();
-    void update(CastellanRM castellanView);
+    void update(CastellanRM castellanRM);
     void delete(String id);
     boolean exists(String id);
 }

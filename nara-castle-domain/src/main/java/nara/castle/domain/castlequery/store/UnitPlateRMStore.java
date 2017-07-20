@@ -11,8 +11,8 @@ public interface UnitPlateRMStore {
     void create(List<UnitPlateRM> unitPlates);
     UnitPlateRM retrieve(String id);
     List<UnitPlateRM> retrieve(String key, KeyAttr attr);
-    List<UnitPlateRM> retrieveByCastleId(String castleId);
-    boolean exist(KeyAttr keyAttr, String keyValue);
+    List<UnitPlateRM> retrieveByCastellanId(String castellanId);
     void delete(UnitPlateRM unitPlate);
     void deleteByCastellanId(String castellanId);
+    boolean exist(KeyAttr keyAttr, String keyValue);
 }

@@ -27,7 +27,7 @@
 //        //
 //        CastleViewDoc castleViewDoc = datastore.createQuery(CastleViewDoc.class).field("id").equal(id).get();
 //        if (castleViewDoc == null) throw new NonExistenceException(String.format("No castleView document[%s] found.", id));
-//        return castleViewDoc.toDomain();
+//        return castleViewDoc.toModel();
 //    }
 //
 //    @Override
@@ -38,14 +38,14 @@
 //
 //        CastleViewDoc castleViewDoc = query.get();
 //        if (castleViewDoc == null) return null;
-//        return castleViewDoc.toDomain();
+//        return castleViewDoc.toModel();
 //    }
 //
 //    @Override
 //    public List<CastleView> retrieveAll() {
 //        //
 //        List<CastleViewDoc> castleViewDocs = datastore.createQuery(CastleViewDoc.class).asList();
-//        return CastleViewDoc.toDomains(castleViewDocs);
+//        return CastleViewDoc.toModel(castleViewDocs);
 //    }
 //
 //    @Override

@@ -25,6 +25,11 @@ public class EnrollmentRM extends Entity {
         //
     }
 
+    public EnrollmentRM(String id) {
+        //
+        super(id);
+    }
+
     public EnrollmentRM(String castellanId, Enrollment enrollment) {
         //
         super();

@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface EnrollmentRMStore {
     //
-    void create(EnrollmentRM enrollment);
+    void create(EnrollmentRM enrollmentRM);
     EnrollmentRM retrieve(String id);
     List<EnrollmentRM> retrieveByCastellanId(String castellanId);
-    void update(EnrollmentRM enrollment);
-    void delete(EnrollmentRM enrollment);
+    void update(EnrollmentRM enrollmentRM);
+    void delete(String id);
     boolean exists(String id);
 }

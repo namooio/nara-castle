@@ -1,6 +1,6 @@
 //package nara.castle.cp;
 //
-//import nara.castle.da.mongo.CastellanViewMongoStore;
+//import nara.castle.da.mongo.CastellanRMMongoStore;
 //import nara.castle.da.mongo.CastleViewMongoStore;
 //import nara.castle.domain.castlequery.store.CastellanRMStore;
 //import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
@@ -14,7 +14,7 @@
 //    public CastleViewMongoStoreLycler(Datastore datastore) {
 //        //
 //        this.castleViewStore = new CastleViewMongoStore(datastore);
-//        this.castellanViewStore = new CastellanViewMongoStore(datastore);
+//        this.castellanViewStore = new CastellanRMMongoStore(datastore);
 //    }
 //
 //    @Override

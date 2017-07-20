@@ -43,12 +43,12 @@
 //        return castleViewDoc;
 //    }
 //
-//    public static List<CastleView> toDomains(List<CastleViewDoc> castleViewDocuments) {
+//    public static List<CastleView> toModel(List<CastleViewDoc> castleViewDocuments) {
 //        //
-//        return castleViewDocuments.stream().map(doc -> doc.toDomain()).collect(Collectors.toList());
+//        return castleViewDocuments.stream().map(doc -> doc.toModel()).collect(Collectors.toList());
 //    }
 //
-//    public CastleView toDomain() {
+//    public CastleView toModel() {
 //        //
 //        CastleView castleView = new CastleView();
 //        BeanUtils.copyProperties(this, castleView);
