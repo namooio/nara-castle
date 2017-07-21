@@ -123,6 +123,16 @@ public class CastleResource extends Controller implements CastleService {
     }
 
     @Override
+    public CompletionStage<Result> existsCastellan(String castellanId) {
+        //
+        ExistenceCheckQuery existenceCheckQuery = new ExistenceCheckQuery(castellanId);
+        return PatternsCS.ask(castleQueryActor, existenceCheckQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
+            ActorResult<Boolean> result = (ActorResult) response;
+            return ok(Json.toJson(result.get()));
+        });
+    }
+
+    @Override
     public CompletionStage<Result> findEnrollments(String castellanId) {
         //
         FindEnrollmentsQuery findEnrollmentsQuery = new FindEnrollmentsQuery(castellanId);

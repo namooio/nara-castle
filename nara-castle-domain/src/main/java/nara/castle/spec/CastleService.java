@@ -17,6 +17,7 @@ public interface CastleService {
 
     CompletionStage findCastellan(String castellanId);
     CompletionStage findCastellans();
+    CompletionStage existsCastellan(String castellanId);
 
     CompletionStage findEnrollments(String castellanId);
     CompletionStage findUnitPlates(KeyAttr keyAttr, String keyValue);

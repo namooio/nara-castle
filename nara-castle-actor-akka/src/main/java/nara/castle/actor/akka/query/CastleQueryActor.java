@@ -38,6 +38,12 @@ public class CastleQueryActor extends NaraActor {
                 //
                 responseResult(() -> rmStoreLycler.requestCastellanRMStore().retrieveAll());
             })
+            .match(ExistenceCheckQuery.class, existenceCheckQuery -> {
+                //
+                String castellanId = existenceCheckQuery.getCastellanId();
+
+                responseResult(() -> rmStoreLycler.requestCastellanRMStore().exists(castellanId));
+            })
             .match(FindEnrollmentsQuery.class, findEnrollmentsQuery -> {
                 //
                 String castellanId = findEnrollmentsQuery.getCastellanId();

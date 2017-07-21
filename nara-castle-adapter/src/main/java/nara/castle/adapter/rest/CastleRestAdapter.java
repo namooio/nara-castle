@@ -80,6 +80,15 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
+    public CompletionStage<Boolean> existsCastellan(String castellanId) {
+        //
+        return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_CHECK)
+                .addPathParam("castellanId", castellanId)
+                .setResponseType(Boolean.class)
+        ));
+    }
+
+    @Override
     public CompletionStage<List<EnrollmentRM>> findEnrollments(String castellanId) {
         //
         return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENTS_FIND)
@@ -102,6 +111,7 @@ public class CastleRestAdapter implements CastleService {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENTS_CHECK)
                 .addPathParam("castellanId", castellanId)
+                .addPathParam("metroId", metroId)
                 .setResponseType(Boolean.class)
         ));
     }

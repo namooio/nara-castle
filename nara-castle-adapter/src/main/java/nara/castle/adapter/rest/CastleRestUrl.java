@@ -12,6 +12,7 @@ public enum CastleRestUrl implements NaraRestUrl {
 
     URL_CASTELLAN_FIND          ("castle-api/castellans/{castellanId}",                HttpMethod.GET),
     URL_CASTELLANS_FIND         ("castle-api/castellans",                              HttpMethod.GET),
+    URL_CASTELLAN_CHECK         ("castle-api/castellans/{castellanId}/exists",         HttpMethod.GET),
     URL_ENROLLMENTS_FIND        ("castle-api/castellans/{castellanId}/enrollments",    HttpMethod.GET),
     URL_UNIT_PLATES_FIND        ("castle-api/castellans/unitplates",                   HttpMethod.GET),
     URL_ENROLLMENTS_CHECK       ("castle-api/castellans/{castellanId}/enrollments/metros/{metroId}/exists",    HttpMethod.GET),
