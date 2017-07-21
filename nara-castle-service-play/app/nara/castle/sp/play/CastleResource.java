@@ -102,7 +102,7 @@ public class CastleResource extends Controller implements CastleService {
     }
 
     @Override
-    public CompletionStage demolishCastle(String castellanId) {
+    public CompletionStage<Result> demolishCastle(String castellanId) {
         //
         DemolishCastleCommand demolishCastleCommand = new DemolishCastleCommand(castellanId);
         return PatternsCS.ask(castleSupervisorActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
