@@ -42,7 +42,7 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
         matcher()
             .match(CastleBuilt.class, castleBuilt -> getState().apply(castleBuilt))
             .match(CastellanModified.class, castellanModified -> getState().apply(castellanModified))
-                .match(CastleDemolished.class, castleDemolished -> getState().apply(castleDemolished))
+            .match(CastleDemolished.class, castleDemolished -> getState().apply(castleDemolished))
             .match(MetroEnrolled.class, metroEnrolled -> getState().apply(metroEnrolled))
             .match(MetroWithdrawn.class, metroWithdrawn -> getState().apply(metroWithdrawn))
         .onMessage(event);
