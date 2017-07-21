@@ -1,23 +1,34 @@
 package nara.castle.actor.akka.projection;
 
 import akka.actor.Props;
-import nara.castle.actor.akka.projection.builder.CastleBuiltRMBuilder;
-import nara.castle.actor.akka.projection.builder.MetroEnrolledRMBuilder;
-import nara.castle.actor.akka.projection.builder.CastellanModifiedRMBuilder;
+import nara.castle.domain.castle.entity.Castellan;
+import nara.castle.domain.castle.entity.Contact;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.event.CastellanModified;
 import nara.castle.domain.castle.event.CastleBuilt;
 import nara.castle.domain.castle.event.MetroEnrolled;
+import nara.castle.domain.castlequery.model.CastellanRM;
+import nara.castle.domain.castlequery.model.EnrollmentRM;
+import nara.castle.domain.castlequery.model.UnitPlateList;
+import nara.castle.domain.castlequery.model.UnitPlateRM;
+import nara.castle.domain.castlequery.store.CastellanRMStore;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
+import nara.castle.domain.castlequery.store.EnrollmentRMStore;
+import nara.castle.domain.castlequery.store.UnitPlateRMStore;
 import nara.share.actor.akka.NaraProjectionActor;
-import nara.share.actor.akka.projection.ReadModelBuilder;
 import nara.share.actor.akka.projection.journal.ReadJournalSource;
 import nara.share.actor.akka.projection.resume.ResumableProjection;
+import nara.share.domain.NameValueList;
+import nara.share.domain.event.NaraEvent;
 
-import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CastleProjectionActor extends NaraProjectionActor {
     //
-    private CastleRMStoreLycler rmStoreLycler;
+    private CastellanRMStore castellanRMStore;
+    private EnrollmentRMStore enrollmentRMStore;
+    private UnitPlateRMStore unitPlateRMStore;
 
     static public Props props(
             CastleRMStoreLycler storeLycler,
@@ -31,14 +42,57 @@ public class CastleProjectionActor extends NaraProjectionActor {
     public CastleProjectionActor(CastleRMStoreLycler rmStoreLycler, ReadJournalSource readJournalSource, ResumableProjection resumableProjection) {
         //
         super("castle", readJournalSource, resumableProjection);
-        this.rmStoreLycler = rmStoreLycler;
+
+        castellanRMStore = rmStoreLycler.requestCastellanRMStore();
+        enrollmentRMStore = rmStoreLycler.requestEnrollmentRMStore();
+        unitPlateRMStore = rmStoreLycler.requestUnitPlateRMStore();
     }
 
     @Override
-    protected void configProjection(Map<String, ReadModelBuilder> readModelBuilderMap) {
+    protected void buildReadModel(NaraEvent event) {
         //
-        readModelBuilderMap.put(CastleBuilt.class.getName(), new CastleBuiltRMBuilder(rmStoreLycler));
-        readModelBuilderMap.put(MetroEnrolled.class.getName(), new MetroEnrolledRMBuilder(rmStoreLycler));
-        readModelBuilderMap.put(CastellanModified.class.getName(), new CastellanModifiedRMBuilder(rmStoreLycler));
+        matcher()
+            .match(CastleBuilt.class, castleBuilt -> {
+                //
+                Castellan initialState = castleBuilt.getInitialState();
+                List<Enrollment> enrollments = initialState.getEnrollments();
+                String castellanId = initialState.getId();
+
+                CastellanRM castellanRM = new CastellanRM(initialState);
+                List<EnrollmentRM> enrollmentRMS = enrollments.stream().map(enrollment -> new EnrollmentRM(castellanId, enrollment)).collect(Collectors.toList());
+                UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, castellanRM.getContact());
+
+                castellanRMStore.create(castellanRM);
+                enrollmentRMStore.create(enrollmentRMS);
+                unitPlateRMStore.create(unitPlateList.getUnitPlates());
+            })
+            .match(MetroEnrolled.class, metroEnrolled -> {
+                //
+                String castellanId = metroEnrolled.getCastellanId();
+                Enrollment enrollment = metroEnrolled.getEnrollment();
+
+                EnrollmentRM enrollmentRM = new EnrollmentRM(castellanId, enrollment);
+                enrollmentRMStore.create(enrollmentRM);
+            })
+            .match(CastellanModified.class, castellanModified -> {
+                //
+                String castellanId = castellanModified.getCastellanId();
+                NameValueList nameValues = castellanModified.getNameValues();
+
+                CastellanRM castellanRM = castellanRMStore.retrieve(castellanId);
+                castellanRM.setValues(nameValues);
+
+                castellanRMStore.update(castellanRM);
+
+                if (nameValues.containsName("contact")) {
+                    Contact contact = castellanRM.getContact();
+                    UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, contact);
+                    unitPlateRMStore.deleteByCastellanId(castellanId);
+                    unitPlateRMStore.create(unitPlateList.getUnitPlates());
+                }
+
+            })
+        .onMessage(event);
     }
+
 }

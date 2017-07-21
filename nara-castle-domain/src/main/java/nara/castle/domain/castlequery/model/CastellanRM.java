@@ -3,6 +3,8 @@ package nara.castle.domain.castlequery.model;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Contact;
 import nara.share.domain.Entity;
+import nara.share.domain.NameValue;
+import nara.share.domain.NameValueList;
 import nara.share.util.json.JsonUtil;
 
 public class CastellanRM extends Entity {
@@ -52,6 +54,19 @@ public class CastellanRM extends Entity {
 
     public static CastellanRM fromJson(String json) {
         return JsonUtil.fromJson(json, CastellanRM.class);
+    }
+
+    public void setValues(NameValueList nameValues) {
+        //
+        for(NameValue nameValue : nameValues.getList()) {
+            String name = nameValue.getName();
+            String value = nameValue.getValue();
+            switch (name) {
+                case "displayName":     this.displayName = value; break;
+                case "primaryEmail":    this.primaryEmail = value; break;
+                case "contact":         this.contact = Contact.fromJson(value); break;
+            }
+        }
     }
 
     public String getDisplayName() {
