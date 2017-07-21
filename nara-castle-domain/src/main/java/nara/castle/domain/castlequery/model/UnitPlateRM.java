@@ -47,7 +47,7 @@ public class UnitPlateRM extends Entity {
     public UnitPlateRM(String castellanId, Phone phone) {
         //
         super();
-        this.keyAttr = KeyAttr.Email;
+        this.keyAttr = KeyAttr.Phone;
         this.keyValue = phone.getCarrierFullNumber();
         this.castellanId = castellanId;
     }

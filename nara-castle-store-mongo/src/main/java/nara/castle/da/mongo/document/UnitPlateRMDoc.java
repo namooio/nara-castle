@@ -8,13 +8,13 @@ import org.springframework.beans.BeanUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Entity("CA_UNITPLATE")
+@Entity("CA_UNIT_PLATE")
 @Indexes(
         @Index(
-                value = "idx_key",
+                value = "idx_key_attr_value",
                 fields = {
-                        @Field("keyValue"),
-                        @Field("keyAttr")
+                        @Field("keyAttr"),
+                        @Field("keyValue")
                 },
                 unique = false
         )

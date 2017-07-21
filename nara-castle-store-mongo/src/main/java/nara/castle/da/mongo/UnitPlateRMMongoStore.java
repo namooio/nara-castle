@@ -5,6 +5,7 @@ import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.store.UnitPlateRMStore;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
 import java.util.List;
 
@@ -38,8 +39,12 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     @Override
     public List<UnitPlateRM> retrieve(KeyAttr keyAttr, String keyValue) {
         //
-//        return datastore.createQuery(UnitPlateRMDoc.class).field("key").equal(key);
-        return null;
+        Query<UnitPlateRMDoc> query = datastore.createQuery(UnitPlateRMDoc.class);
+        query.and(
+                query.criteria("keyAttr").equal(keyAttr),
+                query.criteria("keyValue").equal(keyValue)
+        );
+        return UnitPlateRMDoc.toModel(query.asList());
     }
 
     @Override
@@ -68,6 +73,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
 
     @Override
     public boolean exists(KeyAttr keyAttr, String keyValue) {
-        return false;
+        //
+        return retrieve(keyAttr, keyValue) != null;
     }
 }
