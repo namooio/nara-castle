@@ -45,6 +45,14 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
+    public CompletionStage demolishCastle(String castellanId) {
+        //
+        return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTLE_DEMOLISH)
+                .addPathParam("castellanId", castellanId)
+        ));
+    }
+
+    @Override
     public CompletionStage<Void> addEnrollment(String castellanId, AddEnrollmentCommand addEnrollmentCommand) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENT_ADD)

@@ -9,6 +9,7 @@ public enum CastleRestUrl implements NaraRestUrl {
     URL_CASTELLAN_MODIFY        ("castle-api/castellans/{castellanId}",                HttpMethod.PUT),
     URL_ENROLLMENT_ADD          ("castle-api/castellans/{castellanId}/enrollments",    HttpMethod.POST),
     URL_ENROLLMENT_WIDTHRAW     ("castle-api/castellans/{castellanId}/withdrawal",     HttpMethod.PUT),
+    URL_CASTLE_DEMOLISH         ("castle-api/castles/{castellanId}",                   HttpMethod.DELETE),
 
     URL_CASTELLAN_FIND          ("castle-api/castellans/{castellanId}",                HttpMethod.GET),
     URL_CASTELLANS_FIND         ("castle-api/castellans",                              HttpMethod.GET),

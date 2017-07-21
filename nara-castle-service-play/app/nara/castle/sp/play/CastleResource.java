@@ -6,10 +6,7 @@ import akka.pattern.PatternsCS;
 import com.fasterxml.jackson.databind.JsonNode;
 import nara.castle.actor.akka.CastleSupervisorActor;
 import nara.castle.actor.akka.query.CastleQueryActor;
-import nara.castle.domain.castle.command.AddEnrollmentCommand;
-import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.ModifyCastellanCommand;
-import nara.castle.domain.castle.command.WithdrawMetroCommand;
+import nara.castle.domain.castle.command.*;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
@@ -102,6 +99,13 @@ public class CastleResource extends Controller implements CastleService {
     public CompletionStage<Result> withdrawMetro(String castellanId, WithdrawMetroCommand withdrawMetroCommand) {
         //
         return PatternsCS.ask(castleSupervisorActor, withdrawMetroCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+    }
+
+    @Override
+    public CompletionStage demolishCastle(String castellanId) {
+        //
+        DemolishCastleCommand demolishCastleCommand = new DemolishCastleCommand(castellanId);
+        return PatternsCS.ask(castleSupervisorActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     public CompletionStage<Result> findCastellan(String castellanId) {

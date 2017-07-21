@@ -13,6 +13,7 @@ POST    /castle-api/castles                                     nara.castle.sp.p
 PUT     /castle-api/castellans/:castellanId                     nara.castle.sp.play.CastleResource.modifyCastellan(castellanId:String)
 POST    /castle-api/castellans/:castellanId/enrollments         nara.castle.sp.play.CastleResource.addEnrollment(castellanId:String)
 PUT     /castle-api/castellans/:castellanId/withdrawal          nara.castle.sp.play.CastleResource.withdrawMetro(castellanId:String)
+DELETE  /castle-api/castles/:castellanId                        nara.castle.sp.play.CastleResource.demolishCastle(castellanId:String)
 
 GET     /castle-api/castellans/:castellanId                     nara.castle.sp.play.CastleResource.findCastellan(castellanId:String)
 GET     /castle-api/castellans                                  nara.castle.sp.play.CastleResource.findCastellans()

@@ -14,5 +14,6 @@ public interface EnrollmentRMStore {
     EnrollmentRM retrieveByMetroIdAndCivilianId(String metroId, String civilianId);
     void update(EnrollmentRM enrollmentRM);
     void delete(String id);
+    void deleteByCastellanId(String castellanId);
     boolean exists(String id);
 }

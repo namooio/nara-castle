@@ -3,10 +3,7 @@ package nara.castle.actor.akka;
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import nara.castle.actor.akka.command.CastleActor;
-import nara.castle.domain.castle.command.AddEnrollmentCommand;
-import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.ModifyCastellanCommand;
-import nara.castle.domain.castle.command.WithdrawMetroCommand;
+import nara.castle.domain.castle.command.*;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.share.actor.akka.NaraActor;
 import nara.share.domain.protocol.NaraCommand;
@@ -42,6 +39,11 @@ public class CastleSupervisorActor extends NaraActor {
                 //
                 String castellanId = modifyCastellanCommand.getCastellanId();
                 foward(castellanId, Castellan.class, CastleActor.props(castellanId), modifyCastellanCommand);
+            })
+            .match(DemolishCastleCommand.class, demolishCastleCommand -> {
+                //
+                String castellanId = demolishCastleCommand.getCastellanId();
+                foward(castellanId, Castellan.class, CastleActor.props(castellanId), demolishCastleCommand);
             })
             .match(AddEnrollmentCommand.class, addEnrollmentCommand -> {
                 //

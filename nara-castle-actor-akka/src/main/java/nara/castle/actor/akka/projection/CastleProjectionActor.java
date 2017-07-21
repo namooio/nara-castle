@@ -4,10 +4,7 @@ import akka.actor.Props;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Contact;
 import nara.castle.domain.castle.entity.Enrollment;
-import nara.castle.domain.castle.event.CastellanModified;
-import nara.castle.domain.castle.event.CastleBuilt;
-import nara.castle.domain.castle.event.MetroEnrolled;
-import nara.castle.domain.castle.event.MetroWithdrawn;
+import nara.castle.domain.castle.event.*;
 import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
 import nara.castle.domain.castlequery.model.UnitPlateList;
@@ -55,6 +52,7 @@ public class CastleProjectionActor extends NaraProjectionActor {
         matcher()
             .match(CastleBuilt.class, this::buildCastleBuildReadModel)
             .match(CastellanModified.class, this::buildCastellanModifiedReadModel)
+            .match(CastleDemolished.class, this::buildCastleDemolishedReadModel)
             .match(MetroEnrolled.class, this::buildMetroEnrolledReadModel)
             .match(MetroWithdrawn.class, this::buildMetroWithdrawnReadModel)
         .onMessage(event);
@@ -91,6 +89,15 @@ public class CastleProjectionActor extends NaraProjectionActor {
             unitPlateRMStore.deleteByCastellanId(castellanId);
             unitPlateRMStore.create(unitPlateList.getUnitPlates());
         }
+    }
+
+    private void buildCastleDemolishedReadModel(CastleDemolished castleDemolished) {
+        //
+        String castellanId = castleDemolished.getCastellanId();
+
+        castellanRMStore.delete(castellanId);
+        enrollmentRMStore.deleteByCastellanId(castellanId);
+        unitPlateRMStore.deleteByCastellanId(castellanId);
     }
 
     private void buildMetroEnrolledReadModel(MetroEnrolled metroEnrolled) {

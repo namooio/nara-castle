@@ -1,9 +1,6 @@
 package nara.castle.domain.castle.entity;
 
-import nara.castle.domain.castle.event.CastellanModified;
-import nara.castle.domain.castle.event.CastleBuilt;
-import nara.castle.domain.castle.event.MetroEnrolled;
-import nara.castle.domain.castle.event.MetroWithdrawn;
+import nara.castle.domain.castle.event.*;
 import nara.share.domain.Aggregate;
 import nara.share.domain.Entity;
 import nara.share.domain.NameValue;
@@ -85,6 +82,10 @@ public class Castellan extends Entity implements Aggregate {
                 this.contact = initialState.getContact();
                 this.enrollments = initialState.getEnrollments();
                 this.castle = initialState.getCastle();
+            })
+            .match(CastleDemolished.class, castleDemolished -> {
+                //
+                setDeleted(true);
             })
             .match(MetroEnrolled.class, metroEnrolled -> {
                 //

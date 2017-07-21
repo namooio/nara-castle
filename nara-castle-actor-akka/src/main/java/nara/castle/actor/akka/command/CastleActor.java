@@ -1,16 +1,10 @@
 package nara.castle.actor.akka.command;
 
 import akka.actor.Props;
-import nara.castle.domain.castle.command.AddEnrollmentCommand;
-import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.ModifyCastellanCommand;
-import nara.castle.domain.castle.command.WithdrawMetroCommand;
+import nara.castle.domain.castle.command.*;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Enrollment;
-import nara.castle.domain.castle.event.CastellanModified;
-import nara.castle.domain.castle.event.CastleBuilt;
-import nara.castle.domain.castle.event.MetroEnrolled;
-import nara.castle.domain.castle.event.MetroWithdrawn;
+import nara.castle.domain.castle.event.*;
 import nara.share.actor.akka.NaraPersistentActor;
 import nara.share.domain.event.NaraEvent;
 import nara.share.domain.protocol.NaraCommand;
@@ -48,6 +42,7 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
         matcher()
             .match(CastleBuilt.class, castleBuilt -> getState().apply(castleBuilt))
             .match(CastellanModified.class, castellanModified -> getState().apply(castellanModified))
+                .match(CastleDemolished.class, castleDemolished -> getState().apply(castleDemolished))
             .match(MetroEnrolled.class, metroEnrolled -> getState().apply(metroEnrolled))
             .match(MetroWithdrawn.class, metroWithdrawn -> getState().apply(metroWithdrawn))
         .onMessage(event);
@@ -64,6 +59,10 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
             .match(AddEnrollmentCommand.class, addEnrollmentCommand -> {
                 //
                 persist(new MetroEnrolled(getState().getId(), addEnrollmentCommand.getEnrollment()), this::handleAndRespond);
+            })
+            .match(DemolishCastleCommand.class, demolishCastleCommand -> {
+                //
+                persist(new CastleDemolished(getState().getId()), this::handleAndRespond);
             })
             .match(ModifyCastellanCommand.class, modifyCastellanCommand -> {
                 //

@@ -14,6 +14,7 @@ public interface CastleService {
     CompletionStage modifyCastellan(String castellanId, ModifyCastellanCommand modifyCastellanCommand);
     CompletionStage addEnrollment(String castellanId, AddEnrollmentCommand addEnrollmentCommand);
     CompletionStage withdrawMetro(String castellanId, WithdrawMetroCommand withdrawMetroCommand);
+    CompletionStage demolishCastle(String castellanId);
 
     CompletionStage findCastellan(String castellanId);
     CompletionStage findCastellans();
