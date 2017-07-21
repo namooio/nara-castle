@@ -16,13 +16,13 @@ import org.mongodb.morphia.Morphia;
 import javax.inject.Singleton;
 
 @Singleton
-public class CastleViewMongoStoreLycler implements CastleRMStoreLycler {
+public class CastleRMMongoStoreLycler implements CastleRMStoreLycler {
     //
     private CastellanRMStore castellanRMStore;
     private EnrollmentRMStore enrollmentRMStore;
     private UnitPlateRMStore unitPlateRMStore;
 
-    public CastleViewMongoStoreLycler() {
+    public CastleRMMongoStoreLycler() {
         //
         Morphia morphia = new Morphia();
         morphia.mapPackage("nara.castle.da.mongo.document");

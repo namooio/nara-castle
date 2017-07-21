@@ -1,6 +1,6 @@
 import com.google.inject.AbstractModule;
-import nara.castle.cp.CastleViewMongoStoreLycler;
-import nara.castle.cp.CastleViewProjectionLycler;
+import nara.castle.cp.CastleRMMongoStoreLycler;
+import nara.castle.cp.CastleRMProjectionLycler;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import play.Logger;
 
@@ -26,8 +26,8 @@ public class Module extends AbstractModule {
         // Ask Guice to create an instance of ApplicationTimer when the
         // application starts.
 
-        bind(CastleRMStoreLycler.class).to(CastleViewMongoStoreLycler.class).asEagerSingleton();
-        bind(CastleViewProjectionLycler.class).asEagerSingleton();
+        bind(CastleRMStoreLycler.class).to(CastleRMMongoStoreLycler.class).asEagerSingleton();
+        bind(CastleRMProjectionLycler.class).asEagerSingleton();
     }
 
 }
