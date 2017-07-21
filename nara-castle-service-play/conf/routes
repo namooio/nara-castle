@@ -17,6 +17,7 @@ PUT     /castle-api/castellans/:castellanId/withdrawal          nara.castle.sp.p
 GET     /castle-api/castellans/:castellanId                     nara.castle.sp.play.CastleResource.findCastellan(castellanId:String)
 GET     /castle-api/castellans                                  nara.castle.sp.play.CastleResource.findCastellans()
 GET     /castle-api/castellans/:castellanId/enrollments         nara.castle.sp.play.CastleResource.findEnrollments(castellanId:String)
-#GET     /castle-api/castellans/:castellanId/enrollments         nara.castle.sp.play.CastleResource.findUnitPlates(castellanId:String)
-#GET     /castle-api/castellans/:castellanId/enrollments/exists  nara.castle.sp.play.CastleResource.checkEnrolled()
+GET     /castle-api/castellans/unitplates                       nara.castle.sp.play.CastleResource.findUnitPlates()
+
+GET     /castle-api/castellans/:castellanId/enrollments/metros/:metroId/exists  nara.castle.sp.play.CastleResource.checkEnrolled(castellanId:String, metroId:String)
 

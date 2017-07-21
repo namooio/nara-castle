@@ -7,6 +7,7 @@ import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.event.CastellanModified;
 import nara.castle.domain.castle.event.CastleBuilt;
 import nara.castle.domain.castle.event.MetroEnrolled;
+import nara.castle.domain.castle.event.MetroWithdrawn;
 import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
 import nara.castle.domain.castlequery.model.UnitPlateList;
@@ -66,14 +67,6 @@ public class CastleProjectionActor extends NaraProjectionActor {
                 enrollmentRMStore.create(enrollmentRMS);
                 unitPlateRMStore.create(unitPlateList.getUnitPlates());
             })
-            .match(MetroEnrolled.class, metroEnrolled -> {
-                //
-                String castellanId = metroEnrolled.getCastellanId();
-                Enrollment enrollment = metroEnrolled.getEnrollment();
-
-                EnrollmentRM enrollmentRM = new EnrollmentRM(castellanId, enrollment);
-                enrollmentRMStore.create(enrollmentRM);
-            })
             .match(CastellanModified.class, castellanModified -> {
                 //
                 String castellanId = castellanModified.getCastellanId();
@@ -90,7 +83,29 @@ public class CastleProjectionActor extends NaraProjectionActor {
                     unitPlateRMStore.deleteByCastellanId(castellanId);
                     unitPlateRMStore.create(unitPlateList.getUnitPlates());
                 }
+            })
+            .match(MetroEnrolled.class, metroEnrolled -> {
+                //
+                String castellanId = metroEnrolled.getCastellanId();
+                Enrollment enrollment = metroEnrolled.getEnrollment();
 
+                EnrollmentRM enrollmentRM = new EnrollmentRM(castellanId, enrollment);
+                enrollmentRMStore.create(enrollmentRM);
+            })
+            .match(MetroWithdrawn.class, metroWithdrawn -> {
+                //
+                Enrollment withdrawnEnrollment = metroWithdrawn.getWithdrawnEnrollment();
+                String metroId = withdrawnEnrollment.getMetroId();
+                String civilianId = withdrawnEnrollment.getCivilianId();
+
+                EnrollmentRM enrollmentRM = enrollmentRMStore.retrieveByMetroIdAndCivilianId(metroId, civilianId);
+
+                if (enrollmentRM != null) {
+                    enrollmentRM.setWithdrawn(withdrawnEnrollment.isWithdrawn());
+                    enrollmentRM.setWithdrawnTime(withdrawnEnrollment.getWithdrawnTime());
+
+                    enrollmentRMStore.update(enrollmentRM);
+                }
             })
         .onMessage(event);
     }

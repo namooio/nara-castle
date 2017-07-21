@@ -4,8 +4,7 @@ import nara.castle.domain.castle.command.AddEnrollmentCommand;
 import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
-import nara.castle.domain.castlequery.query.EnrolledCheckQuery;
-import nara.castle.domain.castlequery.query.FindUnitPlatesQuery;
+import nara.castle.domain.castlequery.model.KeyAttr;
 
 import java.util.concurrent.CompletionStage;
 
@@ -20,7 +19,7 @@ public interface CastleService {
     CompletionStage findCastellans();
 
     CompletionStage findEnrollments(String castellanId);
-    CompletionStage findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery);
+    CompletionStage findUnitPlates(KeyAttr keyAttr, String keyValue);
 
-    CompletionStage checkEnrolled(EnrolledCheckQuery enrolledCheckQuery);
+    CompletionStage checkEnrolled(String castellanId, String metroId);
 }

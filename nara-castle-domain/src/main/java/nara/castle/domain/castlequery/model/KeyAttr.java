@@ -6,5 +6,4 @@ public enum KeyAttr {
     Phone,
     EngName,
     LocaleName
-    ;
 }

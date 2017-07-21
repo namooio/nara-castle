@@ -13,6 +13,7 @@ import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
+import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.query.*;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
@@ -131,9 +132,19 @@ public class CastleResource extends Controller implements CastleService {
         });
     }
 
-    @Override
-    public CompletionStage<Result> findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery) {
+    // route mapping
+    public CompletionStage<Result> findUnitPlates() {
         //
+        KeyAttr keyAttr = KeyAttr.valueOf(request().getQueryString("keyAttr"));
+        String keyValue = request().getQueryString("keyValue");
+
+        return findUnitPlates(keyAttr, keyValue);
+    }
+
+    @Override
+    public CompletionStage<Result> findUnitPlates(KeyAttr keyAttr, String keyValue) {
+        //
+        FindUnitPlatesQuery findUnitPlatesQuery = new FindUnitPlatesQuery(keyAttr, keyValue);
         return PatternsCS.ask(castleQueryActor, findUnitPlatesQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResult<List<UnitPlateRM>> result = (ActorResult) response;
             return ok(Json.toJson(result.get()));
@@ -141,8 +152,9 @@ public class CastleResource extends Controller implements CastleService {
     }
 
     @Override
-    public CompletionStage<Result> checkEnrolled(EnrolledCheckQuery enrolledCheckQuery) {
+    public CompletionStage<Result> checkEnrolled(String castellanId, String metroId) {
         //
+        EnrolledCheckQuery enrolledCheckQuery = new EnrolledCheckQuery(castellanId, metroId);
         return PatternsCS.ask(castleQueryActor, enrolledCheckQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResult<Boolean> result = (ActorResult) response;
             return ok(Json.toJson(result.get()));

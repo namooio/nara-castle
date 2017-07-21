@@ -96,8 +96,11 @@ public class Castellan extends Entity implements Aggregate {
             })
             .match(MetroWithdrawn.class, metroWithdrawn -> {
                 //
-                Enrollment enrollment = this.findEnrollment(metroWithdrawn.getMetroId(), metroWithdrawn.getCivilianId());
-                enrollment.withdraw();
+                Enrollment withdrawnEnrollment = metroWithdrawn.getWithdrawnEnrollment();
+                Enrollment enrollment = this.findEnrollment(withdrawnEnrollment.getMetroId(), withdrawnEnrollment.getCivilianId());
+
+                enrollment.setWithdrawn(withdrawnEnrollment.isWithdrawn());
+                enrollment.setWithdrawnTime(withdrawnEnrollment.getWithdrawnTime());
             });
     }
 

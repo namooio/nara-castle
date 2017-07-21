@@ -6,8 +6,8 @@ import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
-import nara.castle.domain.castlequery.query.EnrolledCheckQuery;
-import nara.castle.domain.castlequery.query.FindUnitPlatesQuery;
+import nara.castle.domain.castlequery.model.KeyAttr;
+import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.spec.CastleService;
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.RequestBuilder;
@@ -88,12 +88,21 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CompletionStage findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery) {
-        return null;
+    public CompletionStage<List<UnitPlateRM>> findUnitPlates(KeyAttr keyAttr, String keyValue) {
+        //
+        return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_UNIT_PLATES_FIND)
+                .addQueryParam("keyAttr", keyAttr.name())
+                .addQueryParam("keyValue", keyValue)
+                .setResponseType(UnitPlateRM[].class)
+        )));
     }
 
     @Override
-    public CompletionStage checkEnrolled(EnrolledCheckQuery enrolledCheckQuery) {
-        return null;
+    public CompletionStage<Boolean> checkEnrolled(String castellanId, String metroId) {
+        //
+        return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENTS_CHECK)
+                .addPathParam("castellanId", castellanId)
+                .setResponseType(Boolean.class)
+        ));
     }
 }

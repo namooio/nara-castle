@@ -6,6 +6,7 @@ import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castle.entity.Castellan;
+import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.event.CastellanModified;
 import nara.castle.domain.castle.event.CastleBuilt;
 import nara.castle.domain.castle.event.MetroEnrolled;
@@ -70,7 +71,9 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
             })
             .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
                 //
-                persist(new MetroWithdrawn(getState().getId(), withdrawMetroCommand.getMetroId(), withdrawMetroCommand.getCivilianId()), this::handleAndRespond);
+                Enrollment withdrawalEnrollment = getState().findEnrollment(withdrawMetroCommand.getMetroId(), withdrawMetroCommand.getCivilianId());
+                withdrawalEnrollment.withdraw();
+                persist(new MetroWithdrawn(withdrawalEnrollment), this::handleAndRespond);
             })
         .onMessage(command);
     }

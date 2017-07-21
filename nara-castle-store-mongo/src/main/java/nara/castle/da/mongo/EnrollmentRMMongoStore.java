@@ -4,6 +4,7 @@ import nara.castle.da.mongo.document.EnrollmentRMDoc;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
 import nara.castle.domain.castlequery.store.EnrollmentRMStore;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Query;
 
 import java.util.List;
 
@@ -40,6 +41,20 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
         return EnrollmentRMDoc.toModel(
                 datastore.createQuery(EnrollmentRMDoc.class).field("castellanId").equal(castellanId).asList()
         );
+    }
+
+    @Override
+    public EnrollmentRM retrieveByMetroIdAndCivilianId(String metroId, String civilianId) {
+        //
+        Query<EnrollmentRMDoc> query = datastore.createQuery(EnrollmentRMDoc.class);
+        query.and(
+                query.criteria("metroId").equal(metroId),
+                query.criteria("civilianId").equal(civilianId)
+        );
+
+        EnrollmentRMDoc enrollmentRMDoc = query.get();
+        if (enrollmentRMDoc == null) return null;
+        return enrollmentRMDoc.toModel();
     }
 
     @Override
