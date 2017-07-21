@@ -1,6 +1,6 @@
 import com.google.inject.AbstractModule;
+import nara.castle.cp.CastleActorLycler;
 import nara.castle.cp.CastleRMMongoStoreLycler;
-import nara.castle.cp.CastleRMProjectionLycler;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import play.Logger;
 
@@ -20,14 +20,9 @@ public class Module extends AbstractModule {
 
     @Override
     public void configure() {
-        // Use the system clock as the default implementation of Clock
-//        bind(Clock.class).toInstance(Clock.systemDefaultZone());
-
-        // Ask Guice to create an instance of ApplicationTimer when the
-        // application starts.
-
+        //
         bind(CastleRMStoreLycler.class).to(CastleRMMongoStoreLycler.class).asEagerSingleton();
-        bind(CastleRMProjectionLycler.class).asEagerSingleton();
+        bind(CastleActorLycler.class).asEagerSingleton();
     }
 
 }

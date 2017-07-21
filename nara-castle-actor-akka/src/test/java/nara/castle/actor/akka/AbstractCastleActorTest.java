@@ -57,8 +57,8 @@ public abstract class AbstractCastleActorTest {
         CastleRMStoreLycler rmStoreLycler = new CastleTestRMMongoStoreLycler(datastore);
 
         actorSystem = ActorSystem.create("test");
-        castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(rmStoreLycler));
-        castleSupervisorActor = actorSystem.actorOf(CastleSupervisorActor.props(castleQueryActor));
+        castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(rmStoreLycler), "castle-query");
+        castleSupervisorActor = actorSystem.actorOf(CastleSupervisorActor.props(castleQueryActor), "castle-supervisor");
 
         testProbe = new TestKit(getActorSystem());
         testProbeActor = testProbe.getRef();

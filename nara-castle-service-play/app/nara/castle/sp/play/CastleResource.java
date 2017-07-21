@@ -1,11 +1,9 @@
 package nara.castle.sp.play;
 
 import akka.actor.ActorRef;
-import akka.actor.ActorSystem;
 import akka.pattern.PatternsCS;
 import com.fasterxml.jackson.databind.JsonNode;
-import nara.castle.actor.akka.CastleSupervisorActor;
-import nara.castle.actor.akka.query.CastleQueryActor;
+import nara.castle.cp.CastleActorLycler;
 import nara.castle.domain.castle.command.*;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castlequery.model.CastellanRM;
@@ -13,11 +11,9 @@ import nara.castle.domain.castlequery.model.EnrollmentRM;
 import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.query.*;
-import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.castle.spec.CastleService;
 import nara.share.actor.akka.NaraActorConst;
 import nara.share.actor.akka.message.ActorResponse;
-import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -30,18 +26,17 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 public class CastleResource extends Controller implements CastleService {
     //
-    final Logger.ALogger logger = Logger.of(this.getClass());
+    private CastleActorLycler actorLycler;
 
-    private ActorSystem actorSystem;
     private ActorRef castleSupervisorActor;
     private ActorRef castleQueryActor;
 
     @Inject
-    public CastleResource(ActorSystem actorSystem, CastleRMStoreLycler storeLycler) {
+    public CastleResource(CastleActorLycler actorLycler) {
         //
-        this.actorSystem = actorSystem;
-        this.castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(storeLycler));
-        this.castleSupervisorActor = actorSystem.actorOf(CastleSupervisorActor.props(castleQueryActor));
+        this.actorLycler = actorLycler;
+        this.castleSupervisorActor = actorLycler.requestCastleSupervisorActor();
+        this.castleQueryActor = actorLycler.requestCastleQueryActor();
     }
 
     // route mapping
@@ -72,8 +67,9 @@ public class CastleResource extends Controller implements CastleService {
     @Override
     public CompletionStage modifyCastellan(String castellanId, ModifyCastellanCommand modifyCastellanCommand) {
         //
-        // TODO ActorSelection
-        return PatternsCS.ask(castleSupervisorActor, modifyCastellanCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
+        return PatternsCS.ask(castleActor, modifyCastellanCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+//        return PatternsCS.ask(castleSupervisorActor, modifyCastellanCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     // route mapping
@@ -85,10 +81,11 @@ public class CastleResource extends Controller implements CastleService {
     }
 
     @Override
-    public CompletionStage<Result> addEnrollment(String castleId, AddEnrollmentCommand addEnrollmentCommand) {
+    public CompletionStage<Result> addEnrollment(String castellanId, AddEnrollmentCommand addEnrollmentCommand) {
         //
-        // TODO ActorSelection
-        return PatternsCS.ask(castleSupervisorActor, addEnrollmentCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
+        return PatternsCS.ask(castleActor, addEnrollmentCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+//        return PatternsCS.ask(castleSupervisorActor, addEnrollmentCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     // route mapping
@@ -102,14 +99,18 @@ public class CastleResource extends Controller implements CastleService {
     @Override
     public CompletionStage<Result> withdrawMetro(String castellanId, WithdrawMetroCommand withdrawMetroCommand) {
         //
-        return PatternsCS.ask(castleSupervisorActor, withdrawMetroCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
+        return PatternsCS.ask(castleActor, withdrawMetroCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+//        return PatternsCS.ask(castleSupervisorActor, withdrawMetroCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     @Override
     public CompletionStage<Result> demolishCastle(String castellanId) {
         //
-        DemolishCastleCommand demolishCastleCommand = new DemolishCastleCommand(castellanId);
-        return PatternsCS.ask(castleSupervisorActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
+        DemolishCastleCommand demolishCastleCommand = new DemolishCastleCommand();
+        return PatternsCS.ask(castleActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+//        return PatternsCS.ask(castleSupervisorActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     public CompletionStage<Result> findCastellan(String castellanId) {

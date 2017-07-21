@@ -35,26 +35,27 @@ public class CastleSupervisorActor extends NaraActor {
             Castellan castellan = new Castellan(buildCastleCommand.getEnrollment());
             foward(castellan.getId(), Castellan.class, CastleActor.props(castellan), buildCastleCommand);
         })
-        .match(ModifyCastellanCommand.class, modifyCastellanCommand -> {
-            //
-            String castellanId = modifyCastellanCommand.getCastellanId();
-            foward(castellanId, Castellan.class, CastleActor.props(castellanId), modifyCastellanCommand);
-        })
-        .match(DemolishCastleCommand.class, demolishCastleCommand -> {
-            //
-            String castellanId = demolishCastleCommand.getCastellanId();
-            foward(castellanId, Castellan.class, CastleActor.props(castellanId), demolishCastleCommand);
-        })
-        .match(AddEnrollmentCommand.class, addEnrollmentCommand -> {
-            //
-            String castellanId = addEnrollmentCommand.getCastellanId();
-            foward(castellanId, Castellan.class, CastleActor.props(castellanId), addEnrollmentCommand);
-        })
-        .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
-            //
-            String castleId = withdrawMetroCommand.getCastellanId();
-            foward(castleId, Castellan.class, CastleActor.props(castleId), withdrawMetroCommand);
-        })
+        // Resource에서 직접 CastleActor를 찾아서 커맨드를 보내드록 함. 슈퍼바이저가 포워딩 할 필요가 없는듯
+//        .match(ModifyCastellanCommand.class, modifyCastellanCommand -> {
+//            //
+//            String castellanId = modifyCastellanCommand.getCastellanId();
+//            foward(castellanId, Castellan.class, CastleActor.props(castellanId), modifyCastellanCommand);
+//        })
+//        .match(DemolishCastleCommand.class, demolishCastleCommand -> {
+//            //
+//            String castellanId = demolishCastleCommand.getCastellanId();
+//            foward(castellanId, Castellan.class, CastleActor.props(castellanId), demolishCastleCommand);
+//        })
+//        .match(AddEnrollmentCommand.class, addEnrollmentCommand -> {
+//            //
+//            String castellanId = addEnrollmentCommand.getCastellanId();
+//            foward(castellanId, Castellan.class, CastleActor.props(castellanId), addEnrollmentCommand);
+//        })
+//        .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
+//            //
+//            String castleId = withdrawMetroCommand.getCastellanId();
+//            foward(castleId, Castellan.class, CastleActor.props(castleId), withdrawMetroCommand);
+//        })
         .onMessage(command);
     }
 
