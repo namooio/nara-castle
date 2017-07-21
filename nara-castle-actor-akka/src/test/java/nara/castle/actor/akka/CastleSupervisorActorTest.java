@@ -3,7 +3,7 @@ package nara.castle.actor.akka;
 import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Enrollment;
-import nara.share.actor.akka.result.ActorResult;
+import nara.share.actor.akka.message.ActorResponse;
 import nara.share.domain.granule.Email;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
@@ -31,7 +31,7 @@ public class CastleSupervisorActorTest extends AbstractCastleActorTest {
         BuildCastleCommand buildCastleCommand = new BuildCastleCommand(enrollment);
 
         getCastleSupervisorActor().tell(buildCastleCommand, getTestProbeActor());
-        ActorResult<Castellan> castellan = getTestProbe().expectMsgClass(ActorResult.class);
+        ActorResponse<Castellan> castellan = getTestProbe().expectMsgClass(ActorResponse.class);
         logger.debug("{}", castellan.get());
     }
 }

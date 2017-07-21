@@ -16,7 +16,7 @@ import nara.castle.domain.castlequery.query.*;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.castle.spec.CastleService;
 import nara.share.actor.akka.NaraActorConst;
-import nara.share.actor.akka.result.ActorResult;
+import nara.share.actor.akka.message.ActorResponse;
 import play.Logger;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -54,7 +54,7 @@ public class CastleResource extends Controller implements CastleService {
     public CompletionStage<Result> buildCastle(BuildCastleCommand buildCastleCommand) {
         //
         return PatternsCS.ask(castleSupervisorActor, buildCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-            ActorResult<Castellan> result = (ActorResult) response;
+            ActorResponse<Castellan> result = (ActorResponse) response;
             return ok(result.get().getId());
         });
     }
@@ -112,7 +112,7 @@ public class CastleResource extends Controller implements CastleService {
         //
         FindCastellanQuery findCastellanQuery = new FindCastellanQuery(castellanId);
         return PatternsCS.ask(castleQueryActor, findCastellanQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-            ActorResult<CastellanRM> result = (ActorResult) response;
+            ActorResponse<CastellanRM> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
@@ -121,7 +121,7 @@ public class CastleResource extends Controller implements CastleService {
         //
         FindCastellansQuery findCastellansQuery = new FindCastellansQuery();
         return PatternsCS.ask(castleQueryActor, findCastellansQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-            ActorResult<List<CastellanRM>> result = (ActorResult) response;
+            ActorResponse<List<CastellanRM>> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
@@ -131,7 +131,7 @@ public class CastleResource extends Controller implements CastleService {
         //
         ExistenceCheckQuery existenceCheckQuery = new ExistenceCheckQuery(castellanId);
         return PatternsCS.ask(castleQueryActor, existenceCheckQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-            ActorResult<Boolean> result = (ActorResult) response;
+            ActorResponse<Boolean> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
@@ -141,7 +141,7 @@ public class CastleResource extends Controller implements CastleService {
         //
         FindEnrollmentsQuery findEnrollmentsQuery = new FindEnrollmentsQuery(castellanId);
         return PatternsCS.ask(castleQueryActor, findEnrollmentsQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-            ActorResult<List<EnrollmentRM>> result = (ActorResult) response;
+            ActorResponse<List<EnrollmentRM>> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
@@ -160,7 +160,7 @@ public class CastleResource extends Controller implements CastleService {
         //
         FindUnitPlatesQuery findUnitPlatesQuery = new FindUnitPlatesQuery(keyAttr, keyValue);
         return PatternsCS.ask(castleQueryActor, findUnitPlatesQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-            ActorResult<List<UnitPlateRM>> result = (ActorResult) response;
+            ActorResponse<List<UnitPlateRM>> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
@@ -170,7 +170,7 @@ public class CastleResource extends Controller implements CastleService {
         //
         EnrolledCheckQuery enrolledCheckQuery = new EnrolledCheckQuery(castellanId, metroId);
         return PatternsCS.ask(castleQueryActor, enrolledCheckQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-            ActorResult<Boolean> result = (ActorResult) response;
+            ActorResponse<Boolean> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
