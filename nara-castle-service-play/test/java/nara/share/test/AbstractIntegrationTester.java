@@ -50,6 +50,7 @@ public abstract class AbstractIntegrationTester extends WithServer {
         String mongoUri = config.getString("mongo.uri");
         logger.info("Mongo test uri is {}", mongoUri);
     }
+
     @AfterClass
     public static void afterClass() throws Exception {
         //

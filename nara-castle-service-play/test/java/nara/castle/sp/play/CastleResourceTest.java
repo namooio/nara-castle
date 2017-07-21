@@ -1,17 +1,12 @@
 package nara.castle.sp.play;
 
-import nara.castle.domain.castle.entity.Enrollment;
-import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.sp.play.shared.AbstractCastleIntegrationTester;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
 import org.junit.Test;
 
 import java.time.ZoneId;
-import java.util.List;
 import java.util.Locale;
-
-import static org.assertj.core.api.Assertions.*;
 
 public class CastleResourceTest extends AbstractCastleIntegrationTester {
     //
