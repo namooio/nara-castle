@@ -14,6 +14,14 @@ public class CastleBuilt implements NaraEvent {
         this.initialState = initialState;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("{");
+        sb.append("initialState:").append(initialState);
+        sb.append('}');
+        return sb.toString();
+    }
+
     public Castellan getInitialState() {
         return initialState;
     }
