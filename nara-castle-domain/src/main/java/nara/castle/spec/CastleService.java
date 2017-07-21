@@ -20,7 +20,7 @@ public interface CastleService {
     CompletionStage findCastellans();
 
     CompletionStage findEnrollments(String castellanId);
-    CompletionStage findUnitPlate(FindUnitPlatesQuery findUnitPlatesQuery);
+    CompletionStage findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery);
 
     CompletionStage checkEnrolled(EnrolledCheckQuery enrolledCheckQuery);
 }

@@ -11,8 +11,10 @@ import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castle.entity.Castellan;
-import nara.castle.domain.castlequery.query.EnrolledCheckQuery;
-import nara.castle.domain.castlequery.query.FindUnitPlatesQuery;
+import nara.castle.domain.castlequery.model.CastellanRM;
+import nara.castle.domain.castlequery.model.EnrollmentRM;
+import nara.castle.domain.castlequery.model.UnitPlateRM;
+import nara.castle.domain.castlequery.query.*;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.castle.spec.CastleService;
 import nara.share.actor.akka.NaraActorConst;
@@ -24,6 +26,7 @@ import play.mvc.Result;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.List;
 import java.util.concurrent.CompletionStage;
 
 @Singleton
@@ -102,36 +105,47 @@ public class CastleResource extends Controller implements CastleService {
 
     public CompletionStage<Result> findCastellan(String castellanId) {
         //
-//        FindCastleQuery query = new FindCastleQuery(castleId);
-//        return PatternsCS.ask(castleSupervisorActor, query, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-//            ActorResult<Castle> result = (ActorResult) response;
-//            return ok(Json.toJson(result.get()));
-//        });
-        return null;
+        FindCastellanQuery findCastellanQuery = new FindCastellanQuery(castellanId);
+        return PatternsCS.ask(castleQueryActor, findCastellanQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
+            ActorResult<CastellanRM> result = (ActorResult) response;
+            return ok(Json.toJson(result.get()));
+        });
     }
 
     public CompletionStage<Result> findCastellans() {
         //
-//        FindAllCastellansQuery query = new FindAllCastellansQuery();
-//        return PatternsCS.ask(castleSupervisorActor, query, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
-//            ActorResult<List<Castellan>> result = (ActorResult) response;
-//            return ok(Json.toJson(result.get()));
-//        });
-        return null;
+        FindCastellansQuery findCastellansQuery = new FindCastellansQuery();
+        return PatternsCS.ask(castleQueryActor, findCastellansQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
+            ActorResult<List<CastellanRM>> result = (ActorResult) response;
+            return ok(Json.toJson(result.get()));
+        });
     }
 
     @Override
     public CompletionStage<Result> findEnrollments(String castellanId) {
-        return null;
+        //
+        FindEnrollmentsQuery findEnrollmentsQuery = new FindEnrollmentsQuery(castellanId);
+        return PatternsCS.ask(castleQueryActor, findEnrollmentsQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
+            ActorResult<List<EnrollmentRM>> result = (ActorResult) response;
+            return ok(Json.toJson(result.get()));
+        });
     }
 
     @Override
-    public CompletionStage<Result> findUnitPlate(FindUnitPlatesQuery findUnitPlatesQuery) {
-        return null;
+    public CompletionStage<Result> findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery) {
+        //
+        return PatternsCS.ask(castleQueryActor, findUnitPlatesQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
+            ActorResult<List<UnitPlateRM>> result = (ActorResult) response;
+            return ok(Json.toJson(result.get()));
+        });
     }
 
     @Override
     public CompletionStage<Result> checkEnrolled(EnrolledCheckQuery enrolledCheckQuery) {
-        return null;
+        //
+        return PatternsCS.ask(castleQueryActor, enrolledCheckQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
+            ActorResult<Boolean> result = (ActorResult) response;
+            return ok(Json.toJson(result.get()));
+        });
     }
 }
