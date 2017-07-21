@@ -53,61 +53,69 @@ public class CastleProjectionActor extends NaraProjectionActor {
     protected void buildReadModel(NaraEvent event) {
         //
         matcher()
-            .match(CastleBuilt.class, castleBuilt -> {
-                //
-                Castellan initialState = castleBuilt.getInitialState();
-                List<Enrollment> enrollments = initialState.getEnrollments();
-                String castellanId = initialState.getId();
-
-                CastellanRM castellanRM = new CastellanRM(initialState);
-                List<EnrollmentRM> enrollmentRMS = enrollments.stream().map(enrollment -> new EnrollmentRM(castellanId, enrollment)).collect(Collectors.toList());
-                UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, castellanRM.getContact());
-
-                castellanRMStore.create(castellanRM);
-                enrollmentRMStore.create(enrollmentRMS);
-                unitPlateRMStore.create(unitPlateList.getUnitPlates());
-            })
-            .match(CastellanModified.class, castellanModified -> {
-                //
-                String castellanId = castellanModified.getCastellanId();
-                NameValueList nameValues = castellanModified.getNameValues();
-
-                CastellanRM castellanRM = castellanRMStore.retrieve(castellanId);
-                castellanRM.setValues(nameValues);
-
-                castellanRMStore.update(castellanRM);
-
-                if (nameValues.containsName("contact")) {
-                    Contact contact = castellanRM.getContact();
-                    UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, contact);
-                    unitPlateRMStore.deleteByCastellanId(castellanId);
-                    unitPlateRMStore.create(unitPlateList.getUnitPlates());
-                }
-            })
-            .match(MetroEnrolled.class, metroEnrolled -> {
-                //
-                String castellanId = metroEnrolled.getCastellanId();
-                Enrollment enrollment = metroEnrolled.getEnrollment();
-
-                EnrollmentRM enrollmentRM = new EnrollmentRM(castellanId, enrollment);
-                enrollmentRMStore.create(enrollmentRM);
-            })
-            .match(MetroWithdrawn.class, metroWithdrawn -> {
-                //
-                Enrollment withdrawnEnrollment = metroWithdrawn.getWithdrawnEnrollment();
-                String metroId = withdrawnEnrollment.getMetroId();
-                String civilianId = withdrawnEnrollment.getCivilianId();
-
-                EnrollmentRM enrollmentRM = enrollmentRMStore.retrieveByMetroIdAndCivilianId(metroId, civilianId);
-
-                if (enrollmentRM != null) {
-                    enrollmentRM.setWithdrawn(withdrawnEnrollment.isWithdrawn());
-                    enrollmentRM.setWithdrawnTime(withdrawnEnrollment.getWithdrawnTime());
-
-                    enrollmentRMStore.update(enrollmentRM);
-                }
-            })
+            .match(CastleBuilt.class, this::buildCastleBuildReadModel)
+            .match(CastellanModified.class, this::buildCastellanModifiedReadModel)
+            .match(MetroEnrolled.class, this::buildMetroEnrolledReadModel)
+            .match(MetroWithdrawn.class, this::buildMetroWithdrawnReadModel)
         .onMessage(event);
+    }
+
+    private void buildCastleBuildReadModel(CastleBuilt castleBuilt) {
+        //
+        Castellan initialState = castleBuilt.getInitialState();
+        List<Enrollment> enrollments = initialState.getEnrollments();
+        String castellanId = initialState.getId();
+
+        CastellanRM castellanRM = new CastellanRM(initialState);
+        List<EnrollmentRM> enrollmentRMS = enrollments.stream().map(enrollment -> new EnrollmentRM(castellanId, enrollment)).collect(Collectors.toList());
+        UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, castellanRM.getContact());
+
+        castellanRMStore.create(castellanRM);
+        enrollmentRMStore.create(enrollmentRMS);
+        unitPlateRMStore.create(unitPlateList.getUnitPlates());
+    }
+
+    private void buildCastellanModifiedReadModel(CastellanModified castellanModified) {
+        //
+        String castellanId = castellanModified.getCastellanId();
+        NameValueList nameValues = castellanModified.getNameValues();
+
+        CastellanRM castellanRM = castellanRMStore.retrieve(castellanId);
+        castellanRM.setValues(nameValues);
+
+        castellanRMStore.update(castellanRM);
+
+        if (nameValues.containsName("contact")) {
+            Contact contact = castellanRM.getContact();
+            UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, contact);
+            unitPlateRMStore.deleteByCastellanId(castellanId);
+            unitPlateRMStore.create(unitPlateList.getUnitPlates());
+        }
+    }
+
+    private void buildMetroEnrolledReadModel(MetroEnrolled metroEnrolled) {
+        //
+        String castellanId = metroEnrolled.getCastellanId();
+        Enrollment enrollment = metroEnrolled.getEnrollment();
+
+        EnrollmentRM enrollmentRM = new EnrollmentRM(castellanId, enrollment);
+        enrollmentRMStore.create(enrollmentRM);
+    }
+
+    private void buildMetroWithdrawnReadModel(MetroWithdrawn metroWithdrawn) {
+        //
+        Enrollment withdrawnEnrollment = metroWithdrawn.getWithdrawnEnrollment();
+        String metroId = withdrawnEnrollment.getMetroId();
+        String civilianId = withdrawnEnrollment.getCivilianId();
+
+        EnrollmentRM enrollmentRM = enrollmentRMStore.retrieveByMetroIdAndCivilianId(metroId, civilianId);
+
+        if (enrollmentRM != null) {
+            enrollmentRM.setWithdrawn(withdrawnEnrollment.isWithdrawn());
+            enrollmentRM.setWithdrawnTime(withdrawnEnrollment.getWithdrawnTime());
+
+            enrollmentRMStore.update(enrollmentRM);
+        }
     }
 
 }
