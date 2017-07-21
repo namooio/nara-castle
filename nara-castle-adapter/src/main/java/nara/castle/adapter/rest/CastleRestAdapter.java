@@ -5,7 +5,7 @@ import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castlequery.query.EnrolledCheckQuery;
-import nara.castle.domain.castlequery.query.FindUnitPlateQuery;
+import nara.castle.domain.castlequery.query.FindUnitPlatesQuery;
 import nara.castle.spec.CastleService;
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.RequestBuilder;
@@ -79,7 +79,7 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CompletionStage findUnitPlate(FindUnitPlateQuery findUnitPlateQuery) {
+    public CompletionStage findUnitPlate(FindUnitPlatesQuery findUnitPlatesQuery) {
         return null;
     }
 

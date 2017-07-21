@@ -12,7 +12,7 @@ import nara.castle.domain.castle.command.ModifyCastellanCommand;
 import nara.castle.domain.castle.command.WithdrawMetroCommand;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castlequery.query.EnrolledCheckQuery;
-import nara.castle.domain.castlequery.query.FindUnitPlateQuery;
+import nara.castle.domain.castlequery.query.FindUnitPlatesQuery;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.castle.spec.CastleService;
 import nara.share.actor.akka.NaraActorConst;
@@ -126,7 +126,7 @@ public class CastleResource extends Controller implements CastleService {
     }
 
     @Override
-    public CompletionStage<Result> findUnitPlate(FindUnitPlateQuery findUnitPlateQuery) {
+    public CompletionStage<Result> findUnitPlate(FindUnitPlatesQuery findUnitPlatesQuery) {
         return null;
     }
 

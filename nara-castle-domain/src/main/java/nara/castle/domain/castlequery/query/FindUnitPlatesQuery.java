@@ -3,16 +3,16 @@ package nara.castle.domain.castlequery.query;
 import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.share.domain.protocol.NaraQuery;
 
-public class FindUnitPlateQuery implements NaraQuery {
+public class FindUnitPlatesQuery implements NaraQuery {
     //
     private KeyAttr keyAttr;
     private String keyValue;
 
-    public FindUnitPlateQuery() {
+    public FindUnitPlatesQuery() {
         //
     }
 
-    public FindUnitPlateQuery(KeyAttr keyAttr, String keyValue) {
+    public FindUnitPlatesQuery(KeyAttr keyAttr, String keyValue) {
         //
         this.keyAttr = keyAttr;
         this.keyValue = keyValue;

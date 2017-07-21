@@ -2,15 +2,15 @@ package nara.castle.domain.castlequery.query;
 
 import nara.share.domain.protocol.NaraQuery;
 
-public class FindEnrollmentQuery implements NaraQuery {
+public class FindEnrollmentsQuery implements NaraQuery {
     //
     private String castellanId;
 
-    public FindEnrollmentQuery() {
+    public FindEnrollmentsQuery() {
         //
     }
 
-    public FindEnrollmentQuery(String castellanId) {
+    public FindEnrollmentsQuery(String castellanId) {
         //
         this.castellanId = castellanId;
     }
