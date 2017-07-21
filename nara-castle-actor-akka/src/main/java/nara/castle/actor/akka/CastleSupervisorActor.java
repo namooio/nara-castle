@@ -30,31 +30,31 @@ public class CastleSupervisorActor extends NaraActor {
     public void handleCommand(NaraCommand command) {
         //
         matcher()
-            .match(BuildCastleCommand.class, buildCastleCommand -> {
-                //
-                Castellan castellan = new Castellan(buildCastleCommand.getEnrollment());
-                foward(castellan.getId(), Castellan.class, CastleActor.props(castellan), buildCastleCommand);
-            })
-            .match(ModifyCastellanCommand.class, modifyCastellanCommand -> {
-                //
-                String castellanId = modifyCastellanCommand.getCastellanId();
-                foward(castellanId, Castellan.class, CastleActor.props(castellanId), modifyCastellanCommand);
-            })
-            .match(DemolishCastleCommand.class, demolishCastleCommand -> {
-                //
-                String castellanId = demolishCastleCommand.getCastellanId();
-                foward(castellanId, Castellan.class, CastleActor.props(castellanId), demolishCastleCommand);
-            })
-            .match(AddEnrollmentCommand.class, addEnrollmentCommand -> {
-                //
-                String castellanId = addEnrollmentCommand.getCastellanId();
-                foward(castellanId, Castellan.class, CastleActor.props(castellanId), addEnrollmentCommand);
-            })
-            .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
-                //
-                String castleId = withdrawMetroCommand.getCastellanId();
-                foward(castleId, Castellan.class, CastleActor.props(castleId), withdrawMetroCommand);
-            })
+        .match(BuildCastleCommand.class, buildCastleCommand -> {
+            //
+            Castellan castellan = new Castellan(buildCastleCommand.getEnrollment());
+            foward(castellan.getId(), Castellan.class, CastleActor.props(castellan), buildCastleCommand);
+        })
+        .match(ModifyCastellanCommand.class, modifyCastellanCommand -> {
+            //
+            String castellanId = modifyCastellanCommand.getCastellanId();
+            foward(castellanId, Castellan.class, CastleActor.props(castellanId), modifyCastellanCommand);
+        })
+        .match(DemolishCastleCommand.class, demolishCastleCommand -> {
+            //
+            String castellanId = demolishCastleCommand.getCastellanId();
+            foward(castellanId, Castellan.class, CastleActor.props(castellanId), demolishCastleCommand);
+        })
+        .match(AddEnrollmentCommand.class, addEnrollmentCommand -> {
+            //
+            String castellanId = addEnrollmentCommand.getCastellanId();
+            foward(castellanId, Castellan.class, CastleActor.props(castellanId), addEnrollmentCommand);
+        })
+        .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
+            //
+            String castleId = withdrawMetroCommand.getCastellanId();
+            foward(castleId, Castellan.class, CastleActor.props(castleId), withdrawMetroCommand);
+        })
         .onMessage(command);
     }
 

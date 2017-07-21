@@ -50,11 +50,11 @@ public class CastleProjectionActor extends NaraProjectionActor {
     protected void buildReadModel(NaraEvent event) {
         //
         matcher()
-            .match(CastleBuilt.class, this::buildCastleBuildReadModel)
-            .match(CastellanModified.class, this::buildCastellanModifiedReadModel)
-            .match(CastleDemolished.class, this::buildCastleDemolishedReadModel)
-            .match(MetroEnrolled.class, this::buildMetroEnrolledReadModel)
-            .match(MetroWithdrawn.class, this::buildMetroWithdrawnReadModel)
+        .match(CastleBuilt.class, this::buildCastleBuildReadModel)
+        .match(CastellanModified.class, this::buildCastellanModifiedReadModel)
+        .match(CastleDemolished.class, this::buildCastleDemolishedReadModel)
+        .match(MetroEnrolled.class, this::buildMetroEnrolledReadModel)
+        .match(MetroWithdrawn.class, this::buildMetroWithdrawnReadModel)
         .onMessage(event);
     }
 
