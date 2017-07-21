@@ -24,7 +24,7 @@ public class CastleRMProjectionLycler {
         String dbName = ConfigFactory.load().getString("mongo.database");
 
         CassandraReadJournalSource readJournalSource = new CassandraReadJournalSource(system);
-        ResumableProjection resumableProjection = new MongoResumableProjection(mongoUri, dbName);
+        ResumableProjection resumableProjection = new MongoResumableProjection("castle", mongoUri, dbName);
 
         system.actorOf(CastleProjectionActor.props(storeLycler, readJournalSource, resumableProjection));
     }
