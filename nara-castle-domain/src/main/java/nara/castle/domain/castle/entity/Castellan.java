@@ -12,6 +12,7 @@ import nara.share.domain.event.NaraEvent;
 import nara.share.exception.NaraException;
 import nara.share.util.json.JsonUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Castellan extends Entity implements Aggregate {
@@ -37,8 +38,10 @@ public class Castellan extends Entity implements Aggregate {
         super();
         this.displayName = enrollment.getName().getDisplayName();
         this.primaryEmail = enrollment.getEmail().getEmail();
-        this.castle = new Castle();
         this.contact = new Contact(enrollment);
+        this.enrollments = new ArrayList<>();
+        this.enrollments.add(enrollment);
+        this.castle = new Castle(this);
     }
 
     @Override

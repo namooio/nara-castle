@@ -23,6 +23,12 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
     }
 
     @Override
+    public void create(List<EnrollmentRM> enrollmentRMS) {
+        //
+        datastore.save(EnrollmentRMDoc.toDocument(enrollmentRMS));
+    }
+
+    @Override
     public EnrollmentRM retrieve(String id) {
         //
         return datastore.createQuery(EnrollmentRMDoc.class).field("id").equal(id).get().toModel();

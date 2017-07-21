@@ -1,9 +1,9 @@
 package nara.castle.actor.akka.projection;
 
 import akka.actor.Props;
-import nara.castle.actor.akka.projection.builder.CastellanRMBuilder;
-import nara.castle.actor.akka.projection.builder.EnrollmentRMBuilder;
-import nara.castle.actor.akka.projection.builder.UnitPlateRMBuilder;
+import nara.castle.actor.akka.projection.builder.CastleBuiltRMBuilder;
+import nara.castle.actor.akka.projection.builder.MetroEnrolledRMBuilder;
+import nara.castle.actor.akka.projection.builder.CastellanModifiedRMBuilder;
 import nara.castle.domain.castle.event.CastellanModified;
 import nara.castle.domain.castle.event.CastleBuilt;
 import nara.castle.domain.castle.event.MetroEnrolled;
@@ -37,8 +37,8 @@ public class CastleProjectionActor extends NaraProjectionActor {
     @Override
     protected void configProjection(Map<String, ReadModelBuilder> readModelBuilderMap) {
         //
-        readModelBuilderMap.put(CastleBuilt.class.getName(), new CastellanRMBuilder(rmStoreLycler));
-        readModelBuilderMap.put(MetroEnrolled.class.getName(), new EnrollmentRMBuilder(rmStoreLycler));
-        readModelBuilderMap.put(CastellanModified.class.getName(), new UnitPlateRMBuilder(rmStoreLycler));
+        readModelBuilderMap.put(CastleBuilt.class.getName(), new CastleBuiltRMBuilder(rmStoreLycler));
+        readModelBuilderMap.put(MetroEnrolled.class.getName(), new MetroEnrolledRMBuilder(rmStoreLycler));
+        readModelBuilderMap.put(CastellanModified.class.getName(), new CastellanModifiedRMBuilder(rmStoreLycler));
     }
 }

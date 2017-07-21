@@ -41,6 +41,11 @@ public class EnrollmentRMDoc {
         return enrollmentRMDoc;
     }
 
+    public static List<EnrollmentRMDoc> toDocument(List<EnrollmentRM> enrollmentRMS) {
+        //
+        return enrollmentRMS.stream().map(enrollmentRM -> toDocument(enrollmentRM)).collect(Collectors.toList());
+    }
+
     public static List<EnrollmentRM> toModel(List<EnrollmentRMDoc> enrollmentRMDocs) {
         //
         return enrollmentRMDocs.stream().map(doc -> doc.toModel()).collect(Collectors.toList());

@@ -7,6 +7,8 @@ import java.util.List;
 public interface EnrollmentRMStore {
     //
     void create(EnrollmentRM enrollmentRM);
+    void create(List<EnrollmentRM> enrollmentRMS);
+
     EnrollmentRM retrieve(String id);
     List<EnrollmentRM> retrieveByCastellanId(String castellanId);
     void update(EnrollmentRM enrollmentRM);

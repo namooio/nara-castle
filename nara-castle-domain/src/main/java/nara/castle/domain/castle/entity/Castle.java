@@ -8,9 +8,10 @@ public class Castle implements ValueObject {
     private Long builtTime;
     transient Castellan castellan;
 
-    public Castle() {
+    public Castle(Castellan castellan) {
         //
         this.builtTime = System.currentTimeMillis();
+        this.castellan = castellan;
     }
 
     @Override
@@ -24,8 +25,7 @@ public class Castle implements ValueObject {
 
     public static Castle getSample() {
         //
-        Castle sample = new Castle();
-
+        Castle sample = new Castle(Castellan.getSample());
         return sample;
     }
 

@@ -4,11 +4,11 @@ import nara.castle.domain.castle.event.CastellanModified;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.share.actor.akka.projection.ReadModelBuilder;
 
-public class UnitPlateRMBuilder implements ReadModelBuilder<CastellanModified> {
+public class CastellanModifiedRMBuilder implements ReadModelBuilder<CastellanModified> {
     //
     private CastleRMStoreLycler rmStoreLycler;
 
-    public UnitPlateRMBuilder(CastleRMStoreLycler rmStoreLycler) {
+    public CastellanModifiedRMBuilder(CastleRMStoreLycler rmStoreLycler) {
         //
         this.rmStoreLycler = rmStoreLycler;
     }
