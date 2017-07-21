@@ -32,14 +32,16 @@ public class CastleResource extends Controller implements CastleService {
     //
     final Logger.ALogger logger = Logger.of(this.getClass());
 
+    private ActorSystem actorSystem;
     private ActorRef castleSupervisorActor;
     private ActorRef castleQueryActor;
 
     @Inject
-    public CastleResource(ActorSystem system, CastleRMStoreLycler storeLycler) {
+    public CastleResource(ActorSystem actorSystem, CastleRMStoreLycler storeLycler) {
         //
-        castleQueryActor = system.actorOf(CastleQueryActor.props(storeLycler));
-        castleSupervisorActor = system.actorOf(CastleSupervisorActor.props(castleQueryActor));
+        this.actorSystem = actorSystem;
+        this.castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(storeLycler));
+        this.castleSupervisorActor = actorSystem.actorOf(CastleSupervisorActor.props(castleQueryActor));
     }
 
     // route mapping
@@ -70,6 +72,7 @@ public class CastleResource extends Controller implements CastleService {
     @Override
     public CompletionStage modifyCastellan(String castellanId, ModifyCastellanCommand modifyCastellanCommand) {
         //
+        // TODO ActorSelection
         return PatternsCS.ask(castleSupervisorActor, modifyCastellanCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
@@ -84,6 +87,7 @@ public class CastleResource extends Controller implements CastleService {
     @Override
     public CompletionStage<Result> addEnrollment(String castleId, AddEnrollmentCommand addEnrollmentCommand) {
         //
+        // TODO ActorSelection
         return PatternsCS.ask(castleSupervisorActor, addEnrollmentCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
