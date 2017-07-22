@@ -4,6 +4,8 @@ import nara.share.domain.protocol.NaraCommand;
 
 public class WithdrawMetroCommand implements NaraCommand {
     //
+    private String castellanId;
+
     private String metroId;
     private String civilianId;
 
@@ -11,10 +13,28 @@ public class WithdrawMetroCommand implements NaraCommand {
         //
     }
 
-    public WithdrawMetroCommand(String metroId, String civilianId) {
+    public WithdrawMetroCommand(String castellanId, String metroId, String civilianId) {
         //
+        this.castellanId = castellanId;
         this.metroId = metroId;
         this.civilianId = civilianId;
+    }
+
+    @Override
+    public String toString() {
+        return "WithdrawMetroCommand{" +
+                "castellanId='" + castellanId + '\'' +
+                ", metroId='" + metroId + '\'' +
+                ", civilianId='" + civilianId + '\'' +
+                '}';
+    }
+
+    public String getCastellanId() {
+        return castellanId;
+    }
+
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
     }
 
     public String getMetroId() {

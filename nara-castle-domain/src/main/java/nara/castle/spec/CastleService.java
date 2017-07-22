@@ -1,27 +1,24 @@
 package nara.castle.spec;
 
-import nara.castle.domain.castle.command.AddEnrollmentCommand;
-import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.ModifyCastellanCommand;
-import nara.castle.domain.castle.command.WithdrawMetroCommand;
-import nara.castle.domain.castlequery.model.KeyAttr;
+import nara.castle.domain.castle.command.*;
+import nara.castle.domain.castlequery.query.*;
 
 import java.util.concurrent.CompletionStage;
 
 public interface CastleService {
     //
     CompletionStage buildCastle(BuildCastleCommand buildCastleCommand);
-    CompletionStage modifyCastellan(String castellanId, ModifyCastellanCommand modifyCastellanCommand);
-    CompletionStage addEnrollment(String castellanId, AddEnrollmentCommand addEnrollmentCommand);
-    CompletionStage withdrawMetro(String castellanId, WithdrawMetroCommand withdrawMetroCommand);
-    CompletionStage demolishCastle(String castellanId);
+    CompletionStage modifyCastellan(ModifyCastellanCommand modifyCastellanCommand);
+    CompletionStage addEnrollment(AddEnrollmentCommand addEnrollmentCommand);
+    CompletionStage withdrawMetro(WithdrawMetroCommand withdrawMetroCommand);
+    CompletionStage demolishCastle(DemolishCastleCommand demolishCastleCommand);
 
-    CompletionStage findCastellan(String castellanId);
-    CompletionStage findCastellans();
-    CompletionStage existsCastellan(String castellanId);
+    CompletionStage findCastellan(FindCastellanQuery findCastellanQuery);
+    CompletionStage findCastellans(FindCastellansQuery findCastellansQuery);
+    CompletionStage existsCastellan(ExistenceCheckQuery existenceCheckQuery);
 
-    CompletionStage findEnrollments(String castellanId);
-    CompletionStage findUnitPlates(KeyAttr keyAttr, String keyValue);
+    CompletionStage findEnrollments(FindEnrollmentsQuery findEnrollmentsQuery);
+    CompletionStage findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery);
 
-    CompletionStage checkEnrolled(String castellanId, String metroId);
+    CompletionStage checkEnrolled(EnrolledCheckQuery enrolledCheckQuery);
 }

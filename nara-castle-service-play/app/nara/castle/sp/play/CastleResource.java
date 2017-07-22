@@ -26,15 +26,12 @@ import java.util.concurrent.CompletionStage;
 @Singleton
 public class CastleResource extends Controller implements CastleService {
     //
-    private CastleActorLycler actorLycler;
-
     private ActorRef castleSupervisorActor;
     private ActorRef castleQueryActor;
 
     @Inject
     public CastleResource(CastleActorLycler actorLycler) {
         //
-        this.actorLycler = actorLycler;
         this.castleSupervisorActor = actorLycler.requestCastleSupervisorActor();
         this.castleQueryActor = actorLycler.requestCastleQueryActor();
     }
@@ -61,15 +58,14 @@ public class CastleResource extends Controller implements CastleService {
         //
         JsonNode jsonNode = request().body().asJson();
         ModifyCastellanCommand modifyCastellanCommand = Json.fromJson(jsonNode, ModifyCastellanCommand.class);
-        return modifyCastellan(castellanId, modifyCastellanCommand);
+        modifyCastellanCommand.setCastellanId(castellanId);
+        return modifyCastellan(modifyCastellanCommand);
     }
 
     @Override
-    public CompletionStage modifyCastellan(String castellanId, ModifyCastellanCommand modifyCastellanCommand) {
+    public CompletionStage modifyCastellan(ModifyCastellanCommand modifyCastellanCommand) {
         //
-        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
-        return PatternsCS.ask(castleActor, modifyCastellanCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
-//        return PatternsCS.ask(castleSupervisorActor, modifyCastellanCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        return PatternsCS.ask(castleSupervisorActor, modifyCastellanCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     // route mapping
@@ -77,15 +73,14 @@ public class CastleResource extends Controller implements CastleService {
         //
         JsonNode jsonNode = request().body().asJson();
         AddEnrollmentCommand addEnrollmentCommand = Json.fromJson(jsonNode, AddEnrollmentCommand.class);
-        return addEnrollment(castellanId, addEnrollmentCommand);
+        addEnrollmentCommand.setCastellanId(castellanId);
+        return addEnrollment(addEnrollmentCommand);
     }
 
     @Override
-    public CompletionStage<Result> addEnrollment(String castellanId, AddEnrollmentCommand addEnrollmentCommand) {
+    public CompletionStage<Result> addEnrollment(AddEnrollmentCommand addEnrollmentCommand) {
         //
-        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
-        return PatternsCS.ask(castleActor, addEnrollmentCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
-//        return PatternsCS.ask(castleSupervisorActor, addEnrollmentCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        return PatternsCS.ask(castleSupervisorActor, addEnrollmentCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
     // route mapping
@@ -93,58 +88,83 @@ public class CastleResource extends Controller implements CastleService {
         //
         JsonNode jsonNode = request().body().asJson();
         WithdrawMetroCommand withdrawMetroCommand = Json.fromJson(jsonNode, WithdrawMetroCommand.class);
-        return withdrawMetro(castellanId, withdrawMetroCommand);
+        withdrawMetroCommand.setCastellanId(castellanId);
+        return withdrawMetro(withdrawMetroCommand);
     }
 
     @Override
-    public CompletionStage<Result> withdrawMetro(String castellanId, WithdrawMetroCommand withdrawMetroCommand) {
+    public CompletionStage<Result> withdrawMetro(WithdrawMetroCommand withdrawMetroCommand) {
         //
-        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
-        return PatternsCS.ask(castleActor, withdrawMetroCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
-//        return PatternsCS.ask(castleSupervisorActor, withdrawMetroCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        return PatternsCS.ask(castleSupervisorActor, withdrawMetroCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+    }
+
+    // route mapping
+    public CompletionStage<Result> demolishCastle(String castleId) {
+        //
+        return demolishCastle(new DemolishCastleCommand(castleId));
     }
 
     @Override
-    public CompletionStage<Result> demolishCastle(String castellanId) {
+    public CompletionStage<Result> demolishCastle(DemolishCastleCommand demolishCastleCommand) {
         //
-        ActorRef castleActor = actorLycler.requestCastleActor(castellanId);
-        DemolishCastleCommand demolishCastleCommand = new DemolishCastleCommand();
-        return PatternsCS.ask(castleActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
-//        return PatternsCS.ask(castleSupervisorActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
+        return PatternsCS.ask(castleSupervisorActor, demolishCastleCommand, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> ok());
     }
 
+    // route mapping
     public CompletionStage<Result> findCastellan(String castellanId) {
         //
         FindCastellanQuery findCastellanQuery = new FindCastellanQuery(castellanId);
+        return findCastellan(findCastellanQuery);
+    }
+
+    @Override
+    public CompletionStage<Result> findCastellan(FindCastellanQuery findCastellanQuery) {
+        //
         return PatternsCS.ask(castleQueryActor, findCastellanQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResponse<CastellanRM> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
 
+    // route mapping
     public CompletionStage<Result> findCastellans() {
         //
-        FindCastellansQuery findCastellansQuery = new FindCastellansQuery();
+        return findCastellans(new FindCastellansQuery());
+    }
+
+    @Override
+    public CompletionStage<Result> findCastellans(FindCastellansQuery findCastellansQuery) {
+        //
         return PatternsCS.ask(castleQueryActor, findCastellansQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResponse<List<CastellanRM>> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
 
-    @Override
+    // route mapping
     public CompletionStage<Result> existsCastellan(String castellanId) {
         //
-        ExistenceCheckQuery existenceCheckQuery = new ExistenceCheckQuery(castellanId);
+        return existsCastellan(new ExistenceCheckQuery(castellanId));
+    }
+
+    @Override
+    public CompletionStage existsCastellan(ExistenceCheckQuery existenceCheckQuery) {
+        //
         return PatternsCS.ask(castleQueryActor, existenceCheckQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResponse<Boolean> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
 
-    @Override
+    // route mapping
     public CompletionStage<Result> findEnrollments(String castellanId) {
         //
-        FindEnrollmentsQuery findEnrollmentsQuery = new FindEnrollmentsQuery(castellanId);
+        return findEnrollments(new FindEnrollmentsQuery(castellanId));
+    }
+
+    @Override
+    public CompletionStage<Result> findEnrollments(FindEnrollmentsQuery findEnrollmentsQuery) {
+        //
         return PatternsCS.ask(castleQueryActor, findEnrollmentsQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResponse<List<EnrollmentRM>> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
@@ -156,24 +176,29 @@ public class CastleResource extends Controller implements CastleService {
         //
         KeyAttr keyAttr = KeyAttr.valueOf(request().getQueryString("keyAttr"));
         String keyValue = request().getQueryString("keyValue");
+        FindUnitPlatesQuery findUnitPlatesQuery = new FindUnitPlatesQuery(keyAttr, keyValue);
 
-        return findUnitPlates(keyAttr, keyValue);
+        return findUnitPlates(findUnitPlatesQuery);
     }
 
     @Override
-    public CompletionStage<Result> findUnitPlates(KeyAttr keyAttr, String keyValue) {
+    public CompletionStage findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery) {
         //
-        FindUnitPlatesQuery findUnitPlatesQuery = new FindUnitPlatesQuery(keyAttr, keyValue);
         return PatternsCS.ask(castleQueryActor, findUnitPlatesQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResponse<List<UnitPlateRM>> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
 
-    @Override
+    // route mapping
     public CompletionStage<Result> checkEnrolled(String castellanId, String metroId) {
         //
-        EnrolledCheckQuery enrolledCheckQuery = new EnrolledCheckQuery(castellanId, metroId);
+        return checkEnrolled(new EnrolledCheckQuery(castellanId, metroId));
+    }
+
+    @Override
+    public CompletionStage checkEnrolled(EnrolledCheckQuery enrolledCheckQuery) {
+        //
         return PatternsCS.ask(castleQueryActor, enrolledCheckQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResponse<Boolean> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));

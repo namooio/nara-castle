@@ -75,6 +75,4 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
         .match(MetroWithdrawn.class, metroWithdrawn -> getState().apply(metroWithdrawn))
         .onMessage(event);
     }
-
-
 }

@@ -1,13 +1,10 @@
 package nara.castle.adapter.rest;
 
-import nara.castle.domain.castle.command.AddEnrollmentCommand;
-import nara.castle.domain.castle.command.BuildCastleCommand;
-import nara.castle.domain.castle.command.ModifyCastellanCommand;
-import nara.castle.domain.castle.command.WithdrawMetroCommand;
+import nara.castle.domain.castle.command.*;
 import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
-import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
+import nara.castle.domain.castlequery.query.*;
 import nara.castle.spec.CastleService;
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.RequestBuilder;
@@ -36,51 +33,51 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CompletionStage<Void> modifyCastellan(String castellanId, ModifyCastellanCommand modifyCastellanCommand) {
+    public CompletionStage<Void> modifyCastellan(ModifyCastellanCommand modifyCastellanCommand) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_MODIFY)
-                .addPathParam("castellanId", castellanId)
+                .addPathParam("castellanId", modifyCastellanCommand.getCastellanId())
                 .setRequestBody(modifyCastellanCommand)
         ));
     }
 
     @Override
-    public CompletionStage demolishCastle(String castellanId) {
+    public CompletionStage demolishCastle(DemolishCastleCommand demolishCastleCommand) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTLE_DEMOLISH)
-                .addPathParam("castellanId", castellanId)
+                .addPathParam("castellanId", demolishCastleCommand.getCastellanId())
         ));
     }
 
     @Override
-    public CompletionStage<Void> addEnrollment(String castellanId, AddEnrollmentCommand addEnrollmentCommand) {
+    public CompletionStage<Void> addEnrollment(AddEnrollmentCommand addEnrollmentCommand) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENT_ADD)
-                        .addPathParam("castellanId", castellanId)
+                        .addPathParam("castellanId", addEnrollmentCommand.getCastellanId())
                         .setRequestBody(addEnrollmentCommand)
         ));
     }
 
     @Override
-    public CompletionStage<Void> withdrawMetro(String castellanId, WithdrawMetroCommand withdrawMetroCommand) {
+    public CompletionStage<Void> withdrawMetro(WithdrawMetroCommand withdrawMetroCommand) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENT_WIDTHRAW)
-                .addPathParam("castellanId", castellanId)
+                .addPathParam("castellanId", withdrawMetroCommand.getCastellanId())
                 .setRequestBody(withdrawMetroCommand)
         ));
     }
 
     @Override
-    public CompletionStage<CastellanRM> findCastellan(String castellanId) {
+    public CompletionStage<CastellanRM> findCastellan(FindCastellanQuery findCastellanQuery) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_FIND)
-                .addPathParam("castellanId", castellanId)
+                .addPathParam("castellanId", findCastellanQuery.getCastellanId())
                 .setResponseType(CastellanRM.class)
         ));
     }
 
     @Override
-    public CompletionStage<List<CastellanRM>> findCastellans() {
+    public CompletionStage<List<CastellanRM>> findCastellans(FindCastellansQuery findCastellansQuery) {
         //
         return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLANS_FIND)
                 .setResponseType(CastellanRM[].class)
@@ -88,38 +85,39 @@ public class CastleRestAdapter implements CastleService {
     }
 
     @Override
-    public CompletionStage<Boolean> existsCastellan(String castellanId) {
+    public CompletionStage<Boolean> existsCastellan(ExistenceCheckQuery existenceCheckQuery) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLAN_CHECK)
-                .addPathParam("castellanId", castellanId)
+                .addPathParam("castellanId", existenceCheckQuery.getCastellanId())
                 .setResponseType(Boolean.class)
         ));
     }
 
     @Override
-    public CompletionStage<List<EnrollmentRM>> findEnrollments(String castellanId) {
+    public CompletionStage<List<EnrollmentRM>> findEnrollments(FindEnrollmentsQuery findEnrollmentsQuery) {
         //
         return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENTS_FIND)
+                .addPathParam("castellanId", findEnrollmentsQuery.getCastellanId())
                 .setResponseType(EnrollmentRM[].class)
         )));
     }
 
     @Override
-    public CompletionStage<List<UnitPlateRM>> findUnitPlates(KeyAttr keyAttr, String keyValue) {
+    public CompletionStage<List<UnitPlateRM>> findUnitPlates(FindUnitPlatesQuery findUnitPlatesQuery) {
         //
         return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_UNIT_PLATES_FIND)
-                .addQueryParam("keyAttr", keyAttr.name())
-                .addQueryParam("keyValue", keyValue)
+                .addQueryParam("keyAttr", findUnitPlatesQuery.getKeyAttr().name())
+                .addQueryParam("keyValue", findUnitPlatesQuery.getKeyValue())
                 .setResponseType(UnitPlateRM[].class)
         )));
     }
 
     @Override
-    public CompletionStage<Boolean> checkEnrolled(String castellanId, String metroId) {
+    public CompletionStage<Boolean> checkEnrolled(EnrolledCheckQuery enrolledCheckQuery) {
         //
         return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_ENROLLMENTS_CHECK)
-                .addPathParam("castellanId", castellanId)
-                .addPathParam("metroId", metroId)
+                .addPathParam("castellanId", enrolledCheckQuery.getCastellanId())
+                .addPathParam("metroId", enrolledCheckQuery.getMetroId())
                 .setResponseType(Boolean.class)
         ));
     }
