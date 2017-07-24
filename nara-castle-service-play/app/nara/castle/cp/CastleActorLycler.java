@@ -17,16 +17,12 @@ import javax.inject.Singleton;
 @Singleton
 public class CastleActorLycler {
     //
-    private ActorSystem actorSystem;
-
     private ActorRef castleSupervisorActor;
     private ActorRef castleQueryActor;
 
     @Inject
     public CastleActorLycler(ActorSystem actorSystem, CastleRMStoreLycler castleRMStoreLycler) {
         //
-        this.actorSystem = actorSystem;
-
         castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(castleRMStoreLycler), "castle-query");
         castleSupervisorActor = actorSystem.actorOf(CastleSupervisorActor.props(castleQueryActor), "castle-supervisor");
 
