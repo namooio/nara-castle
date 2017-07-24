@@ -12,7 +12,7 @@ import de.flapdoodle.embed.mongo.config.Net;
 import de.flapdoodle.embed.mongo.distribution.Version;
 import de.flapdoodle.embed.process.runtime.Network;
 import nara.castle.actor.akka.query.CastleQueryActor;
-import nara.castle.cp.CastleTestRMMongoStoreLycler;
+import nara.castle.da.mongo.CastleRMMongoStoreLycler;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import org.junit.After;
 import org.junit.Before;
@@ -47,14 +47,8 @@ public abstract class AbstractCastleActorTest {
         mongodExecutable = starter.prepare(mongodConfig);
         mongodExecutable.start();
 
-        MongoClient mongoClient = new MongoClient("127.0.0.1", 55555);
-
-        Morphia morphia = new Morphia();
-        morphia.mapPackage("nara.castle.da.mongo.document");
-        Datastore datastore = morphia.createDatastore(mongoClient, "castle-test");
-        datastore.ensureIndexes();
-
-        CastleRMStoreLycler rmStoreLycler = new CastleTestRMMongoStoreLycler(datastore);
+        // mongodb://nara:rjsemfwlak!2@localhost:27016/nara_castle?authMechanism=SCRAM-SHA-1
+        CastleRMStoreLycler rmStoreLycler = new CastleRMMongoStoreLycler("mongodb://@localhost:55555/nara_castle?authMechanism=SCRAM-SHA-1", "nara_castle");
 
         actorSystem = ActorSystem.create("test");
         castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(rmStoreLycler), "castle-query");
