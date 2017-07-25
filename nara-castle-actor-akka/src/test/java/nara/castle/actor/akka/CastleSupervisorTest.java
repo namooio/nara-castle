@@ -20,7 +20,7 @@ import scala.concurrent.Await;
 
 import java.util.Locale;
 
-public class CastleSupervisorActorTest extends AbstractCastleActorTest {
+public class CastleSupervisorTest extends AbstractCastleActorTest {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -37,18 +37,18 @@ public class CastleSupervisorActorTest extends AbstractCastleActorTest {
 
         BuildCastleCommand buildCastleCommand = new BuildCastleCommand(enrollment);
 
-        ActorRef castleSupervisorActor = getCastleSupervisorActor();
+        ActorRef castleSupervisorActor = getCastleSupervisor();
         logger.debug("{}", castleSupervisorActor.path());
 
-        getCastleSupervisorActor().tell(buildCastleCommand, getTestProbeActor());
-        ActorResponse<Castellan> castellan = getTestProbe().expectMsgClass(ActorResponse.class);
+        getCastleSupervisor().tell(buildCastleCommand, getTestProbe());
+        ActorResponse<Castellan> castellan = getTestKit().expectMsgClass(ActorResponse.class);
         logger.debug("{}", castellan.get());
 
         String castellanId = castellan.get().getId();
 
         String castleActorName = ActorNameUtil.requestPersistentActorName(castellanId, Castellan.class);
         try {
-            ActorRef actorRef = Await.result(getActorSystem().actorSelection(getCastleSupervisorActor().path().child(castleActorName)).resolveOne(NaraActorConst.DEFAULT_TIMEOUT), NaraActorConst.DEFAULT_TIMEOUT.duration());
+            ActorRef actorRef = Await.result(getActorSystem().actorSelection(getCastleSupervisor().path().child(castleActorName)).resolveOne(NaraActorConst.DEFAULT_TIMEOUT), NaraActorConst.DEFAULT_TIMEOUT.duration());
             logger.debug("{}", actorRef.path());
 
             castellan = (ActorResponse<Castellan>) PatternsCS.ask(actorRef, new FindStateQuery(), 1000).toCompletableFuture().get();

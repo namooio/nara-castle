@@ -14,16 +14,16 @@ public class CastleSupervisorActor extends NaraActor {
     //
     Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ActorRef castleQueryActor;
+    private ActorRef castleQuery;
 
-    static public Props props(ActorRef castleQueryActor) {
+    static public Props props(ActorRef castleQuery) {
         //
-        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(castleQueryActor));
+        return Props.create(CastleSupervisorActor.class, () -> new CastleSupervisorActor(castleQuery));
     }
 
-    public CastleSupervisorActor(ActorRef castleQueryActor) {
+    public CastleSupervisorActor(ActorRef castleQuery) {
         //
-        this.castleQueryActor = castleQueryActor;
+        this.castleQuery = castleQuery;
     }
 
     @Override

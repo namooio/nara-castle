@@ -31,7 +31,7 @@ public class CastleTestApplication {
         MongodExecutable mongodExecutable = starter.prepare(mongodConfig);
         mongodExecutable.start();
 
-        ActorSystem actorSystem = ActorSystem.create("nara");
+        ActorSystem actorSystem = ActorSystem.create("nara-test");
 
         CastleRMStoreLycler rmStoreLycler = new CastleRMMongoStoreLycler("mongodb://localhost:55555/nara_castle", "nara_castle");
 

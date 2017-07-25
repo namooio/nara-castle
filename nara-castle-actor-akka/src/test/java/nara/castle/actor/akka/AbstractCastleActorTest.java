@@ -3,7 +3,6 @@ package nara.castle.actor.akka;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.testkit.javadsl.TestKit;
-import com.mongodb.MongoClient;
 import de.flapdoodle.embed.mongo.MongodExecutable;
 import de.flapdoodle.embed.mongo.MongodStarter;
 import de.flapdoodle.embed.mongo.config.IMongodConfig;
@@ -16,8 +15,6 @@ import nara.castle.da.mongo.CastleRMMongoStoreLycler;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import org.junit.After;
 import org.junit.Before;
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
 
 import java.io.IOException;
 
@@ -26,11 +23,11 @@ public abstract class AbstractCastleActorTest {
     private MongodExecutable mongodExecutable;
 
     private ActorSystem actorSystem;
-    private ActorRef castleQueryActor;
-    private ActorRef castleSupervisorActor;
+    private ActorRef castleQuery;
+    private ActorRef castleSupervisor;
 
-    private TestKit testProbe;
-    private ActorRef testProbeActor;
+    private TestKit testKit;
+    private ActorRef testProbe;
 
     @Before
     public void setUp() throws IOException {
@@ -50,12 +47,12 @@ public abstract class AbstractCastleActorTest {
         // mongodb://nara:rjsemfwlak!2@localhost:27016/nara_castle?authMechanism=SCRAM-SHA-1
         CastleRMStoreLycler rmStoreLycler = new CastleRMMongoStoreLycler("mongodb://localhost:55555/nara_castle", "nara_castle");
 
-        actorSystem = ActorSystem.create("nara");
-        castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(rmStoreLycler), "castle-query");
-        castleSupervisorActor = actorSystem.actorOf(CastleSupervisorActor.props(castleQueryActor), "castle-supervisor");
+        actorSystem = ActorSystem.create("nara-test");
+        castleQuery = actorSystem.actorOf(CastleQueryActor.props(rmStoreLycler), "castle-query");
+        castleSupervisor = actorSystem.actorOf(CastleSupervisorActor.props(castleQuery), "castle-supervisor");
 
-        testProbe = new TestKit(getActorSystem());
-        testProbeActor = testProbe.getRef();
+        testKit = new TestKit(getActorSystem());
+        testProbe = testKit.getRef();
     }
 
     @After
@@ -72,23 +69,23 @@ public abstract class AbstractCastleActorTest {
         return actorSystem;
     }
 
-    public ActorRef getCastleQueryActor() {
+    public ActorRef getCastleQuery() {
         //
-        return castleQueryActor;
+        return castleQuery;
     }
 
-    public ActorRef getCastleSupervisorActor() {
+    public ActorRef getCastleSupervisor() {
         //
-        return castleSupervisorActor;
+        return castleSupervisor;
     }
 
-    public TestKit getTestProbe() {
+    public TestKit getTestKit() {
+        //
+        return testKit;
+    }
+
+    public ActorRef getTestProbe() {
         //
         return testProbe;
-    }
-
-    public ActorRef getTestProbeActor() {
-        //
-        return testProbeActor;
     }
 }
