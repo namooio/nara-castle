@@ -41,25 +41,25 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
         matcher()
         .match(BuildCastleCommand.class, buildCastleCommand -> {
             //
-            persist(new CastleBuilt(getState()), this::handleAndRespond);
+            persist(new CastleBuiltEvent(getState()), this::handleAndRespond);
         })
         .match(AddEnrollmentCommand.class, addEnrollmentCommand -> {
             //
-            persist(new MetroEnrolled(getState().getId(), addEnrollmentCommand.getEnrollment()), this::handleAndRespond);
+            persist(new MetroEnrolledEvent(getState().getId(), addEnrollmentCommand.getEnrollment()), this::handleAndRespond);
         })
         .match(DemolishCastleCommand.class, demolishCastleCommand -> {
             //
-            persist(new CastleDemolished(getState().getId()), this::handleAndRespond);
+            persist(new CastleDemolishedEvent(getState().getId()), this::handleAndRespond);
         })
         .match(ModifyCastellanCommand.class, modifyCastellanCommand -> {
             //
-            persist(new CastellanModified(getState().getId(), modifyCastellanCommand.getNameValues()), this::handleAndRespond);
+            persist(new CastellanModifiedEvent(getState().getId(), modifyCastellanCommand.getNameValues()), this::handleAndRespond);
         })
         .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
             //
             Enrollment withdrawalEnrollment = getState().findEnrollment(withdrawMetroCommand.getMetroId(), withdrawMetroCommand.getCivilianId());
             withdrawalEnrollment.withdraw();
-            persist(new MetroWithdrawn(withdrawalEnrollment), this::handleAndRespond);
+            persist(new MetroWithdrawnEvent(withdrawalEnrollment), this::handleAndRespond);
         })
         .onMessage(command);
     }
@@ -68,11 +68,11 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
     public void handleEvent(NaraEvent event) {
         //
         matcher()
-        .match(CastleBuilt.class, castleBuilt -> getState().apply(castleBuilt))
-        .match(CastellanModified.class, castellanModified -> getState().apply(castellanModified))
-        .match(CastleDemolished.class, castleDemolished -> getState().apply(castleDemolished))
-        .match(MetroEnrolled.class, metroEnrolled -> getState().apply(metroEnrolled))
-        .match(MetroWithdrawn.class, metroWithdrawn -> getState().apply(metroWithdrawn))
+        .match(CastleBuiltEvent.class, castleBuiltEvent -> getState().apply(castleBuiltEvent))
+        .match(CastellanModifiedEvent.class, castellanModifiedEvent -> getState().apply(castellanModifiedEvent))
+        .match(CastleDemolishedEvent.class, castleDemolishedEvent -> getState().apply(castleDemolishedEvent))
+        .match(MetroEnrolledEvent.class, metroEnrolledEvent -> getState().apply(metroEnrolledEvent))
+        .match(MetroWithdrawnEvent.class, metroWithdrawnEvent -> getState().apply(metroWithdrawnEvent))
         .onMessage(event);
     }
 }

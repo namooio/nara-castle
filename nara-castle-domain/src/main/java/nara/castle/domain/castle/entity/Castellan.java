@@ -72,9 +72,9 @@ public class Castellan extends Entity implements Aggregate {
     public void apply(NaraEvent event) {
         //
         matcher()
-            .match(CastleBuilt.class, castleBuilt -> {
+            .match(CastleBuiltEvent.class, castleBuiltEvent -> {
                 //
-                Castellan initialState = castleBuilt.getInitialState();
+                Castellan initialState = castleBuiltEvent.getInitialState();
 
                 this.displayName = initialState.getDisplayName();
                 this.primaryEmail = initialState.getPrimaryEmail();
@@ -83,21 +83,21 @@ public class Castellan extends Entity implements Aggregate {
                 this.enrollments = initialState.getEnrollments();
                 this.castle = initialState.getCastle();
             })
-            .match(CastleDemolished.class, castleDemolished -> {
+            .match(CastleDemolishedEvent.class, castleDemolishedEvent -> {
                 //
                 setDeleted(true);
             })
-            .match(MetroEnrolled.class, metroEnrolled -> {
+            .match(MetroEnrolledEvent.class, metroEnrolledEvent -> {
                 //
-                this.addEnrollment(metroEnrolled.getEnrollment());
+                this.addEnrollment(metroEnrolledEvent.getEnrollment());
             })
-            .match(CastellanModified.class, castellanModified -> {
+            .match(CastellanModifiedEvent.class, castellanModifiedEvent -> {
                 //
-                this.setValues(castellanModified.getNameValues());
+                this.setValues(castellanModifiedEvent.getNameValues());
             })
-            .match(MetroWithdrawn.class, metroWithdrawn -> {
+            .match(MetroWithdrawnEvent.class, metroWithdrawnEvent -> {
                 //
-                Enrollment withdrawnEnrollment = metroWithdrawn.getWithdrawnEnrollment();
+                Enrollment withdrawnEnrollment = metroWithdrawnEvent.getWithdrawnEnrollment();
                 Enrollment enrollment = this.findEnrollment(withdrawnEnrollment.getMetroId(), withdrawnEnrollment.getCivilianId());
 
                 enrollment.setWithdrawn(withdrawnEnrollment.isWithdrawn());

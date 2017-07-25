@@ -3,13 +3,13 @@ package nara.castle.domain.castle.event;
 import nara.castle.domain.castle.entity.Enrollment;
 import nara.share.domain.event.NaraEvent;
 
-public class MetroWithdrawn implements NaraEvent {
+public class MetroWithdrawnEvent implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
     private Enrollment withdrawnEnrollment;
 
-    public MetroWithdrawn(Enrollment withdrawnEnrollment) {
+    public MetroWithdrawnEvent(Enrollment withdrawnEnrollment) {
         //
         this.withdrawnEnrollment = withdrawnEnrollment;
     }

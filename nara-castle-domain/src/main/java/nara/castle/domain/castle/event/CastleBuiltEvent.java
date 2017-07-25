@@ -3,13 +3,13 @@ package nara.castle.domain.castle.event;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.share.domain.event.NaraEvent;
 
-public class CastleBuilt implements NaraEvent {
+public class CastleBuiltEvent implements NaraEvent {
     //
     private static final long serialVersionUID = 1L;
 
     private Castellan initialState;
 
-    public CastleBuilt(Castellan initialState) {
+    public CastleBuiltEvent(Castellan initialState) {
         //
         this.initialState = initialState;
     }

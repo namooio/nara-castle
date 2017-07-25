@@ -50,17 +50,17 @@ public class CastleProjectionActor extends NaraProjectionActor {
     protected void buildReadModel(NaraEvent event) {
         //
         matcher()
-        .match(CastleBuilt.class, this::buildCastleBuildReadModel)
-        .match(CastellanModified.class, this::buildCastellanModifiedReadModel)
-        .match(CastleDemolished.class, this::buildCastleDemolishedReadModel)
-        .match(MetroEnrolled.class, this::buildMetroEnrolledReadModel)
-        .match(MetroWithdrawn.class, this::buildMetroWithdrawnReadModel)
+        .match(CastleBuiltEvent.class, this::buildCastleBuildReadModel)
+        .match(CastellanModifiedEvent.class, this::buildCastellanModifiedReadModel)
+        .match(CastleDemolishedEvent.class, this::buildCastleDemolishedReadModel)
+        .match(MetroEnrolledEvent.class, this::buildMetroEnrolledReadModel)
+        .match(MetroWithdrawnEvent.class, this::buildMetroWithdrawnReadModel)
         .onMessage(event);
     }
 
-    private void buildCastleBuildReadModel(CastleBuilt castleBuilt) {
+    private void buildCastleBuildReadModel(CastleBuiltEvent castleBuiltEvent) {
         //
-        Castellan initialState = castleBuilt.getInitialState();
+        Castellan initialState = castleBuiltEvent.getInitialState();
         List<Enrollment> enrollments = initialState.getEnrollments();
         String castellanId = initialState.getId();
 
@@ -73,10 +73,10 @@ public class CastleProjectionActor extends NaraProjectionActor {
         unitPlateRMStore.create(unitPlateList.getUnitPlates());
     }
 
-    private void buildCastellanModifiedReadModel(CastellanModified castellanModified) {
+    private void buildCastellanModifiedReadModel(CastellanModifiedEvent castellanModifiedEvent) {
         //
-        String castellanId = castellanModified.getCastellanId();
-        NameValueList nameValues = castellanModified.getNameValues();
+        String castellanId = castellanModifiedEvent.getCastellanId();
+        NameValueList nameValues = castellanModifiedEvent.getNameValues();
 
         CastellanRM castellanRM = castellanRMStore.retrieve(castellanId);
         castellanRM.setValues(nameValues);
@@ -91,27 +91,27 @@ public class CastleProjectionActor extends NaraProjectionActor {
         }
     }
 
-    private void buildCastleDemolishedReadModel(CastleDemolished castleDemolished) {
+    private void buildCastleDemolishedReadModel(CastleDemolishedEvent castleDemolishedEvent) {
         //
-        String castellanId = castleDemolished.getCastellanId();
+        String castellanId = castleDemolishedEvent.getCastellanId();
 
         castellanRMStore.delete(castellanId);
         enrollmentRMStore.deleteByCastellanId(castellanId);
         unitPlateRMStore.deleteByCastellanId(castellanId);
     }
 
-    private void buildMetroEnrolledReadModel(MetroEnrolled metroEnrolled) {
+    private void buildMetroEnrolledReadModel(MetroEnrolledEvent metroEnrolledEvent) {
         //
-        String castellanId = metroEnrolled.getCastellanId();
-        Enrollment enrollment = metroEnrolled.getEnrollment();
+        String castellanId = metroEnrolledEvent.getCastellanId();
+        Enrollment enrollment = metroEnrolledEvent.getEnrollment();
 
         EnrollmentRM enrollmentRM = new EnrollmentRM(castellanId, enrollment);
         enrollmentRMStore.create(enrollmentRM);
     }
 
-    private void buildMetroWithdrawnReadModel(MetroWithdrawn metroWithdrawn) {
+    private void buildMetroWithdrawnReadModel(MetroWithdrawnEvent metroWithdrawnEvent) {
         //
-        Enrollment withdrawnEnrollment = metroWithdrawn.getWithdrawnEnrollment();
+        Enrollment withdrawnEnrollment = metroWithdrawnEvent.getWithdrawnEnrollment();
         String metroId = withdrawnEnrollment.getMetroId();
         String civilianId = withdrawnEnrollment.getCivilianId();
 
