@@ -22,11 +22,10 @@ public class CastellanModifiedEvent implements NaraEvent {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("castellanId:'").append(castellanId).append('\'');
-        sb.append(", nameValues:").append(nameValues);
-        sb.append('}');
-        return sb.toString();
+        return "CastellanModifiedEvent{" +
+                "castellanId='" + castellanId + '\'' +
+                ", nameValues=" + nameValues +
+                '}';
     }
 
     public String getCastellanId() {

@@ -20,10 +20,9 @@ public class MetroWithdrawnEvent implements NaraEvent {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("withdrawnEnrollment:").append(withdrawnEnrollment);
-        sb.append('}');
-        return sb.toString();
+        return "MetroWithdrawnEvent{" +
+                "withdrawnEnrollment=" + withdrawnEnrollment +
+                '}';
     }
 
     public Enrollment getWithdrawnEnrollment() {

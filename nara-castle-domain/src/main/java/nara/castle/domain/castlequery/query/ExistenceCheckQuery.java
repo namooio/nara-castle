@@ -15,6 +15,13 @@ public class ExistenceCheckQuery implements NaraQuery {
         this.castellanId = castellanId;
     }
 
+    @Override
+    public String toString() {
+        return "ExistenceCheckQuery{" +
+                "castellanId='" + castellanId + '\'' +
+                '}';
+    }
+
     public String getCastellanId() {
         return castellanId;
     }

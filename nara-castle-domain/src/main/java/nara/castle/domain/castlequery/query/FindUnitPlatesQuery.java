@@ -18,6 +18,14 @@ public class FindUnitPlatesQuery implements NaraQuery {
         this.keyValue = keyValue;
     }
 
+    @Override
+    public String toString() {
+        return "FindUnitPlatesQuery{" +
+                "keyAttr=" + keyAttr +
+                ", keyValue='" + keyValue + '\'' +
+                '}';
+    }
+
     public KeyAttr getKeyAttr() {
         return keyAttr;
     }

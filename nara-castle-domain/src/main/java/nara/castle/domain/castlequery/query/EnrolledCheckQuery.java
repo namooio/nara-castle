@@ -17,6 +17,14 @@ public class EnrolledCheckQuery implements NaraQuery {
         this.metroId = metroId;
     }
 
+    @Override
+    public String toString() {
+        return "EnrolledCheckQuery{" +
+                "castellanId='" + castellanId + '\'' +
+                ", metroId='" + metroId + '\'' +
+                '}';
+    }
+
     public String getCastellanId() {
         return castellanId;
     }

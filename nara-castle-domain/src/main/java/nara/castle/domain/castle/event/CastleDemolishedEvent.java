@@ -19,10 +19,9 @@ public class CastleDemolishedEvent implements NaraEvent {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("castellanId:'").append(castellanId).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "CastleDemolishedEvent{" +
+                "castellanId='" + castellanId + '\'' +
+                '}';
     }
 
     public String getCastellanId() {

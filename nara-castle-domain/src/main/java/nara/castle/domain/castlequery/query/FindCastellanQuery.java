@@ -15,6 +15,13 @@ public class FindCastellanQuery implements NaraQuery {
         this.castellanId = castellanId;
     }
 
+    @Override
+    public String toString() {
+        return "FindCastellanQuery{" +
+                "castellanId='" + castellanId + '\'' +
+                '}';
+    }
+
     public String getCastellanId() {
         return castellanId;
     }

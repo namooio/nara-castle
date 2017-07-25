@@ -15,6 +15,13 @@ public class FindEnrollmentsQuery implements NaraQuery {
         this.castellanId = castellanId;
     }
 
+    @Override
+    public String toString() {
+        return "FindEnrollmentsQuery{" +
+                "castellanId='" + castellanId + '\'' +
+                '}';
+    }
+
     public String getCastellanId() {
         return castellanId;
     }

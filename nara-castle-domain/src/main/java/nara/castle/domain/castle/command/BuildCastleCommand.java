@@ -18,10 +18,9 @@ public class BuildCastleCommand implements NaraCommand {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("{");
-        sb.append("enrollment:").append(enrollment);
-        sb.append('}');
-        return sb.toString();
+        return "BuildCastleCommand{" +
+                "enrollment=" + enrollment +
+                '}';
     }
 
     public Enrollment getEnrollment() {
