@@ -9,6 +9,10 @@ public class CastleBuiltEvent implements NaraEvent {
 
     private Castellan initialState;
 
+    public CastleBuiltEvent() {
+        //
+    }
+
     public CastleBuiltEvent(Castellan initialState) {
         //
         this.initialState = initialState;
@@ -24,5 +28,9 @@ public class CastleBuiltEvent implements NaraEvent {
 
     public Castellan getInitialState() {
         return initialState;
+    }
+
+    public void setInitialState(Castellan initialState) {
+        this.initialState = initialState;
     }
 }

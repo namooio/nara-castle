@@ -9,6 +9,10 @@ public class MetroWithdrawnEvent implements NaraEvent {
 
     private Enrollment withdrawnEnrollment;
 
+    public MetroWithdrawnEvent() {
+        //
+    }
+
     public MetroWithdrawnEvent(Enrollment withdrawnEnrollment) {
         //
         this.withdrawnEnrollment = withdrawnEnrollment;
@@ -24,5 +28,9 @@ public class MetroWithdrawnEvent implements NaraEvent {
 
     public Enrollment getWithdrawnEnrollment() {
         return withdrawnEnrollment;
+    }
+
+    public void setWithdrawnEnrollment(Enrollment withdrawnEnrollment) {
+        this.withdrawnEnrollment = withdrawnEnrollment;
     }
 }

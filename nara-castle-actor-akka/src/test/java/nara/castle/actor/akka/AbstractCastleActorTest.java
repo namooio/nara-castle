@@ -48,9 +48,9 @@ public abstract class AbstractCastleActorTest {
         mongodExecutable.start();
 
         // mongodb://nara:rjsemfwlak!2@localhost:27016/nara_castle?authMechanism=SCRAM-SHA-1
-        CastleRMStoreLycler rmStoreLycler = new CastleRMMongoStoreLycler("mongodb://@localhost:55555/nara_castle?authMechanism=SCRAM-SHA-1", "nara_castle");
+        CastleRMStoreLycler rmStoreLycler = new CastleRMMongoStoreLycler("mongodb://localhost:55555/nara_castle", "nara_castle");
 
-        actorSystem = ActorSystem.create("test");
+        actorSystem = ActorSystem.create("nara");
         castleQueryActor = actorSystem.actorOf(CastleQueryActor.props(rmStoreLycler), "castle-query");
         castleSupervisorActor = actorSystem.actorOf(CastleSupervisorActor.props(castleQueryActor), "castle-supervisor");
 

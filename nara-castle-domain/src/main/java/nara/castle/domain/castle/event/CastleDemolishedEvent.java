@@ -8,6 +8,10 @@ public class CastleDemolishedEvent implements NaraEvent {
 
     private String castellanId;
 
+    public CastleDemolishedEvent() {
+        //
+    }
+
     public CastleDemolishedEvent(String castellanId) {
         //
         this.castellanId = castellanId;
@@ -23,5 +27,9 @@ public class CastleDemolishedEvent implements NaraEvent {
 
     public String getCastellanId() {
         return castellanId;
+    }
+
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
     }
 }

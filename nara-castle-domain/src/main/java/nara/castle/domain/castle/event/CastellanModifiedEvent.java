@@ -10,6 +10,10 @@ public class CastellanModifiedEvent implements NaraEvent {
     private String castellanId;
     private NameValueList nameValues;
 
+    public CastellanModifiedEvent() {
+        //
+    }
+
     public CastellanModifiedEvent(String castellanId, NameValueList nameValues) {
         //
         this.castellanId = castellanId;
@@ -29,7 +33,15 @@ public class CastellanModifiedEvent implements NaraEvent {
         return castellanId;
     }
 
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
+    }
+
     public NameValueList getNameValues() {
         return nameValues;
+    }
+
+    public void setNameValues(NameValueList nameValues) {
+        this.nameValues = nameValues;
     }
 }

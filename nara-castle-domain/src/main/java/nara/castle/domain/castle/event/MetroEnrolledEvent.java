@@ -10,6 +10,10 @@ public class MetroEnrolledEvent implements NaraEvent {
     private String castellanId;
     private Enrollment enrollment;
 
+    public MetroEnrolledEvent() {
+        //
+    }
+
     public MetroEnrolledEvent(String castellanId, Enrollment enrollment) {
         //
         this.castellanId = castellanId;
@@ -29,7 +33,15 @@ public class MetroEnrolledEvent implements NaraEvent {
         return castellanId;
     }
 
+    public void setCastellanId(String castellanId) {
+        this.castellanId = castellanId;
+    }
+
     public Enrollment getEnrollment() {
         return enrollment;
+    }
+
+    public void setEnrollment(Enrollment enrollment) {
+        this.enrollment = enrollment;
     }
 }
