@@ -38,27 +38,27 @@ public class CastleQueryActor extends NaraActor {
         .match(FindCastellanQuery.class, findCastellanQuery -> {
             //
             String castellanId = findCastellanQuery.getCastellanId();
-            responseResult(() -> castellanRMStore.retrieve(castellanId));
+            responseAsyncResult(() -> castellanRMStore.retrieve(castellanId));
         })
         .match(FindCastellansQuery.class, findCastellansQuery -> {
             //
-            responseResult(() -> castellanRMStore.retrieveAll());
+            responseAsyncResult(() -> castellanRMStore.retrieveAll());
         })
         .match(ExistenceCheckQuery.class, existenceCheckQuery -> {
             //
             String castellanId = existenceCheckQuery.getCastellanId();
-            responseResult(() -> castellanRMStore.exists(castellanId));
+            responseAsyncResult(() -> castellanRMStore.exists(castellanId));
         })
         .match(FindEnrollmentsQuery.class, findEnrollmentsQuery -> {
             //
             String castellanId = findEnrollmentsQuery.getCastellanId();
-            responseResult(() -> enrollmentRMStore.retrieveByCastellanId(castellanId));
+            responseAsyncResult(() -> enrollmentRMStore.retrieveByCastellanId(castellanId));
         })
         .match(EnrolledCheckQuery.class, enrolledCheckQuery -> {
             //
             String castellanId = enrolledCheckQuery.getCastellanId();
             String metroId = enrolledCheckQuery.getMetroId();
-            responseResult(() -> {
+            responseAsyncResult(() -> {
                 List<EnrollmentRM> enrollmentRMS = enrollmentRMStore.retrieveByCastellanId(castellanId);
                 EnrollmentRM found = enrollmentRMS.stream().filter(enrollmentRM -> enrollmentRM.getMetroId().equals(metroId)).findFirst().orElse(null);
                 return found != null;
@@ -68,7 +68,7 @@ public class CastleQueryActor extends NaraActor {
             //
             KeyAttr keyAttr = findUnitPlatesQuery.getKeyAttr();
             String keyValue = findUnitPlatesQuery.getKeyValue();
-            responseResult(() -> unitPlateRMStore.retrieve(keyAttr, keyValue));
+            responseAsyncResult(() -> unitPlateRMStore.retrieve(keyAttr, keyValue));
         })
         .onMessage(query);
     }

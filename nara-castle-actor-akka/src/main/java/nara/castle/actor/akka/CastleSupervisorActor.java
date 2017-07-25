@@ -52,8 +52,8 @@ public class CastleSupervisorActor extends NaraActor {
         })
         .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
             //
-            String castleId = withdrawMetroCommand.getCastellanId();
-            foward(castleId, Castellan.class, CastleActor.props(castleId), withdrawMetroCommand);
+            String castellanId = withdrawMetroCommand.getCastellanId();
+            foward(castellanId, Castellan.class, CastleActor.props(castellanId), withdrawMetroCommand);
         })
         .onMessage(command);
     }
