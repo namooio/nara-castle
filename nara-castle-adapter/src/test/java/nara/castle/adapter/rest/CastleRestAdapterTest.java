@@ -18,7 +18,7 @@ public class CastleRestAdapterTest {
         NaraRestClient naraRestClient = new SpringWebRestClient("http://localhost:9000");
         CastleRestAdapter castleRestAdapter = new CastleRestAdapter(naraRestClient);
 
-        for (int i = 100 ; i < 102 ; i++) {
+        for (int i = 200 ; i < 300 ; i++) {
             String seq = "0" + i;
 
             String metroId = "P" + seq;
@@ -34,6 +34,7 @@ public class CastleRestAdapterTest {
             );
 
             String castellanId = castleRestAdapter.buildCastle(new BuildCastleCommand(enrollment)).toCompletableFuture().get();
+            Thread.sleep(1000);
 
 //            while(!castleRestAdapter.existsCastellan(castellanId).toCompletableFuture().get()) {
 //                //
