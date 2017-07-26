@@ -57,7 +57,7 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
         })
         .match(WithdrawMetroCommand.class, withdrawMetroCommand -> {
             //
-            Enrollment withdrawalEnrollment = getState().findEnrollment(withdrawMetroCommand.getMetroId(), withdrawMetroCommand.getCivilianId());
+            Enrollment withdrawalEnrollment = getState().findEnrollment(withdrawMetroCommand.getMetroId(), withdrawMetroCommand.getCitizenId());
             withdrawalEnrollment.withdraw();
             persist(new MetroWithdrawnEvent(withdrawalEnrollment), this::handleAndRespond);
         })

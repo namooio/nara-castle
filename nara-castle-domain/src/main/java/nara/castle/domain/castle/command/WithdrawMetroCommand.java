@@ -7,17 +7,17 @@ public class WithdrawMetroCommand implements NaraCommand {
     private String castellanId;
 
     private String metroId;
-    private String civilianId;
+    private String citizenId;
 
     public WithdrawMetroCommand() {
         //
     }
 
-    public WithdrawMetroCommand(String castellanId, String metroId, String civilianId) {
+    public WithdrawMetroCommand(String castellanId, String metroId, String citizenId) {
         //
         this.castellanId = castellanId;
         this.metroId = metroId;
-        this.civilianId = civilianId;
+        this.citizenId = citizenId;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class WithdrawMetroCommand implements NaraCommand {
         return "WithdrawMetroCommand{" +
                 "castellanId='" + castellanId + '\'' +
                 ", metroId='" + metroId + '\'' +
-                ", civilianId='" + civilianId + '\'' +
+                ", citizenId='" + citizenId + '\'' +
                 '}';
     }
 
@@ -45,11 +45,11 @@ public class WithdrawMetroCommand implements NaraCommand {
         this.metroId = metroId;
     }
 
-    public String getCivilianId() {
-        return civilianId;
+    public String getCitizenId() {
+        return citizenId;
     }
 
-    public void setCivilianId(String civilianId) {
-        this.civilianId = civilianId;
+    public void setCitizenId(String citizenId) {
+        this.citizenId = citizenId;
     }
 }

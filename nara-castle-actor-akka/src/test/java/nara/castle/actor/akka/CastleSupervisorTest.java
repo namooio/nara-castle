@@ -28,8 +28,8 @@ public class CastleSupervisorTest extends AbstractCastleActorTest {
     public void test() throws InterruptedException {
         //
         String metroId = "P0P";
-        String civilianId = "C1@P0P";
-        Enrollment enrollment = new Enrollment(metroId, civilianId,
+        String citizenId = "C1@P0P";
+        Enrollment enrollment = new Enrollment(metroId, citizenId,
                 new Name(Locale.KOREAN, "기철", "허"),
                 new Email("kchuh@nextree.co.kr"),
                 new NaraZone(Locale.KOREA, "Asia/Seoul")

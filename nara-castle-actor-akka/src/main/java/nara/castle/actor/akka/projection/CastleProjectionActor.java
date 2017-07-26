@@ -113,9 +113,9 @@ public class CastleProjectionActor extends NaraProjectionActor {
         //
         Enrollment withdrawnEnrollment = metroWithdrawnEvent.getWithdrawnEnrollment();
         String metroId = withdrawnEnrollment.getMetroId();
-        String civilianId = withdrawnEnrollment.getCivilianId();
+        String citizenId = withdrawnEnrollment.getCitizenId();
 
-        EnrollmentRM enrollmentRM = enrollmentRMStore.retrieveByMetroIdAndCivilianId(metroId, civilianId);
+        EnrollmentRM enrollmentRM = enrollmentRMStore.retrieveByMetroIdAndCitizenId(metroId, citizenId);
 
         if (enrollmentRM != null) {
             enrollmentRM.setWithdrawn(withdrawnEnrollment.isWithdrawn());

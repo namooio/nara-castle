@@ -10,7 +10,7 @@ import nara.share.util.json.JsonUtil;
 public class Enrollment implements ValueObject {
     //
     private String metroId;
-    private String civilianId;
+    private String citizenId;
     private Name name;
     private Email email;
     private boolean withdrawn;          // 탈퇴여부
@@ -22,10 +22,10 @@ public class Enrollment implements ValueObject {
         //
     }
 
-    public Enrollment(String metroId, String civilianId, Name name, Email email, NaraZone zone) {
+    public Enrollment(String metroId, String citizenId, Name name, Email email, NaraZone zone) {
         //
         this.metroId = metroId;
-        this.civilianId = civilianId;
+        this.citizenId = citizenId;
         this.name = name;
         this.email = email;
         this.zone = zone;
@@ -37,7 +37,7 @@ public class Enrollment implements ValueObject {
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
         sb.append("metroId:'").append(metroId).append('\'');
-        sb.append(", civilianId:'").append(civilianId).append('\'');
+        sb.append(", citizenId:'").append(citizenId).append('\'');
         sb.append(", name:").append(name);
         sb.append(", email:'").append(email).append('\'');
         sb.append(", withdrawn:").append(withdrawn);
@@ -51,12 +51,12 @@ public class Enrollment implements ValueObject {
     public static Enrollment getSample() {
         //
         String metroId = "POP";
-        String civilianId = "12@POP";
+        String citizenId = "12@POP";
         Name name = Name.getSample();
         Email email = Email.getSample();
         NaraZone zone = NaraZone.getSample();
 
-        Enrollment sample = new Enrollment(metroId, civilianId, name, email, zone);
+        Enrollment sample = new Enrollment(metroId, citizenId, name, email, zone);
 
         return sample;
     }
@@ -95,12 +95,12 @@ public class Enrollment implements ValueObject {
         this.metroId = metroId;
     }
 
-    public String getCivilianId() {
-        return civilianId;
+    public String getCitizenId() {
+        return citizenId;
     }
 
-    public void setCivilianId(String civilianId) {
-        this.civilianId = civilianId;
+    public void setCitizenId(String citizenId) {
+        this.citizenId = citizenId;
     }
 
     public boolean isWithdrawn() {

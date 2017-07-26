@@ -11,7 +11,7 @@ import nara.share.util.json.JsonUtil;
 public class EnrollmentRM extends Entity {
     //
     private String metroId;
-    private String civilianId;
+    private String citizenId;
     private Name name;
     private Email email;
     private boolean withdrawn;          // 탈퇴여부
@@ -34,7 +34,7 @@ public class EnrollmentRM extends Entity {
         //
         super();
         this.metroId = enrollment.getMetroId();
-        this.civilianId = enrollment.getCivilianId();
+        this.citizenId = enrollment.getCitizenId();
         this.name = enrollment.getName();
         this.email = enrollment.getEmail();
         this.zone = enrollment.getZone();
@@ -49,7 +49,7 @@ public class EnrollmentRM extends Entity {
     public String toString() {
         final StringBuilder sb = new StringBuilder("EnrollmentRM{");
         sb.append("metroId='").append(metroId).append('\'');
-        sb.append(", civilianId='").append(civilianId).append('\'');
+        sb.append(", citizenId='").append(citizenId).append('\'');
         sb.append(", name=").append(name);
         sb.append(", email=").append(email);
         sb.append(", withdrawn=").append(withdrawn);
@@ -93,12 +93,12 @@ public class EnrollmentRM extends Entity {
         this.metroId = metroId;
     }
 
-    public String getCivilianId() {
-        return civilianId;
+    public String getCitizenId() {
+        return citizenId;
     }
 
-    public void setCivilianId(String civilianId) {
-        this.civilianId = civilianId;
+    public void setCitizenId(String citizenId) {
+        this.citizenId = citizenId;
     }
 
     public boolean isWithdrawn() {

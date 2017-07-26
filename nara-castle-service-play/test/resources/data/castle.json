@@ -13,7 +13,7 @@
     "enrollments": [
       {
         "metroId": "POP",
-        "civilianId": "01@POP",
+        "citizenId": "01@POP",
         "name": {
           "langLocale": "ko_KR",
           "firstName": "",

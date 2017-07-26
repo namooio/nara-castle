@@ -18,6 +18,7 @@ public class CastellanRMDoc {
     private String displayName;
     private String primaryEmail;
     private Contact contact;
+    private Long castleBuiltTime;
 
     public CastellanRMDoc() {
         //
@@ -72,5 +73,13 @@ public class CastellanRMDoc {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public Long getCastleBuiltTime() {
+        return castleBuiltTime;
+    }
+
+    public void setCastleBuiltTime(Long castleBuiltTime) {
+        this.castleBuiltTime = castleBuiltTime;
     }
 }

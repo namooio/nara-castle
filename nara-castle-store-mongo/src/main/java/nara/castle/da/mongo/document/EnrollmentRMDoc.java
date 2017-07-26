@@ -19,7 +19,7 @@ public class EnrollmentRMDoc {
     private String id;
 
     private String metroId;
-    private String civilianId;
+    private String citizenId;
     private Name name;
     private Email email;
     private boolean withdrawn;          // 탈퇴여부
@@ -75,12 +75,12 @@ public class EnrollmentRMDoc {
         this.metroId = metroId;
     }
 
-    public String getCivilianId() {
-        return civilianId;
+    public String getCitizenId() {
+        return citizenId;
     }
 
-    public void setCivilianId(String civilianId) {
-        this.civilianId = civilianId;
+    public void setCitizenId(String citizenId) {
+        this.citizenId = citizenId;
     }
 
     public Name getName() {

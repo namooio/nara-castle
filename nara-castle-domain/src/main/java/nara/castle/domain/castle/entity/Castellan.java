@@ -98,7 +98,7 @@ public class Castellan extends Entity implements Aggregate {
             .match(MetroWithdrawnEvent.class, metroWithdrawnEvent -> {
                 //
                 Enrollment withdrawnEnrollment = metroWithdrawnEvent.getWithdrawnEnrollment();
-                Enrollment enrollment = this.findEnrollment(withdrawnEnrollment.getMetroId(), withdrawnEnrollment.getCivilianId());
+                Enrollment enrollment = this.findEnrollment(withdrawnEnrollment.getMetroId(), withdrawnEnrollment.getCitizenId());
 
                 enrollment.setWithdrawn(withdrawnEnrollment.isWithdrawn());
                 enrollment.setWithdrawnTime(withdrawnEnrollment.getWithdrawnTime());
@@ -124,12 +124,12 @@ public class Castellan extends Entity implements Aggregate {
         this.contact.addFromEnrollment(enrollment);
     }
 
-    public Enrollment findEnrollment(String metroId, String civilianId) {
+    public Enrollment findEnrollment(String metroId, String citizenId) {
         //
         return this.getEnrollments().stream()
-                .filter(enrollment -> metroId.equals(enrollment.getMetroId()) && civilianId.equals(enrollment.getCivilianId()))
+                .filter(enrollment -> metroId.equals(enrollment.getMetroId()) && citizenId.equals(enrollment.getCitizenId()))
                 .findFirst()
-                .orElseThrow(() -> new NaraException(String.format("Enrollment for metro[%s], civilian[%s] not found.", metroId, civilianId)));
+                .orElseThrow(() -> new NaraException(String.format("Enrollment for metro[%s], citizen[%s] not found.", metroId, citizenId)));
     }
 
     public String getDisplayName() {

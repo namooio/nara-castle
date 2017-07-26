@@ -16,12 +16,12 @@ public class CastleResourceTest extends AbstractCastleIntegrationTester {
         final String url = buildUrl("/castles");
 
         final String metroId = "POP";
-        final String civilianId = "02@POP";
+        final String citizenId = "02@POP";
         final Name name = new Name(Locale.KOREA, "gildong", "hong");
         final String email = "gildong@testing.co.kr";
         final NaraZone naraZone = new NaraZone(Locale.KOREA, ZoneId.of("Asia/Seoul").getId());
 
-//        Enrollment enrollment = new Enrollment(metroId, civilianId, name, email, naraZone);
+//        Enrollment enrollment = new Enrollment(metroId, citizenId, name, email, naraZone);
 //        BuildCastleCommand build = new BuildCastleCommand(enrollment);
 
 

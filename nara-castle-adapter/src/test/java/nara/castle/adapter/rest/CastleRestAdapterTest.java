@@ -22,12 +22,12 @@ public class CastleRestAdapterTest {
             String seq = "0" + i;
 
             String metroId = "P" + seq;
-            String civilianId = "C1" + metroId;
+            String citizenId = "C1" + metroId;
 
             String metroId2 = "Q" + seq;
-            String civilianId2 = "C1" + metroId2;
+            String citizenId2 = "C1" + metroId2;
 
-            Enrollment enrollment = new Enrollment(metroId, civilianId,
+            Enrollment enrollment = new Enrollment(metroId, citizenId,
                     new Name(Locale.KOREAN, "기철", "허"),
                     new Email("kchuh@nextree.co.kr"),
                     new NaraZone(Locale.KOREA, "Asia/Seoul")
@@ -52,7 +52,7 @@ public class CastleRestAdapterTest {
 //            ModifyCastellanCommand modifyCastellanCommand = new ModifyCastellanCommand(castellanId, nameValues);
 //            castleRestAdapter.modifyCastellan(castellanId, modifyCastellanCommand).toCompletableFuture().get();
 //
-//            enrollment = new Enrollment(metroId2, civilianId2,
+//            enrollment = new Enrollment(metroId2, citizenId2,
 //                    new Name(Locale.KOREAN, "유유", "호"),
 //                    new Email("kchuh@me.com"),
 //                    new NaraZone(Locale.KOREA, "Asia/Seoul")
@@ -63,7 +63,7 @@ public class CastleRestAdapterTest {
 //            Boolean enrolled = castleRestAdapter.checkEnrolled(castellanId, metroId).toCompletableFuture().get();
 //            System.out.println(enrolled);
 //
-//            WithdrawMetroCommand withdrawMetroCommand = new WithdrawMetroCommand(castellanId, metroId, civilianId);
+//            WithdrawMetroCommand withdrawMetroCommand = new WithdrawMetroCommand(castellanId, metroId, citizenId);
 //            castleRestAdapter.withdrawMetro(castellanId, withdrawMetroCommand).toCompletableFuture().get();
 //
 //            enrolled = castleRestAdapter.checkEnrolled(castellanId, metroId).toCompletableFuture().get();

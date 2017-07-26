@@ -44,12 +44,12 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
     }
 
     @Override
-    public EnrollmentRM retrieveByMetroIdAndCivilianId(String metroId, String civilianId) {
+    public EnrollmentRM retrieveByMetroIdAndCitizenId(String metroId, String citizenId) {
         //
         Query<EnrollmentRMDoc> query = datastore.createQuery(EnrollmentRMDoc.class);
         query.and(
                 query.criteria("metroId").equal(metroId),
-                query.criteria("civilianId").equal(civilianId)
+                query.criteria("citizenId").equal(citizenId)
         );
 
         EnrollmentRMDoc enrollmentRMDoc = query.get();
