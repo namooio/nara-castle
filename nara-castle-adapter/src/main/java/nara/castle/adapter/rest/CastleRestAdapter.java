@@ -6,6 +6,7 @@ import nara.castle.domain.castlequery.model.EnrollmentRM;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.query.*;
 import nara.castle.spec.CastleService;
+import nara.share.domain.OffsetList;
 import nara.share.restclient.NaraRestClient;
 import nara.share.restclient.RequestBuilder;
 
@@ -82,6 +83,14 @@ public class CastleRestAdapter implements CastleService {
         return CompletableFuture.supplyAsync(() -> Arrays.asList(naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLANS_FIND)
                 .setResponseType(CastellanRM[].class)
         )));
+    }
+
+    @Override
+    public CompletionStage<OffsetList<CastellanRM>> findCastellansPage(FindCastellansPageQuery findCastellansPageQuery) {
+        //
+        return CompletableFuture.supplyAsync(() -> naraRestClient.sendAndRecieve(RequestBuilder.create(CastleRestUrl.URL_CASTELLANS_PAGE_FIND)
+                .setResponseType(OffsetList.class)
+        ));
     }
 
     @Override

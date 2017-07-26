@@ -46,11 +46,18 @@ public class UnitPlateRMMongoStoreTest extends AbstractCastleRMStoreTest {
 
         logger.debug("{}", unitPlates);
 
-        unitPlates = getUnitPlateRMStore().retrieve(KeyAttr.Email, "kchuh@nextree.co.kr");
+        unitPlates = getUnitPlateRMStore().retrieve(KeyAttr.Email, "co", 10);
+        Assert.assertEquals(2, unitPlates.size());
+
+
+        unitPlates = getUnitPlateRMStore().retrieve(null, "6325", 10);
         Assert.assertEquals(1, unitPlates.size());
+
 
         logger.debug("{}", unitPlates);
 
         Assert.assertTrue(getUnitPlateRMStore().exists(KeyAttr.EngName, "michael Huh"));
+
+        getUnitPlateRMStore().retrieve(null, null, 100);
     }
 }

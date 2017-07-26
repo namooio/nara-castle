@@ -1,17 +1,22 @@
 package nara.castle.actor.akka.query;
 
 import akka.actor.Props;
+import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
 import nara.castle.domain.castlequery.model.KeyAttr;
+import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.query.*;
 import nara.castle.domain.castlequery.store.CastellanRMStore;
 import nara.castle.domain.castlequery.store.CastleRMStoreLycler;
 import nara.castle.domain.castlequery.store.EnrollmentRMStore;
 import nara.castle.domain.castlequery.store.UnitPlateRMStore;
 import nara.share.actor.akka.NaraActor;
+import nara.share.domain.OffsetList;
 import nara.share.domain.protocol.NaraQuery;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CastleQueryActor extends NaraActor {
     //
@@ -42,7 +47,27 @@ public class CastleQueryActor extends NaraActor {
         })
         .match(FindCastellansQuery.class, findCastellansQuery -> {
             //
-            responseAsyncResult(() -> castellanRMStore.retrieveAll());
+            responseAsyncResult(() -> {
+                KeyAttr keyAttr = findCastellansQuery.getKeyAttr();
+                String keyValue = findCastellansQuery.getKeyValue();
+                int limit = findCastellansQuery.getLimit();
+
+                List<UnitPlateRM> unitPlateRMS = unitPlateRMStore.retrieve(keyAttr, keyValue, limit);
+                Set<String> castellanIds = unitPlateRMS.stream().map(unitPlateRM -> unitPlateRM.getCastellanId()).collect(Collectors.toSet());
+                return castellanRMStore.retrieveByCastellanIds(castellanIds);
+            });
+        })
+        .match(FindCastellansPageQuery.class, findCastellansPageQuery ->{
+            //
+            int page = findCastellansPageQuery.getPage();
+            int limit = findCastellansPageQuery.getLimit();
+
+            responseAsyncResult(() -> {
+                int offset = (page - 1) * limit;
+                long totalCount = castellanRMStore.count();
+                List<CastellanRM> castellanRMS = castellanRMStore.retrieve(offset, limit);
+                return new OffsetList<>(castellanRMS, totalCount);
+            });
         })
         .match(ExistenceCheckQuery.class, existenceCheckQuery -> {
             //
@@ -68,8 +93,10 @@ public class CastleQueryActor extends NaraActor {
             //
             KeyAttr keyAttr = findUnitPlatesQuery.getKeyAttr();
             String keyValue = findUnitPlatesQuery.getKeyValue();
-            responseAsyncResult(() -> unitPlateRMStore.retrieve(keyAttr, keyValue));
+            int limit = findUnitPlatesQuery.getLimit();
+            responseAsyncResult(() -> unitPlateRMStore.retrieve(keyAttr, keyValue, limit));
         })
         .onMessage(query);
     }
+
 }

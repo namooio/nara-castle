@@ -14,6 +14,7 @@ import nara.castle.domain.castlequery.query.*;
 import nara.castle.spec.CastleService;
 import nara.share.actor.akka.NaraActorConst;
 import nara.share.actor.akka.message.ActorResponse;
+import nara.share.domain.OffsetList;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -129,7 +130,14 @@ public class CastleResource extends Controller implements CastleService {
     // route mapping
     public CompletionStage<Result> findCastellans() {
         //
-        return findCastellans(new FindCastellansQuery());
+        String keyAttrStr = request().getQueryString("keyAttr");
+        String keyValue = request().getQueryString("keyValue");
+        String limitStr = request().getQueryString("limit");
+
+        KeyAttr keyAttr = keyAttrStr != null ? KeyAttr.valueOf(keyAttrStr) : null;
+        int limit = limitStr != null ? Integer.parseInt(limitStr) : Integer.MAX_VALUE;
+
+        return findCastellans(new FindCastellansQuery(keyAttr, keyValue, limit));
     }
 
     @Override
@@ -137,6 +145,26 @@ public class CastleResource extends Controller implements CastleService {
         //
         return PatternsCS.ask(castleQueryActor, findCastellansQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
             ActorResponse<List<CastellanRM>> result = (ActorResponse) response;
+            return ok(Json.toJson(result.get()));
+        });
+    }
+
+    // route mapping
+    public CompletionStage<Result> findCastellansPage() {
+        //
+        String pageStr = request().getQueryString("page");
+        String limitStr = request().getQueryString("limit");
+        int page = pageStr != null ? Integer.parseInt(pageStr) : 0;
+        int limit = limitStr != null ? Integer.parseInt(limitStr) : Integer.MAX_VALUE;
+
+        return findCastellansPage(new FindCastellansPageQuery(page, limit));
+    }
+
+    @Override
+    public CompletionStage<Result> findCastellansPage(FindCastellansPageQuery findCastellansPageQuery) {
+        //
+        return PatternsCS.ask(castleQueryActor, findCastellansPageQuery, NaraActorConst.DEFAULT_TIMEOUT).thenApply(response -> {
+            ActorResponse<OffsetList<CastellanRM>> result = (ActorResponse) response;
             return ok(Json.toJson(result.get()));
         });
     }
@@ -174,9 +202,14 @@ public class CastleResource extends Controller implements CastleService {
     // route mapping
     public CompletionStage<Result> findUnitPlates() {
         //
-        KeyAttr keyAttr = KeyAttr.valueOf(request().getQueryString("keyAttr"));
+        String keyAttrStr = request().getQueryString("keyAttr");
         String keyValue = request().getQueryString("keyValue");
-        FindUnitPlatesQuery findUnitPlatesQuery = new FindUnitPlatesQuery(keyAttr, keyValue);
+        String limitStr = request().getQueryString("limit");
+
+        KeyAttr keyAttr = keyAttrStr != null ? KeyAttr.valueOf(keyAttrStr) : null;
+        int limit = limitStr != null ? Integer.parseInt(limitStr) : Integer.MAX_VALUE;
+
+        FindUnitPlatesQuery findUnitPlatesQuery = new FindUnitPlatesQuery(keyAttr, keyValue, limit);
 
         return findUnitPlates(findUnitPlatesQuery);
     }

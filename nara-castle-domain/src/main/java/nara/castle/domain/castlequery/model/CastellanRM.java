@@ -12,6 +12,7 @@ public class CastellanRM extends Entity {
     private String displayName;
     private String primaryEmail;
     private Contact contact;
+    private Long castleBuiltTime;
 
     public CastellanRM() {
         //
@@ -28,16 +29,17 @@ public class CastellanRM extends Entity {
         this.displayName = castellan.getDisplayName();
         this.primaryEmail = castellan.getPrimaryEmail();
         this.contact = castellan.getContact();
+        this.castleBuiltTime = castellan.getCastle().getBuiltTime();
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("CastellanRM{");
-        sb.append("displayName='").append(displayName).append('\'');
-        sb.append(", primaryEmail='").append(primaryEmail).append('\'');
-        sb.append(", contact=").append(contact);
-        sb.append('}');
-        return sb.toString();
+        return "CastellanRM{" +
+                "displayName='" + displayName + '\'' +
+                ", primaryEmail='" + primaryEmail + '\'' +
+                ", contact=" + contact +
+                ", castleBuiltTime=" + castleBuiltTime +
+                '}';
     }
 
     public static CastellanRM getSample() {
@@ -91,6 +93,14 @@ public class CastellanRM extends Entity {
 
     public void setContact(Contact contact) {
         this.contact = contact;
+    }
+
+    public Long getCastleBuiltTime() {
+        return castleBuiltTime;
+    }
+
+    public void setCastleBuiltTime(Long castleBuiltTime) {
+        this.castleBuiltTime = castleBuiltTime;
     }
 
     public static void main(String[] args) {

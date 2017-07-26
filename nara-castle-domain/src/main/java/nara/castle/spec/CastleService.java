@@ -15,6 +15,7 @@ public interface CastleService {
 
     CompletionStage findCastellan(FindCastellanQuery findCastellanQuery);
     CompletionStage findCastellans(FindCastellansQuery findCastellansQuery);
+    CompletionStage findCastellansPage(FindCastellansPageQuery findCastellansPageQuery);
     CompletionStage existsCastellan(ExistenceCheckQuery existenceCheckQuery);
 
     CompletionStage findEnrollments(FindEnrollmentsQuery findEnrollmentsQuery);
