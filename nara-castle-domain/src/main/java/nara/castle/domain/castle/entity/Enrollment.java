@@ -1,5 +1,6 @@
 package nara.castle.domain.castle.entity;
 
+import nara.share.domain.IdName;
 import nara.share.domain.NameValueList;
 import nara.share.domain.ValueObject;
 import nara.share.domain.granule.Email;
@@ -9,7 +10,7 @@ import nara.share.util.json.JsonUtil;
 
 public class Enrollment implements ValueObject {
     //
-    private String metroId;
+    private IdName metro;
     private String citizenId;
     private Name name;
     private Email email;
@@ -22,9 +23,9 @@ public class Enrollment implements ValueObject {
         //
     }
 
-    public Enrollment(String metroId, String citizenId, Name name, Email email, NaraZone zone) {
+    public Enrollment(IdName metro, String citizenId, Name name, Email email, NaraZone zone) {
         //
-        this.metroId = metroId;
+        this.metro = metro;
         this.citizenId = citizenId;
         this.name = name;
         this.email = email;
@@ -36,7 +37,7 @@ public class Enrollment implements ValueObject {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("{");
-        sb.append("metroId:'").append(metroId).append('\'');
+        sb.append("metro:'").append(metro).append('\'');
         sb.append(", citizenId:'").append(citizenId).append('\'');
         sb.append(", name:").append(name);
         sb.append(", email:'").append(email).append('\'');
@@ -50,13 +51,13 @@ public class Enrollment implements ValueObject {
 
     public static Enrollment getSample() {
         //
-        String metroId = "POP";
+        IdName metro =  new IdName("121312", "Nextree");
         String citizenId = "12@POP";
         Name name = Name.getSample();
         Email email = Email.getSample();
         NaraZone zone = NaraZone.getSample();
 
-        Enrollment sample = new Enrollment(metroId, citizenId, name, email, zone);
+        Enrollment sample = new Enrollment(metro, citizenId, name, email, zone);
 
         return sample;
     }
@@ -82,17 +83,12 @@ public class Enrollment implements ValueObject {
         // Don't update any attributes except for "withdraw()"
     }
 
-    public String getNationId() {
-        //
-        return metroId.substring(0,1);
+    public IdName getMetro() {
+        return metro;
     }
 
-    public String getMetroId() {
-        return metroId;
-    }
-
-    public void setMetroId(String metroId) {
-        this.metroId = metroId;
+    public void setMetro(IdName metro) {
+        this.metro = metro;
     }
 
     public String getCitizenId() {
@@ -154,6 +150,5 @@ public class Enrollment implements ValueObject {
     public static void main(String[] args) {
         //
         System.out.println(getSample());
-        System.out.println(getSample().getNationId());
     }
 }

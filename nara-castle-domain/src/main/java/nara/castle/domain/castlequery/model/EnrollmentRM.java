@@ -11,6 +11,7 @@ import nara.share.util.json.JsonUtil;
 public class EnrollmentRM extends Entity {
     //
     private String metroId;
+    private String metroName;
     private String citizenId;
     private Name name;
     private Email email;
@@ -33,7 +34,8 @@ public class EnrollmentRM extends Entity {
     public EnrollmentRM(String castellanId, Enrollment enrollment) {
         //
         super();
-        this.metroId = enrollment.getMetroId();
+        this.metroId = enrollment.getMetro().getId();
+        this.metroName = enrollment.getMetro().getName();
         this.citizenId = enrollment.getCitizenId();
         this.name = enrollment.getName();
         this.email = enrollment.getEmail();
@@ -49,6 +51,7 @@ public class EnrollmentRM extends Entity {
     public String toString() {
         final StringBuilder sb = new StringBuilder("EnrollmentRM{");
         sb.append("metroId='").append(metroId).append('\'');
+        sb.append(", metroName='").append(metroName).append('\'');
         sb.append(", citizenId='").append(citizenId).append('\'');
         sb.append(", name=").append(name);
         sb.append(", email=").append(email);
@@ -83,6 +86,14 @@ public class EnrollmentRM extends Entity {
     public String getNationId() {
         //
         return metroId.substring(0,1);
+    }
+
+    public String getMetroName() {
+        return metroName;
+    }
+
+    public void setMetroName(String metroName) {
+        this.metroName = metroName;
     }
 
     public String getMetroId() {
