@@ -6,7 +6,6 @@ import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.event.*;
 import nara.share.actor.akka.NaraPersistentActor;
-import nara.share.domain.event.NaraEvent;
 import nara.share.domain.protocol.NaraCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,15 +63,16 @@ public class CastleActor extends NaraPersistentActor<Castellan> {
         .onMessage(command);
     }
 
-    @Override
-    public void handleEvent(NaraEvent event) {
-        //
-        matcher()
-        .match(CastleBuiltEvent.class, castleBuiltEvent -> getState().apply(castleBuiltEvent))
-        .match(CastellanModifiedEvent.class, castellanModifiedEvent -> getState().apply(castellanModifiedEvent))
-        .match(CastleDemolishedEvent.class, castleDemolishedEvent -> getState().apply(castleDemolishedEvent))
-        .match(MetroEnrolledEvent.class, metroEnrolledEvent -> getState().apply(metroEnrolledEvent))
-        .match(MetroWithdrawnEvent.class, metroWithdrawnEvent -> getState().apply(metroWithdrawnEvent))
-        .onMessage(event);
-    }
+    // logic goes to parent!
+//    @Override
+//    public void handleEvent(NaraEvent event) {
+//        //
+//        matcher()
+//        .match(CastleBuiltEvent.class, castleBuiltEvent -> getState().apply(castleBuiltEvent))
+//        .match(CastellanModifiedEvent.class, castellanModifiedEvent -> getState().apply(castellanModifiedEvent))
+//        .match(CastleDemolishedEvent.class, castleDemolishedEvent -> getState().apply(castleDemolishedEvent))
+//        .match(MetroEnrolledEvent.class, metroEnrolledEvent -> getState().apply(metroEnrolledEvent))
+//        .match(MetroWithdrawnEvent.class, metroWithdrawnEvent -> getState().apply(metroWithdrawnEvent))
+//        .onMessage(event);
+//    }
 }
