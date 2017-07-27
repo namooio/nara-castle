@@ -17,7 +17,6 @@ public class Castle implements ValueObject {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Castle{");
-        sb.append(super.toString());
         sb.append(", builtTime=").append(builtTime);
         sb.append('}');
         return sb.toString();
