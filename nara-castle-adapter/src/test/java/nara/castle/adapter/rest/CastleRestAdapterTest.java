@@ -19,7 +19,7 @@ public class CastleRestAdapterTest {
         NaraRestClient naraRestClient = new SpringWebRestClient("http://localhost:9000");
         CastleRestAdapter castleRestAdapter = new CastleRestAdapter(naraRestClient);
 
-        for (int i = 0 ; i < 10 ; i++) {
+        for (int i = 0 ; i < 200 ; i++) {
             String seq = "0" + i;
 
             IdName metro = new IdName("POP", "Nextree");
