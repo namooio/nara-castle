@@ -8,6 +8,7 @@ import nara.castle.domain.castle.entity.Enrollment;
 import nara.share.actor.akka.NaraActorConst;
 import nara.share.actor.akka.message.ActorResponse;
 import nara.share.actor.akka.util.ActorNameUtil;
+import nara.share.domain.IdName;
 import nara.share.domain.granule.Email;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
@@ -27,9 +28,9 @@ public class CastleSupervisorTest extends AbstractCastleActorTest {
     @Test
     public void test() throws InterruptedException {
         //
-        String metroId = "P0P";
+        IdName metro = new IdName("POP", "Nextree");
         String citizenId = "C1@P0P";
-        Enrollment enrollment = new Enrollment(metroId, citizenId,
+        Enrollment enrollment = new Enrollment(metro, citizenId,
                 new Name(Locale.KOREAN, "기철", "허"),
                 new Email("kchuh@nextree.co.kr"),
                 new NaraZone(Locale.KOREA, "Asia/Seoul")

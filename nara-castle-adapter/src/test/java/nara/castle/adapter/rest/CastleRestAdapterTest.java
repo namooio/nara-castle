@@ -2,6 +2,7 @@ package nara.castle.adapter.rest;
 
 import nara.castle.domain.castle.command.BuildCastleCommand;
 import nara.castle.domain.castle.entity.Enrollment;
+import nara.share.domain.IdName;
 import nara.share.domain.granule.Email;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
@@ -21,13 +22,10 @@ public class CastleRestAdapterTest {
         for (int i = 0 ; i < 10 ; i++) {
             String seq = "0" + i;
 
-            String metroId = "P" + seq;
-            String citizenId = "C1" + metroId;
+            IdName metro = new IdName("POP", "Nextree");
+            String citizenId = "C" + seq + metro.getId();
 
-            String metroId2 = "Q" + seq;
-            String citizenId2 = "C1" + metroId2;
-
-            Enrollment enrollment = new Enrollment(metroId, citizenId,
+            Enrollment enrollment = new Enrollment(metro, citizenId,
                     new Name(Locale.KOREAN, "기철", "허"),
                     new Email("kchuh@nextree.co.kr"),
                     new NaraZone(Locale.KOREA, "Asia/Seoul")
