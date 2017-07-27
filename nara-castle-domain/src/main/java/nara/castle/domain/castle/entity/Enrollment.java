@@ -83,6 +83,16 @@ public class Enrollment implements ValueObject {
         // Don't update any attributes except for "withdraw()"
     }
 
+    public String getMetroId() {
+        //
+        return metro.getId();
+    }
+
+    public String getMetroName() {
+        //
+        return metro.getName();
+    }
+
     public IdName getMetro() {
         return metro;
     }
