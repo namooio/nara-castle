@@ -22,7 +22,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     @Override
     public void create(UnitPlateRM unitPlate) {
         //
-        datastore.save(UnitPlateRMDoc.toDocument(unitPlate));
+        datastore.save(new UnitPlateRMDoc(unitPlate));
     }
 
     @Override
@@ -34,7 +34,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     @Override
     public UnitPlateRM retrieve(String id) {
         //
-        return datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id).get().toModel();
+        return datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id).get().getUnitPlateRM();
     }
 
     @Override
@@ -43,12 +43,12 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
         Query<UnitPlateRMDoc> query = datastore.createQuery(UnitPlateRMDoc.class);
         if (keyValue != null) {
             if (keyAttr == null) {
-                query.field("keyValue").contains(keyValue);
+                query.field("unitPlateRM.keyValue").contains(keyValue);
             }
             else {
                 query.and(
-                        query.criteria("keyAttr").equal(keyAttr),
-                        query.criteria("keyValue").contains(keyValue)
+                        query.criteria("unitPlateRM.keyAttr").equal(keyAttr),
+                        query.criteria("unitPlateRM.keyValue").contains(keyValue)
                 );
             }
         }
@@ -60,7 +60,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     public List<UnitPlateRM> retrieveByCastellanId(String castellanId) {
         //
         return UnitPlateRMDoc.toModel(
-                datastore.createQuery(UnitPlateRMDoc.class).field("castellanId").equal(castellanId).asList()
+                datastore.createQuery(UnitPlateRMDoc.class).field("unitPlateRM.castellanId").equal(castellanId).asList()
         );
     }
 
@@ -76,7 +76,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     public void deleteByCastellanId(String castellanId) {
         //
         datastore.delete(
-                datastore.createQuery(UnitPlateRMDoc.class).field("castellanId").equal(castellanId).asList()
+                datastore.createQuery(UnitPlateRMDoc.class).field("unitPlateRM.castellanId").equal(castellanId).asList()
         );
     }
 

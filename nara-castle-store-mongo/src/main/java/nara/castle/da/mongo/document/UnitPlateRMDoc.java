@@ -1,61 +1,48 @@
 package nara.castle.da.mongo.document;
 
-import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import org.mongodb.morphia.annotations.*;
-import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity("CA_UNIT_PLATE")
 @Indexes(
-        @Index(
-                value = "idx_key_attr_value",
-                fields = {
-                        @Field("keyAttr"),
-                        @Field("keyValue")
-                },
-                unique = false
-        )
+    {
+        @Index(value = "idx_unit_plate_key_attr_value",
+            fields = {
+                @Field("unitPlateRM.keyAttr"),
+                @Field("unitPlateRM.keyValue")
+            }
+        ),
+        @Index(value = "idx_unit_plate_castellanId", fields = @Field("unitPlateRM.castellanId"))
+    }
+
 )
 public class UnitPlateRMDoc {
     //
     @Id
     private String id;
-
-    private String keyValue;
-    private KeyAttr keyAttr;
-
-    @Indexed
-    private String castellanId;
+    private UnitPlateRM unitPlateRM;
 
     public UnitPlateRMDoc() {
         //
     }
 
-    public static UnitPlateRMDoc toDocument(UnitPlateRM unitPlateRM) {
+    public UnitPlateRMDoc(UnitPlateRM unitPlateRM) {
         //
-        UnitPlateRMDoc unitPlateRMDoc = new UnitPlateRMDoc();
-        BeanUtils.copyProperties(unitPlateRM, unitPlateRMDoc);
-        return unitPlateRMDoc;
+        this.id = unitPlateRM.getId();
+        this.unitPlateRM = unitPlateRM;
     }
 
     public static List<UnitPlateRMDoc> toDocument(List<UnitPlateRM> unitPlateRMs) {
         //
-        return unitPlateRMs.stream().map(unitPlateRM -> toDocument(unitPlateRM)).collect(Collectors.toList());
-    }
-
-    public UnitPlateRM toModel() {
-        //
-        UnitPlateRM unitPlateRM = new UnitPlateRM(id);
-        BeanUtils.copyProperties(this, unitPlateRM);
-        return unitPlateRM;
+        return unitPlateRMs.stream().map(unitPlateRM -> new UnitPlateRMDoc(unitPlateRM)).collect(Collectors.toList());
     }
 
     public static List<UnitPlateRM> toModel(List<UnitPlateRMDoc> unitPlateRMDocs) {
         //
-        return unitPlateRMDocs.stream().map(unitplateRMDoc -> unitplateRMDoc.toModel()).collect(Collectors.toList());
+        return unitPlateRMDocs.stream().map(unitplateRMDoc -> unitplateRMDoc.getUnitPlateRM()).collect(Collectors.toList());
     }
 
     public String getId() {
@@ -66,28 +53,11 @@ public class UnitPlateRMDoc {
         this.id = id;
     }
 
-    public String getKeyValue() {
-        return keyValue;
+    public UnitPlateRM getUnitPlateRM() {
+        return unitPlateRM;
     }
 
-    public void setKeyValue(String keyValue) {
-        this.keyValue = keyValue;
+    public void setUnitPlateRM(UnitPlateRM unitPlateRM) {
+        this.unitPlateRM = unitPlateRM;
     }
-
-    public KeyAttr getKeyAttr() {
-        return keyAttr;
-    }
-
-    public void setKeyAttr(KeyAttr keyAttr) {
-        this.keyAttr = keyAttr;
-    }
-
-    public String getCastellanId() {
-        return castellanId;
-    }
-
-    public void setCastellanId(String castellanId) {
-        this.castellanId = castellanId;
-    }
-
 }

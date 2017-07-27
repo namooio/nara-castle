@@ -4,6 +4,7 @@ import nara.castle.da.AbstractCastleRMStoreTest;
 import nara.castle.domain.castle.entity.Castellan;
 import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castlequery.model.CastellanRM;
+import nara.share.domain.IdName;
 import nara.share.domain.granule.Email;
 import nara.share.domain.granule.Name;
 import nara.share.domain.granule.NaraZone;
@@ -47,18 +48,19 @@ public class CastleRMMongoStoreTest extends AbstractCastleRMStoreTest {
     @Test
     public void test2() {
         //
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "1", new Name(Locale.KOREAN, "기1", "허"), new Email("kchuh1@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "2", new Name(Locale.KOREAN, "기2", "허"), new Email("kchuh2@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "3", new Name(Locale.KOREAN, "기3", "허"), new Email("kchuh3@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "4", new Name(Locale.KOREAN, "기4", "허"), new Email("kchuh4@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "5", new Name(Locale.KOREAN, "기5", "허"), new Email("kchuh5@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "6", new Name(Locale.KOREAN, "기6", "허"), new Email("kchuh6@nextree.co.kr"), NaraZone.getSample()))));
+        IdName metro = new IdName("1, ", "Nextree");
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "1", new Name(Locale.KOREAN, "기1", "허"), new Email("kchuh1@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "2", new Name(Locale.KOREAN, "기2", "허"), new Email("kchuh2@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "3", new Name(Locale.KOREAN, "기3", "허"), new Email("kchuh3@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "4", new Name(Locale.KOREAN, "기4", "허"), new Email("kchuh4@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "5", new Name(Locale.KOREAN, "기5", "허"), new Email("kchuh5@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "6", new Name(Locale.KOREAN, "기6", "허"), new Email("kchuh6@nextree.co.kr"), NaraZone.getSample()))));
 
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "7", new Name(Locale.KOREAN, "기7", "허"), new Email("kchuh7@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "8", new Name(Locale.KOREAN, "기8", "허"), new Email("kchuh8@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "9", new Name(Locale.KOREAN, "기9", "허"), new Email("kchuh9@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "10", new Name(Locale.KOREAN, "기10", "허"), new Email("kchuh10@nextree.co.kr"), NaraZone.getSample()))));
-        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment("1", "11", new Name(Locale.KOREAN, "기11", "허"), new Email("kchuh11@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "7", new Name(Locale.KOREAN, "기7", "허"), new Email("kchuh7@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "8", new Name(Locale.KOREAN, "기8", "허"), new Email("kchuh8@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "9", new Name(Locale.KOREAN, "기9", "허"), new Email("kchuh9@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "10", new Name(Locale.KOREAN, "기10", "허"), new Email("kchuh10@nextree.co.kr"), NaraZone.getSample()))));
+        getCastellanRMStore().create(new CastellanRM(new Castellan(new Enrollment(metro, "11", new Name(Locale.KOREAN, "기11", "허"), new Email("kchuh11@nextree.co.kr"), NaraZone.getSample()))));
 
         List<CastellanRM> castellanRMS = getCastellanRMStore().retrieveAll();
         castellanRMS.forEach(castellanRM -> System.out.println(castellanRM));

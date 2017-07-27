@@ -22,13 +22,13 @@ public class CastellanRMMongoStore implements CastellanRMStore {
     @Override
     public void create(CastellanRM castellanRM) {
         //
-        datastore.save(CastellanRMDoc.toDocument(castellanRM));
+        datastore.save(new CastellanRMDoc(castellanRM));
     }
 
     @Override
     public CastellanRM retrieve(String id) {
         //
-        return datastore.createQuery(CastellanRMDoc.class).field("id").equal(id).get().toModel();
+        return datastore.createQuery(CastellanRMDoc.class).field("id").equal(id).get().getCastellanRM();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CastellanRMMongoStore implements CastellanRMStore {
     @Override
     public void update(CastellanRM castellanRM) {
         //
-        datastore.save(CastellanRMDoc.toDocument(castellanRM));
+        datastore.save(new CastellanRMDoc(castellanRM));
     }
 
     @Override
