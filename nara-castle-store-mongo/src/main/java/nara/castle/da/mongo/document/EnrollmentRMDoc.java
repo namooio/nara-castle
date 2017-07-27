@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Entity("CA_ENROLLMENT")
 @Indexes(
-    @Index(value = "idx_enrollment_castellanId", fields = @Field("enrollmentRM.castellanId"))
+    @Index(fields = @Field("enrollmentRM.castellanId"))
 )
 public class EnrollmentRMDoc {
     //

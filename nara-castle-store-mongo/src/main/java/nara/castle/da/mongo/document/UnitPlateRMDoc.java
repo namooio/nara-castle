@@ -7,18 +7,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity("CA_UNIT_PLATE")
-@Indexes(
-    {
-        @Index(value = "idx_unit_plate_key_attr_value",
-            fields = {
-                @Field("unitPlateRM.keyAttr"),
-                @Field("unitPlateRM.keyValue")
-            }
-        ),
-        @Index(value = "idx_unit_plate_castellanId", fields = @Field("unitPlateRM.castellanId"))
-    }
-
-)
+@Indexes({
+    @Index(
+        fields = {
+            @Field("unitPlateRM.keyAttr"),
+            @Field("unitPlateRM.keyValue")
+        }
+    ),
+    @Index(fields = @Field("unitPlateRM.castellanId"))
+})
 public class UnitPlateRMDoc {
     //
     @Id
