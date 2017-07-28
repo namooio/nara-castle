@@ -72,7 +72,7 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
     @Override
     public void deleteByCastellanId(String castellanId) {
         //
-        datastore.delete(datastore.createQuery(EnrollmentRMDoc.class).field("enrollmentRM.castellanId").equal(castellanId).asList());
+        datastore.delete(datastore.createQuery(EnrollmentRMDoc.class).field("enrollmentRM.castellanId").equal(castellanId));
     }
 
     @Override

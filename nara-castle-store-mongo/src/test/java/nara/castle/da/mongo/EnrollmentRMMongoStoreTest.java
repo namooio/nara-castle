@@ -34,5 +34,9 @@ public class EnrollmentRMMongoStoreTest extends AbstractCastleRMStoreTest {
         enrollment = getEnrollmentRMStore().retrieve(enrollment.getId());
         Assert.assertTrue(enrollment.isWithdrawn());
 
+        getEnrollmentRMStore().deleteByCastellanId(enrollment.getCastellanId());
+
+        List<EnrollmentRM> enrollmentRMS = getEnrollmentRMStore().retrieveByCastellanId(enrollment.getCastellanId());
+        Assert.assertEquals(0, enrollmentRMS.size());
     }
 }

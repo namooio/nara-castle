@@ -68,7 +68,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     public void delete(String id) {
         //
         datastore.delete(
-                datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id).get()
+                datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id)
         );
     }
 
@@ -76,7 +76,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     public void deleteByCastellanId(String castellanId) {
         //
         datastore.delete(
-                datastore.createQuery(UnitPlateRMDoc.class).field("unitPlateRM.castellanId").equal(castellanId).asList()
+                datastore.createQuery(UnitPlateRMDoc.class).field("unitPlateRM.castellanId").equal(castellanId)
         );
     }
 
