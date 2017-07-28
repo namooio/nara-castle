@@ -8,6 +8,8 @@ public class FindCastellansQuery implements NaraQuery {
     private KeyAttr keyAttr;
     private String keyValue;
 
+    private String lastCastellanId;
+
     private int limit;
 
     public FindCastellansQuery() {
@@ -18,6 +20,14 @@ public class FindCastellansQuery implements NaraQuery {
         //
         this.keyAttr = keyAttr;
         this.keyValue = keyValue;
+        this.limit = limit;
+    }
+
+    public FindCastellansQuery(KeyAttr keyAttr, String keyValue, String lastCastellanId, int limit) {
+        //
+        this.keyAttr = keyAttr;
+        this.keyValue = keyValue;
+        this.lastCastellanId = lastCastellanId;
         this.limit = limit;
     }
 
@@ -35,6 +45,14 @@ public class FindCastellansQuery implements NaraQuery {
 
     public void setKeyValue(String keyValue) {
         this.keyValue = keyValue;
+    }
+
+    public String getLastCastellanId() {
+        return lastCastellanId;
+    }
+
+    public void setLastCastellanId(String lastCastellanId) {
+        this.lastCastellanId = lastCastellanId;
     }
 
     public int getLimit() {

@@ -132,12 +132,13 @@ public class CastleResource extends Controller implements CastleService {
         //
         String keyAttrStr = request().getQueryString("keyAttr");
         String keyValue = request().getQueryString("keyValue");
+        String lastCastellanId = request().getQueryString("lastCastellanId");
         String limitStr = request().getQueryString("limit");
 
         KeyAttr keyAttr = keyAttrStr != null ? KeyAttr.valueOf(keyAttrStr) : null;
         int limit = limitStr != null ? Integer.parseInt(limitStr) : Integer.MAX_VALUE;
 
-        return findCastellans(new FindCastellansQuery(keyAttr, keyValue, limit));
+        return findCastellans(new FindCastellansQuery(keyAttr, keyValue, lastCastellanId, limit));
     }
 
     @Override

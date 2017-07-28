@@ -50,9 +50,10 @@ public class CastleQueryActor extends NaraActor {
             responseAsyncResult(() -> {
                 KeyAttr keyAttr = findCastellansQuery.getKeyAttr();
                 String keyValue = findCastellansQuery.getKeyValue();
+                String lastCastellanId = findCastellansQuery.getLastCastellanId();
                 int limit = findCastellansQuery.getLimit();
 
-                List<UnitPlateRM> unitPlateRMS = unitPlateRMStore.retrieve(keyAttr, keyValue, limit);
+                List<UnitPlateRM> unitPlateRMS = unitPlateRMStore.retrieve(keyAttr, keyValue, lastCastellanId, limit);
                 Set<String> castellanIds = unitPlateRMS.stream().map(unitPlateRM -> unitPlateRM.getCastellanId()).collect(Collectors.toSet());
                 return castellanRMStore.retrieveByCastellanIds(castellanIds);
             });
@@ -94,7 +95,7 @@ public class CastleQueryActor extends NaraActor {
             KeyAttr keyAttr = findUnitPlatesQuery.getKeyAttr();
             String keyValue = findUnitPlatesQuery.getKeyValue();
             int limit = findUnitPlatesQuery.getLimit();
-            responseAsyncResult(() -> unitPlateRMStore.retrieve(keyAttr, keyValue, limit));
+            responseAsyncResult(() -> unitPlateRMStore.retrieve(keyAttr, keyValue, null, limit));
         })
         .onMessage(query);
     }
