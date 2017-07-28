@@ -5,9 +5,11 @@ import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.store.UnitPlateRMStore;
 import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.query.Criteria;
 import org.mongodb.morphia.query.FindOptions;
 import org.mongodb.morphia.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UnitPlateRMMongoStore implements UnitPlateRMStore {
@@ -38,22 +40,18 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     }
 
     @Override
-    public List<UnitPlateRM> retrieve(KeyAttr keyAttr, String keyValue, int limit) {
+    public List<UnitPlateRM> retrieve(KeyAttr keyAttr, String keyValue, String lastCastellanId, int limit) {
         //
         Query<UnitPlateRMDoc> query = datastore.createQuery(UnitPlateRMDoc.class);
-        if (keyValue != null) {
-            if (keyAttr == null) {
-                query.field("rm.keyValue").contains(keyValue);
-            }
-            else {
-                query.and(
-                        query.criteria("rm.keyAttr").equal(keyAttr),
-                        query.criteria("rm.keyValue").contains(keyValue)
-                );
-            }
-        }
 
-        return UnitPlateRMDoc.toModel(query.asList(new FindOptions().limit(limit)));
+        List<Criteria> andCriterias = new ArrayList<>();
+
+        if (lastCastellanId != null) andCriterias.add(query.criteria("rm.castellanId").lessThan(lastCastellanId));
+        if (keyAttr != null) andCriterias.add(query.criteria("rm.keyAttr").equal(keyAttr));
+        if (keyValue != null) andCriterias.add(query.criteria("rm.keyValue").contains(keyValue));
+
+        query.and(andCriterias.toArray(new Criteria[andCriterias.size()]));
+        return UnitPlateRMDoc.toModel(query.order("-rm.castellanId").asList(new FindOptions().limit(limit)));
     }
 
     @Override
@@ -83,6 +81,11 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     @Override
     public boolean exists(KeyAttr keyAttr, String keyValue) {
         //
-        return retrieve(keyAttr, keyValue, 1).size() > 0;
+        Query<UnitPlateRMDoc> query = datastore.createQuery(UnitPlateRMDoc.class);
+        query.and(
+            query.criteria("rm.keyAttr").equal(keyAttr),
+            query.criteria("rm.keyValue").equal(keyValue)
+        );
+        return query.count() > 0;
     }
 }

@@ -10,7 +10,7 @@ public interface UnitPlateRMStore {
     void create(UnitPlateRM unitPlate);
     void create(List<UnitPlateRM> unitPlates);
     UnitPlateRM retrieve(String id);
-    List<UnitPlateRM> retrieve(KeyAttr keyAttr, String keyValue, int limit);
+    List<UnitPlateRM> retrieve(KeyAttr keyAttr, String keyValue, String lastCastellanId, int limit);
     List<UnitPlateRM> retrieveByCastellanId(String castellanId);
     void delete(String id);
     void deleteByCastellanId(String castellanId);
