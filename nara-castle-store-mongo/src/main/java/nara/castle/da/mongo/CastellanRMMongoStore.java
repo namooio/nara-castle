@@ -28,7 +28,7 @@ public class CastellanRMMongoStore implements CastellanRMStore {
     @Override
     public CastellanRM retrieve(String id) {
         //
-        return datastore.createQuery(CastellanRMDoc.class).field("id").equal(id).get().getCastellanRM();
+        return datastore.createQuery(CastellanRMDoc.class).field("id").equal(id).get().getRm();
     }
 
     @Override

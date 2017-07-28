@@ -34,7 +34,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     @Override
     public UnitPlateRM retrieve(String id) {
         //
-        return datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id).get().getUnitPlateRM();
+        return datastore.createQuery(UnitPlateRMDoc.class).field("id").equal(id).get().getRm();
     }
 
     @Override
@@ -43,12 +43,12 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
         Query<UnitPlateRMDoc> query = datastore.createQuery(UnitPlateRMDoc.class);
         if (keyValue != null) {
             if (keyAttr == null) {
-                query.field("unitPlateRM.keyValue").contains(keyValue);
+                query.field("rm.keyValue").contains(keyValue);
             }
             else {
                 query.and(
-                        query.criteria("unitPlateRM.keyAttr").equal(keyAttr),
-                        query.criteria("unitPlateRM.keyValue").contains(keyValue)
+                        query.criteria("rm.keyAttr").equal(keyAttr),
+                        query.criteria("rm.keyValue").contains(keyValue)
                 );
             }
         }
@@ -60,7 +60,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     public List<UnitPlateRM> retrieveByCastellanId(String castellanId) {
         //
         return UnitPlateRMDoc.toModel(
-                datastore.createQuery(UnitPlateRMDoc.class).field("unitPlateRM.castellanId").equal(castellanId).asList()
+                datastore.createQuery(UnitPlateRMDoc.class).field("rm.castellanId").equal(castellanId).asList()
         );
     }
 
@@ -76,7 +76,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
     public void deleteByCastellanId(String castellanId) {
         //
         datastore.delete(
-                datastore.createQuery(UnitPlateRMDoc.class).field("unitPlateRM.castellanId").equal(castellanId)
+                datastore.createQuery(UnitPlateRMDoc.class).field("rm.castellanId").equal(castellanId)
         );
     }
 

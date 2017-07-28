@@ -10,36 +10,36 @@ import java.util.stream.Collectors;
 @Indexes({
     @Index(
         fields = {
-            @Field("unitPlateRM.keyAttr"),
-            @Field("unitPlateRM.keyValue")
+            @Field("rm.keyAttr"),
+            @Field("rm.keyValue")
         }
     ),
-    @Index(fields = @Field("unitPlateRM.castellanId"))
+    @Index(fields = @Field("rm.castellanId"))
 })
 public class UnitPlateRMDoc {
     //
     @Id
     private String id;
-    private UnitPlateRM unitPlateRM;
+    private UnitPlateRM rm;
 
     public UnitPlateRMDoc() {
         //
     }
 
-    public UnitPlateRMDoc(UnitPlateRM unitPlateRM) {
+    public UnitPlateRMDoc(UnitPlateRM rm) {
         //
-        this.id = unitPlateRM.getId();
-        this.unitPlateRM = unitPlateRM;
+        this.id = rm.getId();
+        this.rm = rm;
     }
 
-    public static List<UnitPlateRMDoc> toDocument(List<UnitPlateRM> unitPlateRMs) {
+    public static List<UnitPlateRMDoc> toDocument(List<UnitPlateRM> rms) {
         //
-        return unitPlateRMs.stream().map(unitPlateRM -> new UnitPlateRMDoc(unitPlateRM)).collect(Collectors.toList());
+        return rms.stream().map(rm -> new UnitPlateRMDoc(rm)).collect(Collectors.toList());
     }
 
-    public static List<UnitPlateRM> toModel(List<UnitPlateRMDoc> unitPlateRMDocs) {
+    public static List<UnitPlateRM> toModel(List<UnitPlateRMDoc> docs) {
         //
-        return unitPlateRMDocs.stream().map(unitplateRMDoc -> unitplateRMDoc.getUnitPlateRM()).collect(Collectors.toList());
+        return docs.stream().map(doc -> doc.getRm()).collect(Collectors.toList());
     }
 
     public String getId() {
@@ -50,11 +50,11 @@ public class UnitPlateRMDoc {
         this.id = id;
     }
 
-    public UnitPlateRM getUnitPlateRM() {
-        return unitPlateRM;
+    public UnitPlateRM getRm() {
+        return rm;
     }
 
-    public void setUnitPlateRM(UnitPlateRM unitPlateRM) {
-        this.unitPlateRM = unitPlateRM;
+    public void setRm(UnitPlateRM rm) {
+        this.rm = rm;
     }
 }

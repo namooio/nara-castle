@@ -13,23 +13,21 @@ public class CastellanRMDoc {
     @Id
     private String id;
 
-    private CastellanRM castellanRM;
+    private CastellanRM rm;
 
     public CastellanRMDoc() {
         //
     }
 
-    public CastellanRMDoc(CastellanRM castellanRM) {
+    public CastellanRMDoc(CastellanRM rm) {
         //
-        this.id = castellanRM.getId();
-        this.castellanRM = castellanRM;
+        this.id = rm.getId();
+        this.rm = rm;
     }
 
-    public static List<CastellanRM> toModel(List<CastellanRMDoc> castellanRMDocs) {
+    public static List<CastellanRM> toModel(List<CastellanRMDoc> docs) {
         //
-        return castellanRMDocs.stream()
-                .map(castellanRMDoc -> castellanRMDoc.getCastellanRM())
-                .collect(Collectors.toList());
+        return docs.stream().map(doc -> doc.getRm()).collect(Collectors.toList());
     }
 
     public String getId() {
@@ -40,11 +38,11 @@ public class CastellanRMDoc {
         this.id = id;
     }
 
-    public CastellanRM getCastellanRM() {
-        return castellanRM;
+    public CastellanRM getRm() {
+        return rm;
     }
 
-    public void setCastellanRM(CastellanRM castellanRM) {
-        this.castellanRM = castellanRM;
+    public void setRm(CastellanRM rm) {
+        this.rm = rm;
     }
 }

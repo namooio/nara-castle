@@ -32,14 +32,14 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
     @Override
     public EnrollmentRM retrieve(String id) {
         //
-        return datastore.createQuery(EnrollmentRMDoc.class).field("id").equal(id).get().getEnrollmentRM();
+        return datastore.createQuery(EnrollmentRMDoc.class).field("id").equal(id).get().getRm();
     }
 
     @Override
     public List<EnrollmentRM> retrieveByCastellanId(String castellanId) {
         //
         return EnrollmentRMDoc.toModel(
-                datastore.createQuery(EnrollmentRMDoc.class).field("enrollmentRM.castellanId").equal(castellanId).asList()
+                datastore.createQuery(EnrollmentRMDoc.class).field("rm.castellanId").equal(castellanId).asList()
         );
     }
 
@@ -48,13 +48,13 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
         //
         Query<EnrollmentRMDoc> query = datastore.createQuery(EnrollmentRMDoc.class);
         query.and(
-                query.criteria("enrollmentRM.metroId").equal(metroId),
-                query.criteria("enrollmentRM.citizenId").equal(citizenId)
+                query.criteria("rm.metroId").equal(metroId),
+                query.criteria("rm.citizenId").equal(citizenId)
         );
 
         EnrollmentRMDoc enrollmentRMDoc = query.get();
         if (enrollmentRMDoc == null) return null;
-        return enrollmentRMDoc.getEnrollmentRM();
+        return enrollmentRMDoc.getRm();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
     @Override
     public void deleteByCastellanId(String castellanId) {
         //
-        datastore.delete(datastore.createQuery(EnrollmentRMDoc.class).field("enrollmentRM.castellanId").equal(castellanId));
+        datastore.delete(datastore.createQuery(EnrollmentRMDoc.class).field("rm.castellanId").equal(castellanId));
     }
 
     @Override

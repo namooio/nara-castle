@@ -8,32 +8,32 @@ import java.util.stream.Collectors;
 
 @Entity("CA_ENROLLMENT")
 @Indexes(
-    @Index(fields = @Field("enrollmentRM.castellanId"))
+    @Index(fields = @Field("rm.castellanId"))
 )
 public class EnrollmentRMDoc {
     //
     @Id
     private String id;
-    private EnrollmentRM enrollmentRM;
+    private EnrollmentRM rm;
 
     public EnrollmentRMDoc() {
         //
     }
 
-    public EnrollmentRMDoc(EnrollmentRM enrollmentRM) {
+    public EnrollmentRMDoc(EnrollmentRM rm) {
         //
-        this.id = enrollmentRM.getId();
-        this.enrollmentRM = enrollmentRM;
+        this.id = rm.getId();
+        this.rm = rm;
     }
 
-    public static List<EnrollmentRMDoc> toDocument(List<EnrollmentRM> enrollmentRMS) {
+    public static List<EnrollmentRMDoc> toDocument(List<EnrollmentRM> rms) {
         //
-        return enrollmentRMS.stream().map(enrollmentRM -> new EnrollmentRMDoc(enrollmentRM)).collect(Collectors.toList());
+        return rms.stream().map(rm -> new EnrollmentRMDoc(rm)).collect(Collectors.toList());
     }
 
-    public static List<EnrollmentRM> toModel(List<EnrollmentRMDoc> enrollmentRMDocs) {
+    public static List<EnrollmentRM> toModel(List<EnrollmentRMDoc> docs) {
         //
-        return enrollmentRMDocs.stream().map(doc -> doc.getEnrollmentRM()).collect(Collectors.toList());
+        return docs.stream().map(doc -> doc.getRm()).collect(Collectors.toList());
     }
 
     public String getId() {
@@ -44,11 +44,11 @@ public class EnrollmentRMDoc {
         this.id = id;
     }
 
-    public EnrollmentRM getEnrollmentRM() {
-        return enrollmentRM;
+    public EnrollmentRM getRm() {
+        return rm;
     }
 
-    public void setEnrollmentRM(EnrollmentRM enrollmentRM) {
-        this.enrollmentRM = enrollmentRM;
+    public void setRm(EnrollmentRM rm) {
+        this.rm = rm;
     }
 }
