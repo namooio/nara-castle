@@ -15,6 +15,9 @@ public class UnitPlateRM extends Entity {
     private String keyValue;
     private String castellanId;
 
+    // required for paging or soring
+    private Long castleBuiltTime;
+
     public UnitPlateRM() {
         //
     }
@@ -24,7 +27,7 @@ public class UnitPlateRM extends Entity {
         super(id);
     }
 
-    public UnitPlateRM(String castellanId, Name name) {
+    public UnitPlateRM(String castellanId, Long castleBuiltTime, Name name) {
         //
         super();
         this.keyValue = name.getDisplayName();
@@ -34,38 +37,46 @@ public class UnitPlateRM extends Entity {
             this.keyAttr = KeyAttr.LocaleName;
         }
         this.castellanId = castellanId;
+        this.castleBuiltTime = castleBuiltTime;
     }
 
-    public UnitPlateRM(String castellanId, Email email) {
+    public UnitPlateRM(String castellanId, Long castleBuiltTime, Email email) {
         //
         super();
         this.keyAttr = KeyAttr.Email;
         this.keyValue = email.getEmail();
         this.castellanId = castellanId;
+        this.castleBuiltTime = castleBuiltTime;
     }
 
-    public UnitPlateRM(String castellanId, Phone phone) {
+    public UnitPlateRM(String castellanId, Long castleBuiltTime, Phone phone) {
         //
         super();
         this.keyAttr = KeyAttr.Phone;
         this.keyValue = phone.getCarrierFullNumber();
         this.castellanId = castellanId;
+        this.castleBuiltTime = castleBuiltTime;
     }
 
-    public static UnitPlateList extractUnitPlates(String castellanId, Contact contact) {
+    public static UnitPlateList extractUnitPlates(CastellanRM castellanRM) {
         //
         UnitPlateList unitPlates = new UnitPlateList();
 
+        String castellanId = castellanRM.getId();
+        Long castleBuiltTime = castellanRM.getCastleBuiltTime();
+
+        Contact contact = castellanRM.getContact();
+
         for(Name name: contact.getNames().getNames()) {
-            unitPlates.add(new UnitPlateRM(castellanId, name));
+            unitPlates.add(new UnitPlateRM(castellanId, castleBuiltTime, name));
         }
 
         for(Phone phone: contact.getPhones().getPhones()) {
-            unitPlates.add(new UnitPlateRM(castellanId, phone));
+            unitPlates.add(new UnitPlateRM(castellanId, castleBuiltTime, phone));
         }
 
         for(Email email : contact.getEmails().getEmails()) {
-            unitPlates.add(new UnitPlateRM(castellanId, email));
+            unitPlates.add(new UnitPlateRM(castellanId, castleBuiltTime, email));
         }
 
         return unitPlates;
@@ -83,9 +94,11 @@ public class UnitPlateRM extends Entity {
 
     public static UnitPlateRM getSample() {
         //
-        String castellanId = Castellan.getSample().getId();
+        Castellan castellan = Castellan.getSample();
+        String castellanId = castellan.getId();
+        Long castleBuiltTime = castellan.getCastle().getBuiltTime();
         Email email = Email.getSample();
-        UnitPlateRM sample = new UnitPlateRM(castellanId, email);
+        UnitPlateRM sample = new UnitPlateRM(castellanId, castleBuiltTime, email);
 
         return sample;
     }
@@ -122,6 +135,14 @@ public class UnitPlateRM extends Entity {
 
     public void setCastellanId(String castellanId) {
         this.castellanId = castellanId;
+    }
+
+    public Long getCastleBuiltTime() {
+        return castleBuiltTime;
+    }
+
+    public void setCastleBuiltTime(Long castleBuiltTime) {
+        this.castleBuiltTime = castleBuiltTime;
     }
 
     public static void main(String[] args) {

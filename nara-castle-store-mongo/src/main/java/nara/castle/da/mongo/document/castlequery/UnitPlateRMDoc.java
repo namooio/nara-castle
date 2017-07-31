@@ -1,4 +1,4 @@
-package nara.castle.da.mongo.document;
+package nara.castle.da.mongo.document.castlequery;
 
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import org.mongodb.morphia.annotations.*;

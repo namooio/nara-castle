@@ -1,6 +1,6 @@
 package nara.castle.da.mongo;
 
-import nara.castle.da.mongo.document.EnrollmentRMDoc;
+import nara.castle.da.mongo.document.castlequery.EnrollmentRMDoc;
 import nara.castle.domain.castlequery.model.EnrollmentRM;
 import nara.castle.domain.castlequery.store.EnrollmentRMStore;
 import org.mongodb.morphia.Datastore;
@@ -39,7 +39,7 @@ public class EnrollmentRMMongoStore implements EnrollmentRMStore {
     public List<EnrollmentRM> retrieveByCastellanId(String castellanId) {
         //
         return EnrollmentRMDoc.toModel(
-                datastore.createQuery(EnrollmentRMDoc.class).field("rm.castellanId").equal(castellanId).asList()
+                datastore.createQuery(EnrollmentRMDoc.class).field("rm.castellanId").equal(castellanId).order("-rm.enrollingTime").asList()
         );
     }
 

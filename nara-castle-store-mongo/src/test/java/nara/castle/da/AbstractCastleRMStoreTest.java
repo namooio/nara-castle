@@ -18,6 +18,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.mapping.MapperOptions;
 
 import java.io.IOException;
 
@@ -48,6 +49,10 @@ public abstract class AbstractCastleRMStoreTest {
 
         Morphia morphia = new Morphia();
         morphia.mapPackage("nara.castle.da.mongo.document");
+        MapperOptions mapperOptions = new MapperOptions();
+        mapperOptions.setStoreEmpties(true);
+        morphia.getMapper().setOptions(mapperOptions);
+
         Datastore datastore = morphia.createDatastore(mongoClient, "castle-test");
         datastore.ensureIndexes();
 

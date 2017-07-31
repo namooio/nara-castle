@@ -2,7 +2,6 @@ package nara.castle.actor.akka.projection;
 
 import akka.actor.Props;
 import nara.castle.domain.castle.entity.Castellan;
-import nara.castle.domain.castle.entity.Contact;
 import nara.castle.domain.castle.entity.Enrollment;
 import nara.castle.domain.castle.event.*;
 import nara.castle.domain.castlequery.model.CastellanRM;
@@ -66,7 +65,7 @@ public class CastleProjectionActor extends NaraProjectionActor {
 
         CastellanRM castellanRM = new CastellanRM(initialState);
         List<EnrollmentRM> enrollmentRMS = enrollments.stream().map(enrollment -> new EnrollmentRM(castellanId, enrollment)).collect(Collectors.toList());
-        UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, castellanRM.getContact());
+        UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanRM);
 
         castellanRMStore.create(castellanRM);
         enrollmentRMStore.create(enrollmentRMS);
@@ -84,8 +83,7 @@ public class CastleProjectionActor extends NaraProjectionActor {
         castellanRMStore.update(castellanRM);
 
         if (nameValues.containsName("contact")) {
-            Contact contact = castellanRM.getContact();
-            UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanId, contact);
+            UnitPlateList unitPlateList = UnitPlateRM.extractUnitPlates(castellanRM);
             unitPlateRMStore.deleteByCastellanId(castellanId);
             unitPlateRMStore.create(unitPlateList.getUnitPlates());
         }

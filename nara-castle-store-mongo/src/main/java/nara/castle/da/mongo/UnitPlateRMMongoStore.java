@@ -1,6 +1,6 @@
 package nara.castle.da.mongo;
 
-import nara.castle.da.mongo.document.UnitPlateRMDoc;
+import nara.castle.da.mongo.document.castlequery.UnitPlateRMDoc;
 import nara.castle.domain.castlequery.model.KeyAttr;
 import nara.castle.domain.castlequery.model.UnitPlateRM;
 import nara.castle.domain.castlequery.store.UnitPlateRMStore;
@@ -51,7 +51,7 @@ public class UnitPlateRMMongoStore implements UnitPlateRMStore {
         if (keyValue != null) andCriterias.add(query.criteria("rm.keyValue").contains(keyValue));
 
         query.and(andCriterias.toArray(new Criteria[andCriterias.size()]));
-        return UnitPlateRMDoc.toModel(query.order("-rm.castellanId").asList(new FindOptions().limit(limit)));
+        return UnitPlateRMDoc.toModel(query.order("-rm.castleBuiltTime").asList(new FindOptions().limit(limit)));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package nara.castle.da.mongo;
 
-import nara.castle.da.mongo.document.CastellanRMDoc;
+import nara.castle.da.mongo.document.castlequery.CastellanRMDoc;
 import nara.castle.domain.castlequery.model.CastellanRM;
 import nara.castle.domain.castlequery.store.CastellanRMStore;
 import org.mongodb.morphia.Datastore;
@@ -35,7 +35,7 @@ public class CastellanRMMongoStore implements CastellanRMStore {
     public List<CastellanRM> retrieve(int offset, int limit) {
         //
         Query<CastellanRMDoc> query = datastore.createQuery(CastellanRMDoc.class);
-        query = query.order("-id");
+        query = query.order("-rm.castleBuiltTime");
         return CastellanRMDoc.toModel(query.asList(new FindOptions().skip(offset).limit(limit)));
     }
 
@@ -49,7 +49,7 @@ public class CastellanRMMongoStore implements CastellanRMStore {
     public List<CastellanRM> retrieve(String lastCastellanId, int limit) {
         //
         Query<CastellanRMDoc> query = datastore.createQuery(CastellanRMDoc.class);
-        query = query.order("-id");
+        query = query.order("-rm.castleBuiltTime");
         if (lastCastellanId != null) {
             query = query.field("id").lessThan(lastCastellanId);
         }
@@ -59,13 +59,13 @@ public class CastellanRMMongoStore implements CastellanRMStore {
     @Override
     public List<CastellanRM> retrieveAll() {
         //
-        return CastellanRMDoc.toModel(datastore.createQuery(CastellanRMDoc.class).order("-id").asList());
+        return CastellanRMDoc.toModel(datastore.createQuery(CastellanRMDoc.class).order("-rm.castleBuiltTime").asList());
     }
 
     @Override
     public List<CastellanRM> retrieveByCastellanIds(Set<String> castellanIds) {
         //
-        return CastellanRMDoc.toModel(datastore.createQuery(CastellanRMDoc.class).field("id").in(castellanIds).order("-id").asList());
+        return CastellanRMDoc.toModel(datastore.createQuery(CastellanRMDoc.class).field("id").in(castellanIds).order("-rm.castleBuiltTime").asList());
     }
 
     @Override

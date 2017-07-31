@@ -26,11 +26,13 @@ public class UnitPlateRMMongoStoreTest extends AbstractCastleRMStoreTest {
         CastellanRM castellan = CastellanRM.getSample();
 
         String castellanId = castellan.getId();
-        UnitPlateRM unitPlateRMName1 = new UnitPlateRM(castellanId, new Name(Locale.KOREAN, "기철", "허"));
-        UnitPlateRM unitPlateRMName2 = new UnitPlateRM(castellanId, new Name(Locale.ENGLISH, "michael", "Huh"));
-        UnitPlateRM unitPlateRMPhone = new UnitPlateRM(castellanId, new Phone("82", "10", "6325", "7557"));
-        UnitPlateRM unitPlateRMEmail1 = new UnitPlateRM(castellanId, new Email("kchuh@nextree.co.kr"));
-        UnitPlateRM unitPlateRMEmail2 = new UnitPlateRM(castellanId, new Email("michael7557@gmail.com"));
+        Long castleBuiltTime = castellan.getCastleBuiltTime();
+
+        UnitPlateRM unitPlateRMName1 = new UnitPlateRM(castellanId, castleBuiltTime, new Name(Locale.KOREAN, "기철", "허"));
+        UnitPlateRM unitPlateRMName2 = new UnitPlateRM(castellanId, castleBuiltTime,  new Name(Locale.ENGLISH, "michael", "Huh"));
+        UnitPlateRM unitPlateRMPhone = new UnitPlateRM(castellanId, castleBuiltTime,  new Phone("82", "10", "6325", "7557"));
+        UnitPlateRM unitPlateRMEmail1 = new UnitPlateRM(castellanId, castleBuiltTime,  new Email("kchuh@nextree.co.kr"));
+        UnitPlateRM unitPlateRMEmail2 = new UnitPlateRM(castellanId, castleBuiltTime,  new Email("michael7557@gmail.com"));
 
         List<UnitPlateRM> unitPlates = new ArrayList<>();
         unitPlates.add(unitPlateRMName1);

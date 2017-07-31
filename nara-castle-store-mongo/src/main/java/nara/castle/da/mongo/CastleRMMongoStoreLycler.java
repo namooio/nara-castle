@@ -8,6 +8,7 @@ import nara.castle.domain.castlequery.store.EnrollmentRMStore;
 import nara.castle.domain.castlequery.store.UnitPlateRMStore;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.mapping.MapperOptions;
 
 public class CastleRMMongoStoreLycler implements CastleRMStoreLycler {
     //
@@ -19,6 +20,9 @@ public class CastleRMMongoStoreLycler implements CastleRMStoreLycler {
         //
         Morphia morphia = new Morphia();
         morphia.mapPackage("nara.castle.da.mongo.document");
+        MapperOptions mapperOptions = new MapperOptions();
+        mapperOptions.setStoreEmpties(true);
+        morphia.getMapper().setOptions(mapperOptions);
 
 //        String host = ConfigFactory.load().getString("mongo.host");
 //        int port = ConfigFactory.load().getInt("mongo.port");
