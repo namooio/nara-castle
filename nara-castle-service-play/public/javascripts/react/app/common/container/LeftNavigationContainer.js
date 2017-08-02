@@ -8,7 +8,7 @@ import LeftNavigationItem from '../component/LeftNavigation';
 class LeftNavigationContainer extends Component {
   //
   static items = [
-    { name: 'Castle', url: '/castle'},
+    { name: 'Castellans', url: '/castle/castellans'},
   ];
 
   constructor(props) {

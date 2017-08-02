@@ -25,11 +25,11 @@ module.exports = webpackMerge(commonConfig, {
       hot: true,
       proxy: {
         '/castle-api': {
-          target: 'http://localhost:9030',
+          target: 'http://localhost:9000',
           secure: false
         },
         '/resources': {
-          target: 'http://localhost:9030',
+          target: 'http://localhost:9000',
           secure: false
         }
       }

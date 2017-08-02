@@ -15,10 +15,11 @@ import store from './store';
 import Base from './common/container/BaseContainer';
 import PageNotFound from './common/container/PageNotFound';
 
-import Index from './common/container/IndexContainer';
+import Castellans from './castellan/container/CastellansContainer';
 
 
 if (!dramaContext.getDramaContext() || Object.keys(dramaContext.getDramaContext()).length < 1) {
+  /*
   dramaContext.__setLocalDramaContext({
     basePath: '/',
     roles: ['admin', 'user'],
@@ -28,7 +29,10 @@ if (!dramaContext.getDramaContext() || Object.keys(dramaContext.getDramaContext(
     contextId: 'testContext',
     stageId: 'testTown'
   });
+   */
+  dramaContext.getDramaContext().basePath='/';
   console.log('Start drama with stand alone mode');
+  console.debug(dramaContext.getDramaContext());
 }
 else {
   console.log('Start drama with pavilion mode');
@@ -45,7 +49,16 @@ ReactDOM.render(
     <Router history={history}>
       <Route path={dramaContext.getDramaContext().basePath} component={Base} >
 
-        <IndexRoute component={Index} />
+        <IndexRedirect to="castellans"/>
+
+        <Route path="castellans" component={Castellans} >
+          <Route path=":castellanId" component={Castellans}>
+
+            <IndexRedirect to="email" />
+
+            <Route path=":itemType" component={Castellans}/>
+          </Route>
+        </Route>
 
       </Route>
 

@@ -8,7 +8,6 @@ const actionTypes = {
   SET_DRAMA_CONTEXT: 'dramaContext.SET_DRAMA_CONTEXT',
 };
 
-
 function action(type, payload) {
   return {
     type,
